@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-Assets-Shared
+  m_EditorClassIdentifier: 
+  m_GroupName: Localization-Assets-Shared
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 91eee07c767765b48bf75696bce4edc8
+  m_SerializeEntries:
+  - m_GUID: 02476e1b695afa74d93dee82e3cc7194
+    m_Address: Assets/Localization/Tables/UI Text Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: e89e2d083e491ad48b88982ada192d2f
+    m_Address: "Assets/Localization/Tables/Interacci\xF3n Shared Data.asset"
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: ba842d20f73da9748b85181e26843779
+    m_Address: Assets/Localization/Tables/Reloj Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  - m_GUID: bf57f3e8e6e4f864faf3d52060633dc3
+    m_Address: Assets/Localization/Tables/BindingMenu Shared Data.asset
+    m_ReadOnly: 1
+    m_SerializedLabels: []
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: bc5fd31dfa68ef5428256df0b4a55446, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 5b230308c1f48a045b889fa2e882fab1, type: 2}
+    - {fileID: 11400000, guid: 819e70581b056a24aa0ca422874f7908, type: 2}

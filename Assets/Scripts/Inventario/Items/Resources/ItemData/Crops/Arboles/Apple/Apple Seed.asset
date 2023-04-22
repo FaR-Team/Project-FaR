@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f950adb2907ddd4ebc0e801ebe79547, type: 3}
+  m_Name: Apple Seed
+  m_EditorClassIdentifier: 
+  ID: 8
+  Nombre: Semillas de Manzana
+  "Descripci\xF3n": Son semillas de manzana! [Not Yet Implemented]
+  Icono: {fileID: 21300000, guid: 527ced1216072da44bcc4c991e5520a9, type: 3}
+  Valor: 2000
+  ItemPrefab: {fileID: 5634044043551495168, guid: 63e760dff1a3e304b834bb4b03ff09d5,
+    type: 3}
+  DirtPrefabGhost: {fileID: 5634044043551495168, guid: 7dabee5471382764d9defd778f9ee470,
+    type: 3}
+  ToolGameObject: {fileID: 0}
+  Usable: 1
+  Sellable: 0
+  Seed: 0
+  TreeSeed: 1
+  IsLookingAtStore: 0
+  Tool: 0
+  IsHoe: 0
+  IsAxe: 0
+  IsBucket: 0
+  IsUnknown1: 0
+  IsUnknown2: 0
+  gridGhost: {fileID: 0}
+  DirtPrefab: {fileID: 5634044043551495168, guid: 63e760dff1a3e304b834bb4b03ff09d5,
+    type: 3}

@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: UI Text_es-US
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: es-US
+  m_SharedData: {fileID: 11400000, guid: 02476e1b695afa74d93dee82e3cc7194, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 44915884032
+    m_Localized: "Est\xE1s mimiendo..."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28334672705617920
+    m_Localized: Guardar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28331689129410560
+    m_Localized: Resumir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28332070584582144
+    m_Localized: Opciones
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28332177732272128
+    m_Localized: "Men\xFA"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28332268056608768
+    m_Localized: Salir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28333084897312768
+    m_Localized: "\xA1Es una granja, pero voxel!"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28334768901980160
+    m_Localized: Cargar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28334912162627584
+    m_Localized: 'Idioma:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28335036062367744
+    m_Localized: Eliminar
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28335128873926656
+    m_Localized: "Atr\xE1s"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28335228350234624
+    m_Localized: Reloj 12/24
+    m_Metadata:
+      m_Items: []
+  - m_Id: 28346698672766976
+    m_Localized: 'FOV:'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 29827645456793600
+    m_Localized: "Controles:\nWASD - Moverse\nMouse - C\xE1mara\nClick Derecho -
+      Usar item (Hotbar)\nTab - Inventario (Abrir y cerrar)\nF - Interactuar\nEsc
+      - Pausa y cerrar Inventario/Cofres"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 96044481890091008
+    m_Localized: Controles
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

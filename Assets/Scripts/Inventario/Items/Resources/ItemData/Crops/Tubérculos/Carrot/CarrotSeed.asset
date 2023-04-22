@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f950adb2907ddd4ebc0e801ebe79547, type: 3}
+  m_Name: CarrotSeed
+  m_EditorClassIdentifier: 
+  ID: 4
+  Nombre: Semilla de Zanahoria
+  "Descripci\xF3n": "Se puede plantar en la tierra arada, tarda 3 d\xEDas en crecer."
+  Icono: {fileID: 21300000, guid: 96ed0b0d0bd9b3949a709305e8bab1fa, type: 3}
+  Valor: 100
+  ItemPrefab: {fileID: 3527519740424981801, guid: ef18fdce609cb3e458c6c48469ec3eed,
+    type: 3}
+  DirtPrefabGhost: {fileID: 3527519740424981801, guid: 0df32ecc6b3882646a23ef9c3b8de649,
+    type: 3}
+  ToolGameObject: {fileID: 0}
+  Usable: 1
+  Sellable: 0
+  Seed: 1
+  TreeSeed: 0
+  IsLookingAtStore: 0
+  Tool: 0
+  IsHoe: 0
+  IsAxe: 0
+  IsBucket: 0
+  IsUnknown1: 0
+  IsUnknown2: 0
+  gridGhost: {fileID: 0}
+  DirtPrefab: {fileID: 3527519740424981801, guid: ef18fdce609cb3e458c6c48469ec3eed,
+    type: 3}

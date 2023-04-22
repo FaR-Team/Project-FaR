@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6d1a23525c1b7d44b73ed3bbd393b04, type: 3}
+  m_Name: Tomato
+  m_EditorClassIdentifier: 
+  ID: 5
+  Nombre: Tomato
+  "Descripci\xF3n": 
+  Icono: {fileID: 21300000, guid: 19911e45423891a4581821db8abff365, type: 3}
+  Valor: 50
+  ItemPrefab: {fileID: 0}
+  DirtPrefabGhost: {fileID: 0}
+  ToolGameObject: {fileID: 0}
+  Usable: 1
+  Sellable: 1
+  Seed: 0
+  TreeSeed: 0
+  IsLookingAtStore: 0
+  Tool: 0
+  IsHoe: 0
+  IsAxe: 0
+  IsBucket: 0
+  IsUnknown1: 0
+  IsUnknown2: 0
+  CropBoxPrefab: {fileID: 0}
+  _sellSystem: {fileID: 0}

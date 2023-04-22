@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f950adb2907ddd4ebc0e801ebe79547, type: 3}
+  m_Name: StrawberrySeed
+  m_EditorClassIdentifier: 
+  ID: 3
+  Nombre: Semilla de Frutilla
+  "Descripci\xF3n": "Se puede plantar en la tierra arada, tarda 4 d\xEDas en crecer,
+    y 3 en dar frutos."
+  Icono: {fileID: 21300000, guid: c733030c6947773428404c5b7b2b86e7, type: 3}
+  Valor: 150
+  ItemPrefab: {fileID: 0}
+  DirtPrefabGhost: {fileID: 3706794725306583263, guid: 831e081a60e07094aae87999831aa469,
+    type: 3}
+  ToolGameObject: {fileID: 0}
+  Usable: 1
+  Sellable: 0
+  Seed: 1
+  TreeSeed: 0
+  IsLookingAtStore: 0
+  Tool: 0
+  IsHoe: 0
+  IsAxe: 0
+  IsBucket: 0
+  IsUnknown1: 0
+  IsUnknown2: 0
+  gridGhost: {fileID: 0}
+  DirtPrefab: {fileID: 3706794725306583263, guid: dbf208cbd74148d408d3e301ad23b204,
+    type: 3}

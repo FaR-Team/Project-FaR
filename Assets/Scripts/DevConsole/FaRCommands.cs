@@ -1,0 +1,126 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using FaRUtils.Systems.DateTime;
+using FaRUtils.Systems.ItemSystem;
+using UnityStandardAssets.Characters.FirstPerson;
+using UnityStandardAssets.CrossPlatformInput;
+using IngameDebugConsole;
+
+public class FaRCommands : MonoBehaviour
+{
+	public float Sensitivity {
+		get { return sensitivity; }
+		set { sensitivity = value; }
+	}
+	[Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
+	[Range(0f, 90f)][SerializeField] float yRotationLimit = 88f;
+
+	Vector2 rotation = Vector2.zero;
+	const string xAxis = "Mouse X";
+	const string yAxis = "Mouse Y";
+	public GameObject player;
+    public GameObject TimeManager;
+	public Rigidbody rb;
+    public Cama _cama;
+    public Database _database;
+	public bool _noclip;
+	private Camera m_Camera;
+
+	void Start()
+	{
+		m_Camera = Camera.main;
+		rb = player.GetComponent<Rigidbody>();
+		DebugLogConsole.AddCommand<int, int>( "give", "Te da un item con el número de ID que especifiques", GiveItem );
+		DebugLogConsole.AddCommand( "rosebud", "te da 1000 de oro", Rosebud );
+		DebugLogConsole.AddCommand<int>( "add_gold", "te da la cantidad de oro que escribas", AddGold);
+		DebugLogConsole.AddCommand( "hurrypotter", "Avanza muy rápido el tiempo", HurryPotter);
+		DebugLogConsole.AddCommand( "relaxpotter", "Vuelve el tiempo a la normalidad", RelaxPotter);
+		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender,", Noclip);
+	}
+
+	public void Update()
+	{
+		if (_noclip)
+		{
+			if(Input.GetKey(KeyCode.W))
+			{
+				player.transform.Translate(Vector3.forward * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.A))
+			{
+				player.transform.Translate(Vector3.left * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.S))
+			{
+				player.transform.Translate(Vector3.back * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.D))
+			{
+				player.transform.Translate(Vector3.right * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.Space))
+			{
+				player.transform.Translate(Vector3.up * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.LeftShift))
+			{
+				player.transform.Translate(Vector3.down * Time.deltaTime * 20f);
+			}
+
+			rotation.x += Input.GetAxis(xAxis) * sensitivity;
+			rotation.y += Input.GetAxis(yAxis) * sensitivity;
+			rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
+			var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+			var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+
+			player.transform.localRotation = xQuat * yQuat;
+		}
+	}
+
+	public void Noclip()
+    {
+        if(!_noclip)
+        {
+            rb.useGravity = false;
+            player.GetComponent<FirstPersonController>().enabled = false;
+			player.GetComponent<CharacterController>().enabled = false;
+            _noclip = true;
+        }
+        else
+        {
+            rb.useGravity = true;
+			player.GetComponent<FirstPersonController>().enabled = true;
+			player.GetComponent<CharacterController>().enabled = true;
+            _noclip = false; 
+        }
+    }
+
+	void GiveItem(int x, int y)
+	{
+		ItemPickUp.GiveItem(_database.GetItem(x), y);
+	}
+
+	void Rosebud()
+	{
+		player.GetComponent<PlayerInventoryHolder>().PrimaryInventorySystem.GainGold(1000);
+	}
+
+	void AddGold(int amount)
+	{
+		player.GetComponent<PlayerInventoryHolder>().PrimaryInventorySystem.GainGold(amount);
+	}
+
+	void HurryPotter()
+	{
+		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+        _cama._yourLetterArrived = true;
+	}
+
+	void RelaxPotter()
+	{
+		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+        _cama._yourLetterArrived = false;
+        _cama.lightingManager.CopyHour();
+	}
+}
