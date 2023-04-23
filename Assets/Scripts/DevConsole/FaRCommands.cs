@@ -19,6 +19,10 @@ public class FaRCommands : MonoBehaviour
 	Vector2 rotation = Vector2.zero;
 	const string xAxis = "Mouse X";
 	const string yAxis = "Mouse Y";
+
+	public int actualDay;
+	private bool skipdays;
+	private int daysToSkip;
 	public GameObject player;
     public GameObject TimeManager;
 	public Rigidbody rb;
@@ -36,7 +40,11 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand<int>( "add_gold", "te da la cantidad de oro que escribas", AddGold);
 		DebugLogConsole.AddCommand( "hurrypotter", "Avanza muy rápido el tiempo", HurryPotter);
 		DebugLogConsole.AddCommand( "relaxpotter", "Vuelve el tiempo a la normalidad", RelaxPotter);
-		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender,", Noclip);
+		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender", Noclip);
+		DebugLogConsole.AddCommand("skipcarrotgrowth", "Se salta el crecimiento de la zanahoria, avanzando los días necesarios", SkipCarrotGrowth);
+		DebugLogConsole.AddCommand("skipapplegrowth", "Se salta el crecimiento de la manzana, avanzando los días necesarios", SkipAppleGrowth);
+		DebugLogConsole.AddCommand("skipstrawberrygrowth", "Se salta el crecimiento de la frutilla, avanzando los días necesarios", SkipStrawberryGrowth);
+		DebugLogConsole.AddCommand("skiptomatogrowth", "Se salta el crecimiento del tomate, avanzando los días necesarios", SkipTomatoGrowth);
 	}
 
 	public void Update()
@@ -75,6 +83,15 @@ public class FaRCommands : MonoBehaviour
 			var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
 
 			player.transform.localRotation = xQuat * yQuat;
+		}
+
+		if (skipdays)
+		{
+			if ((actualDay + daysToSkip) == TimeManager.GetComponent<TimeManager>().DateTime.Date)
+			{
+				TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+				skipdays = false;
+			}
 		}
 	}
 
@@ -122,5 +139,34 @@ public class FaRCommands : MonoBehaviour
 		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
+	}
+
+	void SkipCarrotGrowth()
+	{
+		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		daysToSkip = 3;
+		skipdays = true;
+		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+	}
+
+	void SkipAppleGrowth()
+	{
+		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		daysToSkip = 4;
+		skipdays = true;
+		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+	}
+
+	void SkipStrawberryGrowth()
+	{
+		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		daysToSkip = 7;
+		skipdays = true;
+		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+	}
+
+	void SkipTomatoGrowth()
+	{
+		//Saltar el crecimiento del tomate, avanzando rápido los días necesarios
 	}
 }
