@@ -55,7 +55,7 @@ public class Interactor : MonoBehaviour
                     _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
                 }
 
-                if (GameInput.Instance.playerInputActions.Player.Interaction.WasPressedThisFrame())
+                if (GameInput.Instance.playerInputActions.Player.Interaction.WasPressedThisFrame() && !DialogueUI.Instance.IsOpen)
                 {
                     _interactable.Interact(this, out bool interactSuccessful);
                 }

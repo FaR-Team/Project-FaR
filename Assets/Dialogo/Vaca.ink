@@ -1,3 +1,0 @@
-Muuuuuu (Soy una vaca, ¿Qué supusiste que pasaría?)
-...
-¿Muuuu? (¿Qué querés, pesado?)
