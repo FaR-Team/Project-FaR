@@ -17,12 +17,12 @@ public class NameDisplayController : MonoBehaviour
 
         if (_ContadorActivo == false && _yaAnimo == false)
         {
-            StartCoroutine(walter());
+            StartCoroutine(waiter());
             _yaAnimo = true;
         }
     }
 
-    public IEnumerator walter()
+    public IEnumerator waiter()
     {
         if (_ContadorActivo == true)
         {

@@ -6603,8 +6603,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 713242434}
   m_HandleRect: {fileID: 713242433}
   m_Direction: 2
+<<<<<<< Updated upstream
   m_Value: 1.0000036
   m_Size: 0.59013045
+=======
+  m_Value: -0.0000030404458
+  m_Size: 0.5901283
+>>>>>>> Stashed changes
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7474,7 +7479,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -8478,7 +8483,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -9672,7 +9677,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -10364,6 +10369,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 2.1
+  minValue: 0.4
+  maxValue: 0.6
 --- !u!82 &455192495
 AudioSource:
   m_ObjectHideFlags: 0
@@ -19746,7 +19753,6 @@ Transform:
   m_Children:
   - {fileID: 908119660}
   - {fileID: 455192493}
-  - {fileID: 2030600840}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -26579,6 +26585,43 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!84 &1022765299
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1024031347
 GameObject:
   m_ObjectHideFlags: 0
@@ -26962,10 +27005,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b70d61466c79c740baf4f9e6af0fd5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prompt: {fileID: 0}
-  nombreObj: {fileID: 0}
-  nombre: 
-  inkJSON: {fileID: 0}
 --- !u!114 &1031632552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41339,7 +41378,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -47512,7 +47551,6 @@ GameObject:
   - component: {fileID: 5385197374305017136}
   - component: {fileID: 5385197374305017135}
   - component: {fileID: 5385197374305017137}
-  - component: {fileID: 5385197374305017138}
   m_Layer: 6
   m_Name: FPSController
   m_TagString: Player
@@ -53584,7 +53622,11 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
+<<<<<<< Updated upstream
   m_AnchoredPosition: {x: 0, y: -0.000789305}
+=======
+  m_AnchoredPosition: {x: 0, y: 220.81917}
+>>>>>>> Stashed changes
   m_SizeDelta: {x: 0, y: 538.7531}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2000255115
@@ -54248,6 +54290,7 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.44435054
   m_Center: {x: -0.2762072, y: 0.4203542, z: 0.0000000021885547}
+<<<<<<< Updated upstream
 --- !u!1 &2030600839
 GameObject:
   m_ObjectHideFlags: 0
@@ -54301,6 +54344,8 @@ MonoBehaviour:
   - {fileID: 435052742}
   - {fileID: 319861839}
   - {fileID: 355262900}
+=======
+>>>>>>> Stashed changes
 --- !u!114 &2033346408
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55734,7 +55779,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -55891,6 +55936,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2081880099}
   m_CullTransparentMesh: 1
+--- !u!84 &2082164757
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &2087877952
 GameObject:
   m_ObjectHideFlags: 0
@@ -56087,7 +56169,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -77830,7 +77912,11 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
+<<<<<<< Updated upstream
   m_TargetTexture: {fileID: 714379492}
+=======
+  m_TargetTexture: {fileID: 2082164757}
+>>>>>>> Stashed changes
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -77911,6 +77997,7 @@ MonoBehaviour:
   _interactionPoint: {fileID: 1948653437}
   _interactionPoint2: {fileID: 832593933}
   _interactionPointRadius: 0.5
+  _interactionDirtPointRadius: 0.1
   _interactableMask:
     serializedVersion: 2
     m_Bits: 128
@@ -77990,7 +78077,7 @@ MonoBehaviour:
   layerCrop:
     serializedVersion: 2
     m_Bits: 8
-  _maxGrabDistance: 10
+  _maxGrabDistance: 5
 --- !u!114 &5385197374305017135
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78026,18 +78113,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 40af5e113d50a8d47b208b4261390f5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5385197374305017138
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693701916}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd9cd8c9f82ec2e41995dd150e2db0eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &5385197374582690453
@@ -78206,8 +78281,13 @@ MonoBehaviour:
   sourceCamera: {fileID: 1693242684}
   outlineCamera: {fileID: 5385197372925217791}
   outlineShaderMaterial: {fileID: 0}
+<<<<<<< Updated upstream
   renderTexture: {fileID: 714379492}
   extraRenderTexture: {fileID: 666897288}
+=======
+  renderTexture: {fileID: 2082164757}
+  extraRenderTexture: {fileID: 1022765299}
+>>>>>>> Stashed changes
 --- !u!114 &5385197374720392772
 MonoBehaviour:
   m_ObjectHideFlags: 0

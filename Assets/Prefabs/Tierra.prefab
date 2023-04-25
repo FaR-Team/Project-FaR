@@ -1552,13 +1552,13 @@ GameObject:
   - component: {fileID: 188297015324595355}
   - component: {fileID: 1201655341044184530}
   - component: {fileID: 2804561813100249042}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Checker
   m_TagString: Dirt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5313032971866795117
 Transform:
   m_ObjectHideFlags: 0
@@ -1861,7 +1861,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &551378423983486496
 Transform:
   m_ObjectHideFlags: 0

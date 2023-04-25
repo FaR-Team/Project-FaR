@@ -19,9 +19,9 @@ public class GridGhost : MonoBehaviour
     private LayerMask layerDirt;
     [SerializeField]
     private LayerMask layerCrop;
-    
+
     [SerializeField, Tooltip("La distancia máxima donde se puede arar")]
-    private float   _maxGrabDistance;
+    private float _maxGrabDistance;
 
     void Start()
     {
@@ -32,27 +32,38 @@ public class GridGhost : MonoBehaviour
     {
         if (PauseMenu.GameIsPaused == false)
         {
-            if (hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData != null && hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData.IsHoe == true && interactor._LookingAtDirt == false)
+            if (hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData != null &&
+            hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData.IsHoe == true &&
+            interactor._LookingAtDirt == false)
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                #if UNITY_EDITOR
-                    Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
-                #endif
+#if UNITY_EDITOR
+                Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
+#endif
 
                 if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerMask))
                 {
-                    var finalPosition = grid.GetNearestPointOnGrid(hit.point);
-                    hoeGhost.SetActive(true);
-                    hoeGhost.transform.position = finalPosition;
+                    finalPosition = grid.GetNearestPointOnGrid(hit.point);
+                    if (!IsInvalidPosition())
+                    {
+                        hoeGhost.SetActive(true);
+                        hoeGhost.transform.position = finalPosition;
+                    }
                 }
             }
             else
             {
                 hoeGhost.SetActive(false);
             }
-            SeedGhost();            
+            SeedGhost();
         }
+    }
+
+    public bool IsInvalidPosition()
+    {
+
+        return (finalPosition.x == 99999 || finalPosition.z == 99999 || finalPosition.y == 99999);
     }
 
     public void SeedGhost()
@@ -63,24 +74,25 @@ public class GridGhost : MonoBehaviour
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                #if UNITY_EDITOR
-                    Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
-                #endif
+#if UNITY_EDITOR
+                Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
+#endif
 
                 GameObject DirtPrefabGhost = hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData.DirtPrefabGhost.gameObject;
-                    
+
                 if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerMask))
                 {
                     finalPosition = grid.GetNearestPointOnGrid(hit.point);
+                    if(IsInvalidPosition()){return;}
                     if (seedGhost == null)
-                    {   
+                    {
                         seedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                         seedGhost.SetActive(true);
                     }
                     seedGhost.transform.position = finalPosition;
 
                     if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && PauseMenu.GameIsPaused == false)
-                    {   
+                    {
                         if (seedGhost != null)
                         {
                             seedGhost.SetActive(true);
@@ -88,13 +100,13 @@ public class GridGhost : MonoBehaviour
                         }
 
                         if (seedGhost == null)
-                        {   
+                        {
                             seedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                             seedGhost.SetActive(true);
                         }
                     }
-                    if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f &&  PauseMenu.GameIsPaused == false)
-                    {   
+                    if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f && PauseMenu.GameIsPaused == false)
+                    {
                         if (seedGhost != null)
                         {
                             seedGhost.SetActive(true);
@@ -102,7 +114,7 @@ public class GridGhost : MonoBehaviour
                         }
 
                         if (seedGhost == null)
-                        {   
+                        {
                             seedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                             seedGhost.SetActive(true);
                         }
@@ -125,24 +137,25 @@ public class GridGhost : MonoBehaviour
             {
                 Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 RaycastHit hit;
-                #if UNITY_EDITOR
-                    Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
-                #endif
+#if UNITY_EDITOR
+                Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
+#endif
 
                 GameObject DirtPrefabGhost = hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData.DirtPrefabGhost.gameObject;
-                    
+
                 if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerMask))
                 {
                     finalPosition = grid.GetNearestPointOnGrid(hit.point);
+                    if(IsInvalidPosition()) {return;}
                     if (treeSeedGhost == null)
-                    {   
+                    {
                         treeSeedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                         treeSeedGhost.SetActive(true);
                     }
                     treeSeedGhost.transform.position = finalPosition;
 
                     if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && PauseMenu.GameIsPaused == false)
-                    {   
+                    {
                         if (treeSeedGhost != null)
                         {
                             treeSeedGhost.SetActive(true);
@@ -150,13 +163,13 @@ public class GridGhost : MonoBehaviour
                         }
 
                         if (treeSeedGhost == null)
-                        {   
+                        {
                             treeSeedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                             treeSeedGhost.SetActive(true);
                         }
                     }
                     if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f && PauseMenu.GameIsPaused == false)
-                    {   
+                    {
                         if (treeSeedGhost != null)
                         {
                             treeSeedGhost.SetActive(true);
@@ -164,7 +177,7 @@ public class GridGhost : MonoBehaviour
                         }
 
                         if (treeSeedGhost == null)
-                        {   
+                        {
                             treeSeedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                             treeSeedGhost.SetActive(true);
                         }
@@ -191,7 +204,7 @@ public class GridGhost : MonoBehaviour
 
             if (treeSeedGhost != null)
             {
-            treeSeedGhost.SetActive(true);
+                treeSeedGhost.SetActive(true);
                 Destroy(treeSeedGhost);
             }
         }
@@ -233,9 +246,9 @@ public class GridGhost : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
-        #if UNITY_EDITOR
-            Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
-        #endif
+#if UNITY_EDITOR
+        Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
+#endif
 
         if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerMask))  //Todo: Figure out this shit (&& hit.transform.position == plano.transform.position) or (&& hit.transform.tag == "Plantable")
         {
@@ -251,8 +264,9 @@ public class GridGhost : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerDirt))
         {
+            if (IsInvalidPosition()) {return false;}
             instantiated = GameObject.Instantiate(DirtPrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
-            if (instantiated != null) 
+            if (instantiated != null)
             {
                 return true;
             }
@@ -275,8 +289,9 @@ public class GridGhost : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, _maxGrabDistance))
         {
+            if (IsInvalidPosition()) {return false;}
             instantiated = GameObject.Instantiate(DirtPrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
-            if (instantiated != null) 
+            if (instantiated != null)
             {
                 return true;
             }
@@ -292,8 +307,9 @@ public class GridGhost : MonoBehaviour
     }
 
     public void PlaceDirtNear(Vector3 nearPoint)
-    {      
+    {
         var finalPosition = grid.GetNearestPointOnGrid(nearPoint);
+        if (IsInvalidPosition()) {return;}
 
         GameObject.Instantiate(Dirt, transform.position, Quaternion.identity).transform.position = finalPosition;
 

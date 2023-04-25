@@ -205,7 +205,7 @@ public class HotbarDisplay : StaticInventoryDisplay
                     NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
                     NameDisplay.GetComponent<NameDisplayController>().timer = 2;
                     NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
-                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().walter());
+                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
                 }
                 else if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo == true)
                 {
@@ -223,7 +223,7 @@ public class HotbarDisplay : StaticInventoryDisplay
                 if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo == false)
                 {
                     NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
-                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().walter());
+                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
                     NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
                     NameDisplay.GetComponent<NameDisplayController>().timer = 2;
                     NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
@@ -387,7 +387,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo == false)
             {
                 NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
-                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().walter());
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
                 NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
                 NameDisplay.GetComponent<NameDisplayController>().timer = 2;
                 NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;

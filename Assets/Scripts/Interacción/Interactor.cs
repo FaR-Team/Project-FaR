@@ -9,6 +9,7 @@ public class Interactor : MonoBehaviour
     [SerializeField] private Transform _interactionPoint;
     [SerializeField] private Transform _interactionPoint2;
     [SerializeField] private float _interactionPointRadius = 0.7f;
+    [SerializeField] private float _interactionDirtPointRadius = 0.1f;
     [SerializeField] private LayerMask _interactableMask;	
     [SerializeField] private LayerMask _dirtMask, _sellMask;	
     [SerializeField] private InteractionPromptUI _interactionPromptUI;
@@ -74,7 +75,7 @@ public class Interactor : MonoBehaviour
            }
         }
 
-        _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _dirtMask);
+        _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionDirtPointRadius, _colliders, _dirtMask);
         if (_numDirtFound > 0)
         {
             if(_colliders[0].transform.gameObject.transform.tag == "Dirt")
@@ -121,5 +122,8 @@ public class Interactor : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(_interactionPoint.position, _interactionPointRadius);
         Gizmos.DrawWireSphere(_interactionPoint2.position, _interactionPointRadius);
+
+        Gizmos.DrawWireSphere(_interactionPoint.position, _interactionDirtPointRadius);
+        Gizmos.DrawWireSphere(_interactionPoint2.position, _interactionDirtPointRadius);
     }
 }
