@@ -54,6 +54,7 @@ MonoBehaviour:
   jugador: {fileID: 0}
   Colliders: {fileID: 0}
   Crop: {fileID: 6826635754486709160}
+  tierraAnim: {fileID: 0}
   center: {x: 0, y: 0, z: 0}
   radius: 0
 --- !u!1 &653544276711805248
@@ -599,6 +600,8 @@ MonoBehaviour:
   CropParent: {fileID: 3349046338006926280}
   Energia: {fileID: 0}
   anim: {fileID: 7400000, guid: f30ed63ac06172c46812da9364d8904b, type: 2}
+  Tierra: {fileID: 0}
+  tierraAnim: {fileID: 0}
   _prompt: {fileID: 0}
 --- !u!135 &9103622429798100074
 SphereCollider:
@@ -773,6 +776,9 @@ MonoBehaviour:
   Reloj: {fileID: 0}
   Dia: 0
   yacrecio: 0
+  cropSaveData:
+    Position: {x: 0, y: 0, z: 0}
+    _Dia: 0
   Int1: 1
   Int2: 3
   Int3: 0

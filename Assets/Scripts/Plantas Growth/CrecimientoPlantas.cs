@@ -7,10 +7,8 @@ using FaRUtils.Systems.DateTime;
 [RequireComponent(typeof(UniqueID))]
 public class CrecimientoPlantas : MonoBehaviour
 {
-    [Header("Prefabs de Fases")]
     public GameObject Fase1, Fase2, Fase3, Fase4, Fase5, Fase6, Fase7, Fase8, Fase9, Fase10;
 
-    [Header("Misc.")]
     public GameObject Reloj;
     public int Dia;
     public bool yacrecio;
@@ -18,7 +16,6 @@ public class CrecimientoPlantas : MonoBehaviour
     [SerializeField] private CropSaveData cropSaveData;
     private string id;
 
-    [Header("Días para cambiar de fase")]
     public int Int1, Int2, Int3, Int4, Int5, Int6, Int7, Int8, Int9;
 
     void Awake()
