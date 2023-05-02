@@ -48,7 +48,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7740380474788800720
 Transform:
   m_ObjectHideFlags: 0
@@ -114,7 +114,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5374763710174741956}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Esqueleto
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7244942208222877795}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: "trozo peque\xF1o"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -283,6 +283,51 @@ Transform:
   m_Father: {fileID: 5374763710174741956}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1915607744817756085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3652673786969455674}
+  - component: {fileID: 5582680778475135810}
+  m_Layer: 10
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3652673786969455674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915607744817756085}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.336, y: 0.388, z: -0.215}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8694592844836477229}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &5582680778475135810
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915607744817756085}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 0.35, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2065168500764845629
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,7 +631,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5185144171884333826}
   - component: {fileID: 9099217937555031314}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Cube.520_Cube.538
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -774,6 +819,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8109110424835220793}
+  - {fileID: 3652673786969455674}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4058,7 +4104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7694073186877035511}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Bone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4310,7 +4356,7 @@ GameObject:
   - component: {fileID: 1901269365946696455}
   - component: {fileID: 5081477468852678830}
   - component: {fileID: 963304145318287830}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: OShape
   m_TagString: Dirt
   m_Icon: {fileID: 0}
@@ -4485,7 +4531,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2699371001819476637
 Transform:
   m_ObjectHideFlags: 0

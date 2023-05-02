@@ -64,7 +64,7 @@ public class InventorySystem
                 OnInventorySlotChanged?.Invoke(SlotLibre);
                 return true;
             }
-            //Imlementar sólo añadir lo que sepeuda añadir al stack, y dejar el resto en otro stack libre
+            //Implementar sólo añadir lo que sepeuda añadir al stack, y dejar el resto en otro stack libre
         }
 
         return false;
@@ -73,13 +73,13 @@ public class InventorySystem
     public bool ContieneItem(InventoryItemData itemAAñadir, out List<InventorySlot> invSlot) //alguno de los slots ya tiene este item?
     {
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista
-        return invSlot == null ? false : true;
+        return invSlot == null;
     }
 
     public bool HaySlotLibre(out InventorySlot SlotLibre)
     {
         SlotLibre = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre
-        return SlotLibre == null ? false : true;
+        return SlotLibre == null;
     }
 
     public bool CheckInventoryRemaining(Dictionary<InventoryItemData, int> shoppingCart)
