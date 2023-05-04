@@ -34,12 +34,11 @@ public class PlayerInventoryHolder : InventoryHolder
     protected override void LoadInventory(SaveData data)
     {
         //Va a checkear los datos guardados para el inventario de este cofre, y si exisren, los va a cargar
-        if (data.playerInventory.InvSystem != null)
-        {
-            //Va a cargar los items del inventario
-            this.primaryInventorySystem = data.playerInventory.InvSystem;
-            OnPlayerInventoryChanged?.Invoke();
-        }
+        if (data.playerInventory.InvSystem == null) return;
+        
+        //Va a cargar los items del inventario
+        this.primaryInventorySystem = data.playerInventory.InvSystem;
+        OnPlayerInventoryChanged?.Invoke();
     }
 
     void Update()
@@ -75,15 +74,10 @@ public class PlayerInventoryHolder : InventoryHolder
     }
     public bool AñadirAInventario(InventoryItemData data, int amount)
     {
-        if (primaryInventorySystem.AñadirAInventario(data, amount))
-        {
-            return true;
-        }
-
-        return false;
+        return (primaryInventorySystem.AñadirAInventario(data, amount)); 
     }
 
-    void PauseGame ()
+    void PauseGame()
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -91,7 +85,7 @@ public class PlayerInventoryHolder : InventoryHolder
         Time.timeScale = 0;
     }
 
-    void ResumeGame ()
+    void ResumeGame()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

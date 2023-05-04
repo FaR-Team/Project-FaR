@@ -47,26 +47,23 @@ public class Interactor : MonoBehaviour
 
         if (_numFound > 0)
         {
-            _interactable = _colliders[0].GetComponent<IInteractable>();
-            if (_interactable != null)
+            _interactable = _colliders[0].GetComponent<IInteractable>(); 
+            if (_interactable == null) return;
+            
+            if (!_interactionPromptUI.IsDisplayed)
             {
-                if (!_interactionPromptUI.IsDisplayed)
-                {
-                    _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
-                }
-
-                if (GameInput.Instance.playerInputActions.Player.Interaction.WasPressedThisFrame() && !DialogueUI.Instance.IsOpen)
-                {
-                    _interactable.Interact(this, out bool interactSuccessful);
-                }
+                _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
             }
+            if (GameInput.Instance.playerInputActions.Player.Interaction.WasPressedThisFrame())
+            {
+                _interactable.Interact(this, out bool interactSuccessful);
+            }
+            
         }
         else
         {
-           if (_interactable != null )
-           {
-               _interactable = null;
-           }
+            _interactable = (_interactable != null) ? null : _interactable;
+
 
            if (_interactionPromptUI.IsDisplayed) 
            {
@@ -75,40 +72,16 @@ public class Interactor : MonoBehaviour
         }
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _dirtMask);
-        if (_numDirtFound > 0)
-        {
-            if(_colliders[0].transform.gameObject.transform.tag == "Dirt")
-            {
-                _LookingAtDirt = true;
-                
-            } 
-            else 
-            {
-                _LookingAtDirt = false;
-            }
-        } 
-        else 
-        {
-            _LookingAtDirt = false;
-        }
+        //Toma la cantidad de tierras que hay en la capsula y si hay mas de 0, hace que lookingAtDirt sea True si la tag del primer collider sea Dirt.
+        
+        _LookingAtDirt = (_numDirtFound > 0) ? (_colliders[0].transform.gameObject.transform.tag == "Dirt") : false;
+
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);
-        if (_numDirtFound > 0)
-        {
-            if(_colliders[0].transform.gameObject.transform.tag == "Sell")
-            {
-                IsLookingAtStore = true;
-                
-            } 
-            else 
-            {
-                IsLookingAtStore = false;
-            }
-        } 
-        else 
-        {
-            IsLookingAtStore = false;
-        }
+
+        IsLookingAtStore = (_numDirtFound > 0) ? (_colliders[0].transform.gameObject.transform.tag == "Sell") : false;
+
+        
     }
 
     private Ray CenterRay()

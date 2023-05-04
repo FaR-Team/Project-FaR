@@ -42,6 +42,20 @@ public class Cama : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
+        if (_isSleeping)
+        {
+            Debug.Log("Ya estás durmiendo");
+            interactSuccessful = false;
+            return;
+        }
+        else if(TimeManager.GetComponent<TimeManager>().DateTime.Hour >= 6 && TimeManager.GetComponent<TimeManager>().DateTime.Hour < 17)
+        {
+            Debug.Log("Es muy temprano para dormir");
+            interactSuccessful = false;
+            return;
+        }
+        
+
         if(_yourLetterArrived == false)
         {
             TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.05f;
@@ -67,7 +81,7 @@ public class Cama : MonoBehaviour, IInteractable
 
     public void CheckHora()
     {
-        if(Reloj.GetComponent<ClockManager>().Time.text == "06:00 AM" && yasonlas6 == false || Reloj.GetComponent<ClockManager>().Time.text == "06:00" && yasonlas6 == false)
+        if(TimeManager.GetComponent<TimeManager>().DateTime.Hour == 6 && yasonlas6 == false)
         {
             if(_yourLetterArrived == false)
             {

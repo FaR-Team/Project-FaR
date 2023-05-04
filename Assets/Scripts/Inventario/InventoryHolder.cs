@@ -17,7 +17,7 @@ public abstract class InventoryHolder : MonoBehaviour
 
     public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
 
-    protected virtual void Awake()
+    protected virtual void Awake() // Carga el inventario cn lo que se habia guardado anteriormente
     {
         SaveLoad.OnLoadGame += LoadInventory;
         primaryInventorySystem = new InventorySystem(tamañoInventario, _gold);

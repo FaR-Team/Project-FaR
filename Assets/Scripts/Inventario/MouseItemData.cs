@@ -21,6 +21,7 @@ public class MouseItemData : MonoBehaviour
         ItemCount.text = "";
 
         _playerTransform = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        
         if (_playerTransform = null) Debug.Log("No se encontró Jugador");
     }
 
@@ -36,20 +37,19 @@ public class MouseItemData : MonoBehaviour
     private void Update()
     {
         //TODO: Añadir soporte para joystick
-
-        if (AssignedInventorySlot.ItemData != null) //Si tiene un item, que siga al mouse
+        
+        /*if (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
         {
-            transform.position = Input.mousePosition;
-
-            //f (Input.GetMouseButtonDown(0) && !IsPointerOverUIObject())
-            //{
-                //if (AssignedInventorySlot.ItemData.ItemPrefab != null)
-                //{
-                    //Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, _playerTransform.position + _playerTransform.forward * _dropOffset, Quaternion.identity);
-                //}
-                //ClearSlot();
-            //}
+        if (AssignedInventorySlot.ItemData.ItemPrefab != null)
+        {
+        Instantiate(AssignedInventorySlot.ItemData.ItemPrefab, _playerTransform.position + _playerTransform.forward * _dropOffset, Quaternion.identity);
         }
+        ClearSlot();
+        }*/
+        //Si tiene un item, que siga al mouse
+        
+        if (AssignedInventorySlot.ItemData == null) return;
+        transform.position = Input.mousePosition;
     }
 
     public void ClearSlot()

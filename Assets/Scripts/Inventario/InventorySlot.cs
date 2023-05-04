@@ -37,14 +37,7 @@ public class InventorySlot : ItemSlot
 
     public bool EnoughRoomLeftInStack(int amountParaAñadir)
     {
-        if (itemData == null || itemData != null && stackSize + amountParaAñadir <= CantidadMáxima)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (itemData == null || itemData != null && stackSize + amountParaAñadir <= CantidadMáxima);
     }
 
     public bool SplitStack(out InventorySlot splitStack)
