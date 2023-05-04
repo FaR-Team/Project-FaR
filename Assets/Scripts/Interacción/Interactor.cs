@@ -41,7 +41,7 @@ public class Interactor : MonoBehaviour
         InteractionKey.Enable();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _numFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _interactableMask);
 
@@ -71,10 +71,8 @@ public class Interactor : MonoBehaviour
            }
         }
 
-        _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _dirtMask);
+        _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 3f, _dirtMask);
         //Toma la cantidad de tierras que hay en la capsula y si hay mas de 0, hace que lookingAtDirt sea True si la tag del primer collider sea Dirt.
-        
-        _LookingAtDirt = (_numDirtFound > 0) ? (_colliders[0].transform.gameObject.transform.tag == "Dirt") : false;
 
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);

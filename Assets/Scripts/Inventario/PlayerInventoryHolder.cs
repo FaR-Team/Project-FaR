@@ -51,7 +51,8 @@ public class PlayerInventoryHolder : InventoryHolder
         {
             OpenInventory();
         }
-        else if (   GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && 
+        else if (   (GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() ||
+                    GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame()) &&
                     isInventoryOpen == true && 
                     PauseMenu.GameIsPaused == true && 
                     shopKeeper.IsBuying == false)
@@ -63,41 +64,21 @@ public class PlayerInventoryHolder : InventoryHolder
     {
         OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
         reloj.gameObject.SetActive(false);
-        player.GetComponent<CubePlacer>().enabled = false;
         PauseMenu.GameIsPaused = true;
         isInventoryOpen = true;
         PauseMenu.Instance.Pause();
-        //PauseGame();
     }
 
     public void CloseInventory()
     {
         playerBackpackPanel.gameObject.SetActive(false);
         reloj.gameObject.SetActive(true);
-        player.GetComponent<CubePlacer>().enabled = true;
         PauseMenu.GameIsPaused = false;
         isInventoryOpen = false;
         PauseMenu.Instance.Unpause();
-        //ResumeGame();
     }
     public bool AñadirAInventario(InventoryItemData data, int amount)
     {
         return (primaryInventorySystem.AñadirAInventario(data, amount)); 
-    }
-
-    void PauseGame()
-    {
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        player.GetComponent<FirstPersonController>().enabled = false;
-        Time.timeScale = 0;
-    }
-
-    void ResumeGame()
-    {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
-        player.GetComponent<FirstPersonController>().enabled = true;
-        Time.timeScale = 1;
     }
 }

@@ -37,25 +37,11 @@ public class InventoryUIController : MonoBehaviour
         if (GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && isChestInventoryOpen == true ||  
             GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && isChestInventoryOpen == true) {
             inventoryPanel.gameObject.SetActive(false);
-            playerBackpackPanel.gameObject.SetActive(false);
-            reloj.gameObject.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            player.GetComponent<FirstPersonController>().enabled = true;
-            player.GetComponent<CubePlacer>().enabled = true;
-            Time.timeScale = 1;
+            //playerBackpackPanel.gameObject.SetActive(false);
+            //player.GetComponent<PlayerInventoryHolder>().CloseInventory();
             isChestInventoryOpen = false;
             StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
         }
-
-        //if (Input.GetKeyDown(KeyCode.Tab))
-        //{
-        //    playerBackpackPanel.gameObject.SetActive(false);
-        //    Cursor.lockState = CursorLockMode.Locked;
-        //    Cursor.visible = false;
-        //    player.GetComponent<FirstPersonController>().enabled = true;
-        //    Time.timeScale = 1;
-        //}
     }
 
     private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()
