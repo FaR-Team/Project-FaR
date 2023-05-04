@@ -18,6 +18,8 @@ public class HotbarDisplay : StaticInventoryDisplay
     public GridGhost gridGhost;
     public GameObject player;
 
+    public PlayerInventoryHolder PlayerInv;
+
     [Header("Tool GameObjects")]
     public GameObject hoe, bucket, rexona, blank1, blank2, hand;
 
@@ -34,6 +36,7 @@ public class HotbarDisplay : StaticInventoryDisplay
         _playerControls = new PlayerInput2();
         telequinesis = GameObject.FindWithTag("Telequinesis");
         player = GameObject.FindWithTag("Player");
+        PlayerInv = player.GetComponent<PlayerInventoryHolder>();
 
         physicsGun = telequinesis.GetComponent<PhysicsGunInteractionBehavior>();
     }
@@ -193,7 +196,7 @@ public class HotbarDisplay : StaticInventoryDisplay
     }
     private void Update()
     {
-        if (_playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false)
+        if (_playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false && PlayerInv.IsBuying == false)
         {
             ChangeIndex(-1);
             if (slots[_currentIndex].AssignedInventorySlot.ItemData != null)
@@ -205,7 +208,7 @@ public class HotbarDisplay : StaticInventoryDisplay
                     NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
                     NameDisplay.GetComponent<NameDisplayController>().timer = 2;
                     NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
-                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().walter());
+                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
                 }
                 else if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo == true)
                 {
@@ -214,7 +217,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             }
         }
 
-        if (_playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false)
+        if (_playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false && PlayerInv.IsBuying == false)
         {
             ChangeIndex(1);
             if (slots[_currentIndex].AssignedInventorySlot.ItemData != null)
@@ -223,7 +226,7 @@ public class HotbarDisplay : StaticInventoryDisplay
                 if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo == false)
                 {
                     NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
-                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().walter());
+                    StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
                     NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
                     NameDisplay.GetComponent<NameDisplayController>().timer = 2;
                     NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
@@ -387,7 +390,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo == false)
             {
                 NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
-                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().walter());
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
                 NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
                 NameDisplay.GetComponent<NameDisplayController>().timer = 2;
                 NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;

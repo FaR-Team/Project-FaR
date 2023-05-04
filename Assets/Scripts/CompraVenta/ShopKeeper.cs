@@ -22,6 +22,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     private void Awake() 
     {
+        player = GameObject.FindWithTag("Player");
         _shopSystem = new ShopSystem(_shopItemsHeld.Items.Count, _shopItemsHeld.BuyMarkUp);
 
         foreach (var item in _shopItemsHeld.Items)
@@ -34,7 +35,6 @@ public class ShopKeeper : MonoBehaviour, IInteractable
     private void Update() {
         if  (GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && IsBuying == true || GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && IsBuying == true)
         {
-            player = GameObject.FindWithTag("Player");
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             player.GetComponent<FirstPersonController>().enabled = true;
@@ -48,6 +48,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
     private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()
     {
         yield return new WaitForSeconds(0.1f);
+        player.GetComponent<PlayerInventoryHolder>().IsBuying = false;
         IsBuying = false;
     }
 
@@ -60,6 +61,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         {
             OnShopWindowRequested?.Invoke(_shopSystem, playerInv);
             IsBuying = true;
+            player.GetComponent<PlayerInventoryHolder>().IsBuying = true;
             player = GameObject.FindWithTag("Player");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
