@@ -62,11 +62,11 @@ public class PauseMenu : MonoBehaviour
     private void Update() {
         if (GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && player.GetComponent<PlayerInventoryHolder>().isInventoryOpen == false && shopKeeper.IsBuying == false && bed._isSleeping == false) {
             if (GameIsPaused) {
-                Resume();
+                ClosePauseMenu();
             }
             else
             {
-                Pause();
+                OpenPauseMenu();
             }
         }
         
@@ -85,7 +85,7 @@ public class PauseMenu : MonoBehaviour
         }*/
     }
 
-    public void Resume()
+    public void ClosePauseMenu()
     {
         UI.SetActive(true);
         //Hotbar.SetActive(true);
@@ -96,8 +96,14 @@ public class PauseMenu : MonoBehaviour
         GameInput.Instance.playerInputActions.Player.Inventory.Enable();
         pauseMenuUI.SetActive(false);
         optionsMenuUI.SetActive(false);
-        PhysicsGun.SetActive(true);
+        
         GameIsPaused = false;
+        Unpause();
+    }
+
+    public void Unpause()
+    {
+        PhysicsGun.SetActive(true);
         player.GetComponent<FirstPersonController>().enabled = true;
         player.GetComponent<Interactor>().enabled = true;
         player.GetComponent<CubePlacer>().enabled = true;
@@ -106,7 +112,7 @@ public class PauseMenu : MonoBehaviour
         Cursor.visible = false;
     }
 
-    public void Pause()
+    public void OpenPauseMenu()
     {
         UI.SetActive(false);
         //Hotbar.SetActive(true);
@@ -114,15 +120,22 @@ public class PauseMenu : MonoBehaviour
         {
             Music.Pause();
         }
+        GameIsPaused = true;
         GameInput.Instance.playerInputActions.Player.Inventory.Disable();
         pauseMenuUI.SetActive(true);
+
+        resumeButton.Select();
+        Pause();
+
+        
+    }
+
+    public void Pause()
+    {
         PhysicsGun.SetActive(false);
-        GameIsPaused = true;
         player.GetComponent<FirstPersonController>().enabled = false;
         player.GetComponent<Interactor>().enabled = false;
         player.GetComponent<CubePlacer>().enabled = false;
-
-        resumeButton.Select();
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

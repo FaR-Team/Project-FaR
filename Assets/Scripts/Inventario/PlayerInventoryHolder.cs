@@ -56,12 +56,7 @@ public class PlayerInventoryHolder : InventoryHolder
                     PauseMenu.GameIsPaused == true && 
                     shopKeeper.IsBuying == false)
         {
-            playerBackpackPanel.gameObject.SetActive(false);
-            PauseMenu.GameIsPaused = false;
-            isInventoryOpen = false;
-            reloj.gameObject.SetActive(true);
-            player.GetComponent<CubePlacer>().enabled = true;
-            ResumeGame();
+            CloseInventory();
         }
     }
     public void OpenInventory()
@@ -71,7 +66,19 @@ public class PlayerInventoryHolder : InventoryHolder
         player.GetComponent<CubePlacer>().enabled = false;
         PauseMenu.GameIsPaused = true;
         isInventoryOpen = true;
-        PauseGame();
+        PauseMenu.Instance.Pause();
+        //PauseGame();
+    }
+
+    public void CloseInventory()
+    {
+        playerBackpackPanel.gameObject.SetActive(false);
+        reloj.gameObject.SetActive(true);
+        player.GetComponent<CubePlacer>().enabled = true;
+        PauseMenu.GameIsPaused = false;
+        isInventoryOpen = false;
+        PauseMenu.Instance.Unpause();
+        //ResumeGame();
     }
     public bool AñadirAInventario(InventoryItemData data, int amount)
     {
