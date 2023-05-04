@@ -47,7 +47,8 @@ public class PlayerInventoryHolder : InventoryHolder
         if (GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && 
             isInventoryOpen == false && 
             PauseMenu.GameIsPaused == false && 
-            shopKeeper.IsBuying == false)
+            shopKeeper.IsBuying == false && 
+            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
             OpenInventory();
         }
@@ -55,7 +56,8 @@ public class PlayerInventoryHolder : InventoryHolder
                     GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame()) &&
                     isInventoryOpen == true && 
                     PauseMenu.GameIsPaused == true && 
-                    shopKeeper.IsBuying == false)
+                    shopKeeper.IsBuying == false &&
+                    IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
             CloseInventory();
         }

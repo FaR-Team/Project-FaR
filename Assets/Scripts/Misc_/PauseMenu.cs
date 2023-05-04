@@ -60,7 +60,12 @@ public class PauseMenu : MonoBehaviour
     }
 
     private void Update() {
-        if (GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && player.GetComponent<PlayerInventoryHolder>().isInventoryOpen == false && shopKeeper.IsBuying == false && bed._isSleeping == false) {
+        if (GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && 
+        player.GetComponent<PlayerInventoryHolder>().isInventoryOpen == false && 
+        shopKeeper.IsBuying == false && 
+        bed._isSleeping == false && 
+        IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false) 
+        {
             if (GameIsPaused) {
                 ClosePauseMenu();
             }

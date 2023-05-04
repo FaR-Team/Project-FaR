@@ -196,7 +196,7 @@ public class HotbarDisplay : StaticInventoryDisplay
     }
     private void Update()
     {
-        if (_playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false && PlayerInv.IsBuying == false)
+        if (_playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false && PlayerInv.IsBuying == false && IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
             ChangeIndex(-1);
             if (slots[_currentIndex].AssignedInventorySlot.ItemData != null)
@@ -217,7 +217,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             }
         }
 
-        if (_playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false && PlayerInv.IsBuying == false)
+        if (_playerControls.Player.MouseWheel.ReadValue<float>() < -0.1f && physicsGun._grabbedRigidbody == null && PauseMenu.GameIsPaused == false && PlayerInv.IsBuying == false && IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
             ChangeIndex(1);
             if (slots[_currentIndex].AssignedInventorySlot.ItemData != null)

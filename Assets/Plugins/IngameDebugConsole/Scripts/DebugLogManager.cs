@@ -146,6 +146,8 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private bool receiveLogcatLogsInAndroid = false;
 
+		public bool isOnConsole = false;
+
 #pragma warning disable 0414
 #if UNITY_2018_3_OR_NEWER // On older Unity versions, disabling CS0169 is problematic: "Cannot restore warning 'CS0169' because it was disabled globally"
 #pragma warning disable 0169
@@ -871,6 +873,7 @@ namespace IngameDebugConsole
 
 		public void ShowLogWindow()
 		{
+			isOnConsole = true;
 			// Show the log window
 			logWindowCanvasGroup.blocksRaycasts = true;
 			logWindowCanvasGroup.alpha = 1f;
@@ -904,6 +907,7 @@ namespace IngameDebugConsole
 
 		public void HideLogWindow()
 		{
+			isOnConsole = false;
 			// Hide the log window
 			logWindowCanvasGroup.blocksRaycasts = false;
 			logWindowCanvasGroup.alpha = 0f;
