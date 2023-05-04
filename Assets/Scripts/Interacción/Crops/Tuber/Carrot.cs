@@ -67,9 +67,18 @@ public class Carrot : MonoBehaviour, IInteractable
                 }
 
                 CropOut.gameObject.AddComponent<Outline>();
-                CropParent.GetComponent<Animation>().clip = anim;
-                CropParent.GetComponent<Animation>().Play();
-                tierraAnim.gameObject.GetComponent<Animation>().Play();
+                if (CropParent.GetComponent<Animation>() != null)
+                {
+                    CropParent.GetComponent<Animation>().clip = anim;
+                    CropParent.GetComponent<Animation>().Play();
+                }
+
+                if (tierraAnim != null)
+                {
+                    tierraAnim.gameObject.GetComponent<Animation>().Play();
+                }
+
+
                 foreach(Transform t in CropParent.transform)
                 {
                     t.gameObject.layer = 0;

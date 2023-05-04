@@ -78,9 +78,12 @@ public class CropExplode : MonoBehaviour
         }
         
         yield return new WaitForSeconds(2.5f);
-        Tierra.GetComponent<Animation>().Play();
+        if (Tierra.GetComponent<Animation>() != null)
+        {
+            Tierra.GetComponent<Animation>().Play();
+        }
         GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));
-        Crop.GetComponent<SkinnedMeshRenderer>().enabled = false;
+        Crop.GetComponent<MeshRenderer>().enabled = false;
         Destroy(Crop.gameObject.GetComponent<Outline>());
         yield return new WaitForSeconds(0.5f);
         Destroy(Tierra);

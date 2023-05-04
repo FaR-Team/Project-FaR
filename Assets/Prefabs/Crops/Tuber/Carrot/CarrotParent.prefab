@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 9091781030055146862}
   - component: {fileID: 6267693403743472676}
   - component: {fileID: 7484678911428880560}
+  - component: {fileID: 7432582645773756839}
   m_Layer: 0
   m_Name: default
   m_TagString: Untagged
@@ -25,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43437114532849237}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -83,6 +84,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7432582645773756839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43437114532849237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b93bbb3875992140b93550b700c4ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectName: 
+  Tierra: {fileID: 0}
+  Coso: {fileID: 3742477327945525750, guid: 251a7a16651407d49852597826c7cb5c, type: 3}
+  Parent: {fileID: 0}
+  ItemData: {fileID: 11400000, guid: ed5118089d2f4d747a4abb1145371469, type: 2}
+  jugador: {fileID: 0}
+  Colliders: {fileID: 0}
+  Crop: {fileID: 43437114532849237}
+  tierraAnim: {fileID: 0}
+  center: {x: 0, y: 0, z: 0}
+  radius: 10
 --- !u!1 &3172271354438148627
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,9 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 366cba7e96fd7d24cbaefb7afaedd416, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Crop: {fileID: 0}
-  CropOut: {fileID: 0}
-  CropParent: {fileID: 0}
+  Crop: {fileID: 43437114532849237}
+  CropOut: {fileID: 43437114532849237}
+  CropParent: {fileID: 6845146257671445223}
   Energia: {fileID: 0}
   anim: {fileID: 7400000, guid: f30ed63ac06172c46812da9364d8904b, type: 2}
   Tierra: {fileID: 0}
