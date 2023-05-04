@@ -12,39 +12,36 @@ public class ToolItemData : InventoryItemData
     public override bool UseItem()
     {
         _pauseMenu = PauseMenu.Instance;
-        if (PauseMenu.GameIsPaused == false)
+        if (!PauseMenu.GameIsPaused)
         {
-            if (IsHoe == true)
+            if (IsHoe)
             {
                 _gridGhost = GameObject.FindGameObjectWithTag("Player").GetComponent<GridGhost>();
 
-                if (_gridGhost.CheckDirt(_gridGhost.finalPosition, 0.1f) == true)
+                if (_gridGhost.CheckDirt(_gridGhost.finalPosition, 0.1f))
                 {
                     _gridGhost.PlantDirt();
+                    return true;
                 }
-                else
-                {
-                    return false;
-                }
-                return true;
+                else return false;                
             }
 
-            if (IsAxe == true)
+            if (IsAxe)
             {
                 //TODO: Funcionamiento del Hacha.
             }
 
-            if (IsBucket == true)
+            if (IsBucket)
             {
                 //TODO: Funcionamiento de la regadera/balde.
             }
 
-            if (IsUnknown1 == true)
+            if (IsUnknown1)
             {
                 //TODO: Funcionamiento de ???.
             }
 
-            if (IsUnknown2 == true)
+            if (IsUnknown2)
             {
                 //TODO: Funcionamiento de ???.
             }
