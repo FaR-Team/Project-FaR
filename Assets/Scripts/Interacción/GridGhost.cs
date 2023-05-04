@@ -179,11 +179,9 @@ public class GridGhost : MonoBehaviour
         }
         else
         {
-            if (treeSeedGhost != null)
-            {
-                treeSeedGhost.SetActive(true);
-                Destroy(treeSeedGhost);
-            }
+            if (treeSeedGhost == null) return;       
+            treeSeedGhost.SetActive(true);
+            Destroy(treeSeedGhost);
         }
 
         if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && PauseMenu.GameIsPaused == false)
@@ -296,7 +294,5 @@ public class GridGhost : MonoBehaviour
         finalPosition = grid.GetNearestPointOnGrid(nearPoint);
 
         GameObject.Instantiate(Dirt, transform.position, Quaternion.identity).transform.position = finalPosition;
-
-        //Destroy(checkeo);
     }
 }
