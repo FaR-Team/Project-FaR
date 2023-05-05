@@ -15,7 +15,7 @@ public class UniqueID : MonoBehaviour
     {
         
         if (IDdataBase == null) IDdataBase = new SerializableDictionary<string, GameObject>();
-       /*
+       
         if (IDdataBase.ContainsKey(_ID))
         {
             Generate();
@@ -24,7 +24,7 @@ public class UniqueID : MonoBehaviour
         {
             IDdataBase.Add(_ID, this.gameObject);
         }
-       */
+       
     }
 
     private void OnDestroy()
