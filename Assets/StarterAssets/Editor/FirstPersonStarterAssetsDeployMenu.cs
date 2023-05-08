@@ -12,7 +12,6 @@ namespace StarterAssets
         /// <summary>
         /// Check the capsule, main camera, cinemachine virtual camera, camera target and references
         /// </summary>
-        [MenuItem(MenuRoot + "/Reset First Person Controller", false)]
         static void ResetFirstPersonControllerCapsule()
         {
             var firstPersonControllers = FindObjectsOfType<FirstPersonController>();

@@ -235,14 +235,12 @@ namespace EPOOutline
             return found;
         }
 
-        [MenuItem("Tools/Easy performant outline/Setup")]
         private static void ForceShowWindow()
         {
             ShouldShow = true;
             ShowWindow();
         }
 
-        [MenuItem("Tools/Easy performant outline/Online docs")]
         private static void ShowDocs()
         {
             UnityEngine.Application.OpenURL("https://docs.google.com/document/d/17GvzvXNEjpEQ8DShRrVHKQ4I6s2tTVtwX6NzCZZ28AQ");

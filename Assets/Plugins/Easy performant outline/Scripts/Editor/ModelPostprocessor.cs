@@ -30,7 +30,6 @@ namespace EPOOutline
             public Vector3 Normal;
         }
 
-        [MenuItem("Tools/Easy performant outline/Check models")]
         private static void CheckModelMenu()
         {
             EditorPrefs.DeleteKey("Never ask about models check");

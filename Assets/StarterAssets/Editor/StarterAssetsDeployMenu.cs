@@ -13,7 +13,7 @@ namespace StarterAssets
     // This class needs to be a scriptable object to support dynamic determination of StarterAssets install path
     public partial class StarterAssetsDeployMenu : ScriptableObject
     {
-        public const string MenuRoot = "Tools/Starter Assets";
+        public const string MenuRoot = null;
 
         // prefab names
         private const string MainCameraPrefabName = "MainCamera";
@@ -33,7 +33,6 @@ namespace StarterAssets
         /// Deletes the scripting define set by the Package Checker.
         /// See Assets/Editor/PackageChecker/PackageChecker.cs for more information
         /// </summary>
-        [MenuItem(MenuRoot + "/Reinstall Dependencies", false)]
         static void ResetPackageChecker()
         {
             PackageChecker.RemovePackageCheckerScriptingDefine();
