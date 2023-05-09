@@ -329,13 +329,17 @@ public class HotbarDisplay : StaticInventoryDisplay
         }*/
 
         if (slot_CurrentIndex_ItemData != null &&
-            slot_CurrentIndex_ItemData.Seed == true && 
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) == true && 
-            interactor._LookingAtDirt == true)
+            slot_CurrentIndex_ItemData.Seed && 
+            interactor._LookingAtDirt)
         {
+            var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
+
+            if (dirt == null || !dirt.IsEmpty) return; // Si la tierra ya tiene algo plantado o no existe
+
+
             var inventory = player.GetComponent<InventoryHolder>();
 
-            if (slot_CurrentIndex_ItemData.UseItem() == true)
+            if (slot_CurrentIndex_ItemData.UseItem(dirt) == true)
             {
                 slots[_currentIndex].AssignedInventorySlot.SacarDeStack(1);
                 if (slots[_currentIndex].AssignedInventorySlot.StackSize == 0)

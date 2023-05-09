@@ -18,7 +18,7 @@ public class ToolItemData : InventoryItemData
             {
                 _gridGhost = GameObject.FindGameObjectWithTag("Player").GetComponent<GridGhost>();
 
-                if (_gridGhost.CheckDirt(_gridGhost.finalPosition, 0.1f))
+                if (_gridGhost.CheckDirt(_gridGhost.finalPosition, 0.1f) == null)
                 {
                     _gridGhost.PlantDirt();
                     return true;

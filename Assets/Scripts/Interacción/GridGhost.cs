@@ -84,7 +84,7 @@ public class GridGhost : MonoBehaviour
                     }
                     seedGhost.transform.position = finalPosition;
 
-                    if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && PauseMenu.GameIsPaused == false)
+                    /*if (hotbarDisplay._playerControls.Player.MouseWheel.ReadValue<float>() > 0.1f && PauseMenu.GameIsPaused == false)
                     {   
                         if (seedGhost != null)
                         {
@@ -111,7 +111,7 @@ public class GridGhost : MonoBehaviour
                             seedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
                             seedGhost.SetActive(true);
                         }
-                    }
+                    }*/
                 }
             }
         }
@@ -200,18 +200,20 @@ public class GridGhost : MonoBehaviour
         }
     }
 
-    public bool CheckDirt(Vector3 center, float radius)
+    public Dirt CheckDirt(Vector3 center, float radius)
     {
         int maxColliders = 5;
         Collider[] hitColliders = new Collider[maxColliders];
         int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerDirt);
-        if (numColliders > 1)
+        if (numColliders >= 1)
         {
-            return false;
+            var dirt = hitColliders[0].GetComponentInParent<Dirt>();
+            if (dirt != null) return dirt;
+            return null;
         }
         else
         {
-            return true;
+            return null;
         }
     }
 

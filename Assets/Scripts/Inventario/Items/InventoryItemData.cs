@@ -46,5 +46,11 @@ public class InventoryItemData : ScriptableObject
         Debug.Log($"Usando {Nombre}");
         return true;
     }
+
+    public virtual bool UseItem(Dirt dirt)
+    {
+        Debug.Log($"Usando {Nombre}");
+        return true;
+    }
 }
 

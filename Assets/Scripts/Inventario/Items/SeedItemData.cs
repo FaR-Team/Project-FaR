@@ -15,14 +15,12 @@ public class SeedItemData : InventoryItemData
         grid = FindObjectOfType<Grid>();
     }
 
-    public override bool UseItem()
+    public override bool UseItem(Dirt dirt)
     {
-        gridGhost = FindObjectOfType<GridGhost>();
-        grid = FindObjectOfType<Grid>();
-
         if(Seed == true)
         {
-            if (gridGhost.PlantNear(DirtPrefab) == true)
+            
+            if (dirt.GetCrop(DirtPrefab) == true)
             {
                 return true;
             }
@@ -31,7 +29,15 @@ public class SeedItemData : InventoryItemData
                 return false;
             }
         }
-        
+        else
+        {
+            return false;
+        }
+    }
+
+    public override bool UseItem()
+    {
+        gridGhost = FindObjectOfType<GridGhost>();
         if (TreeSeed == true)
         {
             if (gridGhost.PlantTreeNear(DirtPrefab) == true)
