@@ -25,7 +25,7 @@ public class DiscordController : MonoBehaviour
         activityManager.UpdateActivity(activity, (res) =>{
             if(res == Discord.Result.Ok)
             {
-                Debug.Log($"Estado de discord funcando");
+                //Debug.Log($"Estado de discord funcando");
             }
             else
             {
