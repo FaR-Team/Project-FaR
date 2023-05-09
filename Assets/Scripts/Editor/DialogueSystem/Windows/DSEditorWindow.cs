@@ -20,6 +20,7 @@ namespace DS.Windows
             AddStyles();
         }
 
+        #region Adición de Elementos
         private void AddGraphView()
         {
             DSGraphView graphView = new DSGraphView();
@@ -35,5 +36,6 @@ namespace DS.Windows
 
             rootVisualElement.styleSheets.Add(styleSheet);
         }
+        #endregion
     }
 }
