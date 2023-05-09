@@ -248,13 +248,14 @@ GameObject:
   - component: {fileID: 309865292926682575}
   - component: {fileID: 8374709813235811399}
   - component: {fileID: 322123785827299755}
+  - component: {fileID: 5282268456129793372}
   m_Layer: 7
   m_Name: CarrotSacable
   m_TagString: Carrot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &309865292926682575
 Transform:
   m_ObjectHideFlags: 0
@@ -284,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2e392cc5-0670-4357-95cb-88e900f14c5e
+  _ID: c9883990-be3b-434f-948d-792625a125ac
 --- !u!114 &322123785827299755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,6 +306,20 @@ MonoBehaviour:
   Tierra: {fileID: 0}
   tierraAnim: {fileID: 0}
   _prompt: {fileID: 0}
+--- !u!64 &5282268456129793372
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6845146257671445223}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2432090755550338912, guid: 9e54d6a30758cab419e6a0c8260a8520, type: 3}
 --- !u!1 &8717229598508645285
 GameObject:
   m_ObjectHideFlags: 0
@@ -509,7 +524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: aa228235-3031-4d0c-9e1a-baac461fe7d9
+  _ID: bb796e65-838f-4358-b02f-2a862d4bcff5
 --- !u!1 &9013842723512196748
 GameObject:
   m_ObjectHideFlags: 0
