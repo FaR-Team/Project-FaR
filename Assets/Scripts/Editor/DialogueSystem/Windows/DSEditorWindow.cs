@@ -5,6 +5,7 @@ using UnityEditor.UIElements;
 
 namespace DS.Windows
 {  
+    using Utilities;
     public class DSEditorWindow : EditorWindow
     {
         [MenuItem("FARUtils/Dialogos/Dialogue Graph")]
@@ -23,7 +24,7 @@ namespace DS.Windows
         #region Adición de Elementos
         private void AddGraphView()
         {
-            DSGraphView graphView = new DSGraphView();
+            DSGraphView graphView = new DSGraphView(this);
 
             graphView.StretchToParentSize();
 
@@ -32,9 +33,7 @@ namespace DS.Windows
 
         private void AddStyles()
         {
-            StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load("DialogueSystem/DSVariables.uss");
-
-            rootVisualElement.styleSheets.Add(styleSheet);
+            rootVisualElement.AddStyleSheets("DialogueSystem/DSVariables.uss");
         }
         #endregion
     }
