@@ -9,6 +9,8 @@ public class Dirt : MonoBehaviour
     public bool IsEmpty => _isEmpty;
 
     public GameObject currentCrop;
+    public SeedItemData currentCropData;
+
     void Start()
     {
         _isEmpty = true;
@@ -19,13 +21,13 @@ public class Dirt : MonoBehaviour
         
     }
 
-    public bool GetCrop(GameObject prefab)
+    public bool GetCrop(SeedItemData itemData)
     {
         _isEmpty = false;
-        GameObject instantiated = GameObject.Instantiate(prefab, transform.position, Quaternion.identity, transform);
+        GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, Quaternion.identity, transform);
         currentCrop = instantiated;
+        currentCropData = itemData;
 
         return (instantiated != null);
-
     }
 }

@@ -20,7 +20,7 @@ public class SeedItemData : InventoryItemData
         if(Seed == true)
         {
             
-            if (dirt.GetCrop(DirtPrefab) == true)
+            if (dirt.GetCrop(this) == true)
             {
                 return true;
             }
