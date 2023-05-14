@@ -1,9 +1,5 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Profiling;
 
 
 public class DirtConnectorNew : MonoBehaviour
@@ -38,7 +34,8 @@ public class DirtConnectorNew : MonoBehaviour
     }
 
     [SerializeField]
-    DirtInformation dirtInformation;
+    DirtInformation dirtInformation; //Almaceno las variables en una clase para poder nombrar cada material y textura.
+                                     //y no tener en el inspector cada mesh y material solo sin poder comprimirlos a la vista
 
     [Header("Booleanos")]
     public bool isSur = false;

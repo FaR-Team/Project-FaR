@@ -21,6 +21,7 @@ public class InventoryItemData : ScriptableObject
     public GameObject ItemPrefab;
 
     public GameObject DirtPrefabGhost = null;
+    public Mesh ghostMesh = null;
     public GameObject ToolGameObject = null;
 
     public bool Usable;

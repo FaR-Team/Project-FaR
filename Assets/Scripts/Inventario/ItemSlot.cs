@@ -15,12 +15,20 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
 
     public void ClearSlot() //Limpiar un Slot
     {
+        if(stackSize <= 0)
+        {
+            itemData = null;
+            _itemID = -1;
+            stackSize = -1;
+        }
+    }
+    public void ForcedClearSlot() //Fuerza la Limpieza de un Slot
+    {
         itemData = null;
         _itemID = -1;
         stackSize = -1;
     }
-
-     public void AssignItem(InventorySlot invSlot) //Asignar un item directamente a un slot
+    public void AssignItem(InventorySlot invSlot) //Asignar un item directamente a un slot
     {
         if (itemData == invSlot.ItemData)
         {

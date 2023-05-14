@@ -63,7 +63,7 @@ public class Interactor : MonoBehaviour
         else
         {
             _interactable = (_interactable != null) ? null : _interactable;
-
+            
 
            if (_interactionPromptUI.IsDisplayed) 
            {
