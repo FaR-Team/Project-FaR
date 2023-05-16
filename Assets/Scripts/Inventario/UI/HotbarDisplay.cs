@@ -30,6 +30,7 @@ public class HotbarDisplay : StaticInventoryDisplay
     private bool _isHolding = false;
     private bool _isHoldingCtrl = false;
 
+    Dirt dirtToTest;
 
     private void Awake()
     {
@@ -324,6 +325,30 @@ public class HotbarDisplay : StaticInventoryDisplay
         }
     }
 
+    private Vector3 previousFinalPosition;
+
+    public bool CanUseItem()
+    {
+        if (gridGhost.finalPosition != previousFinalPosition)
+        {
+            previousFinalPosition = gridGhost.finalPosition;
+            dirtToTest = gridGhost.CheckDirt(gridGhost.finalPosition, 0.2f);
+        }
+
+        if (dirtToTest == null)
+        {
+            return false;
+        }
+
+        if (!dirtToTest.IsEmpty)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
     private void UseItem(InputAction.CallbackContext obj)
     {
         if (GetItemData() == null) return;
@@ -360,12 +385,12 @@ public class HotbarDisplay : StaticInventoryDisplay
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
 
-            if (dirt == null || !dirt.IsEmpty) return; // Si la tierra ya tiene algo plantado o no existe
+            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
 
 
             //var inventory = player.GetComponent<InventoryHolder>();
 
-            if (GetItemData().UseItem(dirt) == true)
+            if (GetItemData().UseItem(dirtToTest) == true)
             {
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();

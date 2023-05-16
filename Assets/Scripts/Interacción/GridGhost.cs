@@ -69,19 +69,22 @@ public class GridGhost : MonoBehaviour
         * Si la semilla es cultivo y no estas mirando tierra O
         * Si la semilla es arbol y estas mirando a una tierra. 
         * Entonces desactiva la seed y no ejecuta el código. */
-
-        if (GetItemData() == null || GetItemData().Seed && !interactor._LookingAtDirt || GetItemData().TreeSeed && interactor._LookingAtDirt)
+        if (GetItemData() == null || GetItemData().Seed && !interactor._LookingAtDirt || GetItemData().TreeSeed && interactor._LookingAtDirt || GetItemData().IsHoe)
         {
             seedGhost.SetActive(false);
             return;
         }
-
+        
         RaycastHit hit;
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
 
         if (hit.collider == null) return; //Si el raycast no pega con NADA, entonces no ejecuta el código.
-
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
+        if (!hotbarDisplay.CanUseItem())
+        {
+            seedGhost.SetActive(false);
+            return;
+        }
         ActivateSeedGhost();
 
         //seedGhost se activa en la escena, se lo pone en la posicion adecuada y se le cambia la textura por la adecuada.
@@ -100,13 +103,20 @@ public class GridGhost : MonoBehaviour
 
     public Dirt CheckDirt(Vector3 center, float radius)
     {
+        print("SE EJECUTA CHECKDIRT");
         int maxColliders = 5;
         Collider[] hitColliders = new Collider[maxColliders];
         int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerDirt);
+
+
         if (numColliders >= 1)
         {
             var dirt = hitColliders[0].GetComponentInParent<Dirt>();
-            if (dirt != null) return dirt;
+            if (dirt != null)
+            {
+                return dirt;
+            }
+
             return null;
         }
         else
