@@ -222,7 +222,7 @@ public class HotbarDisplay : StaticInventoryDisplay
         }
 
         if((MouseWheelValue() > 0.1f || MouseWheelValue() < -0.1f) && 
-            physicsGun._grabbedRigidbody == null &&
+            physicsGun.isGrabbingObject == false &&
             PauseMenu.GameIsPaused == false &&
             PlayerInv.IsBuying == false &&
             IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)

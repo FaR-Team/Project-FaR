@@ -18,6 +18,8 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
     public GameObject               Energia;
 
     public Rigidbody               _grabbedRigidbody;
+    
+    public bool                     isGrabbingObject;
 
     private Transform               _grabbedTransform; 
 
@@ -238,6 +240,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                     _hitOffsetLocal                     = hit.transform.InverseTransformVector(hit.point - hit.transform.position);
                     _currentGrabDistance                = hit.distance; // Vector3.Distance(ray.origin, hit.point);
                     _grabbedTransform                   = _grabbedRigidbody.transform;
+                    isGrabbingObject = true;
                   
                     _grabbedRigidbody.interpolation     = RigidbodyInterpolation.Interpolate;
                     
@@ -496,6 +499,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         _grabbedRigidbody                           = null;
         _scrollWheelInput                           = _zeroVector3;
         _grabbedTransform                           = null;
+        StartCoroutine(WaitToSetIsGrabbing(0.1f, false));
         _userRotation                               = false;
         _RotacionSnap                               = false;
         StartPoint                                  = _zeroVector3;
@@ -504,5 +508,11 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         _justReleased                               = true;
 
         OnObjectGrabbed.Invoke(null);
+    }
+
+    IEnumerator WaitToSetIsGrabbing(float time, bool isGrabbing)
+    {
+        yield return new WaitForSeconds(time);
+        isGrabbingObject = isGrabbing;
     }
 }

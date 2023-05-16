@@ -148,7 +148,10 @@ public class PauseMenu : MonoBehaviour
 
     public void AshudaMabel()
     {
-        _cambiarEscena.LoadScene(0);
+        // Cambiar para que Tpee al SpawnPoint
+        player.GetComponent<CharacterController>().enabled = false;
+        player.transform.position = Vector3.zero;
+        player.GetComponent<CharacterController>().enabled = true;
     }
 
     public void GoToMenu()
