@@ -514,7 +514,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 2db45c50-dba2-4ade-bd32-a987cbafd627
+=======
+  _ID: f946dbb0-1159-44fb-a8d4-d92a5a421481
+>>>>>>> Stashed changes
 --- !u!135 &19113305
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -690,6 +694,43 @@ RectTransform:
   m_AnchoredPosition: {x: 137.88885, y: 88.44093}
   m_SizeDelta: {x: 202.3436, y: 145.2589}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!84 &21645912
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &22877806
 GameObject:
   m_ObjectHideFlags: 0
@@ -878,7 +919,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: e592a833-96fb-4b4d-abb5-6bccd0754c93
+=======
+  _ID: 7da8a3ca-5608-4135-a942-1b187354b12c
+>>>>>>> Stashed changes
 --- !u!1 &33444168
 GameObject:
   m_ObjectHideFlags: 0
@@ -1083,7 +1128,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 898a81bf-6a6b-4eb5-b915-48af1bbf1848
+=======
+  _ID: 80c0e0e4-74ef-43d0-ae30-4358e2167a54
+>>>>>>> Stashed changes
 --- !u!135 &51521945
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1739,7 +1788,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 06c245dc-0456-4419-b34c-e5b5cd39148e
+=======
+  _ID: adf19961-ca1f-4a40-bb08-5f41a7db6182
+>>>>>>> Stashed changes
 --- !u!135 &94746468
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3589,7 +3642,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: b2d58cc8-c169-4b36-afe4-ff13d237ce32
+=======
+  _ID: e1340d92-2d07-475c-b62f-5289258acd0e
+>>>>>>> Stashed changes
 --- !u!135 &158623780
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4008,7 +4065,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: e0ea2dc1-bddf-4a07-aec5-8d662dcec11e
+=======
+  _ID: 2cd37a58-978f-4ff3-bd29-e6d3652a1107
+>>>>>>> Stashed changes
 --- !u!135 &191020974
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5085,7 +5146,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 675e75da-0230-4fbe-af54-6b26402ed936
+=======
+  _ID: 9ce524d9-629d-46e0-adcd-45e84357c0be
+>>>>>>> Stashed changes
 --- !u!135 &230041535
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6604,7 +6669,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 713242433}
   m_Direction: 2
   m_Value: 1.0000036
-  m_Size: 0.5901303
+  m_Size: 0.59013045
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7145,7 +7210,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 1be80c3f-7f3f-4d06-94e1-cfbee6774c8f
+=======
+  _ID: 0cf13596-3edd-4952-af1d-f3f097c760a6
+>>>>>>> Stashed changes
 --- !u!135 &311896379
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9014,7 +9083,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 156db85a-72ae-4e06-8af0-072c432b9a2c
+=======
+  _ID: bbf666ad-0c31-46cb-a824-a710a9777f15
+>>>>>>> Stashed changes
 --- !u!135 &392115135
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9205,7 +9278,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 5c993ea5-672f-45d6-95d8-2924670258d9
+=======
+  _ID: 8a07106b-8048-449a-b967-ffda8ce4b699
+>>>>>>> Stashed changes
 --- !u!135 &395008430
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -10617,7 +10694,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 3a6a7456-bb2e-4747-a63e-0a2a9b31ca0f
+=======
+  _ID: 63cdbb7e-9f94-4ede-83ba-a8584bff9165
+>>>>>>> Stashed changes
 --- !u!135 &455394373
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11612,7 +11693,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 94f4e5c2-3ad5-4441-985f-38d1577d1c6f
+=======
+  _ID: 41892691-2fff-4fc4-a1a5-1d2aa26647d0
+>>>>>>> Stashed changes
 --- !u!135 &503767084
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12510,7 +12595,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: fd4411e9-4f17-43c9-a05d-5d286c7ceb61
+=======
+  _ID: 369b1d4d-01ab-4363-8cf8-9695d08f68d6
+>>>>>>> Stashed changes
 --- !u!135 &519333710
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13556,7 +13645,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 57de1275-7db9-4d21-9b27-efefd901250f
+=======
+  _ID: d4141f5e-67c0-42f7-a1bf-21fa13591924
+>>>>>>> Stashed changes
 --- !u!135 &566191463
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13866,7 +13959,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: a15ea9ae-8f5b-4617-bd31-7973e2986266
+=======
+  _ID: 334a3c3b-7797-4ad9-af3c-b93f2b413077
+>>>>>>> Stashed changes
 --- !u!1 &582818808
 GameObject:
   m_ObjectHideFlags: 0
@@ -14527,7 +14624,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: d70f35f3-d742-4191-b08a-678fd69f8f9b
+=======
+  _ID: 8d055cb1-ed21-4861-abc9-f86a5b9855ec
+>>>>>>> Stashed changes
 --- !u!135 &597934106
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -14718,7 +14819,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: b2519339-cc97-4aa3-aacb-1e8814d75be4
+=======
+  _ID: e968b55c-2f11-4b69-9707-bf58d8f613ac
+>>>>>>> Stashed changes
 --- !u!135 &600552587
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -16204,7 +16309,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: bb11edf1-8b1d-4a16-8ddd-d26ec7b484ac
+=======
+  _ID: 6ad289b8-2f5f-422a-92cf-1f48c68f1e9c
+>>>>>>> Stashed changes
 --- !u!135 &668930975
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -16448,7 +16557,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 56b0b791-9215-495e-bf47-85a76dd3a864
+=======
+  _ID: 02c90011-1435-4ce2-9797-a766194ba9f6
+>>>>>>> Stashed changes
 --- !u!135 &673613049
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -16610,7 +16723,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 5ba0bcd2-d7ec-403f-91ef-a3518466420a
+=======
+  _ID: 4fe8f1b3-0ad8-491b-9769-0a9c7e0ab127
+>>>>>>> Stashed changes
 --- !u!135 &673780430
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17046,7 +17163,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: ce50895f-bff1-45b4-a557-1f4e07903a41
+=======
+  _ID: 9d4f1fb8-0bf9-4d28-8d99-cf87da91841f
+>>>>>>> Stashed changes
 --- !u!135 &680271244
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17498,7 +17619,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 8dd37cd1-a06a-4a09-9a5a-e7a5fb83b077
+=======
+  _ID: cad5a3a0-eefa-4d48-91eb-7b836b3e6a8a
+>>>>>>> Stashed changes
 --- !u!135 &697147236
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17795,7 +17920,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 8d6f07de-c218-4e86-8745-7620a02ef988
+=======
+  _ID: 7de9e57a-b5af-42b1-a5d5-86ebe8b59aba
+>>>>>>> Stashed changes
 --- !u!135 &697517144
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -18656,7 +18785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f97c3b4a-2633-4e9f-83b6-130f0598f196
+=======
+  _ID: 5d636be7-834d-4720-9412-9dd7fc18f68c
+>>>>>>> Stashed changes
 --- !u!135 &740769723
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19041,7 +19174,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: ce92afdf-8a47-447f-95fe-54a4d22e49b8
+=======
+  _ID: 8027bb40-9aa6-4f74-9b5d-982f6eb0366f
+>>>>>>> Stashed changes
 --- !u!135 &743662524
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19642,7 +19779,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: df547cd1-cad4-46d7-a585-af959b7dac38
+=======
+  _ID: 7156d5b2-c512-4d6b-b3ca-738d765d0c64
+>>>>>>> Stashed changes
 --- !u!1 &765603200
 GameObject:
   m_ObjectHideFlags: 0
@@ -23588,7 +23729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: e43d77da-9389-4e7d-801b-ad4b3c279a75
+=======
+  _ID: 0d3fb8d5-fa78-46f7-bac3-8eda48be4c10
+>>>>>>> Stashed changes
 --- !u!135 &899126876
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24065,7 +24210,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: d8c15934-2800-40b8-b627-34008fa09621
+=======
+  _ID: f95058d7-f600-4aa3-a7aa-2ee7283199c3
+>>>>>>> Stashed changes
 --- !u!1 &909435628
 GameObject:
   m_ObjectHideFlags: 0
@@ -24474,7 +24623,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f1ee01b9-e28b-4a51-a0da-2ab99f23ae4a
+=======
+  _ID: e086bd82-1e39-4ac6-aa50-693271707282
+>>>>>>> Stashed changes
 --- !u!135 &919560703
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24636,7 +24789,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 89d28a3f-082a-4f7b-887a-2d61a628e81b
+=======
+  _ID: 1d4f725c-a33f-45ba-94ae-a30be9e101e6
+>>>>>>> Stashed changes
 --- !u!135 &922512804
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25115,7 +25272,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 7338abae-20c2-4e52-93cc-d6aa409150ff
+=======
+  _ID: 972f7927-b418-4093-92f8-f73600cc2a38
+>>>>>>> Stashed changes
 --- !u!135 &944722294
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25209,6 +25370,43 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!84 &945497790
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &945731520
 GameObject:
   m_ObjectHideFlags: 0
@@ -25727,7 +25925,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 70dfde36-8b11-418d-b516-3436c759d5d3
+=======
+  _ID: accc238a-683a-43ff-8167-ed086e17c277
+>>>>>>> Stashed changes
 --- !u!135 &962659953
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25952,7 +26154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f4ed6324-938f-47e8-93c0-977bf8f929cc
+=======
+  _ID: 86b107bd-5a2f-461c-bf86-3a7b421122cf
+>>>>>>> Stashed changes
 --- !u!135 &975689053
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26063,7 +26269,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 1368549b-8dc5-47e7-a428-d6917d9decc2
+=======
+  _ID: a3e7c191-1b8f-468f-8c16-8fa7d4918d0c
+>>>>>>> Stashed changes
 --- !u!135 &985711501
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -26878,7 +27088,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 5e2cc59e-ba44-4ab5-9cdf-18839f84f731
+=======
+  _ID: 3c6cbbd2-d206-4b67-ab14-3ec23ea614b3
+>>>>>>> Stashed changes
 --- !u!114 &1031632556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27140,7 +27354,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: c409365a-ccd7-467e-a899-d47c79a29591
+=======
+  _ID: 44f5674d-7707-452a-8550-ee08a8f25d33
+>>>>>>> Stashed changes
 --- !u!135 &1045142919
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -27634,7 +27852,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 3943c540-723e-436a-bfe6-efbac8bfb5bd
+=======
+  _ID: f8760656-7fad-48d9-87d3-8df05b4419e3
+>>>>>>> Stashed changes
 --- !u!135 &1074747722
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -28429,7 +28651,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 7409ffd8-8c67-4af9-8a04-4c0ba9b76dd6
+=======
+  _ID: ef3d4439-3a1d-46f8-9178-9a24211654dd
+>>>>>>> Stashed changes
 --- !u!135 &1101712102
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -28760,7 +28986,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: a7ba0c82-b3b4-4965-9d5b-05e8a32e1946
+=======
+  _ID: c43add0e-88c8-49ef-a993-c9bf8b5acbf4
+>>>>>>> Stashed changes
 --- !u!135 &1140598245
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -29095,7 +29325,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 1a642a5e-3755-4d17-9c87-bf54505d8149
+=======
+  _ID: 0d8c5e0c-597e-4111-a961-a5345b9ddcc4
+>>>>>>> Stashed changes
 --- !u!135 &1147312526
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -29628,7 +29862,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 0aea7699-ba1a-4e62-87f6-f09953cd6728
+=======
+  _ID: 40c30de0-4015-47d8-acc6-a3092c8e7ef0
+>>>>>>> Stashed changes
 --- !u!1 &1180549844
 GameObject:
   m_ObjectHideFlags: 0
@@ -37008,7 +37246,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: bfeec2cf-22dc-4e6b-b2ca-50898af544f5
+=======
+  _ID: eac6acdc-73e5-418d-9e76-3760f4c93c4d
+>>>>>>> Stashed changes
 --- !u!135 &1283226848
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -38452,7 +38694,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f8ee6aef-8d61-4c99-a9eb-e2e3c0f7f9e2
+=======
+  _ID: f7239af8-23b1-452a-ab6f-0f388803eeb9
+>>>>>>> Stashed changes
 --- !u!135 &1328554946
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -39186,7 +39432,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: e2fc4bc9-6e6e-4702-9950-3e032b773b63
+=======
+  _ID: 7e32aef8-d088-401e-beee-d0fe7c2ea96e
+>>>>>>> Stashed changes
 --- !u!135 &1354490474
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -39268,7 +39518,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: c1ca9eea-8076-46a8-8388-a855f0929e3e
+=======
+  _ID: 83bf6ea7-8cbd-441b-9b42-0dddf96954e1
+>>>>>>> Stashed changes
 --- !u!135 &1356942109
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -39663,7 +39917,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f9b1f19c-590d-4fde-a466-69ef717c9c16
+=======
+  _ID: af0d7bde-becf-4b02-a018-5924a9912207
+>>>>>>> Stashed changes
 --- !u!135 &1365277291
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -40514,7 +40772,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: -0.2}
-  m_ConnectedAnchor: {x: 0.00080011913, y: 0.34024218}
+  m_ConnectedAnchor: {x: 0.00079914636, y: 0.3402412}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -40538,7 +40796,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.35}
-  m_ConnectedAnchor: {x: -0.9102268, y: -0.04382286}
+  m_ConnectedAnchor: {x: -0.91022694, y: -0.04382284}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -41411,7 +41669,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f22a73cc-f0ce-4b08-a3a6-e9d9272f5141
+=======
+  _ID: e80dfb44-3841-48a9-b059-7404598ed885
+>>>>>>> Stashed changes
 --- !u!135 &1444461884
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -41928,7 +42190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 631aeefc-5583-4e09-99fa-231d6523f435
+=======
+  _ID: b17ca586-21fc-4205-86df-1147b18bc76d
+>>>>>>> Stashed changes
 --- !u!135 &1449353970
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -42341,7 +42607,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 838c0b9e-ca62-4ef0-883d-9f7ff72bfc4b
+=======
+  _ID: d9985b9e-ca9f-49db-9f75-6a2de8211153
+>>>>>>> Stashed changes
 --- !u!135 &1462285639
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -42623,7 +42893,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: ef94ce70-67c2-4f83-8251-e353773d89b9
+=======
+  _ID: ae77f061-fde2-48c7-ae72-0ec7f68eb03c
+>>>>>>> Stashed changes
 --- !u!135 &1472420482
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -43536,7 +43810,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 5cca4d29-ca30-4487-ad09-6d6a30dd8b4b
+=======
+  _ID: 1a6f4818-0c5d-4d13-b39f-d647bb3c62e7
+>>>>>>> Stashed changes
 --- !u!135 &1500583973
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -43727,7 +44005,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 89314989-68de-4daa-ad25-6873c0cd8694
+=======
+  _ID: 15d32a2b-38c4-4fde-a6e7-772e1dc83f85
+>>>>>>> Stashed changes
 --- !u!135 &1501034883
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -43906,7 +44188,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f5b47137-03a7-4203-a755-d27ae82e9ddc
+=======
+  _ID: 500ef8ab-389e-4b7c-85b1-e10cdf86c298
+>>>>>>> Stashed changes
 --- !u!135 &1515344311
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -46139,7 +46425,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 7a484dcb-6e8c-4c5b-bd72-15e7a1568c19
+=======
+  _ID: 53cff758-6f83-45d9-a5ee-fb75114c823e
+>>>>>>> Stashed changes
 --- !u!135 &1634151498
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -47539,7 +47829,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 445b5b08-f2f7-4494-baa7-fdfa5184fb23
+=======
+  _ID: 08778268-7649-4c41-ba53-8d7844ccb2d3
+>>>>>>> Stashed changes
 --- !u!135 &1694192374
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -48818,7 +49112,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: be27079c-e502-4a0e-bd03-c9df66e38baf
+=======
+  _ID: 55f3c668-42c4-4f91-8d6f-43fb19282d01
+>>>>>>> Stashed changes
 --- !u!135 &1764844113
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -49653,7 +49951,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 373fa2b2-213e-4e2c-92e5-da9b05928f4a
+=======
+  _ID: a03f8637-fd80-4c51-b926-593982016fea
+>>>>>>> Stashed changes
 --- !u!1001 &1816910440
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -50226,7 +50528,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 6b89eb66-d1b6-456f-b540-8d9814e2d6bd
+=======
+  _ID: af70928c-308d-4f14-a238-e8a2d415e5f1
+>>>>>>> Stashed changes
 --- !u!135 &1834423181
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -51937,7 +52243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: e830c6fd-c943-46d7-8a18-25f2500baae9
+=======
+  _ID: f0d4b00c-60fb-41ce-b242-1e0a7600e57f
+>>>>>>> Stashed changes
 --- !u!135 &1900527586
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -52431,7 +52741,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: ad702138-b55d-4662-bd2d-049b6bd9ce1a
+=======
+  _ID: 954b14c3-9998-45cb-b857-e3b7217bff84
+>>>>>>> Stashed changes
 --- !u!135 &1935516453
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -53561,7 +53875,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 5486a155-e3ea-4e5e-ad3e-352ad56f5147
+=======
+  _ID: 940d395c-5733-469e-bc78-d1b8e25a658b
+>>>>>>> Stashed changes
 --- !u!136 &2003813776
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -53927,7 +54245,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 891613b4-9406-4edb-b5bc-fbdd1ef673d8
+=======
+  _ID: eb7de76b-e817-4fe1-acaa-95835981c7c3
+>>>>>>> Stashed changes
 --- !u!135 &2024921301
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -54118,7 +54440,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: f24eb2e3-fe91-447a-b2f4-b7d45e23515b
+=======
+  _ID: 365c037f-6f0a-4fdb-8a27-d0f4c251e04a
+>>>>>>> Stashed changes
 --- !u!135 &2028878945
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -54539,7 +54865,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: e2acadba-a85e-4ba7-b612-5d23354993af
+=======
+  _ID: c62ef968-f848-4293-9ec2-9ca88d6baf94
+>>>>>>> Stashed changes
 --- !u!135 &2046306447
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -55645,7 +55975,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 61bf3a7e-3748-4e95-ae04-676b71802cb7
+=======
+  _ID: 7b487d64-3fed-4aed-9d9c-be1815ecc0ae
+>>>>>>> Stashed changes
 --- !u!1 &2081880099
 GameObject:
   m_ObjectHideFlags: 0
@@ -56728,7 +57062,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 27c613f2-70a2-4552-b22d-49033125e079
+=======
+  _ID: 98080455-d48a-4f23-9239-27b449181938
+>>>>>>> Stashed changes
 --- !u!135 &2113716104
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -58073,7 +58411,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 7b991193-435f-42e0-a91e-8d2fa3b2d96e
+=======
+  _ID: 1683711a-4dda-4d17-9fbb-81faf169f53d
+>>>>>>> Stashed changes
 --- !u!1 &405792400871233547
 GameObject:
   m_ObjectHideFlags: 0
@@ -62487,7 +62829,11 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
+<<<<<<< Updated upstream
   m_TargetTexture: {fileID: 656334664}
+=======
+  m_TargetTexture: {fileID: 21645912}
+>>>>>>> Stashed changes
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -62674,7 +63020,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 0bc30f5c-821c-4e08-9265-1fa92371af9e
+=======
+  _ID: e0b70bb7-3095-4edb-bdd3-7163350b58f8
+>>>>>>> Stashed changes
 --- !u!114 &5385197374305017137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62853,8 +63203,13 @@ MonoBehaviour:
   sourceCamera: {fileID: 1693242684}
   outlineCamera: {fileID: 5385197372925217791}
   outlineShaderMaterial: {fileID: 0}
+<<<<<<< Updated upstream
   renderTexture: {fileID: 656334664}
   extraRenderTexture: {fileID: 1683234352}
+=======
+  renderTexture: {fileID: 21645912}
+  extraRenderTexture: {fileID: 945497790}
+>>>>>>> Stashed changes
 --- !u!114 &5385197374720392772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63840,7 +64195,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: 62109d8d-2727-41b0-8497-5e079f7ad391
+=======
+  _ID: e81c6cef-22de-4398-82a0-c084d5755aa9
+>>>>>>> Stashed changes
 --- !u!4 &6562612095294129122
 Transform:
   m_ObjectHideFlags: 0
@@ -65010,7 +65369,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: a73bdef2-cdf0-4080-9caa-7f683b2f253b
+=======
+  _ID: 9e84af47-51ad-44a4-a2bd-9d47e183f9ef
+>>>>>>> Stashed changes
 --- !u!135 &8229816107142597961
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -65176,7 +65539,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< Updated upstream
   _ID: b51c85fc-65e8-4311-9399-32e7da6a9454
+=======
+  _ID: c9f522f7-1a90-4228-a6a6-bb6f4e9bc699
+>>>>>>> Stashed changes
 --- !u!114 &8634100670860066656
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -24,7 +24,7 @@ public class Carrot : MonoBehaviour, IInteractable
     private void Start() {
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
         Energia = GameObject.FindWithTag("Energia");
-        Tierra = transform.root.GetChild(0).gameObject;
+        Tierra = transform.root.gameObject;
         //InteractionPromptUI._uiPanel =  InteractionPromptUI._Panel;
     }
 
@@ -41,7 +41,7 @@ public class Carrot : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        Tierra = transform.root.GetChild(0).gameObject;
+        Tierra = transform.root.gameObject;
         if (JustInter == false)
         {
             JustInter = true;
@@ -60,9 +60,9 @@ public class Carrot : MonoBehaviour, IInteractable
 
                 for (int i = 0; i < Tierra.gameObject.transform.childCount; i++)
                 {
-                    if(Tierra.gameObject.transform.GetChild(i).gameObject.activeSelf == true && Tierra.gameObject.transform.GetChild(i).gameObject.GetComponent<Animation>() != null)
+                    if(Tierra.gameObject.activeSelf == true && Tierra.gameObject.GetComponent<Animation>() != null)
                     {
-                        tierraAnim = Tierra.gameObject.transform.GetChild(i);
+                        tierraAnim = Tierra.gameObject.transform;
                     }
                 }
 
