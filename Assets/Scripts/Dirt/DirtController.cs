@@ -40,7 +40,6 @@ public class DirtController : MonoBehaviour
     {
         return Collider.GetComponent<DirtConnectorNew>();
     }
-    
     void OnTriggerExit(Collider other)
     {
         if(other.gameObject.tag != "Violeta" || other.gameObject.transform.IsChildOf(transform)) return;

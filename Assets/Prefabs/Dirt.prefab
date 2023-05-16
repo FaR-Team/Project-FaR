@@ -168,7 +168,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8694592844836477229}
   - component: {fileID: 1883870272503481524}
-  - component: {fileID: 8505228491896051805}
   m_Layer: 0
   m_Name: Dirt
   m_TagString: Untagged
@@ -205,29 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1287e3225e7ffff41b48527b0f9e7a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< Updated upstream
   currentCrop: {fileID: 0}
   currentCropData: {fileID: 0}
-=======
-  gridGhost: {fileID: 0}
-  currentCrop: {fileID: 0}
---- !u!111 &8505228491896051805
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884601831458203130}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 3ec6845fc6473ac438d3c355cd1a63d7, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 3ec6845fc6473ac438d3c355cd1a63d7, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
->>>>>>> Stashed changes
 --- !u!1 &5765180190978009047
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f50befd0-abe9-44c7-a9c3-d4e0f6979cf8
+  _ID: b34d318b-7488-4dce-a2d0-52c7bbb029c5
 --- !u!1 &7508442044756205147
 GameObject:
   m_ObjectHideFlags: 0

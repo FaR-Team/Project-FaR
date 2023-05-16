@@ -72,43 +72,8 @@ public class GridGhost : MonoBehaviour
 
         if (GetItemData() == null || GetItemData().Seed && !interactor._LookingAtDirt || GetItemData().TreeSeed && interactor._LookingAtDirt)
         {
-<<<<<<< Updated upstream
             seedGhost.SetActive(false);
             return;
-=======
-            if (GetItemData().DirtPrefabGhost != null)
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                #if UNITY_EDITOR
-                    Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.green, 0.01f);
-                #endif
-
-                GameObject DirtPrefabGhost = GetItemData().DirtPrefabGhost.gameObject;
-                    
-                if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerMask))
-                {
-                    finalPosition = grid.GetNearestPointOnGrid(hit.point);
-
-                    if (!CheckCrop(finalPosition, 1)) return;
-
-                    if (seedGhost == null)
-                    {   
-                        seedGhost = GameObject.Instantiate(DirtPrefabGhost, finalPosition, Quaternion.identity);
-                        seedGhost.SetActive(true);
-                    }
-                    seedGhost.transform.position = finalPosition;
-                }
-            }
-        }
-        else
-        {
-            if (seedGhost != null)
-            {
-                seedGhost.SetActive(false);
-                Destroy(seedGhost);
-            }
->>>>>>> Stashed changes
         }
 
         RaycastHit hit;
@@ -150,23 +115,6 @@ public class GridGhost : MonoBehaviour
         }
     }
 
-    public Dirt[] CheckDirtArray(Vector3 center, float radius)
-    {
-        int maxColliders = 5;
-        Collider[] hitColliders = new Collider[maxColliders];
-        Dirt[] dirts = new Dirt[maxColliders];
-        int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerDirt);
-        if (numColliders >= 1)
-        {
-            for(int i = 0; i < hitColliders.Length; i++)
-            {
-                dirts[i] = hitColliders[i].GetComponentInParent<Dirt>();
-            }
-            return dirts;
-        }
-        else {return null;}
-    }
-
     public bool CheckCrop(Vector3 center, float radius)
     {
         int maxColliders = 5;
@@ -194,15 +142,8 @@ public class GridGhost : MonoBehaviour
 
         if (hit.collider == null) return;
 
-<<<<<<< Updated upstream
         PlaceDirtNear(hit.point);
         
-=======
-        if (Physics.Raycast(ray, out hit, _maxGrabDistance, layerMask))
-        {
-            PlaceDirtNear(hit.point);
-        }
->>>>>>> Stashed changes
     }
 
     public bool PlantNear(GameObject DirtPrefab)
