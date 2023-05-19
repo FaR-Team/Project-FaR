@@ -2,16 +2,23 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 4dFZk9fF_400x400_-_copia
-  m_Shader: {fileID: 4800000, guid: da7dfe14fd3973541a3fe033f5c0188a, type: 3}
-  m_ShaderKeywords: _MK_ALBEDO_MAP _MK_ARTISTIC_PROJECTION_SCREEN_SPACE _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
-    _MK_LIGHT_CEL _MK_OUTLINE_HULL_CLIP _MK_SPECULAR_ISOTROPIC _MK_VERTEX_ANIMATION_PULSE
-    _MK_WRAPPED_DIFFUSE
+  m_Shader: {fileID: 4800000, guid: 399c0f31dd38d8c4994f54d39305e980, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _MK_ALBEDO_MAP
+  - _MK_ARTISTIC_PROJECTION_SCREEN_SPACE
+  - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
+  - _MK_LIGHT_CEL
+  - _MK_OUTLINE_HULL_CLIP
+  - _MK_SPECULAR_ISOTROPIC
+  - _MK_VERTEX_ANIMATION_PULSE
+  - _MK_WRAPPED_DIFFUSE
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -228,6 +235,7 @@ Material:
     - _CameraFade: 0
     - _CameraFadeFarDistance: 2
     - _CameraFadeNearDistance: 1
+    - _CelShadingBlurWidth: 0.2
     - _ColorBlend: 0
     - _ColorGrading: 0
     - _Compa: 4

@@ -1,11 +1,11 @@
-Shader "FaRTeam/WWShader" {
+Shader "FaRTeam/FaRMainShader" {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1) //Color multiplicado a la textura
 		_MainTex("Textura", 2D) = "white" {} //Textura
 		_CelShadingBlurWidth("Difuminado del Cell Shading", Range(0,2)) = 0.2 //Difuminado entre umbrales
 	}
 		SubShader{
-		Tags{ "RenderType" = "Opaque" }
+		Tags{ "RenderType" = "Cutout"}
 		LOD 200
 
 		CGPROGRAM
