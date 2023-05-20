@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: defaultMat 1
-  m_Shader: {fileID: 4800000, guid: 07ae098e639855e4aad15ec88cebb1a1, type: 3}
+  m_Name: defaultMat 2
+  m_Shader: {fileID: 4800000, guid: 8f05b708f6a8d4f498925ce7c4788512, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords:
   - _ALPHATEST_ON
@@ -116,10 +116,6 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _Saturation: 0
-    - _ShakeBending: 0
-    - _ShakeDisplacement: 0.136
-    - _ShakeTime: 1
-    - _ShakeWindspeed: 0.045
     - _SmoothnessTextureChannel: 0
     - _Source: 0
     - _SpecularHighlights: 1
