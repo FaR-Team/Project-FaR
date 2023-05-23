@@ -278,31 +278,8 @@ public class HotbarDisplay : StaticInventoryDisplay
             hoe.SetActive(false);
             hand.SetActive(true);
         }
-
-
     }
-    /*private void FixedUpdate()
-    {
-        if (_isHoldingCtrl && _isHolding && GetItemData().IsLookingAtStore)
-        {
-            if (GetItemData() != null &&
-                GetItemData().Sellable == true &&
-                GetItemData().Seed == false &&
-                GetItemData().Usable == true)
-            {
-                var inventory = player.GetComponent<InventoryHolder>();
-
-                GetItemData().UseItem();
-                GetAssignedInventorySlot().SacarDeStack(GetAssignedInventorySlot().StackSize);
-                if (GetAssignedInventorySlot().StackSize == 0)
-                {
-                    GetAssignedInventorySlot().ClearSlot();
-                }
-                slotCurrentIndex().UpdateUISlot();
-            }
-            Debug.Log(Time.deltaTime);
-        }
-    }*/
+    
 
     private void Holdear()
     {
@@ -354,11 +331,11 @@ public class HotbarDisplay : StaticInventoryDisplay
         if (GetItemData() == null) return;
         
         
-        if (
-            GetItemData().Usable == true &&
+        if (GetItemData().Usable == true &&
             GetItemData().Seed == false &&
             GetItemData().Sellable == false &&
             GetItemData().TreeSeed == false)
+            //La música de relee es una poronga
 
         { GetItemData().UseItem(); }
 
@@ -379,8 +356,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             slotCurrentIndex().UpdateUISlot();
         }*/
 
-        if (
-            GetItemData().Seed && 
+        if (GetItemData().Seed && 
             interactor._LookingAtDirt)
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);

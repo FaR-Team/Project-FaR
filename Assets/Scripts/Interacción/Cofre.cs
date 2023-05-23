@@ -52,6 +52,11 @@ public class Cofre : InventoryHolder, IInteractable
         interactSuccessful = true;
     }
 
+    public void InteractOut()
+    {
+        Debug.Log("InteractOut");
+    }
+
     public void EndInteraction()
     {
         Debug.Log("Terminando Interacción con Cofre");

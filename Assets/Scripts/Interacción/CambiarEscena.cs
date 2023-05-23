@@ -20,6 +20,11 @@ public class CambiarEscena : MonoBehaviour, IInteractable
         interactSuccessful = true;
     }
 
+    public void InteractOut()
+    {
+        Debug.Log(null);
+    }
+
     public void LoadScene(int sceneID)
     {
         StartCoroutine(LoadSceneAsync(sceneID));

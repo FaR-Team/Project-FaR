@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridGhost : MonoBehaviour
 {
+    public static GridGhost instance { get; private set; }
     [SerializeField] private Interactor interactor;
     public HotbarDisplay hotbarDisplay;
     public GameObject hoeGhost, seedGhost;
@@ -27,6 +28,10 @@ public class GridGhost : MonoBehaviour
     void Start()
     {
         grid = FindObjectOfType<Grid>();
+        if (instance != this || instance == null)
+        {
+            instance = this;
+        } 
     }
     private InventoryItemData GetItemData()
     {
@@ -124,6 +129,7 @@ public class GridGhost : MonoBehaviour
             return null;
         }
     }
+
 
     public bool CheckCrop(Vector3 center, float radius)
     {

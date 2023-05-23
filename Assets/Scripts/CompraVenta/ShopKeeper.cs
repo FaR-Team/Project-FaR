@@ -78,6 +78,11 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         interactionSuccessful = true;
     }
 
+    public void InteractOut()
+    {
+        Debug.Log(null);
+    }
+
     public void EndInteraction()
     {
         

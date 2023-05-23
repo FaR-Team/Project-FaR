@@ -15,25 +15,30 @@ public class Carrot : MonoBehaviour, IInteractable
     public Transform tierraAnim;
 
     private bool JustInter;
+    public bool hasInteracted = false;
 
-    [SerializeField] private GameObject _prompt; 
-    
+    [SerializeField] private GameObject _prompt;
+
     public GameObject InteractionPrompt => _prompt;
 
 
-    private void Start() {
+    private void Start()
+    {
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
         Energia = GameObject.FindWithTag("Energia");
         Tierra = transform.root.GetChild(0).gameObject;
         //InteractionPromptUI._uiPanel =  InteractionPromptUI._Panel;
     }
 
-    public void Interact(Interactor interactor,  out bool interactSuccessful)
+    public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        if (Energia.GetComponent<Energía>().EnergiaActual >= 1){
+        if (Energia.GetComponent<Energía>().EnergiaActual >= 1)
+        {
             InteractOut();
             interactSuccessful = true;
-        }else{
+        }
+        else
+        {
             interactSuccessful = true;
             return;
         }
@@ -42,53 +47,58 @@ public class Carrot : MonoBehaviour, IInteractable
     public void InteractOut()
     {
         Tierra = transform.root.GetChild(0).gameObject;
-        if (JustInter == false)
+        JustInteracted();
+    }
+
+    private void JustInteracted()
+    {
+        Energía energia = Energia.GetComponent<Energía>(); 
+
+        if (JustInter || energia.EnergiaActual < 1) return;
+
+        JustInter = true;
+
+        if (energia._ContadorActivo) energia.timer = 5;
+
+        else
         {
-            JustInter = true;
-            if (Energia.GetComponent<Energía>().EnergiaActual >= 1){
-                if (Energia.GetComponent<Energía>()._ContadorActivo == false)
-                {
-                    Energia.GetComponent<Animation>().Play("Entrar uwuw");
-                    Energia.GetComponent<Energía>()._ContadorActivo = true;
-                    Energia.GetComponent<Energía>().timer = 5;
-                    Energia.GetComponent<Energía>()._yaAnimo = false;
-                }
-                else if (Energia.GetComponent<Energía>()._ContadorActivo == true)
-                {
-                    Energia.GetComponent<Energía>().timer = 5;
-                }
+            Energia.GetComponent<Animation>().Play("Entrar uwuw");
+            
+            energia._ContadorActivo = true;
+            energia.timer = 5;
+            energia._yaAnimo = false;
+        }
 
-                for (int i = 0; i < Tierra.gameObject.transform.childCount; i++)
-                {
-                    if(Tierra.gameObject.transform.GetChild(i).gameObject.activeSelf == true && Tierra.gameObject.transform.GetChild(i).gameObject.GetComponent<Animation>() != null)
-                    {
-                        tierraAnim = Tierra.gameObject.transform.GetChild(i);
-                    }
-                }
-
-                CropOut.gameObject.AddComponent<Outline>();
-                if (CropParent.GetComponent<Animation>() != null)
-                {
-                    CropParent.GetComponent<Animation>().clip = anim;
-                    CropParent.GetComponent<Animation>().Play();
-                }
-
-                if (tierraAnim != null)
-                {
-                    tierraAnim.gameObject.GetComponent<Animation>().Play();
-                }
-
-
-                foreach(Transform t in CropParent.transform)
-                {
-                    t.gameObject.layer = 0;
-                }
-                CropParent.layer = 0;
-                Energia.GetComponent<Energía>().EnergiaActual -= 1;
-                Energia.GetComponent<Energía>().UpdateEnergy();
-                StartCoroutine(Wait());
+        for (int i = 0; i < Tierra.gameObject.transform.childCount; i++)
+        {
+            if (Tierra.gameObject.transform.GetChild(i).gameObject.activeSelf &&
+            Tierra.gameObject.transform.GetChild(i).gameObject.GetComponent<Animation>() != null)
+            {
+                tierraAnim = Tierra.gameObject.transform.GetChild(i);
             }
         }
+
+        CropOut.gameObject.AddComponent<Outline>();
+        if (CropParent.GetComponent<Animation>() != null)
+        {
+            CropParent.GetComponent<Animation>().clip = anim;
+            CropParent.GetComponent<Animation>().Play();
+        }
+
+        if (tierraAnim != null)
+        {
+            tierraAnim.gameObject.GetComponent<Animation>().Play();
+        }
+
+
+        foreach (Transform transform in CropParent.transform)
+        {
+            transform.gameObject.layer = 0;
+        }
+        CropParent.layer = 0;
+        Energia.GetComponent<Energía>().EnergiaActual -= 1;
+        Energia.GetComponent<Energía>().UpdateEnergy();
+        StartCoroutine(Wait());
     }
 
     public IEnumerator Wait()
@@ -96,10 +106,10 @@ public class Carrot : MonoBehaviour, IInteractable
         yield return new WaitForSeconds(0.5f);
         Crop.gameObject.GetComponent<CropExplode>().Chau();
     }
-    
+
 
     public void EndInteraction()
     {
-        Debug.Log("Terminando Interacción con Zanahoria");
+        Debug.Log("Terminando Interacción con Zanahoria.");
     }
 }

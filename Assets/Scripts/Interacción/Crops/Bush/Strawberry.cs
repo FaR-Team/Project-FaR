@@ -21,6 +21,17 @@ public class Strawberry : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor,  out bool interactSuccessful)
     {
+        if (Energia.GetComponent<Energía>().EnergiaActual >= 1){
+            InteractOut();
+            interactSuccessful = true;
+        }else{
+            interactSuccessful = true;
+            return;
+        }
+    }
+
+    public void InteractOut()
+    {
         if (crecimientoBush._alreadyRe == false)
         {
             crecimientoBush._alreadyRe = true;
@@ -43,11 +54,6 @@ public class Strawberry : MonoBehaviour, IInteractable
             }
             StartCoroutine(Wait());
             //anim.Play();
-            interactSuccessful = true;
-        }
-        else
-        {
-            interactSuccessful = false;
         }
     }
 

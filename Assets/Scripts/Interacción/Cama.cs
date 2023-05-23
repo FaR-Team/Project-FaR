@@ -79,6 +79,11 @@ public class Cama : MonoBehaviour, IInteractable
         interactSuccessful = true;
     }
 
+    public void InteractOut()
+    {
+        Debug.Log(null);
+    }
+
     public void CheckHora()
     {
         if(TimeManager.GetComponent<TimeManager>().DateTime.Hour == 6 && yasonlas6 == false)
