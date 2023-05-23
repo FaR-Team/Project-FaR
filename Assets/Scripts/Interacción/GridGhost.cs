@@ -108,7 +108,6 @@ public class GridGhost : MonoBehaviour
 
     public Dirt CheckDirt(Vector3 center, float radius)
     {
-        print("SE EJECUTA CHECKDIRT");
         int maxColliders = 5;
         Collider[] hitColliders = new Collider[maxColliders];
         int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerDirt);

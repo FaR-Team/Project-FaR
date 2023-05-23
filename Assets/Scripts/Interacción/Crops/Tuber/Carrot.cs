@@ -26,14 +26,14 @@ public class Carrot : MonoBehaviour, IInteractable
     {
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
         Energia = GameObject.FindWithTag("Energia");
-        Tierra = transform.root.GetChild(0).gameObject;
-        //InteractionPromptUI._uiPanel =  InteractionPromptUI._Panel;
+        Tierra = transform.root.gameObject;
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
         if (Energia.GetComponent<Energía>().EnergiaActual >= 1)
         {
+            Tierra.GetComponent<Dirt>().CreateBox();
             InteractOut();
             interactSuccessful = true;
         }
@@ -46,7 +46,7 @@ public class Carrot : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        Tierra = transform.root.GetChild(0).gameObject;
+        Tierra = transform.root.gameObject;
         JustInteracted();
     }
 
@@ -55,6 +55,7 @@ public class Carrot : MonoBehaviour, IInteractable
         Energía energia = Energia.GetComponent<Energía>(); 
 
         if (JustInter || energia.EnergiaActual < 1) return;
+
 
         JustInter = true;
 

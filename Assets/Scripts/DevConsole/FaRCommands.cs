@@ -6,6 +6,7 @@ using FaRUtils.Systems.ItemSystem;
 using UnityStandardAssets.Characters.FirstPerson;
 using UnityStandardAssets.CrossPlatformInput;
 using IngameDebugConsole;
+using System;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -45,55 +46,13 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand("skipapplegrowth", "Se salta el crecimiento de la manzana, avanzando los días necesarios", SkipAppleGrowth);
 		DebugLogConsole.AddCommand("skipstrawberrygrowth", "Se salta el crecimiento de la frutilla, avanzando los días necesarios", SkipStrawberryGrowth);
 		DebugLogConsole.AddCommand("skiptomatogrowth", "Se salta el crecimiento del tomate, avanzando los días necesarios", SkipTomatoGrowth);
+		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
 	}
 
-	public void Update()
-	{
-		if (_noclip)
-		{
-			if(Input.GetKey(KeyCode.W))
-			{
-				player.transform.Translate(Vector3.forward * Time.deltaTime * 20f);
-			}
-			if(Input.GetKey(KeyCode.A))
-			{
-				player.transform.Translate(Vector3.left * Time.deltaTime * 20f);
-			}
-			if(Input.GetKey(KeyCode.S))
-			{
-				player.transform.Translate(Vector3.back * Time.deltaTime * 20f);
-			}
-			if(Input.GetKey(KeyCode.D))
-			{
-				player.transform.Translate(Vector3.right * Time.deltaTime * 20f);
-			}
-			if(Input.GetKey(KeyCode.Space))
-			{
-				player.transform.Translate(Vector3.up * Time.deltaTime * 20f);
-			}
-			if(Input.GetKey(KeyCode.LeftShift))
-			{
-				player.transform.Translate(Vector3.down * Time.deltaTime * 20f);
-			}
-
-			rotation.x += Input.GetAxis(xAxis) * sensitivity;
-			rotation.y += Input.GetAxis(yAxis) * sensitivity;
-			rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
-			var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-			var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
-
-			player.transform.localRotation = xQuat * yQuat;
-		}
-
-		if (skipdays)
-		{
-			if ((actualDay + daysToSkip) == TimeManager.GetComponent<TimeManager>().DateTime.Date)
-			{
-				TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
-				skipdays = false;
-			}
-		}
-	}
+    private void SetAreaHarvestLevel(int x)
+    {
+        PlayerStats.Instance.AreaHarvestLevel = x;
+    }
 
 	public void Noclip()
     {
@@ -168,5 +127,54 @@ public class FaRCommands : MonoBehaviour
 	void SkipTomatoGrowth()
 	{
 		//Saltar el crecimiento del tomate, avanzando rápido los días necesarios
+	}
+
+
+    public void Update()
+	{
+		if (_noclip)
+		{
+			if(Input.GetKey(KeyCode.W))
+			{
+				player.transform.Translate(Vector3.forward * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.A))
+			{
+				player.transform.Translate(Vector3.left * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.S))
+			{
+				player.transform.Translate(Vector3.back * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.D))
+			{
+				player.transform.Translate(Vector3.right * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.Space))
+			{
+				player.transform.Translate(Vector3.up * Time.deltaTime * 20f);
+			}
+			if(Input.GetKey(KeyCode.LeftShift))
+			{
+				player.transform.Translate(Vector3.down * Time.deltaTime * 20f);
+			}
+
+			rotation.x += Input.GetAxis(xAxis) * sensitivity;
+			rotation.y += Input.GetAxis(yAxis) * sensitivity;
+			rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
+			var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
+			var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
+
+			player.transform.localRotation = xQuat * yQuat;
+		}
+
+		if (skipdays)
+		{
+			if ((actualDay + daysToSkip) == TimeManager.GetComponent<TimeManager>().DateTime.Date)
+			{
+				TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+				skipdays = false;
+			}
+		}
 	}
 }

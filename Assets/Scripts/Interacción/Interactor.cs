@@ -71,7 +71,7 @@ public class Interactor : MonoBehaviour
            }
         }
 
-        _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 3f, _dirtMask);
+        _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 10f, _dirtMask);
         //Toma la cantidad de tierras que hay en la capsula y si hay mas de 0, hace que lookingAtDirt sea True si la tag del primer collider sea Dirt.
 
 
