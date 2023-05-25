@@ -7,6 +7,7 @@ using UnityEngine;
 public class Dirt : MonoBehaviour
 {
     bool _isEmpty;
+    public bool _isWet;
 
     [SerializeField] float areaHarvestDelay;
 

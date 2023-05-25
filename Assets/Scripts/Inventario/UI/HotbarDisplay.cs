@@ -255,6 +255,7 @@ public class HotbarDisplay : StaticInventoryDisplay
         if (GetItemData() == null)
         {
             hoe.SetActive(false);
+            bucket.SetActive(false);
             hand.SetActive(true);
             return;
         }
@@ -263,6 +264,7 @@ public class HotbarDisplay : StaticInventoryDisplay
         if (GetItemData().IsHoe == true)
         {
             hoe.SetActive(true);
+            bucket.SetActive(false);
             hand.SetActive(false);
         }
         else if (
@@ -276,7 +278,15 @@ public class HotbarDisplay : StaticInventoryDisplay
             GetItemData().Usable == true)
         {
             hoe.SetActive(false);
+            bucket.SetActive(false);
             hand.SetActive(true);
+        }
+
+        if (GetItemData().IsBucket == true)
+        {
+            hoe.SetActive(false);
+            bucket.SetActive(true);
+            hand.SetActive(false);
         }
     }
     

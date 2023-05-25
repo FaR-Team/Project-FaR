@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36e8bc33bbfd4cd4aa750abfe6f6a3a2, type: 3}
+  m_Name: Bucket
+  m_EditorClassIdentifier: 
+  ID: -1
+  Nombre: Bucket
+  "Descripci\xF3n": 
+  Icono: {fileID: 21300000, guid: 54dbedd44ba5a264d9f7f2c1e4b7d802, type: 3}
+  Valor: 0
+  ItemPrefab: {fileID: 0}
+  DirtPrefabGhost: {fileID: 0}
+  ghostMesh: {fileID: 0}
+  ToolGameObject: {fileID: 0}
+  Usable: 1
+  Sellable: 0
+  Seed: 0
+  TreeSeed: 0
+  IsLookingAtStore: 0
+  Tool: 1
+  IsHoe: 0
+  IsAxe: 0
+  IsBucket: 1
+  IsUnknown1: 0
+  IsUnknown2: 0
