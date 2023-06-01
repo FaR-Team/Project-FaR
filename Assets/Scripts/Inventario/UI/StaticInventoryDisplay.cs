@@ -43,7 +43,7 @@ public class StaticInventoryDisplay : InventoryDisplay
         for (int i = 0; i < playerInventoryHolder.Offset; i++)
         {
             slotDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);
-            slots[i].Init(inventorySystem.InventorySlots[i]);
+            slots[i].Init(inventorySystem.InventorySlots[i], TypesOfInventory.INVENTARIO);
         }
     }
 }

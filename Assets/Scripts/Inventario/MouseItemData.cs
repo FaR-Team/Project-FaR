@@ -54,7 +54,7 @@ public class MouseItemData : MonoBehaviour
 
     public void ClearSlot()
     {
-        AssignedInventorySlot.ClearSlot();
+        AssignedInventorySlot.ForcedClearSlot();
         ItemSprite.color = Color.clear;
         ItemCount.text = "";
         ItemSprite.sprite = null;
