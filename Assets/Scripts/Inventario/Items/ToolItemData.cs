@@ -37,8 +37,7 @@ public class ToolItemData : InventoryItemData
                 var _dirt = _gridGhost.CheckDirt(_gridGhost.finalPosition, 0.1f);
                 if (_dirt != null)
                 {
-                    _dirt._isWet = true;
-                    _dirt.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = new Color(0, 2, -4);
+                    _dirt.GetWet();
                     return true;
                 }
                 else return false;   

@@ -204,7 +204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1287e3225e7ffff41b48527b0f9e7a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isWet: 0
   areaHarvestDelay: 1
+  meshRenderer: {fileID: 2434630395901430537}
+  wetColor: {r: 0.8, g: 0.76666665, b: 0.76, a: 1}
   abilityLevelPlaceholder: 1
   violeta: {fileID: 5765180190978009047}
   currentCrop: {fileID: 0}

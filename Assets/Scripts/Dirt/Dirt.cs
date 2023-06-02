@@ -11,6 +11,9 @@ public class Dirt : MonoBehaviour
 
     [SerializeField] float areaHarvestDelay;
 
+    [SerializeField] SkinnedMeshRenderer meshRenderer;
+    [SerializeField] Color wetColor;
+
     public int abilityLevelPlaceholder = 1;
     public bool IsEmpty => _isEmpty;
 
@@ -82,5 +85,11 @@ public class Dirt : MonoBehaviour
         currentCrop = instantiated;
         currentCropData = itemData;
         return (instantiated != null);
+    }
+
+    public void GetWet()
+    {
+        _isWet = true;
+        meshRenderer.material.color = wetColor;
     }
 }
