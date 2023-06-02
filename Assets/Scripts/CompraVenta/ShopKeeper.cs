@@ -33,7 +33,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
     }
 
     private void Update() {
-        if  (GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && IsBuying == true || GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && IsBuying == true)
+        if  (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && IsBuying == true || GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() && IsBuying == true)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;

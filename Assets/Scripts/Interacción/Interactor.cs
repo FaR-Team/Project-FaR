@@ -32,7 +32,7 @@ public class Interactor : MonoBehaviour
 
     private void OnEnable()
     {
-        InteractionKey = GameInput.Instance.playerInputActions.Player.Interaction;
+        InteractionKey = GameInput.playerInputActions.Player.Interaction;
         InteractionKey.Enable();
     }
 
@@ -54,7 +54,7 @@ public class Interactor : MonoBehaviour
             {
                 _interactionPromptUI.SetUp(_interactable.InteractionPrompt);
             }
-            if (GameInput.Instance.playerInputActions.Player.Interaction.WasPressedThisFrame())
+            if (GameInput.playerInputActions.Player.Interaction.WasPressedThisFrame())
             {
                 _interactable.Interact(this, out bool interactSuccessful);
             }

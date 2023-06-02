@@ -2051,7 +2051,7 @@ PrefabInstance:
     - target: {fileID: 120043982403959591, guid: 19f30d0fb0d2b0e47969436e4334748f,
         type: 3}
       propertyPath: m_RootOrder
-      value: 14
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 120043982403959591, guid: 19f30d0fb0d2b0e47969436e4334748f,
         type: 3}
@@ -4785,7 +4785,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -5983,7 +5983,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -6097,6 +6097,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 1967348393}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 1445673794}
   _slotHighlight: {fileID: 1236067918}
   assignedInventorySlot:
@@ -6104,6 +6105,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &364738908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6345,7 +6348,7 @@ MonoBehaviour:
   Week: {fileID: 617052682}
   Year: {fileID: 1475067795}
   Gold: {fileID: 1539345254}
-  timeManager: {fileID: 908119659}
+  timeManager: {fileID: 0}
   languageTMPDropdown: {fileID: 1031632553}
   OptionsMenu: {fileID: 1031632545}
   SeasonImageObj: {fileID: 1180670515}
@@ -6827,7 +6830,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -7450,241 +7453,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449032596}
   m_CullTransparentMesh: 1
---- !u!1 &455192491
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 455192493}
-  - component: {fileID: 455192497}
-  - component: {fileID: 455192492}
-  - component: {fileID: 455192496}
-  - component: {fileID: 455192494}
-  - component: {fileID: 455192495}
-  - component: {fileID: 455192499}
-  - component: {fileID: 455192500}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &455192492
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 423d03fd2b3902e4ebab7d2f51a773a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DirectionalLight: {fileID: 170076734}
-  Preset: {fileID: 11400000, guid: 617892798ad8bd24a91dc6b9d80b8041, type: 2}
-  TimeOfDay: 0
-  Day: 0
-  vel: 0.016666668
-  timeManager: {fileID: 908119659}
---- !u!4 &455192493
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -19.18676, y: -2.660706, z: -13.424515}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 760328779}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &455192494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a57f5ca64b4cf149af4eeb3732795b2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 2.1
---- !u!82 &455192495
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 0
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!114 &455192496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd0ad024a0c5aeb4ab8685ac58e76a9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  audioSource: {fileID: 455192495}
-  Reloj: {fileID: 388685149}
-  yasonlas6am: 0
-  yasonlas12pm: 0
-  yasonlas6pm: 0
-  YaEligioHoy: 0
-  Pos1: {fileID: 8300000, guid: c5a329eb535c36d44a76bb0f2feda356, type: 3}
-  Pos2: {fileID: 0}
-  Pos3: {fileID: 0}
-  Pos4: {fileID: 0}
-  Pos5: {fileID: 8300000, guid: c5a329eb535c36d44a76bb0f2feda356, type: 3}
-  slider: {fileID: 0}
-  volumen: 0
---- !u!114 &455192497
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f518fa92a9018d54ebe8918c34b19c0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &455192499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 318881bfe66535848a37a9f17028ef07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sensitivity: 2
-  yRotationLimit: 88
-  actualDay: 0
-  player: {fileID: 0}
-  TimeManager: {fileID: 908119658}
-  rb: {fileID: 0}
-  _cama: {fileID: 0}
-  _database: {fileID: 11400000, guid: 7806ee3a68b16f04a8db593d14d83518, type: 2}
-  _noclip: 0
---- !u!114 &455192500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 455192491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 790775a76bccb004b9787d8163f1e640, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &465352427
 GameObject:
   m_ObjectHideFlags: 0
@@ -11311,6 +11079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 1975145995}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 449032598}
   _slotHighlight: {fileID: 1535791206}
   assignedInventorySlot:
@@ -11318,6 +11087,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &620987898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14140,67 +13911,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 756508631}
   m_CullTransparentMesh: 1
---- !u!1 &760328778
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 760328779}
-  - component: {fileID: 760328781}
-  - component: {fileID: 760328780}
-  m_Layer: 0
-  m_Name: Managers
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &760328779
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760328778}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.18676, y: 2.660706, z: 13.424515}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 908119660}
-  - {fileID: 455192493}
-  - {fileID: 2030600840}
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &760328780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760328778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68faf6e20f723cb4694e9505b2f917a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &760328781
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 760328778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ID: d0eb8454-26ea-4aed-b59e-59212faf6475
 --- !u!1 &767905076
 GameObject:
   m_ObjectHideFlags: 0
@@ -17827,6 +17537,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 90627999}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 583786453}
   _slotHighlight: {fileID: 216446519}
   assignedInventorySlot:
@@ -17834,6 +17545,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &905166445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17909,104 +17622,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &908119658
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 908119660}
-  - component: {fileID: 908119659}
-  - component: {fileID: 908119661}
-  - component: {fileID: 908119663}
-  - component: {fileID: 908119662}
-  m_Layer: 0
-  m_Name: TimeManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &908119659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908119658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e51426d06365444ba3962eab141a00d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dateInMonth: 1
-  season: 1
-  year: 1
-  hour: 0
-  minutes: 0
-  DateTime:
-    date: 0
-    year: 0
-    hour: 0
-    minutes: 0
-    season: 0
-  TickMinutesIncreased: 10
-  TimeBetweenTicks: 10
---- !u!4 &908119660
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908119658}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.74676, y: -0.7507061, z: -9.474515}
-  m_LocalScale: {x: 1, y: 3.329, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 760328779}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &908119661
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908119658}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 4.6730213, y: 1, z: 4.2697334}
-  m_Center: {x: -28.844921, y: 0, z: -27.921797}
---- !u!114 &908119662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908119658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68faf6e20f723cb4694e9505b2f917a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &908119663
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 908119658}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _ID: aad2b670-dee7-4cc5-8804-21ee1e462632
 --- !u!1 &909435628
 GameObject:
   m_ObjectHideFlags: 0
@@ -19557,7 +19172,7 @@ MonoBehaviour:
   Options: {fileID: 2134011599}
   PhysicsGun: {fileID: 1167592521}
   resumeButton: {fileID: 891753355}
-  Music: {fileID: 455192495}
+  Music: {fileID: 0}
   FPSLimit: {fileID: 22877813}
   FPSText: {fileID: 1318113181}
   debugLogManager: {fileID: 804745275}
@@ -21654,6 +21269,88 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180670515}
   m_CullTransparentMesh: 1
+--- !u!21 &1181926764
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Grass(Clone)
+  m_Shader: {fileID: 4800000, guid: e9742d57547c3f943b860c697061c82e, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AmbientAdjustment: 0
+    - _BlendFloor: 0
+    - _BumpScale: 1
+    - _CelShadingBlurWidth: 0.2
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _Fade: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.02
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _UVSec: 0
+    - _ZWrite: 1
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1185390154
 GameObject:
   m_ObjectHideFlags: 0
@@ -27073,7 +26770,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -28556,7 +28253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22457152, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 22457152, guid: 67117722a812a2e46ab8cb8eafbf5f5e, type: 3}
       propertyPath: m_AnchorMax.x
@@ -28940,7 +28637,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1496219969
 GameObject:
@@ -30009,6 +29706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 1351204581}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 715016645}
   _slotHighlight: {fileID: 800160530}
   assignedInventorySlot:
@@ -30016,6 +29714,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &1588826489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32508,87 +32208,6 @@ MonoBehaviour:
     stackSize: -1
     "CantidadM\xE1xima": 100
   _dropOffset: 3
---- !u!21 &1785740746
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Grass(Clone)
-  m_Shader: {fileID: 4800000, guid: e9742d57547c3f943b860c697061c82e, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _BumpMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailAlbedoMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailMask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _DetailNormalMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _EmissionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _OcclusionMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _ParallaxMap:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _AmbientAdjustment: 0
-    - _BlendFloor: 0
-    - _BumpScale: 1
-    - _Cutoff: 0.5
-    - _DetailNormalMapScale: 1
-    - _DstBlend: 0
-    - _Fade: 1
-    - _GlossMapScale: 1
-    - _Glossiness: 0.5
-    - _GlossyReflections: 1
-    - _Metallic: 0
-    - _Mode: 0
-    - _OcclusionStrength: 1
-    - _Parallax: 0.02
-    - _SmoothnessTextureChannel: 0
-    - _SpecularHighlights: 1
-    - _SrcBlend: 1
-    - _UVSec: 0
-    - _ZWrite: 1
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &1799043303
 GameObject:
   m_ObjectHideFlags: 0
@@ -33243,6 +32862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 2118885396}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 601045634}
   _slotHighlight: {fileID: 1801122096}
   assignedInventorySlot:
@@ -33250,6 +32870,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &1821772652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36240,52 +35862,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2030600839
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2030600840}
-  - component: {fileID: 2030600841}
-  m_Layer: 0
-  m_Name: DialogueManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2030600840
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030600839}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 760328779}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2030600841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2030600839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d81d6454d7bef734f85c685e63d20079, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2037108582
 GameObject:
   m_ObjectHideFlags: 0
@@ -37690,7 +37268,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -37922,7 +37500,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2030600841}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: DialogueManager, Assembly-CSharp
         m_MethodName: MakeChoice
         m_Mode: 3
@@ -38378,7 +37956,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2112403410
 GameObject:
@@ -38525,6 +38103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 467190709}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 104536883}
   _slotHighlight: {fileID: 1058361905}
   assignedInventorySlot:
@@ -38532,6 +38111,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &2112836771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45807,6 +45388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066108192179943}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902984469629033}
   _slotHighlight: {fileID: 1074586260}
   assignedInventorySlot:
@@ -45814,6 +45396,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934013687422859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45827,6 +45411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107685672282}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902983893916628}
   _slotHighlight: {fileID: 1185390154}
   assignedInventorySlot:
@@ -45834,6 +45419,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934013687491995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45847,6 +45434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107685742410}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902983894247876}
   _slotHighlight: {fileID: 1347504246}
   assignedInventorySlot:
@@ -45854,6 +45442,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934013791685960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45867,6 +45457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107586512793}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902983867107607}
   _slotHighlight: {fileID: 877890244}
   assignedInventorySlot:
@@ -45874,6 +45465,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934014045845827
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45887,6 +45480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107842769810}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902984139357468}
   _slotHighlight: {fileID: 1343655430}
   assignedInventorySlot:
@@ -45894,6 +45488,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: 10
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934014568765929
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45907,6 +45503,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107325600568}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902983583391158}
   _slotHighlight: {fileID: 885182691}
   assignedInventorySlot:
@@ -45914,6 +45511,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934014841057735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45927,6 +45526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066106524056342}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902982782629272}
   _slotHighlight: {fileID: 1854549237}
   assignedInventorySlot:
@@ -45934,6 +45534,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934014920369986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45947,6 +45549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066106704129427}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902982996517661}
   _slotHighlight: {fileID: 326994010}
   assignedInventorySlot:
@@ -45954,6 +45557,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!114 &732934015022232768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -45967,6 +45572,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066106870971921}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 3202902983098085535}
   _slotHighlight: {fileID: 153474441}
   assignedInventorySlot:
@@ -45974,6 +45580,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!33 &745443039706567781
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -50142,6 +49750,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 1593263694047005485}
+  thisSlotImage: {fileID: 0}
   itemCount: {fileID: 379049666811577763}
   _slotHighlight: {fileID: 2007658186}
   assignedInventorySlot:
@@ -50149,6 +49758,8 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
+  invEnums: 0
+  isSlotBlocked: 0
 --- !u!23 &2549569356060472116
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -59139,7 +58750,7 @@ Transform:
   m_Children:
   - {fileID: 6451053642743270214}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5925725482205333352
 MeshFilter:

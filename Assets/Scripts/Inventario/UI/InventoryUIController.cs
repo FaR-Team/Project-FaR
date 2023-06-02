@@ -34,8 +34,8 @@ public class InventoryUIController : MonoBehaviour
     }
     void Update()
     {
-        if (GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && isChestInventoryOpen == true ||  
-            GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && isChestInventoryOpen == true) {
+        if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() && isChestInventoryOpen == true ||  
+            GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && isChestInventoryOpen == true) {
             inventoryPanel.gameObject.SetActive(false);
             //playerBackpackPanel.gameObject.SetActive(false);
             //player.GetComponent<PlayerInventoryHolder>().CloseInventory();

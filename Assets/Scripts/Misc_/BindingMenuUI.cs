@@ -68,18 +68,18 @@ public class BindingMenuUI : MonoBehaviour
 
     private void UpdateVisual()
     {
-        moveUpText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Up);
-        moveDownText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Down);
-        moveLeftText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Left);
-        moveRightText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Move_Right);
-        interactionText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Interact);
-        sprintText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Sprint);
-        pauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Pause);
-        inventoryText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Inventory);
-        gamepadInteractionText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Interact);
-        gamepadSprintText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Sprint);
-        gamepadPauseText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Pause);
-        gamepadInventoryText.text = GameInput.Instance.GetBindingText(GameInput.Binding.Gamepad_Inventory);
+        moveUpText.text = GameInput.GetBindingText(GameInput.Binding.Move_Up);
+        moveDownText.text = GameInput.GetBindingText(GameInput.Binding.Move_Down);
+        moveLeftText.text = GameInput.GetBindingText(GameInput.Binding.Move_Left);
+        moveRightText.text = GameInput.GetBindingText(GameInput.Binding.Move_Right);
+        interactionText.text = GameInput.GetBindingText(GameInput.Binding.Interact);
+        sprintText.text = GameInput.GetBindingText(GameInput.Binding.Sprint);
+        pauseText.text = GameInput.GetBindingText(GameInput.Binding.Pause);
+        inventoryText.text = GameInput.GetBindingText(GameInput.Binding.Inventory);
+        gamepadInteractionText.text = GameInput.GetBindingText(GameInput.Binding.Gamepad_Interact);
+        gamepadSprintText.text = GameInput.GetBindingText(GameInput.Binding.Gamepad_Sprint);
+        gamepadPauseText.text = GameInput.GetBindingText(GameInput.Binding.Gamepad_Pause);
+        gamepadInventoryText.text = GameInput.GetBindingText(GameInput.Binding.Gamepad_Inventory);
     }
 
     private void ShowPressToRebindKey()
@@ -95,7 +95,7 @@ public class BindingMenuUI : MonoBehaviour
     private void RebindBinding(GameInput.Binding binding)
     {
         ShowPressToRebindKey();
-        GameInput.Instance.RebindBinding(binding, () => {
+        GameInput.RebindBinding(binding, () => {
             HidePressToRebindKey();
             UpdateVisual();
         });

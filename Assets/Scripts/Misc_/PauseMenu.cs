@@ -60,7 +60,7 @@ public class PauseMenu : MonoBehaviour
     }
 
     private void Update() {
-        if (GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame() && 
+        if (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && 
         player.GetComponent<PlayerInventoryHolder>().isInventoryOpen == false && 
         shopKeeper.IsBuying == false && 
         bed._isSleeping == false && 
@@ -98,7 +98,7 @@ public class PauseMenu : MonoBehaviour
         {
             Music.UnPause();
         }
-        GameInput.Instance.playerInputActions.Player.Inventory.Enable();
+        GameInput.playerInputActions.Player.Inventory.Enable();
         pauseMenuUI.SetActive(false);
         optionsMenuUI.SetActive(false);
         
@@ -126,7 +126,7 @@ public class PauseMenu : MonoBehaviour
             Music.Pause();
         }
         GameIsPaused = true;
-        GameInput.Instance.playerInputActions.Player.Inventory.Disable();
+        GameInput.playerInputActions.Player.Inventory.Disable();
         pauseMenuUI.SetActive(true);
 
         resumeButton.Select();
@@ -188,8 +188,6 @@ public class PauseMenu : MonoBehaviour
         bindingMenuUI.SetActive(false);
         Options.SetActive(true);
     }
-
-
 
     public void QuitGame()
     {

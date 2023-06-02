@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class GameInput : MonoBehaviour
+
+public class GameInput
 {
-    private const string PLAYER_PREFS_BINDINGS = "InputBindings";
+    public const string PLAYER_PREFS_BINDINGS = "InputBindings";
 
-    public static GameInput Instance { get; private set; }
+    //public static GameInput Instance { get; private set; }
 
-    public event EventHandler OnBindingRebind;
+    public static event EventHandler OnBindingRebind;
 
 
     public enum Binding {
@@ -28,20 +29,12 @@ public class GameInput : MonoBehaviour
         Gamepad_Inventory,
     }
 
-    public PlayerInput2 playerInputActions { get; private set; }
+    public static PlayerInput2 playerInputActions = new PlayerInput2();
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
-        }
         
-        playerInputActions = new PlayerInput2();
+/*        
+    TODO ESTO DEBERÍA IR A OTRO SCRIPT QUE SEA MONO
+playerInputActions = new PlayerInput2();
 
         if (PlayerPrefs.HasKey(PLAYER_PREFS_BINDINGS))
         {
@@ -60,8 +53,8 @@ public class GameInput : MonoBehaviour
     {
         playerInputActions.Dispose();
     }
-
-   public string GetBindingText(Binding binding)
+*/
+   public static string GetBindingText(Binding binding)
    {
         switch (binding)
         {
@@ -93,7 +86,7 @@ public class GameInput : MonoBehaviour
         }
    }
 
-   public void RebindBinding(Binding binding, Action OnActionRebound)
+   public static void RebindBinding(Binding binding, Action OnActionRebound)
    {
         playerInputActions.Player.Disable();
 
@@ -160,9 +153,9 @@ public class GameInput : MonoBehaviour
 
                 PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
                 PlayerPrefs.Save();
-
-                OnBindingRebind?.Invoke(this, EventArgs.Empty);
+                var a = new GameInput();
+                OnBindingRebind?.Invoke(a, EventArgs.Empty);
             })
-            .Start();
+            .Start(); //Igual, no estaría viendo dónde se usa el evento xd
    }
 }

@@ -44,7 +44,7 @@ public class PlayerInventoryHolder : InventoryHolder
 
     void Update()
     {
-        if (GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() && 
+        if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() && 
             isInventoryOpen == false && 
             PauseMenu.GameIsPaused == false && 
             shopKeeper.IsBuying == false && 
@@ -52,12 +52,12 @@ public class PlayerInventoryHolder : InventoryHolder
         {
             OpenInventory();
         }
-        else if (   (GameInput.Instance.playerInputActions.Player.Inventory.WasPressedThisFrame() ||
-                    GameInput.Instance.playerInputActions.Player.Pause.WasPressedThisFrame()) &&
-                    isInventoryOpen == true && 
-                    PauseMenu.GameIsPaused == true && 
-                    shopKeeper.IsBuying == false &&
-                    IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+        else if ((GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() ||
+                GameInput.playerInputActions.Player.Pause.WasPressedThisFrame()) &&
+                isInventoryOpen == true && 
+                PauseMenu.GameIsPaused == true && 
+                shopKeeper.IsBuying == false &&
+                IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
             CloseInventory();
         }

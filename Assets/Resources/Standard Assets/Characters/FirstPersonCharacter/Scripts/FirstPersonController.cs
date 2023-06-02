@@ -51,26 +51,26 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void OnEnable()
         {
-            Movement = GameInput.Instance.playerInputActions.Player.Movement;
+            Movement = GameInput.playerInputActions.Player.Movement;
             Movement.Enable();
 
-            GameInput.Instance.playerInputActions.Player.Jump.Enable();
-            GameInput.Instance.playerInputActions.Player.Sprint.Enable();
-            GameInput.Instance.playerInputActions.Player.SprintFinish.Enable();
+            GameInput.playerInputActions.Player.Jump.Enable();
+            GameInput.playerInputActions.Player.Sprint.Enable();
+            GameInput.playerInputActions.Player.SprintFinish.Enable();
         }
 
         private void OnDisable()
         {
             Movement.Disable();
-            GameInput.Instance.playerInputActions.Player.Jump.Disable();
-            GameInput.Instance.playerInputActions.Player.Sprint.Disable();
-            GameInput.Instance.playerInputActions.Player.SprintFinish.Disable();
+            GameInput.playerInputActions.Player.Jump.Disable();
+            GameInput.playerInputActions.Player.Sprint.Disable();
+            GameInput.playerInputActions.Player.SprintFinish.Disable();
         }
 
         private void Awake()
         {
-            GameInput.Instance.playerInputActions.Player.Sprint.performed += x => SprintPressed();
-            GameInput.Instance.playerInputActions.Player.SprintFinish.performed += x => SprintRelease();
+            GameInput.playerInputActions.Player.Sprint.performed += x => SprintPressed();
+            GameInput.playerInputActions.Player.SprintFinish.performed += x => SprintRelease();
         }
 
         private void SprintPressed()
@@ -104,7 +104,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump && !LockRotation)
             {
-                m_Jump = GameInput.Instance.playerInputActions.Player.Jump.WasPressedThisFrame();
+                m_Jump = GameInput.playerInputActions.Player.Jump.WasPressedThisFrame();
             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -252,7 +252,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
             //m_Input = new Vector2(horizontal, vertical);
-            m_Input = GameInput.Instance.playerInputActions.Player.Movement.ReadValue<Vector2>();
+            m_Input = GameInput.playerInputActions.Player.Movement.ReadValue<Vector2>();
 
             // normalize input if it exceeds 1 in combined length:
             if (m_Input.sqrMagnitude > 1)
