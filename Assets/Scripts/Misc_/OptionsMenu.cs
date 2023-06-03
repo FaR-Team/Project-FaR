@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 
 public class OptionsMenu : MonoBehaviour
@@ -13,11 +14,15 @@ public class OptionsMenu : MonoBehaviour
     public DateTime dateTime;
     public FPSLimit FPSLimit;
     public TextMeshProUGUI FovVal;
+    public TextMeshProUGUI SensVal;
     public TextMeshProUGUI FPSText;
     public bool doceh;
     public bool isOptionsMenuOpen;
 
+    private FaRCharacterController PlayerCont;
+
     public Slider fovSlider;
+    public Slider sensSlider;
  
     private void Awake() {
         if (Instance != null && Instance != this) 
@@ -32,7 +37,31 @@ public class OptionsMenu : MonoBehaviour
 
     private void Start() 
     {
-        fovSlider.value = Camera.main.fieldOfView;
+        PlayerCont = GameObject.FindWithTag("Player").GetComponent<FaRCharacterController>();
+
+        if (PlayerPrefs.GetFloat("FovVal") == 0)
+        {
+            FovVal.text = fovSlider.value.ToString();
+            fovSlider.value = Camera.main.fieldOfView;
+            PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView); 
+        }
+        else
+        {
+            FovVal.text = PlayerPrefs.GetFloat("FovVal").ToString();
+            fovSlider.value = PlayerPrefs.GetFloat("FovVal");
+        }
+
+        if (PlayerPrefs.GetFloat("SensVal") == 0)
+        {
+            SensVal.text = PlayerCont.lookSensitivity.ToString();
+            sensSlider.value = PlayerCont.lookSensitivity;
+            PlayerPrefs.SetFloat("SensVal", PlayerCont.lookSensitivity);
+        }
+        else
+        {
+            SensVal.text = PlayerPrefs.GetFloat("SensVal").ToString();
+            sensSlider.value = PlayerPrefs.GetFloat("SensVal");
+        }
 
         if (FPSLimit.target == 0)
         {
@@ -47,6 +76,11 @@ public class OptionsMenu : MonoBehaviour
     {
         FovVal.text = fovSlider.value.ToString();
         Camera.main.fieldOfView = fovSlider.value;
+        PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView); 
+
+        SensVal.text = PlayerCont.lookSensitivity.ToString();
+        PlayerCont.lookSensitivity = sensSlider.value;
+        PlayerPrefs.SetFloat("SensVal", PlayerCont.lookSensitivity);
     }
 
     public void clock()
@@ -100,5 +134,12 @@ public class OptionsMenu : MonoBehaviour
     public void CancelFovButton()
     {
         fovSlider.value = 75;
+        PlayerPrefs.SetFloat("FovVal", 75);
+    }
+
+    public void ResetSensButton()
+    {
+        fovSlider.value = 5;
+        PlayerPrefs.SetFloat("SensVal", 5);
     }
 }
