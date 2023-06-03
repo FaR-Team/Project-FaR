@@ -51,6 +51,24 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Crouch",
+                    "type": "Value",
+                    "id": "9520bbd4-d763-40d1-af1c-e8233eb95f8a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "d3cd9b2f-816a-4e9b-894f-09bdd6d12e9d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "MassSell",
                     "type": "Value",
                     "id": "9fc11bcf-5633-4aa7-934e-aa9800e91021",
@@ -78,19 +96,10 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "LookX",
+                    "name": "Look",
                     "type": "Value",
-                    "id": "bd599627-b6a3-49f5-acdb-9ccfc87fb9b1",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
-                    "name": "LookY",
-                    "type": "Value",
-                    "id": "45784676-7c7a-4359-bc1e-ce6aa2f0c8a8",
-                    "expectedControlType": "Axis",
+                    "id": "433b1ca7-8e4e-462b-b04c-10a744df1141",
+                    "expectedControlType": "Delta",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -234,6 +243,24 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "b5bb7d8f-fcf7-47f4-b7ea-cb1a9970969f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HotbarRight",
+                    "type": "Button",
+                    "id": "7e94d25c-368d-483b-96db-ded71145d060",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HotbarLeft",
+                    "type": "Button",
+                    "id": "dda8fdb6-6da8-48c5-b48d-a25693835e4e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -414,50 +441,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "SprintFinish",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5a39f9de-ef8e-46b2-9c70-917799f8c651",
-                    "path": "<Mouse>/delta/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "LookX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ba0be22a-39bf-4d81-82c2-51ed268bc52e",
-                    "path": "<Gamepad>/rightStick/x",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "LookX",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "56c8f01c-109d-4796-a8d0-375aadc50182",
-                    "path": "<Mouse>/delta/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "LookY",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "eed0b9e9-9415-4036-87ca-4ea68965174c",
-                    "path": "<Gamepad>/rightStick/y",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "LookY",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -722,6 +705,94 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "MassSell",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ff008bbe-3110-4e3e-b4c6-acdb26d82706",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ffef760-2bcf-413f-b30c-ff97db3b4ca7",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "InvertVector2(invertX=false,invertY=false),ScaleVector2(x=20,y=20)",
+                    "groups": "Gamepad",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5bb15196-5cf3-46f2-87a3-523f5e2a70ea",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "67809629-41c0-4b72-9387-9af24691e400",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b212d6bd-e5ff-4d42-b774-38abda2c9a5a",
+                    "path": "<Keyboard>/c",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ed7ac43-0a66-4326-8f4e-8a07f85059c7",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "419239b6-eb51-41eb-8481-4669045cf9aa",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HotbarRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e46edcd7-1f24-4da4-aea4-9221d04c90db",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "HotbarLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -34,7 +34,7 @@ public class HotbarDisplay : StaticInventoryDisplay
 
     private void Awake()
     {
-        _playerControls = new PlayerInput2();
+        _playerControls = GameInput.playerInputActions;
        
         if(telequinesis == null ) telequinesis = GameObject.FindWithTag("Telequinesis");
         if(player == null) player = GameObject.FindWithTag("Player");
@@ -247,6 +247,57 @@ public class HotbarDisplay : StaticInventoryDisplay
                 StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
             }
         }
+
+        if(GetPlayerControls().HotbarRight.WasPressedThisFrame() && 
+            physicsGun.isGrabbingObject == false &&
+            PauseMenu.GameIsPaused == false &&
+            PlayerInv.IsBuying == false &&
+            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+        {
+            ChangeIndex(1);
+
+            if (GetItemData() == null) return;
+
+            NameDisplay.text = GetItemData().Nombre;
+            if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+            {
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            }
+            else
+            {
+                NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+                NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+                NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            }
+        }
+
+        if(GetPlayerControls().HotbarLeft.WasPressedThisFrame() && 
+            physicsGun.isGrabbingObject == false &&
+            PauseMenu.GameIsPaused == false &&
+            PlayerInv.IsBuying == false &&
+            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+        {
+            ChangeIndex(-1);
+
+            if (GetItemData() == null) return;
+
+            NameDisplay.text = GetItemData().Nombre;
+            if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+            {
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            }
+            else
+            {
+                NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+                NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+                NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            }
+        }
+
 
         if (_isHoldingCtrl)
         {

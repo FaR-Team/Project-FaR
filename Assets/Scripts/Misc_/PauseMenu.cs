@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using IngameDebugConsole;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 using TMPro;
 
 public class PauseMenu : MonoBehaviour
@@ -61,7 +61,7 @@ public class PauseMenu : MonoBehaviour
 
     private void Update() {
         if (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && 
-        player.GetComponent<PlayerInventoryHolder>().isInventoryOpen == false && 
+        PlayerInventoryHolder.isInventoryOpen == false && 
         shopKeeper.IsBuying == false && 
         bed._isSleeping == false && 
         IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false) 
@@ -109,7 +109,7 @@ public class PauseMenu : MonoBehaviour
     public void Unpause()
     {
         PhysicsGun.SetActive(true);
-        player.GetComponent<FirstPersonController>().enabled = true;
+        player.GetComponent<FaRCharacterController>().enabled = true;
         player.GetComponent<Interactor>().enabled = true;
         player.GetComponent<CubePlacer>().enabled = true;
         Time.timeScale = 1f;
@@ -138,7 +138,7 @@ public class PauseMenu : MonoBehaviour
     public void Pause()
     {
         PhysicsGun.SetActive(false);
-        player.GetComponent<FirstPersonController>().enabled = false;
+        player.GetComponent<FaRCharacterController>().enabled = false;
         player.GetComponent<Interactor>().enabled = false;
         player.GetComponent<CubePlacer>().enabled = false;
         Time.timeScale = 0f;

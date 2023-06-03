@@ -12,5 +12,9 @@ public class PlayerStats : MonoBehaviour
             Instance = this;
         }
     }
+
     public int AreaHarvestLevel = 0;
+
+    public static bool hasPants;
+    public static bool hasShirt;
 }

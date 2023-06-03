@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 
 public class InventoryUIController : MonoBehaviour
 {
@@ -47,7 +47,7 @@ public class InventoryUIController : MonoBehaviour
     private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()
     {
         yield return new WaitForSeconds(0.1f);
-        player.GetComponent<PlayerInventoryHolder>().isInventoryOpen = false;
+        PlayerInventoryHolder.isInventoryOpen = false;
     }
 
     public void DisplayInventory(InventorySystem invToDisplay, int offset)

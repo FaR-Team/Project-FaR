@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 
 public class ShopKeeperDisplay : MonoBehaviour
 {
@@ -306,7 +306,7 @@ public class ShopKeeperDisplay : MonoBehaviour
         _shoppingUIParent.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        player.GetComponent<FirstPersonController>().enabled = true;
+        player.GetComponent<FaRCharacterController>().enabled = true;
         player.GetComponent<CubePlacer>().enabled = true;
     }
 }

@@ -48,7 +48,7 @@ public class MouseItemData : MonoBehaviour
         }*/
         //Si tiene un item, que siga al mouse
         
-        if (AssignedInventorySlot.ItemData == null) return;
+        if (AssignedInventorySlot.ItemData == null && !PlayerInventoryHolder.isInventoryOpen) return;
         transform.position = Input.mousePosition;
     }
 

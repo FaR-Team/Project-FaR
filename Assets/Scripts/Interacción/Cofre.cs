@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 
 [RequireComponent(typeof(UniqueID))]
 public class Cofre : InventoryHolder, IInteractable
@@ -46,8 +46,8 @@ public class Cofre : InventoryHolder, IInteractable
         OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem, 0);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        player.GetComponent<FirstPersonController>().enabled = false;
-        player.GetComponent<PlayerInventoryHolder>().isInventoryOpen = true;
+        player.GetComponent<FaRCharacterController>().enabled = false;
+        PlayerInventoryHolder.isInventoryOpen = true;
         inventoryUIController.GetComponent<InventoryUIController>().isChestInventoryOpen = true;
         interactSuccessful = true;
     }

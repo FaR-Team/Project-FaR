@@ -1,17 +1,17 @@
 ﻿using System;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 
 public class FPSControllerBridge : MonoBehaviour
 {
-    private FirstPersonController _fpsController;
+    private FaRCharacterController _fpsController;
 
     private void Start()
     {
-        _fpsController = FindObjectOfType<FirstPersonController>();
+        _fpsController = FindObjectOfType<FaRCharacterController>();
         if(_fpsController == null)
         {
-            Debug.LogError($"{nameof(FPSControllerBridge)} is missing {nameof(FirstPersonController)}", this);
+            Debug.LogError($"{nameof(FPSControllerBridge)} is missing {nameof(FaRCharacterController)}", this);
             return;
         }
 
@@ -25,6 +25,6 @@ public class FPSControllerBridge : MonoBehaviour
 
     private void OnRotation(bool rotation)
     {
-        _fpsController.LockRotation = rotation;
+        //_fpsController.LockRotation = rotation;
     }
 }

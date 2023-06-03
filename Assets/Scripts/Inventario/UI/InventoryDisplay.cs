@@ -35,7 +35,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
         
 
-        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData == null)
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && 
+        mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
          //Checkea si el jugador está apretando cShift, así dividimos el stack
             if (isShiftPressed && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
@@ -54,7 +55,8 @@ public abstract class InventoryDisplay : MonoBehaviour
         }
 
         // Si el slot clickeado no tiene un item y el mouse tiene un item, se agrega el item del mouse al slot
-        if (clickedUISlot.AssignedInventorySlot.ItemData == null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
+        if (clickedUISlot.AssignedInventorySlot.ItemData == null && 
+        mouseInventoryItem.AssignedInventorySlot.ItemData != null)
         {
             clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
             clickedUISlot.UpdateUISlot();
@@ -67,12 +69,14 @@ public abstract class InventoryDisplay : MonoBehaviour
         // 1. Si son el mismo item, los combinamos
             // La suma del slot y el mouse supera el stack máximo?; si es así, se combinan y se queda con el stack máximo
         // 2. Si son items diferentes, los intercambiamos
-        if (clickedUISlot.AssignedInventorySlot.ItemData != null && mouseInventoryItem.AssignedInventorySlot.ItemData != null)
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null && 
+        mouseInventoryItem.AssignedInventorySlot.ItemData != null)
         {
             bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.AssignedInventorySlot.ItemData;
             
             //Ambos items son iguales, así que combinamos los stacks
-            if (isSameItem && clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
+            if (isSameItem && 
+            clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
             {
                 clickedUISlot.AssignedInventorySlot.AssignItem(mouseInventoryItem.AssignedInventorySlot);
                 clickedUISlot.UpdateUISlot();
@@ -80,7 +84,8 @@ public abstract class InventoryDisplay : MonoBehaviour
                 mouseInventoryItem.ClearSlot();
                 return;
             }
-            else if (isSameItem && !clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize, out int cantidadRestante))
+            else if (isSameItem && 
+            !clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize, out int cantidadRestante))
             {
                 if (cantidadRestante < 1) //El stack está completo, así que simplemente intercambiamos
                 {

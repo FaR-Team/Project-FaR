@@ -10,11 +10,10 @@ public class InventorySlot_UI : MonoBehaviour
     [SerializeField] private InventorySlot assignedInventorySlot;
     [SerializeField] private TypesOfInventory invEnums;
 
-
     public bool isSlotBlocked;
 
     private Button button;
-
+    private TypesOfInventory types;
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
 
@@ -22,27 +21,55 @@ public class InventorySlot_UI : MonoBehaviour
     private void Awake()
     {
         ClearSlot();
-
+        
         button = GetComponent<Button>();
         thisSlotImage = GetComponent<Image>();
         button?.onClick.AddListener(OnUISlotClick);
         itemSprite.preserveAspect = true;
 
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
+
+
     }
 
+    void OnEnable(){
+        UnblockSlotOfPants();
+        UnblockSlotOfShirt();
+        
+    }
     public void Init(InventorySlot slot, TypesOfInventory thisEnum)
     {
         assignedInventorySlot = slot;
         UpdateUISlot(slot);
-        if (thisEnum == TypesOfInventory.PANTALON)
+        types = thisEnum;
+        BlockSlot();
+    }
+
+    private void BlockSlot(){
+        if (types == TypesOfInventory.PANTALON && !PlayerStats.hasPants)
         {
-            print("slot blockeado");
             isSlotBlocked = true;
             thisSlotImage.color = Color.red;
         }
+        if(types == TypesOfInventory.CAMISA && !PlayerStats.hasShirt) 
+        {
+            isSlotBlocked = true;
+            thisSlotImage.color = Color.blue;
+        }
     }
+    public void UnblockSlotOfPants(){
+        if(!PlayerStats.hasPants || types != TypesOfInventory.PANTALON) return;
 
+        isSlotBlocked = false;
+        thisSlotImage.color = Color.white;
+    }
+    
+    public void UnblockSlotOfShirt(){
+        if(!PlayerStats.hasShirt || types != TypesOfInventory.CAMISA) return;
+        
+        isSlotBlocked = false;
+        thisSlotImage.color = Color.white;
+    }
     public void UpdateUISlot(InventorySlot slot)
     {
         if (slot.ItemData != null)

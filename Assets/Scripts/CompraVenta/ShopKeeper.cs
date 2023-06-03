@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 
 [RequireComponent(typeof(UniqueID))]
@@ -37,7 +37,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            player.GetComponent<FirstPersonController>().enabled = true;
+            player.GetComponent<FaRCharacterController>().enabled = true;
             player.GetComponent<CubePlacer>().enabled = true;
             ShopSystemUI.gameObject.SetActive(false);
             Time.timeScale = 1f;
@@ -65,7 +65,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
             player = GameObject.FindWithTag("Player");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            player.GetComponent<FirstPersonController>().enabled = false;
+            player.GetComponent<FaRCharacterController>().enabled = false;
             player.GetComponent<CubePlacer>().enabled = false;
             Time.timeScale = 1f;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using FaRUtils.Systems.DateTime;
 using FaRUtils.Systems.ItemSystem;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 using UnityStandardAssets.CrossPlatformInput;
 using IngameDebugConsole;
 using System;
@@ -47,6 +47,8 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand("skipstrawberrygrowth", "Se salta el crecimiento de la frutilla, avanzando los días necesarios", SkipStrawberryGrowth);
 		DebugLogConsole.AddCommand("skiptomatogrowth", "Se salta el crecimiento del tomate, avanzando los días necesarios", SkipTomatoGrowth);
 		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
+		DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
+		DebugLogConsole.AddCommand("giveShirt", "le da pantalones", GiveShirt);
 	}
 
     private void SetAreaHarvestLevel(int x)
@@ -59,14 +61,14 @@ public class FaRCommands : MonoBehaviour
         if(!_noclip)
         {
             rb.useGravity = false;
-            player.GetComponent<FirstPersonController>().enabled = false;
+            player.GetComponent<FaRCharacterController>().enabled = false;
 			player.GetComponent<CharacterController>().enabled = false;
             _noclip = true;
         }
         else
         {
             rb.useGravity = true;
-			player.GetComponent<FirstPersonController>().enabled = true;
+			player.GetComponent<FaRCharacterController>().enabled = true;
 			player.GetComponent<CharacterController>().enabled = true;
             _noclip = false; 
         }
@@ -129,7 +131,15 @@ public class FaRCommands : MonoBehaviour
 		//Saltar el crecimiento del tomate, avanzando rápido los días necesarios
 	}
 
+	void GivePants()
+	{
+		PlayerStats.hasPants = true;
+	}
 
+	void GiveShirt()
+	{
+		PlayerStats.hasShirt = true;
+	}
     public void Update()
 	{
 		if (_noclip)

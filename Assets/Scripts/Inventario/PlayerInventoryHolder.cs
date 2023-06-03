@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityStandardAssets.Characters.FirstPerson;
 using FaRUtils.Systems.DateTime;
 
 public class PlayerInventoryHolder : InventoryHolder
@@ -17,7 +16,7 @@ public class PlayerInventoryHolder : InventoryHolder
     public ShopKeeper shopKeeper;
     public GameObject TimeManager;
     public GameObject reloj;
-    public bool isInventoryOpen;
+    public static bool isInventoryOpen;
     public bool IsBuying;
     public DynamicInventoryDisplay playerBackpackPanel;
     public InventoryUIController inventoryUIController;

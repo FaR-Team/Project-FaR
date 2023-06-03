@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Localization;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 
 public class Cama : MonoBehaviour, IInteractable
@@ -66,7 +66,7 @@ public class Cama : MonoBehaviour, IInteractable
         //THIS SHITTY CODE TOOK ME A WHOLE WEEK, I CRIED 5 NIGHTS, AND KILLED 7 DOGS BECAUSE OF MY STRESS, btw, if you're reading this, tell me witch errors you find.
         Energia.GetComponent<Energía>().EnergiaActual = 30;
         Energia.GetComponent<Energía>().UpdateEnergy();
-        player.GetComponent<FirstPersonController>().enabled = false;
+        player.GetComponent<FaRCharacterController>().enabled = false;
         SaveGameManager.SaveData();
         yasonlas6 = false;
         _isSleeping = true;
@@ -96,7 +96,7 @@ public class Cama : MonoBehaviour, IInteractable
             Negrura.GetComponent<Animation>().Play("NegroOut");
             yasonlas6 = true;
             player = GameObject.FindWithTag("Player");
-            player.GetComponent<FirstPersonController>().enabled = true;
+            player.GetComponent<FaRCharacterController>().enabled = true;
             StartCoroutine(wait());
         }
     }

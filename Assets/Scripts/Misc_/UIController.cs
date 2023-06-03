@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityStandardAssets.Characters.FirstPerson;
+using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 
 public class UIController : MonoBehaviour

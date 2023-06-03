@@ -73,6 +73,24 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Value"",
+                    ""id"": ""9520bbd4-d763-40d1-af1c-e8233eb95f8a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""d3cd9b2f-816a-4e9b-894f-09bdd6d12e9d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""MassSell"",
                     ""type"": ""Value"",
                     ""id"": ""9fc11bcf-5633-4aa7-934e-aa9800e91021"",
@@ -100,19 +118,10 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""LookX"",
+                    ""name"": ""Look"",
                     ""type"": ""Value"",
-                    ""id"": ""bd599627-b6a3-49f5-acdb-9ccfc87fb9b1"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""LookY"",
-                    ""type"": ""Value"",
-                    ""id"": ""45784676-7c7a-4359-bc1e-ce6aa2f0c8a8"",
-                    ""expectedControlType"": ""Axis"",
+                    ""id"": ""433b1ca7-8e4e-462b-b04c-10a744df1141"",
+                    ""expectedControlType"": ""Delta"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -256,6 +265,24 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""b5bb7d8f-fcf7-47f4-b7ea-cb1a9970969f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HotbarRight"",
+                    ""type"": ""Button"",
+                    ""id"": ""7e94d25c-368d-483b-96db-ded71145d060"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HotbarLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""dda8fdb6-6da8-48c5-b48d-a25693835e4e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -436,50 +463,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""SprintFinish"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5a39f9de-ef8e-46b2-9c70-917799f8c651"",
-                    ""path"": ""<Mouse>/delta/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""LookX"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ba0be22a-39bf-4d81-82c2-51ed268bc52e"",
-                    ""path"": ""<Gamepad>/rightStick/x"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""LookX"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""56c8f01c-109d-4796-a8d0-375aadc50182"",
-                    ""path"": ""<Mouse>/delta/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""LookY"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eed0b9e9-9415-4036-87ca-4ea68965174c"",
-                    ""path"": ""<Gamepad>/rightStick/y"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""LookY"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -746,6 +729,94 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""action"": ""MassSell"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ff008bbe-3110-4e3e-b4c6-acdb26d82706"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6ffef760-2bcf-413f-b30c-ff97db3b4ca7"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertX=false,invertY=false),ScaleVector2(x=20,y=20)"",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5bb15196-5cf3-46f2-87a3-523f5e2a70ea"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""67809629-41c0-4b72-9387-9af24691e400"",
+                    ""path"": ""<Gamepad>/leftStickPress"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b212d6bd-e5ff-4d42-b774-38abda2c9a5a"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ed7ac43-0a66-4326-8f4e-8a07f85059c7"",
+                    ""path"": ""<Gamepad>/rightStickPress"",
+                    ""interactions"": ""Press"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""419239b6-eb51-41eb-8481-4669045cf9aa"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""HotbarRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e46edcd7-1f24-4da4-aea4-9221d04c90db"",
+                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""HotbarLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -797,11 +868,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
+        m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
         m_Player_MassSell = m_Player.FindAction("MassSell", throwIfNotFound: true);
         m_Player_SprintFinish = m_Player.FindAction("SprintFinish", throwIfNotFound: true);
         m_Player_MassSellFinish = m_Player.FindAction("MassSellFinish", throwIfNotFound: true);
-        m_Player_LookX = m_Player.FindAction("LookX", throwIfNotFound: true);
-        m_Player_LookY = m_Player.FindAction("LookY", throwIfNotFound: true);
+        m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_Hotbar1 = m_Player.FindAction("Hotbar1", throwIfNotFound: true);
         m_Player_Hotbar2 = m_Player.FindAction("Hotbar2", throwIfNotFound: true);
         m_Player_Hotbar3 = m_Player.FindAction("Hotbar3", throwIfNotFound: true);
@@ -818,6 +890,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_UseItemHoldRelease = m_Player.FindAction("UseItemHoldRelease", throwIfNotFound: true);
         m_Player_ToggleDebug = m_Player.FindAction("ToggleDebug", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
+        m_Player_HotbarRight = m_Player.FindAction("HotbarRight", throwIfNotFound: true);
+        m_Player_HotbarLeft = m_Player.FindAction("HotbarLeft", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -882,11 +956,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_Crouch;
+    private readonly InputAction m_Player_Zoom;
     private readonly InputAction m_Player_MassSell;
     private readonly InputAction m_Player_SprintFinish;
     private readonly InputAction m_Player_MassSellFinish;
-    private readonly InputAction m_Player_LookX;
-    private readonly InputAction m_Player_LookY;
+    private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_Hotbar1;
     private readonly InputAction m_Player_Hotbar2;
     private readonly InputAction m_Player_Hotbar3;
@@ -903,6 +978,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_UseItemHoldRelease;
     private readonly InputAction m_Player_ToggleDebug;
     private readonly InputAction m_Player_Pause;
+    private readonly InputAction m_Player_HotbarRight;
+    private readonly InputAction m_Player_HotbarLeft;
     public struct PlayerActions
     {
         private @PlayerInput2 m_Wrapper;
@@ -912,11 +989,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
+        public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputAction @MassSell => m_Wrapper.m_Player_MassSell;
         public InputAction @SprintFinish => m_Wrapper.m_Player_SprintFinish;
         public InputAction @MassSellFinish => m_Wrapper.m_Player_MassSellFinish;
-        public InputAction @LookX => m_Wrapper.m_Player_LookX;
-        public InputAction @LookY => m_Wrapper.m_Player_LookY;
+        public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @Hotbar1 => m_Wrapper.m_Player_Hotbar1;
         public InputAction @Hotbar2 => m_Wrapper.m_Player_Hotbar2;
         public InputAction @Hotbar3 => m_Wrapper.m_Player_Hotbar3;
@@ -933,6 +1011,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @UseItemHoldRelease => m_Wrapper.m_Player_UseItemHoldRelease;
         public InputAction @ToggleDebug => m_Wrapper.m_Player_ToggleDebug;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
+        public InputAction @HotbarRight => m_Wrapper.m_Player_HotbarRight;
+        public InputAction @HotbarLeft => m_Wrapper.m_Player_HotbarLeft;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -957,6 +1037,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
+                @Zoom.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Zoom.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
+                @Zoom.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnZoom;
                 @MassSell.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSell;
                 @MassSell.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSell;
                 @MassSell.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSell;
@@ -966,12 +1052,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @MassSellFinish.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSellFinish;
                 @MassSellFinish.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSellFinish;
                 @MassSellFinish.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSellFinish;
-                @LookX.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookX;
-                @LookX.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookX;
-                @LookX.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookX;
-                @LookY.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookY;
-                @LookY.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookY;
-                @LookY.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLookY;
+                @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Hotbar1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar1;
                 @Hotbar1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar1;
                 @Hotbar1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar1;
@@ -1020,6 +1103,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Pause.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
                 @Pause.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPause;
+                @HotbarRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarRight;
+                @HotbarRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarRight;
+                @HotbarRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarRight;
+                @HotbarLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
+                @HotbarLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
+                @HotbarLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1039,6 +1128,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
+                @Zoom.started += instance.OnZoom;
+                @Zoom.performed += instance.OnZoom;
+                @Zoom.canceled += instance.OnZoom;
                 @MassSell.started += instance.OnMassSell;
                 @MassSell.performed += instance.OnMassSell;
                 @MassSell.canceled += instance.OnMassSell;
@@ -1048,12 +1143,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @MassSellFinish.started += instance.OnMassSellFinish;
                 @MassSellFinish.performed += instance.OnMassSellFinish;
                 @MassSellFinish.canceled += instance.OnMassSellFinish;
-                @LookX.started += instance.OnLookX;
-                @LookX.performed += instance.OnLookX;
-                @LookX.canceled += instance.OnLookX;
-                @LookY.started += instance.OnLookY;
-                @LookY.performed += instance.OnLookY;
-                @LookY.canceled += instance.OnLookY;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
                 @Hotbar1.started += instance.OnHotbar1;
                 @Hotbar1.performed += instance.OnHotbar1;
                 @Hotbar1.canceled += instance.OnHotbar1;
@@ -1102,6 +1194,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Pause.started += instance.OnPause;
                 @Pause.performed += instance.OnPause;
                 @Pause.canceled += instance.OnPause;
+                @HotbarRight.started += instance.OnHotbarRight;
+                @HotbarRight.performed += instance.OnHotbarRight;
+                @HotbarRight.canceled += instance.OnHotbarRight;
+                @HotbarLeft.started += instance.OnHotbarLeft;
+                @HotbarLeft.performed += instance.OnHotbarLeft;
+                @HotbarLeft.canceled += instance.OnHotbarLeft;
             }
         }
     }
@@ -1131,11 +1229,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnInteraction(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
+        void OnZoom(InputAction.CallbackContext context);
         void OnMassSell(InputAction.CallbackContext context);
         void OnSprintFinish(InputAction.CallbackContext context);
         void OnMassSellFinish(InputAction.CallbackContext context);
-        void OnLookX(InputAction.CallbackContext context);
-        void OnLookY(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
         void OnHotbar1(InputAction.CallbackContext context);
         void OnHotbar2(InputAction.CallbackContext context);
         void OnHotbar3(InputAction.CallbackContext context);
@@ -1152,5 +1251,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnUseItemHoldRelease(InputAction.CallbackContext context);
         void OnToggleDebug(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
+        void OnHotbarRight(InputAction.CallbackContext context);
+        void OnHotbarLeft(InputAction.CallbackContext context);
     }
 }
