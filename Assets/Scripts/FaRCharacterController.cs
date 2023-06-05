@@ -23,6 +23,7 @@ namespace FaRUtils.FPSController
 
         public bool doZoom;
         public bool doCrouch;
+        public bool doWalk;
 
         [Header("Parámetros de zoom")]
         public float zoomFOV = 35.0f;
