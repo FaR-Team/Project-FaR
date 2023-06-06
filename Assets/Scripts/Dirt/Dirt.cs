@@ -78,15 +78,13 @@ public class Dirt : MonoBehaviour
     public bool GetCrop(SeedItemData itemData)
     {
         _isEmpty = false;
-        Quaternion rotation = Quaternion.Euler(0, GridGhost.SeedRotationValue, 0);
 
-        GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, rotation, transform);
+        GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
         
         currentCrop = instantiated;
         currentCropData = itemData;
         
         GridGhost.UpdateRandomSeed();
-        
         return (instantiated != null);
     }
 }

@@ -43,7 +43,7 @@ public class GridGhost : MonoBehaviour
     public static int SeedRotationValue = 0;
     private static int RandomPos()
     {
-        return Random.Range(-180, 180);
+        return Random.Range(0, 4);
     }
     private InventoryItemData GetItemData()
     {
@@ -115,15 +115,20 @@ public class GridGhost : MonoBehaviour
     }
     private void ActivateSeedGhost()
     {
-        Quaternion rotation = Quaternion.Euler(0, SeedRotationValue, 0);
-        seedGhost.transform.rotation = rotation;
+        seedGhost.transform.rotation = Rotation();
         seedGhost.SetActive(true);
         seedGhost.transform.position = finalPosition;
         seedGhost.GetComponentInChildren<MeshFilter>().mesh = GetItemData().ghostMesh;
     }
 
+    public static Quaternion Rotation()
+    {
+        return Quaternion.Euler(0, SeedRotationValue * 90, 0);
+    }
+
     public static void UpdateRandomSeed()
     {
+        Rotation();
         SeedRotationValue = RandomPos();
     }
 
