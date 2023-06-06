@@ -99,11 +99,6 @@ public class GridGhost : MonoBehaviour
         
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
         
-        if (!hotbarDisplay.CanUseItem())
-        {
-            seedGhost.SetActive(false);
-            return;
-        }
         ActivateSeedGhost();
 
         //seedGhost se activa en la escena, se lo pone en la posicion adecuada y se le cambia la textura por la adecuada.

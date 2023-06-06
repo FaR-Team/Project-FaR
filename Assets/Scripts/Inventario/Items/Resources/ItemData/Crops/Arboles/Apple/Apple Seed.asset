@@ -14,17 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 8
   Nombre: Semillas de Manzana
-  "Descripci\xF3n": Son semillas de manzana! [Not Yet Implemented]
+  "Descripci\xF3n": Son semillas de manzana!
   Icono: {fileID: 21300000, guid: 527ced1216072da44bcc4c991e5520a9, type: 3}
   Valor: 2000
   ItemPrefab: {fileID: 5634044043551495168, guid: 63e760dff1a3e304b834bb4b03ff09d5,
     type: 3}
   DirtPrefabGhost: {fileID: 5634044043551495168, guid: 7dabee5471382764d9defd778f9ee470,
     type: 3}
+  ghostMesh: {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c,
+    type: 3}
   ToolGameObject: {fileID: 0}
   Usable: 1
   Sellable: 0
-  Seed: 0
+  Seed: 1
   TreeSeed: 1
   IsLookingAtStore: 0
   Tool: 0

@@ -163,7 +163,7 @@ public class HotbarDisplay : StaticInventoryDisplay
     private void UseItemPressed()
     {
         _isHolding = true;
-        InvokeRepeating("Holdear", 0, 0.15f);
+        InvokeRepeating("Holdear", 0, 0.1f);
     }
 
     private void SellAllRelease()
@@ -344,10 +344,10 @@ public class HotbarDisplay : StaticInventoryDisplay
 
     private void Holdear()
     {
+        if (GetItemData() == null) return;
+
         if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
         {
-            if (GetItemData() == null) return;
-
             if (GetItemData().Sellable == true && 
                 GetItemData().Seed == false && 
                 GetItemData().Usable == true)
@@ -360,6 +360,44 @@ public class HotbarDisplay : StaticInventoryDisplay
                 
                 SlotCurrentIndex().UpdateUISlot();
             }
+            return;
+        }
+        
+        if (GetItemData().IsHoe || GetItemData().IsBucket)
+        {
+            GetItemData().UseItem();
+        }
+
+        if (GetItemData().Seed && 
+            interactor._LookingAtDirt)
+        {
+            var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
+
+            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
+
+
+            //var inventory = player.GetComponent<InventoryHolder>();
+
+            if (GetItemData().UseItem(dirtToTest) == true)
+            {
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            SlotCurrentIndex().UpdateUISlot();
+        }
+
+        if (GetItemData().TreeSeed && 
+            gridGhost.CheckCrop(gridGhost.finalPosition, 1) && 
+            interactor._LookingAtDirt == false)
+        {
+            //var inventory = player.GetComponent<InventoryHolder>();
+
+            if (GetItemData().UseItem())
+            {
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            SlotCurrentIndex().UpdateUISlot();
         }
     }
 
