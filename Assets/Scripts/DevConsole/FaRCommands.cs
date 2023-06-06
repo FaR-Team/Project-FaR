@@ -14,12 +14,7 @@ public class FaRCommands : MonoBehaviour
 		get { return sensitivity; }
 		set { sensitivity = value; }
 	}
-	[Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
-	[Range(0f, 90f)][SerializeField] float yRotationLimit = 88f;
-
-	Vector2 rotation = Vector2.zero;
-	const string xAxis = "Mouse X";
-	const string yAxis = "Mouse Y";
+	[SerializeField] float sensitivity = 1.0f;
 
 	public int actualDay;
 	private bool skipdays;
@@ -27,6 +22,7 @@ public class FaRCommands : MonoBehaviour
 	public GameObject player;
     public GameObject TimeManager;
 	public Rigidbody rb;
+	public Camera cam;
     public Cama _cama;
     public Database _database;
 	public bool _noclip;
@@ -61,14 +57,12 @@ public class FaRCommands : MonoBehaviour
         if(!_noclip)
         {
             rb.useGravity = false;
-            player.GetComponent<FaRCharacterController>().enabled = false;
 			player.GetComponent<CharacterController>().enabled = false;
             _noclip = true;
         }
         else
         {
             rb.useGravity = true;
-			player.GetComponent<FaRCharacterController>().enabled = true;
 			player.GetComponent<CharacterController>().enabled = true;
             _noclip = false; 
         }
@@ -169,13 +163,7 @@ public class FaRCommands : MonoBehaviour
 				player.transform.Translate(Vector3.down * Time.deltaTime * 20f);
 			}
 
-			rotation.x += Input.GetAxis(xAxis) * sensitivity;
-			rotation.y += Input.GetAxis(yAxis) * sensitivity;
-			rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
-			var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-			var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
-
-			player.transform.localRotation = xQuat * yQuat;
+			player.GetComponent<FaRCharacterController>().DoLooking();
 		}
 
 		if (skipdays)

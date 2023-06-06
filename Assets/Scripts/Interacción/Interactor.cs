@@ -41,7 +41,7 @@ public class Interactor : MonoBehaviour
         InteractionKey.Enable();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         _numFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _interactableMask);
 

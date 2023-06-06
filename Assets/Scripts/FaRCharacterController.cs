@@ -23,7 +23,6 @@ namespace FaRUtils.FPSController
 
         public bool doZoom;
         public bool doCrouch;
-        public bool doWalk;
 
         [Header("Parámetros de zoom")]
         public float zoomFOV = 35.0f;
@@ -61,7 +60,7 @@ namespace FaRUtils.FPSController
             DoCrouch();
         }
 
-        private void DoLooking()
+        public void DoLooking()
         {
             Vector2 looking = GetPlayerLook();
             float lookX = looking.x * lookSensitivity * Time.deltaTime;
