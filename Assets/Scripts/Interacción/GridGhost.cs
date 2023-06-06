@@ -85,7 +85,8 @@ public class GridGhost : MonoBehaviour
         * Si no tiene semilla en la mano O 
         * Si la semilla es cultivo y no estas mirando tierra O
         * Si la semilla es arbol y estas mirando a una tierra. 
-        * Entonces desactiva la seed y no ejecuta el código. */
+        * Entonces desactiva la seed y no ejecuta el código. 
+        */
         if (GetItemData() == null || GetItemData().Seed && !interactor._LookingAtDirt || GetItemData().TreeSeed && interactor._LookingAtDirt || GetItemData().IsHoe)
         {
             seedGhost.SetActive(false);
@@ -98,6 +99,19 @@ public class GridGhost : MonoBehaviour
         if (hit.collider == null) return; //Si el raycast no pega con NADA, entonces no ejecuta el código.
         
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
+        
+        if (!hotbarDisplay.CanUseItem() && GetItemData().Seed)
+        {
+            seedGhost.SetActive(false);
+            return;
+        }
+
+        
+        if (!CheckCrop(finalPosition, 1) && GetItemData().TreeSeed)
+        {
+            seedGhost.SetActive(false);
+            return;
+        }
         
         ActivateSeedGhost();
 
@@ -181,28 +195,14 @@ public class GridGhost : MonoBehaviour
         
     }
 
-    public bool PlantNear(GameObject DirtPrefab)
+    public bool PlantTreeNear(GameObject Prefab)
     {
         RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerDirt);
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
 
         if(hit.collider != null)
         {
-            GameObject.Instantiate(DirtPrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
-            return true;
-        }
-        else {  return false;    }
-        
-    }
-
-    public bool PlantTreeNear(GameObject DirtPrefab)
-    {
-        RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerDirt);
-
-        if(hit.collider != null)
-        {
-            GameObject.Instantiate(DirtPrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
+            GameObject.Instantiate(Prefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
             return true;
         }
         else {  return false;   }
