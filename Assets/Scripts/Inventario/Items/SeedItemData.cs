@@ -19,7 +19,6 @@ public class SeedItemData : InventoryItemData
     {
         if(Seed == true)
         {
-            dirt.MakeRand();
             
             if (dirt.GetCrop(this) == true)
             {

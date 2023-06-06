@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GridGhost : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class GridGhost : MonoBehaviour
     public GameObject Dirt;
     public RayAndSphereManager rayAndSphereManager;
     public Grid grid;
+
 
     public Vector3 finalPosition;
 
@@ -24,14 +27,23 @@ public class GridGhost : MonoBehaviour
     [SerializeField, Tooltip("La distancia máxima donde se puede arar")]
     private float   _maxGrabDistance;
 
-    
+
+
     void Start()
     {
         grid = FindObjectOfType<Grid>();
         if (instance != this || instance == null)
         {
             instance = this;
-        } 
+        }
+        SeedRotationValue = RandomPos();
+    }
+
+
+    public static int SeedRotationValue = 0;
+    private static int RandomPos()
+    {
+        return Random.Range(-180, 180);
     }
     private InventoryItemData GetItemData()
     {
@@ -84,7 +96,9 @@ public class GridGhost : MonoBehaviour
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
 
         if (hit.collider == null) return; //Si el raycast no pega con NADA, entonces no ejecuta el código.
+        
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
+        
         if (!hotbarDisplay.CanUseItem())
         {
             seedGhost.SetActive(false);
@@ -101,9 +115,16 @@ public class GridGhost : MonoBehaviour
     }
     private void ActivateSeedGhost()
     {
+        Quaternion rotation = Quaternion.Euler(0, SeedRotationValue, 0);
+        seedGhost.transform.rotation = rotation;
         seedGhost.SetActive(true);
         seedGhost.transform.position = finalPosition;
         seedGhost.GetComponentInChildren<MeshFilter>().mesh = GetItemData().ghostMesh;
+    }
+
+    public static void UpdateRandomSeed()
+    {
+        SeedRotationValue = RandomPos();
     }
 
     public Dirt CheckDirt(Vector3 center, float radius)
@@ -144,7 +165,6 @@ public class GridGhost : MonoBehaviour
             return true;
         }
     }
-
 
     public void PlantDirt()
     {
@@ -187,7 +207,6 @@ public class GridGhost : MonoBehaviour
         }
         else {  return false;   }
     }
-
 
     public void PlaceDirtNear(Vector3 nearPoint)
     {      

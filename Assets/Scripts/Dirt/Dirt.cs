@@ -18,7 +18,6 @@ public class Dirt : MonoBehaviour
     public GameObject currentCrop;
     public SeedItemData currentCropData;
     private WaitForSeconds delay;
-    private int rand;
 
     void Start()
     {
@@ -79,34 +78,15 @@ public class Dirt : MonoBehaviour
     public bool GetCrop(SeedItemData itemData)
     {
         _isEmpty = false;
-        Quaternion rotation;
-        
-        switch(rand)
-        {
-            case 1:
-                rotation = Quaternion.Euler(0, 90, 0);
-            break;
-            case 2:
-                rotation = Quaternion.Euler(0, -90, 0);
-            break;
-            case 3:
-                rotation = Quaternion.Euler(0, -180, 0);
-            break;
-            case 4:
-                rotation = Quaternion.Euler(0, 180, 0);
-            break;
-            default:
-                rotation = Quaternion.Euler(0, 0, 0);
-            break;
-        }
+        Quaternion rotation = Quaternion.Euler(0, GridGhost.SeedRotationValue, 0);
+
         GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, rotation, transform);
+        
         currentCrop = instantiated;
         currentCropData = itemData;
+        
+        GridGhost.UpdateRandomSeed();
+        
         return (instantiated != null);
-    }
-
-    public void MakeRand()
-    {
-        rand = UnityEngine.Random.Range(1,4);
     }
 }
