@@ -204,7 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1287e3225e7ffff41b48527b0f9e7a22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaHarvestDelay: 1
+  _isWet: 0
+  areaHarvestDelay: 0.5
   abilityLevelPlaceholder: 1
   violeta: {fileID: 5765180190978009047}
   currentCrop: {fileID: 0}
@@ -293,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 76ae8849-fe38-493b-91c6-0b068043fe92
+  _ID: 1ef15d2b-16d9-4089-aa81-c3065e35c2ee
 --- !u!1 &7508442044756205147
 GameObject:
   m_ObjectHideFlags: 0
