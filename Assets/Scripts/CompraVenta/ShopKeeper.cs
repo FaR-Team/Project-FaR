@@ -38,7 +38,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
             player.GetComponent<FaRCharacterController>().enabled = true;
-            player.GetComponent<CubePlacer>().enabled = true;
+            player.GetComponent<DirtPlower>().enabled = true;
             ShopSystemUI.gameObject.SetActive(false);
             Time.timeScale = 1f;
             StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
@@ -66,7 +66,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
             player.GetComponent<FaRCharacterController>().enabled = false;
-            player.GetComponent<CubePlacer>().enabled = false;
+            player.GetComponent<DirtPlower>().enabled = false;
             Time.timeScale = 1f;
         }
         else

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubePlacer : MonoBehaviour
+public class DirtPlower : MonoBehaviour
 {
     private Grid grid;
     public GameObject Dirt;

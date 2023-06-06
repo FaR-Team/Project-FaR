@@ -307,6 +307,6 @@ public class ShopKeeperDisplay : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         player.GetComponent<FaRCharacterController>().enabled = true;
-        player.GetComponent<CubePlacer>().enabled = true;
+        player.GetComponent<DirtPlower>().enabled = true;
     }
 }
