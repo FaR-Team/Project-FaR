@@ -64,8 +64,8 @@ public class Cama : MonoBehaviour, IInteractable
         Negrura.SetActive(true);
         Negrura.GetComponent<Animation>().Play("NegroIn");
         //THIS SHITTY CODE TOOK ME A WHOLE WEEK, I CRIED 5 NIGHTS, AND KILLED 7 DOGS BECAUSE OF MY STRESS, btw, if you're reading this, tell me witch errors you find.
-        Energia.GetComponent<Energía>().EnergiaActual = 30;
-        Energia.GetComponent<Energía>().UpdateEnergy();
+        Energia.GetComponent<Energy>().EnergiaActual = 30;
+        Energia.GetComponent<Energy>().UpdateEnergy();
         player.GetComponent<FaRCharacterController>().enabled = false;
         SaveGameManager.SaveData();
         yasonlas6 = false;

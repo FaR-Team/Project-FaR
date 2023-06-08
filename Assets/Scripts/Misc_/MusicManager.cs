@@ -22,7 +22,7 @@ public class MusicManager : MonoBehaviour
         {
             if (YaEligioHoy == false)
             {
-                BuscarElQuesoDelGobierno();
+                PlayMusic();
             }
             yasonlas6am = true;
         }
@@ -31,7 +31,7 @@ public class MusicManager : MonoBehaviour
         {
             if (YaEligioHoy == false)
             {
-                BuscarElQuesoDelGobierno();
+                PlayMusic();
             }
             yasonlas12pm = true;
         }
@@ -40,7 +40,7 @@ public class MusicManager : MonoBehaviour
         {
             if (YaEligioHoy == false)
             {
-                BuscarElQuesoDelGobierno();
+                PlayMusic();
             }
             yasonlas6pm = true;
         }
@@ -54,7 +54,7 @@ public class MusicManager : MonoBehaviour
         }
         audioSource.volume = volumen = slider.value;
     }
-    public void BuscarElQuesoDelGobierno()
+    public void PlayMusic()
     {
         var rand = Random.Range(1,5);
         switch(rand) {

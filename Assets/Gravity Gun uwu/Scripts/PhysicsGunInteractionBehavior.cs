@@ -176,7 +176,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
 	private void Update ()
     {
-        if (Energia.GetComponent<Energía>().EnergiaActual >= 1){
+        if (Energia.GetComponent<Energy>().EnergiaActual >= 1){
             if (!Input.GetMouseButton(0))
             {
                 if (_grabbedRigidbody != null)
@@ -196,18 +196,18 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 #endif
             if (Physics.Raycast(ray, out hit, _maxGrabDistance, _grabLayer))
             {
-                if (Energia.GetComponent<Energía>()._ContadorActivo == false)
+                if (Energia.GetComponent<Energy>()._ContadorActivo == false)
                 {
                     Energia.GetComponent<Animation>().Play("Entrar uwuw");
-                    StartCoroutine(Energia.GetComponent<Energía>().walter());
-                    Energia.GetComponent<Energía>()._ContadorActivo = true;
-                    Energia.GetComponent<Energía>().timer = 1;
-                    Energia.GetComponent<Energía>()._yaAnimo = false;
+                    StartCoroutine(Energia.GetComponent<Energy>().walter());
+                    Energia.GetComponent<Energy>()._ContadorActivo = true;
+                    Energia.GetComponent<Energy>().timer = 1;
+                    Energia.GetComponent<Energy>()._yaAnimo = false;
                 }
-                else if (Energia.GetComponent<Energía>()._ContadorActivo == true)
+                else if (Energia.GetComponent<Energy>()._ContadorActivo == true)
                 {
-                    Energia.GetComponent<Energía>().timer = 2;
-                    StartCoroutine(Energia.GetComponent<Energía>().Walicho());
+                    Energia.GetComponent<Energy>().timer = 2;
+                    StartCoroutine(Energia.GetComponent<Energy>().Walicho());
                 }
             }
             return;
@@ -247,16 +247,16 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                     _grabbedRigidbody.gameObject.AddComponent<AvoidCollisionWPlayer>();
 
                     OnObjectGrabbed.Invoke(_grabbedRigidbody.gameObject);
-                    if (Energia.GetComponent<Energía>()._ContadorActivo == false)
+                    if (Energia.GetComponent<Energy>()._ContadorActivo == false)
                     {
                         Energia.GetComponent<Animation>().Play("Entrar uwuw");
-                        Energia.GetComponent<Energía>()._ContadorActivo = true;
-                        Energia.GetComponent<Energía>().timer = 5;
-                        Energia.GetComponent<Energía>()._yaAnimo = false;
+                        Energia.GetComponent<Energy>()._ContadorActivo = true;
+                        Energia.GetComponent<Energy>().timer = 5;
+                        Energia.GetComponent<Energy>()._yaAnimo = false;
                     }
-                    else if (Energia.GetComponent<Energía>()._ContadorActivo == true)
+                    else if (Energia.GetComponent<Energy>()._ContadorActivo == true)
                     {
-                        Energia.GetComponent<Energía>().timer = 5;
+                        Energia.GetComponent<Energy>().timer = 5;
                     }
 
 #if UNITY_EDITOR
@@ -485,7 +485,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
     private void ReleaseObject()
     {
-        Energia.GetComponent<Energía>().UseEnergy(1);
+        Energia.GetComponent<Energy>().UseEnergy(1);
 
         AvoidCollisionWPlayer colis = _grabbedRigidbody.GetComponent<AvoidCollisionWPlayer>();
         colis.player = null;

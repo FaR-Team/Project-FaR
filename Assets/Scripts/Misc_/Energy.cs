@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class Energía : MonoBehaviour
+public class Energy : MonoBehaviour
 {
     [SerializeField] TMP_Text TextoEnergia;
     [SerializeField] Slider Barra;
@@ -19,10 +19,13 @@ public class Energía : MonoBehaviour
     public bool _yaAnimo = false;
     public bool _ContadorActivo = false;
 
+    public float timeForSeconds;
 
+    WaitForSeconds delay;
 
     void Start()
     {
+        delay = new WaitForSeconds(timeForSeconds);
         EnergiaActual = 30;
         UpdateEnergy();
         //if(!PlayerPrefs.HasKey("EnergiaActual"))
@@ -52,7 +55,7 @@ public class Energía : MonoBehaviour
     public void UseEnergy(int EnergiaUsada)
     {
         EnergiaActual -= EnergiaUsada;
-        if(EnergiaActual >- 1)
+        if(EnergiaActual > -1)
         {
             UpdateEnergy();
         }else{
@@ -116,20 +119,20 @@ public class Energía : MonoBehaviour
 
     IEnumerator waiter()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return delay;
         this.GetComponent<Animation>().Play("Salir uwuw");
     }
 
     public IEnumerator walter()
     {
-        yield return new WaitForSeconds(1f);
+        yield return delay;
         this.GetComponent<Animation>().Play("NoHayEnergia");
-        yield return new WaitForSeconds(1f);
+        yield return delay;
         this.GetComponent<Animation>().Play("Salir uwuw");
     }
     public IEnumerator Walicho()
     {
-        yield return new WaitForSeconds(1f);
+        yield return delay;
         this.GetComponent<Animation>().Play("NoHayEnergia");
     }
 

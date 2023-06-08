@@ -292,7 +292,7 @@ namespace FaRUtils.Systems.DateTime
             //UpdateDayLocals();
             return $"Idks {date}";
         }
-
+        
         public string TimeToString12()
         {
             int AdjustedHour = 0;

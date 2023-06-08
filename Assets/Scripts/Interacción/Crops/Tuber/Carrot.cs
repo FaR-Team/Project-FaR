@@ -31,7 +31,7 @@ public class Carrot : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        if (Energia.GetComponent<Energía>().EnergiaActual >= 1)
+        if (Energia.GetComponent<Energy>().EnergiaActual >= 1)
         {
             Tierra.GetComponent<Dirt>().CreateBox();
             InteractOut();
@@ -52,7 +52,7 @@ public class Carrot : MonoBehaviour, IInteractable
 
     private void JustInteracted()
     {
-        Energía energia = Energia.GetComponent<Energía>(); 
+        Energy energia = Energia.GetComponent<Energy>(); 
 
         if (JustInter || energia.EnergiaActual < 1) return;
 
@@ -97,8 +97,8 @@ public class Carrot : MonoBehaviour, IInteractable
             transform.gameObject.layer = 0;
         }
         CropParent.layer = 0;
-        Energia.GetComponent<Energía>().EnergiaActual -= 1;
-        Energia.GetComponent<Energía>().UpdateEnergy();
+        Energia.GetComponent<Energy>().EnergiaActual -= 1;
+        Energia.GetComponent<Energy>().UpdateEnergy();
         StartCoroutine(Wait());
     }
 
