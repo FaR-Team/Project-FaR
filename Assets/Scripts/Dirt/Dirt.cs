@@ -18,6 +18,9 @@ public class Dirt : MonoBehaviour
     public GameObject currentCrop;
     public SeedItemData currentCropData;
     private WaitForSeconds delay;
+    
+   
+    public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
     void Start()
     {
