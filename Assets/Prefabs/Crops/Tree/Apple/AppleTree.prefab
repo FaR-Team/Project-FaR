@@ -184,6 +184,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5634044043551495294}
+  - component: {fileID: 3222033590266264127}
   - component: {fileID: 6464676113100393162}
   - component: {fileID: 1062288900735988520}
   - component: {fileID: 8231588947190722257}
@@ -211,6 +212,64 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3222033590266264127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634044043551495168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19193762165f594e8b61900892902b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Reloj: {fileID: 0}
+  Dia: 0
+  DiaM: 0
+  yacrecio: 0
+  DayIntsForChangeOfPhase: 010000000200000003000000
+  spawnPoints:
+  - {fileID: 5634044044255950256}
+  - {fileID: 5634044044839173456}
+  - {fileID: 5634044045038886948}
+  - {fileID: 5634044043543583747}
+  - {fileID: 5634044044279603229}
+  - {fileID: 5634044044443887011}
+  - {fileID: 5634044044787971564}
+  - {fileID: 5634044043415325977}
+  - {fileID: 5634044045011468578}
+  - {fileID: 5634044043612054146}
+  - {fileID: 5634044043966346173}
+  - {fileID: 5634044044592659463}
+  - {fileID: 5634044044499277516}
+  - {fileID: 5634044043497278324}
+  - {fileID: 5634044043697870009}
+  - {fileID: 5634044045407063329}
+  - {fileID: 5634044043561484128}
+  - {fileID: 5634044043464307590}
+  - {fileID: 5634044044941013118}
+  - {fileID: 5634044044934790030}
+  fruits: []
+  ReGrow: 10
+  ReGrowTimes: 111
+  Prefab: {fileID: 4696727328782244568, guid: 0efc62c6f68b25a4f98aa6e9238bc966, type: 3}
+  meshs:
+  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
+  RandInt: 0
+  ExpectedInt: 0
+  _alreadyRe: 0
+  yaeligio: 0
+  yaeligioCh: 0
+  meshFilter: {fileID: 0}
+  meshCollider: {fileID: 0}
+  meshRenderer: {fileID: 0}
+  scales:
+  - 1
+  - 2.5
+  - 3.6
 --- !u!114 &6464676113100393162
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -225,10 +284,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Crop: {fileID: 0}
   EnergiaGO: {fileID: 0}
-  appleTree: {fileID: 0}
   appleTreeGO: {fileID: 0}
   anim: {fileID: 0}
   _prompt: {fileID: 0}
+  already: 0
+  ReGrowMaxTime: 0
+  ReGrow: 0
+  DiaM: 0
+  yaEligioCh: 0
+  appleTree: {fileID: 0}
 --- !u!33 &1062288900735988520
 MeshFilter:
   m_ObjectHideFlags: 0

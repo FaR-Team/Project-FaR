@@ -11,9 +11,11 @@ public class GrowingInPhases : MonoBehaviour
 {
 
     [Header("Misc.")]
+
     public GameObject Reloj;
-    public int Dia;
-    public int DiaM;
+
+    public int Dia; //Dias que pasaron desde que se plantó.
+    public int DiaM; //Asumo que debe ser los dias que estuvo maduro?? no entiendo.
     public bool yacrecio = false;
 
     [Header("Días para cambiar de fase")]
@@ -21,48 +23,49 @@ public class GrowingInPhases : MonoBehaviour
     public int[] DayIntsForChangeOfPhase;
 
     public List<Transform> spawnPoints;
-    public List<Transform> SpawnPointsAvailable => spawnPoints;
 
     //public GameObject Tierra = null;
 
 
     public List<GameObject> fruits;
 
-    public int RandInt;
-    public int ExpectedInt;
-    public int ReGrow;
-    public int ReGrowTimes;
+
+    public int ReGrow; //Veces que volvio a dar frutos.
+    public int ReGrowTimes; //Veces maxima que puede volver a dar frutos.
+
     public GameObject Prefab;
 
-    public bool[] boolList = new bool[20];
-    public bool _alreadyRe = false;
-    public bool yaeligio = false;
-    public bool yaeligioCh = false;
-
-    public MeshFilter meshFilter;
     public Mesh[] meshs;
-    public MeshCollider meshCollider;
+    public Material[] materials;
 
-    void Start()
+    [HideInInspector] public List<Transform> SpawnPointsAvailable => spawnPoints;
+
+    [HideInInspector] public int RandInt;
+    [HideInInspector] public int ExpectedInt;
+    [HideInInspector] public bool _alreadyRe = false;
+    [HideInInspector] public bool yaeligio = false;
+    [HideInInspector] public bool yaeligioCh = false;
+
+    [HideInInspector] public MeshFilter meshFilter;
+    [HideInInspector] public MeshCollider meshCollider;
+    [HideInInspector] public MeshRenderer meshRenderer;
+
+    public virtual void Start()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshCollider = GetComponent<MeshCollider>();
-        meshFilter.mesh = meshs[0];
-        meshCollider.sharedMesh = meshs[0];
-        Reloj = GameObject.FindGameObjectWithTag("Reloj");
-
+        meshRenderer= GetComponent<MeshRenderer>();
+        Reloj = GameObject.Find("Reloj");
         Dia = 0;
         yacrecio = false;
+        
         //Tierra = this.transform.root.gameObject;
+
+        /*meshFilter.mesh = meshs[0];
+        meshCollider.sharedMesh = meshs[0];
+        meshRenderer.material = materials[0];*/
     }
 
-    public void ClearBools()
-    {
-        for (int i = 0; i < 20; i++)
-        {
-            boolList[i] = false;
-        }
-    }
     public virtual void Update()
     {
         if (Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)

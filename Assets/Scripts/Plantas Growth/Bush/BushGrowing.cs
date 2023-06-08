@@ -1,37 +1,33 @@
-﻿using UnityEngine;
+using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using FaRUtils.Systems.DateTime;
+using System;
 using Random = UnityEngine.Random;
 
-public class AppleTreeGrowing : GrowingInPhases
+public class BushGrowing : GrowingInPhases
 {
-    public float[] scales;
+    public GameObject Tierra = null;
+
+
     public override void Start()
     {
         base.Start();
-                
-        meshFilter.mesh = meshs[0];
-        meshCollider.sharedMesh = meshs[0];
 
-        SetThisGameObjectScale(0);
-
-        ExpectedInt = 3;
+        Tierra = transform.root.GetChild(0).gameObject;
     }
 
-    private void SetThisGameObjectScale(int scaleValue)
-    {
-        transform.localScale = new Vector3(scales[scaleValue], scales[scaleValue], scales[scaleValue]);
-    }
     public override void Update()
     {
         if (Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)
         {
-            if (Dia < 2)
+            if (Dia < meshs.Length)
             {
                 Dia++;
             }
-
             yacrecio = true;
             CheckDayGrow();
-
             if (yaeligioCh == true)
             {
                 yaeligio = false;
@@ -39,12 +35,12 @@ public class AppleTreeGrowing : GrowingInPhases
                 _alreadyRe = false;
             }
 
-            if (Dia is 2)
+            if (Dia == meshs.Length)
             {
                 DiaM += 1;
                 if (DiaM == ExpectedInt)
                 {
-                    this.gameObject.layer = 7;
+                    gameObject.layer = 7;
                 }
             }
         }
@@ -54,16 +50,17 @@ public class AppleTreeGrowing : GrowingInPhases
             yacrecio = false;
         }
 
-        if (Dia is 2 && yaeligio == false)
+        if (Dia == meshs.Length && yaeligio == false)
         {
             PonerFruto();
         }
-    }
+    } 
+
     public override void PonerFruto()
     {
         if (yaeligio != false || ReGrow == ReGrowTimes) return;
 
-        RandInt = Random.Range(10, 15);
+        RandInt = Random.Range(3, 5);
 
         for (int i = 0; i < RandInt; i++)
         {
@@ -80,7 +77,19 @@ public class AppleTreeGrowing : GrowingInPhases
     public override void CheckDayGrow()
     {
         if (!yacrecio) return;
+        int valueToGet = Array.IndexOf(DayIntsForChangeOfPhase, Dia);
 
-        SetThisGameObjectScale(Dia);
+        if (valueToGet is -1) return;
+
+        meshCollider.sharedMesh = meshs[valueToGet];
+        meshFilter.mesh = meshs[valueToGet];
+        meshRenderer.material = materials[valueToGet];
+    }
+
+    public override IEnumerator BushCedeLaPresidencia()
+    {
+        Tierra.GetComponent<Animation>().Play();
+        yield return new WaitForSeconds(0.5f);
+        Destroy(Tierra.transform.parent.gameObject);
     }
 }
