@@ -90,4 +90,16 @@ public class Dirt : MonoBehaviour
         GridGhost.UpdateRandomSeed();
         return (instantiated != null);
     }
+
+    public void DirtIsHorny()
+    {
+        _isWet = true;
+        this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
+    }
+
+    public void DirtIsNotHorny()
+    {
+        _isWet = false;
+        this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+    }
 }

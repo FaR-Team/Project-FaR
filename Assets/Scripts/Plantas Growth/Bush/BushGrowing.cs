@@ -8,23 +8,27 @@ using Random = UnityEngine.Random;
 
 public class BushGrowing : GrowingInPhases
 {
-    public GameObject Tierra = null;
+    public Dirt Tierra = null;
+    public GameObject TierraTexture = null;
 
 
     public override void Start()
     {
         base.Start();
 
-        Tierra = transform.root.GetChild(0).gameObject;
+        Tierra = transform.root.gameObject.GetComponent<Dirt>();
+        TierraTexture = transform.root.GetChild(0).gameObject;
+
     }
 
     public override void Update()
     {
         if (Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)
         {
-            if (Dia < meshs.Length)
+            if ((Dia < meshs.Length) && Tierra._isWet)
             {
                 Dia++;
+                Tierra.DirtIsNotHorny();
             }
             yacrecio = true;
             CheckDayGrow();
@@ -35,9 +39,10 @@ public class BushGrowing : GrowingInPhases
                 _alreadyRe = false;
             }
 
-            if (Dia == meshs.Length)
+            if ((Dia == meshs.Length) && Tierra._isWet)
             {
                 DiaM += 1;
+                Tierra.DirtIsNotHorny();
                 if (DiaM == ExpectedInt)
                 {
                     gameObject.layer = 7;
@@ -56,7 +61,7 @@ public class BushGrowing : GrowingInPhases
         }
     } 
 
-    public override void PonerFruto()
+    public void PonerFruto()
     {
         if (yaeligio != false || ReGrow == ReGrowTimes) return;
 
@@ -88,7 +93,7 @@ public class BushGrowing : GrowingInPhases
 
     public override IEnumerator BushCedeLaPresidencia()
     {
-        Tierra.GetComponent<Animation>().Play();
+        TierraTexture.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);
         Destroy(Tierra.transform.parent.gameObject);
     }

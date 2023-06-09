@@ -15,7 +15,7 @@ public class GrowingInPhases : MonoBehaviour
     public GameObject Reloj;
 
     public int Dia; //Dias que pasaron desde que se plantó.
-    public int DiaM; //Asumo que debe ser los dias que estuvo maduro?? no entiendo.
+    public int DiaM; //Dias que pasaron desde que maduró.
     public bool yacrecio = false;
 
     [Header("Días para cambiar de fase")]
@@ -77,7 +77,6 @@ public class GrowingInPhases : MonoBehaviour
             {
                 yaeligio = false;
                 yaeligioCh = false;
-                _alreadyRe = false;
             }
             /*
             if(FaseFinal.activeInHierarchy)
@@ -94,11 +93,6 @@ public class GrowingInPhases : MonoBehaviour
         {
             yacrecio = false;
         }
-
-        if (meshCollider.sharedMesh == meshs[meshs.Length] && yaeligio == false)
-        {
-            PonerFruto();
-        }
     }
 
     public Transform GetRandomSP()
@@ -109,24 +103,6 @@ public class GrowingInPhases : MonoBehaviour
         SpawnPointsAvailable.Remove(transform);
 
         return transform.transform;
-    }
-
-    public virtual void PonerFruto()
-    {
-        if (yaeligio != false || ReGrow == ReGrowTimes) return;
-
-
-        RandInt = Random.Range(10, 15);
-
-        for (int i = 0; i < RandInt; i++)
-        {
-            Transform Spawn = GetRandomSP();
-            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
-            fruits.Add(fruit.transform.GetChild(2).gameObject);
-        }
-        DiaM = 1;
-        yaeligio = true;
-        ReGrow++;
     }
 
     public virtual void CheckDayGrow()
