@@ -6,11 +6,6 @@ using cakeslice;
 public class FruitsInteraction : MonoBehaviour, IInteractable
 {
     public GameObject Crop;
-    public GameObject EnergiaGO;
-
-    // public AppleTreeGrowing appleTree;
-
-    public GameObject appleTreeGO;
     public Animation anim;
     public GameObject _prompt;
 
@@ -25,7 +20,6 @@ public class FruitsInteraction : MonoBehaviour, IInteractable
     public virtual void Awake()
     {
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
-        EnergiaGO = GameObject.FindWithTag("Energia");
     }
 
     public virtual List<GameObject> Fruits()
@@ -41,13 +35,10 @@ public class FruitsInteraction : MonoBehaviour, IInteractable
     {
         yield return null;
     }
-    public Energy EnergiaComponent()
-    {
-        return EnergiaGO.GetComponent<Energy>();
-    }
+
     public virtual void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        if (EnergiaComponent().EnergiaActual >= 1)
+        if (Energy.RemainingEnergy >= 1)
         {
             InteractOut();
             interactSuccessful = true;
@@ -65,36 +56,36 @@ public class FruitsInteraction : MonoBehaviour, IInteractable
 
         already = true;
 
-        if (EnergiaComponent().EnergiaActual >= 1)
+        if (Energy.RemainingEnergy >= 1)
         {
-            if (EnergiaComponent()._ContadorActivo == false)
+            if (Energy._ContadorActivo == false)
             {
-                EnergiaGO.GetComponent<Animation>().Play("Entrar uwuw");
+                Energy._animationComp.Play("Entrar uwuw");
 
-                EnergiaComponent()._ContadorActivo = true;
-                EnergiaComponent().timer = 5;
-                EnergiaComponent()._yaAnimo = false;
+                Energy._ContadorActivo = true;
+                Energy.timer = 5;
+                Energy._yaAnimo = false;
             }
-            else if (EnergiaComponent()._ContadorActivo == true)
+            else if (Energy._ContadorActivo == true)
             {
-                EnergiaComponent().timer = 5;
+                Energy.timer = 5;
             }
-            AddOutline(Fruits());
-            EnergiaComponent().EnergiaActual -= 1;
-            EnergiaComponent().UpdateEnergy();
+            AddOutline();
+            Energy.RemainingEnergy -= 1;
+            Energy.UpdateEnergy();
         }
-        StartCoroutine(Wait(Fruits()));
+        StartCoroutine(Wait());
     }
 
-    public void AddOutline(List<GameObject> listOfFruits)
+    public void AddOutline()
     {
-        foreach (GameObject fruit in listOfFruits)
+        foreach (GameObject fruit in Fruits())
         {
             fruit.AddComponent<Outline>();
         }
     }
 
-    public IEnumerator Wait(List<GameObject> listOfFruits)
+    public IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.5f);
 
@@ -113,8 +104,6 @@ public class FruitsInteraction : MonoBehaviour, IInteractable
         yaEligioCh = true;
         already = true;
     }
-
-
 
     public void EndInteraction()
     {

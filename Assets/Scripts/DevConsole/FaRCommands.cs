@@ -20,7 +20,6 @@ public class FaRCommands : MonoBehaviour
 	private bool skipdays;
 	private int daysToSkip;
 	public GameObject player;
-    public GameObject TimeManager;
 	public Rigidbody rb;
 	public Camera cam;
     public Cama _cama;
@@ -85,39 +84,39 @@ public class FaRCommands : MonoBehaviour
 
 	void HurryPotter()
 	{
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+		TimeManager.TimeBetweenTicks = 0.01f;
         _cama._yourLetterArrived = true;
 	}
 
 	void RelaxPotter()
 	{
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+		TimeManager.TimeBetweenTicks = 10f;
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
 	}
 
 	void SkipCarrotGrowth()
 	{
-		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 3;
 		skipdays = true;
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+		TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipAppleGrowth()
 	{
-		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 4;
 		skipdays = true;
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+		TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipStrawberryGrowth()
 	{
-		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 7;
 		skipdays = true;
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+		TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipTomatoGrowth()
@@ -168,9 +167,9 @@ public class FaRCommands : MonoBehaviour
 
 		if (skipdays)
 		{
-			if ((actualDay + daysToSkip) == TimeManager.GetComponent<TimeManager>().DateTime.Date)
+			if ((actualDay + daysToSkip) == TimeManager.DateTime.Date)
 			{
-				TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+				TimeManager.TimeBetweenTicks = 10f;
 				skipdays = false;
 			}
 		}

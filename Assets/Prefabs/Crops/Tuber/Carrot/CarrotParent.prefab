@@ -255,7 +255,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &309865292926682575
 Transform:
   m_ObjectHideFlags: 0
@@ -301,7 +301,6 @@ MonoBehaviour:
   Crop: {fileID: 43437114532849237}
   CropOut: {fileID: 43437114532849237}
   CropParent: {fileID: 6845146257671445223}
-  Energia: {fileID: 0}
   anim: {fileID: 7400000, guid: f30ed63ac06172c46812da9364d8904b, type: 2}
   Tierra: {fileID: 0}
   tierraAnim: {fileID: 0}

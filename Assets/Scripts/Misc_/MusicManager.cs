@@ -18,7 +18,7 @@ public class MusicManager : MonoBehaviour
 
 
     private void Update() {
-        if(Reloj.GetComponent<ClockManager>().Time.text == "06:00 AM" && yasonlas6am == false || Reloj.GetComponent<ClockManager>().Time.text == "06:00" && yasonlas6am == false)
+        if(ClockManager.TimeText() == "06:00 AM" && yasonlas6am == false || ClockManager.TimeText() == "06:00" && yasonlas6am == false)
         {
             if (YaEligioHoy == false)
             {
@@ -27,7 +27,7 @@ public class MusicManager : MonoBehaviour
             yasonlas6am = true;
         }
 
-        if(Reloj.GetComponent<ClockManager>().Time.text == "12:00 PM" && yasonlas12pm == false || Reloj.GetComponent<ClockManager>().Time.text == "12:00" && yasonlas12pm == false && Cama.Instance._isSleeping == false)
+        if(ClockManager.TimeText() == "12:00 PM" && yasonlas12pm == false || ClockManager.TimeText() == "12:00" && yasonlas12pm == false && Cama.Instance._isSleeping == false)
         {
             if (YaEligioHoy == false)
             {
@@ -36,7 +36,7 @@ public class MusicManager : MonoBehaviour
             yasonlas12pm = true;
         }
 
-        if(Reloj.GetComponent<ClockManager>().Time.text == "06:00 PM" && yasonlas6pm == false || Reloj.GetComponent<ClockManager>().Time.text == "18:00" && yasonlas6pm == false && Cama.Instance._isSleeping == false)
+        if(ClockManager.TimeText() == "06:00 PM" && yasonlas6pm == false || ClockManager.TimeText() == "18:00" && yasonlas6pm == false && Cama.Instance._isSleeping == false)
         {
             if (YaEligioHoy == false)
             {
@@ -45,7 +45,7 @@ public class MusicManager : MonoBehaviour
             yasonlas6pm = true;
         }
 
-        if(Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yasonlas6am == true || Reloj.GetComponent<ClockManager>().Time.text == "05:00" && yasonlas6am == true )
+        if(ClockManager.TimeText() == "05:00 AM" && yasonlas6am == true || ClockManager.TimeText() == "05:00" && yasonlas6am == true )
         {
             yasonlas6am = false;
             yasonlas12pm = false;

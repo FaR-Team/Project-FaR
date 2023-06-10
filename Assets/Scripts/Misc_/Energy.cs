@@ -10,104 +10,118 @@ public class Energy : MonoBehaviour
 {
     [SerializeField] TMP_Text TextoEnergia;
     [SerializeField] Slider Barra;
-    private int EnergiaMax = 30;
-    public int EnergiaActual;
+
+    private static int MaxEnergy = 30;
+    public static int RemainingEnergy;
     private DateTime TiempoEnergiaProx;
     private DateTime TiempoEnergiaAnt;
 
-    public float timer = 5;
-    public bool _yaAnimo = false;
-    public bool _ContadorActivo = false;
+    public static float timer = 5;
+    public static bool _yaAnimo = false;
+    public static bool _ContadorActivo = false;
 
     public float timeForSeconds;
 
-    WaitForSeconds delay;
+    static WaitForSeconds delay;
 
+    public static Animation _animationComp;
+
+    public static Energy instance;
+    public static Slider _Barra => instance.Barra;
+    private void Awake()
+    {
+        instance = this;
+    }
     void Start()
     {
+        _animationComp = GetComponent<Animation>();
         delay = new WaitForSeconds(timeForSeconds);
-        EnergiaActual = 30;
+        RemainingEnergy = 30;
         UpdateEnergy();
-        //if(!PlayerPrefs.HasKey("EnergiaActual"))
-        //{
-        //    PlayerPrefs.SetInt("EnergiaActual", 30);
-        //    Load();
-        //    StartCoroutine(RestoreEnergy());
-        //}else{
-        //    Load();
-        //    StartCoroutine(RestoreEnergy());
-        //}
+        /*
+        if(!PlayerPrefs.HasKey("EnergiaActual"))
+        {
+            PlayerPrefs.SetInt("EnergiaActual", 30);
+            Load();
+            StartCoroutine(RestoreEnergy());
+        }else{
+            Load();
+            StartCoroutine(RestoreEnergy());
+        }*/
     }
 
     private void Update()
     {
-        if (timer > 0 ) timer -= Time.deltaTime;
+        if (timer > 0) timer -= Time.deltaTime;
 
         if (timer <= 0) _ContadorActivo = false;
 
         if (_ContadorActivo == false && _yaAnimo == false)
         {
-            StartCoroutine(waiter());
+            StartCoroutine(Waiter());
             _yaAnimo = true;
         }
     }
 
-    public void UseEnergy(int EnergiaUsada)
+    public static void UseEnergy(int UsedEnergyAmount)
     {
-        EnergiaActual -= EnergiaUsada;
-        if(EnergiaActual > -1)
+        RemainingEnergy -= UsedEnergyAmount;
+        if (RemainingEnergy > -1)
         {
             UpdateEnergy();
-        }else{
+        }
+        else
+        {
             Debug.Log("No tenés energía");
         }
     }
 
     private IEnumerator RestoreEnergy()
     {
-        while (true)
+
+        if (RemainingEnergy < MaxEnergy)
         {
-            if (EnergiaActual < EnergiaMax)
+            DateTime currentDateTime = DateTime.Now;
+            DateTime nextDateTime = TiempoEnergiaProx;
+            bool isEnergyAdding = false;
+            while (currentDateTime > nextDateTime)
             {
-                DateTime currentDateTime = DateTime.Now;
-                DateTime nextDateTime = TiempoEnergiaProx;
-                bool isEnergyAdding = false;
-                while(currentDateTime > nextDateTime)
+                if (RemainingEnergy < MaxEnergy)
                 {
-                    if (EnergiaActual < EnergiaMax)
-                    {
-                        isEnergyAdding = true;
-                        EnergiaActual++;
-                        UpdateEnergy();
-                        DateTime timeToAdd = TiempoEnergiaAnt > nextDateTime ? TiempoEnergiaAnt : nextDateTime;
-                    }else{
-                        break;
-                    }
+                    isEnergyAdding = true;
+                    RemainingEnergy++;
+                    UpdateEnergy();
+                    DateTime timeToAdd = TiempoEnergiaAnt > nextDateTime ? TiempoEnergiaAnt : nextDateTime;
                 }
-
-                if(isEnergyAdding == true) 
+                else
                 {
-                    TiempoEnergiaAnt = DateTime.Now;
-                    TiempoEnergiaProx = nextDateTime;
+                    break;
                 }
-
-                UpdateEnergy();
-                Save();
-                yield return null;
             }
+
+            if (isEnergyAdding == true)
+            {
+                TiempoEnergiaAnt = DateTime.Now;
+                TiempoEnergiaProx = nextDateTime;
+            }
+
+            UpdateEnergy();
+            Save();
+            yield return null;
         }
+
     }
 
-    public void UpdateEnergy() 
+    public static void UpdateEnergy()
     {
         //TextoEnergia.text = EnergiaActual.ToString() + "/" + EnergiaMax.ToString();
-        Barra.maxValue = EnergiaMax;
-        Barra.value = EnergiaActual;
+        _Barra.maxValue = MaxEnergy;
+        _Barra.value = RemainingEnergy;
     }
 
     private DateTime StringToDate(string datetime)
     {
-        if(String.IsNullOrEmpty(datetime))
+        if (String.IsNullOrEmpty(datetime))
         {
             return DateTime.Now;
         }
@@ -117,35 +131,35 @@ public class Energy : MonoBehaviour
         }
     }
 
-    IEnumerator waiter()
+    IEnumerator Waiter()
     {
         yield return delay;
-        this.GetComponent<Animation>().Play("Salir uwuw");
+        GetComponent<Animation>().Play("Salir uwuw");
     }
 
-    public IEnumerator walter()
+    public static IEnumerator Walter()
     {
         yield return delay;
-        this.GetComponent<Animation>().Play("NoHayEnergia");
+        _animationComp.Play("NoHayEnergia");
         yield return delay;
-        this.GetComponent<Animation>().Play("Salir uwuw");
+        _animationComp.Play("Salir uwuw");
     }
-    public IEnumerator Walicho()
+    public static IEnumerator Walicho()
     {
         yield return delay;
-        this.GetComponent<Animation>().Play("NoHayEnergia");
+        _animationComp.Play("NoHayEnergia");
     }
 
     private void Load()
     {
-        EnergiaActual = PlayerPrefs.GetInt("EnergiaActual");
+        RemainingEnergy = PlayerPrefs.GetInt("EnergiaActual");
         TiempoEnergiaProx = StringToDate(PlayerPrefs.GetString("TiempoEnergiaProx"));
         TiempoEnergiaAnt = StringToDate(PlayerPrefs.GetString("TiempoEnergiaAnt"));
     }
 
-    private void Save() 
+    private void Save()
     {
-        PlayerPrefs.SetInt("EnergiaActual", EnergiaActual);
+        PlayerPrefs.SetInt("EnergiaActual", RemainingEnergy);
         PlayerPrefs.SetString("TiempoEnergiaProx", TiempoEnergiaProx.ToString());
         PlayerPrefs.SetString("TiempoEnergiaAnt", TiempoEnergiaAnt.ToString());
     }

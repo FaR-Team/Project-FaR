@@ -224,11 +224,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19193762165f594e8b61900892902b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Reloj: {fileID: 0}
+  meshes:
+  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
+  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
+  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
   Dia: 0
-  DiaM: 0
   yacrecio: 0
-  DayIntsForChangeOfPhase: 010000000200000003000000
+  DayForChangeOfPhase: 
+  meshFilter: {fileID: 0}
+  meshCollider: {fileID: 0}
+  meshRenderer: {fileID: 0}
+  DiaM: 0
   spawnPoints:
   - {fileID: 5634044044255950256}
   - {fileID: 5634044044839173456}
@@ -254,18 +262,11 @@ MonoBehaviour:
   ReGrow: 10
   ReGrowTimes: 111
   Prefab: {fileID: 4696727328782244568, guid: 0efc62c6f68b25a4f98aa6e9238bc966, type: 3}
-  meshs:
-  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
-  materials:
-  - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
   RandInt: 0
   ExpectedInt: 0
   _alreadyRe: 0
   yaeligio: 0
   yaeligioCh: 0
-  meshFilter: {fileID: 0}
-  meshCollider: {fileID: 0}
-  meshRenderer: {fileID: 0}
   scales:
   - 1
   - 2.5
@@ -283,7 +284,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Crop: {fileID: 0}
-  EnergiaGO: {fileID: 0}
   appleTreeGO: {fileID: 0}
   anim: {fileID: 0}
   _prompt: {fileID: 0}

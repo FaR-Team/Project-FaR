@@ -6,7 +6,7 @@ using FaRUtils.Systems.DateTime;
 using System;
 using Random = UnityEngine.Random;
 
-public class BushGrowing : GrowingInPhases
+public class BushGrowing : GrowingTreeAndPlant
 {
     public GameObject Tierra = null;
 
@@ -20,9 +20,9 @@ public class BushGrowing : GrowingInPhases
 
     public override void Update()
     {
-        if (Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)
+        if (ClockManager.TimeText() == "05:00 AM" && yacrecio == false)
         {
-            if (Dia < meshs.Length)
+            if (Dia < meshes.Length)
             {
                 Dia++;
             }
@@ -35,7 +35,7 @@ public class BushGrowing : GrowingInPhases
                 _alreadyRe = false;
             }
 
-            if (Dia == meshs.Length)
+            if (Dia == meshes.Length)
             {
                 DiaM += 1;
                 if (DiaM == ExpectedInt)
@@ -45,12 +45,12 @@ public class BushGrowing : GrowingInPhases
             }
         }
 
-        if (Reloj.GetComponent<ClockManager>().Time.text == "06:00 AM" && yacrecio == true)
+        if (ClockManager.TimeText() == "06:00 AM" && yacrecio == true)
         {
             yacrecio = false;
         }
 
-        if (Dia == meshs.Length && yaeligio == false)
+        if (Dia == meshes.Length && yaeligio == false)
         {
             PonerFruto();
         }
@@ -77,13 +77,20 @@ public class BushGrowing : GrowingInPhases
     public override void CheckDayGrow()
     {
         if (!yacrecio) return;
-        int valueToGet = Array.IndexOf(DayIntsForChangeOfPhase, Dia);
-
-        if (valueToGet is -1) return;
-
-        meshCollider.sharedMesh = meshs[valueToGet];
-        meshFilter.mesh = meshs[valueToGet];
-        meshRenderer.material = materials[valueToGet];
+        
+        foreach(int i in DayForChangeOfPhase)
+        {
+            if (Dia == i) {
+                int valueToGet = Array.IndexOf(DayForChangeOfPhase, i);
+                if (meshCollider != null)
+                {
+                    meshCollider.sharedMesh = meshes[valueToGet];
+                }
+                meshFilter.mesh = meshes[valueToGet];
+                meshRenderer.material = materials[valueToGet];
+                return;
+            }
+        }
     }
 
     public override IEnumerator BushCedeLaPresidencia()

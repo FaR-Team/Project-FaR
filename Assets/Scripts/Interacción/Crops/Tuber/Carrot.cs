@@ -5,14 +5,10 @@ using cakeslice;
 
 public class Carrot : MonoBehaviour, IInteractable
 {
-    public GameObject Crop;
-    public GameObject CropOut;
-    public GameObject CropParent;
-    public GameObject Energia;
-    public AnimationClip anim;
+    public AnimationClip anim; //CarrotGo.
 
-    public GameObject Tierra = null;
-    public Transform tierraAnim;
+    GameObject Dirt;
+    Transform tierraAnim;
 
     private bool JustInter;
     public bool hasInteracted = false;
@@ -21,19 +17,17 @@ public class Carrot : MonoBehaviour, IInteractable
 
     public GameObject InteractionPrompt => _prompt;
 
-
     private void Start()
     {
-        _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
-        Energia = GameObject.FindWithTag("Energia");
-        Tierra = transform.root.gameObject;
+       // _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
+        Dirt = transform.root.gameObject;
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        if (Energia.GetComponent<Energy>().EnergiaActual >= 1)
+        if (Energy.RemainingEnergy >= 1)
         {
-            Tierra.GetComponent<Dirt>().CreateBox();
+            Dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
             InteractOut();
             interactSuccessful = true;
         }
@@ -46,66 +40,58 @@ public class Carrot : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        Tierra = transform.root.gameObject;
         JustInteracted();
     }
 
     private void JustInteracted()
     {
-        Energy energia = Energia.GetComponent<Energy>(); 
 
-        if (JustInter || energia.EnergiaActual < 1) return;
+        if (JustInter || Energy.RemainingEnergy < 1) return;
 
 
         JustInter = true;
 
-        if (energia._ContadorActivo) energia.timer = 5;
+        if (Energy._ContadorActivo) Energy.timer = 5;
 
         else
         {
-            Energia.GetComponent<Animation>().Play("Entrar uwuw");
-            
-            energia._ContadorActivo = true;
-            energia.timer = 5;
-            energia._yaAnimo = false;
+            Energy._animationComp.Play("Entrar uwuw");
+            Energy._ContadorActivo = true;
+            Energy.timer = 5;
+            Energy._yaAnimo = false;
         }
 
-        for (int i = 0; i < Tierra.gameObject.transform.childCount; i++)
+        for (int i = 0; i < Dirt.transform.childCount; i++)
         {
-            if (Tierra.gameObject.transform.GetChild(i).gameObject.activeSelf &&
-            Tierra.gameObject.transform.GetChild(i).gameObject.GetComponent<Animation>() != null)
+            if (Dirt.transform.GetChild(i).gameObject.activeSelf &&
+            Dirt.transform.GetChild(i).gameObject.GetComponent<Animation>() != null)
             {
-                tierraAnim = Tierra.gameObject.transform.GetChild(i);
+                tierraAnim = Dirt.transform.GetChild(i);
             }
         }
-
-        CropOut.gameObject.AddComponent<Outline>();
-        if (CropParent.GetComponent<Animation>() != null)
+        gameObject.AddComponent<Outline>();
+        if (GetComponent<Animation>() != null)
         {
-            CropParent.GetComponent<Animation>().clip = anim;
-            CropParent.GetComponent<Animation>().Play();
+            GetComponent<Animation>().clip = anim;
+            GetComponent<Animation>().Play();
         }
 
         if (tierraAnim != null)
         {
-            tierraAnim.gameObject.GetComponent<Animation>().Play();
+            tierraAnim.GetComponent<Animation>().Play();
         }
 
+        gameObject.layer = 0;
 
-        foreach (Transform transform in CropParent.transform)
-        {
-            transform.gameObject.layer = 0;
-        }
-        CropParent.layer = 0;
-        Energia.GetComponent<Energy>().EnergiaActual -= 1;
-        Energia.GetComponent<Energy>().UpdateEnergy();
+        Energy.RemainingEnergy -= 1;
+        Energy.UpdateEnergy();
         StartCoroutine(Wait());
     }
 
     public IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.5f);
-        Crop.gameObject.GetComponent<CropExplode>().Chau();
+        GetComponent<CropExplode>().Chau();
     }
 
 
@@ -114,3 +100,4 @@ public class Carrot : MonoBehaviour, IInteractable
         Debug.Log("Terminando Interacción con Zanahoria.");
     }
 }
+

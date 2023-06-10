@@ -2,8 +2,6 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
-using UnityEngine.Localization.Settings;
-using UnityEngine.Localization.Tables;
 
 namespace FaRUtils.Systems.DateTime
 {
@@ -21,11 +19,11 @@ namespace FaRUtils.Systems.DateTime
         [Range (0, 6), Header("Minuto")]
         public int minutes;
 
-        public DateTime DateTime;
+        public static DateTime DateTime;
 
         [Header("Opciones de Tiempo")]
         public int TickMinutesIncreased = 10;
-        public float TimeBetweenTicks = 9f;
+        public static float TimeBetweenTicks = 10f;
         private float CurrentTimeBetweenTicks = 0;
 
         public static LocalizedString localizedStringClock;

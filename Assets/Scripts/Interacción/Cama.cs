@@ -12,9 +12,6 @@ public class Cama : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _prompt;
     public DateTime dateTime;
     public SellSystem _sellSystem;
-    public GameObject Reloj;
-    public GameObject TimeManager;
-    public GameObject Energia;
     public GameObject Negrura;
     public GameObject Hotbar;
     public GameObject player;
@@ -48,7 +45,7 @@ public class Cama : MonoBehaviour, IInteractable
             interactSuccessful = false;
             return;
         }
-        else if(TimeManager.GetComponent<TimeManager>().DateTime.Hour >= 6 && TimeManager.GetComponent<TimeManager>().DateTime.Hour < 17)
+        else if(TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
         {
             Debug.Log("Es muy temprano para dormir");
             interactSuccessful = false;
@@ -58,14 +55,14 @@ public class Cama : MonoBehaviour, IInteractable
 
         if(_yourLetterArrived == false)
         {
-            TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.05f;
+            TimeManager.TimeBetweenTicks = 0.05f;
         }
         player = GameObject.FindWithTag("Player");
         Negrura.SetActive(true);
         Negrura.GetComponent<Animation>().Play("NegroIn");
         //THIS SHITTY CODE TOOK ME A WHOLE WEEK, I CRIED 5 NIGHTS, AND KILLED 7 DOGS BECAUSE OF MY STRESS, btw, if you're reading this, tell me witch errors you find.
-        Energia.GetComponent<Energy>().EnergiaActual = 30;
-        Energia.GetComponent<Energy>().UpdateEnergy();
+        Energy.RemainingEnergy = 30;
+        Energy.UpdateEnergy();
         player.GetComponent<FaRCharacterController>().enabled = false;
         SaveGameManager.SaveData();
         yasonlas6 = false;
@@ -86,18 +83,18 @@ public class Cama : MonoBehaviour, IInteractable
 
     public void CheckHora()
     {
-        if(TimeManager.GetComponent<TimeManager>().DateTime.Hour == 6 && yasonlas6 == false)
+        if(TimeManager.DateTime.Hour == 6 && yasonlas6 == false)
         {
             if(_yourLetterArrived == false)
             {
-                TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+                TimeManager.TimeBetweenTicks = 10f;
             }
             lightingManager.CopyHour();
             Negrura.GetComponent<Animation>().Play("NegroOut");
             yasonlas6 = true;
             player = GameObject.FindWithTag("Player");
             player.GetComponent<FaRCharacterController>().enabled = true;
-            StartCoroutine(wait());
+            StartCoroutine(Wait());
         }
     }
 
@@ -106,7 +103,7 @@ public class Cama : MonoBehaviour, IInteractable
         CheckHora();
     }
 
-    public IEnumerator wait()
+    public IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.7f);
         Negrura.SetActive(false);

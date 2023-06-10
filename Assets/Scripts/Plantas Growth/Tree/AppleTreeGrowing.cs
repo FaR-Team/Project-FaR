@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class AppleTreeGrowing : GrowingInPhases
+public class AppleTreeGrowing : GrowingTreeAndPlant
 {
     public float[] scales;
     public override void Start()
     {
         base.Start();
                 
-        meshFilter.mesh = meshs[0];
-        meshCollider.sharedMesh = meshs[0];
+        meshFilter.mesh = meshes[0];
+        meshCollider.sharedMesh = meshes[0];
 
         SetThisGameObjectScale(0);
 
@@ -22,7 +22,7 @@ public class AppleTreeGrowing : GrowingInPhases
     }
     public override void Update()
     {
-        if (Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)
+        if (ClockManager.TimeText() == "05:00 AM" && yacrecio == false)
         {
             if (Dia < 2)
             {
@@ -49,7 +49,7 @@ public class AppleTreeGrowing : GrowingInPhases
             }
         }
 
-        if (Reloj.GetComponent<ClockManager>().Time.text == "06:00 AM" && yacrecio == true)
+        if (ClockManager.TimeText() == "06:00 AM" && yacrecio == true)
         {
             yacrecio = false;
         }

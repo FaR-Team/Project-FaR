@@ -1,8 +1,4 @@
-using System.Reflection;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FaRUtils.Systems.DateTime;
 
 [RequireComponent(typeof(UniqueID))]
 public class CrecimientoPlantas : MonoBehaviour
@@ -43,14 +39,14 @@ public class CrecimientoPlantas : MonoBehaviour
 
     void Update()
     {
-        if(Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)
+        if(ClockManager.TimeText() == "05:00 AM" && yacrecio == false)
         {
             Dia += 1;
             yacrecio = true;
             CheckDayGrow();
         }
 
-        if (Reloj.GetComponent<ClockManager>().Time.text == "06:00 AM" && yacrecio == true)
+        if (ClockManager.TimeText() == "06:00 AM" && yacrecio == true)
         {
             yacrecio = false;
         }
@@ -176,19 +172,5 @@ public class CrecimientoPlantas : MonoBehaviour
             SaveGameManager.data.cropDictionary.Remove(id);
             SaveLoad.OnLoadGame -= LoadGame;
         }
-    }
-}
-
-
-[System.Serializable]
-public struct CropSaveData
-{
-    public Vector3 Position;
-    public int _Dia;
-
-    public CropSaveData(int Dia, Vector3 _position)
-    {
-        _Dia = Dia;
-        Position = _position;
     }
 }
