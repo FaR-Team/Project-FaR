@@ -59,7 +59,7 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
             PonerFruto();
         }
     }
-    public override void PonerFruto()
+    public void PonerFruto()
     {
         if (yaeligio != false || ReGrow == ReGrowTimes) return;
 
