@@ -59,24 +59,6 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
             PonerFruto();
         }
     }
-    public void PonerFruto()
-    {
-        if (yaeligio != false || ReGrow == ReGrowTimes) return;
-
-        RandInt = Random.Range(10, 15);
-
-        for (int i = 0; i < RandInt; i++)
-        {
-            Transform Spawn = GetRandomSP();
-            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
-
-            fruits.Add(fruit.transform.GetChild(2).gameObject);
-        }
-        DiaM = 1;
-        yaeligio = true;
-        ReGrow++;
-    }
-
     public override void CheckDayGrow()
     {
         if (!yacrecio) return;

@@ -34,18 +34,6 @@ public class ToolItemData : InventoryItemData
         }
         return true;
     }
-
-    private bool UseBucket()
-    {
-        Dirt _dirt = _gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f);
-        if (_dirt != null)
-        {
-            _dirt.DirtIsHorny();
-            return true;
-        }
-        else return false;
-    }
-
     private bool UseHoe()
     {
         if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null)
@@ -55,4 +43,16 @@ public class ToolItemData : InventoryItemData
         }
         else return false;
     }
+
+    private bool UseBucket()
+    {
+        Dirt _dirt = _gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f);
+        if (_dirt != null)
+        {
+            _dirt.DirtIsWet();
+            return true;
+        }
+        else return false;
+    }
+
 }

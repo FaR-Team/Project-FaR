@@ -18,7 +18,6 @@ public class BushGrowing : GrowingInPhases
 
         Tierra = transform.root.gameObject.GetComponent<Dirt>();
         TierraTexture = transform.root.GetChild(0).gameObject;
-
     }
 
     public override void Update()
@@ -28,7 +27,7 @@ public class BushGrowing : GrowingInPhases
             if ((Dia < meshs.Length) && Tierra._isWet)
             {
                 Dia++;
-                Tierra.DirtIsNotHorny();
+                Tierra.DirtIsNotWet();
             }
             yacrecio = true;
             CheckDayGrow();
@@ -42,7 +41,7 @@ public class BushGrowing : GrowingInPhases
             if ((Dia == meshs.Length) && Tierra._isWet)
             {
                 DiaM += 1;
-                Tierra.DirtIsNotHorny();
+                Tierra.DirtIsNotWet();
                 if (DiaM == ExpectedInt)
                 {
                     gameObject.layer = 7;

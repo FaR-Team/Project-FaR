@@ -5,8 +5,6 @@ public class SpawnerPooling : MonoBehaviour
 {
 
 
-
-    // Start is called before the first frame update
     void Start()
     {
         //ObjectPooling.PreLoad(cube, 5);
@@ -15,14 +13,17 @@ public class SpawnerPooling : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        /*      Vector3 vector = SpawnPosition();
-                GameObject c = ObjectPooling.GetObject(cube);
-                c.transform.position = vector;
-                StartCoroutine(DeSpawn(cube, c, 2.0f)); */
+        SpawnObject();
 
     }
 
+    private void SpawnObject()
+    {
+        /*Vector3 vector = SpawnPosition();
+        GameObject c = ObjectPooling.GetObject(cube);
+        c.transform.position = vector;
+        StartCoroutine(DeSpawn(cube, c, 2.0f));*/
+    }
 
     Vector3 SpawnPosition()
     {
@@ -35,12 +36,9 @@ public class SpawnerPooling : MonoBehaviour
         return vector;
     }
 
-    IEnumerator DeSpawn(GameObject primitive, GameObject go, float time)
+    void DeSpawn(GameObject primitive, GameObject go)
     {
-
-        yield return new WaitForSeconds(time);
-        ObjectPooling.RecicleObject(primitive, go);
-
+        //ObjectPooling.RecicleObject(primitive, go);
     }
 
 }

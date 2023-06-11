@@ -80,8 +80,7 @@ public class GrowingTreeAndPlant : GrowingBase
         ReGrow++;
     }
 
-
-    public virtual IEnumerator BushCedeLaPresidencia() //LA CONCHA DE TU MADRE SATIA QUE NOMBRE DE MIERDA.
+public virtual IEnumerator BushCedeLaPresidencia() //LA CONCHA DE TU MADRE SATIA QUE NOMBRE DE MIERDA.
     {
        // Tierra.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);

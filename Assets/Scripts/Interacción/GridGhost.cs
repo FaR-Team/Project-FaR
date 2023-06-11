@@ -10,9 +10,9 @@ public class GridGhost : MonoBehaviour
     [SerializeField] private Interactor interactor;
     public HotbarDisplay hotbarDisplay;
     public GameObject hoeGhost, seedGhost;
-    public GameObject Dirt;
     public RayAndSphereManager rayAndSphereManager;
     public Grid grid;
+    public GameObject DirtPrefab;
 
 
     public Vector3 finalPosition;
@@ -182,7 +182,6 @@ public class GridGhost : MonoBehaviour
 
     public void PlantDirt()
     {
-
         RaycastHit hit;
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
 #if UNITY_EDITOR
@@ -194,24 +193,23 @@ public class GridGhost : MonoBehaviour
         PlaceDirtNear(hit.point);
         
     }
+    private void PlaceDirtNear(Vector3 nearPoint)
+    {
+        finalPosition = grid.GetNearestPointOnGrid(nearPoint);
+        DirtSpawnerPooling.SpawnObject(finalPosition, Quaternion.identity);
+    }
 
-    public bool PlantTreeNear(GameObject Prefab)
+    public bool PlantTreeNear(GameObject TreePrefab)
     {
         RaycastHit hit;
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
 
         if(hit.collider != null)
         {
-            GameObject.Instantiate(Prefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
+            GameObject.Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
             return true;
         }
         else {  return false;   }
     }
 
-    public void PlaceDirtNear(Vector3 nearPoint)
-    {      
-        finalPosition = grid.GetNearestPointOnGrid(nearPoint);
-
-        GameObject.Instantiate(Dirt, finalPosition, Quaternion.identity);
-    }
 }

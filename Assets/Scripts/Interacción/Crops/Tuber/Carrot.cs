@@ -7,7 +7,7 @@ public class Carrot : MonoBehaviour, IInteractable
 {
     public AnimationClip anim; //CarrotGo.
 
-    GameObject Dirt;
+    [SerializeField] GameObject Dirt;
     Transform tierraAnim;
 
     private bool JustInter;
@@ -20,7 +20,7 @@ public class Carrot : MonoBehaviour, IInteractable
     private void Start()
     {
        // _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
-        Dirt = transform.root.gameObject;
+        Dirt = this.transform.parent.gameObject;
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)

@@ -98,7 +98,7 @@ public class FaRCommands : MonoBehaviour
 	void SkipCarrotGrowth()
 	{
 		actualDay = TimeManager.DateTime.Date;
-		daysToSkip = 3;
+		daysToSkip = 6;
 		skipdays = true;
 		TimeManager.TimeBetweenTicks = 0.01f;
 	}
@@ -114,7 +114,7 @@ public class FaRCommands : MonoBehaviour
 	void SkipStrawberryGrowth()
 	{
 		actualDay = TimeManager.DateTime.Date;
-		daysToSkip = 7;
+		daysToSkip = 3;
 		skipdays = true;
 		TimeManager.TimeBetweenTicks = 0.01f;
 	}

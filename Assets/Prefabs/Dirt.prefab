@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 8694592844836477229}
   - component: {fileID: 1883870272503481524}
   - component: {fileID: 2994759415163273886}
+  - component: {fileID: 4595424602912066537}
   m_Layer: 0
   m_Name: Dirt
   m_TagString: Untagged
@@ -223,6 +224,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   areaHarvestDelay: 0.41
+--- !u!65 &4595424602912066537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3884601831458203130}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5765180190978009047
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1d92a1a8-8cfb-4f42-b41d-20e17f0d374f
+  _ID: 71795aaf-379a-479c-afe4-ae4d2a6a55f3
 --- !u!1 &7508442044756205147
 GameObject:
   m_ObjectHideFlags: 0

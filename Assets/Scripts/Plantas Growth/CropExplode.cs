@@ -24,8 +24,6 @@ public class CropExplode : MonoBehaviour
     
     public void Chau()
     {
-        
-        
         GetInventory().AñadirAInventario(ItemData, GetRandomInt());
 
         StartCoroutine(Destruir());
@@ -73,7 +71,7 @@ public class CropExplode : MonoBehaviour
 
         yield return new WaitForSeconds(0.5f);
 
-        Destroy(thisCropDirt);
+        DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, thisCropDirt);
     }
 
     private Vector3 GetPosition()

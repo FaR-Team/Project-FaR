@@ -7,6 +7,9 @@ using System;
 
 public class HotbarDisplay : StaticInventoryDisplay
 {
+    /*Por qué HotBarDisplay tiene toda la asignacion de interacciones de los botones????
+     TODO: Crear nueva clase.
+     */
     private int _maxIndexSize = 9;
     public int _currentIndex = 0;
 
@@ -35,9 +38,9 @@ public class HotbarDisplay : StaticInventoryDisplay
     private void Awake()
     {
         _playerControls = GameInput.playerInputActions;
-       
-        if(telequinesis == null ) telequinesis = GameObject.FindWithTag("Telequinesis");
-        if(player == null) player = GameObject.FindWithTag("Player");
+
+        if (telequinesis == null) telequinesis = GameObject.FindWithTag("Telequinesis");
+        if (player == null) player = GameObject.FindWithTag("Player");
 
         PlayerInv = player.GetComponent<PlayerInventoryHolder>();
 
@@ -179,25 +182,22 @@ public class HotbarDisplay : StaticInventoryDisplay
 
     private void SellAll()
     {
-        if (_isHoldingCtrl && _isHolding && interactor.IsLookingAtStore) //TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
-        {
-            if (GetItemData() == null || GetItemData().Sellable == false) return;
+        if (!_isHoldingCtrl || !_isHolding || !interactor.IsLookingAtStore) return;//TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
 
-            if (GetItemData().Seed == false && GetItemData().Usable == true)
-            {
-                int i = 0;
-                while (i < GetAssignedInventorySlot().StackSize)
-                {
-                    GetItemData().UseItem();
-                    GetAssignedInventorySlot().SacarDeStack(1);
-                }
-                if (GetAssignedInventorySlot().StackSize == 0)
-                {
-                    GetAssignedInventorySlot().ClearSlot();
-                }
-                SlotCurrentIndex().UpdateUISlot();
-            }
+        if (GetItemData() == null || GetItemData().Sellable == false) return;
+
+        if (GetItemData().Seed != false || GetItemData().Usable != true) return;
+
+        int i = 0;
+
+        while (i < GetAssignedInventorySlot().StackSize)
+        {
+            GetItemData().UseItem();
+            GetAssignedInventorySlot().SacarDeStack(1);
         }
+        GetAssignedInventorySlot().ClearSlot();
+
+        SlotCurrentIndex().UpdateUISlot();
     }
 
     private InventoryItemData GetItemData()
@@ -222,7 +222,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             return GetPlayerControls().MouseWheel.ReadValue<float>();
         }
 
-        if((MouseWheelValue() > 0.1f || MouseWheelValue() < -0.1f) && 
+        if ((MouseWheelValue() > 0.1f || MouseWheelValue() < -0.1f) &&
             physicsGun.isGrabbingObject == false &&
             PauseMenu.GameIsPaused == false &&
             PlayerInv.IsBuying == false &&
@@ -248,7 +248,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             }
         }
 
-        if(GetPlayerControls().HotbarRight.WasPressedThisFrame() && 
+        if (GetPlayerControls().HotbarRight.WasPressedThisFrame() &&
             physicsGun.isGrabbingObject == false &&
             PauseMenu.GameIsPaused == false &&
             PlayerInv.IsBuying == false &&
@@ -273,7 +273,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             }
         }
 
-        if(GetPlayerControls().HotbarLeft.WasPressedThisFrame() && 
+        if (GetPlayerControls().HotbarLeft.WasPressedThisFrame() &&
             physicsGun.isGrabbingObject == false &&
             PauseMenu.GameIsPaused == false &&
             PlayerInv.IsBuying == false &&
@@ -318,8 +318,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             bucket.SetActive(false);
             hand.SetActive(false);
         }
-        else if (
-            (GetItemData().Sellable == false &&
+        else if ((GetItemData().Sellable == false &&
             GetItemData().Seed == false &&
             GetItemData().Usable == false &&
             GetItemData().Tool == false)
@@ -340,7 +339,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             hand.SetActive(false);
         }
     }
-    
+
 
     private void Holdear()
     {
@@ -348,27 +347,27 @@ public class HotbarDisplay : StaticInventoryDisplay
 
         if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
         {
-            if (GetItemData().Sellable == true && 
-                GetItemData().Seed == false && 
+            if (GetItemData().Sellable == true &&
+                GetItemData().Seed == false &&
                 GetItemData().Usable == true)
             {
-               // var inventory = player.GetComponent<InventoryHolder>();
+                // var inventory = player.GetComponent<InventoryHolder>();
 
                 GetItemData().UseItem();
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
-                
+
                 SlotCurrentIndex().UpdateUISlot();
             }
             return;
         }
-        
+
         if (GetItemData().IsHoe || GetItemData().IsBucket)
         {
             GetItemData().UseItem();
         }
 
-        if (GetItemData().Seed && 
+        if (GetItemData().Seed &&
             interactor._LookingAtDirt)
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
@@ -386,8 +385,8 @@ public class HotbarDisplay : StaticInventoryDisplay
             SlotCurrentIndex().UpdateUISlot();
         }
 
-        if (GetItemData().TreeSeed && 
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) && 
+        if (GetItemData().TreeSeed &&
+            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
             interactor._LookingAtDirt == false)
         {
             //var inventory = player.GetComponent<InventoryHolder>();
@@ -428,15 +427,16 @@ public class HotbarDisplay : StaticInventoryDisplay
     private void UseItem(InputAction.CallbackContext obj)
     {
         if (GetItemData() == null) return;
-        
-        
+
+
         if (GetItemData().Usable == true &&
             GetItemData().Seed == false &&
             GetItemData().Sellable == false &&
             GetItemData().TreeSeed == false)
-            //La música de relee es una poronga
+        //La música de relee es una poronga
 
-        { GetItemData().UseItem(); }
+        { //GetItemData().UseItem();
+        }
 
         /*if (GetItemData() != null &&
             GetItemData().Sellable == true &&
@@ -455,7 +455,7 @@ public class HotbarDisplay : StaticInventoryDisplay
             slotCurrentIndex().UpdateUISlot();
         }*/
 
-        if (GetItemData().Seed && 
+        if (GetItemData().Seed &&
             interactor._LookingAtDirt)
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
@@ -473,8 +473,8 @@ public class HotbarDisplay : StaticInventoryDisplay
             SlotCurrentIndex().UpdateUISlot();
         }
 
-        if (GetItemData().TreeSeed && 
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) && 
+        if (GetItemData().TreeSeed &&
+            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
             interactor._LookingAtDirt == false)
         {
             //var inventory = player.GetComponent<InventoryHolder>();

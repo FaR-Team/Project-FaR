@@ -8,18 +8,21 @@ public class DirtAreaHarvest : MonoBehaviour
     [Range(0.01f, 3f)]
     [SerializeField] float areaHarvestDelay;
 
+    BoxCollider boxCollider;
     Dirt dirt;
 
-    private void Start()
+    private void Awake()
     {
+        boxCollider = GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
         delay = new WaitForSeconds(areaHarvestDelay);
         dirt = GetComponent<Dirt>();
     }
     public void CreateAreaForHarvest() //This Creates the box collider that would harvest in an area.
     {
-        var box = this.gameObject.AddComponent<BoxCollider>();
-        box.isTrigger = true;
-        StartCoroutine(AreaHarvest(box));
+        boxCollider.isTrigger = true;
+        boxCollider.enabled = true;
+        StartCoroutine(AreaHarvest(boxCollider));
     }
     Vector3 SizeOfBox(int level)
     {
@@ -39,14 +42,12 @@ public class DirtAreaHarvest : MonoBehaviour
     {
         if (PlayerStats.Instance.AreaHarvestLevel == 1)
         {
-            box.size = SizeOfBox(0);
             yield return delay;
             box.size = SizeOfBox(1);
 
         }
         else if (PlayerStats.Instance.AreaHarvestLevel == 2)
         {
-            box.size = SizeOfBox(0);
             yield return delay;
             box.size = SizeOfBox(1);
             yield return delay;
@@ -63,5 +64,10 @@ public class DirtAreaHarvest : MonoBehaviour
                 col.GetComponentInParent<Dirt>().currentCrop.GetComponentInChildren<IInteractable>().InteractOut();
             }
         }
+    }
+
+    private void OnDisable()
+    {
+        boxCollider.enabled = false;
     }
 }

@@ -37,15 +37,24 @@ public class Dirt : MonoBehaviour
         return (instantiated != null);
     }
 
-    public void DirtIsHorny()
+    public void DirtIsWet()
     {
         _isWet = true;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
     }
 
-    public void DirtIsNotHorny()
+    public void DirtIsNotWet()
     {
         _isWet = false;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+    }
+
+
+    private void OnDisable()
+    {
+        currentCrop = null;
+        currentCropData = null;
+        _isEmpty = true;
+        _isWet= false;
     }
 }
