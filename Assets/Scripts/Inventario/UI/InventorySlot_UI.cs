@@ -6,7 +6,7 @@ public class InventorySlot_UI : MonoBehaviour
 {
     [SerializeField] private Image itemSprite, thisSlotImage;
     [SerializeField] private TextMeshProUGUI itemCount;
-    [SerializeField] private GameObject _slotHighlight;
+    [SerializeField] protected GameObject _slotHighlight;
     [SerializeField] private InventorySlot assignedInventorySlot;
     [SerializeField] private TypesOfInventory invEnums;
 
@@ -108,7 +108,7 @@ public class InventorySlot_UI : MonoBehaviour
         itemCount.text = "";
     }
 
-    public void ToggleHighlight()
+    public virtual void ToggleHighlight()
     {
         _slotHighlight.SetActive(!_slotHighlight.activeInHierarchy);
     }

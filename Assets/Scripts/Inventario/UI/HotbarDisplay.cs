@@ -200,16 +200,21 @@ public class HotbarDisplay : StaticInventoryDisplay
         SlotCurrentIndex().UpdateUISlot();
     }
 
-    private InventoryItemData GetItemData()
+    protected InventoryItemData GetItemData()
     {
         return GetAssignedInventorySlot().ItemData;
     }
 
-    private InventorySlot GetAssignedInventorySlot()
+    protected InventorySlot GetAssignedInventorySlot()
     {
         return SlotCurrentIndex().AssignedInventorySlot;
     }
-    private InventorySlot_UI SlotCurrentIndex()
+
+    private bool CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl(){
+        return (_currentIndex == 10 && _isHoldingCtrl);
+    }
+
+    protected InventorySlot_UI SlotCurrentIndex()
     {
         return slots[_currentIndex];
     }
@@ -228,8 +233,8 @@ public class HotbarDisplay : StaticInventoryDisplay
             PlayerInv.IsBuying == false &&
             IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
-            if (MouseWheelValue() > 0.1f) ChangeIndex(-1);
-            if (MouseWheelValue() < -0.1f) ChangeIndex(1);
+            if (MouseWheelValue() > 0.1f && !CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) ChangeIndex(-1);
+            if (MouseWheelValue() < -0.1f && !CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) ChangeIndex(1);
 
             if (GetItemData() == null) return;
 
