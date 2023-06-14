@@ -24,7 +24,8 @@ public class HotbarDisplay : StaticInventoryDisplay
     public PlayerInventoryHolder PlayerInv;
 
     [Header("Tool GameObjects")]
-    public GameObject hoe, bucket, rexona, blank1, blank2, hand;
+    public GameObject hoe, bucket, blank1, blank2, blank3, hand;
+    public ToolItemData hoeData, bucketData, blank1Data, blank2Data, blank3Data;
 
     private InventoryItemData gameobj1, gameobj2, gameobj3, gameibj4, gameobj5;
 
@@ -219,6 +220,11 @@ public class HotbarDisplay : StaticInventoryDisplay
         return slots[_currentIndex];
     }
 
+    public void UpdateInventorySlotWithIndex(InventoryItemData data, int amount, int index)
+    {
+        //TODO: Hacer que se pueda añdir al inventario en un slot específico, aunque tal vez habría que hacerlo en inventorySystem.
+    }
+
     private void Update()
     {
 
@@ -235,6 +241,9 @@ public class HotbarDisplay : StaticInventoryDisplay
         {
             if (MouseWheelValue() > 0.1f && !CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) ChangeIndex(-1);
             if (MouseWheelValue() < -0.1f && !CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) ChangeIndex(1);
+
+            if (MouseWheelValue() > 0.1f && CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) ChangeAbilityIndex(-1);
+            if (MouseWheelValue() < -0.1f && CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) ChangeAbilityIndex(1);
 
             if (GetItemData() == null) return;
 
@@ -502,6 +511,33 @@ public class HotbarDisplay : StaticInventoryDisplay
         if (_currentIndex < 0) _currentIndex = _maxIndexSize;
 
         SlotCurrentIndex().ToggleHighlight();
+    }
+
+    public void ChangeAbilityIndex(int newIndex)
+    {
+        SlotCurrentIndex().ToggleHighlight();
+        if (newIndex < 0) _currentIndex = 0;
+        if (newIndex > _maxIndexSize) newIndex = _maxIndexSize;
+
+        _currentIndex = newIndex;
+        SlotCurrentIndex().ToggleHighlight();
+
+        if (GetItemData() == null) return;
+
+        NameDisplay.text = GetItemData().Nombre;
+
+        if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+        {
+            NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+        }
+        else
+        {
+            NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+            StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+            NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+        }
     }
 
     private void SetIndex(int newIndex)

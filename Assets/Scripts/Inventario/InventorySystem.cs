@@ -20,7 +20,7 @@ public class InventorySystem
     public InventorySystem(int tamaño) //Constructo que coloca la cantidad de Slots
     {
         _gold = 0;
-        CreateInventory(tamaño);        
+        CreateInventory(tamaño);
     }
 
     public InventorySystem(int tamaño, int gold)
@@ -45,7 +45,7 @@ public class InventorySystem
         {
             foreach (var slot in invSlot)
             {
-                if(slot.EnoughRoomLeftInStack(cantidadParaAñadir))
+                if (slot.EnoughRoomLeftInStack(cantidadParaAñadir))
                 {
                     slot.AddToStack(cantidadParaAñadir);
                     OnInventorySlotChanged?.Invoke(slot);
@@ -53,16 +53,16 @@ public class InventorySystem
                 }
             }
         }
-        
+
         if (HaySlotLibre(out InventorySlot SlotLibre)) //Busca el primer slot libre
         {
-            if(SlotLibre.EnoughRoomLeftInStack(cantidadParaAñadir))
+            if (SlotLibre.EnoughRoomLeftInStack(cantidadParaAñadir))
             {
                 SlotLibre.UpdateInventorySlot(itemAAñadir, cantidadParaAñadir);
                 OnInventorySlotChanged?.Invoke(SlotLibre);
                 return true;
             }
-            //Implementar sólo añadir lo que sepeuda añadir al stack, y dejar el resto en otro stack libre
+            //Implementar sólo añadir lo que se peuda añadir al stack, y dejar el resto en otro stack libre
         }
 
         return false;
