@@ -6,10 +6,10 @@ public abstract class InventoryDisplay : MonoBehaviour
 {
     [SerializeField] MouseItemData mouseInventoryItem;
     protected InventorySystem inventorySystem;
-    protected Dictionary<InventorySlot_UIBase, InventorySlot> slotDictionary; //Diccionario de slots de UI y slots del inventario
+    protected Dictionary<InventorySlot_UIBasic, InventorySlot> slotDictionary; //Diccionario de slots de UI y slots del inventario
 
     public InventorySystem InventorySystem => inventorySystem;
-    public Dictionary<InventorySlot_UIBase, InventorySlot> SlotDictionary => slotDictionary;
+    public Dictionary<InventorySlot_UIBasic, InventorySlot> SlotDictionary => slotDictionary;
     public GameObject uiClickHandler;
 
     public abstract void AssignSlot(InventorySystem invToDisplay, int offset);
@@ -30,7 +30,7 @@ public abstract class InventoryDisplay : MonoBehaviour
         }
     }
 
-    public void SlotClicked(InventorySlot_UIBase clickedUISlot)
+    public void SlotClicked(InventorySlot_UIBasic clickedUISlot)
     {
         bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
         
@@ -114,7 +114,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     }
 
-    private void SwapSlots(InventorySlot_UIBase clickedUISlot)
+    private void SwapSlots(InventorySlot_UIBasic clickedUISlot)
     {
         var clonedSlot = new InventorySlot(mouseInventoryItem.AssignedInventorySlot.ItemData, mouseInventoryItem.AssignedInventorySlot.StackSize);
         mouseInventoryItem.ClearSlot();

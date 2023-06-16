@@ -23,14 +23,7 @@ public class AbilityHotBarDisplay : HotbarDisplayBase
     }
     public void ChangeAbilityIndex(int newIndex)
     {
-        SlotCurrentIndex().ToggleHighlight();
-
-        if (newIndex < 0) _currentAbilityIndex = 0;
-        if (newIndex > _maxIndexSize) newIndex = _maxIndexSize;
-
-        _currentIndex = newIndex;
-        SlotCurrentIndex().ToggleHighlight();
-
+        UpdateInventorySlotWithIndex(data, 1, 10);
         DoChangeNameDisplay();
     }
 

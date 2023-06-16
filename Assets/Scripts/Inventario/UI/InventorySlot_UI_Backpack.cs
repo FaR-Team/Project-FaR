@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlot_UI_Backpack : InventorySlot_UIBase
+public class InventorySlot_UI_Backpack : InventorySlot_UIBasic
 {
     private TypesOfInventory types;
     private Image thisSlotImage;
@@ -32,8 +32,7 @@ public class InventorySlot_UI_Backpack : InventorySlot_UIBase
 
     public void Init(InventorySlot slot, TypesOfInventory thisEnum)
     {
-        assignedInventorySlot = slot;
-        UpdateUISlot(slot);
+        base.Init(slot);
         types = thisEnum;
         BlockSlot();
     }

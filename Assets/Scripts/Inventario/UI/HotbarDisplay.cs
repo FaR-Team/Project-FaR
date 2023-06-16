@@ -64,6 +64,9 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().Hotbar9.performed += Hotbar9;
         GetPlayerControls().Hotbar10.performed += Hotbar10;
         GetPlayerControls().UseItem.performed += UseItem;
+        GetPlayerControls().HotbarRight.performed += HotbarRight;
+        GetPlayerControls().HotbarLeft.performed += HotbarLeft;
+
         GetPlayerControls().UseItemHoldStart.performed += x => UseItemPressed();
         GetPlayerControls().UseItemHoldRelease.performed += x => UseItemRelease();
         GetPlayerControls().MassSell.performed += x => SellAllPressed();
@@ -143,6 +146,25 @@ public class HotbarDisplay : HotbarDisplayBase
     }
     #endregion
 
+    public void HotbarLeft(InputAction.CallbackContext obj)
+    {
+        if (GetPlayerControls().HotbarLeft.WasPressedThisFrame() &&
+                    IsNotGrabingNorPausedNorConsole())
+        {
+            ChangeIndex(-1);
+            DoChangeNameDisplay();
+        }
+    }
+
+    public void HotbarRight(InputAction.CallbackContext obj)
+    {
+        if (GetPlayerControls().HotbarRight.WasPressedThisFrame() &&
+                    IsNotGrabingNorPausedNorConsole())
+        {
+            ChangeIndex(1);
+            DoChangeNameDisplay();
+        }
+    }
     public bool CanUseItem()
     {
         if (gridGhost.finalPosition != previousFinalPosition)
@@ -308,33 +330,6 @@ public class HotbarDisplay : HotbarDisplayBase
     private void UseItem(InputAction.CallbackContext obj)
     {
         if (GetItemData() == null) return;
-
-
-        if (GetItemData().Usable == true &&
-            GetItemData().Seed == false &&
-            GetItemData().Sellable == false &&
-            GetItemData().TreeSeed == false)
-        //La música de relee es una poronga
-
-        { //GetItemData().UseItem();
-        }
-
-        /*if (GetItemData() != null &&
-            GetItemData().Sellable == true &&
-            GetItemData().Seed == false &&
-            GetItemData().Usable == true &&
-            _isHoldingCtrl)
-        {
-            var inventory = player.GetComponent<InventoryHolder>();
-
-            GetItemData().UseItem();
-            GetAssignedInventorySlot().SacarDeStack(GetAssignedInventorySlot().StackSize);
-            if (GetAssignedInventorySlot().StackSize == 0)
-            {
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            slotCurrentIndex().UpdateUISlot();
-        }*/
 
         if (GetItemData().Seed &&
             interactor._LookingAtDirt)

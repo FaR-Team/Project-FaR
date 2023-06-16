@@ -3,11 +3,8 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public enum TypesOfInventory
-{
-    INVENTARIO, PANTALON, CAMISA
-}
-public class InventorySlot_UIBase : MonoBehaviour
+
+public class InventorySlot_UIBasic : MonoBehaviour
 {
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemCount;
