@@ -1,43 +1,37 @@
-public class AbilityHotBarDisplay : HotbarDisplay
+using UnityEngine;
+
+public class AbilityHotBarDisplay : HotbarDisplayBase 
+
 {
     public ToolItemData hoeData, bucketData, blank1Data, blank2Data, blank3Data;
     private int _maxAbilityIndexSize = 5;
-    public int _currentAbilityIndex = 0;
+    public static int _currentAbilityIndex = 0;
 
-    protected override void OnEnable()
+    public static bool isInAbilityHotbarNow;
+
+    public override void Update()
     {
-        _playerControls.Enable();
+        if (!AbilitiesSlot_UI.isAbilityHotbarActive || 
+            !isInAbilityHotbarNow ||
+            !HotbarDisplay.CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()) return;
+
+        if (MouseWheelValue() > 0.1f) 
+            ChangeAbilityIndex(-1);
+
+        if (MouseWheelValue() < -0.1f) 
+            ChangeAbilityIndex(1);
+    }
+    public void ChangeAbilityIndex(int newIndex)
+    {
+        SlotCurrentIndex().ToggleHighlight();
+
+        if (newIndex < 0) _currentAbilityIndex = 0;
+        if (newIndex > _maxIndexSize) newIndex = _maxIndexSize;
+
+        _currentIndex = newIndex;
+        SlotCurrentIndex().ToggleHighlight();
+
+        DoChangeNameDisplay();
     }
 
-    void Update()
-    {
-        if (!AbilitiesSlot_UI.isAbilityHotbarActive) return;
-
-        switch (_currentAbilityIndex)
-        {
-            case 1:
-                GetAssignedInventorySlot().UpdateInventorySlot(hoeData, 1);
-                SlotCurrentIndex().UpdateUISlot();
-                break;
-            case 2:
-                GetAssignedInventorySlot().UpdateInventorySlot(bucketData, 1);
-                SlotCurrentIndex().UpdateUISlot();
-                break;
-            case 3:
-                GetAssignedInventorySlot().UpdateInventorySlot(blank1Data, 1);
-                SlotCurrentIndex().UpdateUISlot();
-                break;
-            case 4:
-                GetAssignedInventorySlot().UpdateInventorySlot(blank2Data, 1);
-                SlotCurrentIndex().UpdateUISlot();
-                break;
-            case 5:
-                GetAssignedInventorySlot().UpdateInventorySlot(blank3Data, 1);
-                SlotCurrentIndex().UpdateUISlot();
-                break;
-            default:
-                break;
-            
-        }
-    }
 }

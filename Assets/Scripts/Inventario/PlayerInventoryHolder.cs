@@ -17,7 +17,7 @@ public class PlayerInventoryHolder : InventoryHolder
     public GameObject TimeManager;
     public GameObject reloj;
     public static bool isInventoryOpen;
-    public bool IsBuying;
+    public static bool IsBuying;
     public DynamicInventoryDisplay playerBackpackPanel;
     public InventoryUIController inventoryUIController;
 

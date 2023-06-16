@@ -10,6 +10,7 @@ public class InventorySystem
     [SerializeField] private List<InventorySlot> inventorySlots;
     [SerializeField] private int _gold;
 
+    public List<InventorySlot> hotbarAbilitySlots;
     public int Gold => _gold;
 
     public List<InventorySlot> InventorySlots => inventorySlots;
@@ -38,7 +39,27 @@ public class InventorySystem
             inventorySlots.Add(new InventorySlot());
         }
     }
+    public bool AddToHotbarAbility(InventoryItemData itemToAdd, int amount)
+    {
+        if (ContieneTool(itemToAdd)) return false;
 
+        if (HaySlotLibreEnLaSpecialHotbar(out InventorySlot SlotLibre))
+        {
+            if (SlotLibre.EnoughRoomLeftInStack(amount))
+            {
+                SlotLibre.UpdateInventorySlot(itemToAdd, amount);
+                OnInventorySlotChanged?.Invoke(SlotLibre);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool ContieneTool(InventoryItemData itemToAdd)
+    {
+        var hotbarSlots = hotbarAbilitySlots.Where(i => i.ItemData == itemToAdd).ToList();
+        return !(hotbarSlots == null);
+    }
     public bool AñadirAInventario(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
         if (ContieneItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
@@ -73,7 +94,11 @@ public class InventorySystem
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista
         return !(invSlot == null);
     }
-
+    public bool HaySlotLibreEnLaSpecialHotbar(out InventorySlot SlotLibre)
+    {
+        SlotLibre = hotbarAbilitySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre
+        return !(SlotLibre == null);
+    }
     public bool HaySlotLibre(out InventorySlot SlotLibre)
     {
         SlotLibre = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre

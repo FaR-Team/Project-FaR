@@ -5,7 +5,7 @@ using System.Linq;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
-    [SerializeField] protected InventorySlot_UI slotPrefab;
+    [SerializeField] protected InventorySlot_UIBase slotPrefab;
     protected override void Start()
     {
         base.Start();
@@ -25,7 +25,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
     public override void AssignSlot(InventorySystem invToDisplay, int offset)
     {
 
-        slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
+        slotDictionary = new Dictionary<InventorySlot_UIBase, InventorySlot>();
 
         if (invToDisplay == null)
         {

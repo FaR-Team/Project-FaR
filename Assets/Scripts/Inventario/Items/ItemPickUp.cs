@@ -21,13 +21,13 @@ public class ItemPickUp : MonoBehaviour
 
         _collider = GetComponent<SphereCollider>();
         _collider.isTrigger = true;
-        _collider.radius = PickUpRadius;  
+        _collider.radius = PickUpRadius;
     }
 
     private void Start()
     {
         id = GetComponent<UniqueID>().ID;
-        SaveGameManager.data.activeItems.Add(id, itemSaveData);    
+        SaveGameManager.data.activeItems.Add(id, itemSaveData);
     }
 
     private void LoadGame(SaveData data)
@@ -38,7 +38,7 @@ public class ItemPickUp : MonoBehaviour
         }
     }
 
-    private void OnDestroy() 
+    private void OnDestroy()
     {
         if (SaveGameManager.data.activeItems.ContainsKey(id))
         {
@@ -51,14 +51,23 @@ public class ItemPickUp : MonoBehaviour
     {
         var inventory = other.transform.GetComponent<InventoryHolder>();
 
-        if (!inventory)
+        if (!inventory) return;
+
+        if (ItemData is ToolItemData)
         {
-            return;
+            if (inventory.PrimaryInventorySystem.AddToHotbarAbility(ItemData, 1))
+            {
+                SaveGameManager.data.Items.Add(id);
+                Destroy(this.gameObject);
+            }
         }
-        if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
+        else
         {
-            SaveGameManager.data.Items.Add(id);
-            Destroy(this.gameObject);
+            if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
+            {
+                SaveGameManager.data.Items.Add(id);
+                Destroy(this.gameObject);
+            }
         }
     }
 
