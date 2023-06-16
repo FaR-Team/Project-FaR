@@ -47,7 +47,7 @@ public class GridGhost : MonoBehaviour
     }
     private InventoryItemData GetItemData()
     {
-        return hotbarDisplay.slots[hotbarDisplay._currentIndex].AssignedInventorySlot.ItemData;
+        return hotbarDisplay.slots[HotbarDisplayBase._currentIndex].AssignedInventorySlot.ItemData;
     }
     void FixedUpdate()
     {

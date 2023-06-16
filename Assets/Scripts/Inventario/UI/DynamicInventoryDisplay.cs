@@ -5,7 +5,7 @@ using System.Linq;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
-    [SerializeField] protected InventorySlot_UIBase slotPrefab;
+    [SerializeField] protected InventorySlot_UI_Backpack slotPrefab;
     protected override void Start()
     {
         base.Start();

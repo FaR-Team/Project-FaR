@@ -6,7 +6,7 @@ using UnityEngine;
 public class StaticInventoryDisplay : InventoryDisplay
 {
     [SerializeField] private PlayerInventoryHolder playerInventoryHolder;
-    [SerializeField] public InventorySlot_UIBase[] slots;
+    [SerializeField] public InventorySlot_UI_Backpack[] slots;
 
     protected virtual void OnEnable() {
         PlayerInventoryHolder.OnPlayerInventoryChanged += RefreshStaticDisplay;
