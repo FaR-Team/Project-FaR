@@ -18,7 +18,7 @@ public class InventorySlot : ItemSlot
 
     public InventorySlot() //Constructor para hacer un slot vacío
     {
-        ClearSlot();
+        ForcedClearSlot();
     }
 
     public void UpdateInventorySlot(InventoryItemData data, int amount)

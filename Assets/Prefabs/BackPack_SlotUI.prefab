@@ -31,7 +31,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2967969885146588579}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -167,7 +167,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2967969885146588579}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 20bfddd999c9f3b41b28e9b1b7f22814, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -223,10 +223,11 @@ GameObject:
   - component: {fileID: 2967969885146588579}
   - component: {fileID: 7916823845349351674}
   - component: {fileID: 6531959560310214545}
-  - component: {fileID: 732934014495420363}
   - component: {fileID: 3796228361573358382}
+  - component: {fileID: 1172543242065966744}
+  - component: {fileID: 5253314388360043342}
   m_Layer: 5
-  m_Name: SlotUI
+  m_Name: BackPack_SlotUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -244,9 +245,9 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3415163970774297570}
   - {fileID: 3496814944650369805}
   - {fileID: 3435494063701359749}
+  - {fileID: 3415163970774297570}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -275,7 +276,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b8697bbbe95908b4c85935087a992488, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 20bfddd999c9f3b41b28e9b1b7f22814, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -314,7 +315,8 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
+    m_HighlightedSprite: {fileID: 21300000, guid: e89448d513b71314ab5b98607a67328f,
+      type: 3}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
@@ -329,7 +331,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &732934014495420363
+--- !u!222 &3796228361573358382
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967969885146588580}
+  m_CullTransparentMesh: 1
+--- !u!114 &1172543242065966744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,7 +348,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2967969885146588580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dbe2789bec7fc8478d6f315a3bbef4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 05f5f21ea16b8c64cb6c6081e6e1b943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107419927834}
@@ -349,14 +359,27 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
---- !u!222 &3796228361573358382
-CanvasRenderer:
+--- !u!114 &5253314388360043342
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2967969885146588580}
-  m_CullTransparentMesh: 1
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59c97c0ab1914e84f8b44823d741f371, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSprite: {fileID: 4552066107419927834}
+  itemCount: {fileID: 3202902983631580052}
+  _slotHighlight: {fileID: 8805982403512259398}
+  assignedInventorySlot:
+    itemData: {fileID: 0}
+    _itemID: -1
+    stackSize: -1
+    "CantidadM\xE1xima": 100
+  isSlotBlocked: 0
 --- !u!1 &8805982403512259398
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +411,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2967969885146588579}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

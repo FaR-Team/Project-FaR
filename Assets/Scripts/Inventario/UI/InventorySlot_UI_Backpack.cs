@@ -6,6 +6,8 @@ public class InventorySlot_UI_Backpack : InventorySlot_UIBasic
     private TypesOfInventory types;
     private Image thisSlotImage;
 
+    public bool isSlotBlocked;
+
     protected override void Awake()
     {
         base.Awake();

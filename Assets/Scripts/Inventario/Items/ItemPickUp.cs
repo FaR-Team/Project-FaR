@@ -53,22 +53,12 @@ public class ItemPickUp : MonoBehaviour
 
         if (!inventory) return;
 
-        if (ItemData is ToolItemData)
+        if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
         {
-            if (inventory.PrimaryInventorySystem.AddToHotbarAbility(ItemData, 1))
-            {
-                SaveGameManager.data.Items.Add(id);
-                Destroy(this.gameObject);
-            }
+            SaveGameManager.data.Items.Add(id);
+            Destroy(this.gameObject);
         }
-        else
-        {
-            if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
-            {
-                SaveGameManager.data.Items.Add(id);
-                Destroy(this.gameObject);
-            }
-        }
+        
     }
 
     public static void GiveItem(InventoryItemData data, int amount)

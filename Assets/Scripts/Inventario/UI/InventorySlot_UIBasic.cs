@@ -2,17 +2,12 @@
 using UnityEngine.UI;
 using TMPro;
 
-
-
 public class InventorySlot_UIBasic : MonoBehaviour
 {
     [SerializeField] private Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemCount;
     [SerializeField] protected GameObject _slotHighlight;
     [SerializeField] protected InventorySlot assignedInventorySlot;
-    [SerializeField] private TypesOfInventory invEnums;
-
-    public bool isSlotBlocked;
 
     private Button button;
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;

@@ -10,12 +10,18 @@ public class HotbarDisplay : HotbarDisplayBase
 
     public GameObject telequinesis;
     public GridGhost gridGhost;
+
     [Header("Tool GameObjects")]
     public GameObject hoe, bucket, blank1, blank2, blank3, hand;
-    public ToolItemData hoeData, bucketData, blank1Data, blank2Data, blank3Data;
+    [SerializeField] private ToolItemData[] abilityTools;
+
+    private int _currentAbilityIndex;
 
     private InventoryItemData gameobj1, gameobj2, gameobj3, gameibj4, gameobj5;
     Dirt dirtToTest;
+
+    private Vector3 previousFinalPosition;
+    private int _maxAbilityIndexSize;
 
     private void Awake()
     {
@@ -31,6 +37,9 @@ public class HotbarDisplay : HotbarDisplayBase
         base.Start();
 
         _currentIndex = 0;
+        _currentAbilityIndex = 0;
+        _maxAbilityIndexSize = 1;
+        UpdateAbilitySlot();
         _maxIndexSize = slots.Length - 1;
 
         SlotCurrentIndex().ToggleHighlight();
@@ -40,13 +49,42 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         base.Update();
 
-        if (_isHoldingCtrl)
+        if (InventorySlot_UIAbility.isAbilityHotbarActive &&
+            IsInAbilityHotbarNow() &&
+            CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl())
         {
-            SellAll();
+            ChangeAbility();
         }
+
         ChangeObjectInHandModel();
     }
 
+    void ChangeAbility()
+    {
+        if (MouseWheelValue() > 0.1f) ChangeAbilityIndex(-1);
+
+        if (MouseWheelValue() < -0.1f) ChangeAbilityIndex(1);
+    }
+
+    private void ChangeAbilityIndex(int direction)
+    {
+        _currentAbilityIndex += direction;
+
+        if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
+        if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
+        UpdateAbilitySlot();
+    }
+
+    private void UpdateAbilitySlot()
+    {
+        AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1);
+        AbilitySlot().UpdateUISlot();
+    }
+
+    private static bool IsInAbilityHotbarNow()
+    {
+        return _currentIndex == 10;
+    }
 
     protected override void OnEnable()
     {
@@ -63,10 +101,10 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().Hotbar8.performed += Hotbar8;
         GetPlayerControls().Hotbar9.performed += Hotbar9;
         GetPlayerControls().Hotbar10.performed += Hotbar10;
-        GetPlayerControls().UseItem.performed += UseItem;
         GetPlayerControls().HotbarRight.performed += HotbarRight;
         GetPlayerControls().HotbarLeft.performed += HotbarLeft;
 
+        GetPlayerControls().UseItem.performed += UseItem;
         GetPlayerControls().UseItemHoldStart.performed += x => UseItemPressed();
         GetPlayerControls().UseItemHoldRelease.performed += x => UseItemRelease();
         GetPlayerControls().MassSell.performed += x => SellAllPressed();
@@ -287,8 +325,6 @@ public class HotbarDisplay : HotbarDisplayBase
         }
     }
 
-    private Vector3 previousFinalPosition;
-
     private void ChangeObjectInHandModel()
     {
         if (GetItemData() == null)
@@ -300,27 +336,27 @@ public class HotbarDisplay : HotbarDisplayBase
         }
 
 
-        if (GetItemData().IsHoe == true)
+        if (GetItemData().IsHoe)
         {
             hoe.SetActive(true);
             bucket.SetActive(false);
             hand.SetActive(false);
         }
-        else if ((GetItemData().Sellable == false &&
-            GetItemData().Seed == false &&
-            GetItemData().Usable == false &&
-            GetItemData().Tool == false)
+        else if ((!GetItemData().Sellable &&
+            !GetItemData().Seed &&
+            !GetItemData().Usable &&
+            !GetItemData().Tool)
 
             ||
 
-            GetItemData().Usable == true)
+            GetItemData().Usable)
         {
             hoe.SetActive(false);
             bucket.SetActive(false);
             hand.SetActive(true);
         }
 
-        if (GetItemData().IsBucket == true)
+        if (GetItemData().IsBucket)
         {
             hoe.SetActive(false);
             bucket.SetActive(true);

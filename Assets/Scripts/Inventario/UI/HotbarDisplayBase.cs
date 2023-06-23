@@ -19,7 +19,7 @@ public class HotbarDisplayBase : StaticInventoryDisplay
     protected override void Start()
     {
         base.Start();
-        nameDisplayController = gameObject.GetComponent<NameDisplayController>();
+        nameDisplayController = NameDisplay.GetComponent<NameDisplayController>();
     }
 
     public virtual void Update()
@@ -31,30 +31,6 @@ public class HotbarDisplayBase : StaticInventoryDisplay
 
             DoChangeNameDisplay();
         }
-
-        HotbarRightGamePad();
-        HotbarLeftGamePad();
-
-    }
-
-    private void HotbarLeftGamePad()
-    {
-        if (GetPlayerControls().HotbarLeft.WasPressedThisFrame() &&
-                    IsNotGrabingNorPausedNorConsole())
-        {
-            ChangeIndex(-1);
-            DoChangeNameDisplay();
-        }
-    }
-
-    private void HotbarRightGamePad()
-    {
-        if (GetPlayerControls().HotbarRight.WasPressedThisFrame() &&
-                    IsNotGrabingNorPausedNorConsole())
-        {
-            ChangeIndex(1);
-            DoChangeNameDisplay();
-        }
     }
 
     public static bool CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl()
@@ -62,12 +38,10 @@ public class HotbarDisplayBase : StaticInventoryDisplay
         return (_currentIndex == 10 && _isHoldingCtrl);
     }
 
-    public void UpdateInventorySlotWithIndex(InventoryItemData data, int amount, int index)
+    protected InventorySlot_UIBasic AbilitySlot()
     {
-        SlotCurrentIndex().
-        //TODO: Hacer que se pueda añdir al inventario en un slot específico, aunque tal vez habría que hacerlo en inventorySystem.
+        return slots[10];
     }
-
     protected InventorySlot GetAssignedInventorySlot()
     {
         return SlotCurrentIndex().AssignedInventorySlot;

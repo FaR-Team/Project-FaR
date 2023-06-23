@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilitiesSlot_UI : InventorySlot_UIBasic
+public class InventorySlot_UIAbility : InventorySlot_UIBasic
 {
     public bool IsHoeUnlocked, IsBucketUnlocked, IsBlank1Unlocked, IsBlank2Unlocked, IsBlank3Unlocked;
 

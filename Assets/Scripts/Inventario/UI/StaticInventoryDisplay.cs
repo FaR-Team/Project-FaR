@@ -6,7 +6,9 @@ using UnityEngine;
 public class StaticInventoryDisplay : InventoryDisplay
 {
     [SerializeField] private PlayerInventoryHolder playerInventoryHolder;
-    [SerializeField] public InventorySlot_UI_Backpack[] slots;
+  //  [SerializeField] public InventorySlot_UI_Backpack[] slots;
+    [SerializeField] public InventorySlot_UIBasic[] slots;
+
 
     protected virtual void OnEnable() {
         PlayerInventoryHolder.OnPlayerInventoryChanged += RefreshStaticDisplay;
@@ -38,12 +40,12 @@ public class StaticInventoryDisplay : InventoryDisplay
 
     public override void AssignSlot(InventorySystem invToDisplay, int offset)
     {
-        slotDictionary = new Dictionary<InventorySlot_UIBase, InventorySlot>();
+        slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
 
         for (int i = 0; i < playerInventoryHolder.Offset; i++)
         {
             slotDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);
-            slots[i].Init(inventorySystem.InventorySlots[i], TypesOfInventory.INVENTARIO);
+            slots[i].Init(inventorySystem.InventorySlots[i]);
         }
     }
 }
