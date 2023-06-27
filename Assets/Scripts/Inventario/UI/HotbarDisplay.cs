@@ -14,10 +14,12 @@ public class HotbarDisplay : HotbarDisplayBase
     [Header("Tool GameObjects")]
     public GameObject hoe, bucket, blank1, blank2, blank3, hand;
     [SerializeField] private ToolItemData[] abilityTools;
+    [SerializeField] private Dictionary<ToolItemData, bool> abilityToolsDictionary = new Dictionary<ToolItemData, bool>();
 
     private int _currentAbilityIndex;
 
     private InventoryItemData gameobj1, gameobj2, gameobj3, gameibj4, gameobj5;
+
     Dirt dirtToTest;
 
     private Vector3 previousFinalPosition;
@@ -39,7 +41,7 @@ public class HotbarDisplay : HotbarDisplayBase
         _currentIndex = 0;
         _currentAbilityIndex = 0;
         _maxAbilityIndexSize = 1;
-        UpdateAbilitySlot();
+        //UpdateAbilitySlot();
         _maxIndexSize = slots.Length - 1;
 
         SlotCurrentIndex().ToggleHighlight();
@@ -68,19 +70,37 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void ChangeAbilityIndex(int direction)
     {
+        //This is a void to ask god if he's de boca
+        var initialIndex = _currentAbilityIndex;
         _currentAbilityIndex += direction;
-
+        
         if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
         if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
-        UpdateAbilitySlot();
+
+        for(int i = 0; i < abilityTools.Length; i++)
+        {
+            if(InventorySlot_UIAbility.isUnlocked[_currentAbilityIndex] == false)
+            {
+                _currentAbilityIndex += direction;
+        
+                if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
+                if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
+            }
+            else{
+                UpdateAbilitySlot();
+                return;
+            }
+        }
+
+        _currentAbilityIndex = initialIndex;
     }
 
     private void UpdateAbilitySlot()
     {
-        AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1);
+        AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1); 
         AbilitySlot().UpdateUISlot();
     }
-
+    
     private static bool IsInAbilityHotbarNow()
     {
         return _currentIndex == 10;
