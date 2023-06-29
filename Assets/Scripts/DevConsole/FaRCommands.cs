@@ -48,7 +48,7 @@ public class FaRCommands : MonoBehaviour
 
     private void SetAreaHarvestLevel(int x)
     {
-        PlayerStats.Instance.AreaHarvestLevel = x;
+        PlayerStats.Instance.areaHarvestLevel = x;
     }
 
 	public void Noclip()
