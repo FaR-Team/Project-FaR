@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 namespace DS.Windows
 {
     using Data.Error;
+    using Data.Save;
     using Elements;  
     using Enumerations;
     using Utilities;  
@@ -61,6 +62,7 @@ namespace DS.Windows
             OnGroupElementsAdded();
             OnGroupElementsRemoved();
             OnGroupRenamed();
+            OnGraphViewChanged();
 
             AddStyles();
         }
@@ -254,6 +256,29 @@ namespace DS.Windows
                 groupsList[0].SetErrorStyle(errorColor);
             }
         }
+        
+        private void RemoveGroup(DSGroup group)
+        {
+            string oldGroupName = group.oldTitle.ToLower();
+            
+            List<DSGroup> groupsList = groups[oldGroupName].Groups;
+            
+            groupsList.Remove(group);
+            
+            group.ResetStyle();
+
+            if (groupsList.Count == 1)
+            {
+                --RepeatedNamesAmount;
+                
+                groupsList[0].ResetStyle();
+            }
+
+            if (groupsList.Count == 0)
+            {
+                groups.Remove(oldGroupName);
+            }
+        }
         public void AddGroupedNode(DSNode node, DSGroup group)
         {
             string nodeName = node.DialogueName.ToLower();
@@ -289,62 +314,6 @@ namespace DS.Windows
                 ++RepeatedNamesAmount;
                 groupedNodesList[0].SetErrorStyle(errorColor);
             }
-        }
-        
-        private void OnGroupElementsAdded()
-        {
-            elementsAddedToGroup = (group, elements) =>
-            {
-                foreach (GraphElement element in elements)
-                {
-                    if (!(element is DSNode))
-                    {
-                        continue;
-                    }
-                    
-                    DSGroup nodeGroup = (DSGroup) group;
-                    DSNode node = (DSNode) element;
-
-                    RemoveUngroupedNode(node);
-                    AddGroupedNode(node, nodeGroup);
-                }
-            };
-        }
-
-
-        private void OnGroupElementsRemoved()
-        {
-            elementsRemovedFromGroup = (group, elements) =>
-            {
-                foreach (GraphElement element in elements)
-                {
-                    if (!(element is DSNode))
-                    {
-                        continue;
-                    }
-
-                    DSNode node = (DSNode) element;
-
-                    RemoveGroupedNode(node, group);
-                    AddUngroupedNode(node);
-                }
-            };
-        }
-
-        private void OnGroupRenamed()
-        {
-            groupTitleChanged = (group, newTitle) =>
-            {
-                DSGroup dsGroup = (DSGroup)group;
-                
-                dsGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
-
-                RemoveGroup(dsGroup);
-
-                dsGroup.oldTitle = dsGroup.title;
-
-                AddGroup(dsGroup);
-            };
         }
 
         public void RemoveGroupedNode(DSNode node, Group group)
@@ -461,29 +430,99 @@ namespace DS.Windows
             };
         }
 
-        private void RemoveGroup(DSGroup group)
+        private void OnGroupElementsAdded()
         {
-            string oldGroupName = group.oldTitle.ToLower();
-            
-            List<DSGroup> groupsList = groups[oldGroupName].Groups;
-            
-            groupsList.Remove(group);
-            
-            group.ResetStyle();
-
-            if (groupsList.Count == 1)
+            elementsAddedToGroup = (group, elements) =>
             {
-                --RepeatedNamesAmount;
-                
-                groupsList[0].ResetStyle();
-            }
+                foreach (GraphElement element in elements)
+                {
+                    if (!(element is DSNode))
+                    {
+                        continue;
+                    }
 
-            if (groupsList.Count == 0)
-            {
-                groups.Remove(oldGroupName);
-            }
+                    DSGroup nodeGroup = (DSGroup)group;
+                    DSNode node = (DSNode)element;
+
+                    RemoveUngroupedNode(node);
+                    AddGroupedNode(node, nodeGroup);
+                }
+            };
         }
 
+        private void OnGroupElementsRemoved()
+        {
+            elementsRemovedFromGroup = (group, elements) =>
+            {
+                foreach (GraphElement element in elements)
+                {
+                    if (!(element is DSNode))
+                    {
+                        continue;
+                    }
+
+                    DSNode node = (DSNode) element;
+
+                    RemoveGroupedNode(node, group);
+                    AddUngroupedNode(node);
+                }
+            };
+        }
+        
+        private void OnGroupRenamed()
+        {
+            groupTitleChanged = (group, newTitle) =>
+            {
+                DSGroup dsGroup = (DSGroup)group;
+                
+                dsGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
+
+                RemoveGroup(dsGroup);
+
+                dsGroup.oldTitle = dsGroup.title;
+
+                AddGroup(dsGroup);
+            };
+        }
+
+        private void OnGraphViewChanged()
+        {
+            graphViewChanged = (changes) =>
+            {
+                if (changes.edgesToCreate != null)
+                {
+                    foreach (Edge edge in changes.edgesToCreate)
+                    {
+                        DSNode nextNode = (DSNode) edge.input.node;
+
+                        DSChoiceSaveData choiceData = (DSChoiceSaveData) edge.output.userData;
+                        
+                        choiceData.NodeID = nextNode.ID;
+                    }
+                }
+
+                if (changes.elementsToRemove != null)
+                {
+                    Type edgeType = typeof(Edge);
+
+                    foreach (GraphElement element in changes.elementsToRemove)
+                    {
+                        if (element.GetType() != edgeType)
+                        {
+                            continue;
+                        }
+                        
+                        Edge edge = (Edge) element;
+                        
+                        DSChoiceSaveData choiceData = (DSChoiceSaveData) edge.output.userData;
+
+                        choiceData.NodeID = "";
+                    }
+                }
+
+                return changes;
+            };
+        }
         #endregion
 
         #region Adición de Elementos

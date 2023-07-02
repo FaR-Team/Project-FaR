@@ -5,71 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764f0ecb-e681-4b92-ac7b-4c0bd37240ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Editor Default Resources/DialogueSystem/DSToolbarStyles.uss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error/DSErrorData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error/DSErrorData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error/DSGroupErrorData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error/DSGroupErrorData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error/DSNodeErrorData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Error/DSNodeErrorData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSGroup.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSGroup.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSNode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSNode.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSSingleChoiceNode.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSSingleChoiceNode.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Utilities.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Utilities/DSElementUtility.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Utilities/DSElementUtility.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Utilities/DSStyleUtility.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Utilities/DSStyleUtility.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSEditorWindow.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSEditorWindow.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSGraphView.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSGraphView.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSSearchWindow.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSSearchWindow.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/SerializableDictionaryDialogue.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/SerializableDictionaryDialogue.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Editor Default Resources/DialogueSystem/DSVariables.uss" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor Default Resources/DialogueSystem/DSVariables.uss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Data.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Data/Error.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Data/Error/DSErrorData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Data/Error/DSErrorData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Data/Error/DSNodeErrorData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Data/Error/DSNodeErrorData.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements/DSNode.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements/DSNode.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements/DSSingleChoiceNode.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Elements/DSSingleChoiceNode.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Utilities.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Utilities/DSElementUtility.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Utilities/DSElementUtility.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Utilities/DSStyleUtility.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Utilities/DSStyleUtility.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/DSEditorWindow.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/DSEditorWindow.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/DSGraphView.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/DSGraphView.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/DSSearchWindow.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/DSSearchWindow.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/SerializableDictionaryDialogue.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Editor/DialogueSystem/Windows/SerializableDictionaryDialogue.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Misc_/TextUtility.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Misc_/TextUtility.cs.meta" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSChoiceSaveData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSChoiceSaveData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSNodeSaveData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSNodeSaveData.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Project-FaR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project-FaR/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/No.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/No.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Sexita.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Sexita.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Si.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Si.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Test.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Test.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Vaca.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/Vaca.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/yANO.asset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Dialogo/Test/yANO.asset.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSGroup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSGroup.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSSingleChoiceNode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSSingleChoiceNode.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSGraphView.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSGraphView.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,36 +39,59 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingMarkupGrave">
-    <markupCoffin contentHash="633627485" url="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Windows/DSEditorWindow.cs">
-      <highlighter start="90" end="100" layer="4000" target="0">
+    <markupCoffin contentHash="2058134092" url="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSMultipleChoiceNode.cs">
+      <highlighter start="0" end="25" layer="4001" target="0">
+        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
+      </highlighter>
+      <highlighter start="26" end="59" layer="4001" target="0">
+        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
+      </highlighter>
+      <highlighter start="162" end="173" layer="4000" target="0">
         <option name="myExternalName" value="WARNING_ATTRIBUTES" />
       </highlighter>
-      <highlighter start="211" end="226" layer="4000" target="0">
+      <highlighter start="279" end="299" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="635" end="640" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="641" end="647" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="800" end="810" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="892" end="898" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="899" end="905" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="1044" end="1049" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="1050" end="1056" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="1401" end="1411" layer="3999" target="0">
+        <option name="myExternalName" value="SUGGESTION" />
+      </highlighter>
+      <highlighter start="1751" end="1759" layer="4000" target="0">
         <option name="myExternalName" value="WARNING_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="274" end="291" layer="4000" target="0">
-        <option name="myExternalName" value="WARNING_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="316" end="326" layer="4000" target="0">
-        <option name="myExternalName" value="WARNING_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="365" end="373" layer="3999" target="0">
-        <option name="myExternalName" value="SUGGESTION" />
-      </highlighter>
-      <highlighter start="1056" end="1062" layer="3999" target="0">
-        <option name="myExternalName" value="SUGGESTION" />
-      </highlighter>
-      <highlighter start="1067" end="1074" layer="3999" target="0">
-        <option name="myExternalName" value="SUGGESTION" />
-      </highlighter>
-      <highlighter start="1296" end="1303" layer="3999" target="0">
-        <option name="myExternalName" value="SUGGESTION" />
       </highlighter>
     </markupCoffin>
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e921654dd24f45a494e4d0e6e3fb15803ce00/1e/d1a46fc3/Node.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DialogueSystem/Scripts/Data/DSDialogueChoiceData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DialogueSystem/Scripts/ScriptableObjects/DSDialogueContainerSO.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DialogueSystem/Scripts/ScriptableObjects/DSDialogueGroupSO.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/DialogueSystem/Scripts/ScriptableObjects/DSDialogueSO.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/DialogueSystem/Utilities/TextUtility.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSChoiceSaveData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSGraphSaveDataSO.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSGroupSaveData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSNodeSaveData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSGroup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Library/PackageCache/com.unity.ide.rider@3.0.21/Rider/Editor/RiderScriptEditor.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
@@ -207,7 +189,7 @@
       <workItem from="1688057015740" duration="1142000" />
       <workItem from="1688058946374" duration="51000" />
       <workItem from="1688060489922" duration="3467000" />
-      <workItem from="1688265325036" duration="6645000" />
+      <workItem from="1688265325036" duration="10721000" />
     </task>
     <servers />
   </component>

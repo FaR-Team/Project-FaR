@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -7,13 +6,15 @@ namespace DS.Elements
 {
     public class DSGroup : Group
     {
-        public string oldTitle;
+        public string ID { get; set; }
+        public string oldTitle { get; set; }
         
         private Color defaultBorderColor;
         private float defaultBorderWidth;
 
         public DSGroup(string groupTitle, Vector2 position)
         {
+            ID = Guid.NewGuid().ToString();
             title = groupTitle;
             oldTitle = groupTitle;
             
