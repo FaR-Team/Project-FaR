@@ -75,9 +75,7 @@ namespace DS.Windows
                 
                 case Group _:
                 {
-                    Group group = graphView.CreateGroup("GrupoDeDiálogos", localMousePosition);
-
-                    graphView.AddElement(group);
+                    graphView.CreateGroup("GrupoDeDiálogos", localMousePosition);
 
                     return true;
                 }

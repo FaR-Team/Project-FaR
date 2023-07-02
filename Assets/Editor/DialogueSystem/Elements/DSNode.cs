@@ -15,7 +15,7 @@ namespace DS.Elements
         public List<string> Choices { get; set; }
         public string Text { get; set; }
         public DSDialogueType DialogueType { get; set; }
-        public Group Group { get; set; }
+        public DSGroup Group { get; set; }
 
         private DSGraphView graphView;
 
@@ -39,20 +39,25 @@ namespace DS.Elements
         public virtual void Draw()
         {
             /* CONTENEDOR DEL TÍTULO */
-            TextField dialogueNameTextField = DSElementUtility.CreateTextField(DialogueName, onValueChanged: callback =>
+            TextField dialogueNameTextField = DSElementUtility.CreateTextField(DialogueName, null, callback =>
             {
+                TextField target = (TextField) callback.target;
+
+                target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
+                
+                
                 if (Group == null)
                 {
                     graphView.RemoveUngroupedNode(this);
 
-                    DialogueName = callback.newValue;
+                    DialogueName = target.value;
 
                     graphView.AddUngroupedNode(this);
 
                     return;
                 }
 
-                Group currentGroup = Group;
+                DSGroup currentGroup = Group;
 
                 graphView.RemoveGroupedNode(this, Group);
 
@@ -94,6 +99,49 @@ namespace DS.Elements
 
             extensionContainer.Add(customDataContainer);
         }
+        
+        #region Métodos Override
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.AppendAction("Desconectar Puertos de Entrada", actionEvent => DisconnectInputPorts());
+            evt.menu.AppendAction("Desconectar Puertos de Salida", actionEvent => DisconnectOutputPorts());
+            
+            if (!(evt.target is Node))
+                return;
+            evt.menu.AppendAction("Desconectar Todos los Puertos", actionEvent => DisconnectAllPorts());
+            evt.menu.AppendSeparator();
+        }
+        #endregion
+
+        #region Métodos de Utilidades
+        public void DisconnectAllPorts()
+        {
+            DisconnectInputPorts();
+            DisconnectOutputPorts();
+        }
+
+        private void DisconnectInputPorts()
+        {
+            DisconnectPorts(inputContainer);
+        }
+        
+        private void DisconnectOutputPorts()
+        {
+            DisconnectPorts(outputContainer);
+        }
+        
+        private void DisconnectPorts(VisualElement container)
+        {
+            foreach (Port port in container.Children())
+            {
+                if (!port.connected)
+                {
+                    continue;
+                }
+                
+                graphView.DeleteElements(port.connections);
+            }
+        }
 
         public void SetErrorStyle(Color color)
         {
@@ -104,5 +152,6 @@ namespace DS.Elements
         {
             mainContainer.style.backgroundColor = defaultBackgroundColor;
         }
+        #endregion
     }
 }
