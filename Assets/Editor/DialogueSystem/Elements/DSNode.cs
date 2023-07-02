@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using DS.Data.Save;
+using System.Linq;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -22,20 +22,31 @@ namespace DS.Elements
         public DSGroup Group { get; set; }
 
         protected DSGraphView graphView;
-
         private Color defaultBackgroundColor;
 
-        public virtual void Initialize(DSGraphView dsGraphView, Vector2 position)
+        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+        {
+            evt.menu.AppendAction("Desconectar Puertos de Entrada", actionEvent => DisconnectInputPorts());
+            evt.menu.AppendAction("Desconectar Puertos de Salida", actionEvent => DisconnectOutputPorts());
+
+            if (!(evt.target is Node))
+                return;
+            evt.menu.AppendAction("Desconectar Todos los Puertos", actionEvent => DisconnectAllPorts());
+            evt.menu.AppendSeparator();
+        }
+
+        public virtual void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
         {
             ID = Guid.NewGuid().ToString();
-            DialogueName = "NombreDelDiálogo";
+
+            DialogueName = nodeName;
             Choices = new List<DSChoiceSaveData>();
             Text = "Texto del Diálogo.";
 
+            SetPosition(new Rect(position, Vector2.zero));
+
             graphView = dsGraphView;
             defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
-
-            SetPosition(new Rect(position, Vector2.zero));
 
             mainContainer.AddToClassList("ds-node__main-container");
             extensionContainer.AddToClassList("ds-node__extension-container");
@@ -44,13 +55,28 @@ namespace DS.Elements
         public virtual void Draw()
         {
             /* CONTENEDOR DEL TÍTULO */
+
             TextField dialogueNameTextField = DSElementUtility.CreateTextField(DialogueName, null, callback =>
             {
                 TextField target = (TextField) callback.target;
 
                 target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
-                
-                
+
+                if (string.IsNullOrEmpty(target.value))
+                {
+                    if (!string.IsNullOrEmpty(DialogueName))
+                    {
+                        ++graphView.NameErrorsAmount;
+                    }
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(DialogueName))
+                    {
+                        --graphView.NameErrorsAmount;
+                    }
+                }
+
                 if (Group == null)
                 {
                     graphView.RemoveUngroupedNode(this);
@@ -66,36 +92,38 @@ namespace DS.Elements
 
                 graphView.RemoveGroupedNode(this, Group);
 
-                DialogueName = callback.newValue;
+                DialogueName = target.value;
 
                 graphView.AddGroupedNode(this, currentGroup);
             });
 
             dialogueNameTextField.AddClasses(
-                "ds-node__textfield",
-                "ds-node__filename-textfield",
-                "ds-node__textfield__hidden"
+                "ds-node__text-field",
+                "ds-node__text-field__hidden",
+                "ds-node__filename-text-field"
             );
 
             titleContainer.Insert(0, dialogueNameTextField);
 
             /* CONTENEDOR DE INPUT */
+
             Port inputPort = this.CreatePort("Conexión del Diálogo", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
 
             inputContainer.Add(inputPort);
 
             /* CONTENEDOR DE EXTENSIONES */
+
             VisualElement customDataContainer = new VisualElement();
 
             customDataContainer.AddToClassList("ds-node__custom-data-container");
 
             Foldout textFoldout = DSElementUtility.CreateFoldout("Texto del Diálogo");
 
-            TextField textTextField = DSElementUtility.CreateTextArea(Text);
+            TextField textTextField = DSElementUtility.CreateTextArea(Text, null, callback => Text = callback.newValue);
 
             textTextField.AddClasses(
-                "ds-node__textfield",
-                "ds-node__quote-textfield"
+                "ds-node__text-field",
+                "ds-node__quote-text-field"
             );
 
             textFoldout.Add(textTextField);
@@ -104,21 +132,7 @@ namespace DS.Elements
 
             extensionContainer.Add(customDataContainer);
         }
-        
-        #region Métodos Override
-        public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.AppendAction("Desconectar Puertos de Entrada", actionEvent => DisconnectInputPorts());
-            evt.menu.AppendAction("Desconectar Puertos de Salida", actionEvent => DisconnectOutputPorts());
-            
-            if (!(evt.target is Node))
-                return;
-            evt.menu.AppendAction("Desconectar Todos los Puertos", actionEvent => DisconnectAllPorts());
-            evt.menu.AppendSeparator();
-        }
-        #endregion
 
-        #region Métodos de Utilidades
         public void DisconnectAllPorts()
         {
             DisconnectInputPorts();
@@ -129,12 +143,12 @@ namespace DS.Elements
         {
             DisconnectPorts(inputContainer);
         }
-        
+
         private void DisconnectOutputPorts()
         {
             DisconnectPorts(outputContainer);
         }
-        
+
         private void DisconnectPorts(VisualElement container)
         {
             foreach (Port port in container.Children())
@@ -143,9 +157,16 @@ namespace DS.Elements
                 {
                     continue;
                 }
-                
+
                 graphView.DeleteElements(port.connections);
             }
+        }
+
+        public bool IsStartingNode()
+        {
+            Port inputPort = (Port) inputContainer.Children().First();
+
+            return !inputPort.connected;
         }
 
         public void SetErrorStyle(Color color)
@@ -157,6 +178,5 @@ namespace DS.Elements
         {
             mainContainer.style.backgroundColor = defaultBackgroundColor;
         }
-        #endregion
     }
 }

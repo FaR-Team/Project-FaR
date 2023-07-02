@@ -3,6 +3,7 @@ using System.Collections.Generic;
 namespace DS.Data.Error
 {
     using Elements;
+
     public class DSNodeErrorData
     {
         public DSErrorData ErrorData { get; set; }

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -13,9 +12,9 @@ namespace DS.Windows
         private DSGraphView graphView;
         private Texture2D indentationIcon;
 
-        public void Initialize(DSGraphView dSGraphView)
+        public void Initialize(DSGraphView dsGraphView)
         {
-            graphView = dSGraphView;
+            graphView = dsGraphView;
 
             indentationIcon = new Texture2D(1, 1);
             indentationIcon.SetPixel(0, 0, Color.clear);
@@ -26,23 +25,23 @@ namespace DS.Windows
         {
             List<SearchTreeEntry> searchTreeEntries = new List<SearchTreeEntry>()
             {
-                new SearchTreeGroupEntry(new GUIContent("Crear Elemento")),
+                new SearchTreeGroupEntry(new GUIContent("Crear Elementos")),
                 new SearchTreeGroupEntry(new GUIContent("Nodo de Diálogo"), 1),
                 new SearchTreeEntry(new GUIContent("Opción Única", indentationIcon))
                 {
-                    level = 2,
-                    userData = DSDialogueType.SingleChoice
+                    userData = DSDialogueType.SingleChoice,
+                    level = 2
                 },
                 new SearchTreeEntry(new GUIContent("Opción Múltiple", indentationIcon))
                 {
-                    level = 2,
-                    userData = DSDialogueType.MultipleChoice
+                    userData = DSDialogueType.MultipleChoice,
+                    level = 2
                 },
                 new SearchTreeGroupEntry(new GUIContent("Grupo de Diálogos"), 1),
                 new SearchTreeEntry(new GUIContent("Grupo Único", indentationIcon))
                 {
-                    level = 2,
-                    userData = new Group()
+                    userData = new Group(),
+                    level = 2
                 }
             };
 
@@ -57,7 +56,7 @@ namespace DS.Windows
             {
                 case DSDialogueType.SingleChoice:
                 {
-                    DSSingleChoiceNode singleChoiceNode = (DSSingleChoiceNode) graphView.CreateNode(DSDialogueType.SingleChoice, localMousePosition);
+                    DSSingleChoiceNode singleChoiceNode = (DSSingleChoiceNode) graphView.CreateNode("NombreDelDiálogo", DSDialogueType.SingleChoice, localMousePosition);
 
                     graphView.AddElement(singleChoiceNode);
 
@@ -66,16 +65,16 @@ namespace DS.Windows
 
                 case DSDialogueType.MultipleChoice:
                 {
-                    DSMultipleChoiceNode multipleChoiceNode = (DSMultipleChoiceNode) graphView.CreateNode(DSDialogueType.MultipleChoice, localMousePosition);
+                    DSMultipleChoiceNode multipleChoiceNode = (DSMultipleChoiceNode) graphView.CreateNode("NombreDelDiálogo", DSDialogueType.MultipleChoice, localMousePosition);
 
                     graphView.AddElement(multipleChoiceNode);
-                    
+
                     return true;
                 }
-                
+
                 case Group _:
                 {
-                    graphView.CreateGroup("GrupoDeDiálogos", localMousePosition);
+                    graphView.CreateGroup("nombreDelGrupo", localMousePosition);
 
                     return true;
                 }

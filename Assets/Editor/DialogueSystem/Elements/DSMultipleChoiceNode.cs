@@ -1,24 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
-using UnityEngine.UIElements;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DS.Elements
 {
     using Data.Save;
-    using Windows;
     using Enumerations;
     using Utilities;
+    using Windows;
 
     public class DSMultipleChoiceNode : DSNode
     {
-        public override void Initialize(DSGraphView dsGraphView, Vector2 position)
+        public override void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
         {
-            base.Initialize(dsGraphView, position);
+            base.Initialize(nodeName, dsGraphView, position);
 
             DialogueType = DSDialogueType.MultipleChoice;
-            
+
             DSChoiceSaveData choiceData = new DSChoiceSaveData()
             {
                 Text = "Nueva Opción"
@@ -31,8 +29,9 @@ namespace DS.Elements
         {
             base.Draw();
 
-            /* CONTENEDOR PRINCIPAL */
-            Button addChoiceButton = DSElementUtility.CreateButton("Añadir Opción", () => 
+            /* MAIN CONTAINER */
+
+            Button addChoiceButton = DSElementUtility.CreateButton("Añadir Opción", () =>
             {
                 DSChoiceSaveData choiceData = new DSChoiceSaveData()
                 {
@@ -40,7 +39,7 @@ namespace DS.Elements
                 };
 
                 Choices.Add(choiceData);
-                
+
                 Port choicePort = CreateChoicePort(choiceData);
 
                 outputContainer.Add(choicePort);
@@ -50,7 +49,8 @@ namespace DS.Elements
 
             mainContainer.Insert(1, addChoiceButton);
 
-            /* CONTENEDOR DE OUTPUT */
+            /* OUTPUT CONTAINER */
+
             foreach (DSChoiceSaveData choice in Choices)
             {
                 Port choicePort = CreateChoicePort(choice);
@@ -61,16 +61,13 @@ namespace DS.Elements
             RefreshExpandedState();
         }
 
-        #region Creación de Elementos
         private Port CreateChoicePort(object userData)
         {
             Port choicePort = this.CreatePort();
 
             choicePort.userData = userData;
-            
-            DSChoiceSaveData choiceData = (DSChoiceSaveData) userData;
 
-            choicePort.portName = "";
+            DSChoiceSaveData choiceData = (DSChoiceSaveData) userData;
 
             Button deleteChoiceButton = DSElementUtility.CreateButton("X", () =>
             {
@@ -85,7 +82,7 @@ namespace DS.Elements
                 }
 
                 Choices.Remove(choiceData);
-                
+
                 graphView.RemoveElement(choicePort);
             });
 
@@ -97,9 +94,9 @@ namespace DS.Elements
             });
 
             choiceTextField.AddClasses(
-                "ds-node__textfield",
-                "ds-node__choice-textfield",
-                "ds-node__textfield__hidden"
+                "ds-node__text-field",
+                "ds-node__text-field__hidden",
+                "ds-node__choice-text-field"
             );
 
             choicePort.Add(choiceTextField);
@@ -107,6 +104,5 @@ namespace DS.Elements
 
             return choicePort;
         }
-        #endregion
     }
 }

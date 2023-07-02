@@ -1,21 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 namespace DS.Elements
 {
     using Data.Save;
-    using Windows;
     using Enumerations;
     using Utilities;
-    
+    using Windows;
 
     public class DSSingleChoiceNode : DSNode
     {
-        public override void Initialize(DSGraphView dsGraphView, Vector2 position)
+        public override void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
         {
-            base.Initialize(dsGraphView, position);
+            base.Initialize(nodeName, dsGraphView, position);
 
             DialogueType = DSDialogueType.SingleChoice;
 
@@ -32,6 +29,7 @@ namespace DS.Elements
             base.Draw();
 
             /* CONTENEDOR DE OUTPUT */
+
             foreach (DSChoiceSaveData choice in Choices)
             {
                 Port choicePort = this.CreatePort(choice.Text);

@@ -32,60 +32,60 @@ public static class TextUtility
             {
                 return true;
             }
- 
+
             default:
             {
                 return false;
             }
         }
     }
- 
-    // A pesar de que sea innecesario para esto, usé este método: https://stackoverflow.com/a/37368176
+
+    // While unnecessary for this project, I've used the method seen here: https://stackoverflow.com/a/37368176
     // Benchmarks: https://stackoverflow.com/a/37347881
     public static string RemoveWhitespaces(this string text)
     {
         int textLength = text.Length;
- 
+
         char[] textCharacters = text.ToCharArray();
- 
+
         int currentWhitespacelessTextLength = 0;
- 
+
         for (int currentCharacterIndex = 0; currentCharacterIndex < textLength; ++currentCharacterIndex)
         {
             char currentTextCharacter = textCharacters[currentCharacterIndex];
- 
+
             if (currentTextCharacter.IsWhitespace())
             {
                 continue;
             }
- 
+
             textCharacters[currentWhitespacelessTextLength++] = currentTextCharacter;
         }
- 
+
         return new string(textCharacters, 0, currentWhitespacelessTextLength);
     }
- 
-    // Alternativas: https://stackoverflow.com/questions/3210393/how-do-i-remove-all-non-alphanumeric-characters-from-a-string-except-dash
-    public static string RemoveSpecialCharacters(this string text)
-    {
-        int textLength = text.Length;
- 
+
+	// See here for alternatives: https://stackoverflow.com/questions/3210393/how-do-i-remove-all-non-alphanumeric-characters-from-a-string-except-dash
+	public static string RemoveSpecialCharacters(this string text)
+	{
+		int textLength = text.Length;
+
         char[] textCharacters = text.ToCharArray();
- 
-        int currentWhitespacelessTextLength = 0;
- 
-        for (int currentCharacterIndex = 0; currentCharacterIndex < textLength; ++currentCharacterIndex)
-        {
-            char currentTextCharacter = textCharacters[currentCharacterIndex];
- 
-            if (!char.IsLetterOrDigit(currentTextCharacter) && !currentTextCharacter.IsWhitespace())
-            {
-                continue;
-            }
- 
-            textCharacters[currentWhitespacelessTextLength++] = currentTextCharacter;
-        }
- 
-        return new string(textCharacters, 0, currentWhitespacelessTextLength);
-    }
+
+		int currentWhitespacelessTextLength = 0;
+
+		for (int currentCharacterIndex = 0; currentCharacterIndex < textLength; ++currentCharacterIndex)
+		{
+			char currentTextCharacter = textCharacters[currentCharacterIndex];
+
+			if (!char.IsLetterOrDigit(currentTextCharacter) && !currentTextCharacter.IsWhitespace())
+			{
+				continue;
+			}
+
+			textCharacters[currentWhitespacelessTextLength++] = currentTextCharacter;
+		}
+
+		return new string(textCharacters, 0, currentWhitespacelessTextLength);
+	}
 }

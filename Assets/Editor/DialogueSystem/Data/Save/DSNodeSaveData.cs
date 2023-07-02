@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DS.Data.Save
 {
     using Enumerations;
-    
+
     [Serializable]
     public class DSNodeSaveData
     {

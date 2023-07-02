@@ -1,11 +1,10 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace DS.Data
 {
     using ScriptableObjects;
-    
+
     [Serializable]
     public class DSDialogueChoiceData
     {

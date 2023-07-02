@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0202a3095b7477a4091d56344f0af6b3, type: 3}
+  m_Name: DialoguesFileNameGraph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: DialoguesFileName
+  <Groups>k__BackingField:
+  - <ID>k__BackingField: de8a5922-0512-4ac4-b7dc-5afbb67d0f5e
+    <Name>k__BackingField: "GrupoDeDi\xE1logos"
+    <Position>k__BackingField: {x: 100, y: 44}
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: 63430e55-8033-4484-ab1d-72612a7ee69a
+    <Name>k__BackingField: "NombreDelDi\xE1logo2"
+    <Text>k__BackingField: "Texto del Di\xE1logo."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 421, y: 103}
+  - <ID>k__BackingField: 9c87521e-6193-4e3d-994b-ae1f5ec8f876
+    <Name>k__BackingField: "NombreDelDi\xE1logo"
+    <Text>k__BackingField: "Texto del Di\xE1logo."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 63430e55-8033-4484-ab1d-72612a7ee69a
+    <GroupID>k__BackingField: de8a5922-0512-4ac4-b7dc-5afbb67d0f5e
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 125, y: 103}
+  <OldGroupNames>k__BackingField:
+  - "GrupoDeDi\xE1logos"
+  <OldUngroupedNodeNames>k__BackingField:
+  - "NombreDelDi\xE1logo2"
+  <OldGroupedNodeNames>k__BackingField:
+    list:
+    - Key: "GrupoDeDi\xE1logos"
+      Value:
+      - "NombreDelDi\xE1logo"
