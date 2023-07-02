@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5217808f5e86fd54d804e2d191be7a48, type: 3}
+  m_Name: EjemploGraph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: Ejemplo
+  <Groups>k__BackingField:
+  - <ID>k__BackingField: 16254f02-cf9d-4121-a749-cec0385f5895
+    <Name>k__BackingField: Grupo
+    <Position>k__BackingField: {x: 409, y: 108.000015}
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: 2ce9ed93-1f21-46b3-a1d0-d87cd6798f67
+    <Name>k__BackingField: Dialogo1
+    <Text>k__BackingField: Estoy probando esto ah
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: db42acf1-9952-4416-9b94-a16ae8167f82
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 80, y: 118}
+  - <ID>k__BackingField: f36726a6-415a-4e40-b201-b94351b80175
+    <Name>k__BackingField: Dialogo
+    <Text>k__BackingField: "Texto del Di\xE1logo."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: db42acf1-9952-4416-9b94-a16ae8167f82
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 80, y: 392}
+  - <ID>k__BackingField: db42acf1-9952-4416-9b94-a16ae8167f82
+    <Name>k__BackingField: Nombre
+    <Text>k__BackingField: "Texto del Di\xE1logo."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Opci\xF3n11"
+      <NodeID>k__BackingField: 2ce9ed93-1f21-46b3-a1d0-d87cd6798f67
+    - <Text>k__BackingField: "Opci\xF3n2"
+      <NodeID>k__BackingField: e5140518-b6be-4644-95ff-a08e2acd5007
+    <GroupID>k__BackingField: 16254f02-cf9d-4121-a749-cec0385f5895
+    <DialogueType>k__BackingField: 1
+    <Position>k__BackingField: {x: 434, y: 167}
+  - <ID>k__BackingField: e5140518-b6be-4644-95ff-a08e2acd5007
+    <Name>k__BackingField: Respuesta2
+    <Text>k__BackingField: "Texto del Di\xE1logo."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 16254f02-cf9d-4121-a749-cec0385f5895
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 783, y: 204}
+  <OldGroupNames>k__BackingField:
+  - Grupo
+  <OldUngroupedNodeNames>k__BackingField:
+  - Dialogo1
+  - Dialogo
+  <OldGroupedNodeNames>k__BackingField:
+    list: []
