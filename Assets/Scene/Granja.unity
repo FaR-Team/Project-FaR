@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.38843852, g: 0.7513223, b: 0.60047454, a: 1}
+  m_IndirectSpecularColor: {r: 0.4622718, g: 0.7589525, b: 0.6224678, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -671,7 +671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bb99fc7c-c937-4eab-9011-e2774f464aee
+  _ID: 37bab1e1-e647-4bd0-947c-79eb9d0e0fc3
 --- !u!135 &36799709
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1356,7 +1356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4706e8f7-5496-48a9-b948-d08e44043ff7
+  _ID: 49cd123e-c8fe-4192-8d3d-9690c15710ad
 --- !u!135 &67935719
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0abb8f18-e247-4458-95b0-0a377f5c740d
+  _ID: e9131030-e120-4f29-8fa0-9bcb0b1286dd
 --- !u!135 &84385829
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3546,7 +3546,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 65522ac9-7d11-44b5-b546-6c01e6263fd1
+  _ID: fe107924-5092-4cec-a257-149a0c149b7b
 --- !u!4 &149089408
 Transform:
   m_ObjectHideFlags: 0
@@ -4243,7 +4243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 99afad66-5910-4fe6-9abe-e07d8e0cb486
+  _ID: 60bfde29-b911-42ef-8ac8-3ee32a1c1435
 --- !u!135 &177980022
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6184,7 +6184,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91541d2ddc984284da5b3bd7daa2cec7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AreaHarvestLevel: 0
+  areaHarvestLevel: 0
 --- !u!114 &234375703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6221,7 +6221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: dc35bee3-4759-4f8c-b083-339ae4761e76
+  _ID: d506947b-750e-4971-b9df-508b0e66784b
 --- !u!114 &234375706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7159,7 +7159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 07b90ce8-6982-4e0d-9ab7-b9ad82f6b705
+  _ID: 85353821-2be6-4e1b-933f-cd5bf438df10
 --- !u!135 &263262883
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9351,7 +9351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0d2f776f-267b-45fa-af95-ddb2d097780f
+  _ID: 929daa7e-8f11-4ba2-855f-4483c50e983a
 --- !u!135 &313945930
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -11683,7 +11683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 454cf936-e538-478a-a94a-d3f09d3c8168
+  _ID: 84467d11-81d1-4d74-8fb5-475222467f3b
 --- !u!135 &326683911
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12012,7 +12012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3ed789e5-e497-45cb-9e71-3423aecfe5e2
+  _ID: d8665b9f-3b83-4a24-ba5f-209a4ca3f1d5
 --- !u!135 &341577338
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12601,7 +12601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 92b42a03-6162-45eb-8350-e729de0ffd37
+  _ID: 9b3a7e08-a497-4ba9-a364-af3519c3a34e
 --- !u!135 &374139740
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -13154,7 +13154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ece33ce1-a1bb-49a5-b046-db053249c5d4
+  _ID: cc5f547d-d0d2-4026-af1b-0f98817b4f47
 --- !u!4 &394049641
 Transform:
   m_ObjectHideFlags: 0
@@ -15614,7 +15614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 486f3f5c-67b9-40ea-8681-b0bfd592f2a9
+  _ID: aaefd639-48bc-4bd2-9084-3b54af726c1a
 --- !u!135 &526010863
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15784,7 +15784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e58703a5-6e39-4dd4-8038-6d7139ae5a1a
+  _ID: c82ef1ca-7835-47f3-a119-967b5746f505
 --- !u!1 &530824723
 GameObject:
   m_ObjectHideFlags: 0
@@ -17034,7 +17034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a365cb65-b6b8-43c5-9b67-a735a685c443
+  _ID: 0677fb61-5331-4b6b-aaa2-c2e20c2cd9c9
 --- !u!135 &553631594
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17268,7 +17268,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 994487f2-0c38-496d-9754-308d2909d4af
+  _ID: 880e9ef7-5531-415f-965d-e2e166435f65
 --- !u!135 &564462064
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -17853,7 +17853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0b22f3ab-03d5-4f75-b5cf-9b0226c06556
+  _ID: fd83f66f-a13d-4ebf-837d-ad9843819ecc
 --- !u!135 &586374014
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19573,7 +19573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2726fe83-e744-41a5-be2a-3b15bf727174
+  _ID: f1c201e1-cae6-4b2c-98e7-4fa60defb837
 --- !u!135 &661223308
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -19856,7 +19856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a556e6f6-6b9a-4cb2-ab74-733973fea361
+  _ID: 15d37dad-bad1-408d-8226-d6397fc653de
 --- !u!135 &663371784
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21197,7 +21197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 63a1889b-d3d6-45c8-859d-7ee8b77a8dc3
+  _ID: 7de41d25-ce30-4989-867a-c843ff8d65a9
 --- !u!4 &709398119
 Transform:
   m_ObjectHideFlags: 0
@@ -21280,7 +21280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: afe10536-1210-4a9c-a807-5e2de625c7c9
+  _ID: 56f594c3-edc8-40a6-8db7-c2684e51bb30
 --- !u!114 &719153285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21440,7 +21440,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 6d69b530-9688-4cee-a730-ac0e4c89986e
+  _ID: fe9565a4-86b9-45e4-82c4-c1d2069c1ecf
 --- !u!135 &724449542
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -21787,7 +21787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9d759159-1f72-4da7-a7d8-7d2a6a6eae3a
+  _ID: dd11ce1b-5fea-4517-b69d-90d4da5c6bc2
 --- !u!135 &754922904
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23458,7 +23458,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 1473853775}
+  m_TargetTexture: {fileID: 946777872}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -23742,7 +23742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cb740d80-1146-4d0c-a341-d8aec599aef3
+  _ID: f106eee3-391d-455b-a8e5-d9cf001b89ec
 --- !u!135 &855915597
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -23933,7 +23933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e622ab34-890f-4317-865f-20bc82888f0f
+  _ID: 8f85efd6-a35f-4b6e-bffc-5941380afaf3
 --- !u!135 &869583664
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24665,7 +24665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4b89c8d8-fbda-47c1-a59f-b8218d86ed6c
+  _ID: 23c7b138-a021-4317-ba71-2bdd60f55ced
 --- !u!135 &892437462
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -24994,7 +24994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 77942dba-09e9-4670-82dc-0ee45293afa6
+  _ID: cd1aab67-7d38-408a-bd06-dea2293e84f2
 --- !u!135 &917788317
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25327,6 +25327,43 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!84 &946777872
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &955356160
 GameObject:
   m_ObjectHideFlags: 0
@@ -25411,7 +25448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f012c80d-1191-46f3-8fb3-7ca397ab1dad
+  _ID: 637bc424-44ad-418a-9903-f5f22818b6af
 --- !u!135 &955356165
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -25915,7 +25952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bc574b6f-6246-4c37-97c1-db9e2df90f21
+  _ID: 128dd841-490a-475b-9098-c5aad1d37254
 --- !u!135 &984207767
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -31419,7 +31456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 67dfb85c-393c-4885-beef-a25d92be3809
+  _ID: 9f179f49-709c-41a0-8698-99083d243c17
 --- !u!135 &1023623806
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -31694,6 +31731,43 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1042494407}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &1043079377
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1043740791
 GameObject:
   m_ObjectHideFlags: 0
@@ -31792,7 +31866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 632b81bc-10ee-49f8-bd52-48d7bdf01d0b
+  _ID: 267e58bf-c151-4c9d-9505-f34baff8ca3d
 --- !u!135 &1043740797
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -34038,7 +34112,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5bca40e6-374f-41d8-8429-d45ba5b4e6e3
+  _ID: f208ff89-06eb-4367-806f-7adbb199df52
 --- !u!135 &1110671459
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -34640,7 +34714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2ecd0be1-6402-4d1c-b8c8-ddff01bcc0d8
+  _ID: 6535b5dc-8383-49ba-8894-59acad07af7c
 --- !u!135 &1127048183
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -35080,13 +35154,14 @@ GameObject:
   - component: {fileID: 1167696954}
   - component: {fileID: 1167696956}
   - component: {fileID: 1167696955}
+  - component: {fileID: 1167696957}
   m_Layer: 5
   m_Name: DialoguePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1167696954
 RectTransform:
   m_ObjectHideFlags: 0
@@ -35149,6 +35224,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1167696953}
   m_CullTransparentMesh: 1
+--- !u!114 &1167696957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1167696953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286d3e2deed7b9d4f80dc6e3a808ba10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueBox: {fileID: 1167696953}
+  textLabel: {fileID: 398298849}
 --- !u!1 &1172707946
 GameObject:
   m_ObjectHideFlags: 0
@@ -35802,7 +35891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 902dc3ea-2fde-43ee-ac30-930d3713b3f7
+  _ID: 862cd4fb-9785-453d-810e-f18e04e6b40c
 --- !u!135 &1191783074
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -36074,7 +36163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d0729e7d-ac16-4f5b-aa47-8d35d0f7c83d
+  _ID: 6429349b-01fc-4196-b989-f6c11de3d171
 --- !u!135 &1201221374
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -36185,7 +36274,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 547e08d0-dda4-480f-876c-4a20f2b92019
+  _ID: 397ca112-71e9-43dd-935f-93f5fd5c2c83
 --- !u!135 &1203343359
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -36461,7 +36550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 6797ad70-143c-4ce7-85b8-3c6e491c97c2
+  _ID: ac2e3ca8-ea94-4b3c-88a5-dd1ef4bd32da
 --- !u!135 &1230624279
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -36914,7 +37003,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 56e60a66-e0ee-4496-94b2-1f322a52f42d
+  _ID: 6ab82bf3-3324-48a0-8b8f-55912f27a7d3
 --- !u!135 &1243884338
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -37479,7 +37568,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3209945f-816d-4b85-a492-8ef32ec65eac
+  _ID: 4085cdb3-0f58-4312-a803-d12cb56a0fa0
 --- !u!135 &1266493628
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -38583,7 +38672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d5329db8-fa54-4449-bcc8-46b02f80259c
+  _ID: 33877257-3c18-4dd1-8510-596926cf4241
 --- !u!135 &1301335495
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -38874,7 +38963,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 457b324f-cc1b-4d4a-b569-6b9079f4bdf6
+  _ID: fbd615fc-93c7-419b-9b53-f97841fd5731
 --- !u!135 &1324503460
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -39105,7 +39194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: eb8e996e-91be-4900-bcd0-b31e200dc69c
+  _ID: 19dbf412-9768-42bb-b77d-9d08e6fb0c24
 --- !u!114 &1331070919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39834,7 +39923,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9ef37a13-da3a-4392-a398-3512965227e3
+  _ID: ced9b059-e28b-4847-b814-ffbb605c1390
 --- !u!135 &1349421336
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -40144,7 +40233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 31774960-69f7-4363-bbe3-689cef96010b
+  _ID: be21d56b-a12d-4e81-b64c-e1fb4710c7b2
 --- !u!135 &1354992537
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -41563,7 +41652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b9c3094f-f6a6-490c-93b4-e48c7cc5e431
+  _ID: 1725a7ce-e8a1-46b6-b1f9-b75113842510
 --- !u!135 &1429887016
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -42201,7 +42290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d60f1195-34b9-42e0-ab38-55dd7afe19cf
+  _ID: 1c7dac16-26ab-4998-b99f-dc3c95bbbc7c
 --- !u!135 &1460805792
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -42762,43 +42851,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!84 &1473853775
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1366
-  m_Height: 768
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1476507498
 GameObject:
   m_ObjectHideFlags: 0
@@ -42976,7 +43028,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5cac31f5-ae44-4faa-a267-7f0bc6a7e994
+  _ID: ac2ccec6-ffee-43c4-ac4d-f34b908abf6a
 --- !u!1 &1481254437
 GameObject:
   m_ObjectHideFlags: 0
@@ -43667,7 +43719,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1ab19f3a-ca3e-42ca-8292-0534f00ba1e9
+  _ID: baf9492b-f14d-41b7-b80c-4f573e112c00
 --- !u!135 &1501359588
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -43868,6 +43920,8 @@ GameObject:
   - component: {fileID: 1520386084}
   - component: {fileID: 1520386083}
   - component: {fileID: 1520386082}
+  - component: {fileID: 1520386088}
+  - component: {fileID: 1520386089}
   m_Layer: 7
   m_Name: Vaca
   m_TagString: Untagged
@@ -44007,6 +44061,38 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520386079}
   m_Mesh: {fileID: -5721213220885554954, guid: e1845d8b4fddbad4ca6ab3c7cd398c3a, type: 3}
+--- !u!114 &1520386088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520386079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f70cf55b2086fe4e916735c1b64ee09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueContainer: {fileID: 11400000, guid: 4ef92912e935a0949bb735f3f90f0e6d, type: 2}
+  dialogueGroup: {fileID: 0}
+  groupedDialogues: 0
+  startingDialoguesOnly: 0
+  selectedDialogueGroupIndex: 0
+  selectedDialogueIndex: 0
+--- !u!114 &1520386089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1520386079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dba5809f618a494182d8ccd80c94e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nameObj: {fileID: 379639728}
+  NPCname: Vaca
 --- !u!1 &1520614435
 GameObject:
   m_ObjectHideFlags: 0
@@ -48985,7 +49071,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e3df6950-6a47-4036-9be4-fcf548f1baf0
+  _ID: a5aed587-a627-4006-b1c5-4ddb750eb98b
 --- !u!114 &1682904188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49306,7 +49392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: faf7bc4e-5d53-42c8-9801-6e95e13105b2
+  _ID: 129a9c94-64f6-4a43-8b12-61a31e25bfef
 --- !u!135 &1685438477
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -49614,8 +49700,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 1693647842}
   outlineCamera: {fileID: 853014420}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 1473853775}
-  extraRenderTexture: {fileID: 2066849677}
+  renderTexture: {fileID: 946777872}
+  extraRenderTexture: {fileID: 1043079377}
 --- !u!114 &1693647836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50856,7 +50942,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4ef98aed-7225-4faf-a370-f29dbc10c761
+  _ID: 2f73641f-7bc4-4ce8-ba2b-6801a6f3e950
 --- !u!135 &1731675126
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -52553,7 +52639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3b8b3c7a-78cd-452f-a1a8-1c6636f2128d
+  _ID: 9d46434e-5a50-400a-8e1e-fc17a0d2a7b6
 --- !u!135 &1765683844
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -53818,7 +53904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1c28964f-d35e-4609-a635-64cb7859bdc2
+  _ID: 7741cf0b-046c-43b5-8f96-9265f1716391
 --- !u!135 &1844934533
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -55403,7 +55489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 08c193b8-47f6-4ecf-9185-1a7f194e89f5
+  _ID: 512c4d6a-48c3-4eca-9661-8449d55a9448
 --- !u!135 &1876723627
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -55551,7 +55637,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8eda6d12-8bbf-4543-9846-aa47849a7257
+  _ID: 5b983af8-bc6f-4098-8f2b-a113ed25de4a
 --- !u!135 &1885206335
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -55970,7 +56056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ec494012-e82f-4940-a630-4f0fb6f22d9e
+  _ID: 85125aa6-0adf-480e-b3c6-e004fa6d85cc
 --- !u!135 &1894039283
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -56431,7 +56517,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e385baa3-0cf0-4748-b4bc-0622d141eab9
+  _ID: 652e26b1-cbda-4935-a090-6ba63f58fe67
 --- !u!135 &1901159023
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -56893,7 +56979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4c8042d5-8584-4dc8-bb71-12ebe0038fca
+  _ID: 4686a8f7-7beb-4fe8-85e2-b22994dd8d5c
 --- !u!135 &1915739325
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -57966,7 +58052,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f637d267-34a8-471e-9aae-8994ceb6207c
+  _ID: 671df0ba-5d47-46cf-95a4-f82e958438bf
 --- !u!135 &1961083484
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -58279,7 +58365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e5423419-b66f-4f23-8035-1e3b93195db9
+  _ID: e1923bf7-26ac-4dee-a8ea-cd193f328832
 --- !u!135 &1967220054
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -59028,7 +59114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 94ff5837-0f62-45f4-b7bf-d68e76311ed5
+  _ID: 0fd75e0a-31f4-4bd6-8e3a-d91221e2df21
 --- !u!135 &2003069870
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -59421,7 +59507,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 14465297-1bea-4ec1-84e6-a972202fbdcf
+  _ID: c71bd903-9f35-410c-a2d6-2c41293ffcf7
 --- !u!135 &2014453792
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -59735,7 +59821,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 6483f1af-1d35-4ac6-a313-df1f2a468b01
+  _ID: 48ae65f4-c880-4288-80a6-c5aa69887e33
 --- !u!135 &2028072760
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -60685,43 +60771,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!84 &2066849677
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1366
-  m_Height: 768
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &2072603353
 GameObject:
   m_ObjectHideFlags: 0
@@ -60941,7 +60990,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2086364916
 RectTransform:
   m_ObjectHideFlags: 0
@@ -61308,7 +61357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: db7eda34-f1f1-4f03-9d57-5409a98db27b
+  _ID: 62b10cf5-d4b4-4a74-88ac-9ffa2e000a2f
 --- !u!114 &2106019332
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61595,7 +61644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 241c738a-8302-47de-be3d-5414f296b3e9
+  _ID: 0b249afb-5440-4f0f-907b-ba34925837a3
 --- !u!135 &2111158027
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -61743,7 +61792,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 460fae25-a4f9-41e8-8065-c414826b5d89
+  _ID: 28c49498-e3b1-4f06-87e2-cbc12bced49d
 --- !u!135 &2118621144
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -61918,7 +61967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7aea0fd5-2f31-4611-8afa-9f69b7643d92
+  _ID: ae3e04f4-7315-43bc-a96c-ca41804aa7a2
 --- !u!135 &2121028047
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -62196,7 +62245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c34c992c-03a1-4ce1-bc25-a5c9676d7bd3
+  _ID: 8a671448-28b1-4656-82eb-2feb9578ceec
 --- !u!114 &2134209634
 MonoBehaviour:
   m_ObjectHideFlags: 0
