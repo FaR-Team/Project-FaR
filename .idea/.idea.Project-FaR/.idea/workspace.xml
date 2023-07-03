@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="764f0ecb-e681-4b92-ac7b-4c0bd37240ad" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/DialogueSystem/Scripts/DSDialogueTrigger.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/DialogueSystem/Scripts/DSDialogueTrigger.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/PokemonGraph.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/PokemonGraph.asset.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/Test1Graph.asset" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/Test1Graph.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/TestGraph.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/TestGraph.asset.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/testmamaGraph.asset" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Editor/DialogueSystem/Graphs/testmamaGraph.asset.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project-FaR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project-FaR/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/Granja.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/Granja.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,33 +20,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingMarkupGrave">
-    <markupCoffin contentHash="-1270742772" url="file://$PROJECT_DIR$/Assets/DialogueSystem/Scripts/DSDialogueTrigger.cs">
-      <highlighter start="0" end="25" layer="4001" target="0">
-        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="26" end="59" layer="4001" target="0">
-        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="60" end="72" layer="4001" target="0">
-        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="116" end="118" layer="4000" target="0">
+    <markupCoffin contentHash="1161373252" url="file://$PROJECT_DIR$/Assets/DialogueSystem/Scripts/Data/DSDialogueChoiceData.cs">
+      <highlighter start="44" end="51" layer="4000" target="0">
         <option name="myExternalName" value="WARNING_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="298" end="315" layer="3999" target="0">
-        <option name="myExternalName" value="SUGGESTION" />
-      </highlighter>
-      <highlighter start="391" end="398" layer="4000" target="0">
-        <option name="myExternalName" value="WARNING_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="441" end="451" layer="3999" target="0">
-        <option name="myExternalName" value="SUGGESTION" />
-      </highlighter>
-      <highlighter start="525" end="531" layer="4001" target="0">
-        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
-      </highlighter>
-      <highlighter start="564" end="575" layer="4001" target="0">
-        <option name="myExternalName" value="NOT_USED_ELEMENT_ATTRIBUTES" />
       </highlighter>
     </markupCoffin>
   </component>
@@ -172,6 +145,8 @@
       <workItem from="1688060489922" duration="3467000" />
       <workItem from="1688265325036" duration="30649000" />
       <workItem from="1688299513458" duration="3208000" />
+      <workItem from="1688303881121" duration="872000" />
+      <workItem from="1688402786815" duration="281000" />
     </task>
     <servers />
   </component>
