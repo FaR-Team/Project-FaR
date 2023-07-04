@@ -14,34 +14,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <FileName>k__BackingField: DialoguesFileName
   <Groups>k__BackingField:
-  - <ID>k__BackingField: de8a5922-0512-4ac4-b7dc-5afbb67d0f5e
-    <Name>k__BackingField: "GrupoDeDi\xE1logos"
-    <Position>k__BackingField: {x: 100, y: 44}
+  - <ID>k__BackingField: 6c365e49-1980-4fa6-8816-e6d0f2da458a
+    <Name>k__BackingField: DialogueGroupo
+    <Position>k__BackingField: {x: 342.00006, y: 158}
+  - <ID>k__BackingField: f45ec44c-e2e4-47e4-a51e-b56fa39dd2df
+    <Name>k__BackingField: DialogueGroup
+    <Position>k__BackingField: {x: -42, y: 112}
   <Nodes>k__BackingField:
-  - <ID>k__BackingField: 63430e55-8033-4484-ab1d-72612a7ee69a
-    <Name>k__BackingField: "NombreDelDi\xE1logo2"
-    <Text>k__BackingField: "Texto del Di\xE1logo."
+  - <ID>k__BackingField: 9b9c5fff-7989-43dd-9e76-a7b73bc03865
+    <Name>k__BackingField: DialogueNamee
+    <Text>k__BackingField: Dialogue text.
     <Choices>k__BackingField:
-    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
-      <NodeID>k__BackingField: 
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 61f2b973-8ff6-4c82-a9c6-e6bd8edc8d8d
+    <GroupID>k__BackingField: f45ec44c-e2e4-47e4-a51e-b56fa39dd2df
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: -17, y: 171}
+  - <ID>k__BackingField: 61f2b973-8ff6-4c82-a9c6-e6bd8edc8d8d
+    <Name>k__BackingField: DialogueNameo
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: e3795ed2-8b48-4d87-aa20-99d805a25fcc
+    <GroupID>k__BackingField: 6c365e49-1980-4fa6-8816-e6d0f2da458a
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 367, y: 217}
+  - <ID>k__BackingField: e3795ed2-8b48-4d87-aa20-99d805a25fcc
+    <Name>k__BackingField: DialogueddsaName
+    <Text>k__BackingField: Dialogue text.
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 9b9c5fff-7989-43dd-9e76-a7b73bc03865
     <GroupID>k__BackingField: 
     <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 421, y: 103}
-  - <ID>k__BackingField: 9c87521e-6193-4e3d-994b-ae1f5ec8f876
-    <Name>k__BackingField: "NombreDelDi\xE1logo"
-    <Text>k__BackingField: "Texto del Di\xE1logo."
-    <Choices>k__BackingField:
-    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
-      <NodeID>k__BackingField: 63430e55-8033-4484-ab1d-72612a7ee69a
-    <GroupID>k__BackingField: de8a5922-0512-4ac4-b7dc-5afbb67d0f5e
-    <DialogueType>k__BackingField: 0
-    <Position>k__BackingField: {x: 125, y: 103}
+    <Position>k__BackingField: {x: 315, y: -58}
   <OldGroupNames>k__BackingField:
-  - "GrupoDeDi\xE1logos"
+  - DialogueGroupo
+  - DialogueGroup
   <OldUngroupedNodeNames>k__BackingField:
-  - "NombreDelDi\xE1logo2"
+  - DialogueddsaName
   <OldGroupedNodeNames>k__BackingField:
-    list:
-    - Key: "GrupoDeDi\xE1logos"
-      Value:
-      - "NombreDelDi\xE1logo"
+    list: []

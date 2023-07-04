@@ -18,7 +18,7 @@ namespace DS.Elements
 
             DSChoiceSaveData choiceData = new DSChoiceSaveData()
             {
-                Text = "Próximo Diálogo"
+                Text = "Next Dialogue"
             };
 
             Choices.Add(choiceData);
@@ -28,7 +28,7 @@ namespace DS.Elements
         {
             base.Draw();
 
-            /* CONTENEDOR DE OUTPUT */
+            /* OUTPUT CONTAINER */
 
             foreach (DSChoiceSaveData choice in Choices)
             {

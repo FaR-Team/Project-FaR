@@ -26,13 +26,10 @@ namespace DS.Elements
 
         public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
         {
-            evt.menu.AppendAction("Desconectar Puertos de Entrada", actionEvent => DisconnectInputPorts());
-            evt.menu.AppendAction("Desconectar Puertos de Salida", actionEvent => DisconnectOutputPorts());
+            evt.menu.AppendAction("Disconnect Input Ports", actionEvent => DisconnectInputPorts());
+            evt.menu.AppendAction("Disconnect Output Ports", actionEvent => DisconnectOutputPorts());
 
-            if (!(evt.target is Node))
-                return;
-            evt.menu.AppendAction("Desconectar Todos los Puertos", actionEvent => DisconnectAllPorts());
-            evt.menu.AppendSeparator();
+            base.BuildContextualMenu(evt);
         }
 
         public virtual void Initialize(string nodeName, DSGraphView dsGraphView, Vector2 position)
@@ -41,7 +38,7 @@ namespace DS.Elements
 
             DialogueName = nodeName;
             Choices = new List<DSChoiceSaveData>();
-            Text = "Texto del Diálogo.";
+            Text = "Dialogue text.";
 
             SetPosition(new Rect(position, Vector2.zero));
 
@@ -54,7 +51,7 @@ namespace DS.Elements
 
         public virtual void Draw()
         {
-            /* CONTENEDOR DEL TÍTULO */
+            /* TITLE CONTAINER */
 
             TextField dialogueNameTextField = DSElementUtility.CreateTextField(DialogueName, null, callback =>
             {
@@ -105,19 +102,19 @@ namespace DS.Elements
 
             titleContainer.Insert(0, dialogueNameTextField);
 
-            /* CONTENEDOR DE INPUT */
+            /* INPUT CONTAINER */
 
-            Port inputPort = this.CreatePort("Conexión del Diálogo", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
+            Port inputPort = this.CreatePort("Dialogue Connection", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
 
             inputContainer.Add(inputPort);
 
-            /* CONTENEDOR DE EXTENSIONES */
+            /* EXTENSION CONTAINER */
 
             VisualElement customDataContainer = new VisualElement();
 
             customDataContainer.AddToClassList("ds-node__custom-data-container");
 
-            Foldout textFoldout = DSElementUtility.CreateFoldout("Texto del Diálogo");
+            Foldout textFoldout = DSElementUtility.CreateFoldout("Dialogue Text");
 
             TextField textTextField = DSElementUtility.CreateTextArea(Text, null, callback => Text = callback.newValue);
 

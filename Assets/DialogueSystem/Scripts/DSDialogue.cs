@@ -6,16 +6,16 @@ namespace DS
 
     public class DSDialogue : MonoBehaviour
     {
-        /* Scriptable Objects de Diálogos */
+        /* Dialogue Scriptable Objects */
         [SerializeField] private DSDialogueContainerSO dialogueContainer;
         [SerializeField] private DSDialogueGroupSO dialogueGroup;
         [SerializeField] private DSDialogueSO dialogue;
 
-        /* Filtros */
+        /* Filters */
         [SerializeField] private bool groupedDialogues;
         [SerializeField] private bool startingDialoguesOnly;
 
-        /* Index */
+        /* Indexes */
         [SerializeField] private int selectedDialogueGroupIndex;
         [SerializeField] private int selectedDialogueIndex;
     }

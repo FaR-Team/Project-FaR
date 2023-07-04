@@ -19,7 +19,7 @@ namespace DS.Elements
 
             DSChoiceSaveData choiceData = new DSChoiceSaveData()
             {
-                Text = "Nueva Opción"
+                Text = "New Choice"
             };
 
             Choices.Add(choiceData);
@@ -31,11 +31,11 @@ namespace DS.Elements
 
             /* MAIN CONTAINER */
 
-            Button addChoiceButton = DSElementUtility.CreateButton("Añadir Opción", () =>
+            Button addChoiceButton = DSElementUtility.CreateButton("Add Choice", () =>
             {
                 DSChoiceSaveData choiceData = new DSChoiceSaveData()
                 {
-                    Text = "Nueva Opción"
+                    Text = "New Choice"
                 };
 
                 Choices.Add(choiceData);

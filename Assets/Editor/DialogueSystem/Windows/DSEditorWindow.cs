@@ -12,13 +12,13 @@ namespace DS.Windows
     {
         private DSGraphView graphView;
 
-        private readonly string defaultFileName = "NombreDeArchivo";
+        private readonly string defaultFileName = "DialoguesFileName";
 
         private static TextField fileNameTextField;
         private Button saveButton;
         private Button miniMapButton;
 
-        [MenuItem("FARUtils/Dialogos/Dialogue Graph")]
+        [MenuItem("FARUtils/DIalogues/Dialogue Graph")]
         public static void Open()
         {
             GetWindow<DSEditorWindow>("Dialogue Graph");
@@ -45,18 +45,18 @@ namespace DS.Windows
         {
             Toolbar toolbar = new Toolbar();
 
-            fileNameTextField = DSElementUtility.CreateTextField(defaultFileName, "Nombre del Archivo:", callback =>
+            fileNameTextField = DSElementUtility.CreateTextField(defaultFileName, "File Name:", callback =>
             {
                 fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
             });
 
-            saveButton = DSElementUtility.CreateButton("Guardar", () => Save());
+            saveButton = DSElementUtility.CreateButton("Save", () => Save());
 
-            Button loadButton = DSElementUtility.CreateButton("Cargar", () => Load());
-            Button clearButton = DSElementUtility.CreateButton("Limpiar", () => Clear());
-            Button resetButton = DSElementUtility.CreateButton("Reiniciar", () => ResetGraph());
+            Button loadButton = DSElementUtility.CreateButton("Load", () => Load());
+            Button clearButton = DSElementUtility.CreateButton("Clear", () => Clear());
+            Button resetButton = DSElementUtility.CreateButton("Reset", () => ResetGraph());
 
-            miniMapButton = DSElementUtility.CreateButton("Minimapa", () => ToggleMiniMap());
+            miniMapButton = DSElementUtility.CreateButton("Minimap", () => ToggleMiniMap());
 
             toolbar.Add(fileNameTextField);
             toolbar.Add(saveButton);
@@ -79,11 +79,8 @@ namespace DS.Windows
         {
             if (string.IsNullOrEmpty(fileNameTextField.value))
             {
-                EditorUtility.DisplayDialog(
-                    "Nombre de archivo inválido",
-                    "El nombre del archivo no puede estar vacío",
-                    "Okidoki"
-                );
+                EditorUtility.DisplayDialog("Invalid file name.", "Please ensure the file name you've typed in is valid.", "Roger!");
+
                 return;
             }
 
