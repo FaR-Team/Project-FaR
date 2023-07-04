@@ -28,6 +28,8 @@ public class Energy : MonoBehaviour
 
     public static Energy instance;
     public static Slider _Barra => instance.Barra;
+
+    public static event Action<int> OnEnergyUpdated;
     private void Awake()
     {
         instance = this;
@@ -115,8 +117,35 @@ public class Energy : MonoBehaviour
     public static void UpdateEnergy()
     {
         //TextoEnergia.text = EnergiaActual.ToString() + "/" + EnergiaMax.ToString();
+        OnEnergyUpdated.Invoke(RemainingEnergy);
         _Barra.maxValue = MaxEnergy;
         _Barra.value = RemainingEnergy;
+    }
+
+    public bool TryUseAndAnimateEnergy(int energyUsed, float newTimer)
+    {   
+        if(RemainingEnergy >= energyUsed) // Si hay energía suficiente
+        {
+            UseEnergy(energyUsed);
+
+            if (_ContadorActivo == false)
+            {
+                _animationComp.Play("Entrar uwuw");
+                _ContadorActivo = true;
+                _yaAnimo = false;
+            }
+
+            timer = newTimer; // Aunque ya se esté animando, se actualiza el timer para que se siga mostrando
+
+            return true;
+        }
+        else
+        {
+            StartCoroutine(Walter());
+
+            return false;
+        }
+        
     }
 
     private DateTime StringToDate(string datetime)

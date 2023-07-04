@@ -15,6 +15,9 @@ public class GridGhost : MonoBehaviour
     public GameObject DirtPrefab;
 
 
+    public Material ghostMaterial;
+    public Material noEnergyGhostMaterial;
+
     public Vector3 finalPosition;
 
     [SerializeField]
@@ -28,7 +31,15 @@ public class GridGhost : MonoBehaviour
     private float   _maxGrabDistance;
 
 
+    private void OnEnable()
+    {
+        Energy.OnEnergyUpdated += HandleRemainingEnergy;
+    }
 
+    private void OnDisable()
+    {
+        Energy.OnEnergyUpdated -= HandleRemainingEnergy;
+    }
     void Start()
     {
         grid = FindObjectOfType<Grid>();
@@ -210,6 +221,18 @@ public class GridGhost : MonoBehaviour
             return true;
         }
         else {  return false;   }
+    }
+
+    public void HandleRemainingEnergy(int remainingEnergy)
+    {
+        if (remainingEnergy > 0) // CAMBIAR A QUE COMPARE CON LA ENERGIA QUE GASTA LA AZADA
+        { 
+            hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
+        }
+        else
+        {
+            hoeGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
+        }
     }
 
 }

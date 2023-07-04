@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/ToolItem")]
 public class ToolItemData : InventoryItemData
 {
-
+    public int energyCost;
    // private PauseMenu _pauseMenu;
     private GridGhost _gridGhost()
     {
@@ -38,8 +38,15 @@ public class ToolItemData : InventoryItemData
     {
         if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null)
         {
-            _gridGhost().PlantDirt();
-            return true;
+            if(Energy.instance.TryUseAndAnimateEnergy(1, 2f))
+            {
+                _gridGhost().PlantDirt();
+                return true;
+            }
+            else return false;
+            
+            //Energy.UseEnergy(energyCost);
+           // Energy.UpdateEnergy();
         }
         else return false;
     }
