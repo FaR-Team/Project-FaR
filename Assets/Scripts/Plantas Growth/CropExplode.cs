@@ -25,8 +25,9 @@ public class CropExplode : MonoBehaviour
     public void Chau()
     {
         GetInventory().AñadirAInventario(ItemData, GetRandomInt());
-
+        //TODO: No matarse (En swahilli).
         StartCoroutine(Destruir());
+
         /*Collider[] hitColliders = Physics.OverlapSphere(center, radius);
         OnDrawGizmos();
 
@@ -37,7 +38,6 @@ public class CropExplode : MonoBehaviour
                 if (hitCollider.tag == _objectName && hitCollider != this.gameObject.GetComponent<Collider>())
                 {
                     hitCollider.gameObject.GetComponent<Carrot>().InteractOut();
-                    TODO: No matarse (En swahilli).
                 }
             }
         GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));

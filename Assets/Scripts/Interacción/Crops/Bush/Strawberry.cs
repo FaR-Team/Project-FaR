@@ -23,6 +23,26 @@ public class Strawberry : FruitsInteraction
         yaEligioCh = bushGrowing.yaeligioCh;
     }
 
+    public override IEnumerator Wait()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        foreach (GameObject fruit in Fruits())
+        {
+            this.GetComponent<CropExplodeBush>().Chau(fruit);
+        }
+
+        ReGrow++;
+        DiaM = 0;
+        GetGameObject().layer = 0;
+        if (ReGrow == ReGrowMaxTime)
+        {
+            StartCoroutine(Enumerator());
+        }
+        yaEligioCh = true;
+        already = true;
+    }
+
     public override List<GameObject> Fruits()
     {
         return bushGrowing.fruits;

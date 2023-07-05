@@ -16,18 +16,17 @@ public class BushGrowing : GrowingInPhases
     {
         base.Start();
 
-        Tierra = transform.root.gameObject.GetComponent<Dirt>();
-        TierraTexture = transform.root.GetChild(0).gameObject;
+        Tierra = transform.parent.gameObject.GetComponent<Dirt>();
+        TierraTexture = transform.parent.GetChild(0).gameObject;
     }
 
-    public override void Update()
-    {
+    void LateUpdate(){
         if (Reloj.GetComponent<ClockManager>().Time.text == "05:00 AM" && yacrecio == false)
         {
             if ((Dia < meshs.Length) && Tierra._isWet)
             {
                 Dia++;
-                Tierra.DirtIsNotWet();
+                Tierra.DryDirt();
             }
             yacrecio = true;
             CheckDayGrow();
@@ -41,20 +40,32 @@ public class BushGrowing : GrowingInPhases
             if ((Dia == meshs.Length) && Tierra._isWet)
             {
                 DiaM += 1;
-                Tierra.DirtIsNotWet();
+                Tierra.DryDirt();
+                if (DiaM == ExpectedInt)
+                {
+                    gameObject.layer = 7;
+                }
+            }
+
+            if ((Dia == meshs.Length) && Tierra._isWet)
+            {
+                DiaM += 1;
+                Tierra.DryDirt();
                 if (DiaM == ExpectedInt)
                 {
                     gameObject.layer = 7;
                 }
             }
         }
-
+    }
+    public override void Update()
+    {
         if (Reloj.GetComponent<ClockManager>().Time.text == "06:00 AM" && yacrecio == true)
         {
             yacrecio = false;
         }
 
-        if (Dia == meshs.Length && yaeligio == false)
+        if (Dia == meshs.Length && !yaeligio)
         {
             PonerFruto();
         }
@@ -62,7 +73,7 @@ public class BushGrowing : GrowingInPhases
 
     public void PonerFruto()
     {
-        if (yaeligio != false || ReGrow == ReGrowTimes) return;
+        if (yaeligio || ReGrow == ReGrowTimes) return;
 
         RandInt = Random.Range(3, 5);
 
@@ -71,7 +82,7 @@ public class BushGrowing : GrowingInPhases
             Transform Spawn = GetRandomSP();
             GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
 
-            fruits.Add(fruit.transform.GetChild(2).gameObject);
+            fruits.Add(fruit.transform.gameObject);
         }
         DiaM = 1;
         yaeligio = true;
@@ -81,6 +92,7 @@ public class BushGrowing : GrowingInPhases
     public override void CheckDayGrow()
     {
         if (!yacrecio) return;
+
         int valueToGet = Array.IndexOf(DayIntsForChangeOfPhase, Dia);
 
         if (valueToGet is -1) return;

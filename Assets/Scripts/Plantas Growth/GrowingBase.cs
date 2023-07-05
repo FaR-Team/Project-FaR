@@ -5,6 +5,7 @@ public class GrowingBase : MonoBehaviour
 {
     public Mesh[] meshes;
     public Material[] materials;
+    private int interactableLayerInt = 7;
 
     public int Dia; //Dias que pasaron desde que se plantó.
 
@@ -51,7 +52,7 @@ public class GrowingBase : MonoBehaviour
 
             if (IsLastPhase(i))
             {
-                gameObject.layer = 7;
+                gameObject.layer = interactableLayerInt; //layer interactuable.
             }
             int valueToGet = Array.IndexOf(DayForChangeOfPhase, i);
             if (meshCollider != null)

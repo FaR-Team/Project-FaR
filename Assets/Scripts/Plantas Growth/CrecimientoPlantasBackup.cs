@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(UniqueID))]
-public class CrecimientoPlantas : MonoBehaviour
+public class CrecimientoPlantasBackup : MonoBehaviour //CrecimientoFruta
 {
     public GameObject Fase1, Fase2, Fase3, Fase4, Fase5, Fase6, Fase7, Fase8, Fase9, Fase10;
 

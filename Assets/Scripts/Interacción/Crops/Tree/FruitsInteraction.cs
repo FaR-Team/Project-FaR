@@ -85,7 +85,7 @@ public class FruitsInteraction : MonoBehaviour, IInteractable
         }
     }
 
-    public IEnumerator Wait()
+    public virtual IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.5f);
 

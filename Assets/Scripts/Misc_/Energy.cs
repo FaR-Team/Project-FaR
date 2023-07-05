@@ -11,7 +11,7 @@ public class Energy : MonoBehaviour
     [SerializeField] TMP_Text TextoEnergia;
     [SerializeField] Slider Barra;
 
-    private static int MaxEnergy = 30;
+    private static int MaxEnergy = 100;
     public static int RemainingEnergy;
     private DateTime TiempoEnergiaProx;
     private DateTime TiempoEnergiaAnt;

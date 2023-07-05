@@ -73,7 +73,7 @@ public class GrowingTreeAndPlant : GrowingBase
         {
             Transform Spawn = GetRandomSP();
             GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
-            fruits.Add(fruit.transform.GetChild(2).gameObject);
+            fruits.Add(fruit.transform.gameObject);
         }
         DiaM = 1;
         yaeligio = true;

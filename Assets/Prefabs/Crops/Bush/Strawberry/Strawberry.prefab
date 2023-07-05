@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7518116118099160517
 Transform:
   m_ObjectHideFlags: 0
@@ -190,6 +190,7 @@ MonoBehaviour:
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
   Tierra: {fileID: 0}
+  TierraTexture: {fileID: 0}
 --- !u!114 &4144831522141067726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +206,7 @@ MonoBehaviour:
   Tierra: {fileID: 0}
   Coso: {fileID: 3742477327945525750, guid: 05cee86f1f0bd5a4083f3dc7163ce740, type: 3}
   Parent: {fileID: 3706794725306583263}
-  ItemData: {fileID: 0}
+  ItemData: {fileID: 11400000, guid: ca90483bc4973cd488608dc08c041bfb, type: 2}
   jugador: {fileID: 0}
   Colliders: {fileID: 0}
   Crop: {fileID: 0}
@@ -223,8 +224,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Crop: {fileID: 0}
-  EnergiaGO: {fileID: 0}
-  appleTreeGO: {fileID: 0}
   anim: {fileID: 0}
   _prompt: {fileID: 0}
   already: 0
@@ -315,7 +314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0e931c4a-d2c1-4237-bcd6-4b4429588595
+  _ID: ea9d60a1-d482-47a9-85ef-f30c590dcf7b
 --- !u!64 &3639658408022018820
 MeshCollider:
   m_ObjectHideFlags: 0

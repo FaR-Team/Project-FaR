@@ -1,10 +1,6 @@
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using FaRUtils.Systems.DateTime;
-using UniRx;
-using System;
 using Random = UnityEngine.Random;
 
 public class GrowingInPhases : MonoBehaviour

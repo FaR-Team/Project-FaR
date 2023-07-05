@@ -43,7 +43,7 @@ public class Dirt : MonoBehaviour
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
     }
 
-    public void DirtIsNotWet()
+    public void DryDirt()
     {
         _isWet = false;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
