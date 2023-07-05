@@ -39,14 +39,7 @@ public class SeedItemData : InventoryItemData
         gridGhost = FindObjectOfType<GridGhost>();
         if (TreeSeed == true)
         {
-            if (gridGhost.PlantTreeNear(DirtPrefab) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (gridGhost.PlantTreeNear(DirtPrefab));
         }
         else
         {

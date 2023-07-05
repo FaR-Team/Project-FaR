@@ -368,7 +368,7 @@ public class HotbarDisplay : StaticInventoryDisplay
         }
 
         if (GetItemData().Seed &&
-            interactor._LookingAtDirt)
+            CastingCommander.IsLookingAtDirt())
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
 
@@ -387,7 +387,7 @@ public class HotbarDisplay : StaticInventoryDisplay
 
         if (GetItemData().TreeSeed &&
             gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            interactor._LookingAtDirt == false)
+            CastingCommander.IsLookingAtDirt() == false)
         {
             //var inventory = player.GetComponent<InventoryHolder>();
 
@@ -456,7 +456,7 @@ public class HotbarDisplay : StaticInventoryDisplay
         }*/
 
         if (GetItemData().Seed &&
-            interactor._LookingAtDirt)
+            CastingCommander.IsLookingAtDirt())
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
 
@@ -475,7 +475,7 @@ public class HotbarDisplay : StaticInventoryDisplay
 
         if (GetItemData().TreeSeed &&
             gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            interactor._LookingAtDirt == false)
+            CastingCommander.IsLookingAtDirt() == false)
         {
             //var inventory = player.GetComponent<InventoryHolder>();
 

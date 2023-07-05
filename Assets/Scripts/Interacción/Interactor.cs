@@ -24,7 +24,6 @@ public class Interactor : MonoBehaviour
     public InputAction InteractionKey;
 
     [SerializeField] private Camera _camera;
-    public bool _LookingAtDirt = false;
     public bool IsLookingAtStore = false;
 
     //private float distance = 10f;
@@ -70,11 +69,6 @@ public class Interactor : MonoBehaviour
                _interactionPromptUI.Close();
            }
         }
-
-        _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 10f, _dirtMask);
-        //Toma la cantidad de tierras que hay en la capsula y si hay mas de 0, hace que lookingAtDirt sea True si la tag del primer collider sea Dirt.
-
-
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);
 
         IsLookingAtStore = (_numDirtFound > 0) ? (_colliders[0].transform.gameObject.transform.tag == "Sell") : false;
