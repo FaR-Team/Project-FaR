@@ -22,31 +22,15 @@ public class GrowingTreeAndPlant : GrowingBase
     [HideInInspector] public List<Transform> SpawnPointsAvailable => spawnPoints;
     [HideInInspector] public int RandInt;
     [HideInInspector] public int ExpectedInt;
-    [HideInInspector] public bool _alreadyRe = false;
-    [HideInInspector] public bool yaeligio = false;
-    [HideInInspector] public bool yaeligioCh = false;
-
-    public virtual void Update()
+    
+    public override void OnHourChanged(int hour)
     {
-        if (ClockManager.TimeText() == "05:00 AM" && yacrecio == false)
-        {
-            Dia++;
-            yacrecio = true;
-            CheckDayGrow();
-            if (yaeligioCh == true)
-            {
-                yaeligio = false;
-                yaeligioCh = false;
-                _alreadyRe = false;
-            }
-        }
-
-        if (ClockManager.TimeText() == "06:00 AM" && yacrecio == true)
-        {
-            yacrecio = false;
-        }
-
-        if (meshCollider.sharedMesh == meshes[meshes.Length] && yaeligio == false)
+        if (hour != 5) return;
+        Dia++;
+            
+        CheckDayGrow();
+        
+        if (meshCollider.sharedMesh == meshes[meshes.Length])
         {
             PonerFruto();
         }
@@ -62,12 +46,11 @@ public class GrowingTreeAndPlant : GrowingBase
         return transform.transform;
     }
 
-    public virtual void PonerFruto()
+    public virtual void PonerFruto(int minFruits = 10, int maxFruits = 15)
     {
-        if (yaeligio != false || ReGrow == ReGrowTimes) return;
+        if (ReGrow == ReGrowTimes) return;
 
-
-        RandInt = Random.Range(10, 15);
+        RandInt = Random.Range(minFruits, maxFruits);
 
         for (int i = 0; i < RandInt; i++)
         {
@@ -76,7 +59,6 @@ public class GrowingTreeAndPlant : GrowingBase
             fruits.Add(fruit.transform.gameObject);
         }
         DiaM = 1;
-        yaeligio = true;
         ReGrow++;
     }
 

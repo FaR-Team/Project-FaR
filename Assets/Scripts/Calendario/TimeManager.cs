@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
+using UniRx;
 
 namespace FaRUtils.Systems.DateTime
 {
@@ -26,9 +27,12 @@ namespace FaRUtils.Systems.DateTime
         public static float TimeBetweenTicks = 10f;
         private float CurrentTimeBetweenTicks = 0;
 
+        ReactiveProperty<int> reactivehour;
         public static LocalizedString localizedStringClock;
 
         public static UnityAction<DateTime> OnDateTimeChanged;
+
+        public static UnityEvent<int> _OnHourChanged => DateTime.OnHourChanged;
 
         private void Awake()
         {
@@ -38,7 +42,6 @@ namespace FaRUtils.Systems.DateTime
         public void Start() 
         {
             OnDateTimeChanged?.Invoke(DateTime);
-
             //myLocalVariable = localizedString.GetVariable("myLocalVariable");
         }
 
@@ -101,6 +104,8 @@ namespace FaRUtils.Systems.DateTime
         public int TotalNumWeeks => totalNumWeeks;
         public int CurrentWeek => totalNumWeeks % 16 == 0 ? 16 : totalNumWeeks % 16;
 
+        public static UnityEvent<int> OnHourChanged;
+
         #endregion
 
         #region Constructores
@@ -122,6 +127,8 @@ namespace FaRUtils.Systems.DateTime
             totalNumDays = date + (28 * (int)this.season) + (112 * (year - 1));
 
             totalNumWeeks = 1 + totalNumDays / 7;
+
+            OnHourChanged = new UnityEvent<int>();
         }
 
         #endregion
@@ -145,11 +152,13 @@ namespace FaRUtils.Systems.DateTime
             if ((hour + 1) == 24)
             {
                 hour = 0;
+                OnHourChanged.Invoke(this.hour);
                 AdvanceDay();
             }
             else
             {
-                hour++;
+               hour++;
+               OnHourChanged.Invoke(this.hour);
             }
         }
 

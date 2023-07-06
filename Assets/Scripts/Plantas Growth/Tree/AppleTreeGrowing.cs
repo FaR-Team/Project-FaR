@@ -7,7 +7,7 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
     public override void Start()
     {
         base.Start();
-                
+
         meshFilter.mesh = meshes[0];
         meshCollider.sharedMesh = meshes[0];
 
@@ -16,53 +16,31 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
         ExpectedInt = 3;
     }
 
+    public override void OnHourChanged(int hour)
+    {
+        if (hour != 5) return;
+        
+        if (Dia < 2) Dia++;
+
+        CheckDayGrow();
+
+        if (Dia is 2)
+        {
+            DiaM += 1;
+            if (DiaM == ExpectedInt)
+            {
+                this.gameObject.layer = 7;
+            }
+        }
+    }
+
+    public override void CheckDayGrow()
+    {
+        SetThisGameObjectScale(Dia);
+    }
+
     private void SetThisGameObjectScale(int scaleValue)
     {
         transform.localScale = new Vector3(scales[scaleValue], scales[scaleValue], scales[scaleValue]);
-    }
-    public override void Update()
-    {
-        if (ClockManager.TimeText() == "05:00 AM" && yacrecio == false)
-        {
-            if (Dia < 2)
-            {
-                Dia++;
-            }
-
-            yacrecio = true;
-            CheckDayGrow();
-
-            if (yaeligioCh == true)
-            {
-                yaeligio = false;
-                yaeligioCh = false;
-                _alreadyRe = false;
-            }
-
-            if (Dia is 2)
-            {
-                DiaM += 1;
-                if (DiaM == ExpectedInt)
-                {
-                    this.gameObject.layer = 7;
-                }
-            }
-        }
-
-        if (ClockManager.TimeText() == "06:00 AM" && yacrecio == true)
-        {
-            yacrecio = false;
-        }
-
-        if (Dia is 2 && yaeligio == false)
-        {
-            PonerFruto();
-        }
-    }
-    public override void CheckDayGrow()
-    {
-        if (!yacrecio) return;
-
-        SetThisGameObjectScale(Dia);
     }
 }

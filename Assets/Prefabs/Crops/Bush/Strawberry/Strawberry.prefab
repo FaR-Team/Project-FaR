@@ -153,11 +153,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6d839fb246cad4e8c85468da41349e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Reloj: {fileID: 0}
+  meshes:
+  - {fileID: -2432090755550338912, guid: e11335e2583bf644fbc6c971531d6c57, type: 3}
+  - {fileID: -2432090755550338912, guid: 3f8b09cd60d3ff6409da723a4d31ad22, type: 3}
+  - {fileID: -2432090755550338912, guid: bfbabc0f35d2c2c419bc7945164b6ee0, type: 3}
+  - {fileID: -2432090755550338912, guid: b4b38d86c23b36342a2ceffcf782dbdf, type: 3}
+  materials:
+  - {fileID: 2100000, guid: 4b6a99c8805bc32489880c4bb7658172, type: 2}
+  - {fileID: 2100000, guid: 82ad297796eea7242981c2c244178feb, type: 2}
+  - {fileID: 2100000, guid: 7f53c51a741ec684f83e0cffd0d32837, type: 2}
+  - {fileID: 2100000, guid: 76738738834cc2247a6e2c0cb40ab0a5, type: 2}
   Dia: 0
+  DayForChangeOfPhase: 01000000020000000300000004000000
+  isFruit: 0
+  meshFilter: {fileID: 0}
+  meshCollider: {fileID: 0}
+  meshRenderer: {fileID: 0}
   DiaM: 0
-  yacrecio: 0
-  DayIntsForChangeOfPhase: 010000000300000004000000
   spawnPoints:
   - {fileID: 1545963976449064431}
   - {fileID: 3194343472114418997}
@@ -171,24 +183,8 @@ MonoBehaviour:
   ReGrow: 0
   ReGrowTimes: 3
   Prefab: {fileID: 8241547010519418602, guid: f69cc9de75ce1c8459f517dbdb8594b7, type: 3}
-  meshs:
-  - {fileID: -2432090755550338912, guid: e11335e2583bf644fbc6c971531d6c57, type: 3}
-  - {fileID: -2432090755550338912, guid: 3f8b09cd60d3ff6409da723a4d31ad22, type: 3}
-  - {fileID: -2432090755550338912, guid: bfbabc0f35d2c2c419bc7945164b6ee0, type: 3}
-  - {fileID: -2432090755550338912, guid: b4b38d86c23b36342a2ceffcf782dbdf, type: 3}
-  materials:
-  - {fileID: 2100000, guid: 4b6a99c8805bc32489880c4bb7658172, type: 2}
-  - {fileID: 2100000, guid: 82ad297796eea7242981c2c244178feb, type: 2}
-  - {fileID: 2100000, guid: 7f53c51a741ec684f83e0cffd0d32837, type: 2}
-  - {fileID: 2100000, guid: 76738738834cc2247a6e2c0cb40ab0a5, type: 2}
   RandInt: 0
   ExpectedInt: 3
-  _alreadyRe: 0
-  yaeligio: 0
-  yaeligioCh: 0
-  meshFilter: {fileID: 0}
-  meshCollider: {fileID: 0}
-  meshRenderer: {fileID: 0}
   Tierra: {fileID: 0}
   TierraTexture: {fileID: 0}
 --- !u!114 &4144831522141067726
@@ -314,7 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ea9d60a1-d482-47a9-85ef-f30c590dcf7b
+  _ID: f08b723a-e7ee-4b36-b8af-a53949928f5f
 --- !u!64 &3639658408022018820
 MeshCollider:
   m_ObjectHideFlags: 0

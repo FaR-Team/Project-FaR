@@ -5,7 +5,7 @@ public class GrowingCrop : GrowingBase
 {
     [SerializeField] private CropSaveData cropSaveData;
     private string id;
-    private Dirt tierra;
+    public Dirt tierra;
 
     void Awake()
     {
@@ -28,20 +28,12 @@ public class GrowingCrop : GrowingBase
 
     }
 
-   public virtual void Update()
+    public override void OnHourChanged(int hour)
     {
-        if (ClockManager.TimeText() == "05:00 AM" && yacrecio == false && tierra._isWet)
-        {
-            Dia += 1;
-            yacrecio = true;
-            tierra.DryDirt();
-            CheckDayGrow();
-        }
-
-        if (ClockManager.TimeText() == "06:00 AM" && yacrecio == true)
-        {
-            yacrecio = false;
-        }
+        if (!tierra._isWet || hour != 5) return;
+        
+        Dia++;
+        CheckDayGrow();
     }
 
     private void LoadGame(SaveData data)
@@ -60,6 +52,4 @@ public class GrowingCrop : GrowingBase
             SaveLoad.OnLoadGame -= LoadGame;
         }
     }
-
-
 }

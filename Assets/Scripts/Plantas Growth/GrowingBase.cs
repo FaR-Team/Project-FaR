@@ -1,20 +1,21 @@
 ﻿using UnityEngine;
-using System;
+using FaRUtils.Systems.DateTime;
 
 public class GrowingBase : MonoBehaviour
 {
+    [Tooltip("acá poné las meshes")]
     public Mesh[] meshes;
     public Material[] materials;
     private int interactableLayerInt = 7;
 
     public int Dia; //Dias que pasaron desde que se plantó.
 
-    [HideInInspector] public bool yacrecio;
-
     //[SerializeField] private CropSaveData cropSaveData;
     //private string id;
 
     public int[] DayForChangeOfPhase;
+
+    public bool isFruit;
 
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
@@ -38,23 +39,20 @@ public class GrowingBase : MonoBehaviour
             meshRenderer.material = materials[0];
         }
 
+        DateTime.OnHourChanged.AddListener(OnHourChanged);
+
         Dia = 0;
-        yacrecio = false;
     }
-
-    public virtual void CheckDayGrow()
+    public virtual void OnHourChanged(int hour) {}
+    public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
-        if (!yacrecio) return;
-
         foreach (int i in DayForChangeOfPhase)
         { 
             if (Dia != i) continue;
-
-            if (IsLastPhase(i))
-            {
-                gameObject.layer = interactableLayerInt; //layer interactuable.
-            }
-            int valueToGet = Array.IndexOf(DayForChangeOfPhase, i);
+            
+            SetInteractable(i);
+            
+            int valueToGet = System.Array.IndexOf(DayForChangeOfPhase, i);
             if (meshCollider != null)
             {
                 meshCollider.sharedMesh = meshes[valueToGet];
@@ -64,6 +62,15 @@ public class GrowingBase : MonoBehaviour
             return;
         }
     }
+
+    public void SetInteractable(int i)
+    {
+        if (IsLastPhase(i) && !isFruit)
+        {
+            gameObject.layer = interactableLayerInt; //layer interactuable.
+        }
+    }
+    
     bool IsLastPhase(int numero)
     {
         if (DayForChangeOfPhase.Length == 0)

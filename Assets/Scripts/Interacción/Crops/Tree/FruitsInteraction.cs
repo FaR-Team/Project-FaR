@@ -65,7 +65,7 @@ public class FruitsInteraction : MonoBehaviour, IInteractable
                 Energy._ContadorActivo = true;
                 Energy.timer = 5;
                 Energy._yaAnimo = false;
-            }
+            }// CAMBIAR LO DE LA ENERGÍA
             else if (Energy._ContadorActivo == true)
             {
                 Energy.timer = 5;

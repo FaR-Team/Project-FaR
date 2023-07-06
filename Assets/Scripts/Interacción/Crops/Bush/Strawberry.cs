@@ -14,14 +14,6 @@ public class Strawberry : FruitsInteraction
         bushGrowing = GetComponent<BushGrowing>();
        
     }
-    private void Start()
-    {
-        already = bushGrowing._alreadyRe;
-        ReGrow = bushGrowing.ReGrow;
-        ReGrowMaxTime = bushGrowing.ReGrowTimes;
-        DiaM = bushGrowing.DiaM;
-        yaEligioCh = bushGrowing.yaeligioCh;
-    }
 
     public override IEnumerator Wait()
     {

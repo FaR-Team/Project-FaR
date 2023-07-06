@@ -14,14 +14,6 @@ public class AppleInteraction : FruitsInteraction
 
         appleTree = GetComponent<AppleTreeGrowing>();
     }
-    private void Start()
-    {
-        already = appleTree._alreadyRe;
-        ReGrow = appleTree.ReGrow;
-        ReGrowMaxTime = appleTree.ReGrowTimes;
-        DiaM = appleTree.DiaM;
-        yaEligioCh = appleTree.yaeligioCh;
-    }
     public override List<GameObject> Fruits()
     {
         return appleTree.fruits;

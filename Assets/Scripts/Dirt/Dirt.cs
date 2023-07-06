@@ -1,7 +1,7 @@
 using System.Security.AccessControl;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
+using FaRUtils.Systems.DateTime;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -23,6 +23,7 @@ public class Dirt : MonoBehaviour
     void Start()
     {
         _isEmpty = true;
+        DateTime.OnHourChanged.AddListener(DryDirt);
     }
     public bool GetCrop(SeedItemData itemData)
     {
@@ -43,8 +44,10 @@ public class Dirt : MonoBehaviour
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
     }
 
-    public void DryDirt()
+    public void DryDirt(int hour)
     {
+        if(hour != 6) return;
+
         _isWet = false;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
     }

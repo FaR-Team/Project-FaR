@@ -10,7 +10,6 @@ public class Cama : MonoBehaviour, IInteractable
     public static Cama Instance;
 
     [SerializeField] private GameObject _prompt;
-    public DateTime dateTime;
     public SellSystem _sellSystem;
     public GameObject Negrura;
     public GameObject Hotbar;
@@ -35,6 +34,27 @@ public class Cama : MonoBehaviour, IInteractable
         { 
             Instance = this; 
         } 
+    }
+
+    private void Start() 
+    {
+        DateTime.OnHourChanged.AddListener(OnHourChanged);
+    }
+
+    private void OnHourChanged(int hour)
+    {
+        if (hour != 6) return;
+
+        if(_yourLetterArrived == false)
+        {
+            TimeManager.TimeBetweenTicks = 10f;
+        }
+        lightingManager.CopyHour();
+        Negrura.GetComponent<Animation>().Play("NegroOut");
+        yasonlas6 = true;
+        player = GameObject.FindWithTag("Player");
+        player.GetComponent<FaRCharacterController>().enabled = true;
+        StartCoroutine(Wait());
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
@@ -70,7 +90,6 @@ public class Cama : MonoBehaviour, IInteractable
 
         _sellSystem.Sell();
 
-        CheckHora();
 
         Debug.Log("Interactuando con Cama");
         interactSuccessful = true;
@@ -79,28 +98,6 @@ public class Cama : MonoBehaviour, IInteractable
     public void InteractOut()
     {
         Debug.Log(null);
-    }
-
-    public void CheckHora()
-    {
-        if(TimeManager.DateTime.Hour == 6 && yasonlas6 == false)
-        {
-            if(_yourLetterArrived == false)
-            {
-                TimeManager.TimeBetweenTicks = 10f;
-            }
-            lightingManager.CopyHour();
-            Negrura.GetComponent<Animation>().Play("NegroOut");
-            yasonlas6 = true;
-            player = GameObject.FindWithTag("Player");
-            player.GetComponent<FaRCharacterController>().enabled = true;
-            StartCoroutine(Wait());
-        }
-    }
-
-    private void Update()
-    {
-        CheckHora();
     }
 
     public IEnumerator Wait()
