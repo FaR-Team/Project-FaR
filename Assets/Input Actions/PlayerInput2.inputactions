@@ -258,6 +258,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "AbilityHotbarUp",
+                    "type": "Button",
+                    "id": "d118bee0-1ca7-4fcf-8127-9cb40af9dde8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityHotbarDown",
+                    "type": "Button",
+                    "id": "71e01453-3e2a-40d7-81ed-d453408fe2b3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "HotbarLeft",
                     "type": "Button",
                     "id": "dda8fdb6-6da8-48c5-b48d-a25693835e4e",
@@ -793,6 +811,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "HotbarLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54751adb-c26e-45a7-95d4-bdc14547a7ab",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AbilityHotbarUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f00bc0e8-4cf4-4ca7-b1bd-6028c6f1bb4f",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AbilityHotbarDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

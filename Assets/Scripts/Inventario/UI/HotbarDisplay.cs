@@ -58,6 +58,8 @@ public class HotbarDisplay : HotbarDisplayBase
             ChangeAbility();
         }
 
+        ChangeAbilityGamepad();
+
         ChangeObjectInHandModel();
     }
 
@@ -66,6 +68,13 @@ public class HotbarDisplay : HotbarDisplayBase
         if (MouseWheelValue() > 0.1f) ChangeAbilityIndex(-1);
 
         if (MouseWheelValue() < -0.1f) ChangeAbilityIndex(1);
+    }
+
+    void ChangeAbilityGamepad()
+    {
+        if (GetPlayerControls().AbilityHotbarDown.WasPerformedThisFrame()) ChangeAbilityIndex(-1);
+
+        if (GetPlayerControls().AbilityHotbarUp.WasPerformedThisFrame()) ChangeAbilityIndex(1);
     }
 
     private void ChangeAbilityIndex(int direction)
