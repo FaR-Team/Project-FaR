@@ -6,7 +6,6 @@ using FaRUtils.Systems.ItemSystem;
 using FaRUtils.FPSController;
 using UnityStandardAssets.CrossPlatformInput;
 using IngameDebugConsole;
-using System;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -18,6 +17,7 @@ public class FaRCommands : MonoBehaviour
 
 	public int actualDay;
 	private bool skipdays;
+	private bool areYouSleepy;
 	private int daysToSkip;
 	public GameObject player;
 	public Rigidbody rb;
@@ -31,11 +31,13 @@ public class FaRCommands : MonoBehaviour
 	{
 		m_Camera = Camera.main;
 		rb = player.GetComponent<Rigidbody>();
+		DateTime.OnHourChanged.AddListener(OnHourChanged);
 		DebugLogConsole.AddCommand<int, int>( "give", "Te da un item con el número de ID que especifiques", GiveItem );
 		DebugLogConsole.AddCommand( "rosebud", "te da 1000 de oro", Rosebud );
 		DebugLogConsole.AddCommand<int>( "add_gold", "te da la cantidad de oro que escribas", AddGold);
 		DebugLogConsole.AddCommand( "hurrypotter", "Avanza muy rápido el tiempo", HurryPotter);
 		DebugLogConsole.AddCommand( "relaxpotter", "Vuelve el tiempo a la normalidad", RelaxPotter);
+		DebugLogConsole.AddCommand( "imsleepy", "Avanza el tiempo hasta que puedas dormir", ImSleepy);
 		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender", Noclip);
 		DebugLogConsole.AddCommand("skipcarrotgrowth", "Se salta el crecimiento de la zanahoria, avanzando los días necesarios", SkipCarrotGrowth);
 		DebugLogConsole.AddCommand("skipapplegrowth", "Se salta el crecimiento de la manzana, avanzando los días necesarios", SkipAppleGrowth);
@@ -93,6 +95,22 @@ public class FaRCommands : MonoBehaviour
 		TimeManager.TimeBetweenTicks = 10f;
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
+	}
+
+	void ImSleepy()
+	{
+		TimeManager.TimeBetweenTicks = 0.01f;
+		areYouSleepy = true;
+	}
+
+	private void OnHourChanged(int hour)
+	{
+		if (hour == 17 && areYouSleepy)
+		{
+			TimeManager.TimeBetweenTicks = 10f;
+        	_cama.lightingManager.CopyHour();
+			areYouSleepy = false;
+		}
 	}
 
 	void SkipCarrotGrowth()

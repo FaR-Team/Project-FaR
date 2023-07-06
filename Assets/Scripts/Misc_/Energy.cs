@@ -38,7 +38,7 @@ public class Energy : MonoBehaviour
     {
         _animationComp = GetComponent<Animation>();
         delay = new WaitForSeconds(timeForSeconds);
-        RemainingEnergy = 30;
+        RemainingEnergy = 100;
         UpdateEnergy();
         /*
         if(!PlayerPrefs.HasKey("EnergiaActual"))
