@@ -14,6 +14,10 @@ GameObject:
   - component: {fileID: 2604436617986386753}
   - component: {fileID: 183318889982706349}
   - component: {fileID: 5430052990757760567}
+  - component: {fileID: 6635300315578642412}
+  - component: {fileID: 9212080036892319480}
+  - component: {fileID: 3582513621652066534}
+  - component: {fileID: 8566228381171726005}
   m_Layer: 0
   m_Name: Frutilla
   m_TagString: Untagged
@@ -56,9 +60,9 @@ MonoBehaviour:
   - {fileID: 2100000, guid: b03bb6b70672bc0458d07cc4695f7c79, type: 2}
   - {fileID: 2100000, guid: b03bb6b70672bc0458d07cc4695f7c79, type: 2}
   - {fileID: 2100000, guid: adf24c2f84248854c93be4c3cb3f7411, type: 2}
-  Dia: 0
-  yacrecio: 0
+  DiasPlantado: 0
   DayForChangeOfPhase: 010000000200000003000000
+  isFruit: 0
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
@@ -90,7 +94,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 833b19fc3ce30cc4b81aa6437f4089a7, type: 3}
 --- !u!23 &183318889982706349
@@ -143,3 +147,62 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8241547010519418602}
   m_Mesh: {fileID: -2432090755550338912, guid: 833b19fc3ce30cc4b81aa6437f4089a7, type: 3}
+--- !u!135 &6635300315578642412
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241547010519418602}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.19999999
+  m_Center: {x: 0.45000002, y: 1.7, z: 0.25}
+--- !u!114 &9212080036892319480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241547010519418602}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f0e7b6cf89a1cb4799f1a1b57e55389, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PickUpRadius: 1
+  ItemData: {fileID: 11400000, guid: ca90483bc4973cd488608dc08c041bfb, type: 2}
+  itemSaveData:
+    ItemData: {fileID: 0}
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+--- !u!54 &3582513621652066534
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241547010519418602}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!114 &8566228381171726005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8241547010519418602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96551653d576706439f18155c31ecace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

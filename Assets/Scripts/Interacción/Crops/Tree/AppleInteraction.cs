@@ -3,7 +3,7 @@ using UnityEngine;
 using cakeslice;
 using System.Collections.Generic;
 
-public class AppleInteraction : FruitsInteraction
+public class AppleInteraction : CropInteraction
 {
 
     public AppleTreeGrowing appleTree;
@@ -18,15 +18,4 @@ public class AppleInteraction : FruitsInteraction
     {
         return appleTree.fruits;
     }
-
-    public override GameObject GetGameObject()
-    {
-        return appleTree.gameObject;
-    }
-
-    public override IEnumerator Enumerator()
-    {
-        return appleTree.BushCedeLaPresidencia();
-    }
-
 }

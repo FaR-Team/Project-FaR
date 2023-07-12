@@ -4,6 +4,7 @@ using Random = UnityEngine.Random;
 public class AppleTreeGrowing : GrowingTreeAndPlant
 {
     public float[] scales;
+    int DiaM;
     public override void Start()
     {
         base.Start();
@@ -20,11 +21,11 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
     {
         if (hour != 5) return;
         
-        if (Dia < 2) Dia++;
+        if (DiasPlantado < 2) DiasPlantado++;
 
         CheckDayGrow();
 
-        if (Dia is 2)
+        if (DiasPlantado is 2)
         {
             DiaM += 1;
             if (DiaM == ExpectedInt)
@@ -36,7 +37,7 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
 
     public override void CheckDayGrow()
     {
-        SetThisGameObjectScale(Dia);
+        SetThisGameObjectScale(DiasPlantado);
     }
 
     private void SetThisGameObjectScale(int scaleValue)

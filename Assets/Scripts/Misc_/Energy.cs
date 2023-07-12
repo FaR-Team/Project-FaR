@@ -127,14 +127,14 @@ public class Energy : MonoBehaviour
         if(RemainingEnergy >= energyUsed) // Si hay energía suficiente
         {
             UseEnergy(energyUsed);
-
+            
             if (_ContadorActivo == false)
             {
                 _animationComp.Play("Entrar uwuw");
                 _ContadorActivo = true;
                 _yaAnimo = false;
             }
-
+            
             timer = newTimer; // Aunque ya se esté animando, se actualiza el timer para que se siga mostrando
 
             return true;

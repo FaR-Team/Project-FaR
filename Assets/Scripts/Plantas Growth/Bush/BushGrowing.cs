@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using FaRUtils.Systems.DateTime;
+using System.Linq;
+
 public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 {
     public Dirt Tierra = null;
@@ -12,40 +14,49 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
     public override void Start()
     {
         base.Start();
-        
-        DateTime.OnHourChanged.AddListener(OnHourChanged);
 
         Tierra = transform.parent.gameObject.GetComponent<Dirt>();
         TierraTexture = transform.parent.GetChild(0).gameObject;
     }
-    public override void OnHourChanged(int hour)
+    public override void OnHourChanged(int hour) //TO DO: Que esto sea más escalable.
     {
-        if (hour != 5) return;
-        if ((Dia < meshes.Length) && Tierra._isWet)
+        if (hour == 5)
         {
-            Dia++;
-        }
-        CheckDayGrow();
+            if (Tierra._isWet) DiasPlantado++;
 
-        if ((Dia == meshes.Length) && Tierra._isWet)
-        {
-            DiaM += 1;
-            if (DiaM == ExpectedInt)
-            {
-                gameObject.layer = 7;
-            }
+            CheckDayGrow();
         }
 
-        if (Dia == meshes.Length && fruits.Count == 0)
+        if (!IsLastStage()) return;
+
+        if (fruits.Count > 0)
         {
-            PonerFruto(2, 5);
+            if (fruits[0].GetComponent<GrowingFruitsBush>().IsLastStage()) gameObject.layer = interactableLayerInt;
+            return;
         }
+
+        horasQuePasaronSinFrutas++;
+
+        if (horasQuePasaronSinFrutas > horasQueDebenPasarSinFrutas)
+        {
+            PonerFrutos(1, 5);
+            horasQuePasaronSinFrutas = 0;
+        }
+    }
+
+    public void StartReGrowBush()
+    {
+        ReGrow++;
+        horasQuePasaronSinFrutas = 0;
+        fruits.Clear();
+        gameObject.layer = 3;
     }
 
     public override IEnumerator BushCedeLaPresidencia()
     {
         TierraTexture.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);
-        Destroy(Tierra.transform.parent.gameObject);
+        Tierra.gameObject.SetActive(false);
     }
+
 }

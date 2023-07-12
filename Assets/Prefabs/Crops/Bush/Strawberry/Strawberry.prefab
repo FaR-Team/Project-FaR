@@ -169,7 +169,6 @@ MonoBehaviour:
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
-  DiaM: 0
   spawnPoints:
   - {fileID: 1545963976449064431}
   - {fileID: 3194343472114418997}
@@ -181,10 +180,12 @@ MonoBehaviour:
   - {fileID: 3521115482291175411}
   fruits: []
   ReGrow: 0
-  ReGrowTimes: 3
+  ReGrowMaxTimes: 3
   Prefab: {fileID: 8241547010519418602, guid: f69cc9de75ce1c8459f517dbdb8594b7, type: 3}
   RandInt: 0
   ExpectedInt: 3
+  horasQuePasaronSinFrutas: 0
+  horasQueDebenPasarSinFrutas: 2
   Tierra: {fileID: 0}
   TierraTexture: {fileID: 0}
 --- !u!114 &4144831522141067726
@@ -223,10 +224,6 @@ MonoBehaviour:
   anim: {fileID: 0}
   _prompt: {fileID: 0}
   already: 0
-  ReGrowMaxTime: 0
-  ReGrow: 0
-  DiaM: 0
-  yaEligioCh: 0
   bushGrowing: {fileID: 0}
 --- !u!95 &8325964824525154127
 Animator:

@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using FaRUtils.Systems.DateTime;
+using System.Linq;
+using Ink.Parsed;
 
 public class GrowingBase : MonoBehaviour
 {
+    
     [Tooltip("acá poné las meshes")]
-    public Mesh[] meshes;
+    public Mesh[] meshes; 
     public Material[] materials;
-    private int interactableLayerInt = 7;
 
-    public int Dia; //Dias que pasaron desde que se plantó.
+    protected int interactableLayerInt = 7;
+
+    public int DiasPlantado; //Dias que pasaron desde que se plantó.
 
     //[SerializeField] private CropSaveData cropSaveData;
     //private string id;
@@ -41,17 +45,15 @@ public class GrowingBase : MonoBehaviour
 
         DateTime.OnHourChanged.AddListener(OnHourChanged);
 
-        Dia = 0;
+        DiasPlantado = 0;
     }
     public virtual void OnHourChanged(int hour) {}
     public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
         foreach (int i in DayForChangeOfPhase)
         { 
-            if (Dia != i) continue;
-            
-            SetInteractable(i);
-            
+            if (DiasPlantado != i) continue;
+
             int valueToGet = System.Array.IndexOf(DayForChangeOfPhase, i);
             if (meshCollider != null)
             {
@@ -80,5 +82,9 @@ public class GrowingBase : MonoBehaviour
 
         int ultimoElemento = DayForChangeOfPhase[DayForChangeOfPhase.Length - 1];
         return numero == ultimoElemento;
+    }
+    public bool IsLastStage()
+    {
+        return (DiasPlantado >= meshes.Length);
     }
 }

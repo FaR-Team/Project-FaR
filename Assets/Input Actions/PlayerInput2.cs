@@ -630,7 +630,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""354fa449-88ba-4a15-a199-764fc71fb905"",
-                    ""path"": ""<Keyboard>/backquote"",
+                    ""path"": ""ñ"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

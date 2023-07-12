@@ -17,7 +17,6 @@ public class Dirt : MonoBehaviour
     public GameObject currentCrop;
     public SeedItemData currentCropData;
     
-   
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
     void Start()
@@ -46,10 +45,10 @@ public class Dirt : MonoBehaviour
 
     public void DryDirt(int hour)
     {
-        if(hour != 6) return;
+        //if(hour != 6) return;
 
-        _isWet = false;
-        this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+        //_isWet = false;
+        //this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
     }
 
 

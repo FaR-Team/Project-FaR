@@ -5,34 +5,33 @@ using Random = UnityEngine.Random;
 
 public class GrowingTreeAndPlant : GrowingBase
 {
-    [Header("Misc.")]
-
-    public int DiaM; //Asumo que debe ser los dias que estuvo maduro?? no entiendo.
 
     [Header("Días para cambiar de fase")]
-
+    
     public List<Transform> spawnPoints;
     public List<GameObject> fruits;
-
+        
     public int ReGrow; //Veces que volvio a dar frutos.
-    public int ReGrowTimes; //Veces maxima que puede volver a dar frutos.
+    public int ReGrowMaxTimes; //Veces maxima que puede volver a dar frutos.
 
     public GameObject Prefab;
 
     [HideInInspector] public List<Transform> SpawnPointsAvailable => spawnPoints;
     [HideInInspector] public int RandInt;
     [HideInInspector] public int ExpectedInt;
+    public int horasQuePasaronSinFrutas;
+    public int horasQueDebenPasarSinFrutas;
     
     public override void OnHourChanged(int hour)
     {
         if (hour != 5) return;
-        Dia++;
+        DiasPlantado++;
             
         CheckDayGrow();
         
         if (meshCollider.sharedMesh == meshes[meshes.Length])
         {
-            PonerFruto();
+            PonerFrutos();
         }
     }
 
@@ -46,9 +45,9 @@ public class GrowingTreeAndPlant : GrowingBase
         return transform.transform;
     }
 
-    public virtual void PonerFruto(int minFruits = 10, int maxFruits = 15)
+    public virtual void PonerFrutos(int minFruits = 10, int maxFruits = 15)
     {
-        if (ReGrow == ReGrowTimes) return;
+        if (ReGrow == ReGrowMaxTimes) return;
 
         RandInt = Random.Range(minFruits, maxFruits);
 
@@ -58,11 +57,15 @@ public class GrowingTreeAndPlant : GrowingBase
             GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
             fruits.Add(fruit.transform.gameObject);
         }
-        DiaM = 1;
+
         ReGrow++;
     }
 
-public virtual IEnumerator BushCedeLaPresidencia() //LA CONCHA DE TU MADRE SATIA QUE NOMBRE DE MIERDA.
+    public void DestroyThisBush()
+    {
+        StartCoroutine(BushCedeLaPresidencia());
+    }
+    public virtual IEnumerator BushCedeLaPresidencia() //LA CONCHA DE TU MADRE SATIA QUE NOMBRE DE MIERDA.
     {
        // Tierra.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);

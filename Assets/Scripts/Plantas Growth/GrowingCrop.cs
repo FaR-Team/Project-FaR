@@ -10,7 +10,7 @@ public class GrowingCrop : GrowingBase
     void Awake()
     {
         SaveLoad.OnLoadGame += LoadGame;
-        cropSaveData = new CropSaveData(Dia, transform.position);
+        cropSaveData = new CropSaveData(DiasPlantado, transform.position);
         tierra = transform.parent.GetComponent<Dirt>();
     }
 
@@ -27,14 +27,32 @@ public class GrowingCrop : GrowingBase
         }
 
     }
-
     public override void OnHourChanged(int hour)
     {
         if (!tierra._isWet || hour != 5) return;
-        
-        Dia++;
+
+        DiasPlantado++;
         CheckDayGrow();
     }
+    public override void CheckDayGrow()
+    {
+        foreach (int i in DayForChangeOfPhase)
+        {
+            if (DiasPlantado != i) continue;
+
+            SetInteractable(i);
+
+            int valueToGet = System.Array.IndexOf(DayForChangeOfPhase, i);
+            if (meshCollider != null)
+            {
+                meshCollider.sharedMesh = meshes[valueToGet];
+            }
+            meshFilter.mesh = meshes[valueToGet];
+            meshRenderer.material = materials[valueToGet];
+            return;
+        }
+    }
+    
 
     private void LoadGame(SaveData data)
     {
