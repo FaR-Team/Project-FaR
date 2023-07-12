@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace cakeslice
+namespace FaRUtils
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(Renderer))]

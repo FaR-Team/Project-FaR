@@ -1,10 +1,5 @@
-using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
-using FaRUtils.Systems.DateTime;
-using System.Linq;
 
 public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 {
@@ -18,7 +13,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
         Tierra = transform.parent.gameObject.GetComponent<Dirt>();
         TierraTexture = transform.parent.GetChild(0).gameObject;
     }
-    public override void OnHourChanged(int hour) //TO DO: Que esto sea más escalable.
+    public override void OnHourChanged(int hour) //TO DO: Que esto sea mï¿½s escalable.
     {
         if (hour == 5)
         {

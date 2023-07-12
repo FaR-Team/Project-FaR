@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9045466159966073160}
   - component: {fileID: 4123674341176744112}
   - component: {fileID: 3978394569739214761}
+  - component: {fileID: 2307487856569029127}
   m_Layer: 0
   m_Name: Apple
   m_TagString: Untagged
@@ -70,15 +71,16 @@ MonoBehaviour:
   - {fileID: 2100000, guid: eb001af053888954b95aadee429c5c2c, type: 2}
   - {fileID: 2100000, guid: eb001af053888954b95aadee429c5c2c, type: 2}
   - {fileID: 2100000, guid: eb001af053888954b95aadee429c5c2c, type: 2}
-  Dia: 0
-  yacrecio: 0
+  DiasPlantado: 0
   DayForChangeOfPhase: 010000000200000003000000
+  isFruit: 0
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
   cropSaveData:
     Position: {x: 0, y: 0, z: 0}
     _Dia: 0
+  tierra: {fileID: 0}
 --- !u!114 &7592882300038889552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,3 +165,15 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &2307487856569029127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4696727328782244568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96551653d576706439f18155c31ecace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

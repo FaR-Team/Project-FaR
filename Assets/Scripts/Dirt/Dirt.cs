@@ -9,6 +9,8 @@ public class Dirt : MonoBehaviour
     bool _isEmpty;
     public bool _isWet;
 
+    public bool testing;
+
 
     public int abilityLevelPlaceholder = 1;
     public bool IsEmpty => _isEmpty;
@@ -45,10 +47,12 @@ public class Dirt : MonoBehaviour
 
     public void DryDirt(int hour)
     {
-        //if(hour != 6) return;
+        if (testing) return;
+        
+        if(hour != 6) return;
 
-        //_isWet = false;
-        //this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+        _isWet = false;
+        this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
     }
 
 

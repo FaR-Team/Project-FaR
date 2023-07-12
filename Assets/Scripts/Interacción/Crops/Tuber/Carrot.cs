@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using cakeslice;
+using FaRUtils;
 
 public class Carrot : MonoBehaviour, IInteractable
 {
@@ -51,8 +51,10 @@ public class Carrot : MonoBehaviour, IInteractable
 
         JustInter = true;
 
-        if (Energy._ContadorActivo) Energy.timer = 5;
-
+        if (Energy._ContadorActivo) 
+        {
+            Energy.timer = 5;
+        }
         else
         {
             Energy._animationComp.Play("Entrar uwuw");
@@ -91,7 +93,8 @@ public class Carrot : MonoBehaviour, IInteractable
     public IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.5f);
-        GetComponent<CropExplode>().Chau();
+        GetComponent<FallingFruit>().FallTuber();
+        //GetComponent<CropExplode>().Chau();
     }
 
 

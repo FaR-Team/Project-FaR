@@ -27,6 +27,8 @@ public class FaRCommands : MonoBehaviour
 	public bool _noclip;
 	private Camera m_Camera;
 
+	public DirtSpawnerPooling dirtSpawner;
+
 	void Start()
 	{
 		m_Camera = Camera.main;
@@ -87,12 +89,20 @@ public class FaRCommands : MonoBehaviour
 	void HurryPotter()
 	{
 		TimeManager.TimeBetweenTicks = 0.01f;
+		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+		{
+			dirt.GetComponent<Dirt>().testing = true;
+		}
         _cama._yourLetterArrived = true;
 	}
 
 	void RelaxPotter()
 	{
 		TimeManager.TimeBetweenTicks = 10f;
+		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+		{
+			dirt.GetComponent<Dirt>().testing = false;
+		}
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
 	}
@@ -118,6 +128,10 @@ public class FaRCommands : MonoBehaviour
 		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 6;
 		skipdays = true;
+		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+		{
+			dirt.GetComponent<Dirt>().testing = true;
+		}
 		TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
@@ -126,6 +140,10 @@ public class FaRCommands : MonoBehaviour
 		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 4;
 		skipdays = true;
+		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+		{
+			dirt.GetComponent<Dirt>().testing = true;
+		}
 		TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
@@ -134,6 +152,10 @@ public class FaRCommands : MonoBehaviour
 		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 3;
 		skipdays = true;
+		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+		{
+			dirt.GetComponent<Dirt>().testing = true;
+		}
 		TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
@@ -188,6 +210,10 @@ public class FaRCommands : MonoBehaviour
 			if ((actualDay + daysToSkip) == TimeManager.DateTime.Date)
 			{
 				TimeManager.TimeBetweenTicks = 10f;
+				foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+				{
+					dirt.GetComponent<Dirt>().testing = false;
+				}
 				skipdays = false;
 			}
 		}

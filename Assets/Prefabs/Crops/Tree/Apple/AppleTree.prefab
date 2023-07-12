@@ -230,13 +230,12 @@ MonoBehaviour:
   - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
   materials:
   - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
-  Dia: 0
-  yacrecio: 0
+  DiasPlantado: 0
   DayForChangeOfPhase: 
+  isFruit: 0
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
-  DiaM: 0
   spawnPoints:
   - {fileID: 5634044044255950256}
   - {fileID: 5634044044839173456}
@@ -260,13 +259,12 @@ MonoBehaviour:
   - {fileID: 5634044044934790030}
   fruits: []
   ReGrow: 10
-  ReGrowTimes: 111
+  ReGrowMaxTimes: 0
   Prefab: {fileID: 4696727328782244568, guid: 0efc62c6f68b25a4f98aa6e9238bc966, type: 3}
   RandInt: 0
   ExpectedInt: 0
-  _alreadyRe: 0
-  yaeligio: 0
-  yaeligioCh: 0
+  horasQuePasaronSinFrutas: 0
+  horasQueDebenPasarSinFrutas: 0
   scales:
   - 1
   - 2.5
@@ -284,14 +282,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Crop: {fileID: 0}
-  appleTreeGO: {fileID: 0}
   anim: {fileID: 0}
   _prompt: {fileID: 0}
   already: 0
-  ReGrowMaxTime: 0
-  ReGrow: 0
-  DiaM: 0
-  yaEligioCh: 0
   appleTree: {fileID: 0}
 --- !u!33 &1062288900735988520
 MeshFilter:

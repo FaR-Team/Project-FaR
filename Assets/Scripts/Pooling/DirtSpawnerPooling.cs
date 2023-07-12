@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -30,6 +31,21 @@ public class DirtSpawnerPooling : MonoBehaviour
     public static void DeSpawn(GameObject primitive, GameObject go)
     {
         ObjectPooling.RecicleObject(primitive, go);
+    }
+
+    public List<GameObject> GetActiveDirts()
+    {
+        List<GameObject> dirtList = new List<GameObject>();
+        for(int i = 0; i < this.gameObject.transform.childCount; i++)
+        {
+            GameObject currentGO = gameObject.transform.GetChild(i).gameObject;
+            if (currentGO.activeInHierarchy)
+            {
+                dirtList.Add(currentGO);
+            }
+        }
+
+        return dirtList;
     }
 }
 

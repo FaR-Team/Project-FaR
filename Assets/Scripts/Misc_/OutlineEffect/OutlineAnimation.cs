@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using cakeslice;
 
-namespace cakeslice
+namespace FaRUtils
 {
     public class OutlineAnimation : MonoBehaviour
     {
