@@ -301,12 +301,20 @@ public class ShopKeeperDisplay : MonoBehaviour
     public void CloseShopUITab()
     {
         RefreshDisplay();
-        shopKeeper.IsBuying = false;
         player = GameObject.FindWithTag("Player");
-        _shoppingUIParent.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         player.GetComponent<FaRCharacterController>().enabled = true;
         player.GetComponent<DirtPlower>().enabled = true;
+        Time.timeScale = 1f;
+        StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
+    }
+
+    private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()
+    {
+        yield return new WaitForSeconds(0.1f);
+        PlayerInventoryHolder.IsBuying = false;
+        shopKeeper.IsBuying = false;
+        _shoppingUIParent.SetActive(false);
     }
 }

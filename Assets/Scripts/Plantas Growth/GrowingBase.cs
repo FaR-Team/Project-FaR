@@ -47,7 +47,9 @@ public class GrowingBase : MonoBehaviour
 
         DiasPlantado = 0;
     }
+    
     public virtual void OnHourChanged(int hour) {}
+
     public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
         foreach (int i in DayForChangeOfPhase)
