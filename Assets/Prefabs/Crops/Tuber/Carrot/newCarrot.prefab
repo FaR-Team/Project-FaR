@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7221040229018545152}
   - component: {fileID: 4316476093831748175}
-  - component: {fileID: 5949671346194410086}
+  - component: {fileID: 7418702818391376160}
   - component: {fileID: 6537021443429047968}
   - component: {fileID: 3436281166408486166}
   - component: {fileID: 1749771064063681160}
@@ -58,16 +58,17 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 3fb419360618a7c49b096d4d6b8365c5, type: 2}
   - {fileID: 2100000, guid: 3034a85381a0ecb4c9922554360c65ec, type: 2}
   - {fileID: 2100000, guid: 80c9816c133fee844a9341c17d834b99, type: 2}
-  Dia: 0
-  yacrecio: 0
+  DiasPlantado: 0
   DayForChangeOfPhase: 010000000200000004000000
+  isFruit: 0
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
   cropSaveData:
     Position: {x: 0, y: 0, z: 0}
     _Dia: 0
---- !u!114 &5949671346194410086
+  tierra: {fileID: 0}
+--- !u!114 &7418702818391376160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -76,12 +77,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 97846187706656559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 366cba7e96fd7d24cbaefb7afaedd416, type: 3}
+  m_Script: {fileID: 11500000, guid: 5cb0d847a5fb0794dbc3593c69cf337b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 7400000, guid: f30ed63ac06172c46812da9364d8904b, type: 2}
-  hasInteracted: 0
+  Crop: {fileID: 0}
+  anim: {fileID: 0}
   _prompt: {fileID: 0}
+  already: 0
+  GrowingCrop: {fileID: 4316476093831748175}
+  Prefab: {fileID: 6461032584782359218, guid: 45cec035f344ce14c86fea7dcf7ceb12, type: 3}
 --- !u!114 &6537021443429047968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +103,6 @@ MonoBehaviour:
     type: 3}
   ItemData: {fileID: 11400000, guid: ed5118089d2f4d747a4abb1145371469, type: 2}
   player: {fileID: 0}
-  center: {x: 0, y: 0, z: 0}
   radius: 10
 --- !u!33 &3436281166408486166
 MeshFilter:
