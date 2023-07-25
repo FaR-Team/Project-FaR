@@ -7,6 +7,9 @@ public class DirtConnectorNew : MonoBehaviour
 
     [Header("Tierra")]
     public GameObject DirtModel;
+    public GameObject Bone;
+
+   
 
     [Serializable]
     public class DirtInformation
@@ -25,12 +28,19 @@ public class DirtConnectorNew : MonoBehaviour
         public Material material_T_Shape;
         public Material material_F_Shape;
 
-        /*public AnimationClip animO;
+        public AnimationClip animO;
         public AnimationClip animI;
         public AnimationClip animP;
         public AnimationClip animL;
         public AnimationClip animT;
-        public AnimationClip animF; */
+        public AnimationClip animF;
+
+        public Transform transformBoneO;
+        public Transform transformBoneI;
+        public Transform transformBoneP;
+        public Transform transformBoneL;
+        public Transform transformBoneT;
+        public Transform transformBoneF;
     }
 
     [SerializeField]
@@ -65,50 +75,60 @@ public class DirtConnectorNew : MonoBehaviour
 
     }
 
-    void SetMaterialAndMesh(int number, SkinnedMeshRenderer gameObjectMeshRenderer)
+    void SetInformation(int number, SkinnedMeshRenderer gameObjectMeshRenderer, Animation animation, Transform bone)
     {
         if (number is 0)
         {
             gameObjectMeshRenderer.material = dirtInformation.material_O_Shape;
             gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_O_Shape;
-
+            animation.clip = dirtInformation.animO;
+            bone = dirtInformation.transformBoneO;
         }
         if (number is 1 or 2 or 4 or 8)
         {
             gameObjectMeshRenderer.material = dirtInformation.material_I_Shape;
             gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_I_Shape;
+            animation.clip = dirtInformation.animI;
+            bone = dirtInformation.transformBoneI;
         }
         if (number is 3 or 6 or 9 or 12)
         {
             gameObjectMeshRenderer.material = dirtInformation.material_L_Shape;
             gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_L_Shape;
+            animation.clip = dirtInformation.animL;
+            bone = dirtInformation.transformBoneL;
         }
         if (number is 5 or 10)
         {
             gameObjectMeshRenderer.material = dirtInformation.material_P_Shape;
             gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_P_Shape;
+            animation.clip = dirtInformation.animP;
+            bone = dirtInformation.transformBoneP;
         }
         if (number is 7 or 11 or 13 or 14)
         {
             gameObjectMeshRenderer.material = dirtInformation.material_T_Shape;
             gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_T_Shape;
+            animation.clip = dirtInformation.animT;
+            bone = dirtInformation.transformBoneT;
         }
         if (number is 15)
         {
             gameObjectMeshRenderer.material = dirtInformation.material_F_Shape;
             gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_F_Shape;
+            animation.clip = dirtInformation.animF;
+            bone = dirtInformation.transformBoneF;
         }
     }
 
     public void SetSelectedBool(GameObject gameObject, int numberOfPosition)
     {
-        //Animation gameObjectAnimation= gameObject.GetComponent<Animation>();
-
         Transform gameObjecTransform = gameObject.GetComponent<Transform>();
-
         SkinnedMeshRenderer gameObjectMeshRenderer = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
+        Animation gameObjectAnimation = gameObject.GetComponentInChildren<Animation>();
+        Transform transformBone = Bone.GetComponent<Transform>();
 
-        SetMaterialAndMesh(numberOfPosition, gameObjectMeshRenderer);
+        SetInformation(numberOfPosition, gameObjectMeshRenderer, gameObjectAnimation, transformBone);
 
         gameObjecTransform.rotation = Rotation(numberOfPosition);
 
