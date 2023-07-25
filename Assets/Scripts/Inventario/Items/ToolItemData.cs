@@ -36,7 +36,7 @@ public class ToolItemData : InventoryItemData
     }
     private bool UseHoe()
     {
-        if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null)
+        if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null && _gridGhost().CheckCrop(_gridGhost().finalPosition, 0.1f) == true)
         {
             if(Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
             {

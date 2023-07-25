@@ -71,6 +71,8 @@ public class GridGhost : MonoBehaviour
             RaycastHit hit;
             RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance - 3, layerMask);
 
+            if (CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f) == false) return;
+
             if (hit.collider != null)
             {
                 finalPosition = grid.GetNearestPointOnGrid(hit.point);
