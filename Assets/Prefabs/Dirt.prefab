@@ -207,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isWet: 0
+  testing: 0
   abilityLevelPlaceholder: 1
   violeta: {fileID: 5765180190978009047}
   currentCrop: {fileID: 0}
@@ -291,8 +292,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 0.5, z: 1}
+  m_Center: {x: 0, y: 0.2, z: 0}
 --- !u!54 &2792414130062634750
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -321,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 71795aaf-379a-479c-afe4-ae4d2a6a55f3
+  _ID: 6040cca0-7a9e-4bff-9a5f-6486d283cc20
 --- !u!1 &7508442044756205147
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,13 +431,13 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   serializedVersion: 2
   m_Quality: 0
-  m_UpdateWhenOffscreen: 0
+  m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: -2432090755550338912, guid: 03c9b1b9e4496264187bfd863f2ac8a3, type: 3}
   m_Bones: []
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Center: {x: 0, y: 0.5, z: 0}
+    m_Extent: {x: 1, y: 0.5, z: 1}
   m_DirtyAABB: 0
