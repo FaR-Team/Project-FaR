@@ -71,7 +71,12 @@ public class GridGhost : MonoBehaviour
             RaycastHit hit;
             RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance - 3, layerMask);
 
-            if (CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f) == false) return;
+            if (CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f) == false) 
+            {
+                MakeGridGhostUnavaliable();
+            } else {
+                MakeGridGhostAvaliable();
+            }
 
             if (hit.collider != null)
             {
@@ -229,12 +234,22 @@ public class GridGhost : MonoBehaviour
     {
         if (remainingEnergy > 0) // CAMBIAR A QUE COMPARE CON LA ENERGIA QUE GASTA LA AZADA
         { 
-            hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
+            MakeGridGhostAvaliable();
         }
         else
         {
-            hoeGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
+            MakeGridGhostUnavaliable();
         }
+    }
+
+    private void MakeGridGhostUnavaliable()
+    {
+        hoeGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
+    }
+
+    private void MakeGridGhostAvaliable()
+    {
+        hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
     }
 
 }

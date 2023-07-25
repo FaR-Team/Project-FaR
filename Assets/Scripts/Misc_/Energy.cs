@@ -30,10 +30,12 @@ public class Energy : MonoBehaviour
     public static Slider _Barra => instance.Barra;
 
     public static event Action<int> OnEnergyUpdated;
+
     private void Awake()
     {
         instance = this;
     }
+    
     void Start()
     {
         _animationComp = GetComponent<Animation>();
