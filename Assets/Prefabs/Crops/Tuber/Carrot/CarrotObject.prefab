@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 1138059154088329412}
   - component: {fileID: 1138059154088329413}
   - component: {fileID: 5502946565805107261}
-  m_Layer: 0
+  - component: {fileID: 2673694845726382411}
+  m_Layer: 12
   m_Name: CarrotObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +114,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 1
+  m_Radius: 1.5
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!114 &1138059154088329412
 MonoBehaviour:
@@ -127,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2b2a3270-400b-4bd5-bcbf-b9f7154cccd9
+  _ID: 9be3dde9-92c9-4a58-a101-fb826f30b6c3
 --- !u!114 &1138059154088329413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,12 +136,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6461032584782359218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6f0e7b6cf89a1cb4799f1a1b57e55389, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PickUpRadius: 1
+  PickUpRadius: 3
   ItemData: {fileID: 11400000, guid: ed5118089d2f4d747a4abb1145371469, type: 2}
   itemSaveData:
     ItemData: {fileID: 0}
@@ -162,3 +163,16 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2673694845726382411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6461032584782359218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96551653d576706439f18155c31ecace, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1.5

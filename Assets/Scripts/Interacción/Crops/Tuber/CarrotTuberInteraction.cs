@@ -19,13 +19,13 @@ public class CarrotTuberInteraction : CropInteraction
     public override IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.5f);
-
+        
         foreach (GameObject fruit in Fruits())
         {
+            fruit.AddComponent<Outline>();
             fruit.GetComponent<FallingFruit>().FallTuber();
         }
 
-        already = false;
         GetComponent<CropExplode>().Chau();
     }
 
@@ -37,7 +37,7 @@ public class CarrotTuberInteraction : CropInteraction
 
         for (int i = 0; i < randNum; i++)
         {
-            Instantiate(Prefab, new Vector3(this.transform.position.x, 2, this.transform.position.z), Quaternion.Euler(0, 0, 0));
+            fruits.Add(Instantiate(Prefab, new Vector3(this.transform.position.x, 2, this.transform.position.z), Quaternion.Euler(0, 0, 0)));
         }
         
         return fruits;

@@ -92,6 +92,7 @@ public class FaRCommands : MonoBehaviour
 		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
 		{
 			dirt.GetComponent<Dirt>().testing = true;
+			dirt.GetComponent<Dirt>()._isWet = true;
 		}
         _cama._yourLetterArrived = true;
 	}
@@ -102,6 +103,7 @@ public class FaRCommands : MonoBehaviour
 		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
 		{
 			dirt.GetComponent<Dirt>().testing = false;
+			dirt.GetComponent<Dirt>()._isWet = false;
 		}
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
