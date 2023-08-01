@@ -22,10 +22,13 @@ public class CropExplode : MonoBehaviour
         //center = thisCropDirt.transform.position;
     }    
     
-    public void Chau()
+    public void StartAnimationAndExplode()
     {
         //TODO: No matarse (En swahilli).
-        StartCoroutine(Destruir());
+        if (this.GetComponent<Animation>() != null)
+        {
+            this.GetComponent<Animation>().Play();
+        }
     }
 
     private int GetRandomInt()
@@ -38,27 +41,23 @@ public class CropExplode : MonoBehaviour
         return player.transform.GetComponent<PlayerInventoryHolder>();
     }
 
-    IEnumerator Destruir()
+    public void Destruir()
     {
-        //TODO: Get and do dirtAnimation.
-        yield return new WaitForSeconds(2.5f);
-
-        if (thisCropDirt.GetComponent<Animation>() != null)
+        if (thisCropDirt.GetComponentInChildren<Animation>() != null)
         {
-            thisCropDirt.GetComponent<Animation>().Play();
+            thisCropDirt.GetComponentInChildren<Animation>().Play();
         }
         Instantiate(ExplotionGameObject, GetPosition(), Quaternion.Euler(0, 0, 0));
         
         GetComponent<MeshRenderer>().enabled = false;
+        GetComponent<CarrotTuberInteraction>().InstantiateAndDropCarrots();
         Destroy(gameObject.GetComponent<Outline>());
-
-        yield return new WaitForSeconds(0.5f);
 
         DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, thisCropDirt);
     }
 
     private Vector3 GetPosition()
     {
-        return new Vector3(transform.root.GetChild(0).position.x, 2, transform.root.GetChild(0).position.z);
+        return new Vector3(transform.parent.position.x, 2, transform.parent.position.z);
     }
 }

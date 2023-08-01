@@ -94,7 +94,6 @@ public class Carrot : MonoBehaviour, IInteractable
     {
         yield return new WaitForSeconds(0.5f);
         GetComponent<FallingFruit>().FallTuber();
-        GetComponent<CropExplode>().Chau();
     }
 
 

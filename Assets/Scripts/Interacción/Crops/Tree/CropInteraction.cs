@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FaRUtils;
@@ -44,8 +45,8 @@ public class CropInteraction : MonoBehaviour, IInteractable
 
         if (Energy.instance.TryUseAndAnimateEnergy(1, 5f))
         {
-            AddOutline();
-            StartCoroutine(Wait());
+           Harvest(); //TODO: todas deberían de usar harvest, no wait.
+           StartCoroutine(Wait());
         }
     }
 
@@ -57,17 +58,11 @@ public class CropInteraction : MonoBehaviour, IInteractable
         }
     }
 
+    public virtual void Harvest(){ }
+
     public virtual IEnumerator Wait()
     {
-        yield return new WaitForSeconds(0.5f);
-
-        foreach (GameObject fruit in Fruits())
-        {
-            GetComponent<CropExplodeBush>().Chau(fruit);
-        }
-        gameObject.layer = 0;
-        DoEnumeratorIfMaxRegrows();
-        already = false;
+        yield return null;
     }
 
     public virtual void DoEnumeratorIfMaxRegrows()
