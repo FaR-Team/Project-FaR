@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1749771064063681160}
   - component: {fileID: 6239232894413706817}
   - component: {fileID: 2188836714450380470}
+  - component: {fileID: 2226002058343656652}
   m_Layer: 0
   m_Name: newCarrot
   m_TagString: Untagged
@@ -53,7 +54,7 @@ MonoBehaviour:
   meshes:
   - {fileID: -2432090755550338912, guid: a607781ba7a8d94419700ca741b360bf, type: 3}
   - {fileID: -2432090755550338912, guid: d3a64a90a23c8ae479b32521f4fc9e14, type: 3}
-  - {fileID: -2432090755550338912, guid: 9e54d6a30758cab419e6a0c8260a8520, type: 3}
+  - {fileID: -3610810130210537131, guid: fb18bc66d1c24dd4f8f88c017c04fec7, type: 3}
   materials:
   - {fileID: 2100000, guid: 3fb419360618a7c49b096d4d6b8365c5, type: 2}
   - {fileID: 2100000, guid: 3034a85381a0ecb4c9922554360c65ec, type: 2}
@@ -167,7 +168,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: -2432090755550338912, guid: a607781ba7a8d94419700ca741b360bf, type: 3}
 --- !u!114 &2188836714450380470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +182,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 0dcf214e-3751-40f3-b98c-729911f3abde
+--- !u!111 &2226002058343656652
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97846187706656559}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations: []
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
