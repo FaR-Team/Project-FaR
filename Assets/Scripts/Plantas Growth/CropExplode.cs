@@ -18,7 +18,7 @@ public class CropExplode : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        thisCropDirt = transform.parent.gameObject;
+        thisCropDirt = transform.parent.parent.gameObject;
         //center = thisCropDirt.transform.position;
     }    
     
@@ -48,18 +48,19 @@ public class CropExplode : MonoBehaviour
     public IEnumerator Destruir()
     {
         thisCropDirt.transform.position = new Vector3(thisCropDirt.transform.position.x, -2, thisCropDirt.transform.position.z);
-        Instantiate(ExplotionGameObject, GetPosition(), Quaternion.Euler(0, 0, 0));
+        Instantiate(ExplotionGameObject, GetPosition(), Quaternion.identity);
         
-        GetComponent<MeshRenderer>().enabled = false;
+        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         GetComponent<CarrotTuberInteraction>().InstantiateAndDropCarrots();
         Destroy(gameObject.GetComponent<Outline>());
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
         DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, thisCropDirt);
+        Destroy(gameObject.transform.parent.gameObject);
     }
 
     private Vector3 GetPosition()
     {
-        return new Vector3(transform.parent.position.x, 2, transform.parent.position.z);
+        return new Vector3(transform.parent.parent.position.x, 2, transform.parent.parent.position.z);
     }
 }

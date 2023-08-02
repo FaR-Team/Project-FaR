@@ -11,6 +11,7 @@ public class Dirt : MonoBehaviour
 
     public bool testing;
 
+    public GameObject colliders;
 
     public int abilityLevelPlaceholder = 1;
     public bool IsEmpty => _isEmpty;
@@ -43,6 +44,12 @@ public class Dirt : MonoBehaviour
     {
         _isWet = true;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
+    }
+
+    public void GetDown()
+    {
+        //AND MOVE IT ON THE GROUND
+        colliders.transform.position = new Vector3(colliders.transform.position.x, -2, colliders.transform.position.z);
     }
 
     public void DryDirt(int hour)

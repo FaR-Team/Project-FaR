@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 4810361811969591141}
   - component: {fileID: 6296744531721978379}
   - component: {fileID: 7186549231881675608}
+  - component: {fileID: 5652570564253664906}
   m_Layer: 0
   m_Name: Texture
   m_TagString: Untagged
@@ -234,6 +235,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.049999952, y: 0.24915373, z: 0}
     m_Extent: {x: 1.0999999, y: 0.25, z: 1.0499997}
   m_DirtyAABB: 0
+--- !u!114 &5652570564253664906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421658028248494887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 049449db6eb7efe49aa96ed9fedc7d94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &627641666861754280
 GameObject:
   m_ObjectHideFlags: 0
@@ -424,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isWet: 0
   testing: 0
+  colliders: {fileID: 298685377412610436}
   abilityLevelPlaceholder: 1
   violeta: {fileID: 5765180190978009047}
   currentCrop: {fileID: 0}
@@ -538,4 +552,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 71adff03-ea75-445c-a5ab-815d288a4879
+  _ID: 262e3b36-5b02-454a-8057-9746b10117be

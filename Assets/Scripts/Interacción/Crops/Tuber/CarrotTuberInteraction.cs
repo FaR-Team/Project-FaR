@@ -17,7 +17,8 @@ public class CarrotTuberInteraction : CropInteraction
 
     public override void Harvest()
     {
-        this.gameObject.AddComponent<Outline>();
+        var VisibleGO = this.GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
+        VisibleGO.AddComponent<Outline>();
         this.GetComponent<CropExplode>().StartAnimationAndExplode();
     }
 

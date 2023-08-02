@@ -66,7 +66,7 @@ public class GrowingBase : MonoBehaviour
         }
     }
 
-    public void SetInteractable(int i)
+    public virtual void SetInteractable(int i)
     {
         if (IsLastPhase(i) && !isFruit)
         {
@@ -74,7 +74,7 @@ public class GrowingBase : MonoBehaviour
         }
     }
     
-    bool IsLastPhase(int numero)
+    public bool IsLastPhase(int numero)
     {
         if (DayForChangeOfPhase.Length == 0)
         {

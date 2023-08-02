@@ -34,6 +34,10 @@ public class FallingFruit : MonoBehaviour
 
     IEnumerator DropFruit()
     {
+        if (this.GetComponent<Outline>() == null)
+        {
+            this.gameObject.AddComponent<Outline>();
+        }
         yield return new WaitForSeconds(0.5f);
         GetComponent<ItemPickUp>().enabled = true;
         GetComponent<SphereCollider>().enabled = true;
