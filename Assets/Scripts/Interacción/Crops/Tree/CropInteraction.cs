@@ -7,6 +7,7 @@ using FaRUtils;
 public class CropInteraction : MonoBehaviour, IInteractable
 {
     public GameObject Crop;
+    private GameObject dirt;
     public Animation anim;
     public GameObject _prompt;
 
@@ -16,6 +17,7 @@ public class CropInteraction : MonoBehaviour, IInteractable
     public virtual void Awake()
     {
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
+        dirt = GetComponentInParent<Dirt>().gameObject;
     }
 
     public virtual List<GameObject> Fruits()
@@ -45,8 +47,9 @@ public class CropInteraction : MonoBehaviour, IInteractable
 
         if (Energy.instance.TryUseAndAnimateEnergy(1, 5f))
         {
-           Harvest(); //TODO: todas deberían de usar harvest, no wait.
-           StartCoroutine(Wait());
+            dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
+            Harvest(); //TODO: todas deberían de usar harvest, no wait.
+            StartCoroutine(Wait());
         }
     }
 
