@@ -13,11 +13,11 @@ public class CarrotTuberInteraction : CropInteraction
         base.Awake();
 
         GrowingCrop = GetComponent<GrowingCrop>();
-       
     }
 
     public override void Harvest()
     {
+        this.gameObject.AddComponent<Outline>();
         this.GetComponent<CropExplode>().StartAnimationAndExplode();
     }
 

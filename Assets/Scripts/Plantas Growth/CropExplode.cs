@@ -29,6 +29,10 @@ public class CropExplode : MonoBehaviour
         {
             this.GetComponent<Animation>().Play();
         }
+        if (thisCropDirt.GetComponentInChildren<Animation>() != null)
+        {
+            thisCropDirt.GetComponentInChildren<Animation>().Play();
+        }
     }
 
     private int GetRandomInt()
@@ -41,18 +45,16 @@ public class CropExplode : MonoBehaviour
         return player.transform.GetComponent<PlayerInventoryHolder>();
     }
 
-    public void Destruir()
+    public IEnumerator Destruir()
     {
-        if (thisCropDirt.GetComponentInChildren<Animation>() != null)
-        {
-            thisCropDirt.GetComponentInChildren<Animation>().Play();
-        }
+        thisCropDirt.transform.position = new Vector3(thisCropDirt.transform.position.x, -2, thisCropDirt.transform.position.z);
         Instantiate(ExplotionGameObject, GetPosition(), Quaternion.Euler(0, 0, 0));
         
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<CarrotTuberInteraction>().InstantiateAndDropCarrots();
         Destroy(gameObject.GetComponent<Outline>());
 
+        yield return new WaitForSeconds(1);
         DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, thisCropDirt);
     }
 
