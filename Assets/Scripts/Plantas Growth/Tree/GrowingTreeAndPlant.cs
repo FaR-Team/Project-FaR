@@ -10,6 +10,7 @@ public class GrowingTreeAndPlant : GrowingBase
     
     public List<Transform> spawnPoints;
     public List<GameObject> fruits;
+    private GameObject Tierra;
         
     public int ReGrow; //Veces que volvio a dar frutos.
     public int ReGrowMaxTimes; //Veces maxima que puede volver a dar frutos.
@@ -21,6 +22,7 @@ public class GrowingTreeAndPlant : GrowingBase
     [HideInInspector] public int ExpectedInt;
     public int horasQuePasaronSinFrutas;
     public int horasQueDebenPasarSinFrutas;
+
     
     public override void OnHourChanged(int hour)
     {
@@ -54,7 +56,7 @@ public class GrowingTreeAndPlant : GrowingBase
         for (int i = 0; i < RandInt; i++)
         {
             Transform Spawn = GetRandomSP();
-            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
+            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation);
             fruits.Add(fruit.transform.gameObject);
         }
 
@@ -67,8 +69,7 @@ public class GrowingTreeAndPlant : GrowingBase
     }
     public virtual IEnumerator BushCedeLaPresidencia() //LA CONCHA DE TU MADRE SATIA QUE NOMBRE DE MIERDA.
     {
-       // Tierra.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);
-        //Destroy(Tierra.transform.parent.gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }

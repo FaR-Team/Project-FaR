@@ -25,6 +25,7 @@ public class StrawberryBushInteraction : CropInteraction
         }
         
         bushGrowing.StartReGrowBush();
+        print("StartReGrowBush");
 
         DoEnumeratorIfMaxRegrows();
 

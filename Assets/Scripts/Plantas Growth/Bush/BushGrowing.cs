@@ -51,7 +51,8 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
     {
         TierraTexture.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);
-        Tierra.gameObject.SetActive(false);
+        Destroy(this.gameObject);
+        DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, Tierra.gameObject);
     }
 
 }
