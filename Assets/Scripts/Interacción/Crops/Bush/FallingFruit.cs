@@ -43,5 +43,6 @@ public class FallingFruit : MonoBehaviour
         GetComponent<SphereCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Outline>().enabled = false;
+        this.transform.parent = null;
     }
 }
