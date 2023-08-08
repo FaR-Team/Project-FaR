@@ -29,8 +29,7 @@ public class CropExplodeBush : MonoBehaviour
         Vector3 pos = new Vector3 (Tierra.transform.position.x, 2, Tierra.transform.position.z);
         var inventory = jugador.transform.GetComponent<PlayerInventoryHolder>();
         inventory.AñadirAInventario(ItemData, 1);
-        GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));
-        //YaExploto = true;
+        Instantiate(Coso, pos, Quaternion.identity);
         Crop = FrutillaObj;
         StartCoroutine(Destruir());
     }

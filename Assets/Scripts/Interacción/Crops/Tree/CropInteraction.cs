@@ -29,6 +29,7 @@ public class CropInteraction : MonoBehaviour, IInteractable
     {
         if (Energy.RemainingEnergy >= 1)
         {
+            dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
             InteractOut();
             interactSuccessful = true;
         }
@@ -47,7 +48,6 @@ public class CropInteraction : MonoBehaviour, IInteractable
 
         if (Energy.instance.TryUseAndAnimateEnergy(1, 5f))
         {
-            dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
             Harvest(); //TODO: todas deberían de usar harvest, no wait.
             StartCoroutine(Wait());
         }

@@ -56,7 +56,7 @@ public class GrowingTreeAndPlant : GrowingBase
         for (int i = 0; i < RandInt; i++)
         {
             Transform Spawn = GetRandomSP();
-            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation);
+            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
             fruits.Add(fruit.transform.gameObject);
         }
 
