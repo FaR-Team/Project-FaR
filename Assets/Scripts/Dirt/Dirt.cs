@@ -19,6 +19,8 @@ public class Dirt : MonoBehaviour
     public GameObject violeta;
     public GameObject currentCrop;
     public SeedItemData currentCropData;
+
+    public GameObject TextureAnimation;
     
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
@@ -62,12 +64,20 @@ public class Dirt : MonoBehaviour
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
     }
 
+    void OnEnable()
+    {
+        TextureAnimation = GetComponentInChildren<Animation>().gameObject;
+        TextureAnimation.GetComponent<Animation>().enabled = true;
+    }
 
-    private void OnDisable()
+    void OnDisable()
     {
         currentCrop = null;
         currentCropData = null;
         _isEmpty = true;
         _isWet= false;
+        //GetComponentInChildren<Animation>().Stop() ;
+        TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
+        colliders.transform.position = this.transform.position;
     }
 }

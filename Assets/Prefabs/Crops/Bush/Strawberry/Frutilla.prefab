@@ -57,9 +57,9 @@ MonoBehaviour:
   - {fileID: -2432090755550338912, guid: 5cbd0605bc37c954cab66697bc26d068, type: 3}
   - {fileID: -2432090755550338912, guid: b7411ae837e9d8641a6d421a61167a32, type: 3}
   materials:
-  - {fileID: 2100000, guid: b03bb6b70672bc0458d07cc4695f7c79, type: 2}
-  - {fileID: 2100000, guid: b03bb6b70672bc0458d07cc4695f7c79, type: 2}
-  - {fileID: 2100000, guid: adf24c2f84248854c93be4c3cb3f7411, type: 2}
+  - {fileID: 2100000, guid: f4025d346e8c64b4682eb73c3f94e1d4, type: 2}
+  - {fileID: 2100000, guid: 89d24429c37f72346a29faceed21d91e, type: 2}
+  - {fileID: 2100000, guid: 21b0b4b0aa05f0c469012337d1819af1, type: 2}
   DiasPlantado: 0
   DayForChangeOfPhase: 010000000200000003000000
   isFruit: 0
@@ -117,7 +117,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b03bb6b70672bc0458d07cc4695f7c79, type: 2}
+  - {fileID: 2100000, guid: f4025d346e8c64b4682eb73c3f94e1d4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -206,3 +206,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96551653d576706439f18155c31ecace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1.5

@@ -8,6 +8,19 @@ public class DirtConnectorNew : MonoBehaviour
     [Header("Tierra")]
     public GameObject DirtModel;
 
+    void OnEnable()
+    {
+        SkinnedMeshRenderer gameObjectMeshRenderer = DirtModel.GetComponentInChildren<SkinnedMeshRenderer>();
+        
+        gameObjectMeshRenderer.material = dirtInformation.material_O_Shape;
+        gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_O_Shape;
+
+        isSur = false;
+        isOeste = false;
+        isNorte = false;
+        isEste = false;
+    }
+
     [Serializable]
     public class DirtInformation
     {
