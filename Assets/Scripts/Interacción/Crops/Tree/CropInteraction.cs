@@ -12,11 +12,14 @@ public class CropInteraction : MonoBehaviour, IInteractable
     public GameObject _prompt;
 
     public bool already;
+    public bool isTree;
+
     public GameObject InteractionPrompt => _prompt;
 
     public virtual void Awake()
     {
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
+        if (isTree) return;
         dirt = GetComponentInParent<Dirt>().gameObject;
     }
 
@@ -29,7 +32,10 @@ public class CropInteraction : MonoBehaviour, IInteractable
     {
         if (Energy.RemainingEnergy >= 1)
         {
-            dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
+            if (!isTree)
+            {
+                dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
+            }
             InteractOut();
             interactSuccessful = true;
         }
