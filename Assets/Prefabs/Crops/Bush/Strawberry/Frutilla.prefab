@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 9212080036892319480}
   - component: {fileID: 3582513621652066534}
   - component: {fileID: 8566228381171726005}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Frutilla
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,13 +62,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 21b0b4b0aa05f0c469012337d1819af1, type: 2}
   DiasPlantado: 0
   DayForChangeOfPhase: 010000000200000003000000
-  isFruit: 0
+  isFruit: 1
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
   cropSaveData:
     Position: {x: 0, y: 0, z: 0}
-    _Dia: 0
+    Dia: 0
+    ID: 
   tierra: {fileID: 0}
 --- !u!114 &5635400694032940231
 MonoBehaviour:
@@ -82,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b69eb8c8-0857-4a3d-8188-34c7ef4b5710
+  _ID: 8a5f1aff-673f-4ae5-b2c3-8a18c39caf42
 --- !u!64 &2604436617986386753
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -174,6 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PickUpRadius: 1
   ItemData: {fileID: 11400000, guid: ca90483bc4973cd488608dc08c041bfb, type: 2}
+  PickUpClip: {fileID: 8300000, guid: dd9b63af1ddee4140aadb924057a501d, type: 3}
   itemSaveData:
     ItemData: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}

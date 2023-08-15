@@ -233,7 +233,8 @@ GameObject:
   - component: {fileID: 1352523940781471793}
   - component: {fileID: 6249270078855053117}
   - component: {fileID: 5625562927626743698}
-  m_Layer: 0
+  - component: {fileID: 662524551239435248}
+  m_Layer: 3
   m_Name: Texture
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -339,6 +340,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 049449db6eb7efe49aa96ed9fedc7d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!64 &662524551239435248
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2932419065447400623}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4643906708871355502, guid: 2b7e3debfa98c4c47b33b60f3a094ab9, type: 3}
 --- !u!1 &3417564682158810610
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,6 +442,7 @@ MonoBehaviour:
   violeta: {fileID: 5765180190978009047}
   currentCrop: {fileID: 0}
   currentCropData: {fileID: 0}
+  TextureAnimation: {fileID: 0}
 --- !u!114 &2994759415163273886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -568,4 +584,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 27cf0d59-b5ab-4daf-a94c-c9fe8a63e251
+  _ID: c6a48566-da82-40c2-b12c-b4fbbefcffd0

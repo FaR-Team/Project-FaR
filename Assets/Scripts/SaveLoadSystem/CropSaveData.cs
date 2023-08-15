@@ -4,11 +4,13 @@
 public struct CropSaveData
 {
     public Vector3 Position;
-    public int _Dia;
+    public int Dia;
+    public string ID;
 
-    public CropSaveData(int Dia, Vector3 _position)
+    public CropSaveData(int _dia, Vector3 _position, string _id)
     {
-        _Dia = Dia;
+        Dia = _dia;
         Position = _position;
+        ID = _id;
     }
 }

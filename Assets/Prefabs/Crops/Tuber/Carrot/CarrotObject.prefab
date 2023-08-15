@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 1138059154088329413}
   - component: {fileID: 5502946565805107261}
   - component: {fileID: 2673694845726382411}
-  m_Layer: 12
+  m_Layer: 0
   m_Name: CarrotObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -143,6 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PickUpRadius: 3
   ItemData: {fileID: 11400000, guid: ed5118089d2f4d747a4abb1145371469, type: 2}
+  PickUpClip: {fileID: 8300000, guid: dd9b63af1ddee4140aadb924057a501d, type: 3}
   itemSaveData:
     ItemData: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}

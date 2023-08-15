@@ -10,7 +10,7 @@ namespace FaRUtils.FPSController
         private CharacterController _controller;
         
         [SerializeField] private Camera cam;
-        [SerializeField] private float movementSpeed = 2.0f;
+        [SerializeField] private float movementSpeed = 20f;
         [SerializeField] public float lookSensitivity = 1.0f;
         
         private float _xRotation = 0f;
@@ -23,6 +23,7 @@ namespace FaRUtils.FPSController
 
         public bool doZoom;
         public bool doCrouch;
+        public bool doWalk;
 
         [Header("Parámetros de zoom")]
         public float zoomFOV = 35.0f;
@@ -58,6 +59,7 @@ namespace FaRUtils.FPSController
             DoLooking();
             DoZoom();
             DoCrouch();
+            DoWalk();
         }
 
         public void DoLooking()
@@ -135,6 +137,20 @@ namespace FaRUtils.FPSController
                 {
                     _controller.height = _initHeight;
                 }
+            }
+        }
+
+        private void DoWalk()
+        {
+            if (!doWalk) return;
+
+            if (GameInput.playerInputActions.Player.Sprint.WasPressedThisFrame())
+            {
+                movementSpeed = 6.0f;
+            }
+            else if (GameInput.playerInputActions.Player.Sprint.WasReleasedThisFrame())
+            {
+                movementSpeed = 20f;
             }
         }
 

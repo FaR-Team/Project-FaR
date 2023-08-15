@@ -12,7 +12,7 @@ public class GrowingTuber : GrowingBase
     void Awake()
     {
         SaveLoad.OnLoadGame += LoadGame;
-        cropSaveData = new CropSaveData(DiasPlantado, transform.position);
+        cropSaveData = new CropSaveData(DiasPlantado, transform.position, id);
         tierra = transform.parent.GetComponent<Dirt>();
     }
 

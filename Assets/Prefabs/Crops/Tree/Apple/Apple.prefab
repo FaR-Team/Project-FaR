@@ -82,7 +82,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   cropSaveData:
     Position: {x: 0, y: 0, z: 0}
-    _Dia: 0
+    Dia: 0
+    ID: 
   tierra: {fileID: 0}
 --- !u!114 &7592882300038889552
 MonoBehaviour:
@@ -132,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PickUpRadius: 5
   ItemData: {fileID: 11400000, guid: 094bb315d8984794aa2992499392580f, type: 2}
+  PickUpClip: {fileID: 8300000, guid: dd9b63af1ddee4140aadb924057a501d, type: 3}
   itemSaveData:
     ItemData: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}
@@ -211,6 +213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96551653d576706439f18155c31ecace, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 1.5
 --- !u!54 &2410825519663046084
 Rigidbody:
   m_ObjectHideFlags: 0
