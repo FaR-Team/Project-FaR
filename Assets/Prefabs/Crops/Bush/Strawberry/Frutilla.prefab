@@ -83,7 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8a5f1aff-673f-4ae5-b2c3-8a18c39caf42
+  _ID: 27129684-8734-4026-8d8a-109ae4d6f6cc
 --- !u!64 &2604436617986386753
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -159,8 +159,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0.45000002, y: 1.7, z: 0.25}
+  m_Radius: 0.6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &9212080036892319480
 MonoBehaviour:
   m_ObjectHideFlags: 0
