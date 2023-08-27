@@ -6,15 +6,33 @@ using Discord;
 public class DiscordController : MonoBehaviour
 {
     public Discord.Discord discord;
+    public static DiscordController instance { get; private set; }
+
+    void Awake()
+    {
+        if (instance != null && instance != this) 
+        { 
+            Destroy(this); 
+        } 
+        else 
+        { 
+            instance = this; 
+        } 
+    }
 
     void Start()
     {
         discord = new Discord.Discord(1046654363021623377, (System.UInt64)Discord.CreateFlags.Default);
+        UpdateDiscordRP("Beginning an adventure");
+    }
+
+    public void UpdateDiscordRP(string text)
+    {
         var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity
         {
             Details = Application.version,
-            State = "Beginning an adventure",
+            State = text,
             Timestamps = {
                 Start = System.DateTimeOffset.Now.ToUnixTimeMilliseconds()
             },
