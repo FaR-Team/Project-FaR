@@ -11,7 +11,7 @@ public class DialogueTrigger :  MonoBehaviour, IInteractable
 
     public DSDialogueContainerSO dialogueContainerSO;
 
-    public string NPCname;
+    public string NPC_name;
 
     public void EndInteraction()
     {
@@ -26,6 +26,6 @@ public class DialogueTrigger :  MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        DialogueManager.instance.StartDialogueSequence(dialogueContainerSO, NPCname);
+        DialogueManager.instance.StartDialogueSequence(dialogueContainerSO, NPC_name);
     }
 }

@@ -1,9 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using DS.Data;
+using DS.Enumerations;
 using DS.ScriptableObjects;
 using FaRUtils.FPSController;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -13,12 +17,11 @@ public class DialogueManager : MonoBehaviour
     public bool IsOpen { get; private set; }
 
     private GameObject player;
-
-    public DSDialogueSO startingDialogue;
     public GameObject dialoguePanel;
+    public GameObject dialogueChoicesContainer;
+    public GameObject choicesPrefab;
     public TextMeshProUGUI dialogueName;
     public TextMeshProUGUI dialogueText;
-
     private TypewriterEffect typewriterEffect;
 
 
@@ -57,38 +60,57 @@ public class DialogueManager : MonoBehaviour
     public void CloseDialogueBox()
     {
         IsOpen = false;
-        dialoguePanel.SetActive(false);
         player.GetComponent<FaRCharacterController>().enabled = true;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         dialogueText.text = string.Empty;
+        dialoguePanel.SetActive(false);
     }
 
     private IEnumerator StepThroughDialogue(DSDialogueSO dialogueObject)
-{
-    for (int i = 0; i < dialogueObject.Text.Length; i++)
     {
-        char dialogueChar = dialogueObject.Text[i];
+        dialogueText.text = ""; // Vaciar el texto antes de empezar
 
-        yield return RunTypingEffect(dialogueChar.ToString());
+        yield return RunTypingEffect(dialogueObject.Text.ToString()); // Convertirlo a string y ejecutar RunTypingEffect
 
-        dialogueText.text += dialogueChar;
-
-        if (i == dialogueObject.Text.Length - 1 && dialogueObject.HasChoices) break;
-
-        yield return new WaitForSeconds(0.05f);
-        yield return new WaitUntil(() => Input.anyKey);
+        if (dialogueObject.DialogueType ==  DSDialogueType.MultipleChoice)
+        {
+            yield return new WaitWhile(() => typewriterEffect.isRunning);
+            ShowResponses(dialogueObject.Choices);
+        }
+        else if (dialogueObject.DialogueType ==  DSDialogueType.SingleChoice)
+        {
+            yield return new WaitUntil(() => Input.anyKey);
+            yield return new WaitWhile(() => typewriterEffect.isRunning);
+            if (dialogueObject.Choices[0].NextDialogue != null)
+            {
+                StartCoroutine(StepThroughDialogue(dialogueObject.Choices[0].NextDialogue));
+            } else {
+                CloseDialogueBox();
+            }   
+        }
     }
 
-    if (dialogueObject.HasChoices)
+    private void ShowResponses(List<DSDialogueChoiceData> choices)
     {
-        // responseHandler.ShowResponses(dialogueObject.Choices);
+        foreach (DSDialogueChoiceData choice in choices) 
+        {
+            GameObject _choice = Instantiate(choicesPrefab, dialogueChoicesContainer.transform);
+            var choiceText = _choice.GetComponentInChildren<TextMeshProUGUI>();
+            choiceText.text = choice.Text;
+            _choice.GetComponent<Button>().onClick.AddListener(() => selectedChoice(choice.NextDialogue));
+        }
     }
-    else
+
+    private void selectedChoice(DSDialogueSO nextDialogue)
     {
-        CloseDialogueBox();
+        foreach (Transform child in dialogueChoicesContainer.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        StartCoroutine(StepThroughDialogue(nextDialogue));
     }
-}
 
     private IEnumerator RunTypingEffect(string dialogue)
     {
@@ -96,12 +118,11 @@ public class DialogueManager : MonoBehaviour
 
         while (typewriterEffect.isRunning)
         {
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.1f);
 
-            if (Input.anyKey)
-            {
-                typewriterEffect.Stop();
-            }
+            yield return new WaitUntil(() => Input.anyKey);
+            typewriterEffect.Stop();
+            dialogueText.text = dialogue;
         }
     }
 }
