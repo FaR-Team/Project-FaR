@@ -2,6 +2,8 @@ using System.Security.AccessControl;
 using System.Collections.Generic;
 using UnityEngine;
 using FaRUtils.Systems.DateTime;
+using FaRUtils.Systems.Weather;
+using System.Collections;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -27,8 +29,11 @@ public class Dirt : MonoBehaviour
     void Start()
     {
         _isEmpty = true;
+
         DateTime.OnHourChanged.AddListener(DryDirt);
+        WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
+
     public bool GetCrop(SeedItemData itemData)
     {
         _isEmpty = false;
@@ -50,7 +55,7 @@ public class Dirt : MonoBehaviour
 
     public void GetDown()
     {
-        //AND MOVE IT ON THE GROUND
+        //AND MOVE IT ALL AROUND
         colliders.transform.position = new Vector3(colliders.transform.position.x, -2, colliders.transform.position.z);
     }
 
@@ -58,7 +63,7 @@ public class Dirt : MonoBehaviour
     {
         if (testing) return;
         
-        if(hour != 6) return;
+        if(hour != 5) return;
 
         _isWet = false;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
@@ -79,5 +84,7 @@ public class Dirt : MonoBehaviour
         //GetComponentInChildren<Animation>().Stop() ;
         TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
         colliders.transform.position = this.transform.position;
+        DateTime.OnHourChanged.RemoveListener(DryDirt);
+        WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
     }
 }

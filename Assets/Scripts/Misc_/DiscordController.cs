@@ -23,16 +23,11 @@ public class DiscordController : MonoBehaviour
     void Start()
     {
         discord = new Discord.Discord(1046654363021623377, (System.UInt64)Discord.CreateFlags.Default);
-        UpdateDiscordRP("Beginning an adventure");
-    }
-
-    public void UpdateDiscordRP(string text)
-    {
         var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity
         {
             Details = Application.version,
-            State = text,
+            State = "Beginning an adventure",
             Timestamps = {
                 Start = System.DateTimeOffset.Now.ToUnixTimeMilliseconds()
             },

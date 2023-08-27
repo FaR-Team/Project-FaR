@@ -26,7 +26,6 @@ public class DialogueTrigger :  MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        DiscordController.instance.UpdateDiscordRP("Talking to " + NPC_name);
         DialogueManager.instance.StartDialogueSequence(dialogueContainerSO, NPC_name);
     }
 }

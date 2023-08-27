@@ -9,7 +9,7 @@ public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta
     public override void OnHourChanged(int hour)
     {
         
-        if (hour != 5) return;
+        if (hour != 4) return;
 
         DiasPlantado++;
         CheckDayGrow();

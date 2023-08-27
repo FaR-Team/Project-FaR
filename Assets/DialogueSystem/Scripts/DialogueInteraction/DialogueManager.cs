@@ -65,8 +65,6 @@ public class DialogueManager : MonoBehaviour
         Cursor.visible = false;
         dialogueText.text = string.Empty;
         dialoguePanel.SetActive(false);
-
-        DiscordController.instance.UpdateDiscordRP("Beginning an adventure");
     }
 
     private IEnumerator StepThroughDialogue(DSDialogueSO dialogueObject)

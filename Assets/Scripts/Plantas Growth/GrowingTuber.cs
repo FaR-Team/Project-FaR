@@ -31,7 +31,7 @@ public class GrowingTuber : GrowingBase
     }
     public override void OnHourChanged(int hour)
     {
-        if (!tierra._isWet || hour != 5) return;
+        if (!tierra._isWet || hour != 4) return;
 
         DiasPlantado++;
         CheckDayGrow();
