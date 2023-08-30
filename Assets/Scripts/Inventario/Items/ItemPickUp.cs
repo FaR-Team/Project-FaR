@@ -59,8 +59,8 @@ public class ItemPickUp : MonoBehaviour
         if (!inventory) return;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
         audioSource.volume = 0.3f;
-        audioSource.clip = PickUpClip;
-        audioSource.Play();
+        
+        audioSource.PlayOneShot(PickUpClip);
 
         if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
         {

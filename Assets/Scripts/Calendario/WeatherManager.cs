@@ -17,7 +17,7 @@ namespace FaRUtils.Systems.Weather
 
         [Header("Efectos del Clima")]
         [SerializeField] ParticleSystem rainParticles;
-        //[SerializeField] ParticleSystem snowParticles;
+        [SerializeField] ParticleSystem snowParticles;
         [SerializeField] ParticleSystem cloudParticles;
 
         [Header("Debug")]
@@ -43,7 +43,7 @@ namespace FaRUtils.Systems.Weather
         private void Start()
         {
             rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            //snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(CheckHourChangedForWeatherChange);
 
@@ -86,24 +86,24 @@ namespace FaRUtils.Systems.Weather
             {
                 case Weather.Sunny:
                     rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    //snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     break;
                 case Weather.Cloudy:
                     rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    //snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     cloudParticles.Play();
                     IsCloudy?.Invoke();
                     break;
                 case Weather.Rain:
                     rainParticles.Play();
-                    //snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                    snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     IsRaining?.Invoke();
                     break;
                 case Weather.Snow:
                     rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    //snowParticles.Play();
+                    snowParticles.Play();
                     cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
                     IsSnowing?.Invoke();
                     break;

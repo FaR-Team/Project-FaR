@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 {
-    public Dirt Tierra = null;
     public GameObject TierraTexture = null;
 
     public override void Start()

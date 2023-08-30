@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 20bfddd999c9f3b41b28e9b1b7f22814, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -224,9 +224,9 @@ GameObject:
   - component: {fileID: 7916823845349351674}
   - component: {fileID: 6531959560310214545}
   - component: {fileID: 3796228361573358382}
-  - component: {fileID: 5253314388360043342}
+  - component: {fileID: 3636008029696828589}
   m_Layer: 5
-  m_Name: BackPack_SlotUI
+  m_Name: SlotUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,8 +314,7 @@ MonoBehaviour:
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
-    m_HighlightedSprite: {fileID: 21300000, guid: c03be5d76c8378047bc48b966b9ca79a,
-      type: 3}
+    m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 0}
     m_SelectedSprite: {fileID: 0}
     m_DisabledSprite: {fileID: 0}
@@ -338,7 +337,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2967969885146588580}
   m_CullTransparentMesh: 1
---- !u!114 &5253314388360043342
+--- !u!114 &3636008029696828589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,7 +346,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2967969885146588580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59c97c0ab1914e84f8b44823d741f371, type: 3}
+  m_Script: {fileID: 11500000, guid: 05f5f21ea16b8c64cb6c6081e6e1b943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107419927834}
@@ -358,7 +357,6 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
-  isSlotBlocked: 0
 --- !u!1 &8805982403512259398
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,7 +423,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c03be5d76c8378047bc48b966b9ca79a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5a82013592d1d3f40b933ac9b2d98fab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

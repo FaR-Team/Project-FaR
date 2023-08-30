@@ -10,7 +10,7 @@ public class GrowingTreeAndPlant : GrowingBase
     
     public List<Transform> spawnPoints;
     public List<GameObject> fruits;
-    private GameObject Tierra;
+    public Dirt Tierra;
         
     public int ReGrow; //Veces que volvio a dar frutos.
     public int ReGrowMaxTimes; //Veces maxima que puede volver a dar frutos.
