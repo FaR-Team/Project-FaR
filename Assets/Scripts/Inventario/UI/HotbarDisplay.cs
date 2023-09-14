@@ -13,6 +13,8 @@ public class HotbarDisplay : HotbarDisplayBase
 
     [Header("Tool GameObjects")]
     public GameObject hoe, bucket, blank1, blank2, blank3, hand;
+    /* 
+     Estos objetos no son necesarios. solo se necesita un objeto mano */
     [SerializeField] private ToolItemData[] abilityTools;
     [SerializeField] private Dictionary<ToolItemData, bool> abilityToolsDictionary = new Dictionary<ToolItemData, bool>();
 
@@ -72,14 +74,16 @@ public class HotbarDisplay : HotbarDisplayBase
 
     void ChangeAbilityGamepad()
     {
-        if (GetPlayerControls().AbilityHotbarDown.WasPerformedThisFrame()) ChangeAbilityIndex(-1);
+        if (GetPlayerControls().AbilityHotbarDown.WasPerformedThisFrame()) 
+            ChangeAbilityIndex(-1);
 
-        if (GetPlayerControls().AbilityHotbarUp.WasPerformedThisFrame()) ChangeAbilityIndex(1);
+        if (GetPlayerControls().AbilityHotbarUp.WasPerformedThisFrame()) 
+            ChangeAbilityIndex(1);
     }
 
     private void ChangeAbilityIndex(int direction)
     {
-        //This is a void to ask god if he's de boca
+        //This is a void to ask god if he's de boca DE BOKITA
         var initialIndex = _currentAbilityIndex;
         _currentAbilityIndex += direction;
         
@@ -279,9 +283,9 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         if (!_isHoldingCtrl || !_isHolding || !interactor.IsLookingAtStore) return;//TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
 
-        if (GetItemData() == null || GetItemData().Sellable == false) return;
+        if (GetItemData() == null || !GetItemData().Sellable) return;
 
-        if (GetItemData().Seed != false || GetItemData().Usable != true) return;
+        if (GetItemData().IsCropSeed() || !GetItemData().Usable) return;
 
         int i = 0;
 
@@ -301,12 +305,10 @@ public class HotbarDisplay : HotbarDisplayBase
 
         if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
         {
-            if (GetItemData().Sellable == true &&
-                GetItemData().Seed == false &&
-                GetItemData().Usable == true)
+            if (GetItemData().Sellable &&
+                !GetItemData().IsCropSeed() &&
+                GetItemData().Usable)
             {
-                // var inventory = player.GetComponent<InventoryHolder>();
-
                 GetItemData().UseItem();
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
@@ -316,22 +318,17 @@ public class HotbarDisplay : HotbarDisplayBase
             return;
         }
 
-        if (GetItemData().IsHoe || GetItemData().IsBucket)
+        if (GetItemData().IsHoe() || GetItemData().IsBucket())
         {
             GetItemData().UseItem();
         }
 
-        if (GetItemData().Seed &&
+        if (GetItemData().IsCropSeed() &&
             interactor._LookingAtDirt)
         {
-            var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
-
             if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
 
-
-            //var inventory = player.GetComponent<InventoryHolder>();
-
-            if (GetItemData().UseItem(dirtToTest) == true)
+            if (GetItemData().UseItem(dirtToTest))
             {
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
@@ -339,12 +336,10 @@ public class HotbarDisplay : HotbarDisplayBase
             SlotCurrentIndex().UpdateUISlot();
         }
 
-        if (GetItemData().TreeSeed &&
+        if (GetItemData().IsTreeSeed() &&
             gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            interactor._LookingAtDirt == false)
+            !interactor._LookingAtDirt)
         {
-            //var inventory = player.GetComponent<InventoryHolder>();
-
             if (GetItemData().UseItem())
             {
                 GetAssignedInventorySlot().SacarDeStack(1);
@@ -365,14 +360,14 @@ public class HotbarDisplay : HotbarDisplayBase
         }
 
 
-        if (GetItemData().IsHoe)
+        if (GetItemData().IsHoe())
         {
             hoe.SetActive(true);
             bucket.SetActive(false);
             hand.SetActive(false);
         }
         else if ((!GetItemData().Sellable &&
-            !GetItemData().Seed &&
+            !GetItemData().IsCropSeed() &&
             !GetItemData().Usable &&
             !GetItemData().Tool)
 
@@ -402,7 +397,6 @@ public class HotbarDisplay : HotbarDisplayBase
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
 
             if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
-
 
             //var inventory = player.GetComponent<InventoryHolder>();
 
@@ -440,3 +434,20 @@ public class HotbarDisplay : HotbarDisplayBase
         DoChangeNameDisplay();
     }
 }
+
+/*
+public class Mano
+{
+    Action acciones;
+
+    PlayerInput2 inputActions;
+    void accion()
+    {
+        acciones = HotbarDisplay.GetItemData().Action();
+        inputActions.Player.UseItem.performed += acciones;
+
+    }
+    //se añade la acción al evento.
+
+
+}*/

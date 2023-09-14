@@ -17,17 +17,17 @@ public class ToolItemData : InventoryItemData
         //_pauseMenu = PauseMenu.Instance;
         if (!PauseMenu.GameIsPaused)
         {
-            if (IsHoe)
+            if (IsHoe())
             {
                 return UseHoe();
             }
 
-            if (IsAxe)
+            if (IsAxe())
             {
                 //return UseAxe();
             }
 
-            if (IsBucket)
+            if (IsBucket())
             {
                 return UseBucket();
             }
@@ -36,7 +36,8 @@ public class ToolItemData : InventoryItemData
     }
     private bool UseHoe()
     {
-        if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null && _gridGhost().CheckCrop(_gridGhost().finalPosition, 0.1f) == true)
+        if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null && 
+            _gridGhost().CheckCrop(_gridGhost().finalPosition, 0.1f) == true)
         {
             if(Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
             {
@@ -58,5 +59,4 @@ public class ToolItemData : InventoryItemData
         }
         else return false;
     }
-
 }

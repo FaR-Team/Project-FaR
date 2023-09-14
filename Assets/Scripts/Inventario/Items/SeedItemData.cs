@@ -8,7 +8,7 @@ public class SeedItemData : InventoryItemData
     private Grid grid;
     public GridGhost gridGhost;
     public GameObject DirtPrefab;
-    
+
     void Awake()
     {
         gridGhost = FindObjectOfType<GridGhost>();
@@ -17,40 +17,14 @@ public class SeedItemData : InventoryItemData
 
     public override bool UseItem(Dirt dirt)
     {
-        if(Seed == true)
-        {
-            if (dirt.GetCrop(this) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
+        return typeOfItem == TypeOfItem.CropSeed && dirt.GetCrop(this);
     }
 
     public override bool UseItem()
     {
+        if (typeOfItem != TypeOfItem.TreeSeed) return false;
+
         gridGhost = FindObjectOfType<GridGhost>();
-        if (TreeSeed == true)
-        {
-            if (gridGhost.PlantTreeNear(DirtPrefab) == true)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else
-        {
-            return false;
-        }
+        return gridGhost.PlantTreeNear(DirtPrefab);
     }
 }

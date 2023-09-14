@@ -65,8 +65,8 @@ public class GridGhost : MonoBehaviour
         if (PauseMenu.GameIsPaused) return;
 
         if (GetItemData() != null && 
-            GetItemData().IsHoe == true && 
-            interactor._LookingAtDirt == false)
+            GetItemData().IsHoe() && 
+            !interactor._LookingAtDirt)
         { 
             RaycastHit hit;
             RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance - 3, layerMask);
@@ -105,11 +105,15 @@ public class GridGhost : MonoBehaviour
         * Si la semilla es arbol y estas mirando a una tierra. 
         * Entonces desactiva la seed y no ejecuta el código. 
         */
-        if (GetItemData() == null || GetItemData().Seed && !interactor._LookingAtDirt || GetItemData().TreeSeed && interactor._LookingAtDirt || GetItemData().IsHoe)
+        if (GetItemData() == null || 
+            GetItemData().IsHoe() ||
+            GetItemData().IsTreeSeed() && interactor._LookingAtDirt ||
+            GetItemData().IsCropSeed() && !interactor._LookingAtDirt)
         {
             seedGhost.SetActive(false);
             return;
         }
+
         
         RaycastHit hit;
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
@@ -118,14 +122,14 @@ public class GridGhost : MonoBehaviour
         
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
         
-        if (!hotbarDisplay.CanUseItem() && GetItemData().Seed)
+        if (!hotbarDisplay.CanUseItem() && GetItemData().IsCropSeed())
         {
             seedGhost.SetActive(false);
             return;
         }
 
         
-        if (!CheckCrop(finalPosition, 1) && GetItemData().TreeSeed)
+        if (!CheckCrop(finalPosition, 1) && GetItemData().IsTreeSeed())
         {
             seedGhost.SetActive(false);
             return;
