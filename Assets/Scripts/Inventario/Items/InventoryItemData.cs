@@ -4,7 +4,7 @@ using UnityEngine;
 
 /// <summary>
 /// Esto es un objeto scriptable object que define qué es un item en el juego.
-/// Se podría reutilizar para otro tipo de objetos, uwu.
+/// Se podría reutilizar para otro tipo de objetos.
 /// </summary>
 
 

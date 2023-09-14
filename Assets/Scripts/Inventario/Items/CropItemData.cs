@@ -9,6 +9,8 @@ public class CropItemData : InventoryItemData
     public SellSystem _sellSystem;
     private float   _maxRayDistance = 50f;
 
+    TypeOfItem typeOfItem = TypeOfItem.Crop;
+
     public override bool UseItem()
     {
         _sellSystem = FindObjectOfType<SellSystem>();

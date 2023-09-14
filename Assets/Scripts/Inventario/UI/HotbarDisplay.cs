@@ -281,7 +281,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void SellAll()
     {
-        if (!_isHoldingCtrl || !_isHolding || !interactor.IsLookingAtStore) return;//TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
+        if (!_isHoldingCtrl || !_isHolding || !interactor.IsLookingAtStore) return; //TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
 
         if (GetItemData() == null || !GetItemData().Sellable) return;
 
@@ -369,7 +369,7 @@ public class HotbarDisplay : HotbarDisplayBase
         else if ((!GetItemData().Sellable &&
             !GetItemData().IsCropSeed() &&
             !GetItemData().Usable &&
-            !GetItemData().Tool)
+            !GetItemData().IsTool())
 
             ||
 
@@ -380,7 +380,7 @@ public class HotbarDisplay : HotbarDisplayBase
             hand.SetActive(true);
         }
 
-        if (GetItemData().IsBucket)
+        if (GetItemData().IsBucket())
         {
             hoe.SetActive(false);
             bucket.SetActive(true);
@@ -391,7 +391,7 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         if (GetItemData() == null) return;
 
-        if (GetItemData().Seed &&
+        if (GetItemData().IsCropSeed() &&
             interactor._LookingAtDirt)
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
@@ -408,7 +408,7 @@ public class HotbarDisplay : HotbarDisplayBase
             SlotCurrentIndex().UpdateUISlot();
         }
 
-        if (GetItemData().TreeSeed &&
+        if (GetItemData().IsTreeSeed() &&
             gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
             interactor._LookingAtDirt == false)
         {
@@ -447,7 +447,7 @@ public class Mano
         inputActions.Player.UseItem.performed += acciones;
 
     }
-    //se añade la acción al evento.
+    //se aï¿½ade la acciï¿½n al evento.
 
 
 }*/

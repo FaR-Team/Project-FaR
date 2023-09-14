@@ -26,15 +26,8 @@ MonoBehaviour:
   ToolGameObject: {fileID: 0}
   Usable: 1
   Sellable: 0
-  Seed: 0
-  TreeSeed: 1
   IsLookingAtStore: 0
-  Tool: 0
-  IsHoe: 0
-  IsAxe: 0
-  IsBucket: 0
-  IsUnknown1: 0
-  IsUnknown2: 0
+  typeOfItem: 4
   gridGhost: {fileID: 0}
   DirtPrefab: {fileID: 5634044043551495168, guid: 63e760dff1a3e304b834bb4b03ff09d5,
     type: 3}
