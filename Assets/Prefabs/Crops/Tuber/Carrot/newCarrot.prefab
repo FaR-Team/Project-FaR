@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4395658518830584872}
   - component: {fileID: 2188836714450380470}
   - component: {fileID: 3660911085248889898}
+  - component: {fileID: 2946311036401442136}
   m_Layer: 0
   m_Name: newCarrot
   m_TagString: Untagged
@@ -60,7 +61,8 @@ MonoBehaviour:
   meshRenderer: {fileID: 0}
   cropSaveData:
     Position: {x: 0, y: 0, z: 0}
-    _Dia: 0
+    Dia: 0
+    ID: 
   tierra: {fileID: 0}
   interactablePrefab: {fileID: 1275932420384288578, guid: 6a26517dbfab41f439f9ad83a691cd58,
     type: 3}
@@ -77,7 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e2af0fd5-07f6-4319-9cce-acd290f1964e
+  _ID: 7c2a7d7f-285a-4118-8238-b0b5d39cb9c0
 --- !u!137 &3660911085248889898
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -131,3 +133,19 @@ SkinnedMeshRenderer:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   m_DirtyAABB: 0
+--- !u!111 &2946311036401442136
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 97846187706656559}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 367ec11e9b0cc5941af0a1a50445e6e6, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 367ec11e9b0cc5941af0a1a50445e6e6, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
