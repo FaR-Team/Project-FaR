@@ -436,18 +436,23 @@ public class HotbarDisplay : HotbarDisplayBase
 }
 
 /*
-public class Mano
+public class Hand : MonoBehaviour
 {
-    Action acciones;
+    Action handActions;
 
     PlayerInput2 inputActions;
+    void Awake()
+    {
+        PlayerInputActionAdder.AddAction(accion);
+        inputActions.Player.UseItem.performed += handActions;
+    }
+    
     void accion()
     {
-        acciones = HotbarDisplay.GetItemData().Action();
-        inputActions.Player.UseItem.performed += acciones;
+        handActions = HotbarDisplay.GetItemData().Action();
 
     }
-    //se a�ade la acci�n al evento.
+   
 
 
 }*/

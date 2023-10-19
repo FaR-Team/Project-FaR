@@ -84,7 +84,6 @@ public class Cama : MonoBehaviour, IInteractable
         Energy.RemainingEnergy = 100;
         Energy.UpdateEnergy();
         player.GetComponent<FaRCharacterController>().enabled = false;
-        SaveGameManager.SaveData();
         yasonlas6 = false;
         _isSleeping = true;
 

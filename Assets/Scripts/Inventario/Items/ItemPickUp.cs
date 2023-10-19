@@ -19,7 +19,6 @@ public class ItemPickUp : MonoBehaviour
 
     private void Awake()
     {
-        SaveLoad.OnLoadGame += LoadGame;
         itemSaveData = new ItemPickUpSaveData(ItemData, transform.position, transform.rotation);
         player = GameObject.FindGameObjectWithTag("Player");
         audioSource = player.GetComponent<AudioSource>();
@@ -32,24 +31,16 @@ public class ItemPickUp : MonoBehaviour
     private void Start()
     {
         id = GetComponent<UniqueID>().ID;
-        SaveGameManager.data.activeItems.Add(id, itemSaveData);
     }
 
     private void LoadGame(SaveData data)
     {
-        if (data.activeItems.ContainsKey(id))
-        {
-            //Destroy(this.gameObject);
-        }
+      
     }
 
     private void OnDestroy()
     {
-        if (SaveGameManager.data.activeItems.ContainsKey(id))
-        {
-            SaveGameManager.data.activeItems.Remove(id);
-            SaveLoad.OnLoadGame -= LoadGame;
-        }
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,7 +55,6 @@ public class ItemPickUp : MonoBehaviour
 
         if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
         {
-            SaveGameManager.data.Items.Add(id);
             Destroy(this.gameObject);
         }
         

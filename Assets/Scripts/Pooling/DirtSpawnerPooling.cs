@@ -5,21 +5,30 @@ using UnityEngine.UIElements;
 
 public class DirtSpawnerPooling : MonoBehaviour
 {
-    
-    [SerializeField] int amountOfGOs;
     [SerializeField] GameObject Prefab;
 
     public static GameObject _DirtPrefab => instance.Prefab;
 
     static DirtSpawnerPooling instance;
 
+    public static AllDirtsData dirtsData;
+
     private void Awake()
     {
         instance = this;
+       // if( (DataDeTodasLasDirts)Loader.Load("filePath") != null)
+       // {
+       //     dirtsData = (DataDeTodasLasDirts)Loader.Load("filePath");
+      //  }
+      //  else
+      //  {
+            dirtsData = new AllDirtsData();
+            dirtsData.DirtCounter = 5;
+      //  }
     }
     private void Start()
     {
-        ObjectPooling.PreLoad(_DirtPrefab, amountOfGOs, this.gameObject);
+        ObjectPooling.PreLoad(Prefab, 5, gameObject);
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)
@@ -33,6 +42,7 @@ public class DirtSpawnerPooling : MonoBehaviour
         ObjectPooling.RecicleObject(primitive, go);
     }
 
+    #region DEBUG FNCTN
     public List<GameObject> GetActiveDirts()
     {
         List<GameObject> dirtList = new List<GameObject>();
@@ -47,6 +57,7 @@ public class DirtSpawnerPooling : MonoBehaviour
 
         return dirtList;
     }
+    #endregion
 }
 
 

@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(UniqueID))]
-public class GrowingTuber : GrowingBase
-{
-    [SerializeField] private CropSaveData cropSaveData;
+public class GrowingTuber : GrowingBase { 
+
     private string id;
     public Dirt tierra;
     public GameObject interactablePrefab;
@@ -11,8 +10,6 @@ public class GrowingTuber : GrowingBase
 
     void Awake()
     {
-        SaveLoad.OnLoadGame += LoadGame;
-        cropSaveData = new CropSaveData(DiasPlantado, transform.position, id);
         tierra = transform.parent.GetComponent<Dirt>();
     }
 
@@ -21,12 +18,6 @@ public class GrowingTuber : GrowingBase
         base.Start();
         skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
         id = GetComponent<UniqueID>().ID;
-
-        if (SaveGameManager.data.cropDictionary.ContainsKey(id)) return;
-        else
-        {
-            SaveGameManager.data.cropDictionary.Add(id, cropSaveData);
-        }
 
     }
     public override void OnHourChanged(int hour)
@@ -58,17 +49,7 @@ public class GrowingTuber : GrowingBase
             return;
         }
     }
-    /* public bool IsLastPhase(int numero)
-    {
-        if (DayForChangeOfPhase.Length == 0)
-        {
-            return false;
-        }
-
-        int ultimoElemento = DayForChangeOfPhase[DayForChangeOfPhase.Length - 1];
-        return numero == ultimoElemento;
-    }
-    */ 
+   
     public override void SetInteractable(int i)
     {
         Instantiate(interactablePrefab, transform.position, Quaternion.identity, transform);
@@ -79,20 +60,5 @@ public class GrowingTuber : GrowingBase
 
     
 
-    private void LoadGame(SaveData data)
-    {
-        if (data.cropDictionary.ContainsKey(id))
-        {
-            //Destroy(this.gameObject);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (SaveGameManager.data.cropDictionary.ContainsKey(id))
-        {
-            SaveGameManager.data.cropDictionary.Remove(id);
-            SaveLoad.OnLoadGame -= LoadGame;
-        }
-    }
+   
 }

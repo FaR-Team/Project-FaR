@@ -3,14 +3,11 @@
 [RequireComponent(typeof(UniqueID))]
 public class GrowingCrop : GrowingBase
 {
-    [SerializeField] private CropSaveData cropSaveData;
     private string id;
     public Dirt tierra;
 
     void Awake()
     {
-        SaveLoad.OnLoadGame += LoadGame;
-        cropSaveData = new CropSaveData(DiasPlantado, transform.position, id);
         tierra = transform.parent.GetComponent<Dirt>();
     }
 
@@ -20,11 +17,6 @@ public class GrowingCrop : GrowingBase
 
         id = GetComponent<UniqueID>().ID;
 
-        if (SaveGameManager.data.cropDictionary.ContainsKey(id)) return;
-        else
-        {
-            SaveGameManager.data.cropDictionary.Add(id, cropSaveData);
-        }
 
     }
     public override void OnHourChanged(int hour)
@@ -50,24 +42,6 @@ public class GrowingCrop : GrowingBase
             meshFilter.mesh = meshes[valueToGet];
             meshRenderer.material = materials[valueToGet];
             return;
-        }
-    }
-    
-
-    private void LoadGame(SaveData data)
-    {
-        if (data.cropDictionary.ContainsKey(id))
-        {
-            //Destroy(this.gameObject);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (SaveGameManager.data.cropDictionary.ContainsKey(id))
-        {
-            SaveGameManager.data.cropDictionary.Remove(id);
-            SaveLoad.OnLoadGame -= LoadGame;
         }
     }
 }

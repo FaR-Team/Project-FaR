@@ -1,14 +1,10 @@
-using System.Security.AccessControl;
-using System.Collections.Generic;
 using UnityEngine;
 using FaRUtils.Systems.DateTime;
 using FaRUtils.Systems.Weather;
-using System.Collections;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
 {
-    bool _isEmpty;
     public bool _isWet;
 
     public bool testing;
@@ -16,33 +12,43 @@ public class Dirt : MonoBehaviour
     public GameObject colliders;
 
     public int abilityLevelPlaceholder = 1;
-    public bool IsEmpty => _isEmpty;
 
-    public GameObject violeta;
-    public GameObject currentCrop;
-    public SeedItemData currentCropData;
+    public bool IsEmpty { get; private set; }
+    public GameObject violeta { get; private set; }
+    public GameObject currentCrop { get; private set; }
+    public SeedItemData currentCropData { get; private set; }
+    public CropSaveData cropSaveData { get; private set; }
 
     public GameObject TextureAnimation;
-    
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
     void Start()
     {
-        _isEmpty = true;
+        LoadData(GetComponent<DirtLoadData>().Load());
 
+        IsEmpty = true;
         DateTime.OnHourChanged.AddListener(DryDirt);
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
 
+    private void LoadData(DirtSaveData data)
+    {
+        _isWet = data._isWet;
+        IsEmpty = data.IsEmpty;
+        currentCrop = data.currentCrop;
+        currentCropData = data.currentCropData;
+        cropSaveData = data.cropSaveData;
+    }
+
     public bool GetCrop(SeedItemData itemData)
     {
-        _isEmpty = false;
+        IsEmpty = false;
 
         GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
-        
+
         currentCrop = instantiated;
         currentCropData = itemData;
-        
+
         GridGhost.UpdateRandomSeed();
         return (instantiated != null);
     }
@@ -62,8 +68,8 @@ public class Dirt : MonoBehaviour
     public void DryDirt(int hour)
     {
         if (testing) return;
-        
-        if(hour != 5) return;
+
+        if (hour != 5) return;
 
         _isWet = false;
         this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
@@ -79,9 +85,8 @@ public class Dirt : MonoBehaviour
     {
         currentCrop = null;
         currentCropData = null;
-        _isEmpty = true;
-        _isWet= false;
-        //GetComponentInChildren<Animation>().Stop() ;
+        IsEmpty = true;
+        _isWet = false;
         TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
         colliders.transform.position = this.transform.position;
         DateTime.OnHourChanged.RemoveListener(DryDirt);

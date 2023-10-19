@@ -22,7 +22,6 @@ public class PlayerInventoryHolder : InventoryHolder
     public InventoryUIController inventoryUIController;
 
     private void Start() {
-        SaveGameManager.data.playerInventory = new InventorySaveData(primaryInventorySystem);
         player = GameObject.FindGameObjectWithTag("Player");
         ShopKeeperObj = GameObject.FindGameObjectWithTag("Shop");
         shopKeeper = ShopKeeperObj.GetComponent<ShopKeeper>();
@@ -34,10 +33,8 @@ public class PlayerInventoryHolder : InventoryHolder
     protected override void LoadInventory(SaveData data)
     {
         //Va a checkear los datos guardados para el inventario de este cofre, y si exisren, los va a cargar
-        if (data.playerInventory.InvSystem == null) return;
         
         //Va a cargar los items del inventario
-        this.primaryInventorySystem = data.playerInventory.InvSystem;
         OnPlayerInventoryChanged?.Invoke();
     }
 

@@ -1,23 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Saver : MonoBehaviour
+public abstract class Saver<T> : MonoBehaviour
 {
-    public static Dictionary<string, IPersistent> keyValuePairs;
-
-    Saver instance;
-
-    [SerializeField] private string nombreDeArchivo = "/Escena1.json";
-    public static void Save()
-    {
-        var saver = new JsonParser("/Escena1.json", keyValuePairs);
-    }
-
-    private void Awake()
-    {
-        if(instance != null) Destroy(instance);
-        
-        instance = this;
-    }
-
+    public abstract void WriteSave(T info);
+    
+    public abstract void SaveAll(bool isTemporarySave);
 }

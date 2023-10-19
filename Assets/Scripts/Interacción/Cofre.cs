@@ -15,7 +15,6 @@ public class Cofre : InventoryHolder, IInteractable
     protected override void Awake()
     {
         base.Awake();
-        SaveLoad.OnLoadGame += LoadInventory;
         _prompt = GameObject.FindGameObjectWithTag("HouseInteraction");
     }
 
@@ -23,19 +22,11 @@ public class Cofre : InventoryHolder, IInteractable
     {
         var ChestSaveData = new InventorySaveData(primaryInventorySystem, transform.position, transform.rotation);
 
-        SaveGameManager.data.chestDictionary.Add(GetComponent<UniqueID>().ID, ChestSaveData);
     }
 
     protected override void LoadInventory(SaveData data)
     {
-        //Va a checkear los datos guardados para el inventario de este cofre, y si exisren, los va a cargar
-        if (data.chestDictionary.TryGetValue(GetComponent<UniqueID>().ID, out InventorySaveData chestData))
-        {
-            //Va a cargar los items del inventario
-            this.primaryInventorySystem = chestData.InvSystem;
-            this.transform.position = chestData.Position;
-            this.transform.rotation = chestData.Rotation;
-        }
+        
     }
 
     public void Interact(Interactor interactor,  out bool interactSuccessful)

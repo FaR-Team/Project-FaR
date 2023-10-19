@@ -19,7 +19,6 @@ public abstract class InventoryHolder : MonoBehaviour
 
     protected virtual void Awake() // Carga el inventario cn lo que se habia guardado anteriormente
     {
-        SaveLoad.OnLoadGame += LoadInventory;
         primaryInventorySystem = new InventorySystem(tamañoInventario, _gold);
     }
 
