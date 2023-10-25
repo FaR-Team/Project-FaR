@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
+using UnityEngine.Events;
 
 public class Cama : MonoBehaviour, IInteractable
 {
@@ -18,6 +19,8 @@ public class Cama : MonoBehaviour, IInteractable
     public bool yasonlas6 = false;
     public bool _isSleeping = false;
     public bool _yourLetterArrived = false;
+
+    public UnityEvent<bool> SaveDataEvent;
 
     //I DON'T KNOW SWAHILI, BUT I THINK THIS IS THE CORRECT WAY TO DO THIS (Last part was written by github copilot.)
     public GameObject InteractionPrompt => _prompt;
@@ -80,6 +83,7 @@ public class Cama : MonoBehaviour, IInteractable
         player = GameObject.FindWithTag("Player");
         Negrura.SetActive(true);
         Negrura.GetComponent<Animation>().Play("NegroIn");
+        SaveDataEvent.Invoke(false);
         //THIS SHITTY CODE TOOK ME A WHOLE WEEK, I CRIED 5 NIGHTS, AND KILLED 7 DOGS BECAUSE OF MY STRESS, btw, if you're reading this, tell me witch errors you find.
         Energy.RemainingEnergy = 100;
         Energy.UpdateEnergy();

@@ -48,11 +48,23 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
 		DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
 		DebugLogConsole.AddCommand("giveShirt", "le da pantalones", GiveShirt);
+		DebugLogConsole.AddCommand("testsave", "le da pantalones", TestSave);
+		DebugLogConsole.AddCommand("testload", "le da pantalones", TestLoad);
 	}
 
     private void SetAreaHarvestLevel(int x)
     {
         PlayerStats.Instance.areaHarvestLevel = x;
+    }
+
+	private void TestSave()
+    {
+        //Todas las tierras se suscriben a un evento que active la función
+    }
+
+	private void TestLoad()
+    {
+        
     }
 
 	public void Noclip()

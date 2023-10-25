@@ -24,11 +24,18 @@ public class Dirt : MonoBehaviour
 
     void Start()
     {
-        LoadData(GetComponent<DirtLoadData>().Load());
+        //LoadData(GetComponent<DirtLoadData>().Load());
 
         IsEmpty = true;
         DateTime.OnHourChanged.AddListener(DryDirt);
+        Cama.Instance.SaveDataEvent.AddListener(SaveData);
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
+    }
+
+    private void SaveData(bool isTemporarySave)
+    {
+        var dirtSaveData = new DirtSaveData(_isWet, IsEmpty, currentCrop, currentCropData, cropSaveData);
+        DirtSaver.instance.WriteSave(dirtSaveData, isTemporarySave);
     }
 
     private void LoadData(DirtSaveData data)

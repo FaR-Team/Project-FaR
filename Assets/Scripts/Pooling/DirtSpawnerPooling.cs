@@ -26,6 +26,13 @@ public class DirtSpawnerPooling : MonoBehaviour
             dirtsData.DirtCounter = 5;
       //  }
     }
+
+    public static int GetActiveDirtPool()
+    {
+        int count = ObjectPooling.GetActiveObjects(_DirtPrefab);
+        return count;
+    }
+
     private void Start()
     {
         ObjectPooling.PreLoad(Prefab, 5, gameObject);

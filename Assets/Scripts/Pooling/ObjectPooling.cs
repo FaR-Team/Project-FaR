@@ -4,6 +4,8 @@ using UnityEngine;
 public class ObjectPooling : MonoBehaviour
 {
     static Dictionary<int, Queue<GameObject>> pool = new Dictionary<int, Queue<GameObject>>();
+    static Dictionary<int, Queue<GameObject>> activePool = new Dictionary<int, Queue<GameObject>>();
+
     static Dictionary<int, GameObject> parents = new Dictionary<int, GameObject>();
 
     public static void PreLoad(GameObject objectToPool, int amount, GameObject parent)
@@ -40,6 +42,12 @@ public class ObjectPooling : MonoBehaviour
         return parent;
     }
 
+    public static int GetActiveObjects(GameObject objectToPool)
+    {
+        int count = activePool[objectToPool.GetInstanceID()].Count;
+        return count;
+    }
+
     public static GameObject GetObject(GameObject objectToPool)
     {
 
@@ -49,6 +57,8 @@ public class ObjectPooling : MonoBehaviour
 
         GameObject go = pool[id].Dequeue();
         go.SetActive(true);
+
+        activePool[id].Enqueue(go);
 
         return go;
     }

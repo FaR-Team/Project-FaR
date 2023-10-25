@@ -8,4 +8,13 @@ public class DirtSaveData : SaveData
     public GameObject currentCrop;
     public SeedItemData currentCropData;
     public CropSaveData cropSaveData;
+
+    public DirtSaveData(bool isWet, bool isEmpty, GameObject currentCrop, SeedItemData currentCropData, CropSaveData cropSaveData)
+    {
+        _isWet = isWet;
+        IsEmpty = isEmpty;
+        this.currentCrop = currentCrop;
+        this.currentCropData = currentCropData;
+        this.cropSaveData = cropSaveData;
+    }
 }

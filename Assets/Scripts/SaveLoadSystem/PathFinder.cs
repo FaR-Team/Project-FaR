@@ -21,6 +21,6 @@ public class PathFinder
     }
     private static string GetTempName(bool isTemporary)
     {
-        return (isTemporary ? "Temp" : null);
+        return (isTemporary ? ".temp" : null);
     }
 }
