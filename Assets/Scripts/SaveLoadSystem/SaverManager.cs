@@ -14,7 +14,14 @@ public class SaverManager : MonoBehaviour
     public static void Save(object info, bool isTemporary)
     {
         string jsonFile = JsonUtility.ToJson(info);
-        string pathFile = PathFinder.GetPath(info.GetType().FullName, isTemporary);
+        string pathFile = PathFinder.GetPath(info.GetType().FullName, isTemporary) + ".json";
+
+        string directoryPath = Path.GetDirectoryName(pathFile);
+
+        if (!Directory.Exists(directoryPath))
+        {
+            Directory.CreateDirectory(directoryPath);
+        }
 
         File.WriteAllText(pathFile, jsonFile);
     }

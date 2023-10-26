@@ -7,24 +7,19 @@ public class DirtSpawnerPooling : MonoBehaviour
 {
     [SerializeField] GameObject Prefab;
 
+    public static DirtSpawnerPooling instance;
+
     public static GameObject _DirtPrefab => instance.Prefab;
-
-    static DirtSpawnerPooling instance;
-
     public static AllDirtsData dirtsData;
 
     private void Awake()
     {
         instance = this;
-       // if( (DataDeTodasLasDirts)Loader.Load("filePath") != null)
-       // {
-       //     dirtsData = (DataDeTodasLasDirts)Loader.Load("filePath");
-      //  }
-      //  else
-      //  {
-            dirtsData = new AllDirtsData();
-            dirtsData.DirtCounter = 5;
-      //  }
+        AllDirtsData data = LoadAllDirtData.GetData();
+        
+        dirtsData = 
+            LoadAllDirtData.GetData() == null ? 
+                new AllDirtsData(5) : data;
     }
 
     public static int GetActiveDirtPool()
@@ -35,7 +30,8 @@ public class DirtSpawnerPooling : MonoBehaviour
 
     private void Start()
     {
-        ObjectPooling.PreLoad(Prefab, 5, gameObject);
+        ObjectPooling.PreLoad(_DirtPrefab, dirtsData.DirtCounter, gameObject);
+        print(ObjectPooling.pool[_DirtPrefab.GetInstanceID()]);
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)
@@ -53,7 +49,7 @@ public class DirtSpawnerPooling : MonoBehaviour
     public List<GameObject> GetActiveDirts()
     {
         List<GameObject> dirtList = new List<GameObject>();
-        for(int i = 0; i < this.gameObject.transform.childCount; i++)
+        for (int i = 0; i < this.gameObject.transform.childCount; i++)
         {
             GameObject currentGO = gameObject.transform.GetChild(i).gameObject;
             if (currentGO.activeInHierarchy)

@@ -59,7 +59,7 @@ namespace FaRUtils.Systems.Weather
             {
                 Weather tempWeather = GetRandomWeather();
                 weatherQueue.Enqueue(tempWeather);
-                Debug.Log($"{tempWeather} en el index {i}");
+               // Debug.Log($"{tempWeather} en el index {i}");
             }
         }
 

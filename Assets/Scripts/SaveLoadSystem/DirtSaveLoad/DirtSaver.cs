@@ -1,29 +1,54 @@
-﻿public class DirtSaver : Saver<DirtSaveData>
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+
+public class DirtSaver : MonoBehaviour
 {
     public static DirtSaver instance;
 
-    private AllDirtsData dirtsData;
+    private AllDirtsData allDirtsData;
+
+    List<Task> tasks = new List<Task>();
 
     private void Awake()
     {
-        dirtsData = new AllDirtsData();
+        allDirtsData = new AllDirtsData(0);
+        instance = this;
+    }
+    private void Start()
+    {
+        Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
 
-    public void WriteSave(DirtSaveData info, bool _isTemporarySave)
+    public Task  WriteSave(DirtSaveData info)
     {
-        dirtsData.data.Enqueue(info);
-        dirtsData.DirtCounter++;
-        SaveAll(_isTemporarySave);
+        allDirtsData.data.Enqueue(info);
+        allDirtsData.DirtCounter++;
+        return Task.CompletedTask;
     }
 
-    public override void SaveAll(bool isTemporarySave) //no se cuando ni como llamarlo
+    public async void SaveAllData(bool isTemporarySave)
     {
-        if (dirtsData.data.Count != DirtSpawnerPooling.GetActiveDirtPool()) return;
-        SaverManager.Save(dirtsData, isTemporarySave);
+        Debug.Log("SAVING");
+
+        await Task.WhenAll(tasks);
+
+        allDirtsData.SaveQueue();
+        SaverManager.Save(allDirtsData, isTemporarySave);
+
+        Debug.Log("Succesfully Saved");
     }
 
-    public override void WriteSave(DirtSaveData info)
+    public void AddTask(Task task)
     {
-        throw new System.NotImplementedException();
+        tasks.Add(task);
+
+        Debug.Log("added task");
     }
-} 
+
+    public void RemoveTask(Task task)
+    {
+        tasks.Remove(task);
+    }
+}

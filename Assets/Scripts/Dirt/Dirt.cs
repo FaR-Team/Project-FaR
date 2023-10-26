@@ -1,6 +1,8 @@
 using UnityEngine;
 using FaRUtils.Systems.DateTime;
 using FaRUtils.Systems.Weather;
+using System.Threading.Tasks;
+using System;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -22,20 +24,22 @@ public class Dirt : MonoBehaviour
     public GameObject TextureAnimation;
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
-    void Start()
+    async void Start()
     {
-        //LoadData(GetComponent<DirtLoadData>().Load());
+        DirtSaveData data = await GetComponent<DirtLoadData>().Load();
+        
+        LoadData(data);
 
-        IsEmpty = true;
-        DateTime.OnHourChanged.AddListener(DryDirt);
-        Cama.Instance.SaveDataEvent.AddListener(SaveData);
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(DryDirt);
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
 
-    private void SaveData(bool isTemporarySave)
+    public async Task SaveData()
     {
-        var dirtSaveData = new DirtSaveData(_isWet, IsEmpty, currentCrop, currentCropData, cropSaveData);
-        DirtSaver.instance.WriteSave(dirtSaveData, isTemporarySave);
+        Debug.Log("saving Dirt");
+
+        DirtSaveData dirtSaveData = new DirtSaveData(_isWet, IsEmpty, currentCrop, currentCropData, cropSaveData);
+        await DirtSaver.instance.WriteSave(dirtSaveData);
     }
 
     private void LoadData(DirtSaveData data)
@@ -51,7 +55,7 @@ public class Dirt : MonoBehaviour
     {
         IsEmpty = false;
 
-        GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
+        GameObject instantiated = Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
 
         currentCrop = instantiated;
         currentCropData = itemData;
@@ -63,12 +67,11 @@ public class Dirt : MonoBehaviour
     public void DirtIsWet()
     {
         _isWet = true;
-        this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
+        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
     }
 
     public void GetDown()
     {
-        //AND MOVE IT ALL AROUND
         colliders.transform.position = new Vector3(colliders.transform.position.x, -2, colliders.transform.position.z);
     }
 
@@ -79,13 +82,14 @@ public class Dirt : MonoBehaviour
         if (hour != 5) return;
 
         _isWet = false;
-        this.gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
     }
 
     void OnEnable()
     {
         TextureAnimation = GetComponentInChildren<Animation>().gameObject;
         TextureAnimation.GetComponent<Animation>().enabled = true;
+        DirtSaver.instance.AddTask(SaveData());
     }
 
     void OnDisable()
@@ -96,7 +100,9 @@ public class Dirt : MonoBehaviour
         _isWet = false;
         TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
         colliders.transform.position = this.transform.position;
-        DateTime.OnHourChanged.RemoveListener(DryDirt);
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
         WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
+        DirtSaver.instance.RemoveTask(SaveData());
     }
+
 }

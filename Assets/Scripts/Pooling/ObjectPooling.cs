@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ObjectPooling : MonoBehaviour
 {
-    static Dictionary<int, Queue<GameObject>> pool = new Dictionary<int, Queue<GameObject>>();
+    public static Dictionary<int, Queue<GameObject>> pool = new Dictionary<int, Queue<GameObject>>();
     static Dictionary<int, Queue<GameObject>> activePool = new Dictionary<int, Queue<GameObject>>();
 
     static Dictionary<int, GameObject> parents = new Dictionary<int, GameObject>();
@@ -14,7 +14,8 @@ public class ObjectPooling : MonoBehaviour
 
         parents.Add(id, parent);
         pool.Add(id, new Queue<GameObject>());
-
+        activePool.Add(id, new Queue<GameObject>());
+        
         for (int i = 0; i < amount; i++)
         {
             CreateObject(objectToPool);
@@ -56,9 +57,8 @@ public class ObjectPooling : MonoBehaviour
         if (pool[id].Count == 0) CreateObject(objectToPool);
 
         GameObject go = pool[id].Dequeue();
+        activePool[id].Enqueue(objectToPool);
         go.SetActive(true);
-
-        activePool[id].Enqueue(go);
 
         return go;
     }

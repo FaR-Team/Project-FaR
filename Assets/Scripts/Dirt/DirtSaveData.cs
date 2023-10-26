@@ -17,4 +17,12 @@ public class DirtSaveData : SaveData
         this.currentCropData = currentCropData;
         this.cropSaveData = cropSaveData;
     }
+    public DirtSaveData()
+    {
+        _isWet = false;
+        IsEmpty = true;
+        this.currentCrop = null;
+        this.currentCropData = null;
+        this.cropSaveData = null;
+    }
 }

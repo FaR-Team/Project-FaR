@@ -398,7 +398,7 @@ GameObject:
   - component: {fileID: 1883870272503481524}
   - component: {fileID: 2994759415163273886}
   - component: {fileID: 4595424602912066537}
-  - component: {fileID: 6466163860567630259}
+  - component: {fileID: -2720515037888545568}
   m_Layer: 0
   m_Name: Dirt Rigged
   m_TagString: Untagged
@@ -467,7 +467,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0, y: 0, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6466163860567630259
+--- !u!114 &-2720515037888545568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -476,7 +476,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3884601831458203130}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6c94bc1f6b01c24f9c72f3eb75ac720, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c8e4898543eb1f40965491282c75984, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4615546829789839241

@@ -6,9 +6,21 @@ public class PathFinder
 {
     public static string GetPath(string finalPath, bool isTemporary)
     {
-        string result = Path.Combine(Application.persistentDataPath, GetSaveRunName(),
-                            GetTempName(isTemporary), GetCurrentSceneName(), finalPath, ".json"); ;
+        string result = GetPathIfTemp(finalPath, isTemporary);
         return result;
+    }
+
+    private static string GetPathIfTemp(string finalPath, bool isTemporary)
+    {
+        if (isTemporary)
+        {
+            return Path.Combine(Application.persistentDataPath, GetSaveRunName(),
+                                ".temp", GetCurrentSceneName(), finalPath);
+        }
+        else
+        {
+            return Path.Combine(Application.persistentDataPath, GetSaveRunName(), GetCurrentSceneName(), finalPath);
+        }
     }
 
     private static string GetCurrentSceneName()
@@ -19,8 +31,5 @@ public class PathFinder
     {
         return RunName.instance.currentRunName;
     }
-    private static string GetTempName(bool isTemporary)
-    {
-        return (isTemporary ? ".temp" : null);
-    }
+
 }

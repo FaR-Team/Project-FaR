@@ -1,17 +1,22 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Threading.Tasks;
+using UnityEngine;
 
 public class DirtLoadData : MonoBehaviour
 {
     DirtSaveData dirtSaveData;
 
-    public  DirtSaveData Load()
+    public Task<DirtSaveData> Load()
     {
-        dirtSaveData = LoadDirt.GetData().data.Dequeue();
-        return dirtSaveData;
-    }
+        try
+        {
+            dirtSaveData = LoadAllDirtData.GetData().data.Dequeue();
+        }
+        catch
+        {
+            dirtSaveData = new DirtSaveData();
+        }
 
-    public void SaveMyself()
-    {
-        DirtSaver.instance.WriteSave(dirtSaveData);
+        return  Task.FromResult(dirtSaveData);
     }
 }
