@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 public class SaverManager : MonoBehaviour
@@ -14,9 +15,9 @@ public class SaverManager : MonoBehaviour
     public static void Save(object info, bool isTemporary)
     {
         string jsonFile = JsonUtility.ToJson(info);
-        string pathFile = PathFinder.GetPath(info.GetType().FullName, isTemporary) + ".json";
-
+        string pathFile = PathFinder.GetPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
+        Debug.Log(directoryPath);
 
         if (!Directory.Exists(directoryPath))
         {

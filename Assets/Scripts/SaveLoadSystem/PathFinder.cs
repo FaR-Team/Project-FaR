@@ -2,11 +2,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PathFinder
+public static class PathFinder
 {
     public static string GetPath(string finalPath, bool isTemporary)
     {
-        string result = GetPathIfTemp(finalPath, isTemporary);
+        string result = GetPathIfTemp(finalPath, isTemporary) + ".json";
         return result;
     }
 

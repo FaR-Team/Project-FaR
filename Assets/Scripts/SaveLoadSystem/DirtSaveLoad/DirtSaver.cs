@@ -9,19 +9,20 @@ public class DirtSaver : MonoBehaviour
 
     private AllDirtsData allDirtsData;
 
-    List<Task> tasks = new List<Task>();
+    private List<SaveDirtData> dirts;
 
     private void Awake()
     {
         allDirtsData = new AllDirtsData(0);
         instance = this;
+        dirts = new List<SaveDirtData>();
     }
     private void Start()
     {
         Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
 
-    public Task  WriteSave(DirtSaveData info)
+    public Task WriteSave(DirtSaveData info)
     {
         allDirtsData.data.Enqueue(info);
         allDirtsData.DirtCounter++;
@@ -32,23 +33,35 @@ public class DirtSaver : MonoBehaviour
     {
         Debug.Log("SAVING");
 
-        await Task.WhenAll(tasks);
+        try
+        {
+            await SaveDirts();
 
-        allDirtsData.SaveQueue();
-        SaverManager.Save(allDirtsData, isTemporarySave);
-
-        Debug.Log("Succesfully Saved");
+            allDirtsData.SaveQueue();
+            SaverManager.Save(allDirtsData, isTemporarySave);
+            Debug.Log("Successfully Saved dirts data");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed Save Dirt. Reason: " + e);
+        }
+    }
+    private async Task SaveDirts()
+    {
+        foreach (var dirt in dirts)
+        {
+            await dirt.SaveData();
+        }
+    }
+    public void RemoveDirt(SaveDirtData dirt)
+    {
+        dirts.Remove(dirt);
     }
 
-    public void AddTask(Task task)
+    public void AddDirt(SaveDirtData dirt)
     {
-        tasks.Add(task);
+        Debug.Log("adding Dirt");
 
-        Debug.Log("added task");
-    }
-
-    public void RemoveTask(Task task)
-    {
-        tasks.Remove(task);
+        dirts.Add(dirt);
     }
 }

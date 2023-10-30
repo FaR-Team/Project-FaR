@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -15,11 +16,6 @@ public class DirtSpawnerPooling : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        AllDirtsData data = LoadAllDirtData.GetData();
-        
-        dirtsData = 
-            LoadAllDirtData.GetData() == null ? 
-                new AllDirtsData(5) : data;
     }
 
     public static int GetActiveDirtPool()
@@ -30,8 +26,36 @@ public class DirtSpawnerPooling : MonoBehaviour
 
     private void Start()
     {
-        ObjectPooling.PreLoad(_DirtPrefab, dirtsData.DirtCounter, gameObject);
-        print(ObjectPooling.pool[_DirtPrefab.GetInstanceID()]);
+        TryPreloadSavedDirts();
+    }
+
+    /*
+     PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUQNEU SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
+    HACIENDO QUE ESTE TRY SEA INUTIL.
+     */
+    private void TryPreloadSavedDirts()
+    {
+        try
+        {
+            dirtsData = LoadAllDirtData.GetData(false);
+
+            List<GameObject> gos = ObjectPooling.PreLoadSavedObjects(_DirtPrefab, dirtsData.DirtCounter, gameObject);
+            
+            foreach (var obj in gos)
+            {
+                obj.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue());
+            }
+        }
+        catch (Exception e) 
+        {
+            Debug.LogWarning(e);
+            PreloadDirts();
+        }
+    }
+
+    private void PreloadDirts()
+    {
+        List<GameObject> gos = ObjectPooling.PreLoad(_DirtPrefab, 10, gameObject);
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)

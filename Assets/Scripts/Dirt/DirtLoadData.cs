@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class DirtLoadData : MonoBehaviour
 {
-    DirtSaveData dirtSaveData;
-
-    public Task<DirtSaveData> Load()
+    public Task<DirtSaveData> Load(bool isTemporary)
     {
+
         try
         {
-            dirtSaveData = LoadAllDirtData.GetData().data.Dequeue();
+            DirtSaveData dirtSaveData = LoadAllDirtData.GetData(isTemporary).data.Dequeue();
+            return Task.FromResult(dirtSaveData);
         }
-        catch
+        catch (Exception e)
         {
-            dirtSaveData = new DirtSaveData();
+
+            Debug.LogWarning("Couldn't load DirtSaveData:" + e);
+
+            return Task.FromResult(new DirtSaveData());
         }
 
-        return  Task.FromResult(dirtSaveData);
     }
 }

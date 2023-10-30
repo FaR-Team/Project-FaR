@@ -1,8 +1,7 @@
 using UnityEngine;
-using FaRUtils.Systems.DateTime;
 using FaRUtils.Systems.Weather;
-using System.Threading.Tasks;
 using System;
+using System.Threading.Tasks;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -24,31 +23,22 @@ public class Dirt : MonoBehaviour
     public GameObject TextureAnimation;
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
-    async void Start()
+    void Start()
     {
-        DirtSaveData data = await GetComponent<DirtLoadData>().Load();
-        
-        LoadData(data);
 
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(DryDirt);
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
 
-    public async Task SaveData()
+    public void LoadData(DirtSaveData data)
     {
-        Debug.Log("saving Dirt");
 
-        DirtSaveData dirtSaveData = new DirtSaveData(_isWet, IsEmpty, currentCrop, currentCropData, cropSaveData);
-        await DirtSaver.instance.WriteSave(dirtSaveData);
-    }
-
-    private void LoadData(DirtSaveData data)
-    {
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
         currentCrop = data.currentCrop;
         currentCropData = data.currentCropData;
         cropSaveData = data.cropSaveData;
+        transform.position = data.position;
     }
 
     public bool GetCrop(SeedItemData itemData)
@@ -89,7 +79,6 @@ public class Dirt : MonoBehaviour
     {
         TextureAnimation = GetComponentInChildren<Animation>().gameObject;
         TextureAnimation.GetComponent<Animation>().enabled = true;
-        DirtSaver.instance.AddTask(SaveData());
     }
 
     void OnDisable()
@@ -102,7 +91,5 @@ public class Dirt : MonoBehaviour
         colliders.transform.position = this.transform.position;
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
         WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
-        DirtSaver.instance.RemoveTask(SaveData());
     }
-
 }

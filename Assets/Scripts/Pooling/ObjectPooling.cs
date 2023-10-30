@@ -8,7 +8,7 @@ public class ObjectPooling : MonoBehaviour
 
     static Dictionary<int, GameObject> parents = new Dictionary<int, GameObject>();
 
-    public static void PreLoad(GameObject objectToPool, int amount, GameObject parent)
+    public static List<GameObject> PreLoad(GameObject objectToPool, int amount, GameObject parent)
     {
         int id = objectToPool.GetInstanceID();
 
@@ -16,23 +16,54 @@ public class ObjectPooling : MonoBehaviour
         pool.Add(id, new Queue<GameObject>());
         activePool.Add(id, new Queue<GameObject>());
         
+        List<GameObject> gosPreloaded = new List<GameObject>();
+        
         for (int i = 0; i < amount; i++)
         {
-            CreateObject(objectToPool);
+            gosPreloaded.Add(CreateObject(objectToPool));
         }
+
+        return gosPreloaded;
     }
-
-
-    static void CreateObject(GameObject objectToPool)
+    public static List<GameObject> PreLoadSavedObjects(GameObject objectToPool, int amount, GameObject parent)
     {
         int id = objectToPool.GetInstanceID();
 
-        GameObject go = Instantiate(objectToPool) as GameObject;
+        parents.Add(id, parent);
+        pool.Add(id, new Queue<GameObject>());
+        activePool.Add(id, new Queue<GameObject>());
+
+        List<GameObject> gosPreloaded = new List<GameObject>();
+
+        for (int i = 0; i < amount; i++)
+        {
+            gosPreloaded.Add(CreateSavedObject(objectToPool));
+        }
+
+        return gosPreloaded;
+    }
+    static GameObject CreateSavedObject(GameObject objectToPool)
+    {
+        int id = objectToPool.GetInstanceID();
+
+        GameObject go = Instantiate(objectToPool);
+        go.transform.SetParent(GetParent(id).transform);
+        
+        activePool[id].Enqueue(go);
+
+        return go;
+    }
+
+    static GameObject CreateObject(GameObject objectToPool)
+    {
+        int id = objectToPool.GetInstanceID();
+
+        GameObject go = Instantiate(objectToPool);
         go.transform.SetParent(GetParent(id).transform);
         go.SetActive(false);
 
         pool[id].Enqueue(go);
-
+        return go;
     }
 
     static GameObject GetParent(int parentID)

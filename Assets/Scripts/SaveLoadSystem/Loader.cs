@@ -2,21 +2,20 @@
 using System.IO;
 using UnityEngine;
 
-public class Loader
+public class Loader<T>
 {
-    public static object Load(string filePath)
+    public T Load(string filePath)
     {
-        object result;
         try
         {
             string fileContent = File.ReadAllText(filePath);
-            result = JsonUtility.FromJson<object>(fileContent);
+            var result = JsonUtility.FromJson<T>(fileContent);
+            return result;
         }
-        catch (FileNotFoundException ex)
+        catch
         {
-            result = null;
-            Debug.LogWarning(ex.Message);
+            throw new Exception("This Object Doesn't exist.");
+
         }
-        return null;
     }
 }

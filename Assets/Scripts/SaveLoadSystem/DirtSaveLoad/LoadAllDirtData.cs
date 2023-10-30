@@ -1,25 +1,26 @@
-﻿using UnityEditor.Localization.Plugins.XLIFF.V20;
+﻿using System;
 using UnityEngine;
 
-public class LoadAllDirtData : MonoBehaviour
+public static class LoadAllDirtData
 {
-    public static AllDirtsData GetData()
+    public static AllDirtsData GetData(bool isTemporary)
     {
-        AllDirtsData data = new AllDirtsData(0);
-        string path;
+        var data = new AllDirtsData(0);
+        string path = PathFinder.GetPath(data.GetType().FullName, isTemporary);
+
+        Loader<AllDirtsData> loader = new Loader<AllDirtsData>();
+
         try
         {
-            path = PathFinder.GetPath(data.GetType().FullName, false);
-
-            path += ".json";
+            AllDirtsData preresult = loader.Load(path);
+            AllDirtsData result = new(preresult.dataList, preresult.DirtCounter);
+            return result;
         }
-        catch
+        catch (Exception e)
         {
+            Debug.LogException(e);
             return null;
         }
 
-        AllDirtsData result = (AllDirtsData)Loader.Load(path);
-        result.LoadQueue();
-        return result;
     }
 }
