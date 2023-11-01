@@ -2,9 +2,10 @@
 public class CropSaveData : SaveData
 {
     public int DiasPlantado;
-
-    public CropSaveData(int diasPlantado)
+    public GrowingState GrowingState;
+    public CropSaveData(int diasPlantado, GrowingState growingState)
     {
         DiasPlantado = diasPlantado;
+        GrowingState = growingState;
     }
 }

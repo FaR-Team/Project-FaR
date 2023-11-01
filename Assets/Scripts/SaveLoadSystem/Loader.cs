@@ -15,7 +15,6 @@ public class Loader<T>
         catch
         {
             throw new Exception("This Object Doesn't exist.");
-
         }
     }
 }

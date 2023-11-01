@@ -48,8 +48,8 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
 		DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
 		DebugLogConsole.AddCommand("giveShirt", "le da pantalones", GiveShirt);
-		DebugLogConsole.AddCommand("testsave", "le da pantalones", TestSave);
-		DebugLogConsole.AddCommand("testload", "le da pantalones", TestLoad);
+		DebugLogConsole.AddCommand("save", "le da pantalones", TestSave);
+		//DebugLogConsole.AddCommand("load", "le da pantalones", TestLoad);
 	}
 
     private void SetAreaHarvestLevel(int x)

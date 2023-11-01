@@ -22,11 +22,11 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
             CheckDayGrow();
         }
 
-        if (!IsLastStage()) return;
+        if (!currentState.isLastPhase) return;
 
         if (fruits.Count > 0)
         {
-            if (fruits[0].GetComponent<GrowingFruitsBush>().IsLastStage()) 
+            if (fruits[0].GetComponent<GrowingFruitsBush>().currentState.isLastPhase) 
                 gameObject.layer = interactableLayerInt;
             return;
         }

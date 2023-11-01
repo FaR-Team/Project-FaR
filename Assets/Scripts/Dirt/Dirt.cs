@@ -1,7 +1,6 @@
 using UnityEngine;
 using FaRUtils.Systems.Weather;
 using System;
-using System.Threading.Tasks;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -18,7 +17,7 @@ public class Dirt : MonoBehaviour
     public GameObject violeta { get; private set; }
 
     public GameObject currentCrop;
-    public SeedItemData currentCropData { get; private set; }
+    public SeedItemData currentSeedData { get; private set; }
     public CropSaveData cropSaveData { get; private set; }
 
     public GameObject TextureAnimation;
@@ -34,12 +33,11 @@ public class Dirt : MonoBehaviour
     {
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
-        currentCrop = data.currentCrop;
-        currentCropData = data.currentCropData;
+        currentSeedData = data.currentCropData;
         cropSaveData = data.cropSaveData;
         transform.position = data.position;
 
-        if(currentCropData != null) 
+        if(currentSeedData != null) 
         {
             LoadCrop();
         }
@@ -47,15 +45,23 @@ public class Dirt : MonoBehaviour
 
     private void LoadCrop()
     {
-        GetCrop(currentCropData);
-        GrowingBase cropdata = currentCrop.GetComponent<GrowingBase>();
-        cropdata.DiasPlantado = cropSaveData.DiasPlantado;
+        GetCrop(currentSeedData);
+        try
+        {
+            currentCrop.GetComponent<GrowingBase>().LoadData(cropSaveData);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
     }
     public CropSaveData GetCropSaveData()
     {
-        CropSaveData cropdata = new CropSaveData(currentCrop.GetComponent<GrowingBase>().DiasPlantado);
-        return cropdata;
+        if( currentCrop == null ) return null;
 
+        var growing = currentCrop.GetComponent<GrowingBase>();
+        CropSaveData cropdata = new CropSaveData(growing.DiasPlantado, growing.currentState);
+        return cropdata;
     }
     public bool GetCrop(SeedItemData itemData)
     {
@@ -64,7 +70,7 @@ public class Dirt : MonoBehaviour
         GameObject instantiated = Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
 
         currentCrop = instantiated;
-        currentCropData = itemData;
+        currentSeedData = itemData;
 
         GridGhost.UpdateRandomSeed();
         return (instantiated != null);
@@ -100,7 +106,7 @@ public class Dirt : MonoBehaviour
     void OnDisable()
     {
         currentCrop = null;
-        currentCropData = null;
+        currentSeedData = null;
         IsEmpty = true;
         _isWet = false;
         TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);

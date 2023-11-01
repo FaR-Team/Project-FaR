@@ -22,7 +22,7 @@ public class SaveDirtData : MonoBehaviour
     public async Task SaveData()
     {
         DirtData dirtSaveData = 
-            new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentCrop, dirt.currentCropData, dirt.GetCropSaveData(), transform.position);
+            new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentSeedData, dirt.GetCropSaveData(), transform.position);
 
         await DirtSaver.instance.WriteSave(dirtSaveData);
     }

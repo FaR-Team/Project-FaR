@@ -16,8 +16,6 @@ public class GrowingCrop : GrowingBase
         base.Start();
 
         id = GetComponent<UniqueID>().ID;
-
-
     }
     public override void OnHourChanged(int hour)
     {
@@ -25,23 +23,5 @@ public class GrowingCrop : GrowingBase
 
         DiasPlantado++;
         CheckDayGrow();
-    }
-    public override void CheckDayGrow()
-    {
-        foreach (int i in DayForChangeOfPhase)
-        {
-            if (DiasPlantado != i) continue;
-
-            SetInteractable(i);
-
-            int valueToGet = System.Array.IndexOf(DayForChangeOfPhase, i);
-            if (meshCollider != null)
-            {
-                meshCollider.sharedMesh = meshes[valueToGet];
-            }
-            meshFilter.mesh = meshes[valueToGet];
-            meshRenderer.material = materials[valueToGet];
-            return;
-        }
     }
 }

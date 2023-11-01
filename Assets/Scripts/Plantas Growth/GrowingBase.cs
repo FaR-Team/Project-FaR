@@ -1,24 +1,17 @@
 ﻿using UnityEngine;
-using FaRUtils.Systems.DateTime;
 using System.Linq;
+using FaRUtils.Systems.DateTime;
 
 public class GrowingBase : MonoBehaviour
 {
-    
-    [Tooltip("acá poné las meshes")]
-    public Mesh[] meshes; 
-    public Material[] materials;
-
     protected int interactableLayerInt = 7;
 
     public int DiasPlantado; //Dias que pasaron desde que se plantó.
 
-    //[SerializeField] private CropSaveData cropSaveData;
-    //private string id;
-
-    public int[] DayForChangeOfPhase;
-
     public bool isFruit;
+
+    [SerializeField] protected GrowingState[] states;
+    public GrowingState currentState;
 
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
@@ -29,61 +22,49 @@ public class GrowingBase : MonoBehaviour
         if (TryGetComponent<MeshFilter>(out MeshFilter filter))
         {
             meshFilter = filter;
-            meshFilter.mesh = meshes[0];
         }
         if (TryGetComponent<MeshCollider>(out MeshCollider col))
         {
             meshCollider = col;
-            meshCollider.sharedMesh = meshes[0];
         }
         if (TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
         {
             meshRenderer = renderer;
-            meshRenderer.material = materials[0];
         }
 
         DateTime.OnHourChanged.AddListener(OnHourChanged);
     }
-    
-    public virtual void OnHourChanged(int hour) {}
+
+    public virtual void OnHourChanged(int hour) { }
 
     public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
-        foreach (int i in DayForChangeOfPhase)
-        { 
-            if (DiasPlantado != i) continue;
-
-            int valueToGet = System.Array.IndexOf(DayForChangeOfPhase, i);
-            if (meshCollider != null)
-            {
-                meshCollider.sharedMesh = meshes[valueToGet];
-            }
-            meshFilter.mesh = meshes[valueToGet];
-            meshRenderer.material = materials[valueToGet];
-            return;
-        }
+        currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(DiasPlantado));
+        SetData();
     }
 
-    public virtual void SetInteractable(int i)
+    protected virtual void SetData()
     {
-        if (IsLastPhase(i) && !isFruit)
+        meshFilter.mesh = currentState.mesh;
+        meshRenderer.material = currentState.material;
+        if (meshCollider != null)
         {
-            gameObject.layer = interactableLayerInt; //layer interactuable.
+            meshCollider.sharedMesh = currentState.mesh;
         }
+        if (currentState.isLastPhase) SetInteractable();
     }
-    
-    public bool IsLastPhase(int numero)
-    {
-        if (DayForChangeOfPhase.Length == 0)
-        {
-            return false;
-        }
 
-        int ultimoElemento = DayForChangeOfPhase[DayForChangeOfPhase.Length - 1];
-        return numero == ultimoElemento;
-    }
-    public bool IsLastStage()
+    public virtual void SetInteractable()
     {
-        return (DiasPlantado >= meshes.Length);
+        if (isFruit) return;
+
+        gameObject.layer = interactableLayerInt; //layer interactuable.
+    }
+
+    public void LoadData(CropSaveData cropSaveData)
+    {
+        DiasPlantado = cropSaveData.DiasPlantado;
+        currentState = cropSaveData.GrowingState;
+        SetData();
     }
 }

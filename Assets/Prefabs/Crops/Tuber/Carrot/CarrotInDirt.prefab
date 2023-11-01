@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3660911085248889898}
   - component: {fileID: 2946311036401442136}
   m_Layer: 0
-  m_Name: newCarrot
+  m_Name: CarrotInDirt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,26 +47,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46379ef3c70820479fe2de9aebb7a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshes:
-  - {fileID: -2432090755550338912, guid: a607781ba7a8d94419700ca741b360bf, type: 3}
-  - {fileID: -2432090755550338912, guid: d3a64a90a23c8ae479b32521f4fc9e14, type: 3}
-  materials:
-  - {fileID: 2100000, guid: 3fb419360618a7c49b096d4d6b8365c5, type: 2}
-  - {fileID: 2100000, guid: 3034a85381a0ecb4c9922554360c65ec, type: 2}
   DiasPlantado: 0
-  DayForChangeOfPhase: 010000000200000004000000
   isFruit: 0
+  states:
+  - {fileID: 11400000, guid: 7a60740a78284d346880259f591ed8ca, type: 2}
+  - {fileID: 11400000, guid: e45b56c4b5c380a43aaa69dd838b0d01, type: 2}
+  - {fileID: 11400000, guid: b767c7c14dae9ff4ca893dec615a0ca3, type: 2}
+  currentState: {fileID: 0}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
-  cropSaveData:
-    Position: {x: 0, y: 0, z: 0}
-    Dia: 0
-    ID: 
   tierra: {fileID: 0}
   interactablePrefab: {fileID: 1275932420384288578, guid: 6a26517dbfab41f439f9ad83a691cd58,
     type: 3}
-  skinnedMeshRenderer: {fileID: 0}
+  skinnedMeshRenderer: {fileID: 3660911085248889898}
 --- !u!114 &2188836714450380470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +73,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7c2a7d7f-285a-4118-8238-b0b5d39cb9c0
+  _ID: d9d9492f-7f06-44b4-b325-9a261489165f
 --- !u!137 &3660911085248889898
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

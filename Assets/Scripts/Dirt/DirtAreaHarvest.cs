@@ -59,7 +59,7 @@ public class DirtAreaHarvest : MonoBehaviour
     {
         if (col.tag is "Violeta" && !(col.gameObject == dirt.violeta))
         {
-            if (col.GetComponentInParent<Dirt>().currentCropData == dirt.currentCropData)
+            if (col.GetComponentInParent<Dirt>().currentSeedData == dirt.currentSeedData)
             {
                 col.GetComponentInParent<Dirt>().currentCrop.GetComponentInChildren<IInteractable>().InteractOut();
             }
