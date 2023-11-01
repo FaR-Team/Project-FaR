@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fab13deb666f1447a497464c4805fe0, type: 3}
   m_Name: StrawBerry4
   m_EditorClassIdentifier: 
-  mesh: {fileID: -2432090755550338912, guid: e10bfb0cdf02318429ff0569416be82d, type: 3}
-  material: {fileID: 2100000, guid: 3350ba99cd437a24cbe6dc6cdec10eae, type: 2}
-  minimalDay: 2
-  maximalDay: 3
-  isLastPhase: 0
+  mesh: {fileID: -2432090755550338912, guid: 3d0e35a249365c14591fe8711d63dc46, type: 3}
+  material: {fileID: 2100000, guid: 53fdacabc5ef0a244b0a4f098774ea83, type: 2}
+  minimalDay: 5
+  maximalDay: 20
+  isLastPhase: 1
