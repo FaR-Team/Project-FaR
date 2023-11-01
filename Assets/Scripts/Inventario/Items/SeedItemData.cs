@@ -1,8 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/SeedItem")]
+[Serializable]
 public class SeedItemData : InventoryItemData
 {
     public GameObject DirtPrefab;

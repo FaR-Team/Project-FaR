@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class DirtSaveData : SaveData
+public class DirtData : SaveData
 {
     public bool _isWet;
     public bool IsEmpty;
@@ -10,7 +10,7 @@ public class DirtSaveData : SaveData
     public CropSaveData cropSaveData;
     public Vector3 position;
 
-    public DirtSaveData(bool isWet, bool isEmpty, GameObject currentCrop, SeedItemData currentCropData, CropSaveData cropSaveData, Vector3 position)
+    public DirtData(bool isWet, bool isEmpty, GameObject currentCrop, SeedItemData currentCropData, CropSaveData cropSaveData, Vector3 position)
     {
         _isWet = isWet;
         IsEmpty = isEmpty;
@@ -19,7 +19,7 @@ public class DirtSaveData : SaveData
         this.cropSaveData = cropSaveData;
         this.position = position;
     }
-    public DirtSaveData()
+    public DirtData()
     {
         _isWet = false;
         IsEmpty = true;

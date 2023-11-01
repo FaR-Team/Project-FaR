@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(UniqueID))]
 public class GrowingTuber : GrowingBase { 
@@ -23,8 +24,7 @@ public class GrowingTuber : GrowingBase {
     public override void OnHourChanged(int hour)
     {
         if (!tierra._isWet || hour != 4) return;
-
-        DiasPlantado++;
+        DiasPlantado++; //ESTO DEBERIA SER UN EVENTO. DE DIAS PLANTADO Y CHECKDAYGROW SE SUSCRIBE A ESTE.
         CheckDayGrow();
     }
     public override void CheckDayGrow()

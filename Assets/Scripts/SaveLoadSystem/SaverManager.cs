@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using UnityEngine;
 
 public class SaverManager : MonoBehaviour
@@ -7,9 +6,14 @@ public class SaverManager : MonoBehaviour
     SaverManager instance;
     private void Awake()
     {
-        if (instance != null) Destroy(instance);
-
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
     }
 
     public static void Save(object info, bool isTemporary)

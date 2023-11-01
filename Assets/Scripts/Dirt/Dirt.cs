@@ -16,7 +16,8 @@ public class Dirt : MonoBehaviour
 
     public bool IsEmpty { get; private set; }
     public GameObject violeta { get; private set; }
-    public GameObject currentCrop { get; private set; }
+
+    public GameObject currentCrop;
     public SeedItemData currentCropData { get; private set; }
     public CropSaveData cropSaveData { get; private set; }
 
@@ -25,22 +26,37 @@ public class Dirt : MonoBehaviour
 
     void Start()
     {
-
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(DryDirt);
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
 
-    public void LoadData(DirtSaveData data)
+    public void LoadData(DirtData data)
     {
-
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
         currentCrop = data.currentCrop;
         currentCropData = data.currentCropData;
         cropSaveData = data.cropSaveData;
         transform.position = data.position;
+
+        if(currentCropData != null) 
+        {
+            LoadCrop();
+        }
     }
 
+    private void LoadCrop()
+    {
+        GetCrop(currentCropData);
+        GrowingBase cropdata = currentCrop.GetComponent<GrowingBase>();
+        cropdata.DiasPlantado = cropSaveData.DiasPlantado;
+    }
+    public CropSaveData GetCropSaveData()
+    {
+        CropSaveData cropdata = new CropSaveData(currentCrop.GetComponent<GrowingBase>().DiasPlantado);
+        return cropdata;
+
+    }
     public bool GetCrop(SeedItemData itemData)
     {
         IsEmpty = false;

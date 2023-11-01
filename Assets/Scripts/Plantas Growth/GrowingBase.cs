@@ -43,8 +43,6 @@ public class GrowingBase : MonoBehaviour
         }
 
         DateTime.OnHourChanged.AddListener(OnHourChanged);
-
-        DiasPlantado = 0;
     }
     
     public virtual void OnHourChanged(int hour) {}

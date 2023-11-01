@@ -1,14 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-/// <summary>
-/// Esto es un objeto scriptable object que define qué es un item en el juego.
-/// Se podría reutilizar para otro tipo de objetos.
-/// </summary>
-
-
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/Item", order = 0)]
+[Serializable]
 
 public class InventoryItemData : ScriptableObject 
 {   

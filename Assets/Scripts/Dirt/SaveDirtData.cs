@@ -13,18 +13,17 @@ public class SaveDirtData : MonoBehaviour
 
     private void OnEnable()
     {
-        DirtSaver.instance.AddDirt(this);
+        DirtSaver.instance.AddSavedObject(this);
     }
     private void OnDisable()
     {
-        DirtSaver.instance.RemoveDirt(this);
+        DirtSaver.instance.RemoveSavedObject(this);
     }
     public async Task SaveData()
     {
-        Debug.Log("saving Dirt");
+        DirtData dirtSaveData = 
+            new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentCrop, dirt.currentCropData, dirt.GetCropSaveData(), transform.position);
 
-        DirtSaveData dirtSaveData = new DirtSaveData(dirt._isWet, dirt.IsEmpty, dirt.currentCrop, dirt.currentCropData, dirt.cropSaveData, transform.position);
-        
         await DirtSaver.instance.WriteSave(dirtSaveData);
     }
 }

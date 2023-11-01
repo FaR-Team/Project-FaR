@@ -5,23 +5,23 @@ using System.Linq;
 [Serializable]
 public class AllDirtsData
 {
-    public List<DirtSaveData> dataList;
+    public List<DirtData> dataList;
     public int DirtCounter;
 
-    public Queue<DirtSaveData> data;
+    public Queue<DirtData> data;
 
     public AllDirtsData(int dirtCounter)
     {
-        dataList = new List<DirtSaveData>();
-        data = new Queue<DirtSaveData>();
+        dataList = new List<DirtData>();
+        data = new Queue<DirtData>();
         DirtCounter = dirtCounter;
     }
 
-    public AllDirtsData(List<DirtSaveData> dataList, int dirtCounter)
+    public AllDirtsData(List<DirtData> dataList, int dirtCounter)
     {
         this.dataList = dataList;
         DirtCounter = dirtCounter;
-        data = new Queue<DirtSaveData>();
+        data = new Queue<DirtData>();
         LoadQueue();
     }
 

@@ -3,33 +3,27 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class DirtSaver : MonoBehaviour
+public class DirtSaver : Saver<DirtData, SaveDirtData>
 {
     public static DirtSaver instance;
 
-    private AllDirtsData allDirtsData;
+    private AllDirtsData allDirtsData = new AllDirtsData(0);
 
-    private List<SaveDirtData> dirts;
+    private List<SaveDirtData> dirts = new List<SaveDirtData>();
 
     private void Awake()
     {
-        allDirtsData = new AllDirtsData(0);
         instance = this;
-        dirts = new List<SaveDirtData>();
-    }
-    private void Start()
-    {
-        Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
 
-    public Task WriteSave(DirtSaveData info)
+    public override Task WriteSave(DirtData info)
     {
         allDirtsData.data.Enqueue(info);
         allDirtsData.DirtCounter++;
         return Task.CompletedTask;
     }
 
-    public async void SaveAllData(bool isTemporarySave)
+    protected async override void SaveAllData(bool isTemporarySave)
     {
         Debug.Log("SAVING");
 
@@ -53,15 +47,14 @@ public class DirtSaver : MonoBehaviour
             await dirt.SaveData();
         }
     }
-    public void RemoveDirt(SaveDirtData dirt)
+
+    public override void AddSavedObject(SaveDirtData dirtData)
     {
-        dirts.Remove(dirt);
+        dirts.Add(dirtData);
     }
 
-    public void AddDirt(SaveDirtData dirt)
+    public override void RemoveSavedObject(SaveDirtData dirtData)
     {
-        Debug.Log("adding Dirt");
-
-        dirts.Add(dirt);
+        dirts.Remove(dirtData);
     }
 }
