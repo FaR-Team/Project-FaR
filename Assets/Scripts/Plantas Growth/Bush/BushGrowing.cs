@@ -11,6 +11,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 
         Tierra = transform.parent.gameObject.GetComponent<Dirt>();
         TierraTexture = transform.parent.GetChild(0).gameObject;
+        CheckDayGrow();
     }
 
     public override void OnHourChanged(int hour) //TO DO: Que esto sea más escalable.

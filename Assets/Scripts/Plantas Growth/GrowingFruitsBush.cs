@@ -8,5 +8,6 @@ public class GrowingFruitsBush : GrowingCrop //Crecimiento de la Fruta del arbus
         base.Start();
 
         tierra = transform.parent.parent.parent.GetComponent<BushGrowing>().Tierra;
+        CheckDayGrow();
     }
 }

@@ -153,19 +153,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f6d839fb246cad4e8c85468da41349e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshes:
-  - {fileID: -2432090755550338912, guid: 2b66475163100554996d0aafd8450a1e, type: 3}
-  - {fileID: -2432090755550338912, guid: e10bfb0cdf02318429ff0569416be82d, type: 3}
-  - {fileID: -2432090755550338912, guid: 017821dd8cdbb1c439ae75486b19dbdd, type: 3}
-  - {fileID: -2432090755550338912, guid: 3d0e35a249365c14591fe8711d63dc46, type: 3}
-  materials:
-  - {fileID: 2100000, guid: 83d4db8fce0b74e4a8a1f479f63b03f1, type: 2}
-  - {fileID: 2100000, guid: 3350ba99cd437a24cbe6dc6cdec10eae, type: 2}
-  - {fileID: 2100000, guid: c6da43de32d4e0c45b55365d8a5112bb, type: 2}
-  - {fileID: 2100000, guid: 53fdacabc5ef0a244b0a4f098774ea83, type: 2}
   DiasPlantado: 0
-  DayForChangeOfPhase: 01000000020000000300000004000000
   isFruit: 0
+  states:
+  - {fileID: 11400000, guid: 167c8b4e99e660b4094274dead0a9e0a, type: 2}
+  - {fileID: 11400000, guid: 107383db792afa54c8a5ee05d09e197d, type: 2}
+  - {fileID: 11400000, guid: 2cb6d26f9f0d30e48b767c532ff7c940, type: 2}
+  - {fileID: 11400000, guid: 4eb7bb045010aec438e002bf30c2a097, type: 2}
+  currentState: {fileID: 0}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
@@ -179,6 +174,7 @@ MonoBehaviour:
   - {fileID: 6129042459070997043}
   - {fileID: 3521115482291175411}
   fruits: []
+  Tierra: {fileID: 0}
   ReGrow: 0
   ReGrowMaxTimes: 4
   Prefab: {fileID: 8241547010519418602, guid: f69cc9de75ce1c8459f517dbdb8594b7, type: 3}
@@ -186,7 +182,6 @@ MonoBehaviour:
   ExpectedInt: 3
   horasQuePasaronSinFrutas: 0
   horasQueDebenPasarSinFrutas: 2
-  Tierra: {fileID: 0}
   TierraTexture: {fileID: 0}
 --- !u!114 &4144831522141067726
 MonoBehaviour:
