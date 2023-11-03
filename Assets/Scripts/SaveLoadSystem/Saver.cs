@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public abstract class Saver<T, Y> : MonoBehaviour
 {
-
     protected void Start()
     {
         Cama.Instance.SaveDataEvent.AddListener(SaveAllData);

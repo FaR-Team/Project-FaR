@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Threading.Tasks;
 
 public class InventorySlot_UIBasic : MonoBehaviour
 {
@@ -77,4 +78,10 @@ public class InventorySlot_UIBasic : MonoBehaviour
     {
         ParentDisplay?.SlotClicked(this);
     }
+
+    public Task SaveSlot()
+    {
+
+    }
 }
+

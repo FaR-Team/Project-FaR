@@ -6,7 +6,7 @@ using UnityEngine;
 
 [System.Serializable]
 
-public class InventorySlot : ItemSlot
+public class InventorySlot : ItemSlot 
 {
 
     public InventorySlot(InventoryItemData data, int amount) //Constructor para hacer un slot lleno

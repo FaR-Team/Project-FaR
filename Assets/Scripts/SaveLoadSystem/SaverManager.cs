@@ -1,21 +1,8 @@
 ﻿using System.IO;
 using UnityEngine;
 
-public class SaverManager : MonoBehaviour
+public class SaverManager 
 {
-    SaverManager instance;
-    private void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            instance = this;
-        }
-    }
-
     public static void Save(object info, bool isTemporary)
     {
         string jsonFile = JsonUtility.ToJson(info);

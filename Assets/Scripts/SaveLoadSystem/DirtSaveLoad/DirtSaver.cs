@@ -15,14 +15,6 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
     {
         instance = this;
     }
-
-    public override Task WriteSave(DirtData info)
-    {
-        allDirtsData.data.Enqueue(info);
-        allDirtsData.DirtCounter++;
-        return Task.CompletedTask;
-    }
-
     protected async override void SaveAllData(bool isTemporarySave)
     {
         Debug.Log("SAVING");
@@ -40,6 +32,14 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
             Debug.LogError("Failed Save Dirt. Reason: " + e);
         }
     }
+
+    public override Task WriteSave(DirtData info)
+    {
+        allDirtsData.data.Enqueue(info);
+        allDirtsData.DirtCounter++;
+        return Task.CompletedTask;
+    }
+
     private async Task SaveDirts()
     {
         foreach (var dirt in dirts)

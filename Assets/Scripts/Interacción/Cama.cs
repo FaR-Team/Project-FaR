@@ -14,7 +14,7 @@ public class Cama : MonoBehaviour, IInteractable
     public SellSystem _sellSystem;
     public GameObject Negrura;
     public GameObject Hotbar;
-    public GameObject player;
+    public FaRCharacterController player;
     public LightingManager lightingManager;
     public bool yasonlas6 = false;
     public bool _isSleeping = false;
@@ -41,6 +41,8 @@ public class Cama : MonoBehaviour, IInteractable
 
     private void Start() 
     {
+        player = FaRCharacterController.instance;
+
         DateTime.OnHourChanged.AddListener(OnHourChanged);
     }
 
@@ -55,8 +57,7 @@ public class Cama : MonoBehaviour, IInteractable
         lightingManager.CopyHour();
         Negrura.GetComponent<Animation>().Play("NegroOut");
         yasonlas6 = true;
-        player = GameObject.FindWithTag("Player");
-        player.GetComponent<FaRCharacterController>().enabled = true;
+        player.enabled = true;
         StartCoroutine(Wait());
     }
 
@@ -80,13 +81,14 @@ public class Cama : MonoBehaviour, IInteractable
         {
             TimeManager.TimeBetweenTicks = 0.05f;
         }
-        player = GameObject.FindWithTag("Player");
         Negrura.SetActive(true);
         Negrura.GetComponent<Animation>().Play("NegroIn");
         SaveDataEvent.Invoke(false);
+
         Energy.RemainingEnergy = 100;
         Energy.UpdateEnergy();
-        player.GetComponent<FaRCharacterController>().enabled = false;
+
+        player.enabled = false;
         yasonlas6 = false;
         _isSleeping = true;
 

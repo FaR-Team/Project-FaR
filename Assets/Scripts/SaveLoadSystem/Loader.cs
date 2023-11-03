@@ -8,13 +8,18 @@ public class Loader<T>
     {
         try
         {
-            string fileContent = File.ReadAllText(filePath);
-            var result = JsonUtility.FromJson<T>(fileContent);
-            return result;
+            return TryLoad(filePath);
         }
         catch
         {
-            throw new Exception("NO EXISTE ESTE ARCHIVO");
+            throw;
         }
+    }
+
+    private T TryLoad(string filePath)
+    {
+        string fileContent = File.ReadAllText(filePath);
+        var result = JsonUtility.FromJson<T>(fileContent);
+        return result;
     }
 }

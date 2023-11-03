@@ -6,6 +6,15 @@ using UniRx.Triggers;
 
 public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
 {
+    public List<InventorySlot_UI_Backpack> inventorySlots;
+
+    public static DynamicInventoryDisplayBackpack instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     protected override void Start()
     {
         base.Start();
@@ -25,7 +34,7 @@ public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
         {
             InventorySlot_UI_Backpack uiSlot = (InventorySlot_UI_Backpack) Instantiate(slotPrefab, transform);
             slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
-
+            inventorySlots.Add(uiSlot);
             uiSlot.Init(invToDisplay.InventorySlots[i], EnumAPasar(i));
             uiSlot.UpdateUISlot();
         }

@@ -8,6 +8,7 @@ public class RunName : MonoBehaviour
     private void Awake()
     {
         instance= this;
-        currentRunName = "Run Test";
+        currentRunName = "Run Test"; 
+        //Hardcodeado, despues esto debe estar puesto como algo dado por el nombre de run que le ponga el jugador.
     }
 }
