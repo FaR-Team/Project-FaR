@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-public class InventorySaver : Saver<InventorySlot, InventorySlotSave>
+public class InventorySaver : Saver<InventorySlot, SaveBackPackData>
 {
     public static InventorySaver Instance;
 
@@ -21,24 +21,24 @@ public class InventorySaver : Saver<InventorySlot, InventorySlotSave>
         }
         return Task.CompletedTask;
     }
-    public override void AddSavedObject(InventorySlotSave y)
+    public override void AddSavedObject(SaveBackPackData y)
     {
         throw new System.NotImplementedException();
     }
 
-    public override void RemoveSavedObject(InventorySlotSave y)
+    public override void RemoveSavedObject(SaveBackPackData y)
     {
         throw new System.NotImplementedException();
     }
 }
 
-public class InventorySlotSave
+public class SaveBackPackData
 {
     public async Task SaveData()
     {
-        DirtData dirtSaveData =
-            new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentSeedData, dirt.GetCropSaveData(), transform.position);
+       // DirtData dirtSaveData =
+         //   new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentSeedData, dirt.GetCropSaveData(), transform.position);
 
-        await DirtSaver.instance.WriteSave(dirtSaveData);
+     //   await DirtSaver.instance.WriteSave(dirtSaveData);
     }
 }

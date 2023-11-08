@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using FaRUtils.Systems.ItemSystem;
 using UnityEngine;
 
 [System.Serializable]

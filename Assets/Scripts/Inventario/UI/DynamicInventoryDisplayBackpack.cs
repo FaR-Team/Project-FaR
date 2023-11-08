@@ -6,7 +6,7 @@ using UniRx.Triggers;
 
 public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
 {
-    public List<InventorySlot_UI_Backpack> inventorySlots;
+    public List<InventorySlot_UIBasic> inventorySlots;
 
     public static DynamicInventoryDisplayBackpack instance;
 
@@ -22,13 +22,11 @@ public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
 
     public override void AssignSlot(InventorySystem invToDisplay, int offset)
     {
-
         slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
 
-        if (invToDisplay == null)
-        {
-            return;
-        }
+        inventorySlots = new List<InventorySlot_UIBasic>();
+
+        if (invToDisplay == null) return;
 
         for (int i = offset; i < invToDisplay.tamañoInventario; i++)
         {

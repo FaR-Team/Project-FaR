@@ -81,7 +81,7 @@ public class InventorySlot_UIBasic : MonoBehaviour
 
     public Task SaveSlot()
     {
-
+        return Task.CompletedTask;
     }
 }
 

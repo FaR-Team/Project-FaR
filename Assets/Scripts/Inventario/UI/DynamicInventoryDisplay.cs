@@ -15,7 +15,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
     public void RefreshDynamicInventory(InventorySystem invToDisplay, int offset)
     {
-        ClearSlots();
+       // ClearSlots();
         inventorySystem = invToDisplay;
         if (inventorySystem != null) 
         {
