@@ -8,7 +8,7 @@ public class SaverManager
         string jsonFile = JsonUtility.ToJson(info);
         string pathFile = PathFinder.GetPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
-        Debug.Log(directoryPath);
+        //Debug.Log(directoryPath);
 
         if (!Directory.Exists(directoryPath))
         {

@@ -1,17 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FaRUtils.Systems.DateTime;
 
-public class PlayerInventoryHolder : InventoryHolder
+public class PlayerInventoryHolder : Container
 {
 
     public static UnityAction OnPlayerInventoryChanged;
 
     public static UnityAction<InventorySystem, int> OnPlayerInventoryDisplayRequested;
 
-    public GameObject player;
     public GameObject ShopKeeperObj;
     public ShopKeeper shopKeeper;
     public GameObject TimeManager;
@@ -21,21 +17,19 @@ public class PlayerInventoryHolder : InventoryHolder
     public DynamicInventoryDisplay playerBackpackPanel;
     public InventoryUIController inventoryUIController;
 
+    public static PlayerInventoryHolder instance;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        instance = this;
+    }
     private void Start() {
-        player = GameObject.FindGameObjectWithTag("Player");
+
         ShopKeeperObj = GameObject.FindGameObjectWithTag("Shop");
         shopKeeper = ShopKeeperObj.GetComponent<ShopKeeper>();
-        OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
+        OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
         playerBackpackPanel.gameObject.SetActive(false);
-    }
-
-
-    protected override void LoadInventory(SaveData data)
-    {
-        //Va a checkear los datos guardados para el inventario de este cofre, y si exisren, los va a cargar
-        
-        //Va a cargar los items del inventario
-        OnPlayerInventoryChanged?.Invoke();
     }
 
     void Update()
@@ -60,7 +54,7 @@ public class PlayerInventoryHolder : InventoryHolder
     }
     public void OpenInventory()
     {
-        OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
+        OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
         reloj.gameObject.SetActive(false);
         PauseMenu.GameIsPaused = true;
         isInventoryOpen = true;
@@ -77,6 +71,6 @@ public class PlayerInventoryHolder : InventoryHolder
     }
     public bool AñadirAInventario(InventoryItemData data, int amount)
     {
-        return (primaryInventorySystem.AñadirAInventario(data, amount)); 
+        return (inventorySystem.AñadirAInventario(data, amount)); 
     }
 }

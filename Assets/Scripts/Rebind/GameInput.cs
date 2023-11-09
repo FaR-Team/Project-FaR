@@ -38,7 +38,7 @@ playerInputActions = new PlayerInput2();
 
         if (PlayerPrefs.HasKey(PLAYER_PREFS_BINDINGS))
         {
-            playerInputActions.LoadBindingOverridesFromJson(PlayerPrefs.GetString(PLAYER_PREFS_BINDINGS));
+            playerInputActions.LoadBindingOverridesFromJson(PlayerPrefs.GetString(PLABINDYER_PREFS_INGS));
         }
 
         playerInputActions.Player.Enable();

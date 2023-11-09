@@ -2,7 +2,9 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/Item", order = 0)]
-[Serializable]
+
+
+[System.Serializable]
 
 public class InventoryItemData : ScriptableObject 
 {   

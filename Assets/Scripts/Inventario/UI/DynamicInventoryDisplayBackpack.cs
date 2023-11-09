@@ -1,12 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using UniRx.Triggers;
 
 public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
 {
-    public List<InventorySlot_UIBasic> inventorySlots;
 
     public static DynamicInventoryDisplayBackpack instance;
 
@@ -15,15 +10,9 @@ public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
         instance = this;
     }
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    public override void AssignSlot(InventorySystem invToDisplay, int offset)
+    public override void CreateSlots(InventorySystem invToDisplay, int offset)
     {
         slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
-
         inventorySlots = new List<InventorySlot_UIBasic>();
 
         if (invToDisplay == null) return;
@@ -31,8 +20,10 @@ public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
         for (int i = offset; i < invToDisplay.tamañoInventario; i++)
         {
             InventorySlot_UI_Backpack uiSlot = (InventorySlot_UI_Backpack) Instantiate(slotPrefab, transform);
+            
             slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
             inventorySlots.Add(uiSlot);
+            
             uiSlot.Init(invToDisplay.InventorySlots[i], EnumAPasar(i));
             uiSlot.UpdateUISlot();
         }

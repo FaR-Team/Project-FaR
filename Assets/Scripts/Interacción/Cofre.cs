@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FaRUtils.FPSController;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(UniqueID))]
-public class Cofre : InventoryHolder, IInteractable
+public class Cofre : Container, IInteractable
 {
     [SerializeField] private GameObject _prompt;
     public GameObject player;
@@ -12,21 +11,13 @@ public class Cofre : InventoryHolder, IInteractable
     public GameObject inventoryUIController;
     public GameObject InteractionPrompt => _prompt;
 
+    public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
+
+
     protected override void Awake()
     {
         base.Awake();
         _prompt = GameObject.FindGameObjectWithTag("HouseInteraction");
-    }
-
-    private void Start() 
-    {
-        var ChestSaveData = new InventorySaveData(primaryInventorySystem, transform.position, transform.rotation);
-
-    }
-
-    protected override void LoadInventory(SaveData data)
-    {
-        
     }
 
     public void Interact(Interactor interactor,  out bool interactSuccessful)
@@ -34,7 +25,7 @@ public class Cofre : InventoryHolder, IInteractable
         player = GameObject.FindWithTag("Player");
         player.GetComponent<PlayerInventoryHolder>().OpenInventory();
         //PlayerInventoryHolder.OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
-        OnDynamicInventoryDisplayRequested?.Invoke(primaryInventorySystem, 0);
+        OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         player.GetComponent<FaRCharacterController>().enabled = false;

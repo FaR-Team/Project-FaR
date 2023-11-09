@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using System;
 
 [System.Serializable]
 public class InventorySystem
 {
-    [SerializeField] private List<InventorySlot> inventorySlots;
-    [SerializeField] private int _gold;
+    public List<InventorySlot> inventorySlots;
+    public int _gold;
 
     public List<InventorySlot> hotbarAbilitySlots;
     public int Gold => _gold;
@@ -28,6 +29,18 @@ public class InventorySystem
     {
         _gold = gold;
         CreateInventory(tamaño);
+    }
+
+    public InventorySystem()
+    {
+
+    }
+
+    public InventorySystem(List<InventorySlot> inventorySlots, int gold, List<InventorySlot> hotbarAbilitySlots)
+    {
+        this.inventorySlots = inventorySlots;
+        _gold = gold;
+        this.hotbarAbilitySlots = hotbarAbilitySlots;
     }
 
     private void CreateInventory(int tamaño)
@@ -62,6 +75,7 @@ public class InventorySystem
     }
     public bool AñadirAInventario(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
+        Debug.Log("aniadiendo");
         if (ContieneItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
         {
             foreach (var slot in invSlot)

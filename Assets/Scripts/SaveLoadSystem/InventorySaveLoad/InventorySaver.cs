@@ -1,44 +1,61 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
 
-public class InventorySaver : Saver<InventorySlot, SaveBackPackData>
+public class InventorySaver : MonoBehaviour 
 {
     public static InventorySaver Instance;
 
+    private AllInventorySystems AllInventorySystems = new AllInventorySystems(0);
+    private List<ContainerDataSaver> containerDataSavers = new List<ContainerDataSaver>();
     private void Awake()
     {
         Instance = this;
     }
-    protected override void SaveAllData(bool isTemporarySave)
+    protected void Start()
     {
-        throw new System.NotImplementedException();
+        Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
-
-    public override Task WriteSave(InventorySlot t)
+    protected async void SaveAllData(bool isTemporarySave)
     {
-        foreach (var slot in DynamicInventoryDisplayBackpack.instance.inventorySlots)
+        Debug.Log("SAVING");
+
+        try
         {
-            slot.SaveSlot();
+            await SaveInvs();
+
+            AllInventorySystems.SaveDict();
+
+            SaverManager.Save(AllInventorySystems, isTemporarySave);
+            Debug.Log("Successfully Saved Inventories");
         }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed Save Inventories. Reason: " + e);
+        }
+    }
+    private async Task SaveInvs()
+    {
+        foreach (var containerDS in containerDataSavers)
+        {
+            await containerDS.SaveData();
+        }
+    }
+    public Task WriteSave(InventorySystem invSystem, string id)
+    {
+        AllInventorySystems.data.Add(id, invSystem);
+        AllInventorySystems.dataCounter++;
         return Task.CompletedTask;
     }
-    public override void AddSavedObject(SaveBackPackData y)
+    public void AddSavedObject(ContainerDataSaver conteinerDSaver)
     {
-        throw new System.NotImplementedException();
+        containerDataSavers.Add(conteinerDSaver);
     }
 
-    public override void RemoveSavedObject(SaveBackPackData y)
+    public void RemoveSavedObject(ContainerDataSaver conteinerDSaver)
     {
-        throw new System.NotImplementedException();
-    }
-}
-
-public class SaveBackPackData
-{
-    public async Task SaveData()
-    {
-       // DirtData dirtSaveData =
-         //   new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentSeedData, dirt.GetCropSaveData(), transform.position);
-
-     //   await DirtSaver.instance.WriteSave(dirtSaveData);
+        containerDataSavers.Remove(conteinerDSaver);
     }
 }

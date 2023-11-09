@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class Loader<T>
@@ -10,9 +11,10 @@ public class Loader<T>
         {
             return TryLoad(filePath);
         }
-        catch
+        catch (Exception ex) 
         {
-            throw;
+            
+            throw ex;
         }
     }
 

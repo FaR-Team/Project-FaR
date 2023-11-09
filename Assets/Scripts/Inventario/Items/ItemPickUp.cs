@@ -45,7 +45,7 @@ public class ItemPickUp : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        var inventory = other.transform.GetComponent<InventoryHolder>();
+        var inventory = other.transform.GetComponent<Container>();
 
         if (!inventory) return;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
@@ -62,12 +62,10 @@ public class ItemPickUp : MonoBehaviour
 
     public static void GiveItem(InventoryItemData data, int amount)
     {
-        var inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryHolder>();
+        var inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Container>();
 
-        if (!inventory)
-        {
-            return;
-        }
+        if (!inventory) return;
+     
         inventory.PrimaryInventorySystem.AñadirAInventario(data, amount);
     }
 }

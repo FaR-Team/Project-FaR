@@ -1,8 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using FaRUtils.FPSController;
 
 public class InventoryUIController : MonoBehaviour
 {
@@ -12,8 +9,12 @@ public class InventoryUIController : MonoBehaviour
     public GameObject reloj;
     public bool isChestInventoryOpen = false;
 
+    public static InventoryUIController instance;
+
     private void Awake() 
     {
+        instance = this;
+
         inventoryPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
@@ -23,13 +24,13 @@ public class InventoryUIController : MonoBehaviour
 
     private void OnEnable()
     {
-        InventoryHolder.OnDynamicInventoryDisplayRequested += DisplayInventory;
+        Cofre.OnDynamicInventoryDisplayRequested += DisplayInventory;
         PlayerInventoryHolder.OnPlayerInventoryDisplayRequested += DisplayPlayerInventory;
     }
 
     void OnDisable()
     {
-        InventoryHolder.OnDynamicInventoryDisplayRequested -= DisplayInventory;
+        Cofre.OnDynamicInventoryDisplayRequested -= DisplayInventory;
         PlayerInventoryHolder.OnPlayerInventoryDisplayRequested -= DisplayPlayerInventory;
     }
     void Update()
