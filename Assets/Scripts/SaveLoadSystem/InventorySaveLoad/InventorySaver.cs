@@ -8,11 +8,12 @@ public class InventorySaver : MonoBehaviour
 {
     public static InventorySaver Instance;
 
-    private AllInventorySystems AllInventorySystems = new AllInventorySystems(0);
+    private AllInventorySystems allInventorySystems;
     private List<ContainerDataSaver> containerDataSavers = new List<ContainerDataSaver>();
     private void Awake()
     {
         Instance = this;
+        allInventorySystems = new AllInventorySystems();
     }
     protected void Start()
     {
@@ -20,16 +21,17 @@ public class InventorySaver : MonoBehaviour
     }
     protected async void SaveAllData(bool isTemporarySave)
     {
-        Debug.Log("SAVING");
+        Debug.Log("1");
 
         try
         {
+            print("2");
             await SaveInvs();
 
-            AllInventorySystems.SaveDict();
-
-            SaverManager.Save(AllInventorySystems, isTemporarySave);
+            print("6");
+            SaverManager.Save(allInventorySystems, isTemporarySave);
             Debug.Log("Successfully Saved Inventories");
+            Debug.Log(allInventorySystems.data.Keys.Count);
         }
         catch (Exception e)
         {
@@ -40,22 +42,28 @@ public class InventorySaver : MonoBehaviour
     {
         foreach (var containerDS in containerDataSavers)
         {
+            print("3");
             await containerDS.SaveData();
         }
     }
     public Task WriteSave(InventorySystem invSystem, string id)
     {
-        AllInventorySystems.data.Add(id, invSystem);
-        AllInventorySystems.dataCounter++;
+        print("5");
+        print((invSystem, id));
+        allInventorySystems.data.TryAdd(id, invSystem);
+        allInventorySystems.dataCounter++;
         return Task.CompletedTask;
     }
-    public void AddSavedObject(ContainerDataSaver conteinerDSaver)
-    {
-        containerDataSavers.Add(conteinerDSaver);
+    public void AddSavedObject(ContainerDataSaver containerDSaver)
+    { 
+        print("0");
+        containerDataSavers.Add(containerDSaver);
     }
 
     public void RemoveSavedObject(ContainerDataSaver conteinerDSaver)
     {
+
+       print("removed save");
         containerDataSavers.Remove(conteinerDSaver);
     }
 }

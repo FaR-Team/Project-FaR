@@ -12,15 +12,49 @@ public static class LoadAllInvsData
 
         try
         {
-            AllInventorySystems preresult = loader.Load(path);
-            AllInventorySystems result = new AllInventorySystems(preresult.dataListValues, preresult.keys, preresult.dataCounter);
-            return result;
+            return loader.Load(path);
         }
-        catch (Exception e)
+        catch
         {
-            Debug.LogWarning(e);
-            return null;
+            throw;
         }
+    }
+}
 
+public class LoadAllContainer : MonoBehaviour
+{
+    public static LoadAllContainer instance;
+    private void Awake()
+    {
+        instance = this;
+    }
+    private void Start()
+    {
+        LoadChest();
+    }
+
+    private void LoadChest()
+    {
+        try
+        {
+            var data = LoadAllInvsData.GetData(false);
+
+            for (int i = 0; i < data.dataCounter; i++)
+            {
+                /*
+                 crear cada cofre en el lugar que corresponde y a su vez con los items
+                 */
+            }
+
+            /*
+         por cada 
+
+         */
+        }
+        catch
+        {
+
+        }
+        throw new NotImplementedException();
     }
 }

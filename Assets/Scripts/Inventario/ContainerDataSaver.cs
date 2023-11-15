@@ -17,6 +17,7 @@ public class ContainerDataSaver : MonoBehaviour
 
     public async Task SaveData()
     {
+        print("4");
         await InventorySaver.Instance.WriteSave(container.PrimaryInventorySystem, uniqueiD.ID);
     }
 }

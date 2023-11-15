@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using UnityEditor.Localization.Plugins.XLIFF.V12;
 using UnityEngine;
 
 public class Loader<T>
@@ -21,7 +20,7 @@ public class Loader<T>
     private T TryLoad(string filePath)
     {
         string fileContent = File.ReadAllText(filePath);
-        var result = JsonUtility.FromJson<T>(fileContent);
+        T result = JsonUtility.FromJson<T>(fileContent);
         return result;
     }
 }

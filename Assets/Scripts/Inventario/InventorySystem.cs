@@ -31,11 +31,6 @@ public class InventorySystem
         CreateInventory(tamaño);
     }
 
-    public InventorySystem()
-    {
-
-    }
-
     public InventorySystem(List<InventorySlot> inventorySlots, int gold, List<InventorySlot> hotbarAbilitySlots)
     {
         this.inventorySlots = inventorySlots;

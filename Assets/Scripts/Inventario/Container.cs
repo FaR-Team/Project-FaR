@@ -33,9 +33,11 @@ public abstract class Container : MonoBehaviour //ex inventoryholder
             InventorySystem preresult = allData.data[id];
             inventorySystem = new InventorySystem(preresult.inventorySlots, preresult.Gold, preresult.hotbarAbilitySlots);
             inventorySystem = allData.data[id];
+            print("loaded");
         }
         catch
         {
+            print("NOTloaded");
             inventorySystem = new InventorySystem(tamañoInventario, _gold);
             //Debug.Log(inventorySystem.tamañoInventario + "conteiner");
         }
