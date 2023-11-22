@@ -15,20 +15,19 @@ public class InventorySaver : MonoBehaviour
         Instance = this;
         allInventorySystems = new AllInventorySystems();
     }
+
     protected void Start()
     {
         Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
+
     protected async void SaveAllData(bool isTemporarySave)
     {
-        Debug.Log("1");
 
         try
         {
-            print("2");
             await SaveInvs();
 
-            print("6");
             SaverManager.Save(allInventorySystems, isTemporarySave);
             Debug.Log("Successfully Saved Inventories");
             Debug.Log(allInventorySystems.data.Keys.Count);
@@ -38,25 +37,25 @@ public class InventorySaver : MonoBehaviour
             Debug.LogError("Failed Save Inventories. Reason: " + e);
         }
     }
+    
     private async Task SaveInvs()
     {
         foreach (var containerDS in containerDataSavers)
         {
-            print("3");
             await containerDS.SaveData();
         }
     }
+
     public Task WriteSave(InventorySystem invSystem, string id)
     {
-        print("5");
         print((invSystem, id));
         allInventorySystems.data.TryAdd(id, invSystem);
         allInventorySystems.dataCounter++;
         return Task.CompletedTask;
     }
+
     public void AddSavedObject(ContainerDataSaver containerDSaver)
     { 
-        print("0");
         containerDataSavers.Add(containerDSaver);
     }
 

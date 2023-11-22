@@ -1,6 +1,5 @@
 ﻿
 using System;
-using System.Collections.Generic;
 
 [System.Serializable]
 public class AllInventorySystems
@@ -25,6 +24,5 @@ public class AllInventorySystems
         this.data = data;
     }
 }
-
 [Serializable]
-public class InvDictionary : SerializableDictionary<string, InventorySystem> { }
+public class InvDictionary : AYellowpaper.SerializedCollections.SerializedDictionary<string, InventorySystem> { }

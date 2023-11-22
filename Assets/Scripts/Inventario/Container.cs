@@ -1,11 +1,11 @@
+using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
 [System.Serializable]
-[RequireComponent(typeof(ContainerDataSaver))]
 public abstract class Container : MonoBehaviour //ex inventoryholder
 {
-    //objeto estilo conteiner, 
+    //objeto estilo conteiner.
     [SerializeField] private int tamañoInventario;
     [SerializeField] protected InventorySystem inventorySystem;
     [SerializeField] protected int offset = 10;
@@ -17,10 +17,6 @@ public abstract class Container : MonoBehaviour //ex inventoryholder
 
     protected virtual void Awake() // Carga el inventario cn lo que se habia guardado anteriormente
     {
-        TryGetComponent<ContainerDataSaver>(out var container);
-
-        if(container == null) gameObject.AddComponent<ContainerDataSaver>();
-        
         LoadInventory(false);
     }
 
@@ -35,11 +31,11 @@ public abstract class Container : MonoBehaviour //ex inventoryholder
             inventorySystem = allData.data[id];
             print("loaded");
         }
-        catch
+        catch(Exception e)
         {
-            print("NOTloaded");
+            print("NOT loaded:" + e);
             inventorySystem = new InventorySystem(tamañoInventario, _gold);
-            //Debug.Log(inventorySystem.tamañoInventario + "conteiner");
+            //Debug.Log(inventorySystem.tamañoInventario + " conteiner");
         }
     }
 

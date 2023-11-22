@@ -68,6 +68,7 @@ public class InventorySystem
         var hotbarSlots = hotbarAbilitySlots.Where(i => i.ItemData == itemToAdd).ToList();
         return !(hotbarSlots == null);
     }
+    
     public bool AñadirAInventario(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
         Debug.Log("aniadiendo");
@@ -103,11 +104,13 @@ public class InventorySystem
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista
         return !(invSlot == null);
     }
+
     public bool HaySlotLibreEnLaSpecialHotbar(out InventorySlot SlotLibre)
     {
         SlotLibre = hotbarAbilitySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre
         return !(SlotLibre == null);
     }
+
     public bool HaySlotLibre(out InventorySlot SlotLibre)
     {
         SlotLibre = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre

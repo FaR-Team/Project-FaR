@@ -19,7 +19,7 @@ public static class PathFinder
         }
         else
         {
-            return Path.Combine(Application.persistentDataPath, GetSaveRunName(), GetCurrentSceneName(), finalPath);
+            return Path.Combine(Application.persistentDataPath, "Run Test", GetCurrentSceneName(), finalPath);
         }
     }
 

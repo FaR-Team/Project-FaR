@@ -1,21 +1,21 @@
 ﻿using System.Threading.Tasks;
 using UnityEngine;
 
-public class ContainerDataSaver : MonoBehaviour
+public abstract class ContainerDataSaver : MonoBehaviour
 {
-    Container container;
-    UniqueID uniqueiD;
-    private void Awake()
+    protected Container container;
+    protected UniqueID uniqueiD;
+    protected virtual void Awake()
     {
         uniqueiD = GetComponent<UniqueID>();
         container = GetComponent<Container>();
     }
-    private void Start()
+    protected virtual void Start()
     {
         InventorySaver.Instance.AddSavedObject(this);
     }
 
-    public async Task SaveData()
+    public virtual async Task SaveData()
     {
         print("4");
         await InventorySaver.Instance.WriteSave(container.PrimaryInventorySystem, uniqueiD.ID);
