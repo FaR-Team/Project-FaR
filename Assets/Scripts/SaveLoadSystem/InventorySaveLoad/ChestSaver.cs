@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ChestSaver : MonoBehaviour 
+public class ChestSaver : MonoBehaviour
 {
     public static ChestSaver Instance;
 
-    private AllInventorySystems allInventorySystems;
-    private List<ContainerDataSaver> containerDataSavers = new List<ContainerDataSaver>();
+    private AllChestSystems allInventorySystems;
+    private List<ChestDataSaver> chestDataSavers = new List<ChestDataSaver>();
     private void Awake()
     {
         Instance = this;
-        allInventorySystems = new AllInventorySystems();
+        allInventorySystems = new AllChestSystems();
     }
 
     protected void Start()
@@ -22,46 +22,43 @@ public class ChestSaver : MonoBehaviour
 
     protected async void SaveAllData(bool isTemporarySave)
     {
-
         try
         {
             await SaveInvs();
             SaverManager.Save(allInventorySystems, isTemporarySave);
-            Debug.Log("Successfully Saved Inventories");
-            Debug.Log(allInventorySystems.data.Keys.Count);
+            Debug.Log("Successfully Saved Chests");
+          //  Debug.Log(allInventorySystems.data.Keys.Count);
         }
         catch (Exception e)
         {
             Debug.LogError("Failed Save Inventories. Reason: " + e);
         }
     }
-    
+
     private async Task SaveInvs()
     {
-        foreach (var containerDS in containerDataSavers)
+        foreach (var chestDataSaver in chestDataSavers)
         {
-            await containerDS.SaveData();
+            await chestDataSaver.SaveData();
         }
     }
 
-    public Task WriteSave(InventorySystem invSystem, string id)
+    public Task WriteSave(ChestData invSystem)
     {
-        print((invSystem, id));
-        allInventorySystems.data.TryAdd(id, invSystem);
+        print(invSystem);
+        allInventorySystems.data.Add(invSystem);
         allInventorySystems.dataCounter++;
         return Task.CompletedTask;
     }
 
-    public void AddSavedObject(ContainerDataSaver containerDSaver)
-    { 
-        containerDataSavers.Add(containerDSaver);
+    public void AddSavedObject(ChestDataSaver chestDS)
+    {
+        chestDataSavers.Add(chestDS);
     }
 
-    public void RemoveSavedObject(ContainerDataSaver conteinerDSaver)
+    public void RemoveSavedObject(ChestDataSaver chestDS)
     {
-
-       print("removed save");
-        containerDataSavers.Remove(conteinerDSaver);
+        print("removed save");
+        chestDataSavers.Remove(chestDS);
     }
 }
-

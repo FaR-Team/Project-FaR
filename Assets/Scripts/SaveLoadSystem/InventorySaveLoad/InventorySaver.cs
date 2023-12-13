@@ -23,7 +23,6 @@ public class InventorySaver : MonoBehaviour
 
     protected async void SaveAllData(bool isTemporarySave)
     {
-
         try
         {
             await SaveInvs();

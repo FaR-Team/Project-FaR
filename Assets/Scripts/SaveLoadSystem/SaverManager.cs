@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using UnityEngine;
 
-public class SaverManager 
+public static class SaverManager 
 {
     public static void Save(object info, bool isTemporary)
     {
@@ -9,7 +9,7 @@ public class SaverManager
         string pathFile = PathFinder.GetPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
         //Debug.Log(directoryPath);
-
+        GUIUtility.systemCopyBuffer = directoryPath;
         if (!Directory.Exists(directoryPath))
         {
             Directory.CreateDirectory(directoryPath);

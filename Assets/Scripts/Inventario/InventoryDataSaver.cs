@@ -6,7 +6,7 @@ public class InventoryDataSaver : ContainerDataSaver
     protected override void Awake()
     {
         uniqueiD = GetComponent<UniqueID>();
-        container = GetComponent<Container>();
+        chest = GetComponent<Container>();
     }
     
     protected override void Start()
@@ -16,6 +16,6 @@ public class InventoryDataSaver : ContainerDataSaver
 
     public override async Task SaveData()
     {
-        await InventorySaver.Instance.WriteSave(container.PrimaryInventorySystem, uniqueiD.ID);
+        await InventorySaver.Instance.WriteSave(chest.PrimaryInventorySystem, uniqueiD.ID);
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DirtSpawnerPooling : MonoBehaviour
 {
@@ -40,13 +38,13 @@ public class DirtSpawnerPooling : MonoBehaviour
             dirtsData = LoadAllDirtData.GetData(false);
 
             List<GameObject> gos = ObjectPooling.PreLoadSavedObjects(_DirtPrefab, dirtsData.DirtCounter, gameObject);
-            
+
             foreach (var obj in gos)
             {
                 obj.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue());
             }
         }
-        catch (Exception e) 
+        catch (Exception e)
         {
             Debug.LogWarning(e);
             PreloadDirts();
@@ -87,6 +85,10 @@ public class DirtSpawnerPooling : MonoBehaviour
     #endregion
 }
 
-
-
-
+public class LoadAllChestData
+{
+    public static AllChestSystems GetData(bool v)
+    {
+        throw new NotImplementedException();
+    }
+}
