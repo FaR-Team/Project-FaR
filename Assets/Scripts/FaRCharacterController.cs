@@ -65,8 +65,8 @@ namespace FaRUtils.FPSController
         public void DoLooking()
         {
             Vector2 looking = GetPlayerLook();
-            float lookX = looking.x * lookSensitivity * Time.deltaTime;
-            float lookY = looking.y * lookSensitivity * Time.deltaTime;
+            float lookX = looking.x * lookSensitivity;
+            float lookY = looking.y * lookSensitivity;
 
             _xRotation -= lookY;
             _xRotation = Mathf.Clamp(_xRotation, -90f, 90f);

@@ -16,6 +16,7 @@ public class OptionsMenu : MonoBehaviour
     public TextMeshProUGUI FovVal;
     public TextMeshProUGUI SensVal;
     public TextMeshProUGUI FPSText;
+    public TMP_Dropdown resolutionDropdown;
     public bool doceh;
     public bool isOptionsMenuOpen;
 
@@ -23,6 +24,8 @@ public class OptionsMenu : MonoBehaviour
 
     public Slider fovSlider;
     public Slider sensSlider;
+
+    Resolution[] resolutions;
  
     private void Awake() {
         if (Instance != null && Instance != this) 
@@ -32,11 +35,40 @@ public class OptionsMenu : MonoBehaviour
         else 
         { 
             Instance = this; 
-        } 
+        }
     }
+
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+    }
+
+
 
     private void Start() 
     {
+        resolutions = Screen.resolutions;
+
+        resolutionDropdown.ClearOptions();
+
+        List<string> options = new List<string>();
+
+        int currentResolutionIndex = 0;
+        for (int i = 0; i < resolutions.Length; i++)
+        {
+            string option = resolutions[i].width + " x " + resolutions[i].height;
+            options.Add(option);
+
+            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            {
+                currentResolutionIndex = i;
+            }
+        }
+
+        resolutionDropdown.AddOptions(options);
+        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.RefreshShownValue();
+
         PlayerCont = GameObject.FindWithTag("Player").GetComponent<FaRCharacterController>();
 
         if (PlayerPrefs.GetFloat("FovVal") == 0)
