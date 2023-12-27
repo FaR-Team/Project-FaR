@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using FaRUtils.Systems.DateTime;
 
 namespace FaRUtils.Systems.Weather
 {
@@ -14,6 +15,7 @@ namespace FaRUtils.Systems.Weather
         [SerializeField] private Weather currentWeather = Weather.Sunny;
         public Weather CurrentWeather => currentWeather;
         private Queue<Weather> weatherQueue;
+        public TimeManager timeManager;
 
         [Header("Efectos del Clima")]
         [SerializeField] ParticleSystem rainParticles;
@@ -59,7 +61,7 @@ namespace FaRUtils.Systems.Weather
             {
                 Weather tempWeather = GetRandomWeather();
                 weatherQueue.Enqueue(tempWeather);
-                Debug.Log($"{tempWeather} en el index {i}");
+                Debug.Log($"{tempWeather} on index {i}");
             }
         }
 
@@ -69,6 +71,7 @@ namespace FaRUtils.Systems.Weather
 
             if (!forceRain)
             {
+                //Pasarle la season a un objeto para que te diga qué weathers pueden ocurrir, quizá con SO, no sé aaaaaa
                 randomWeather = UnityEngine.Random.Range(0, (int)Weather.WEATHER_MAX + 1);
             }
 

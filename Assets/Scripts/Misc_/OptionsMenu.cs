@@ -171,7 +171,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void ResetSensButton()
     {
-        fovSlider.value = 5;
-        PlayerPrefs.SetFloat("SensVal", 5);
+        sensSlider.value = 0.05f;
+        PlayerPrefs.SetFloat("SensVal", 0.05f);
     }
 }

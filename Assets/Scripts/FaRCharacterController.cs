@@ -11,7 +11,7 @@ namespace FaRUtils.FPSController
         
         [SerializeField] private Camera cam;
         [SerializeField] private float movementSpeed = 20f;
-        [SerializeField] public float lookSensitivity = 1.0f;
+        [SerializeField] public float lookSensitivity = 0.05f;
         
         private float _xRotation = 0f;
 
