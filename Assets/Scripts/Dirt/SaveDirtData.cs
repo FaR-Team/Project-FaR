@@ -2,28 +2,19 @@
 using System.Threading.Tasks;
 
 [RequireComponent(typeof(Dirt))]
-public class SaveDirtData : MonoBehaviour
+public class SaveDirtData : DataSaver<Dirt, SaveDirtData>, IDataSavable
 {
-    Dirt dirt;
-
-    private void Awake()
+    protected override void SetThisInstance()
     {
-        dirt = GetComponent<Dirt>();
-    }
-
-    private void OnEnable()
-    {
-        DirtSaver.instance.AddSavedObject(this);
-    }
-    private void OnDisable()
-    {
-        DirtSaver.instance.RemoveSavedObject(this);
-    }
-    public async Task SaveData()
+        thisDataSaver = this;
+        saverAllData = DirtSaver.instance;
+    }   
+    
+    public override async Task SaveData()
     {
         DirtData dirtSaveData = 
-            new DirtData(dirt._isWet, dirt.IsEmpty, dirt.currentSeedData, dirt.GetCropSaveData(), transform.position);
+            new DirtData(objectToSave._isWet, objectToSave.IsEmpty, objectToSave.currentSeedData, objectToSave.GetCropSaveData(), transform.position);
 
-        await DirtSaver.instance.WriteSave(dirtSaveData);
+        await saverAllData.WriteSave(dirtSaveData);
     }
 }

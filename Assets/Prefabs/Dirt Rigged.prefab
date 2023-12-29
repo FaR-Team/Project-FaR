@@ -398,7 +398,6 @@ GameObject:
   - component: {fileID: 1883870272503481524}
   - component: {fileID: 2994759415163273886}
   - component: {fileID: 4595424602912066537}
-  - component: {fileID: -2720515037888545568}
   - component: {fileID: 5773999265247019993}
   m_Layer: 0
   m_Name: Dirt Rigged
@@ -441,6 +440,7 @@ MonoBehaviour:
   testing: 0
   colliders: {fileID: 298685377412610436}
   abilityLevelPlaceholder: 1
+  currentCrop: {fileID: 0}
   TextureAnimation: {fileID: 0}
 --- !u!114 &2994759415163273886
 MonoBehaviour:
@@ -468,18 +468,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0, y: 0, z: 0}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-2720515037888545568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3884601831458203130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c8e4898543eb1f40965491282c75984, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5773999265247019993
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -607,4 +595,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c6a48566-da82-40c2-b12c-b4fbbefcffd0
+  _ID: f4258785-b854-414c-a27e-23978f1d422e

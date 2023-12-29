@@ -24,7 +24,12 @@ public class InventorySystem
         _gold = 0;
         CreateInventory(tamaño);
     }
+    public InventorySystem(InventorySystem inventoryData)
+    {
+        this.inventorySlots = inventoryData.inventorySlots;
+        this._gold = inventoryData._gold;
 
+    }
     public InventorySystem(int tamaño, int gold)
     {
         _gold = gold;
@@ -71,7 +76,6 @@ public class InventorySystem
     
     public bool AñadirAInventario(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
-        Debug.Log("aniadiendo");
         if (ContieneItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
         {
             foreach (var slot in invSlot)

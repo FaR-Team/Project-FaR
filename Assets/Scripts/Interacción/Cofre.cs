@@ -15,13 +15,12 @@ public class Cofre : Container, IInteractable
     public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
 
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
-        _prompt = GameObject.FindGameObjectWithTag("HouseInteraction");
+        _prompt = GameObject.FindGameObjectWithTag("HouseInteraction"); //MODIFICAR. FINDGO ES LENTO, SE PUEDE HACER UN SINGLETON U OTRA COSA.
     }
 
-    public void Interact(Interactor interactor,  out bool interactSuccessful)
+    public void Interact(Interactor interactor, out bool interactSuccessful)
     {
         player = GameObject.FindWithTag("Player");
         player.GetComponent<PlayerInventoryHolder>().OpenInventory();
@@ -47,7 +46,9 @@ public class Cofre : Container, IInteractable
 
     public void LoadData(ChestData data)
     {
-        throw new NotImplementedException();
+        
+        inventorySystem = data.inventorySystem;
+        transform.position = data.position;
     }
 
 }

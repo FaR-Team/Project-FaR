@@ -37,7 +37,6 @@ public class StaticInventoryDisplay : InventoryDisplay
     {
         slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
 
-     //  Debug.Log(inventorySystem.tamañoInventario + "crear static");
         for (int i = 0; i < playerInventoryHolder.Offset; i++)
         {
             slotDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);

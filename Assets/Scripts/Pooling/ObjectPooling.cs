@@ -25,7 +25,7 @@ public class ObjectPooling : MonoBehaviour
 
         return gosPreloaded;
     }
-    public static List<GameObject> PreLoadSavedObjects(GameObject objectToPool, int amount, GameObject parent)
+    public static List<GameObject> LoadSavedObjects(GameObject objectToPool, int amount, GameObject parent)
     {
         int id = objectToPool.GetInstanceID();
 

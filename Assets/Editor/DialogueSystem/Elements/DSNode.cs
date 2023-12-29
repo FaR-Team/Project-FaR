@@ -112,7 +112,7 @@ namespace DS.Elements
 
             VisualElement customDataContainer = new VisualElement();
 
-            customDataContainer.AddToClassList("ds-node__custom-data-objectToSave");
+            customDataContainer.AddToClassList("ds-node__custom-dataList-objectToSave");
 
             Foldout textFoldout = DSElementUtility.CreateFoldout("Dialogue Text");
 

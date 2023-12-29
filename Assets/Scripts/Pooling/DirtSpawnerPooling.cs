@@ -9,7 +9,6 @@ public class DirtSpawnerPooling : MonoBehaviour
     public static DirtSpawnerPooling instance;
 
     public static GameObject _DirtPrefab => instance.Prefab;
-    public static AllDirtsData dirtsData;
 
     private void Awake()
     {
@@ -24,36 +23,7 @@ public class DirtSpawnerPooling : MonoBehaviour
 
     private void Start()
     {
-        TryPreloadSavedDirts();
-    }
-
-    /*
-     PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUQNEU SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
-    HACIENDO QUE ESTE TRY SEA INUTIL.
-     */
-    private void TryPreloadSavedDirts()
-    {
-        try
-        {
-            dirtsData = LoadAllDirtData.GetData(false);
-
-            List<GameObject> gos = ObjectPooling.PreLoadSavedObjects(_DirtPrefab, dirtsData.DirtCounter, gameObject);
-
-            foreach (var obj in gos)
-            {
-                obj.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue());
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogWarning(e);
-            PreloadDirts();
-        }
-    }
-
-    private void PreloadDirts()
-    {
-        List<GameObject> gos = ObjectPooling.PreLoad(_DirtPrefab, 10, gameObject);
+        DirtSetter.Load(_DirtPrefab, gameObject);
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)
@@ -62,9 +32,9 @@ public class DirtSpawnerPooling : MonoBehaviour
         dirtGO.transform.SetPositionAndRotation(position, rotation);
     }
 
-    public static void DeSpawn(GameObject primitive, GameObject go)
+    public static void DeSpawn(GameObject go)
     {
-        ObjectPooling.RecicleObject(primitive, go);
+        ObjectPooling.RecicleObject(_DirtPrefab, go);
     }
 
     #region DEBUG FNCTN
@@ -83,12 +53,4 @@ public class DirtSpawnerPooling : MonoBehaviour
         return dirtList;
     }
     #endregion
-}
-
-public class LoadAllChestData
-{
-    public static AllChestSystems GetData(bool v)
-    {
-        throw new NotImplementedException();
-    }
 }

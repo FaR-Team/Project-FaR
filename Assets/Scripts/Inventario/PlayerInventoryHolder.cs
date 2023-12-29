@@ -19,10 +19,10 @@ public class PlayerInventoryHolder : Container
 
     public static PlayerInventoryHolder instance;
 
-    protected override void Awake()
+    protected void Awake()
     {
-        base.Awake();
         instance = this;
+        inventorySystem = new InventorySystem(tamañoInventario, _gold);
     }
     private void Start() {
 

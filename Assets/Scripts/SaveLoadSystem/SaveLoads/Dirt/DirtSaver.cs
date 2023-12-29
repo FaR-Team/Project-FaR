@@ -7,7 +7,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
 {
     public static DirtSaver instance;
 
-    private AllDirtsData allDirtsData = new AllDirtsData(0);
+    private AllDirtsData allDirtsData = new AllDirtsData();
 
     private List<SaveDirtData> dirts = new List<SaveDirtData>();
 
@@ -17,15 +17,14 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
     }
     protected async override void SaveAllData(bool isTemporarySave)
     {
-        Debug.Log("SAVING");
-
         try
         {
             await SaveDirts();
 
             allDirtsData.SaveQueue();
             SaverManager.Save(allDirtsData, isTemporarySave);
-            Debug.Log("Successfully Saved dirts data");
+
+            Debug.Log("Successfully Saved dirts information");
         }
         catch (Exception e)
         {
@@ -36,7 +35,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
     public override Task WriteSave(DirtData info)
     {
         allDirtsData.data.Enqueue(info);
-        allDirtsData.DirtCounter++;
+        allDirtsData.counter++;
         return Task.CompletedTask;
     }
 
