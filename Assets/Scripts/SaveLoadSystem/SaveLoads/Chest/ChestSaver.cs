@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class ChestSaver : Saver<ChestData, ChestDataSaver >
+public class ChestSaver : Saver<ChestData, ChestDataSaver>
 {
     public static ChestSaver Instance;
 
@@ -49,13 +49,11 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver >
 
     public override void AddSavedObject(ChestDataSaver chestDS)
     {
-        print("SE ANIADE COFRE");
         chestDataSavers.Add(chestDS);
     }
 
     public override void RemoveSavedObject(ChestDataSaver chestDS)
     {
-        print("removed chest");
         chestDataSavers.Remove(chestDS);
     }
 }

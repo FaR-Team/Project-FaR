@@ -46,8 +46,7 @@ public class Cofre : Container, IInteractable
 
     public void LoadData(ChestData data)
     {
-        
-        inventorySystem = data.inventorySystem;
+        inventorySystem = new InventorySystem(data.inventorySystem);
         transform.position = data.position;
     }
 

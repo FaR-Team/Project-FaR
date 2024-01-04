@@ -22,7 +22,9 @@ public class PlayerInventoryHolder : Container
     protected void Awake()
     {
         instance = this;
-        inventorySystem = new InventorySystem(tamañoInventario, _gold);
+
+        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold);
+
     }
     private void Start() {
 

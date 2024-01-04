@@ -15,12 +15,15 @@ public abstract class DataSaver<T, Y> : MonoBehaviour where Y : DataSaver<T, Y>,
     {
         uniqueiD = GetComponent<UniqueID>();
         objectToSave = GetComponent<T>();
-        SetThisInstance();
     }
     protected abstract void SetThisInstance();
 
     private void OnEnable()
     {
+        if(saverAllData == null)
+        {
+            SetThisInstance();
+        }
         saverAllData.AddSavedObject(thisDataSaver);
     }
 
