@@ -7,9 +7,6 @@ using System;
 public class Cofre : Container, IInteractable
 {
     [SerializeField] private GameObject _prompt;
-    public GameObject player;
-    public GameObject reloj;
-    public GameObject inventoryUIController;
     public GameObject InteractionPrompt => _prompt;
 
     public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
@@ -23,14 +20,14 @@ public class Cofre : Container, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        player = GameObject.FindWithTag("Player");
-        player.GetComponent<PlayerInventoryHolder>().OpenInventory();
+        PlayerInventoryHolder.instance.OpenInventory();
+        //PlayerInventoryHolder.OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
         OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        player.GetComponent<FaRCharacterController>().enabled = false;
+        FaRCharacterController.instance.enabled = false;
         PlayerInventoryHolder.isInventoryOpen = true;
-        inventoryUIController.GetComponent<InventoryUIController>().isChestInventoryOpen = true;
+        InventoryUIController.instance.isChestInventoryOpen = true;
         interactSuccessful = true;
     }
 

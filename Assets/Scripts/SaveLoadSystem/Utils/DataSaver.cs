@@ -7,9 +7,9 @@ public abstract class DataSaver<T, Y> : MonoBehaviour where Y : DataSaver<T, Y>,
     protected T objectToSave;
     protected UniqueID uniqueiD;
 
-    protected ISaver saverAllData;
+    [SerializeField] protected ISaver saverAllData;
 
-    protected Y thisDataSaver;
+    [SerializeField] protected Y thisDataSaver;
 
     private void Awake()
     {
@@ -20,11 +20,11 @@ public abstract class DataSaver<T, Y> : MonoBehaviour where Y : DataSaver<T, Y>,
 
     private void OnEnable()
     {
-        if(saverAllData == null)
-        {
-            SetThisInstance();
-        }
+
+        SetThisInstance();
+
         saverAllData.AddSavedObject(thisDataSaver);
+
     }
 
     private void OnDisable()

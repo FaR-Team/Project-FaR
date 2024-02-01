@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -27,7 +28,6 @@ public class InventorySaver : Saver<InventoryData, InventoryDataSaver>
         InventoryData = t;
 
         return Task.CompletedTask;
-
     }
 
     protected override async void SaveAllData(bool isTemporarySave)
