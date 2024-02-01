@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using DS.Data;
@@ -71,17 +70,31 @@ public class DialogueManager : MonoBehaviour
     {
         dialogueText.text = ""; // Vaciar el texto antes de empezar
 
-        yield return RunTypingEffect(dialogueObject.Text.ToString()); // Convertirlo a string y ejecutar RunTypingEffect
+        //yield return RunTypingEffect(dialogueObject.Text.ToString());
+        typewriterEffect.Run(dialogueObject.Text.ToString(), dialogueText); // Convertirlo a string y ejecutar RunTypingEffect
 
         if (dialogueObject.DialogueType ==  DSDialogueType.MultipleChoice)
         {
-            yield return new WaitWhile(() => typewriterEffect.isRunning);
+            yield return null;
+            yield return new WaitUntil(() => Input.anyKeyDown || !typewriterEffect.isRunning);
+            if (typewriterEffect.isRunning)
+            {
+                typewriterEffect.ForceCompleteWriting(dialogueObject.Text.ToString(), dialogueText);
+            }
+
             ShowResponses(dialogueObject.Choices);
         }
         else if (dialogueObject.DialogueType ==  DSDialogueType.SingleChoice)
         {
-            yield return new WaitUntil(() => Input.anyKey);
-            yield return new WaitWhile(() => typewriterEffect.isRunning);
+            yield return null;
+            yield return new WaitUntil(() => Input.anyKeyDown);
+            if (typewriterEffect.isRunning)
+            {
+                typewriterEffect.ForceCompleteWriting(dialogueObject.Text.ToString(), dialogueText);
+                yield return null;
+                yield return new WaitUntil(() => Input.anyKeyDown);
+            }
+
             if (dialogueObject.Choices[0].NextDialogue != null)
             {
                 StartCoroutine(StepThroughDialogue(dialogueObject.Choices[0].NextDialogue));
@@ -112,7 +125,7 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(StepThroughDialogue(nextDialogue));
     }
 
-    private IEnumerator RunTypingEffect(string dialogue)
+    /*private IEnumerator RunTypingEffect(string dialogue)
     {
         typewriterEffect.Run(dialogue, dialogueText);
 
@@ -121,8 +134,8 @@ public class DialogueManager : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
 
             yield return new WaitUntil(() => Input.anyKey);
-            typewriterEffect.Stop();
             dialogueText.text = dialogue;
+            typewriterEffect.Stop();
         }
-    }
+    }*/
 }

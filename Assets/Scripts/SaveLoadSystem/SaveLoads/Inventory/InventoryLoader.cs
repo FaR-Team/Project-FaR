@@ -5,8 +5,8 @@ public static class InventoryLoader
 {
     public static InventoryData inventoryData;
     /*
-     PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUQNEU SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
-    HACIENDO QUE ESTE TRY SEA INUTIL.
+     PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUNQUE SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
+     HACIENDO QUE ESTE TRY SEA INUTIL.
      */
     public static InventorySystem Load(int defaultSize, int defaultgold)
     {

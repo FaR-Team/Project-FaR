@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class TypewriterEffect : MonoBehaviour
 {
@@ -76,6 +77,16 @@ public class TypewriterEffect : MonoBehaviour
 
         waitTime = default;
         return false;
+    }
+
+    public void ForceCompleteWriting(string textToType, TMP_Text textLabel)
+    {
+        StopAllCoroutines();
+        StopCoroutine(typingCoroutine);
+
+        textLabel.text = textToType;
+
+        isRunning = false;
     }
 
     private readonly struct Punctuation

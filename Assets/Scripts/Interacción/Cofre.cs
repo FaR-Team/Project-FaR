@@ -18,13 +18,13 @@ public class Cofre : Container, IInteractable
     protected void Awake()
     {
         _prompt = GameObject.FindGameObjectWithTag("HouseInteraction"); //MODIFICAR. FINDGO ES LENTO, SE PUEDE HACER UN SINGLETON U OTRA COSA.
+        //TODO: DISCUTIR ESTO, TIENE QUE HABER DISTINTOS INTERACTION UI PARA CADA OBJETO, SI ES QUE ES IMPORTANTE, SI NO SALDRÍA F PARA INTERACTUAR
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
         player = GameObject.FindWithTag("Player");
         player.GetComponent<PlayerInventoryHolder>().OpenInventory();
-        //PlayerInventoryHolder.OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
         OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
