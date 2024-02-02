@@ -236,6 +236,7 @@ public class HotbarDisplay : HotbarDisplayBase
             DoChangeNameDisplay();
         }
     }
+    
     public bool CanUseItem()
     {
         if (gridGhost.finalPosition != previousFinalPosition)
@@ -256,6 +257,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
         return true;
     }
+
     private void UseItemRelease()
     {
         _isHolding = false;

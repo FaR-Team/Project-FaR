@@ -67,4 +67,9 @@ public class GrowingBase : MonoBehaviour
         currentState = cropSaveData.GrowingState;
         SetData();
     }
+
+    void OnDisable()
+    {
+        DateTime.OnHourChanged.RemoveListener(OnHourChanged);
+    }
 }

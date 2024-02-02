@@ -28,7 +28,7 @@ public class GridGhost : MonoBehaviour
     private LayerMask layerCrop;
     
     [SerializeField, Tooltip("La distancia máxima donde se puede arar")]
-    private float   _maxGrabDistance;
+    private float   _maxPlowDistance;
 
 
     private void OnEnable()
@@ -69,7 +69,7 @@ public class GridGhost : MonoBehaviour
             !interactor._LookingAtDirt)
         { 
             RaycastHit hit;
-            RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance - 3, layerMask);
+            RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance - 3, layerMask);
 
             if (CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f) == false) 
             {
@@ -116,7 +116,7 @@ public class GridGhost : MonoBehaviour
 
         
         RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance, layerMask);
 
         if (hit.collider == null) return; //Si el raycast no pega con NADA, entonces no ejecuta el código.
         
@@ -205,9 +205,9 @@ public class GridGhost : MonoBehaviour
     public void PlantDirt()
     {
         RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance, layerMask);
 #if UNITY_EDITOR
-            Debug.DrawRay(RayCameraScreenPoint().origin, RayCameraScreenPoint().direction * _maxGrabDistance, Color.green, 0.01f);
+            Debug.DrawRay(RayCameraScreenPoint().origin, RayCameraScreenPoint().direction * _maxPlowDistance, Color.green, 0.01f);
 #endif
 
         if (hit.collider == null) return;
@@ -224,7 +224,7 @@ public class GridGhost : MonoBehaviour
     public bool PlantTreeNear(GameObject TreePrefab)
     {
         RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxGrabDistance, layerMask);
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance, layerMask);
 
         if(hit.collider != null)
         {

@@ -425,6 +425,7 @@ GameObject:
   - component: {fileID: 1062288900735988520}
   - component: {fileID: 8231588947190722257}
   - component: {fileID: 7759883468658825177}
+  - component: {fileID: 5941911543052103005}
   m_Layer: 3
   m_Name: AppleTree
   m_TagString: Untagged
@@ -461,17 +462,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752aa868d9128b644828eb8709ae703f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshes:
-  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
-  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
-  - {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
-  materials:
-  - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
-  - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
-  - {fileID: 2100000, guid: 60393c4c091b2264bb8ad0ca793a696e, type: 2}
   DiasPlantado: 0
-  DayForChangeOfPhase: 010000000200000003000000
   isFruit: 0
+  states: []
+  currentState: {fileID: 0}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
@@ -497,6 +491,7 @@ MonoBehaviour:
   - {fileID: 5634044044941013118}
   - {fileID: 5634044044934790030}
   fruits: []
+  Tierra: {fileID: 0}
   ReGrow: 0
   ReGrowMaxTimes: 5
   Prefab: {fileID: 4696727328782244568, guid: 0efc62c6f68b25a4f98aa6e9238bc966, type: 3}
@@ -586,6 +581,19 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: fd1050d868db3524a85476ec9215154c, type: 3}
+--- !u!65 &5941911543052103005
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634044043551495168}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 6, y: 0.02757959, z: 6}
+  m_Center: {x: 0.024999976, y: 0.013789795, z: -0.024999976}
 --- !u!1 &5634044043561484131
 GameObject:
   m_ObjectHideFlags: 0
