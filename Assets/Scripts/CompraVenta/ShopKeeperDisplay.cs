@@ -305,7 +305,6 @@ public class ShopKeeperDisplay : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         player.GetComponent<FaRCharacterController>().enabled = true;
-        player.GetComponent<DirtPlower>().enabled = true;
         Time.timeScale = 1f;
         StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
     }
