@@ -1,10 +1,12 @@
+using System.Security.AccessControl;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class StaticInventoryDisplay : InventoryDisplay
 {
     [SerializeField] private PlayerInventoryHolder playerInventoryHolder;
-    [SerializeField] public InventorySlot_UIBasic[] slots;
+    [SerializeField] public InventorySlot_UI[] slots;
 
     protected virtual void OnEnable() {
         PlayerInventoryHolder.OnPlayerInventoryChanged += RefreshStaticDisplay;
@@ -25,22 +27,23 @@ public class StaticInventoryDisplay : InventoryDisplay
             Debug.LogError($"No hay inventario asignado a {this.gameObject}");
         }
 
-        CreateSlots(inventorySystem, 0);
+        AssignSlot(inventorySystem, 0);
     }
 
-    protected virtual void Start()
+    protected override void Start()
     {
+        base.Start();
         RefreshStaticDisplay();
     }
 
-    public override void CreateSlots(InventorySystem invToDisplay, int offset)
+    public override void AssignSlot(InventorySystem invToDisplay, int offset)
     {
-        slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
+        slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
 
         for (int i = 0; i < playerInventoryHolder.Offset; i++)
         {
             slotDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);
-            slots[i].Init(inventorySystem.InventorySlots[i]);
+            slots[i].Init(inventorySystem.InventorySlots[i], TypesOfInventory.INVENTARIO);
         }
     }
 }

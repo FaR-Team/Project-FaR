@@ -1,5 +1,5 @@
 ﻿using System;
-using FaRUtils;
+using cakeslice;
 using UnityEngine;
 
 [RequireComponent(typeof(GunLineRenderer))]

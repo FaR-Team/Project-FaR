@@ -38,10 +38,10 @@ public class Interactor : MonoBehaviour
 
     private void OnDisable()
     {
-        InteractionKey.Disable();
+        InteractionKey.Enable();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         _numFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _interactableMask);
 

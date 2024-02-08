@@ -19,11 +19,17 @@ MonoBehaviour:
   Valor: 200
   ItemPrefab: {fileID: 0}
   DirtPrefabGhost: {fileID: 0}
-  ghostMesh: {fileID: 0}
   ToolGameObject: {fileID: 0}
-  Usable: 1
+  Usable: 0
   Sellable: 0
+  Seed: 1
+  TreeSeed: 0
   IsLookingAtStore: 0
-  typeOfItem: 4
+  Tool: 0
+  IsHoe: 0
+  IsAxe: 0
+  IsBucket: 0
+  IsUnknown1: 0
+  IsUnknown2: 0
   gridGhost: {fileID: 0}
   DirtPrefab: {fileID: 0}

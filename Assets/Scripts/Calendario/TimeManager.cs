@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
-using UniRx;
+using UnityEngine.Localization.Settings;
+using UnityEngine.Localization.Tables;
 
 namespace FaRUtils.Systems.DateTime
 {
@@ -19,19 +21,16 @@ namespace FaRUtils.Systems.DateTime
         [Range (0, 6), Header("Minuto")]
         public int minutes;
 
-        public static DateTime DateTime;
+        public DateTime DateTime;
 
         [Header("Opciones de Tiempo")]
         public int TickMinutesIncreased = 10;
-        public static float TimeBetweenTicks = 10f;
+        public float TimeBetweenTicks = 9f;
         private float CurrentTimeBetweenTicks = 0;
 
-        ReactiveProperty<int> reactivehour;
         public static LocalizedString localizedStringClock;
 
         public static UnityAction<DateTime> OnDateTimeChanged;
-
-        public static UnityEvent<int> _OnHourChanged => DateTime.OnHourChanged;
 
         private void Awake()
         {
@@ -41,6 +40,7 @@ namespace FaRUtils.Systems.DateTime
         public void Start() 
         {
             OnDateTimeChanged?.Invoke(DateTime);
+
             //myLocalVariable = localizedString.GetVariable("myLocalVariable");
         }
 
@@ -103,8 +103,6 @@ namespace FaRUtils.Systems.DateTime
         public int TotalNumWeeks => totalNumWeeks;
         public int CurrentWeek => totalNumWeeks % 16 == 0 ? 16 : totalNumWeeks % 16;
 
-        public static UnityEvent<int> OnHourChanged;
-
         #endregion
 
         #region Constructores
@@ -126,8 +124,6 @@ namespace FaRUtils.Systems.DateTime
             totalNumDays = date + (28 * (int)this.season) + (112 * (year - 1));
 
             totalNumWeeks = 1 + totalNumDays / 7;
-
-            OnHourChanged = new UnityEvent<int>();
         }
 
         #endregion
@@ -151,13 +147,11 @@ namespace FaRUtils.Systems.DateTime
             if ((hour + 1) == 24)
             {
                 hour = 0;
-                OnHourChanged.Invoke(this.hour);
                 AdvanceDay();
             }
             else
             {
-               hour++;
-               OnHourChanged.Invoke(this.hour);
+                hour++;
             }
         }
 
@@ -298,7 +292,7 @@ namespace FaRUtils.Systems.DateTime
             //UpdateDayLocals();
             return $"Idks {date}";
         }
-        
+
         public string TimeToString12()
         {
             int AdjustedHour = 0;

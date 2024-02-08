@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ae2470ba4a254644b293a4383b3317d, type: 3}
+  m_Name: Test
+  m_EditorClassIdentifier: 
+  dialogue:
+  - "Hola, pedazo de puta.\n\xA1La vida es una lenteja!"
+  - "\xBFQuer\xE9s que te la ponga?"
+  responses:
+  - responseText: "Sh\xED uwu"
+    dialogueObject: {fileID: 11400000, guid: 90d3a09b2c91159488b7a78590411c00, type: 2}
+  - responseText: No
+    dialogueObject: {fileID: 11400000, guid: e6326aa78db2c0043b562607f15abd7c, type: 2}

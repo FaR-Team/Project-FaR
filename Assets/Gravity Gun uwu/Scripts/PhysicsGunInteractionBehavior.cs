@@ -10,50 +10,50 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 {
     [Header("LayerMask"), Tooltip("La capa de la cual el rayo puede agarrar objetos")]
     [SerializeField]
-    private LayerMask _grabLayer;
+    private LayerMask                                       _grabLayer;
     [SerializeField]
-    private Camera _camera;
+    private Camera                                          _camera;
 
 
-    public GameObject Energia;
+    public GameObject               Energia;
 
-    public Rigidbody _grabbedRigidbody;
+    public Rigidbody               _grabbedRigidbody;
+    
+    public bool                     isGrabbingObject;
 
-    public static bool isGrabbingObject;
+    private Transform               _grabbedTransform; 
 
-    private Transform _grabbedTransform;
+    private Vector3                 _hitOffsetLocal;
 
-    private Vector3 _hitOffsetLocal;
+    private float                   _currentGrabDistance;
 
-    private float _currentGrabDistance;
+    private RigidbodyInterpolation  _initialInterpolationSetting;
 
-    private RigidbodyInterpolation _initialInterpolationSetting;
-
-    private Quaternion _rotationDifference;
+    private Quaternion              _rotationDifference;
 
     [SerializeField]
-    private Transform _laserStartPoint = null;
+    private Transform               _laserStartPoint        = null;
 
-    private Vector3 _rotationInput = Vector3.zero;
+    private Vector3                 _rotationInput          = Vector3.zero;
 
     [Header("Opciones de Rotación")]
     [Tooltip("Es relativo al transform del jugador ah")]
-    public Transform PlayerTransform;
+    public Transform                PlayerTransform;
     [SerializeField]
 
-    public float SnapRotationDegrees = 45f;
+    public  float                   SnapRotationDegrees     = 45f;
     [SerializeField]
-    private float _snappedRotationSens = 15f;
+    private float                   _snappedRotationSens    = 15f;
     [SerializeField]
-    private float _rotationSpeed = 5f;
+    private float                   _rotationSpeed          = 5f;
 
-    private Quaternion _desiredRotation = Quaternion.identity;
+    private Quaternion              _desiredRotation        = Quaternion.identity;
 
     //private bool                    _ContadorActivo         = false;
 
-    private bool m_UserRotation;
+    private bool                    m_UserRotation;
 
-    private bool _userRotation
+    private bool                    _userRotation
     {
         get
         {
@@ -69,9 +69,9 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         }
     }
 
-    private bool m_RotacionSnap;
+    private bool                    m_RotacionSnap;
 
-    private bool _RotacionSnap
+    private bool                    _RotacionSnap
     {
         get
         {
@@ -87,9 +87,9 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         }
     }
 
-    private bool m_RotationAxis;
+    private bool                    m_RotationAxis;
 
-    private bool _rotationAxis
+    private bool                    _rotationAxis
     {
         get
         {
@@ -105,79 +105,78 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         }
     }
 
-    private Vector3 _lockedRot;
+    private Vector3                 _lockedRot;
 
-    private Vector3 _forward;
-    private Vector3 _up;
-    private Vector3 _right;
+    private Vector3                 _forward;
+    private Vector3                 _up;
+    private Vector3                 _right;
 
+    
 
-
-    private Vector3 _scrollWheelInput = Vector3.zero;
+    private Vector3                 _scrollWheelInput       = Vector3.zero;
 
     [Header("Movimiento con la ruedita"), Space(5)]
     [SerializeField]
-    private float _scrollWheelSensitivity = 5f;
-    [SerializeField, Tooltip("La distancia mínima que puede estar el objeto relativo al jugador")]
-    private float _minObjectDistance = 2.5f;
+    private float                   _scrollWheelSensitivity = 5f;
+    [SerializeField, Tooltip("La distancia mínima que puede estar el objeto relativo al jugador")] 
+    private float                   _minObjectDistance      = 2.5f;
     [SerializeField, Tooltip("La distancia máxima donde se puede agarrar un objeto")]
-    private float _maxGrabDistance = 50f;
-    private bool _distanceChanged;
+    private float                   _maxGrabDistance        = 50f;
+    private bool                    _distanceChanged;
 
+   
+    private Vector3                 _zeroVector3            = Vector3.zero;
+    private Vector3                 _oneVector3             = Vector3.one;
+    private Vector3                 _zeroVector2            = Vector2.zero;
 
-    private Vector3 _zeroVector3 = Vector3.zero;
-    private Vector3 _oneVector3 = Vector3.one;
-    private Vector3 _zeroVector2 = Vector2.zero;
-
-    private bool _justReleased;
-    private bool _wasKinematic;
-    public bool _yaAnimo = false;
-
+    private bool                    _justReleased;
+    private bool                    _wasKinematic;
+    public bool                     _yaAnimo                = false;
+   
     [Serializable]
     public class BoolEvent : UnityEvent<bool> { };
     [Serializable]
     public class GrabEvent : UnityEvent<GameObject> { };
 
     [Header("Eventos"), Space(10)]
-    public BoolEvent OnRotation;
-    public BoolEvent OnRotationSnapped;
-    public BoolEvent OnAxisChanged;
+    public BoolEvent                OnRotation;
+    public BoolEvent                OnRotationSnapped;
+    public BoolEvent                OnAxisChanged;
 
-    public GrabEvent OnObjectGrabbed;
+    public GrabEvent                OnObjectGrabbed;
 
+    
+    public Vector3                  CurrentForward              { get { return _forward; } }
+    public Vector3                  CurrentUp                   { get { return _up; } }
+    public Vector3                  CurrentRight                { get { return _right; } }
+    public Transform                CurrentGrabbedTransform     { get { return _grabbedTransform; } }
 
-    public Vector3 CurrentForward { get { return _forward; } }
-    public Vector3 CurrentUp { get { return _up; } }
-    public Vector3 CurrentRight { get { return _right; } }
-    public Transform CurrentGrabbedTransform { get { return _grabbedTransform; } }
-
-
-    public Vector3 StartPoint { get; private set; }
-    public Vector3 MidPoint { get; private set; }
-    public Vector3 EndPoint { get; private set; }
-    public float timer = 5;
+ 
+    public Vector3                  StartPoint                  { get; private set; }
+    public Vector3                  MidPoint                    { get; private set; }
+    public Vector3                  EndPoint                    { get; private set; } 
+    public float                    timer                        = 5;
 
     private void Start()
     {
-        if (_camera == null)
+        if(_camera == null)
         {
             Debug.LogError($"{nameof(PhysicsGunInteractionBehavior)} falta Camara", this);
             return;
         }
 
-        if (PlayerTransform == null)
+        if(PlayerTransform == null) 
         {
             PlayerTransform = this.transform;
             Debug.Log($"Como {nameof(PlayerTransform)} es nulo, se asignó a this.transform", this);
         }
 
-        Energy._animationComp.Play("Salir uwuw");
+        Energia.GetComponent<Animation>().Play("Salir uwuw");
     }
 
-    private void Update()
+	private void Update ()
     {
-        if (Energy.RemainingEnergy >= 1)
-        {
+        if (Energia.GetComponent<Energía>().EnergiaActual >= 1){
             if (!Input.GetMouseButton(0))
             {
                 if (_grabbedRigidbody != null)
@@ -187,36 +186,32 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                 _justReleased = false;
                 return;
             }
-        }
-        else if (Input.GetMouseButtonDown(0))
-        {
+        }else if (Input.GetMouseButtonDown(0)){
             Ray ray = CenterRay();
             RaycastHit hit;
-
+                       
 
 #if UNITY_EDITOR
             Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.blue, 0.01f);
 #endif
             if (Physics.Raycast(ray, out hit, _maxGrabDistance, _grabLayer))
             {
-                if (Energy._ContadorActivo == false)
+                if (Energia.GetComponent<Energía>()._ContadorActivo == false)
                 {
-                    Energy._animationComp.Play("Entrar uwuw");
-                    StartCoroutine(Energy.Walter());
-                    Energy._ContadorActivo = true;
-                    Energy.timer = 1;
-                    Energy._yaAnimo = false;
+                    Energia.GetComponent<Animation>().Play("Entrar uwuw");
+                    StartCoroutine(Energia.GetComponent<Energía>().walter());
+                    Energia.GetComponent<Energía>()._ContadorActivo = true;
+                    Energia.GetComponent<Energía>().timer = 1;
+                    Energia.GetComponent<Energía>()._yaAnimo = false;
                 }
-                else if (Energy._ContadorActivo == true)
+                else if (Energia.GetComponent<Energía>()._ContadorActivo == true)
                 {
-                    Energy.timer = 2;
-                    StartCoroutine(Energy.Walicho());
+                    Energia.GetComponent<Energía>().timer = 2;
+                    StartCoroutine(Energia.GetComponent<Energía>().Walicho());
                 }
             }
             return;
-        }
-        else
-        {
+        }else{
             return;
         }
 
@@ -225,43 +220,43 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
             Ray ray = CenterRay();
             RaycastHit hit;
-
+                       
 
 #if UNITY_EDITOR
             Debug.DrawRay(ray.origin, ray.direction * _maxGrabDistance, Color.blue, 0.01f);
 #endif
             if (Physics.Raycast(ray, out hit, _maxGrabDistance, _grabLayer))
             {
-
+               
                 if (hit.rigidbody != null /*&& !hit.rigidbody.isKinematic*/)
                 {
-
-                    _grabbedRigidbody = hit.rigidbody;
-                    _wasKinematic = _grabbedRigidbody.isKinematic;
-                    _grabbedRigidbody.isKinematic = false;
-                    _grabbedRigidbody.freezeRotation = true;
-                    _initialInterpolationSetting = _grabbedRigidbody.interpolation;
-                    _rotationDifference = Quaternion.Inverse(PlayerTransform.rotation) * _grabbedRigidbody.rotation;
-                    _hitOffsetLocal = hit.transform.InverseTransformVector(hit.point - hit.transform.position);
-                    _currentGrabDistance = hit.distance; // Vector3.Distance(ray.origin, hit.point);
-                    _grabbedTransform = _grabbedRigidbody.transform;
+                   
+                    _grabbedRigidbody                   = hit.rigidbody;
+                    _wasKinematic                       = _grabbedRigidbody.isKinematic;
+                    _grabbedRigidbody.isKinematic       = false;
+                    _grabbedRigidbody.freezeRotation    = true;
+                    _initialInterpolationSetting        = _grabbedRigidbody.interpolation;
+                    _rotationDifference                 = Quaternion.Inverse(PlayerTransform.rotation) * _grabbedRigidbody.rotation;
+                    _hitOffsetLocal                     = hit.transform.InverseTransformVector(hit.point - hit.transform.position);
+                    _currentGrabDistance                = hit.distance; // Vector3.Distance(ray.origin, hit.point);
+                    _grabbedTransform                   = _grabbedRigidbody.transform;
                     isGrabbingObject = true;
-
-                    _grabbedRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
-
+                  
+                    _grabbedRigidbody.interpolation     = RigidbodyInterpolation.Interpolate;
+                    
                     _grabbedRigidbody.gameObject.AddComponent<AvoidCollisionWPlayer>();
 
                     OnObjectGrabbed.Invoke(_grabbedRigidbody.gameObject);
-                    if (Energy._ContadorActivo == false)
+                    if (Energia.GetComponent<Energía>()._ContadorActivo == false)
                     {
-                        Energy._animationComp.Play("Entrar uwuw");
-                        Energy._ContadorActivo = true;
-                        Energy.timer = 5;
-                        Energy._yaAnimo = false;
+                        Energia.GetComponent<Animation>().Play("Entrar uwuw");
+                        Energia.GetComponent<Energía>()._ContadorActivo = true;
+                        Energia.GetComponent<Energía>().timer = 5;
+                        Energia.GetComponent<Energía>()._yaAnimo = false;
                     }
-                    else if (Energy._ContadorActivo == true)
+                    else if (Energia.GetComponent<Energía>()._ContadorActivo == true)
                     {
-                        Energy.timer = 5;
+                        Energia.GetComponent<Energía>().timer = 5;
                     }
 
 #if UNITY_EDITOR
@@ -270,24 +265,24 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                 }
             }
         }
-        else if (_grabbedRigidbody != null)
+        else if(_grabbedRigidbody != null)
         {
-
+            
 
             var direction = Input.GetAxis("Mouse ScrollWheel");
 
             if (Mathf.Abs(direction) > 0 && CheckObjectDistance(direction))
             {
-                _distanceChanged = true;
-                _scrollWheelInput = PlayerTransform.forward * _scrollWheelSensitivity * direction;
-            }
+                _distanceChanged    = true;
+                _scrollWheelInput   = PlayerTransform.forward * _scrollWheelSensitivity * direction;
+            } 
             else
             {
                 _scrollWheelInput = _zeroVector3;
             }
 
         }
-    }
+	}
 
     private void FixedUpdate()
     {
@@ -299,18 +294,18 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
             UpdateRotationAxis();
 
 #if UNITY_EDITOR
-            Debug.DrawRay(_grabbedTransform.position, _up * 5f, Color.green);
-            Debug.DrawRay(_grabbedTransform.position, _right * 5f, Color.red);
-            Debug.DrawRay(_grabbedTransform.position, _forward * 5f, Color.blue);
+            Debug.DrawRay(_grabbedTransform.position, _up * 5f      , Color.green);
+            Debug.DrawRay(_grabbedTransform.position, _right * 5f   , Color.red);
+            Debug.DrawRay(_grabbedTransform.position, _forward * 5f , Color.blue);
 #endif
 
-            var intentionalRotation = Quaternion.AngleAxis(_rotationInput.z, _forward) * Quaternion.AngleAxis(_rotationInput.y, _right) * Quaternion.AngleAxis(-_rotationInput.x, _up) * _desiredRotation;
-            var relativeToPlayerRotation = PlayerTransform.rotation * _rotationDifference;
+            var intentionalRotation         = Quaternion.AngleAxis(_rotationInput.z, _forward) * Quaternion.AngleAxis(_rotationInput.y, _right) * Quaternion.AngleAxis(-_rotationInput.x, _up) * _desiredRotation;
+            var relativeToPlayerRotation    = PlayerTransform.rotation * _rotationDifference;
 
             if (_userRotation && _RotacionSnap)
             {
 
-                _lockedRot += _rotationInput;
+                _lockedRot += _rotationInput;    
 
 
                 if (Mathf.Abs(_lockedRot.x) > _snappedRotationSens || Mathf.Abs(_lockedRot.y) > _snappedRotationSens || Mathf.Abs(_lockedRot.z) > _snappedRotationSens)
@@ -345,22 +340,22 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                 }
             }
             else
-            {
+            {  
                 _desiredRotation = _userRotation ? intentionalRotation : relativeToPlayerRotation;
             }
+            
+            _grabbedRigidbody.angularVelocity   = _zeroVector3;
+            _rotationInput                      = _zeroVector2;
+            _rotationDifference                 = Quaternion.Inverse(PlayerTransform.rotation) * _desiredRotation;
 
-            _grabbedRigidbody.angularVelocity = _zeroVector3;
-            _rotationInput = _zeroVector2;
-            _rotationDifference = Quaternion.Inverse(PlayerTransform.rotation) * _desiredRotation;
-
-
-            var holdPoint = ray.GetPoint(_currentGrabDistance) + _scrollWheelInput;
+            
+            var holdPoint           = ray.GetPoint(_currentGrabDistance) + _scrollWheelInput;
             var centerDestination = holdPoint - _grabbedTransform.TransformVector(_hitOffsetLocal);
 
 #if UNITY_EDITOR
             Debug.DrawLine(ray.origin, holdPoint, Color.blue, Time.fixedDeltaTime);
 #endif
-
+           
             var toDestination = centerDestination - _grabbedTransform.position;
 
 
@@ -370,20 +365,20 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
             _grabbedRigidbody.velocity = _zeroVector3;
             _grabbedRigidbody.AddForce(force, ForceMode.VelocityChange);
 
+ 
 
-
-
+            
             if (_distanceChanged)
             {
                 _distanceChanged = false;
                 _currentGrabDistance = Vector3.Distance(ray.origin, holdPoint);
             }
 
-
-            StartPoint = _laserStartPoint.transform.position;
-            MidPoint = holdPoint;
-            EndPoint = _grabbedTransform.TransformPoint(_hitOffsetLocal);
-
+  
+            StartPoint  = _laserStartPoint.transform.position;
+            MidPoint    = holdPoint;
+            EndPoint    = _grabbedTransform.TransformPoint(_hitOffsetLocal);
+            
         }
     }
 
@@ -400,18 +395,18 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
     {
         if (!_RotacionSnap)
         {
-            _forward = PlayerTransform.forward;
-            _right = PlayerTransform.right;
-            _up = PlayerTransform.up;
+            _forward    = PlayerTransform.forward;
+            _right      = PlayerTransform.right;
+            _up         = PlayerTransform.up;
 
             return;
         }
 
         if (_rotationAxis)
         {
-            _forward = _grabbedTransform.forward;
-            _right = _grabbedTransform.right;
-            _up = _grabbedTransform.up;
+            _forward    = _grabbedTransform.forward;
+            _right      = _grabbedTransform.right;
+            _up         = _grabbedTransform.up;
 
             return;
         }
@@ -433,12 +428,12 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
 
         up = GetDirectionVector(directions, referenceTransform.up);
-
+       
         directions.Remove(up);
         directions.Remove(-up);
-
+            
         forward = GetDirectionVector(directions, referenceTransform.forward);
-
+        
         directions.Remove(forward);
         directions.Remove(-forward);
 
@@ -448,8 +443,8 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
     private Vector3 GetDirectionVector(List<Vector3> directions, Vector3 direction)
     {
-        var maxDot = -Mathf.Infinity;
-        var ret = Vector3.zero;
+        var maxDot  = -Mathf.Infinity;
+        var ret     = Vector3.zero;
 
         for (var i = 0; i < directions.Count; i++)
         {
@@ -457,13 +452,13 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
             if (dot > maxDot)
             {
-                ret = directions[i];
-                maxDot = dot;
+                ret     = directions[i];
+                maxDot  = dot;
             }
         }
 
         return ret;
-    }
+    }     
 
 
     private Ray CenterRay()
@@ -474,10 +469,10 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
     private bool CheckObjectDistance(float direction)
     {
-        var pointA = PlayerTransform.position;
-        var pointB = _grabbedRigidbody.position;
+        var pointA      = PlayerTransform.position;
+        var pointB      = _grabbedRigidbody.position;
 
-        var distance = Vector3.Distance(pointA, pointB);
+        var distance    = Vector3.Distance(pointA, pointB);
 
         if (direction > 0)
             return distance <= _maxGrabDistance;
@@ -490,27 +485,27 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
     private void ReleaseObject()
     {
-        Energy.UseEnergy(1);
+        Energia.GetComponent<Energía>().UseEnergy(1);
 
         AvoidCollisionWPlayer colis = _grabbedRigidbody.GetComponent<AvoidCollisionWPlayer>();
         colis.player = null;
         Destroy(colis);
 
         _grabbedRigidbody.MoveRotation(_desiredRotation);
-
-        _grabbedRigidbody.isKinematic = _wasKinematic;
-        _grabbedRigidbody.interpolation = _initialInterpolationSetting;
-        _grabbedRigidbody.freezeRotation = false;
-        _grabbedRigidbody = null;
-        _scrollWheelInput = _zeroVector3;
-        _grabbedTransform = null;
+        
+        _grabbedRigidbody.isKinematic               = _wasKinematic;
+        _grabbedRigidbody.interpolation             = _initialInterpolationSetting;
+        _grabbedRigidbody.freezeRotation            = false;
+        _grabbedRigidbody                           = null;
+        _scrollWheelInput                           = _zeroVector3;
+        _grabbedTransform                           = null;
         StartCoroutine(WaitToSetIsGrabbing(0.1f, false));
-        _userRotation = false;
-        _RotacionSnap = false;
-        StartPoint = _zeroVector3;
-        MidPoint = _zeroVector3;
-        EndPoint = _zeroVector3;
-        _justReleased = true;
+        _userRotation                               = false;
+        _RotacionSnap                               = false;
+        StartPoint                                  = _zeroVector3;
+        MidPoint                                    = _zeroVector3;
+        EndPoint                                    = _zeroVector3;
+        _justReleased                               = true;
 
         OnObjectGrabbed.Invoke(null);
     }

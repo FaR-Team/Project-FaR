@@ -4,36 +4,44 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
-public class HotbarDisplay : HotbarDisplayBase
+
+public class HotbarDisplay : StaticInventoryDisplay
 {
+    private int _maxIndexSize = 9;
+    public int _currentIndex = 0;
+
     [SerializeField] private Interactor interactor;
 
     public GameObject telequinesis;
+    public TextMeshProUGUI NameDisplay;
+    public PhysicsGunInteractionBehavior physicsGun;
     public GridGhost gridGhost;
+    public GameObject player;
+
+    public PlayerInventoryHolder PlayerInv;
 
     [Header("Tool GameObjects")]
-    public GameObject hoe, bucket, blank1, blank2, blank3, hand;
-    /* 
-     Estos objetos no son necesarios. solo se necesita un objeto mano */
-    [SerializeField] private ToolItemData[] abilityTools;
-    [SerializeField] private Dictionary<ToolItemData, bool> abilityToolsDictionary = new Dictionary<ToolItemData, bool>();
-
-    private int _currentAbilityIndex;
+    public GameObject hoe, bucket, rexona, blank1, blank2, hand;
 
     private InventoryItemData gameobj1, gameobj2, gameobj3, gameibj4, gameobj5;
 
-    Dirt dirtToTest;
+    public PlayerInput2 _playerControls;
 
-    private Vector3 previousFinalPosition;
-    private int _maxAbilityIndexSize;
+    private bool _isHolding = false;
+    private bool _isHoldingCtrl = false;
+
+    Dirt dirtToTest;
 
     private void Awake()
     {
         _playerControls = GameInput.playerInputActions;
+       
+        if(telequinesis == null ) telequinesis = GameObject.FindWithTag("Telequinesis");
+        if(player == null) player = GameObject.FindWithTag("Player");
 
-        if (telequinesis == null) telequinesis = GameObject.FindWithTag("Telequinesis");
-        if (player == null) player = GameObject.FindWithTag("Player");
+        PlayerInv = player.GetComponent<PlayerInventoryHolder>();
 
+        physicsGun = telequinesis.GetComponent<PhysicsGunInteractionBehavior>();
     }
 
     protected override void Start()
@@ -41,82 +49,9 @@ public class HotbarDisplay : HotbarDisplayBase
         base.Start();
 
         _currentIndex = 0;
-        _currentAbilityIndex = 0;
-        _maxAbilityIndexSize = 1;
-        //UpdateAbilitySlot();
         _maxIndexSize = slots.Length - 1;
 
         SlotCurrentIndex().ToggleHighlight();
-    }
-
-    public override void Update()
-    {
-        base.Update();
-
-        if (InventorySlot_UIAbility.isAbilityHotbarActive &&
-            IsInAbilityHotbarNow() &&
-            CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl())
-        {
-            ChangeAbility();
-        }
-
-        ChangeAbilityGamepad();
-
-        ChangeObjectInHandModel();
-    }
-
-    void ChangeAbility()
-    {
-        if (MouseWheelValue() > 0.1f) ChangeAbilityIndex(-1);
-
-        if (MouseWheelValue() < -0.1f) ChangeAbilityIndex(1);
-    }
-
-    void ChangeAbilityGamepad()
-    {
-        if (GetPlayerControls().AbilityHotbarDown.WasPerformedThisFrame()) 
-            ChangeAbilityIndex(-1);
-
-        if (GetPlayerControls().AbilityHotbarUp.WasPerformedThisFrame()) 
-            ChangeAbilityIndex(1);
-    }
-
-    private void ChangeAbilityIndex(int direction)
-    {
-        //This is a void to ask god if he's de boca DE BOKITA
-        var initialIndex = _currentAbilityIndex;
-        _currentAbilityIndex += direction;
-        
-        if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
-        if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
-
-        for(int i = 0; i < abilityTools.Length; i++)
-        {
-            if(InventorySlot_UIAbility.isUnlocked[_currentAbilityIndex] == false)
-            {
-                _currentAbilityIndex += direction;
-        
-                if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
-                if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
-            }
-            else{
-                UpdateAbilitySlot();
-                return;
-            }
-        }
-
-        _currentAbilityIndex = initialIndex;
-    }
-
-    private void UpdateAbilitySlot()
-    {
-        AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1); 
-        AbilitySlot().UpdateUISlot();
-    }
-    
-    private static bool IsInAbilityHotbarNow()
-    {
-        return _currentIndex == 10;
     }
 
     protected override void OnEnable()
@@ -134,9 +69,6 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().Hotbar8.performed += Hotbar8;
         GetPlayerControls().Hotbar9.performed += Hotbar9;
         GetPlayerControls().Hotbar10.performed += Hotbar10;
-        GetPlayerControls().HotbarRight.performed += HotbarRight;
-        GetPlayerControls().HotbarLeft.performed += HotbarLeft;
-
         GetPlayerControls().UseItem.performed += UseItem;
         GetPlayerControls().UseItemHoldStart.performed += x => UseItemPressed();
         GetPlayerControls().UseItemHoldRelease.performed += x => UseItemRelease();
@@ -163,6 +95,11 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().UseItemHoldRelease.performed -= x => UseItemRelease();
         GetPlayerControls().Sprint.performed -= x => SellAllPressed();
         GetPlayerControls().SprintFinish.performed -= x => SellAllRelease();
+    }
+
+    private PlayerInput2.PlayerActions GetPlayerControls()
+    {
+        return _playerControls.Player;
     }
 
     #region Hotbar Select Methods
@@ -217,26 +154,217 @@ public class HotbarDisplay : HotbarDisplayBase
     }
     #endregion
 
-    public void HotbarLeft(InputAction.CallbackContext obj)
+    private void UseItemRelease()
     {
-        if (GetPlayerControls().HotbarLeft.WasPressedThisFrame() &&
-                    IsNotGrabingNorPausedNorConsole())
+        _isHolding = false;
+        CancelInvoke();
+    }
+
+    private void UseItemPressed()
+    {
+        _isHolding = true;
+        InvokeRepeating("Holdear", 0, 0.15f);
+    }
+
+    private void SellAllRelease()
+    {
+        _isHoldingCtrl = false;
+    }
+
+    private void SellAllPressed()
+    {
+        _isHoldingCtrl = true;
+        //SellAll();
+    }
+
+    private void SellAll()
+    {
+        if (_isHoldingCtrl && _isHolding && interactor.IsLookingAtStore) //TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
         {
-            ChangeIndex(-1);
-            DoChangeNameDisplay();
+            if (GetItemData() == null || GetItemData().Sellable == false) return;
+
+            if (GetItemData().Seed == false && GetItemData().Usable == true)
+            {
+                int i = 0;
+                while (i < GetAssignedInventorySlot().StackSize)
+                {
+                    GetItemData().UseItem();
+                    GetAssignedInventorySlot().SacarDeStack(1);
+                }
+                if (GetAssignedInventorySlot().StackSize == 0)
+                {
+                    GetAssignedInventorySlot().ClearSlot();
+                }
+                SlotCurrentIndex().UpdateUISlot();
+            }
         }
     }
 
-    public void HotbarRight(InputAction.CallbackContext obj)
+    private InventoryItemData GetItemData()
     {
-        if (GetPlayerControls().HotbarRight.WasPressedThisFrame() &&
-                    IsNotGrabingNorPausedNorConsole())
+        return GetAssignedInventorySlot().ItemData;
+    }
+
+    private InventorySlot GetAssignedInventorySlot()
+    {
+        return SlotCurrentIndex().AssignedInventorySlot;
+    }
+    private InventorySlot_UI SlotCurrentIndex()
+    {
+        return slots[_currentIndex];
+    }
+
+    private void Update()
+    {
+
+        float MouseWheelValue()
+        {
+            return GetPlayerControls().MouseWheel.ReadValue<float>();
+        }
+
+        if((MouseWheelValue() > 0.1f || MouseWheelValue() < -0.1f) && 
+            physicsGun.isGrabbingObject == false &&
+            PauseMenu.GameIsPaused == false &&
+            PlayerInv.IsBuying == false &&
+            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+        {
+            if (MouseWheelValue() > 0.1f) ChangeIndex(-1);
+            if (MouseWheelValue() < -0.1f) ChangeIndex(1);
+
+            if (GetItemData() == null) return;
+
+            NameDisplay.text = GetItemData().Nombre;
+            if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+            {
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            }
+            else
+            {
+                NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+                NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+                NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            }
+        }
+
+        if(GetPlayerControls().HotbarRight.WasPressedThisFrame() && 
+            physicsGun.isGrabbingObject == false &&
+            PauseMenu.GameIsPaused == false &&
+            PlayerInv.IsBuying == false &&
+            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
         {
             ChangeIndex(1);
-            DoChangeNameDisplay();
+
+            if (GetItemData() == null) return;
+
+            NameDisplay.text = GetItemData().Nombre;
+            if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+            {
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            }
+            else
+            {
+                NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+                NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+                NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            }
+        }
+
+        if(GetPlayerControls().HotbarLeft.WasPressedThisFrame() && 
+            physicsGun.isGrabbingObject == false &&
+            PauseMenu.GameIsPaused == false &&
+            PlayerInv.IsBuying == false &&
+            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+        {
+            ChangeIndex(-1);
+
+            if (GetItemData() == null) return;
+
+            NameDisplay.text = GetItemData().Nombre;
+            if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+            {
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            }
+            else
+            {
+                NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+                NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+                NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+                NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+                StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            }
+        }
+
+
+        if (_isHoldingCtrl)
+        {
+            SellAll();
+        }
+        if (GetItemData() == null)
+        {
+            hoe.SetActive(false);
+            bucket.SetActive(false);
+            hand.SetActive(true);
+            return;
+        }
+
+
+        if (GetItemData().IsHoe == true)
+        {
+            hoe.SetActive(true);
+            bucket.SetActive(false);
+            hand.SetActive(false);
+        }
+        else if (
+            (GetItemData().Sellable == false &&
+            GetItemData().Seed == false &&
+            GetItemData().Usable == false &&
+            GetItemData().Tool == false)
+
+            ||
+
+            GetItemData().Usable == true)
+        {
+            hoe.SetActive(false);
+            bucket.SetActive(false);
+            hand.SetActive(true);
+        }
+
+        if (GetItemData().IsBucket == true)
+        {
+            hoe.SetActive(false);
+            bucket.SetActive(true);
+            hand.SetActive(false);
         }
     }
     
+
+    private void Holdear()
+    {
+        if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
+        {
+            if (GetItemData() == null) return;
+
+            if (GetItemData().Sellable == true && 
+                GetItemData().Seed == false && 
+                GetItemData().Usable == true)
+            {
+               // var inventory = player.GetComponent<InventoryHolder>();
+
+                GetItemData().UseItem();
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+                
+                SlotCurrentIndex().UpdateUISlot();
+            }
+        }
+    }
+
+    private Vector3 previousFinalPosition;
+
     public bool CanUseItem()
     {
         if (gridGhost.finalPosition != previousFinalPosition)
@@ -258,147 +386,44 @@ public class HotbarDisplay : HotbarDisplayBase
         return true;
     }
 
-    private void UseItemRelease()
-    {
-        _isHolding = false;
-        CancelInvoke();
-    }
 
-    private void UseItemPressed()
-    {
-        _isHolding = true;
-        InvokeRepeating("Holdear", 0, 0.1f);
-    }
-
-    private void SellAllRelease()
-    {
-        _isHoldingCtrl = false;
-    }
-
-    private void SellAllPressed()
-    {
-        _isHoldingCtrl = true;
-        //SellAll();
-    }
-
-    private void SellAll()
-    {
-        if (!_isHoldingCtrl || !_isHolding || !interactor.IsLookingAtStore) return; //TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
-
-        if (GetItemData() == null || !GetItemData().Sellable) return;
-
-        if (GetItemData().IsCropSeed() || !GetItemData().Usable) return;
-
-        int i = 0;
-
-        while (i < GetAssignedInventorySlot().StackSize)
-        {
-            GetItemData().UseItem();
-            GetAssignedInventorySlot().SacarDeStack(1);
-        }
-        GetAssignedInventorySlot().ClearSlot();
-
-        SlotCurrentIndex().UpdateUISlot();
-    }
-
-    private void Holdear()
-    {
-        if (GetItemData() == null) return;
-
-        if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
-        {
-            if (GetItemData().Sellable &&
-                !GetItemData().IsCropSeed() &&
-                GetItemData().Usable)
-            {
-                GetItemData().UseItem();
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-
-                SlotCurrentIndex().UpdateUISlot();
-            }
-            return;
-        }
-
-        if (GetItemData().IsHoe() || GetItemData().IsBucket())
-        {
-            GetItemData().UseItem();
-        }
-
-        if (GetItemData().IsCropSeed() &&
-            interactor._LookingAtDirt)
-        {
-            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
-
-            if (GetItemData().UseItem(dirtToTest))
-            {
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-        }
-
-        if (GetItemData().IsTreeSeed() &&
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            !interactor._LookingAtDirt)
-        {
-            if (GetItemData().UseItem())
-            {
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-        }
-    }
-
-    private void ChangeObjectInHandModel()
-    {
-        if (GetItemData() == null)
-        {
-            hoe.SetActive(false);
-            bucket.SetActive(false);
-            hand.SetActive(true);
-            return;
-        }
-
-
-        if (GetItemData().IsHoe())
-        {
-            hoe.SetActive(true);
-            bucket.SetActive(false);
-            hand.SetActive(false);
-        }
-        else if ((!GetItemData().Sellable &&
-            !GetItemData().IsCropSeed() &&
-            !GetItemData().Usable &&
-            !GetItemData().IsTool())
-
-            ||
-
-            GetItemData().Usable)
-        {
-            hoe.SetActive(false);
-            bucket.SetActive(false);
-            hand.SetActive(true);
-        }
-
-        if (GetItemData().IsBucket())
-        {
-            hoe.SetActive(false);
-            bucket.SetActive(true);
-            hand.SetActive(false);
-        }
-    }
     private void UseItem(InputAction.CallbackContext obj)
     {
         if (GetItemData() == null) return;
+        
+        
+        if (GetItemData().Usable == true &&
+            GetItemData().Seed == false &&
+            GetItemData().Sellable == false &&
+            GetItemData().TreeSeed == false)
+            //La música de relee es una poronga
 
-        if (GetItemData().IsCropSeed() &&
+        { GetItemData().UseItem(); }
+
+        /*if (GetItemData() != null &&
+            GetItemData().Sellable == true &&
+            GetItemData().Seed == false &&
+            GetItemData().Usable == true &&
+            _isHoldingCtrl)
+        {
+            var inventory = player.GetComponent<InventoryHolder>();
+
+            GetItemData().UseItem();
+            GetAssignedInventorySlot().SacarDeStack(GetAssignedInventorySlot().StackSize);
+            if (GetAssignedInventorySlot().StackSize == 0)
+            {
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            slotCurrentIndex().UpdateUISlot();
+        }*/
+
+        if (GetItemData().Seed && 
             interactor._LookingAtDirt)
         {
             var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
 
             if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
+
 
             //var inventory = player.GetComponent<InventoryHolder>();
 
@@ -410,8 +435,8 @@ public class HotbarDisplay : HotbarDisplayBase
             SlotCurrentIndex().UpdateUISlot();
         }
 
-        if (GetItemData().IsTreeSeed() &&
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
+        if (GetItemData().TreeSeed && 
+            gridGhost.CheckCrop(gridGhost.finalPosition, 1) && 
             interactor._LookingAtDirt == false)
         {
             //var inventory = player.GetComponent<InventoryHolder>();
@@ -425,6 +450,17 @@ public class HotbarDisplay : HotbarDisplayBase
         }
     }
 
+    private void ChangeIndex(int direction)
+    {
+        SlotCurrentIndex().ToggleHighlight();
+        _currentIndex += direction;
+
+        if (_currentIndex > _maxIndexSize) _currentIndex = 0;
+        if (_currentIndex < 0) _currentIndex = _maxIndexSize;
+
+        SlotCurrentIndex().ToggleHighlight();
+    }
+
     private void SetIndex(int newIndex)
     {
         SlotCurrentIndex().ToggleHighlight();
@@ -433,28 +469,22 @@ public class HotbarDisplay : HotbarDisplayBase
 
         _currentIndex = newIndex;
         SlotCurrentIndex().ToggleHighlight();
-        DoChangeNameDisplay();
+
+        if (GetItemData() == null) return;
+
+        NameDisplay.text = GetItemData().Nombre;
+
+        if (NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo)
+        {
+            NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+        }
+        else
+        {
+            NameDisplay.GetComponent<Animation>().Play("NameDisplayEntrar");
+            StartCoroutine(NameDisplay.GetComponent<NameDisplayController>().waiter());
+            NameDisplay.GetComponent<NameDisplayController>()._ContadorActivo = true;
+            NameDisplay.GetComponent<NameDisplayController>().timer = 2;
+            NameDisplay.GetComponent<NameDisplayController>()._yaAnimo = false;
+        }
     }
 }
-
-/*
-public class Hand : MonoBehaviour
-{
-    Action handActions;
-
-    PlayerInput2 inputActions;
-    void Awake()
-    {
-        PlayerInputActionAdder.AddAction(accion);
-        inputActions.Player.UseItem.performed += handActions;
-    }
-    
-    void accion()
-    {
-        handActions = HotbarDisplay.GetItemData().Action();
-
-    }
-   
-
-
-}*/

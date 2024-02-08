@@ -67,7 +67,7 @@ namespace UnityEditor.Localization.Samples
         void OnGUI()
         {
             // We can check if the localization system is ready using the InitializationOperation.
-            // Initialization involves loading locales and optionally preloading localized dataList for the current locale.
+            // Initialization involves loading locales and optionally preloading localized data for the current locale.
             if (!LocalizationSettings.InitializationOperation.IsDone)
             {
                 GUILayout.Label("Initializing Localization");

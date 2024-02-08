@@ -6,19 +6,6 @@ using Discord;
 public class DiscordController : MonoBehaviour
 {
     public Discord.Discord discord;
-    public static DiscordController instance { get; private set; }
-
-    void Awake()
-    {
-        if (instance != null && instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            instance = this; 
-        } 
-    }
 
     void Start()
     {
@@ -26,7 +13,7 @@ public class DiscordController : MonoBehaviour
         var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity
         {
-            Details = Application.version,
+            Details = "Beta 0.0.21",
             State = "Beginning an adventure",
             Timestamps = {
                 Start = System.DateTimeOffset.Now.ToUnixTimeMilliseconds()

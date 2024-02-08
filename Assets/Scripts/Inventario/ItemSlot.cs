@@ -1,7 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using FaRUtils.Systems.ItemSystem;
 using UnityEngine;
 
-[System.Serializable]
 public abstract class ItemSlot : ISerializationCallbackReceiver
 {
     [SerializeField] protected InventoryItemData itemData; //referencia a los datos del item
@@ -14,23 +15,24 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
 
     public void ClearSlot() //Limpiar un Slot
     {
-        if (stackSize > 0) return;
-
-        ForcedClearSlot();
+        if(stackSize <= 0)
+        {
+            itemData = null;
+            _itemID = -1;
+            stackSize = -1;
+        }
     }
-
     public void ForcedClearSlot() //Fuerza la Limpieza de un Slot
     {
         itemData = null;
         _itemID = -1;
         stackSize = -1;
     }
-
     public void AssignItem(InventorySlot invSlot) //Asignar un item directamente a un slot
     {
-        if (itemData == invSlot.ItemData) //El slot contiene el mismo item?
+        if (itemData == invSlot.ItemData)
         {
-            AddToStack(invSlot.StackSize); 
+            AddToStack(invSlot.StackSize); //El slot contiene el mismo item?
         }
         else //Sobreescribir slot con el que estamos pasándole
         {

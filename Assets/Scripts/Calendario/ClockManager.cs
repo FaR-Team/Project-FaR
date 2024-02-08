@@ -14,10 +14,6 @@ public class ClockManager : MonoBehaviour
     public TimeManager timeManager;
     public LanguageTMPDropdown languageTMPDropdown;
 
-
-    public static ClockManager InstanceClock;
-    public static TextMeshProUGUI _time => InstanceClock.Time;
-
     public GameObject OptionsMenu;
     public GameObject SeasonImageObj;
     private PlayerInventoryHolder _playerInventoryHolder;
@@ -36,7 +32,6 @@ public class ClockManager : MonoBehaviour
 
     private void Awake() 
     {
-        InstanceClock = this;
         startingRotation = ClockFace.localEulerAngles.z;
         GameObject player = GameObject.FindWithTag("Player");
 
@@ -50,10 +45,6 @@ public class ClockManager : MonoBehaviour
     private void OnEnable()
     {
         TimeManager.OnDateTimeChanged += UpdateDateTime;
-    }
-    public static string TimeText()
-    {
-        return _time.text;
     }
 
     public void UpdateDateTime(DateTime dateTime)
