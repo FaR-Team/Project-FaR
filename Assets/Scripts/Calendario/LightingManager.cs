@@ -42,7 +42,7 @@ public class LightingManager : MonoBehaviour
 
     public void CopyHour()
     {
-        TimeOfDay = timeManager.DateTime.Hour;
+        TimeOfDay = TimeManager.DateTime.Hour;
     }
 
 

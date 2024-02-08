@@ -121,7 +121,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""name"": ""Look"",
                     ""type"": ""Value"",
                     ""id"": ""433b1ca7-8e4e-462b-b04c-10a744df1141"",
-                    ""expectedControlType"": ""Delta"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -274,6 +274,24 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""name"": ""HotbarRight"",
                     ""type"": ""Button"",
                     ""id"": ""7e94d25c-368d-483b-96db-ded71145d060"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AbilityHotbarUp"",
+                    ""type"": ""Button"",
+                    ""id"": ""d118bee0-1ca7-4fcf-8127-9cb40af9dde8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AbilityHotbarDown"",
+                    ""type"": ""Button"",
+                    ""id"": ""71e01453-3e2a-40d7-81ed-d453408fe2b3"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -612,7 +630,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""354fa449-88ba-4a15-a199-764fc71fb905"",
-                    ""path"": ""<Keyboard>/backquote"",
+                    ""path"": ""ñ"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -817,6 +835,28 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""action"": ""HotbarLeft"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54751adb-c26e-45a7-95d4-bdc14547a7ab"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AbilityHotbarUp"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f00bc0e8-4cf4-4ca7-b1bd-6028c6f1bb4f"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""AbilityHotbarDown"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -891,6 +931,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_ToggleDebug = m_Player.FindAction("ToggleDebug", throwIfNotFound: true);
         m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         m_Player_HotbarRight = m_Player.FindAction("HotbarRight", throwIfNotFound: true);
+        m_Player_AbilityHotbarUp = m_Player.FindAction("AbilityHotbarUp", throwIfNotFound: true);
+        m_Player_AbilityHotbarDown = m_Player.FindAction("AbilityHotbarDown", throwIfNotFound: true);
         m_Player_HotbarLeft = m_Player.FindAction("HotbarLeft", throwIfNotFound: true);
     }
 
@@ -979,6 +1021,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ToggleDebug;
     private readonly InputAction m_Player_Pause;
     private readonly InputAction m_Player_HotbarRight;
+    private readonly InputAction m_Player_AbilityHotbarUp;
+    private readonly InputAction m_Player_AbilityHotbarDown;
     private readonly InputAction m_Player_HotbarLeft;
     public struct PlayerActions
     {
@@ -1012,6 +1056,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @ToggleDebug => m_Wrapper.m_Player_ToggleDebug;
         public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputAction @HotbarRight => m_Wrapper.m_Player_HotbarRight;
+        public InputAction @AbilityHotbarUp => m_Wrapper.m_Player_AbilityHotbarUp;
+        public InputAction @AbilityHotbarDown => m_Wrapper.m_Player_AbilityHotbarDown;
         public InputAction @HotbarLeft => m_Wrapper.m_Player_HotbarLeft;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -1106,6 +1152,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @HotbarRight.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarRight;
                 @HotbarRight.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarRight;
                 @HotbarRight.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarRight;
+                @AbilityHotbarUp.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityHotbarUp;
+                @AbilityHotbarUp.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityHotbarUp;
+                @AbilityHotbarUp.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityHotbarUp;
+                @AbilityHotbarDown.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityHotbarDown;
+                @AbilityHotbarDown.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityHotbarDown;
+                @AbilityHotbarDown.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnAbilityHotbarDown;
                 @HotbarLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
                 @HotbarLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
                 @HotbarLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
@@ -1197,6 +1249,12 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @HotbarRight.started += instance.OnHotbarRight;
                 @HotbarRight.performed += instance.OnHotbarRight;
                 @HotbarRight.canceled += instance.OnHotbarRight;
+                @AbilityHotbarUp.started += instance.OnAbilityHotbarUp;
+                @AbilityHotbarUp.performed += instance.OnAbilityHotbarUp;
+                @AbilityHotbarUp.canceled += instance.OnAbilityHotbarUp;
+                @AbilityHotbarDown.started += instance.OnAbilityHotbarDown;
+                @AbilityHotbarDown.performed += instance.OnAbilityHotbarDown;
+                @AbilityHotbarDown.canceled += instance.OnAbilityHotbarDown;
                 @HotbarLeft.started += instance.OnHotbarLeft;
                 @HotbarLeft.performed += instance.OnHotbarLeft;
                 @HotbarLeft.canceled += instance.OnHotbarLeft;
@@ -1252,6 +1310,8 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnToggleDebug(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnHotbarRight(InputAction.CallbackContext context);
+        void OnAbilityHotbarUp(InputAction.CallbackContext context);
+        void OnAbilityHotbarDown(InputAction.CallbackContext context);
         void OnHotbarLeft(InputAction.CallbackContext context);
     }
 }

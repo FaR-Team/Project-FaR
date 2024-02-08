@@ -59,7 +59,7 @@ public class GrassComputeScript : MonoBehaviour
 
 
     // The structure to send to the compute shader
-    // This layout kind assures that the data is laid out sequentially
+    // This layout kind assures that the dataList is laid out sequentially
     [System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind
         .Sequential)]
     private struct SourceVertex
@@ -72,13 +72,13 @@ public class GrassComputeScript : MonoBehaviour
 
     // A state variable to help keep track of whether compute buffers have been set up
     private bool m_Initialized;
-    // A compute buffer to hold vertex data of the source mesh
+    // A compute buffer to hold vertex dataList of the source mesh
     private ComputeBuffer m_SourceVertBuffer;
-    // A compute buffer to hold vertex data of the generated mesh
+    // A compute buffer to hold vertex dataList of the generated mesh
     private ComputeBuffer m_DrawBuffer;
     // A compute buffer to hold indirect draw arguments
     private ComputeBuffer m_ArgsBuffer;
-    // Instantiate the shaders so data belong to their unique compute buffers
+    // Instantiate the shaders so dataList belong to their unique compute buffers
     private ComputeShader m_InstantiatedComputeShader;
     [SerializeField] Material m_InstantiatedMaterial;
     // The id of the kernel in the grass compute shader
@@ -97,7 +97,7 @@ public class GrassComputeScript : MonoBehaviour
 
     Bounds bounds;
 
-    // The data to reset the args buffer with every frame
+    // The dataList to reset the args buffer with every frame
     // 0: vertex count per draw instance. We will only use one instance
     // 1: instance count. One
     // 2: start vertex location if using a Graphics Buffer
@@ -176,13 +176,13 @@ public class GrassComputeScript : MonoBehaviour
         m_InstantiatedComputeShader = Instantiate(computeShader);
         m_InstantiatedMaterial = Instantiate(material);
 
-        // Grab data from the source mesh
+        // Grab dataList from the source mesh
         Vector3[] positions = sourceMesh.vertices;
         Vector3[] normals = sourceMesh.normals;
         Vector2[] uvs = sourceMesh.uv;
         Color[] colors = sourceMesh.colors;
 
-        // Create the data to upload to the source vert buffer
+        // Create the dataList to upload to the source vert buffer
         SourceVertex[] vertices = new SourceVertex[positions.Length];
         for (int i = 0; i < vertices.Length; i++)
         {
@@ -219,13 +219,13 @@ public class GrassComputeScript : MonoBehaviour
         // Cache the kernel IDs we will be dispatching
         m_IdGrassKernel = m_InstantiatedComputeShader.FindKernel("Main");
 
-        // Set buffer data
+        // Set buffer dataList
         m_InstantiatedComputeShader.SetBuffer(m_IdGrassKernel, "_SourceVertices",
             m_SourceVertBuffer);
         m_InstantiatedComputeShader.SetBuffer(m_IdGrassKernel, "_DrawTriangles", m_DrawBuffer);
         m_InstantiatedComputeShader.SetBuffer(m_IdGrassKernel, "_IndirectArgsBuffer",
             m_ArgsBuffer);
-        // Set vertex data
+        // Set vertex dataList
         m_InstantiatedComputeShader.SetInt("_NumSourceVertices", numSourceVertices);
         m_InstantiatedComputeShader.SetInt("_MaxBladesPerVertex", maxBladesPerVertex);
         m_InstantiatedComputeShader.SetInt("_MaxSegmentsPerBlade", maxSegmentsPerBlade);
@@ -295,13 +295,13 @@ public class GrassComputeScript : MonoBehaviour
             return;
         }
 
-        // Clear the draw and indirect args buffers of last frame's data
+        // Clear the draw and indirect args buffers of last frame's dataList
         m_DrawBuffer.SetCounterValue(0);
         m_ArgsBuffer.SetData(argsBufferReset);
 
 
 
-        // Update the shader with frame specific data
+        // Update the shader with frame specific dataList
         SetGrassDataUpdate();
 
         // Dispatch the grass shader. It will run on the GPU

@@ -1,92 +1,66 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using cakeslice;
+using FaRUtils;
 
 public class CropExplode : MonoBehaviour
 {   
-    public string _objectName;
-    public GameObject Tierra = null;
-    public GameObject Coso;
-    public GameObject Parent;
-    //bool YaExploto = false;
-    public InventoryItemData ItemData;
-    public GameObject jugador;
-    public GameObject Colliders;
-    public GameObject Crop;
+    public GameObject thisCropDirt;
+    public GameObject ExplotionGameObject;
 
-    public Transform tierraAnim;
-    //public GameObject CropLeaf;
-    public Vector3 center;
+    public InventoryItemData ItemData;
+    public GameObject player;
+
+    //public Vector3 center;
     public float radius = 10;
 
 
     private void Start()
     {
-        jugador = GameObject.FindGameObjectWithTag("Player");
-        Tierra = transform.root.GetChild(0).gameObject;
-        center = new Vector3(transform.root.GetChild(0).position.x, transform.root.GetChild(0).position.y, transform.root.GetChild(0).position.z);
-        Parent = transform.root.gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
+        thisCropDirt = transform.parent.parent.gameObject;
+        //center = thisCropDirt.transform.position;
     }    
     
-    void LateUpdate() 
+    public void StartAnimationAndExplode()
     {
-        var distance = Vector3.Distance(this.gameObject.transform.position, Tierra.transform.position);
-    }
-
-    public void Chau()
-    {
-        Tierra = transform.root.GetChild(0).gameObject;
-        Vector3 pos = new Vector3 (transform.root.GetChild(0).position.x, 2, transform.root.GetChild(0).position.z);
-        var inventory = jugador.transform.GetComponent<PlayerInventoryHolder>();
-
-        //Collider[] hitColliders = Physics.OverlapSphere(center, radius);
-        //OnDrawGizmos();
-
-        /*if (hitColliders  != null)
+        //TODO: No matarse (En swahilli).
+        if (this.GetComponent<Animation>() != null)
         {
-            foreach (var hitCollider in hitColliders)
-            {
-                if (hitCollider.tag == _objectName && hitCollider != this.gameObject.GetComponent<Collider>())
-                {
-                    //hitCollider.gameObject.GetComponent<Carrot>().InteractOut();
-                    //TODO: No matarse (En swahilli).
-                }
-            }
-        }*/
-        var rand = Random.Range(1,5);
-        inventory.AñadirAInventario(ItemData, rand);
-
-        //GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));
-        //YaExploto = true;
-        StartCoroutine(Destruir());
-    }
-
-    //private void OnDrawGizmos()
-    //{
-        //Gizmos.DrawWireSphere(center, radius);
-    //}
-    IEnumerator Destruir()
-    {
-        Vector3 pos = new Vector3 (transform.root.GetChild(0).position.x, 2, transform.root.GetChild(0).position.z);
-        for (int i = 0; i < Tierra.gameObject.transform.childCount; i++)
-        {
-            if(Tierra.gameObject.transform.GetChild(i).gameObject.activeSelf == true && Tierra.gameObject.transform.GetChild(i).gameObject.GetComponent<Animation>() != null)
-            {
-                tierraAnim = Tierra.gameObject.transform.GetChild(i);
-            }
+            this.GetComponent<Animation>().Play();
         }
+        if (thisCropDirt.GetComponentInChildren<Animation>() != null)
+        {
+            thisCropDirt.GetComponentInChildren<Animation>().Play();
+        }
+    }
+
+    private int GetRandomInt()
+    {
+        return Random.Range(1, 5);
+    }
+
+    private PlayerInventoryHolder GetInventory()
+    {
+        return player.transform.GetComponent<PlayerInventoryHolder>();
+    }
+
+    public IEnumerator Destruir()
+    {
+        thisCropDirt.transform.position = new Vector3(thisCropDirt.transform.position.x, -2, thisCropDirt.transform.position.z);
+        Instantiate(ExplotionGameObject, GetPosition(), Quaternion.identity);
         
-        yield return new WaitForSeconds(2.5f);
-        if (Tierra.GetComponent<Animation>() != null)
-        {
-            Tierra.GetComponent<Animation>().Play();
-        }
-        GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));
-        Crop.GetComponent<MeshRenderer>().enabled = false;
-        Destroy(Crop.gameObject.GetComponent<Outline>());
-        yield return new WaitForSeconds(0.5f);
-        Destroy(Tierra);
-        Destroy(Parent);
+        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
+        GetComponent<CarrotTuberInteraction>().InstantiateAndDropCarrots();
+        Destroy(gameObject.GetComponent<Outline>());
+
+        yield return new WaitForSeconds(0.2f);
+        DirtSpawnerPooling.DeSpawn(thisCropDirt);
+        Destroy(gameObject.transform.parent.gameObject);
+    }
+
+    private Vector3 GetPosition()
+    {
+        return new Vector3(transform.parent.parent.position.x, 2, transform.parent.parent.position.z);
     }
 }

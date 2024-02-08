@@ -8,22 +8,35 @@ public class DirtConnectorNew : MonoBehaviour
     [Header("Tierra")]
     public GameObject DirtModel;
 
+    void OnEnable()
+    {
+        SkinnedMeshRenderer gameObjectMeshRenderer = DirtModel.GetComponentInChildren<SkinnedMeshRenderer>();
+        
+        gameObjectMeshRenderer.material = dirtInformation.material_O_Shape;
+        gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_O_Shape;
+
+        isSur = false;
+        isOeste = false;
+        isNorte = false;
+        isEste = false;
+    }
+
     [Serializable]
     public class DirtInformation
     {
-        public Mesh meshOShape;
-        public Mesh meshIShape;
-        public Mesh meshPShape;
-        public Mesh meshLShape;
-        public Mesh meshTShape;
-        public Mesh meshFShape;
+        public Mesh mesh_O_Shape;
+        public Mesh mesh_I_Shape;
+        public Mesh mesh_P_Shape;
+        public Mesh mesh_L_Shape;
+        public Mesh mesh_T_Shape;
+        public Mesh mesh_F_Shape;
 
-        public Material materialOShape;
-        public Material materialIShape;
-        public Material materialPShape;
-        public Material materialLShape;
-        public Material materialTShape;
-        public Material materialFShape;
+        public Material material_O_Shape;
+        public Material material_I_Shape;
+        public Material material_P_Shape;
+        public Material material_L_Shape;
+        public Material material_T_Shape;
+        public Material material_F_Shape;
 
         /*public AnimationClip animO;
         public AnimationClip animI;
@@ -43,125 +56,79 @@ public class DirtConnectorNew : MonoBehaviour
     public bool isNorte = false;
     public bool isEste = false;
 
+    Quaternion Rotation(int number)
+    {
+        if (number is 0 or 8 or 10 or 14 or 15)
+        {
+            return Quaternion.Euler(0, 0, 0);
+        }
+        if (number is 1 or 5 or 9 or 13)
+        {
+            return Quaternion.Euler(0, -90, 0);
+        }
+        if (number is 2 or 3 or 11)
+        {
+            return Quaternion.Euler(0f, 180f, 0f);
+        }
+        if (number is 4 or 6 or 7)
+        {
+            return Quaternion.Euler(0f, 90f, 0f);
+        }
+        else return Quaternion.Euler(0f, 0f, 0f);
+
+    }
+
+    void SetMaterialAndMesh(int number, SkinnedMeshRenderer gameObjectMeshRenderer)
+    {
+        if (number is 0)
+        {
+            gameObjectMeshRenderer.material = dirtInformation.material_O_Shape;
+            gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_O_Shape;
+
+        }
+        if (number is 1 or 2 or 4 or 8)
+        {
+            gameObjectMeshRenderer.material = dirtInformation.material_I_Shape;
+            gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_I_Shape;
+        }
+        if (number is 3 or 6 or 9 or 12)
+        {
+            gameObjectMeshRenderer.material = dirtInformation.material_L_Shape;
+            gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_L_Shape;
+        }
+        if (number is 5 or 10)
+        {
+            gameObjectMeshRenderer.material = dirtInformation.material_P_Shape;
+            gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_P_Shape;
+        }
+        if (number is 7 or 11 or 13 or 14)
+        {
+            gameObjectMeshRenderer.material = dirtInformation.material_T_Shape;
+            gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_T_Shape;
+        }
+        if (number is 15)
+        {
+            gameObjectMeshRenderer.material = dirtInformation.material_F_Shape;
+            gameObjectMeshRenderer.sharedMesh = dirtInformation.mesh_F_Shape;
+        }
+    }
+
     public void SetSelectedBool(GameObject gameObject, int numberOfPosition)
     {
-        Transform gameObjecTransform = gameObject.GetComponent<Transform>();
         //Animation gameObjectAnimation= gameObject.GetComponent<Animation>();
+
+        Transform gameObjecTransform = gameObject.GetComponent<Transform>();
+
         SkinnedMeshRenderer gameObjectMeshRenderer = gameObject.GetComponentInChildren<SkinnedMeshRenderer>();
 
-        switch (numberOfPosition)
+        SetMaterialAndMesh(numberOfPosition, gameObjectMeshRenderer);
+
+        gameObjecTransform.rotation = Rotation(numberOfPosition);
+
+        if (GetComponentInParent<Dirt>()._isWet)
         {
-            case 0:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animO;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshOShape;
-                gameObjectMeshRenderer.material= dirtInformation.materialOShape;
-                break;
-            case 1:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, -90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animI;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshIShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialIShape;
-                break;            
-            case 2:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animI;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshIShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialIShape;
-                break;            
-            case 3:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animL;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshLShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialLShape;
-
-                break;            
-            case 4:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animI;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshIShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialIShape;
-
-                break;            
-            case 5:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, -90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animP;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshPShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialPShape;
-
-                break;            
-            case 6:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animL;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshLShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialLShape;
-
-                break;           
-            case 7:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animT;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshTShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialTShape;
-
-                break;          
-            case 8:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animI;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshIShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialIShape;
-
-                break;           
-            case 9:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, -90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animL;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshLShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialLShape;
-
-                break;          
-            case 10:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animP;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshPShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialPShape;
-
-                break;          
-            case 11:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animT;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshTShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialTShape;
-
-                break;         
-            case 12:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animL;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshLShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialLShape;
-
-                break;          
-            case 13:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, -90f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animT;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshTShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialTShape;
-
-                break;          
-            case 14:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animT;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshTShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialTShape;
-
-                break;          
-            case 15:
-                gameObjecTransform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                //gameObjectAnimation.clip = dirtInformation.animF;
-                gameObjectMeshRenderer.sharedMesh = dirtInformation.meshFShape;
-                gameObjectMeshRenderer.material = dirtInformation.materialFShape;
-
-                break;             
+            gameObjectMeshRenderer.material.color = Dirt.wetDirtColor;
         }
-        
     }
 
     public void UpdateDirtPrefab()

@@ -111,7 +111,6 @@ public class PauseMenu : MonoBehaviour
         PhysicsGun.SetActive(true);
         player.GetComponent<FaRCharacterController>().enabled = true;
         player.GetComponent<Interactor>().enabled = true;
-        player.GetComponent<CubePlacer>().enabled = true;
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -140,7 +139,6 @@ public class PauseMenu : MonoBehaviour
         PhysicsGun.SetActive(false);
         player.GetComponent<FaRCharacterController>().enabled = false;
         player.GetComponent<Interactor>().enabled = false;
-        player.GetComponent<CubePlacer>().enabled = false;
         Time.timeScale = 0f;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;

@@ -129,6 +129,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SurfaceDistortion:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SurfaceNoise:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _ThresholdMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -154,6 +162,7 @@ Material:
     - _ColorGrading: 0
     - _Contrast: 1
     - _Cutoff: 0.5
+    - _DepthMaxDistance: 1
     - _DetailNormalMapScale: 1
     - _DiffuseSmoothness: 0
     - _DiffuseThresholdOffset: 0.25
@@ -165,7 +174,10 @@ Material:
     - _DrawnClampMin: 0
     - _DrawnMapScale: 1
     - _DstBlend: 0
+    - _EdgeThickness: 1
     - _EnvironmentReflections: 1
+    - _FoamMaxDistance: 3
+    - _FoamMinDistance: 0.04
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -204,6 +216,10 @@ Material:
     - _RimThreshold: 1
     - _RimThresholdOffset: 0.25
     - _Saturation: 1
+    - _ShakeBending: 1
+    - _ShakeDisplacement: 1
+    - _ShakeTime: 1
+    - _ShakeWindspeed: 1
     - _SketchMapScale: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
@@ -223,11 +239,14 @@ Material:
     - _StencilZFail: 0
     - _StylizeTab: 1
     - _Surface: 0
+    - _SurfaceDistortionAmount: 0.8
+    - _SurfaceNoiseCutoff: 0.7
     - _ThresholdMapScale: 1
     - _UVSec: 0
     - _VertexAnimation: 1
     - _VertexAnimationIntensity: 0.079
     - _VertexAnimationStutter: 0
+    - _WireframeWidth: 0.05
     - _WrappedLighting: 1
     - _ZTest: 4
     - _ZWrite: 1
@@ -235,8 +254,12 @@ Material:
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _AmbientColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _DepthGradientDeep: {r: 0.086, g: 0.407, b: 1, a: 0.749}
+    - _DepthGradientShallow: {r: 0.325, g: 0.807, b: 0.971, a: 0.725}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FoamColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
@@ -245,5 +268,8 @@ Material:
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SurfaceNoiseScroll: {r: 0.03, g: 0.03, b: 0, a: 0}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}
+    - _WireframeBackColour: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _WireframeFrontColour: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

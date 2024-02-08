@@ -6,7 +6,6 @@ using FaRUtils.Systems.ItemSystem;
 using FaRUtils.FPSController;
 using UnityStandardAssets.CrossPlatformInput;
 using IngameDebugConsole;
-using System;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -14,33 +13,33 @@ public class FaRCommands : MonoBehaviour
 		get { return sensitivity; }
 		set { sensitivity = value; }
 	}
-	[Range(0.1f, 9f)][SerializeField] float sensitivity = 2f;
-	[Range(0f, 90f)][SerializeField] float yRotationLimit = 88f;
-
-	Vector2 rotation = Vector2.zero;
-	const string xAxis = "Mouse X";
-	const string yAxis = "Mouse Y";
+	[SerializeField] float sensitivity = 1.0f;
 
 	public int actualDay;
 	private bool skipdays;
+	private bool areYouSleepy;
 	private int daysToSkip;
 	public GameObject player;
-    public GameObject TimeManager;
 	public Rigidbody rb;
+	public Camera cam;
     public Cama _cama;
     public Database _database;
 	public bool _noclip;
 	private Camera m_Camera;
 
+	public DirtSpawnerPooling dirtSpawner;
+
 	void Start()
 	{
 		m_Camera = Camera.main;
 		rb = player.GetComponent<Rigidbody>();
+		DateTime.OnHourChanged.AddListener(OnHourChanged);
 		DebugLogConsole.AddCommand<int, int>( "give", "Te da un item con el número de ID que especifiques", GiveItem );
 		DebugLogConsole.AddCommand( "rosebud", "te da 1000 de oro", Rosebud );
 		DebugLogConsole.AddCommand<int>( "add_gold", "te da la cantidad de oro que escribas", AddGold);
 		DebugLogConsole.AddCommand( "hurrypotter", "Avanza muy rápido el tiempo", HurryPotter);
 		DebugLogConsole.AddCommand( "relaxpotter", "Vuelve el tiempo a la normalidad", RelaxPotter);
+		DebugLogConsole.AddCommand( "imsleepy", "Avanza el tiempo hasta que puedas dormir", ImSleepy);
 		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender", Noclip);
 		DebugLogConsole.AddCommand("skipcarrotgrowth", "Se salta el crecimiento de la zanahoria, avanzando los días necesarios", SkipCarrotGrowth);
 		DebugLogConsole.AddCommand("skipapplegrowth", "Se salta el crecimiento de la manzana, avanzando los días necesarios", SkipAppleGrowth);
@@ -49,11 +48,23 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
 		DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
 		DebugLogConsole.AddCommand("giveShirt", "le da pantalones", GiveShirt);
+		DebugLogConsole.AddCommand("save", "le da pantalones", TestSave);
+		//DebugLogConsole.AddCommand("load", "le da pantalones", TestLoad);
 	}
 
     private void SetAreaHarvestLevel(int x)
     {
-        PlayerStats.Instance.AreaHarvestLevel = x;
+        PlayerStats.Instance.areaHarvestLevel = x;
+    }
+
+	private void TestSave()
+    {
+		Cama.Instance.SaveDataEvent.Invoke(false);
+    }
+
+	private void TestLoad()
+    {
+        
     }
 
 	public void Noclip()
@@ -61,14 +72,12 @@ public class FaRCommands : MonoBehaviour
         if(!_noclip)
         {
             rb.useGravity = false;
-            player.GetComponent<FaRCharacterController>().enabled = false;
 			player.GetComponent<CharacterController>().enabled = false;
             _noclip = true;
         }
         else
         {
             rb.useGravity = true;
-			player.GetComponent<FaRCharacterController>().enabled = true;
 			player.GetComponent<CharacterController>().enabled = true;
             _noclip = false; 
         }
@@ -90,40 +99,82 @@ public class FaRCommands : MonoBehaviour
 	}
 
 	void HurryPotter()
-	{
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
-        _cama._yourLetterArrived = true;
-	}
+    {
 
-	void RelaxPotter()
+        TimeManager.TimeBetweenTicks = 0.01f;
+        SetTestingAndIsWet(true, true);
+        _cama._yourLetterArrived = true;
+    }
+
+    private void SetTestingAndIsWet(bool test, bool isWet)
+    {
+        foreach (GameObject dirt in dirtSpawner.GetActiveDirts())
+        {
+            dirt.GetComponent<Dirt>().testing = test;
+            dirt.GetComponent<Dirt>()._isWet = isWet;
+        }
+    }
+
+    void RelaxPotter()
 	{
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+		TimeManager.TimeBetweenTicks = 10f;
+        SetTestingAndIsWet(false, false);
+
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
 	}
 
-	void SkipCarrotGrowth()
+	void ImSleepy()
 	{
-		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
-		daysToSkip = 3;
-		skipdays = true;
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+		TimeManager.TimeBetweenTicks = 0.01f;
+		areYouSleepy = true;
 	}
 
-	void SkipAppleGrowth()
+	private void OnHourChanged(int hour)
 	{
-		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
+		if (hour == 17 && areYouSleepy)
+		{
+			TimeManager.TimeBetweenTicks = 10f;
+        	_cama.lightingManager.CopyHour();
+			areYouSleepy = false;
+		}
+	}
+
+	void SkipCarrotGrowth()
+    {
+        actualDay = TimeManager.DateTime.Date;
+        daysToSkip = 6;
+        skipdays = true;
+        SetTestingDirt(true);
+        TimeManager.TimeBetweenTicks = 0.01f;
+    }
+
+    private void SetTestingDirt(bool testing)
+    {
+        foreach (GameObject dirt in dirtSpawner.GetActiveDirts())
+        {
+            dirt.GetComponent<Dirt>().testing = testing;
+        }
+    }
+
+    void SkipAppleGrowth()
+	{
+		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 4;
 		skipdays = true;
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+        SetTestingDirt(true);
+
+        TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipStrawberryGrowth()
 	{
-		actualDay = TimeManager.GetComponent<TimeManager>().DateTime.Date;
-		daysToSkip = 7;
+		actualDay = TimeManager.DateTime.Date;
+		daysToSkip = 3;
 		skipdays = true;
-		TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 0.01f;
+        SetTestingDirt(true);
+
+        TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipTomatoGrowth()
@@ -169,20 +220,18 @@ public class FaRCommands : MonoBehaviour
 				player.transform.Translate(Vector3.down * Time.deltaTime * 20f);
 			}
 
-			rotation.x += Input.GetAxis(xAxis) * sensitivity;
-			rotation.y += Input.GetAxis(yAxis) * sensitivity;
-			rotation.y = Mathf.Clamp(rotation.y, -yRotationLimit, yRotationLimit);
-			var xQuat = Quaternion.AngleAxis(rotation.x, Vector3.up);
-			var yQuat = Quaternion.AngleAxis(rotation.y, Vector3.left);
-
-			player.transform.localRotation = xQuat * yQuat;
+			player.GetComponent<FaRCharacterController>().DoLooking();
 		}
 
 		if (skipdays)
 		{
-			if ((actualDay + daysToSkip) == TimeManager.GetComponent<TimeManager>().DateTime.Date)
+			if ((actualDay + daysToSkip) == TimeManager.DateTime.Date)
 			{
-				TimeManager.GetComponent<TimeManager>().TimeBetweenTicks = 10f;
+				TimeManager.TimeBetweenTicks = 10f;
+				foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
+				{
+					dirt.GetComponent<Dirt>().testing = false;
+				}
 				skipdays = false;
 			}
 		}

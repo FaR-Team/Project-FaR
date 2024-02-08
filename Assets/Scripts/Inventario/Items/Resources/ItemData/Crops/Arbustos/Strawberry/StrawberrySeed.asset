@@ -21,20 +21,13 @@ MonoBehaviour:
   ItemPrefab: {fileID: 0}
   DirtPrefabGhost: {fileID: 3706794725306583263, guid: 831e081a60e07094aae87999831aa469,
     type: 3}
-  ghostMesh: {fileID: -2432090755550338912, guid: e11335e2583bf644fbc6c971531d6c57,
+  ghostMesh: {fileID: -2432090755550338912, guid: 2b66475163100554996d0aafd8450a1e,
     type: 3}
   ToolGameObject: {fileID: 0}
   Usable: 1
   Sellable: 0
-  Seed: 1
-  TreeSeed: 0
   IsLookingAtStore: 0
-  Tool: 0
-  IsHoe: 0
-  IsAxe: 0
-  IsBucket: 0
-  IsUnknown1: 0
-  IsUnknown2: 0
+  typeOfItem: 4
   gridGhost: {fileID: 0}
   DirtPrefab: {fileID: 3706794725306583263, guid: dbf208cbd74148d408d3e301ad23b204,
     type: 3}

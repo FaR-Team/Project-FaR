@@ -223,8 +223,8 @@ GameObject:
   - component: {fileID: 2967969885146588579}
   - component: {fileID: 7916823845349351674}
   - component: {fileID: 6531959560310214545}
-  - component: {fileID: 732934014495420363}
   - component: {fileID: 3796228361573358382}
+  - component: {fileID: 3636008029696828589}
   m_Layer: 5
   m_Name: SlotUI
   m_TagString: Untagged
@@ -329,7 +329,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &732934014495420363
+--- !u!222 &3796228361573358382
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967969885146588580}
+  m_CullTransparentMesh: 1
+--- !u!114 &3636008029696828589
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -338,7 +346,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2967969885146588580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0dbe2789bec7fc8478d6f315a3bbef4e, type: 3}
+  m_Script: {fileID: 11500000, guid: 05f5f21ea16b8c64cb6c6081e6e1b943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemSprite: {fileID: 4552066107419927834}
@@ -349,14 +357,6 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
---- !u!222 &3796228361573358382
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2967969885146588580}
-  m_CullTransparentMesh: 1
 --- !u!1 &8805982403512259398
 GameObject:
   m_ObjectHideFlags: 0

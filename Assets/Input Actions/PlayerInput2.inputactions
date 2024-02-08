@@ -99,7 +99,7 @@
                     "name": "Look",
                     "type": "Value",
                     "id": "433b1ca7-8e4e-462b-b04c-10a744df1141",
-                    "expectedControlType": "Delta",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -252,6 +252,24 @@
                     "name": "HotbarRight",
                     "type": "Button",
                     "id": "7e94d25c-368d-483b-96db-ded71145d060",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityHotbarUp",
+                    "type": "Button",
+                    "id": "d118bee0-1ca7-4fcf-8127-9cb40af9dde8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "AbilityHotbarDown",
+                    "type": "Button",
+                    "id": "71e01453-3e2a-40d7-81ed-d453408fe2b3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -590,7 +608,7 @@
                 {
                     "name": "",
                     "id": "354fa449-88ba-4a15-a199-764fc71fb905",
-                    "path": "<Keyboard>/backquote",
+                    "path": "ñ",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -793,6 +811,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "HotbarLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54751adb-c26e-45a7-95d4-bdc14547a7ab",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AbilityHotbarUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f00bc0e8-4cf4-4ca7-b1bd-6028c6f1bb4f",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "AbilityHotbarDown",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

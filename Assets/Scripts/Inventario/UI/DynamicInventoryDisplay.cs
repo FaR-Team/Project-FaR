@@ -1,83 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
-    [SerializeField] protected InventorySlot_UI slotPrefab;
-    protected override void Start()
-    {
-        base.Start();
-    }
+    [SerializeField] protected InventorySlot_UIBasic slotPrefab;
 
     public void RefreshDynamicInventory(InventorySystem invToDisplay, int offset)
     {
-        ClearSlots();
         inventorySystem = invToDisplay;
-        if (inventorySystem != null) 
+        if (slotDictionary.Count > 0)
         {
-            inventorySystem.OnInventorySlotChanged += UpdateSlot;
-        }
-        AssignSlot(invToDisplay, offset);
-    }
-
-    public override void AssignSlot(InventorySystem invToDisplay, int offset)
-    {
-
-        slotDictionary = new Dictionary<InventorySlot_UI, InventorySlot>();
-
-        if (invToDisplay == null)
-        {
-            return;
-        }
-
-        for (int i = offset; i < invToDisplay.tamañoInventario; i++)
-        {
-            var uiSlot = Instantiate(slotPrefab, transform);
-            slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
-
-            uiSlot.Init(invToDisplay.InventorySlots[i], EnumAPasar(i));
-            uiSlot.UpdateUISlot();
-        }
-    }
-
-    private TypesOfInventory EnumAPasar(int i)
-    {
-        TypesOfInventory _enum;
-        if (i is 13 or 14 or 18 or 19 or 23 or 24)
-        {
-            _enum = TypesOfInventory.CAMISA;
-        }
-        else if(i is 28 or 29 or 33 or 34 or 38 or 39 )
-        {
-            _enum = TypesOfInventory.PANTALON;
+            
+            UpdateSlots(inventorySystem, offset);
         }
         else
         {
-            _enum = TypesOfInventory.INVENTARIO;
+            CreateSlots(inventorySystem, offset);
+           // print(inventorySlots.Count);
         }
-        return _enum;
+
+        inventorySystem.OnInventorySlotChanged += UpdateSlot;
     }
-
-    private void ClearSlots()
+    public void UpdateSlots(InventorySystem invToDisplay, int offset)
     {
-        foreach (var item in transform.Cast<Transform>())
+        for (int i = 0; i < inventorySlots.Count; i++)
         {
-            Destroy(item.gameObject);
+            InventorySlot_UIBasic slot = inventorySlots[i];
+            slot.UpdateUISlot(invToDisplay.InventorySlots[i + offset]);
+            //print(i);
         }
+    }
+    public override void CreateSlots(InventorySystem invToDisplay, int offset)
+    {
+        slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
 
-        if (slotDictionary != null)
+        if (invToDisplay == null) return;
+
+        for (int i = offset; i < invToDisplay.tamañoInventario; i++)
         {
-            slotDictionary.Clear();
+            InventorySlot_UIBasic uiSlot = Instantiate(slotPrefab, transform);
+            slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
+            uiSlot.Init(invToDisplay.InventorySlots[i]);
+            uiSlot.UpdateUISlot();
+            inventorySlots.Add(uiSlot);
         }
     }
 
     private void OnDisable()
     {
-        if (inventorySystem != null) 
+        if (inventorySystem != null)
         {
             inventorySystem.OnInventorySlotChanged -= UpdateSlot;
-        }    
+        }
     }
 }

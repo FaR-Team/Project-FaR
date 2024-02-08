@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using cakeslice;
+using FaRUtils;
 
 public class CropExplodeBush : MonoBehaviour
 {
@@ -19,18 +19,17 @@ public class CropExplodeBush : MonoBehaviour
     private void Start()
     {
         jugador = GameObject.FindGameObjectWithTag("Player");
-        Tierra = this.transform.root.GetChild(0).gameObject;
+        Tierra = transform.parent.gameObject.GetComponent<Dirt>().gameObject;
     }
     
 
     public void Chau(GameObject FrutillaObj)
     {
-        Tierra = this.transform.root.GetChild(0).gameObject;
-        Vector3 pos = new Vector3 (transform.root.GetChild(0).position.x, 2, transform.root.GetChild(0).position.z);
+        Tierra = transform.parent.gameObject.GetComponent<Dirt>().gameObject;
+        Vector3 pos = new Vector3 (Tierra.transform.position.x, 2, Tierra.transform.position.z);
         var inventory = jugador.transform.GetComponent<PlayerInventoryHolder>();
         inventory.AñadirAInventario(ItemData, 1);
-        GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));
-        //YaExploto = true;
+        Instantiate(Coso, pos, Quaternion.identity);
         Crop = FrutillaObj;
         StartCoroutine(Destruir());
     }
@@ -41,6 +40,5 @@ public class CropExplodeBush : MonoBehaviour
         Crop.GetComponent<MeshRenderer>().enabled = false;
         Destroy(Crop.gameObject.GetComponent<Outline>());
         yield return new WaitForSeconds(0.5f);
-        Destroy(Parent);
     }
 }

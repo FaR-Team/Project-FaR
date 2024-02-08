@@ -1,86 +1,117 @@
-using System.Security.AccessControl;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using FaRUtils.Systems.Weather;
+using System;
 
+[RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
 {
-    bool _isEmpty;
     public bool _isWet;
 
-    [SerializeField] float areaHarvestDelay;
+    public bool testing;
+
+    public GameObject colliders;
 
     public int abilityLevelPlaceholder = 1;
-    public bool IsEmpty => _isEmpty;
 
-    public GameObject violeta;
+    public bool IsEmpty { get; private set; }
+    public GameObject violeta { get; private set; }
+
     public GameObject currentCrop;
-    public SeedItemData currentCropData;
-    private WaitForSeconds delay;
+    public SeedItemData currentSeedData { get; private set; }
+    public CropSaveData cropSaveData { get; private set; }
+
+    public GameObject TextureAnimation;
+    public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
 
     void Start()
     {
-        _isEmpty = true;
-        delay = new WaitForSeconds(areaHarvestDelay);
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(DryDirt);
+        WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
 
-    Vector3 SizeOfBox(int level)
+    public void LoadData(DirtData data)
     {
-        if (level is 1)
+        _isWet = data._isWet;
+        IsEmpty = data.IsEmpty;
+        currentSeedData = data.currentCropData;
+        cropSaveData = data.cropSaveData;
+        transform.position = data.position;
+
+        if(currentSeedData != null) 
         {
-            return new Vector3(5, 0.1f, 5);
+            LoadCrop();
         }
-        else if (level is 2)
-        {
-            return new Vector3(9, 0.1f, 9);
-        }
-        else return Vector3.zero;
     }
 
-    public void CreateBox()
+    private void LoadCrop()
     {
-        var box = this.gameObject.AddComponent<BoxCollider>();
-        box.isTrigger = true;
-        StartCoroutine(AreaHarvest(box));
+        GetCrop(currentSeedData);
+        try
+        {
+            currentCrop.GetComponent<GrowingBase>().LoadData(cropSaveData);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
+        }
     }
-
-    private IEnumerator AreaHarvest(BoxCollider box)
+    public CropSaveData GetCropSaveData()
     {
-        if (PlayerStats.Instance.AreaHarvestLevel == 1)
-        {
-            box.size = SizeOfBox(0);
-            yield return delay;
-            box.size = SizeOfBox(1);
-            
-        }
-        else if(PlayerStats.Instance.AreaHarvestLevel == 2)
-        {
-            box.size = SizeOfBox(0);
-            yield return delay;
-            box.size = SizeOfBox(1);
-            yield return delay;
-            box.size = SizeOfBox(2);
-        }
-    }
+        if( currentCrop == null ) return null;
 
-    void OnTriggerEnter(Collider col)
-    {
-        if (col.tag is "Violeta" && !(col.gameObject == violeta))
-        {
-            if (col.GetComponentInParent<Dirt>().currentCropData == this.currentCropData)
-            {
-                col.GetComponentInParent<Dirt>().currentCrop.GetComponentInChildren<IInteractable>().InteractOut();
-            }
-        }
+        var growing = currentCrop.GetComponent<GrowingBase>();
+        CropSaveData cropdata = new CropSaveData(growing.DiasPlantado, growing.currentState);
+        return cropdata;
     }
-
     public bool GetCrop(SeedItemData itemData)
     {
-        _isEmpty = false;
-        GameObject instantiated = GameObject.Instantiate(itemData.DirtPrefab, transform.position, Quaternion.identity, transform);
+        IsEmpty = false;
+
+        GameObject instantiated = Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
+
         currentCrop = instantiated;
-        currentCropData = itemData;
+        currentSeedData = itemData;
+
+        GridGhost.UpdateRandomSeed();
         return (instantiated != null);
+    }
+
+    public void DirtIsWet()
+    {
+        _isWet = true;
+        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
+    }
+
+    public void GetDown()
+    {
+        colliders.transform.position = new Vector3(colliders.transform.position.x, -2, colliders.transform.position.z);
+    }
+
+    public void DryDirt(int hour)
+    {
+        if (testing) return;
+
+        if (hour != 5) return;
+
+        _isWet = false;
+        gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = Color.white;
+    }
+
+    void OnEnable()
+    {
+        TextureAnimation = GetComponentInChildren<Animation>().gameObject;
+        TextureAnimation.GetComponent<Animation>().enabled = true;
+    }
+
+    void OnDisable()
+    {
+        currentCrop = null;
+        currentSeedData = null;
+        IsEmpty = true;
+        _isWet = false;
+        TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
+        colliders.transform.position = this.transform.position;
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
+        WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
     }
 }

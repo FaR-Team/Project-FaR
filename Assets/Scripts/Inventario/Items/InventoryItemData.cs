@@ -1,14 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-/// <summary>
-/// Esto es un objeto scriptable object que define qué es un item en el juego.
-/// Se podría reutilizar para otro tipo de objetos, uwu.
-/// </summary>
-
-
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/Item", order = 0)]
+
+
+[System.Serializable]
 
 public class InventoryItemData : ScriptableObject 
 {   
@@ -26,15 +22,9 @@ public class InventoryItemData : ScriptableObject
 
     public bool Usable;
     public bool Sellable;
-    public bool Seed;
-    public bool TreeSeed;
     public bool IsLookingAtStore;
 
-
-[Header("ToolBool")]
-    public bool Tool;
-    public bool IsHoe, IsAxe, IsBucket, IsUnknown1, IsUnknown2;
-    //public int CantidadMáxima;
+    public TypeOfItem typeOfItem;
 
     public virtual bool SearchTool() 
     {
@@ -53,5 +43,29 @@ public class InventoryItemData : ScriptableObject
         Debug.Log($"Usando {Nombre}");
         return true;
     }
-}
+    public bool IsTool()
+    {
+        return TypeOfItem.Hoe == typeOfItem || TypeOfItem.Hoe == typeOfItem || TypeOfItem.Axe == typeOfItem || TypeOfItem.Bucket == typeOfItem;
+    }
+    public bool IsHoe()
+    {
+        return TypeOfItem.Hoe == typeOfItem;
+    }
+    public bool IsAxe()
+    {
+        return TypeOfItem.Axe == typeOfItem;
+    }
+    public bool IsBucket()
+    {
+        return TypeOfItem.Bucket == typeOfItem;
+    }
+    public bool IsCropSeed()
+    {
+        return TypeOfItem.CropSeed == typeOfItem;
+    }
+    public bool IsTreeSeed()
+    {
+        return TypeOfItem.TreeSeed == typeOfItem;
+    }
 
+}

@@ -1,0 +1,101 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0202a3095b7477a4091d56344f0af6b3, type: 3}
+  m_Name: PokemonGraph
+  m_EditorClassIdentifier: 
+  <FileName>k__BackingField: Pokemon
+  <Groups>k__BackingField:
+  - <ID>k__BackingField: f754b919-bf34-42ee-8d1c-115c52d37043
+    <Name>k__BackingField: Squirtle
+    <Position>k__BackingField: {x: 526.00006, y: -221.99998}
+  - <ID>k__BackingField: ed758ce5-e16c-42ee-9e5f-0f5d1d6a8070
+    <Name>k__BackingField: Bulbasaur
+    <Position>k__BackingField: {x: 520.00006, y: 138}
+  - <ID>k__BackingField: 11fc803a-10e2-4edb-9841-8e96e3bc1f17
+    <Name>k__BackingField: "GrupoDeDi\xE1logos"
+    <Position>k__BackingField: {x: 520.00006, y: 430.0001}
+  <Nodes>k__BackingField:
+  - <ID>k__BackingField: 4db8da75-fe24-437c-8b0e-ba1a64591bbd
+    <Name>k__BackingField: Bulbasaur1
+    <Text>k__BackingField: "Bulbasaur, el pok\xE9mon tipo planta."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 85a8531f-eaaa-4b2a-b36a-e7da2dd2e4a7
+    <GroupID>k__BackingField: ed758ce5-e16c-42ee-9e5f-0f5d1d6a8070
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 545, y: 197}
+  - <ID>k__BackingField: 85a8531f-eaaa-4b2a-b36a-e7da2dd2e4a7
+    <Name>k__BackingField: Bulbasaur2
+    <Text>k__BackingField: "Con que te gusta rapar bolas, picar\xF3n."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: ed758ce5-e16c-42ee-9e5f-0f5d1d6a8070
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 858, y: 197}
+  - <ID>k__BackingField: 3396d490-a1b5-4f10-bb54-23f1f525c3a4
+    <Name>k__BackingField: Charmander1
+    <Text>k__BackingField: "Charmander, el pok\xE9mon tipo fuego."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 44bf9343-529c-45ad-8d14-2d40d0535284
+    <GroupID>k__BackingField: 11fc803a-10e2-4edb-9841-8e96e3bc1f17
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 545, y: 489}
+  - <ID>k__BackingField: 44bf9343-529c-45ad-8d14-2d40d0535284
+    <Name>k__BackingField: Charmander2
+    <Text>k__BackingField: "Est\xE1 re hot"
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 11fc803a-10e2-4edb-9841-8e96e3bc1f17
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 858, y: 489}
+  - <ID>k__BackingField: 946dc523-98dd-4f15-b6e4-0ba46368ea4c
+    <Name>k__BackingField: ElegirPokemon
+    <Text>k__BackingField: "Eleg\xED un pok\xE9mon, ya."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Squirtle
+      <NodeID>k__BackingField: d6857856-157b-4db8-a072-8eec7d202ea7
+    - <Text>k__BackingField: Bulbasaur
+      <NodeID>k__BackingField: 4db8da75-fe24-437c-8b0e-ba1a64591bbd
+    - <Text>k__BackingField: Charmander
+      <NodeID>k__BackingField: 3396d490-a1b5-4f10-bb54-23f1f525c3a4
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 1
+    <Position>k__BackingField: {x: 155, y: 149}
+  - <ID>k__BackingField: d6857856-157b-4db8-a072-8eec7d202ea7
+    <Name>k__BackingField: Squirtle1
+    <Text>k__BackingField: "Squirtle, el pok\xE9mon tipo agua."
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 28040fcc-359b-417c-a090-3497b0f237c2
+    <GroupID>k__BackingField: f754b919-bf34-42ee-8d1c-115c52d37043
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 551, y: -163}
+  - <ID>k__BackingField: 28040fcc-359b-417c-a090-3497b0f237c2
+    <Name>k__BackingField: Squirtle2
+    <Text>k__BackingField: Te moja, kya
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: "Pr\xF3ximo Di\xE1logo"
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: f754b919-bf34-42ee-8d1c-115c52d37043
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 857, y: -163}
+  <OldGroupNames>k__BackingField:
+  - Squirtle
+  - Bulbasaur
+  - "GrupoDeDi\xE1logos"
+  <OldUngroupedNodeNames>k__BackingField:
+  - ElegirPokemon
+  <OldGroupedNodeNames>k__BackingField:
+    list: []
