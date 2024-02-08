@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
+using System;
 
 [System.Serializable]
 public class InventorySystem
 {
-    [SerializeField] private List<InventorySlot> inventorySlots;
-    [SerializeField] private int _gold;
+    public List<InventorySlot> inventorySlots;
+    public int _gold;
 
     public List<InventorySlot> hotbarAbilitySlots;
     public int Gold => _gold;
@@ -23,11 +24,23 @@ public class InventorySystem
         _gold = 0;
         CreateInventory(tamaño);
     }
+    public InventorySystem(InventorySystem inventoryData)
+    {
+        this.inventorySlots = inventoryData.inventorySlots;
+        this._gold = inventoryData._gold;
 
+    }
     public InventorySystem(int tamaño, int gold)
     {
         _gold = gold;
         CreateInventory(tamaño);
+    }
+
+    public InventorySystem(List<InventorySlot> inventorySlots, int gold, List<InventorySlot> hotbarAbilitySlots)
+    {
+        this.inventorySlots = inventorySlots;
+        _gold = gold;
+        this.hotbarAbilitySlots = hotbarAbilitySlots;
     }
 
     private void CreateInventory(int tamaño)
@@ -60,6 +73,7 @@ public class InventorySystem
         var hotbarSlots = hotbarAbilitySlots.Where(i => i.ItemData == itemToAdd).ToList();
         return !(hotbarSlots == null);
     }
+    
     public bool AñadirAInventario(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
         if (ContieneItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
@@ -94,11 +108,13 @@ public class InventorySystem
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista
         return !(invSlot == null);
     }
+
     public bool HaySlotLibreEnLaSpecialHotbar(out InventorySlot SlotLibre)
     {
         SlotLibre = hotbarAbilitySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre
         return !(SlotLibre == null);
     }
+
     public bool HaySlotLibre(out InventorySlot SlotLibre)
     {
         SlotLibre = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre

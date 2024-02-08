@@ -3,15 +3,12 @@
 public class AppleTreeGrowing : GrowingTreeAndPlant
 {
     public float[] scales;
-    int DiaM;
+    int DiaMaduro;
     public override void Start()
     {
         base.Start();
 
-        meshFilter.mesh = meshes[0];
-        meshCollider.sharedMesh = meshes[0];
-
-        SetThisGameObjectScale(0);
+        
 
         ExpectedInt = 3;
     }
@@ -26,21 +23,11 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
 
         if (DiasPlantado is 2)
         {
-            DiaM += 1;
-            if (DiaM == ExpectedInt)
+            DiaMaduro += 1;
+            if (DiaMaduro == ExpectedInt)
             {
                 this.gameObject.layer = 7;
             }
         }
-    }
-
-    public override void CheckDayGrow()
-    {
-        SetThisGameObjectScale(DiasPlantado);
-    }
-
-    private void SetThisGameObjectScale(int scaleValue)
-    {
-        transform.localScale = new Vector3(scales[scaleValue], scales[scaleValue], scales[scaleValue]);
-    }
+    }    
 }

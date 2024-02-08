@@ -1,7 +1,7 @@
 Shader "FaRTeam/FaRLeavesShader" {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1) //Color multiplicado a la textura
-		_MainTex ("Color (RGB) Alpha (A)", 2D) = "white" {}//Textura
+		_MainTex ("Textura", 2D) = "white" {}//Textura
 		_CelShadingBlurWidth("Difuminado del Cell Shading", Range(0,2)) = 0.2 //Difuminado entre umbrales
 	}
 		SubShader{
@@ -16,8 +16,7 @@ Shader "FaRTeam/FaRLeavesShader" {
 
 		CGPROGRAM
 
-#pragma surface surf Lambert alpha
-#pragma surface surf Toon fullforwardshadows 
+#pragma surface surf Toon fullforwardshadows Lambert alpha
 
 #pragma target 3.0
 

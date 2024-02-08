@@ -11,6 +11,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 
         Tierra = transform.parent.gameObject.GetComponent<Dirt>();
         TierraTexture = transform.parent.GetChild(0).gameObject;
+        CheckDayGrow();
     }
 
     public override void OnHourChanged(int hour) //TO DO: Que esto sea más escalable.
@@ -22,11 +23,11 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
             CheckDayGrow();
         }
 
-        if (!IsLastStage()) return;
+        if (!currentState.isLastPhase) return;
 
         if (fruits.Count > 0)
         {
-            if (fruits[0].GetComponent<GrowingFruitsBush>().IsLastStage()) 
+            if (fruits[0].GetComponent<GrowingFruitsBush>().currentState.isLastPhase) 
                 gameObject.layer = interactableLayerInt;
             return;
         }
@@ -53,6 +54,6 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
         TierraTexture.GetComponent<Animation>().Play();
         yield return new WaitForSeconds(0.5f);
         Destroy(this.gameObject);
-        DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, Tierra.gameObject);
+        DirtSpawnerPooling.DeSpawn(Tierra.gameObject);
     }
 }

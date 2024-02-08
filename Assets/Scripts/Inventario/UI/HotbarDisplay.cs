@@ -236,6 +236,7 @@ public class HotbarDisplay : HotbarDisplayBase
             DoChangeNameDisplay();
         }
     }
+    
     public bool CanUseItem()
     {
         if (gridGhost.finalPosition != previousFinalPosition)
@@ -256,6 +257,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
         return true;
     }
+
     private void UseItemRelease()
     {
         _isHolding = false;
@@ -436,18 +438,23 @@ public class HotbarDisplay : HotbarDisplayBase
 }
 
 /*
-public class Mano
+public class Hand : MonoBehaviour
 {
-    Action acciones;
+    Action handActions;
 
     PlayerInput2 inputActions;
+    void Awake()
+    {
+        PlayerInputActionAdder.AddAction(accion);
+        inputActions.Player.UseItem.performed += handActions;
+    }
+    
     void accion()
     {
-        acciones = HotbarDisplay.GetItemData().Action();
-        inputActions.Player.UseItem.performed += acciones;
+        handActions = HotbarDisplay.GetItemData().Action();
 
     }
-    //se a�ade la acci�n al evento.
+   
 
 
 }*/

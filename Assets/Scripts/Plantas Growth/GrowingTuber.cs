@@ -1,98 +1,48 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 [RequireComponent(typeof(UniqueID))]
-public class GrowingTuber : GrowingBase
-{
-    [SerializeField] private CropSaveData cropSaveData;
+public class GrowingTuber : GrowingBase { 
+
     private string id;
     public Dirt tierra;
     public GameObject interactablePrefab;
-    [HideInInspector] public SkinnedMeshRenderer skinnedMeshRenderer;
+    public SkinnedMeshRenderer skinnedMeshRenderer ;
 
     void Awake()
     {
-        SaveLoad.OnLoadGame += LoadGame;
-        cropSaveData = new CropSaveData(DiasPlantado, transform.position, id);
         tierra = transform.parent.GetComponent<Dirt>();
     }
 
     public override void Start()
     {
         base.Start();
-        skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+
         id = GetComponent<UniqueID>().ID;
-
-        if (SaveGameManager.data.cropDictionary.ContainsKey(id)) return;
-        else
-        {
-            SaveGameManager.data.cropDictionary.Add(id, cropSaveData);
-        }
-
     }
     public override void OnHourChanged(int hour)
     {
         if (!tierra._isWet || hour != 4) return;
-
-        DiasPlantado++;
+        
+        DiasPlantado++; 
         CheckDayGrow();
     }
-    public override void CheckDayGrow()
+    public override void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
-        foreach (int i in DayForChangeOfPhase)
-        {
-            if (DiasPlantado != i) continue;
-            if(IsLastPhase(i))
-            {
-                SetInteractable(i);
-                
-                break;
-            }
-
-            int valueToGet = System.Array.IndexOf(DayForChangeOfPhase, i);
-            if (meshCollider != null)
-            {
-                meshCollider.sharedMesh = meshes[valueToGet];
-            }
-            skinnedMeshRenderer.sharedMesh = meshes[valueToGet];
-            skinnedMeshRenderer.material = materials[valueToGet];
-            return;
-        }
+        currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(DiasPlantado));
+        SetData();
     }
-    /* public bool IsLastPhase(int numero)
+    protected override void SetData()
     {
-        if (DayForChangeOfPhase.Length == 0)
-        {
-            return false;
-        }
+        skinnedMeshRenderer.material = currentState.material;
+        skinnedMeshRenderer.sharedMesh = currentState.mesh;
 
-        int ultimoElemento = DayForChangeOfPhase[DayForChangeOfPhase.Length - 1];
-        return numero == ultimoElemento;
+        if (currentState.isLastPhase) SetInteractable();
     }
-    */ 
-    public override void SetInteractable(int i)
+    public override void SetInteractable()
     {
         Instantiate(interactablePrefab, transform.position, Quaternion.identity, transform);
         skinnedMeshRenderer.sharedMesh = null;
         skinnedMeshRenderer.material = null;
-    }
-
-
-    
-
-    private void LoadGame(SaveData data)
-    {
-        if (data.cropDictionary.ContainsKey(id))
-        {
-            //Destroy(this.gameObject);
-        }
-    }
-
-    private void OnDestroy()
-    {
-        if (SaveGameManager.data.cropDictionary.ContainsKey(id))
-        {
-            SaveGameManager.data.cropDictionary.Remove(id);
-            SaveLoad.OnLoadGame -= LoadGame;
-        }
     }
 }

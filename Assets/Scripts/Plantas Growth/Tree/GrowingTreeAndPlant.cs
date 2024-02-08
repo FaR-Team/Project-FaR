@@ -31,10 +31,8 @@ public class GrowingTreeAndPlant : GrowingBase
             
         CheckDayGrow();
         
-        if (meshCollider.sharedMesh == meshes[meshes.Length])
-        {
-            PonerFrutos();
-        }
+        if (currentState.isLastPhase) PonerFrutos();
+        
     }
 
     public Transform GetRandomSP()

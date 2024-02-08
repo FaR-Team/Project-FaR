@@ -1,30 +1,28 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.Linq;
-using UniRx.Triggers;
 
 public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
 {
-    protected override void Start()
+
+    public static DynamicInventoryDisplayBackpack instance;
+
+    private void Awake()
     {
-        base.Start();
+        instance = this;
     }
 
-    public override void AssignSlot(InventorySystem invToDisplay, int offset)
+    public override void CreateSlots(InventorySystem invToDisplay, int offset)
     {
-
         slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
+        inventorySlots = new List<InventorySlot_UIBasic>();
 
-        if (invToDisplay == null)
-        {
-            return;
-        }
+        if (invToDisplay == null) return;
 
         for (int i = offset; i < invToDisplay.tamañoInventario; i++)
         {
-            InventorySlot_UI_Backpack uiSlot = (InventorySlot_UI_Backpack) Instantiate(slotPrefab, transform);
+            InventorySlot_UI_Backpack uiSlot = (InventorySlot_UI_Backpack)Instantiate(slotPrefab, transform);
+
             slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
+            inventorySlots.Add(uiSlot);
 
             uiSlot.Init(invToDisplay.InventorySlots[i], EnumAPasar(i));
             uiSlot.UpdateUISlot();
@@ -38,7 +36,7 @@ public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
         {
             _enum = TypesOfInventory.CAMISA;
         }
-        else if(i is 28 or 29 or 33 or 34 or 38 or 39 )
+        else if (i is 28 or 29 or 33 or 34 or 38 or 39)
         {
             _enum = TypesOfInventory.PANTALON;
         }

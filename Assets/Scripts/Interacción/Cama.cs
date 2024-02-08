@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
+using UnityEngine.Events;
 
 public class Cama : MonoBehaviour, IInteractable
 {
@@ -13,11 +14,13 @@ public class Cama : MonoBehaviour, IInteractable
     public SellSystem _sellSystem;
     public GameObject Negrura;
     public GameObject Hotbar;
-    public GameObject player;
+    public FaRCharacterController player;
     public LightingManager lightingManager;
     public bool yasonlas6 = false;
     public bool _isSleeping = false;
     public bool _yourLetterArrived = false;
+
+    public UnityEvent<bool> SaveDataEvent;
 
     //I DON'T KNOW SWAHILI, BUT I THINK THIS IS THE CORRECT WAY TO DO THIS (Last part was written by github copilot.)
     public GameObject InteractionPrompt => _prompt;
@@ -38,6 +41,8 @@ public class Cama : MonoBehaviour, IInteractable
 
     private void Start() 
     {
+        player = FaRCharacterController.instance;
+
         DateTime.OnHourChanged.AddListener(OnHourChanged);
     }
 
@@ -52,8 +57,7 @@ public class Cama : MonoBehaviour, IInteractable
         lightingManager.CopyHour();
         Negrura.GetComponent<Animation>().Play("NegroOut");
         yasonlas6 = true;
-        player = GameObject.FindWithTag("Player");
-        player.GetComponent<FaRCharacterController>().enabled = true;
+        player.enabled = true;
         StartCoroutine(Wait());
     }
 
@@ -77,14 +81,14 @@ public class Cama : MonoBehaviour, IInteractable
         {
             TimeManager.TimeBetweenTicks = 0.05f;
         }
-        player = GameObject.FindWithTag("Player");
         Negrura.SetActive(true);
         Negrura.GetComponent<Animation>().Play("NegroIn");
-        //THIS SHITTY CODE TOOK ME A WHOLE WEEK, I CRIED 5 NIGHTS, AND KILLED 7 DOGS BECAUSE OF MY STRESS, btw, if you're reading this, tell me witch errors you find.
+        SaveDataEvent.Invoke(false);
+
         Energy.RemainingEnergy = 100;
         Energy.UpdateEnergy();
-        player.GetComponent<FaRCharacterController>().enabled = false;
-        SaveGameManager.SaveData();
+
+        player.enabled = false;
         yasonlas6 = false;
         _isSleeping = true;
 

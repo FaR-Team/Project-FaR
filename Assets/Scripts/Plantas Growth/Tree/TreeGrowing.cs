@@ -11,11 +11,11 @@ public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
             CheckDayGrow();
         }
 
-        if (!IsLastStage()) return;
+        if (!currentState.isLastPhase) return;
 
         if (fruits.Count > 0)
         {
-            if (fruits[0].GetComponent<GrowingFruitsTree>().IsLastStage()) gameObject.layer = interactableLayerInt;
+            if (fruits[0].GetComponent<GrowingFruitsTree>().currentState.isLastPhase) gameObject.layer = interactableLayerInt;
             return;
         }
 

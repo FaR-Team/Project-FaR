@@ -55,7 +55,7 @@ public class CropExplode : MonoBehaviour
         Destroy(gameObject.GetComponent<Outline>());
 
         yield return new WaitForSeconds(0.2f);
-        DirtSpawnerPooling.DeSpawn(DirtSpawnerPooling._DirtPrefab, thisCropDirt);
+        DirtSpawnerPooling.DeSpawn(thisCropDirt);
         Destroy(gameObject.transform.parent.gameObject);
     }
 

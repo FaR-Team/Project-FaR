@@ -48,11 +48,23 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
 		DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
 		DebugLogConsole.AddCommand("giveShirt", "le da pantalones", GiveShirt);
+		DebugLogConsole.AddCommand("save", "le da pantalones", TestSave);
+		//DebugLogConsole.AddCommand("load", "le da pantalones", TestLoad);
 	}
 
     private void SetAreaHarvestLevel(int x)
     {
         PlayerStats.Instance.areaHarvestLevel = x;
+    }
+
+	private void TestSave()
+    {
+		Cama.Instance.SaveDataEvent.Invoke(false);
+    }
+
+	private void TestLoad()
+    {
+        
     }
 
 	public void Noclip()
@@ -87,24 +99,27 @@ public class FaRCommands : MonoBehaviour
 	}
 
 	void HurryPotter()
-	{
-		TimeManager.TimeBetweenTicks = 0.01f;
-		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
-		{
-			dirt.GetComponent<Dirt>().testing = true;
-			dirt.GetComponent<Dirt>()._isWet = true;
-		}
-        _cama._yourLetterArrived = true;
-	}
+    {
 
-	void RelaxPotter()
+        TimeManager.TimeBetweenTicks = 0.01f;
+        SetTestingAndIsWet(true, true);
+        _cama._yourLetterArrived = true;
+    }
+
+    private void SetTestingAndIsWet(bool test, bool isWet)
+    {
+        foreach (GameObject dirt in dirtSpawner.GetActiveDirts())
+        {
+            dirt.GetComponent<Dirt>().testing = test;
+            dirt.GetComponent<Dirt>()._isWet = isWet;
+        }
+    }
+
+    void RelaxPotter()
 	{
 		TimeManager.TimeBetweenTicks = 10f;
-		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
-		{
-			dirt.GetComponent<Dirt>().testing = false;
-			dirt.GetComponent<Dirt>()._isWet = false;
-		}
+        SetTestingAndIsWet(false, false);
+
         _cama._yourLetterArrived = false;
         _cama.lightingManager.CopyHour();
 	}
@@ -126,27 +141,30 @@ public class FaRCommands : MonoBehaviour
 	}
 
 	void SkipCarrotGrowth()
-	{
-		actualDay = TimeManager.DateTime.Date;
-		daysToSkip = 6;
-		skipdays = true;
-		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
-		{
-			dirt.GetComponent<Dirt>().testing = true;
-		}
-		TimeManager.TimeBetweenTicks = 0.01f;
-	}
+    {
+        actualDay = TimeManager.DateTime.Date;
+        daysToSkip = 6;
+        skipdays = true;
+        SetTestingDirt(true);
+        TimeManager.TimeBetweenTicks = 0.01f;
+    }
 
-	void SkipAppleGrowth()
+    private void SetTestingDirt(bool testing)
+    {
+        foreach (GameObject dirt in dirtSpawner.GetActiveDirts())
+        {
+            dirt.GetComponent<Dirt>().testing = testing;
+        }
+    }
+
+    void SkipAppleGrowth()
 	{
 		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 4;
 		skipdays = true;
-		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
-		{
-			dirt.GetComponent<Dirt>().testing = true;
-		}
-		TimeManager.TimeBetweenTicks = 0.01f;
+        SetTestingDirt(true);
+
+        TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipStrawberryGrowth()
@@ -154,11 +172,9 @@ public class FaRCommands : MonoBehaviour
 		actualDay = TimeManager.DateTime.Date;
 		daysToSkip = 3;
 		skipdays = true;
-		foreach(GameObject dirt in dirtSpawner.GetActiveDirts())
-		{
-			dirt.GetComponent<Dirt>().testing = true;
-		}
-		TimeManager.TimeBetweenTicks = 0.01f;
+        SetTestingDirt(true);
+
+        TimeManager.TimeBetweenTicks = 0.01f;
 	}
 
 	void SkipTomatoGrowth()

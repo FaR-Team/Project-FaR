@@ -1,25 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class DirtSpawnerPooling : MonoBehaviour
 {
-    
-    [SerializeField] int amountOfGOs;
     [SerializeField] GameObject Prefab;
 
-    public static GameObject _DirtPrefab => instance.Prefab;
+    public static DirtSpawnerPooling instance;
 
-    static DirtSpawnerPooling instance;
+    public static GameObject _DirtPrefab => instance.Prefab;
 
     private void Awake()
     {
         instance = this;
     }
+
+    public static int GetActiveDirtPool()
+    {
+        int count = ObjectPooling.GetActiveObjects(_DirtPrefab);
+        return count;
+    }
+
     private void Start()
     {
-        ObjectPooling.PreLoad(_DirtPrefab, amountOfGOs, this.gameObject);
+        DirtSetter.Load(_DirtPrefab, gameObject);
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)
@@ -28,15 +32,16 @@ public class DirtSpawnerPooling : MonoBehaviour
         dirtGO.transform.SetPositionAndRotation(position, rotation);
     }
 
-    public static void DeSpawn(GameObject primitive, GameObject go)
+    public static void DeSpawn(GameObject go)
     {
-        ObjectPooling.RecicleObject(primitive, go);
+        ObjectPooling.RecicleObject(_DirtPrefab, go);
     }
 
+    #region DEBUG FNCTN
     public List<GameObject> GetActiveDirts()
     {
         List<GameObject> dirtList = new List<GameObject>();
-        for(int i = 0; i < this.gameObject.transform.childCount; i++)
+        for (int i = 0; i < this.gameObject.transform.childCount; i++)
         {
             GameObject currentGO = gameObject.transform.GetChild(i).gameObject;
             if (currentGO.activeInHierarchy)
@@ -47,8 +52,5 @@ public class DirtSpawnerPooling : MonoBehaviour
 
         return dirtList;
     }
+    #endregion
 }
-
-
-
-

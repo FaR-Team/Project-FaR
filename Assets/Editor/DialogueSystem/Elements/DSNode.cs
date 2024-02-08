@@ -45,8 +45,8 @@ namespace DS.Elements
             graphView = dsGraphView;
             defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
 
-            mainContainer.AddToClassList("ds-node__main-container");
-            extensionContainer.AddToClassList("ds-node__extension-container");
+            mainContainer.AddToClassList("ds-node__main-objectToSave");
+            extensionContainer.AddToClassList("ds-node__extension-objectToSave");
         }
 
         public virtual void Draw()
@@ -112,7 +112,7 @@ namespace DS.Elements
 
             VisualElement customDataContainer = new VisualElement();
 
-            customDataContainer.AddToClassList("ds-node__custom-data-container");
+            customDataContainer.AddToClassList("ds-node__custom-dataList-objectToSave");
 
             Foldout textFoldout = DSElementUtility.CreateFoldout("Dialogue Text");
 

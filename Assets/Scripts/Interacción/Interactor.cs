@@ -38,7 +38,7 @@ public class Interactor : MonoBehaviour
 
     private void OnDisable()
     {
-        InteractionKey.Enable();
+        InteractionKey.Disable();
     }
 
     private void Update()

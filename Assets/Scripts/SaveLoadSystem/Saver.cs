@@ -1,23 +1,32 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Threading.Tasks;
+using System;
 
-public class Saver : MonoBehaviour
+public abstract class Saver<T, Y> : MonoBehaviour, ISaver where T : SaveData where Y : IDataSavable
 {
-    public static Dictionary<string, IPersistent> keyValuePairs;
-
-    Saver instance;
-
-    [SerializeField] private string nombreDeArchivo = "/Escena1.json";
-    public static void Save()
+    protected void Start()
     {
-        var saver = new JsonParser("/Escena1.json", keyValuePairs);
+        Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
 
-    private void Awake()
-    {
-        if(instance != null) Destroy(instance);
-        
-        instance = this;
-    }
+    public abstract Task WriteSave(T t);
 
+    protected abstract void SaveAllData(bool isTemporarySave);
+
+    public abstract void AddSavedObject(Y y);
+
+    public abstract void RemoveSavedObject(Y y);
+
+
+    Task ISaver.WriteSave(SaveData data) => WriteSave((T)data);
+    void ISaver.AddSavedObject(IDataSavable savable) => AddSavedObject((Y)savable);
+    void ISaver.RemoveSavedObject(IDataSavable savable) => RemoveSavedObject((Y)savable);
+  
+}
+
+public interface ISaver
+{
+    Task WriteSave(SaveData data);
+    void AddSavedObject(IDataSavable savable);
+    void RemoveSavedObject(IDataSavable savable);
 }

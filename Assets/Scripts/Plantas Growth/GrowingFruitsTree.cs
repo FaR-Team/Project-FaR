@@ -8,7 +8,6 @@ public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta
     }
     public override void OnHourChanged(int hour)
     {
-        
         if (hour != 4) return;
 
         DiasPlantado++;

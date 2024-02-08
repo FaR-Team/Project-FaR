@@ -7,6 +7,8 @@ namespace FaRUtils.FPSController
     [RequireComponent(typeof(CharacterController))]
     public class FaRCharacterController : MonoBehaviour
     {
+        public static FaRCharacterController instance;
+
         private CharacterController _controller;
         
         [SerializeField] private Camera cam;
@@ -35,6 +37,10 @@ namespace FaRUtils.FPSController
         private float _initHeight;
         [SerializeField] private float crouchHeight;
 
+        private void Awake()
+        {
+            instance = this;
+        }
 
         private void Start()
         {

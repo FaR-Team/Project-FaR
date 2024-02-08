@@ -1,19 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/SeedItem")]
+[Serializable]
 public class SeedItemData : InventoryItemData
 {
-    private Grid grid;
-    public GridGhost gridGhost;
     public GameObject DirtPrefab;
-
-    void Awake()
-    {
-        gridGhost = FindObjectOfType<GridGhost>();
-        grid = FindObjectOfType<Grid>();
-    }
 
     public override bool UseItem(Dirt dirt)
     {
@@ -24,7 +16,6 @@ public class SeedItemData : InventoryItemData
     {
         if (typeOfItem != TypeOfItem.TreeSeed) return false;
 
-        gridGhost = FindObjectOfType<GridGhost>();
-        return gridGhost.PlantTreeNear(DirtPrefab);
+        return GridGhost.instance.PlantTreeNear(DirtPrefab);
     }
 }

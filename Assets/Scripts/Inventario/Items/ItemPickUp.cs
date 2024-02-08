@@ -19,7 +19,6 @@ public class ItemPickUp : MonoBehaviour
 
     private void Awake()
     {
-        SaveLoad.OnLoadGame += LoadGame;
         itemSaveData = new ItemPickUpSaveData(ItemData, transform.position, transform.rotation);
         player = GameObject.FindGameObjectWithTag("Player");
         audioSource = player.GetComponent<AudioSource>();
@@ -32,29 +31,21 @@ public class ItemPickUp : MonoBehaviour
     private void Start()
     {
         id = GetComponent<UniqueID>().ID;
-        SaveGameManager.data.activeItems.Add(id, itemSaveData);
     }
 
     private void LoadGame(SaveData data)
     {
-        if (data.activeItems.ContainsKey(id))
-        {
-            //Destroy(this.gameObject);
-        }
+      
     }
 
     private void OnDestroy()
     {
-        if (SaveGameManager.data.activeItems.ContainsKey(id))
-        {
-            SaveGameManager.data.activeItems.Remove(id);
-            SaveLoad.OnLoadGame -= LoadGame;
-        }
+       
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        var inventory = other.transform.GetComponent<InventoryHolder>();
+        var inventory = other.transform.GetComponent<Container>();
 
         if (!inventory) return;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
@@ -64,7 +55,6 @@ public class ItemPickUp : MonoBehaviour
 
         if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
         {
-            SaveGameManager.data.Items.Add(id);
             Destroy(this.gameObject);
         }
         
@@ -72,12 +62,10 @@ public class ItemPickUp : MonoBehaviour
 
     public static void GiveItem(InventoryItemData data, int amount)
     {
-        var inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryHolder>();
+        var inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Container>();
 
-        if (!inventory)
-        {
-            return;
-        }
+        if (!inventory) return;
+     
         inventory.PrimaryInventorySystem.AñadirAInventario(data, amount);
     }
 }

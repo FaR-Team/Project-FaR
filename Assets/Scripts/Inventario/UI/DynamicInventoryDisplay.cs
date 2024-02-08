@@ -1,67 +1,56 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
-
     [SerializeField] protected InventorySlot_UIBasic slotPrefab;
-
-    protected override void Start()
-    {
-        base.Start();
-    }
 
     public void RefreshDynamicInventory(InventorySystem invToDisplay, int offset)
     {
-        ClearSlots();
         inventorySystem = invToDisplay;
-        if (inventorySystem != null) 
+        if (slotDictionary.Count > 0)
         {
-            inventorySystem.OnInventorySlotChanged += UpdateSlot;
+            
+            UpdateSlots(inventorySystem, offset);
         }
-        AssignSlot(invToDisplay, offset);
+        else
+        {
+            CreateSlots(inventorySystem, offset);
+           // print(inventorySlots.Count);
+        }
+
+        inventorySystem.OnInventorySlotChanged += UpdateSlot;
     }
-
-    public override void AssignSlot(InventorySystem invToDisplay, int offset)
+    public void UpdateSlots(InventorySystem invToDisplay, int offset)
     {
-
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            InventorySlot_UIBasic slot = inventorySlots[i];
+            slot.UpdateUISlot(invToDisplay.InventorySlots[i + offset]);
+            //print(i);
+        }
+    }
+    public override void CreateSlots(InventorySystem invToDisplay, int offset)
+    {
         slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
 
-        if (invToDisplay == null)
-        {
-            return;
-        }
+        if (invToDisplay == null) return;
 
         for (int i = offset; i < invToDisplay.tamañoInventario; i++)
         {
-            var uiSlot = Instantiate(slotPrefab, transform);
+            InventorySlot_UIBasic uiSlot = Instantiate(slotPrefab, transform);
             slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
-
             uiSlot.Init(invToDisplay.InventorySlots[i]);
             uiSlot.UpdateUISlot();
-        }
-    }
-
-    private void ClearSlots()
-    {
-        foreach (var item in transform.Cast<Transform>())
-        {
-            Destroy(item.gameObject);
-        }
-
-        if (slotDictionary != null)
-        {
-            slotDictionary.Clear();
+            inventorySlots.Add(uiSlot);
         }
     }
 
     private void OnDisable()
     {
-        if (inventorySystem != null) 
+        if (inventorySystem != null)
         {
             inventorySystem.OnInventorySlotChanged -= UpdateSlot;
-        }    
+        }
     }
 }

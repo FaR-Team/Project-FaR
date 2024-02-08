@@ -1,23 +1,26 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class InventoryDisplay : MonoBehaviour
 {
+    /*
+     Es una clase abstracta mono que deberia funcionar como "mostrar inventario".
+     */ 
     [SerializeField] MouseItemData mouseInventoryItem;
     protected InventorySystem inventorySystem;
-    protected Dictionary<InventorySlot_UIBasic, InventorySlot> slotDictionary; //Diccionario de slots de UI y slots del inventario
+    protected Dictionary<InventorySlot_UIBasic, InventorySlot> slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>(); //Diccionario de slots de UI y slots del inventario
 
     public InventorySystem InventorySystem => inventorySystem;
     public Dictionary<InventorySlot_UIBasic, InventorySlot> SlotDictionary => slotDictionary;
     public GameObject uiClickHandler;
 
-    public abstract void AssignSlot(InventorySystem invToDisplay, int offset);
+    public List<InventorySlot_UIBasic> inventorySlots = new List<InventorySlot_UIBasic>();
 
-    protected virtual void Start()
-    {
+    public abstract void CreateSlots(InventorySystem invToDisplay, int offset);
 
-    }
 
     protected virtual void UpdateSlot(InventorySlot updatedSlot)
     {
@@ -29,6 +32,7 @@ public abstract class InventoryDisplay : MonoBehaviour
             }
         }
     }
+
 
     public void SlotClicked(InventorySlot_UIBasic clickedUISlot)
     {
@@ -110,8 +114,6 @@ public abstract class InventoryDisplay : MonoBehaviour
                 return;
             }
         }
-
-
     }
 
     private void SwapSlots(InventorySlot_UIBasic clickedUISlot)
@@ -125,4 +127,5 @@ public abstract class InventoryDisplay : MonoBehaviour
         clickedUISlot.AssignedInventorySlot.AssignItem(clonedSlot);
         clickedUISlot.UpdateUISlot();
     }
+    
 }
