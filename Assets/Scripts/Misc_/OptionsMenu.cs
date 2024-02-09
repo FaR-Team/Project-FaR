@@ -9,7 +9,6 @@ using FaRUtils.Systems.DateTime;
 public class OptionsMenu : MonoBehaviour
 {
     public static OptionsMenu Instance;
-
     public GameObject RelojUI;
     public DateTime dateTime;
     public FPSLimit FPSLimit;
@@ -20,21 +19,20 @@ public class OptionsMenu : MonoBehaviour
     public bool doceh;
     public bool isOptionsMenuOpen;
 
-    private FaRCharacterController PlayerCont;
-
     public Slider fovSlider;
     public Slider sensSlider;
 
     Resolution[] resolutions;
- 
-    private void Awake() {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
         }
     }
 
@@ -43,9 +41,7 @@ public class OptionsMenu : MonoBehaviour
         Screen.fullScreen = isFullscreen;
     }
 
-
-
-    private void Start() 
+    private void Start()
     {
         resolutions = Screen.resolutions;
 
@@ -69,13 +65,12 @@ public class OptionsMenu : MonoBehaviour
         resolutionDropdown.value = currentResolutionIndex;
         resolutionDropdown.RefreshShownValue();
 
-        PlayerCont = GameObject.FindWithTag("Player").GetComponent<FaRCharacterController>();
 
         if (PlayerPrefs.GetFloat("FovVal") == 0)
         {
             FovVal.text = fovSlider.value.ToString();
             fovSlider.value = Camera.main.fieldOfView;
-            PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView); 
+            PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView);
         }
         else
         {
@@ -85,9 +80,9 @@ public class OptionsMenu : MonoBehaviour
 
         if (PlayerPrefs.GetFloat("SensVal") == 0)
         {
-            SensVal.text = PlayerCont.lookSensitivity.ToString();
-            sensSlider.value = PlayerCont.lookSensitivity;
-            PlayerPrefs.SetFloat("SensVal", PlayerCont.lookSensitivity);
+            SensVal.text = FaRCharacterController.instance.lookSensitivity.ToString(); ;
+            sensSlider.value = FaRCharacterController.instance.lookSensitivity;
+            PlayerPrefs.SetFloat("SensVal", FaRCharacterController.instance.lookSensitivity);
         }
         else
         {
@@ -101,28 +96,28 @@ public class OptionsMenu : MonoBehaviour
             PlayerPrefs.SetInt("TargetaFPS", 60);
         }
 
-        FPSLimit.target  =  PlayerPrefs.GetInt("TargetaFPS");
+        FPSLimit.target = PlayerPrefs.GetInt("TargetaFPS");
         FPSText.text = "FPS: " + FPSLimit.target;
     }
     public void Update()
     {
         FovVal.text = fovSlider.value.ToString();
         Camera.main.fieldOfView = fovSlider.value;
-        PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView); 
+        PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView);
 
-        SensVal.text = PlayerCont.lookSensitivity.ToString();
-        PlayerCont.lookSensitivity = sensSlider.value;
-        PlayerPrefs.SetFloat("SensVal", PlayerCont.lookSensitivity);
+        SensVal.text = FaRCharacterController.instance.lookSensitivity.ToString();
+        FaRCharacterController.instance.lookSensitivity = sensSlider.value;
+        PlayerPrefs.SetFloat("SensVal", FaRCharacterController.instance.lookSensitivity);
     }
 
     public void clock()
     {
-        if (doceh == true) 
+        if (doceh)
         {
             doceh = false;
             RelojUI.GetComponent<ClockManager>().Time.text = dateTime.TimeToString12();
         }
-        else 
+        else
         {
             doceh = true;
             RelojUI.GetComponent<ClockManager>().Time.text = dateTime.TimeToString24();

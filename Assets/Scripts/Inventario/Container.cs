@@ -1,8 +1,12 @@
+using FaRUtils.FPSController;
 using UnityEngine;
+using UnityEngine.Events;
 
 [System.Serializable]
 public abstract class Container : MonoBehaviour //ex inventoryholder 
 {
+
+    public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
     //objeto estilo conteiner.
     [SerializeField] protected int tamañoInventario;
     [SerializeField] protected InventorySystem inventorySystem;

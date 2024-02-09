@@ -8,9 +8,6 @@ public class Cofre : Container, IInteractable
     [SerializeField] private GameObject _prompt;
     public GameObject InteractionPrompt => _prompt;
 
-    public static UnityAction<InventorySystem, int> OnDynamicInventoryDisplayRequested;
-
-
     protected void Awake()
     {
         _prompt = GameObject.FindGameObjectWithTag("HouseInteraction"); //MODIFICAR. FINDGO ES LENTO, SE PUEDE HACER UN SINGLETON U OTRA COSA.
@@ -45,5 +42,4 @@ public class Cofre : Container, IInteractable
         inventorySystem = new InventorySystem(data.inventorySystem);
         transform.position = data.position;
     }
-
 }
