@@ -21,6 +21,7 @@ public class Cama : MonoBehaviour, IInteractable
     public bool _yourLetterArrived = false;
 
     public UnityEvent<bool> SaveDataEvent;
+    public UnityEvent isSleepingEvent;
 
     //I DON'T KNOW SWAHILI, BUT I THINK THIS IS THE CORRECT WAY TO DO THIS (Last part was written by github copilot.)
     public GameObject InteractionPrompt => _prompt;
@@ -76,7 +77,24 @@ public class Cama : MonoBehaviour, IInteractable
             return;
         }
         
+        InteractOut();
+        interactSuccessful = true;
+    }
 
+    public void InteractOut()
+    {
+        if (_isSleeping)
+        {
+            Debug.Log("Ya estás durmiendo");
+            return;
+        }
+        else if(TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
+        {
+            Debug.Log("Es muy temprano para dormir");
+            return;
+        }
+
+        isSleepingEvent.Invoke();
         if(_yourLetterArrived == false)
         {
             TimeManager.TimeBetweenTicks = 0.05f;
@@ -96,12 +114,6 @@ public class Cama : MonoBehaviour, IInteractable
 
 
         Debug.Log("Interactuando con Cama");
-        interactSuccessful = true;
-    }
-
-    public void InteractOut()
-    {
-        Debug.Log(null);
     }
 
     public IEnumerator Wait()

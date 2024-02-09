@@ -1,9 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 using System.Linq;
-using System;
 
 [System.Serializable]
 public class InventorySystem
@@ -52,6 +49,12 @@ public class InventorySystem
             inventorySlots.Add(new InventorySlot());
         }
     }
+
+    public void ClearInventory()
+    {
+        inventorySlots.ForEach(slot => slot.ForcedClearSlot());
+    }
+
     public bool AddToHotbarAbility(InventoryItemData itemToAdd, int amount)
     {
         if (ContieneTool(itemToAdd)) return false;

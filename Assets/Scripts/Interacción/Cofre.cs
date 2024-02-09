@@ -1,7 +1,6 @@
 using UnityEngine;
 using FaRUtils.FPSController;
 using UnityEngine.Events;
-using System;
 
 [RequireComponent(typeof(UniqueID))]
 public class Cofre : Container, IInteractable
