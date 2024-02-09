@@ -25,12 +25,14 @@ public class InventoryUIController : MonoBehaviour
     private void OnEnable()
     {
         Cofre.OnDynamicInventoryDisplayRequested += DisplayInventory;
+        RecycleBin.OnDynamicInventoryDisplayRequested += DisplayInventory;
         PlayerInventoryHolder.OnPlayerInventoryDisplayRequested += DisplayPlayerInventory;
     }
 
     void OnDisable()
     {
         Cofre.OnDynamicInventoryDisplayRequested -= DisplayInventory;
+        RecycleBin.OnDynamicInventoryDisplayRequested -= DisplayInventory;
         PlayerInventoryHolder.OnPlayerInventoryDisplayRequested -= DisplayPlayerInventory;
     }
     void Update()
