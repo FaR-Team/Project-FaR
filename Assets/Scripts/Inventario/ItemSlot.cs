@@ -63,7 +63,7 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
         stackSize -= amount;
     }
 
-     public void OnBeforeSerialize()
+    public void OnBeforeSerialize()
     {
  
     }

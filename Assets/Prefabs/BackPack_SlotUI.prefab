@@ -222,8 +222,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2967969885146588579}
   - component: {fileID: 7916823845349351674}
-  - component: {fileID: 6531959560310214545}
   - component: {fileID: 3796228361573358382}
+  - component: {fileID: 1676446849742798859}
   - component: {fileID: 5253314388360043342}
   m_Layer: 5
   m_Name: BackPack_SlotUI
@@ -285,7 +285,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6531959560310214545
+--- !u!222 &3796228361573358382
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2967969885146588580}
+  m_CullTransparentMesh: 1
+--- !u!114 &1676446849742798859
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,7 +302,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2967969885146588580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: ffa95804f306f744a8a29e7a0a518e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -330,14 +338,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!222 &3796228361573358382
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2967969885146588580}
-  m_CullTransparentMesh: 1
+  onRightClick:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5253314388360043342
 MonoBehaviour:
   m_ObjectHideFlags: 0

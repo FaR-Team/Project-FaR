@@ -222,7 +222,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2967969885146588579}
   - component: {fileID: 7916823845349351674}
-  - component: {fileID: 6531959560310214545}
+  - component: {fileID: 5963820404788469667}
   - component: {fileID: 3796228361573358382}
   - component: {fileID: 1172543242065966744}
   m_Layer: 5
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6531959560310214545
+--- !u!114 &5963820404788469667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -294,7 +294,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2967969885146588580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: ffa95804f306f744a8a29e7a0a518e65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
@@ -328,6 +328,9 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 7916823845349351674}
   m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onRightClick:
     m_PersistentCalls:
       m_Calls: []
 --- !u!222 &3796228361573358382

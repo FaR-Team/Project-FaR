@@ -10,7 +10,7 @@ public class InventorySlot_UIBasic : MonoBehaviour
     [SerializeField] protected GameObject _slotHighlight;
     [SerializeField] protected InventorySlot assignedInventorySlot;
 
-    private Button button;
+    private UIButton button;
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
 
@@ -18,8 +18,9 @@ public class InventorySlot_UIBasic : MonoBehaviour
     {
         ClearSlot();
 
-        button = GetComponent<Button>();
+        button = GetComponent<UIButton>();
         button?.onClick.AddListener(OnUISlotClick);
+        button?.onRightClick.AddListener(OnUISlotRightClick);
         itemSprite.preserveAspect = true;
 
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
@@ -77,6 +78,11 @@ public class InventorySlot_UIBasic : MonoBehaviour
     public virtual void OnUISlotClick()
     {
         ParentDisplay?.SlotClicked(this);
+    }
+
+    public virtual void OnUISlotRightClick()
+    {
+        ParentDisplay?.SlotClicked(this, true);
     }
 
     public Task SaveSlot()
