@@ -127,96 +127,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Hotbar1"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""64778048-3aa1-4dbf-a4e4-651ba1e41815"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar2"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""b15c3d0a-185e-44fb-b385-a906b3c37db0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar3"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""df48c025-8b62-4d60-874e-ab8c346640bb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar4"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""64fa0c92-3cfe-4f52-adaf-7ff23fefdec4"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar5"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""0e75c51c-e3da-4517-81c5-5ef36f11f63a"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar6"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""2bef8cf4-a152-40c2-9b5e-8e0b6e683f8f"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar7"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""594ae68a-dd2f-4f56-ae59-a51d73ac20d9"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar8"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""d8b7fe08-3c02-4be4-8200-cfd7daac8c7d"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar9"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""714b7beb-e501-4707-bd08-541cb30c0731"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Hotbar10"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""1a7a6e99-5f65-4b92-bd30-7e9abe6180ab"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Mouse Wheel"",
                     ""type"": ""PassThrough"",
                     ""id"": ""e693445e-a007-4c64-a77d-e73b1acb2525"",
@@ -304,6 +214,15 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Hotbar"",
+                    ""type"": ""Button"",
+                    ""id"": ""2e3be175-d363-49bd-aeac-6eb3b6416a61"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -481,116 +400,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""SprintFinish"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""5239b0f8-4d27-486c-91f1-716ae09a5035"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar1"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f652179a-3b9f-45c4-9603-0d38a9cc5602"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar2"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""70c58835-696a-4f13-9f64-7443b611cd42"",
-                    ""path"": ""<Keyboard>/3"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar3"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ac54bef3-c23a-4bbd-b3e5-b63712ea12d3"",
-                    ""path"": ""<Keyboard>/4"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar4"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""8a57aa8c-ae0a-42db-8a34-a42ae8d01d4b"",
-                    ""path"": ""<Keyboard>/5"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar5"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""953eee85-dcdd-4d98-ae38-8f704aa67894"",
-                    ""path"": ""<Keyboard>/6"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar6"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1c0e1a83-27f0-4951-bf96-b54f833dfaff"",
-                    ""path"": ""<Keyboard>/7"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar7"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""49b556b8-6c0b-4515-88c8-dd9c4ef33c0e"",
-                    ""path"": ""<Keyboard>/8"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar8"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""112e1cc6-2363-4779-baeb-4f725c967641"",
-                    ""path"": ""<Keyboard>/9"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar9"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""2d8044a6-b02e-4dd0-a1b8-16a2ad890090"",
-                    ""path"": ""<Keyboard>/0"",
-                    ""interactions"": ""Press"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""Hotbar10"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -857,6 +666,116 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""action"": ""AbilityHotbarDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""779b6f33-50c9-473e-a63f-227668efafbf"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""71181a37-8aa8-40e4-b3fe-97a67561e76c"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=2)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58a2c884-a34e-4d19-9dda-c8683efc663f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=3)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47df9635-abdc-4e7e-be38-bfc185959b5d"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=4)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ac5fdf91-a4f4-4528-bc60-f9daa36fe864"",
+                    ""path"": ""<Keyboard>/5"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=5)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7ed5861-dba9-4719-82ed-8321515145fe"",
+                    ""path"": ""<Keyboard>/6"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=6)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""32fd911c-7a9a-47dc-84c8-6cd61c8b6888"",
+                    ""path"": ""<Keyboard>/7"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=7)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""31751113-92a7-4a24-a41e-d8c928e557c3"",
+                    ""path"": ""<Keyboard>/8"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=8)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""386c4eb1-d006-4e61-b17e-b1f842a1f87b"",
+                    ""path"": ""<Keyboard>/9"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=9)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bafbbe83-fddd-4965-85a4-7b3016899c86"",
+                    ""path"": ""<Keyboard>/0"",
+                    ""interactions"": ""Press"",
+                    ""processors"": ""Scale(factor=10)"",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Hotbar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -914,16 +833,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_SprintFinish = m_Player.FindAction("SprintFinish", throwIfNotFound: true);
         m_Player_MassSellFinish = m_Player.FindAction("MassSellFinish", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
-        m_Player_Hotbar1 = m_Player.FindAction("Hotbar1", throwIfNotFound: true);
-        m_Player_Hotbar2 = m_Player.FindAction("Hotbar2", throwIfNotFound: true);
-        m_Player_Hotbar3 = m_Player.FindAction("Hotbar3", throwIfNotFound: true);
-        m_Player_Hotbar4 = m_Player.FindAction("Hotbar4", throwIfNotFound: true);
-        m_Player_Hotbar5 = m_Player.FindAction("Hotbar5", throwIfNotFound: true);
-        m_Player_Hotbar6 = m_Player.FindAction("Hotbar6", throwIfNotFound: true);
-        m_Player_Hotbar7 = m_Player.FindAction("Hotbar7", throwIfNotFound: true);
-        m_Player_Hotbar8 = m_Player.FindAction("Hotbar8", throwIfNotFound: true);
-        m_Player_Hotbar9 = m_Player.FindAction("Hotbar9", throwIfNotFound: true);
-        m_Player_Hotbar10 = m_Player.FindAction("Hotbar10", throwIfNotFound: true);
         m_Player_MouseWheel = m_Player.FindAction("Mouse Wheel", throwIfNotFound: true);
         m_Player_UseItem = m_Player.FindAction("Use Item", throwIfNotFound: true);
         m_Player_UseItemHoldStart = m_Player.FindAction("UseItemHoldStart", throwIfNotFound: true);
@@ -934,6 +843,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_AbilityHotbarUp = m_Player.FindAction("AbilityHotbarUp", throwIfNotFound: true);
         m_Player_AbilityHotbarDown = m_Player.FindAction("AbilityHotbarDown", throwIfNotFound: true);
         m_Player_HotbarLeft = m_Player.FindAction("HotbarLeft", throwIfNotFound: true);
+        m_Player_Hotbar = m_Player.FindAction("Hotbar", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1004,16 +914,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SprintFinish;
     private readonly InputAction m_Player_MassSellFinish;
     private readonly InputAction m_Player_Look;
-    private readonly InputAction m_Player_Hotbar1;
-    private readonly InputAction m_Player_Hotbar2;
-    private readonly InputAction m_Player_Hotbar3;
-    private readonly InputAction m_Player_Hotbar4;
-    private readonly InputAction m_Player_Hotbar5;
-    private readonly InputAction m_Player_Hotbar6;
-    private readonly InputAction m_Player_Hotbar7;
-    private readonly InputAction m_Player_Hotbar8;
-    private readonly InputAction m_Player_Hotbar9;
-    private readonly InputAction m_Player_Hotbar10;
     private readonly InputAction m_Player_MouseWheel;
     private readonly InputAction m_Player_UseItem;
     private readonly InputAction m_Player_UseItemHoldStart;
@@ -1024,6 +924,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_AbilityHotbarUp;
     private readonly InputAction m_Player_AbilityHotbarDown;
     private readonly InputAction m_Player_HotbarLeft;
+    private readonly InputAction m_Player_Hotbar;
     public struct PlayerActions
     {
         private @PlayerInput2 m_Wrapper;
@@ -1039,16 +940,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @SprintFinish => m_Wrapper.m_Player_SprintFinish;
         public InputAction @MassSellFinish => m_Wrapper.m_Player_MassSellFinish;
         public InputAction @Look => m_Wrapper.m_Player_Look;
-        public InputAction @Hotbar1 => m_Wrapper.m_Player_Hotbar1;
-        public InputAction @Hotbar2 => m_Wrapper.m_Player_Hotbar2;
-        public InputAction @Hotbar3 => m_Wrapper.m_Player_Hotbar3;
-        public InputAction @Hotbar4 => m_Wrapper.m_Player_Hotbar4;
-        public InputAction @Hotbar5 => m_Wrapper.m_Player_Hotbar5;
-        public InputAction @Hotbar6 => m_Wrapper.m_Player_Hotbar6;
-        public InputAction @Hotbar7 => m_Wrapper.m_Player_Hotbar7;
-        public InputAction @Hotbar8 => m_Wrapper.m_Player_Hotbar8;
-        public InputAction @Hotbar9 => m_Wrapper.m_Player_Hotbar9;
-        public InputAction @Hotbar10 => m_Wrapper.m_Player_Hotbar10;
         public InputAction @MouseWheel => m_Wrapper.m_Player_MouseWheel;
         public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
         public InputAction @UseItemHoldStart => m_Wrapper.m_Player_UseItemHoldStart;
@@ -1059,6 +950,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @AbilityHotbarUp => m_Wrapper.m_Player_AbilityHotbarUp;
         public InputAction @AbilityHotbarDown => m_Wrapper.m_Player_AbilityHotbarDown;
         public InputAction @HotbarLeft => m_Wrapper.m_Player_HotbarLeft;
+        public InputAction @Hotbar => m_Wrapper.m_Player_Hotbar;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1101,36 +993,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
-                @Hotbar1.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar1;
-                @Hotbar1.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar1;
-                @Hotbar1.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar1;
-                @Hotbar2.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar2;
-                @Hotbar2.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar2;
-                @Hotbar2.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar2;
-                @Hotbar3.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar3;
-                @Hotbar3.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar3;
-                @Hotbar3.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar3;
-                @Hotbar4.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar4;
-                @Hotbar4.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar4;
-                @Hotbar4.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar4;
-                @Hotbar5.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar5;
-                @Hotbar5.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar5;
-                @Hotbar5.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar5;
-                @Hotbar6.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar6;
-                @Hotbar6.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar6;
-                @Hotbar6.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar6;
-                @Hotbar7.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar7;
-                @Hotbar7.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar7;
-                @Hotbar7.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar7;
-                @Hotbar8.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar8;
-                @Hotbar8.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar8;
-                @Hotbar8.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar8;
-                @Hotbar9.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar9;
-                @Hotbar9.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar9;
-                @Hotbar9.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar9;
-                @Hotbar10.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar10;
-                @Hotbar10.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar10;
-                @Hotbar10.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar10;
                 @MouseWheel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseWheel;
                 @MouseWheel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseWheel;
                 @MouseWheel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseWheel;
@@ -1161,6 +1023,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @HotbarLeft.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
                 @HotbarLeft.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
                 @HotbarLeft.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbarLeft;
+                @Hotbar.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar;
+                @Hotbar.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar;
+                @Hotbar.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1198,36 +1063,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
-                @Hotbar1.started += instance.OnHotbar1;
-                @Hotbar1.performed += instance.OnHotbar1;
-                @Hotbar1.canceled += instance.OnHotbar1;
-                @Hotbar2.started += instance.OnHotbar2;
-                @Hotbar2.performed += instance.OnHotbar2;
-                @Hotbar2.canceled += instance.OnHotbar2;
-                @Hotbar3.started += instance.OnHotbar3;
-                @Hotbar3.performed += instance.OnHotbar3;
-                @Hotbar3.canceled += instance.OnHotbar3;
-                @Hotbar4.started += instance.OnHotbar4;
-                @Hotbar4.performed += instance.OnHotbar4;
-                @Hotbar4.canceled += instance.OnHotbar4;
-                @Hotbar5.started += instance.OnHotbar5;
-                @Hotbar5.performed += instance.OnHotbar5;
-                @Hotbar5.canceled += instance.OnHotbar5;
-                @Hotbar6.started += instance.OnHotbar6;
-                @Hotbar6.performed += instance.OnHotbar6;
-                @Hotbar6.canceled += instance.OnHotbar6;
-                @Hotbar7.started += instance.OnHotbar7;
-                @Hotbar7.performed += instance.OnHotbar7;
-                @Hotbar7.canceled += instance.OnHotbar7;
-                @Hotbar8.started += instance.OnHotbar8;
-                @Hotbar8.performed += instance.OnHotbar8;
-                @Hotbar8.canceled += instance.OnHotbar8;
-                @Hotbar9.started += instance.OnHotbar9;
-                @Hotbar9.performed += instance.OnHotbar9;
-                @Hotbar9.canceled += instance.OnHotbar9;
-                @Hotbar10.started += instance.OnHotbar10;
-                @Hotbar10.performed += instance.OnHotbar10;
-                @Hotbar10.canceled += instance.OnHotbar10;
                 @MouseWheel.started += instance.OnMouseWheel;
                 @MouseWheel.performed += instance.OnMouseWheel;
                 @MouseWheel.canceled += instance.OnMouseWheel;
@@ -1258,6 +1093,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @HotbarLeft.started += instance.OnHotbarLeft;
                 @HotbarLeft.performed += instance.OnHotbarLeft;
                 @HotbarLeft.canceled += instance.OnHotbarLeft;
+                @Hotbar.started += instance.OnHotbar;
+                @Hotbar.performed += instance.OnHotbar;
+                @Hotbar.canceled += instance.OnHotbar;
             }
         }
     }
@@ -1293,16 +1131,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnSprintFinish(InputAction.CallbackContext context);
         void OnMassSellFinish(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
-        void OnHotbar1(InputAction.CallbackContext context);
-        void OnHotbar2(InputAction.CallbackContext context);
-        void OnHotbar3(InputAction.CallbackContext context);
-        void OnHotbar4(InputAction.CallbackContext context);
-        void OnHotbar5(InputAction.CallbackContext context);
-        void OnHotbar6(InputAction.CallbackContext context);
-        void OnHotbar7(InputAction.CallbackContext context);
-        void OnHotbar8(InputAction.CallbackContext context);
-        void OnHotbar9(InputAction.CallbackContext context);
-        void OnHotbar10(InputAction.CallbackContext context);
         void OnMouseWheel(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnUseItemHoldStart(InputAction.CallbackContext context);
@@ -1313,5 +1141,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnAbilityHotbarUp(InputAction.CallbackContext context);
         void OnAbilityHotbarDown(InputAction.CallbackContext context);
         void OnHotbarLeft(InputAction.CallbackContext context);
+        void OnHotbar(InputAction.CallbackContext context);
     }
 }

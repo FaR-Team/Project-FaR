@@ -123,17 +123,7 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         base.OnEnable();
         _playerControls.Enable();
-
-        GetPlayerControls().Hotbar1.performed += Hotbar1;
-        GetPlayerControls().Hotbar2.performed += Hotbar2;
-        GetPlayerControls().Hotbar3.performed += Hotbar3;
-        GetPlayerControls().Hotbar4.performed += Hotbar4;
-        GetPlayerControls().Hotbar5.performed += Hotbar5;
-        GetPlayerControls().Hotbar6.performed += Hotbar6;
-        GetPlayerControls().Hotbar7.performed += Hotbar7;
-        GetPlayerControls().Hotbar8.performed += Hotbar8;
-        GetPlayerControls().Hotbar9.performed += Hotbar9;
-        GetPlayerControls().Hotbar10.performed += Hotbar10;
+        GetPlayerControls().Hotbar.performed += Hotbar;
         GetPlayerControls().HotbarRight.performed += HotbarRight;
         GetPlayerControls().HotbarLeft.performed += HotbarLeft;
 
@@ -148,16 +138,9 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         base.OnDisable();
         _playerControls.Disable();
-        GetPlayerControls().Hotbar1.performed -= Hotbar1;
-        GetPlayerControls().Hotbar2.performed -= Hotbar2;
-        GetPlayerControls().Hotbar3.performed -= Hotbar3;
-        GetPlayerControls().Hotbar4.performed -= Hotbar4;
-        GetPlayerControls().Hotbar5.performed -= Hotbar5;
-        GetPlayerControls().Hotbar6.performed -= Hotbar6;
-        GetPlayerControls().Hotbar7.performed -= Hotbar7;
-        GetPlayerControls().Hotbar8.performed -= Hotbar8;
-        GetPlayerControls().Hotbar9.performed -= Hotbar9;
-        GetPlayerControls().Hotbar10.performed -= Hotbar10;
+
+        GetPlayerControls().Hotbar.performed -= Hotbar;
+
         GetPlayerControls().UseItem.performed -= UseItem;
         GetPlayerControls().UseItemHoldStart.performed -= x => UseItemPressed();
         GetPlayerControls().UseItemHoldRelease.performed -= x => UseItemRelease();
@@ -166,55 +149,12 @@ public class HotbarDisplay : HotbarDisplayBase
     }
 
     #region Hotbar Select Methods
-    private void Hotbar1(InputAction.CallbackContext obj)
-    {
-        SetIndex(0);
-    }
 
-    private void Hotbar2(InputAction.CallbackContext obj)
+    private void Hotbar(InputAction.CallbackContext obj)
     {
-        SetIndex(1);
+        SetIndex((int)obj.ReadValue<float>());
     }
-
-    private void Hotbar3(InputAction.CallbackContext obj)
-    {
-        SetIndex(2);
-    }
-
-    private void Hotbar4(InputAction.CallbackContext obj)
-    {
-        SetIndex(3);
-    }
-
-    private void Hotbar5(InputAction.CallbackContext obj)
-    {
-        SetIndex(4);
-    }
-
-    private void Hotbar6(InputAction.CallbackContext obj)
-    {
-        SetIndex(5);
-    }
-
-    private void Hotbar7(InputAction.CallbackContext obj)
-    {
-        SetIndex(6);
-    }
-
-    private void Hotbar8(InputAction.CallbackContext obj)
-    {
-        SetIndex(7);
-    }
-
-    private void Hotbar9(InputAction.CallbackContext obj)
-    {
-        SetIndex(8);
-    }
-
-    private void Hotbar10(InputAction.CallbackContext obj)
-    {
-        SetIndex(9);
-    }
+    
     #endregion
 
     public void HotbarLeft(InputAction.CallbackContext obj)

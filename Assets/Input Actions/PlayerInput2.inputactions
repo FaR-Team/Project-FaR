@@ -105,96 +105,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Hotbar1",
-                    "type": "PassThrough",
-                    "id": "64778048-3aa1-4dbf-a4e4-651ba1e41815",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar2",
-                    "type": "PassThrough",
-                    "id": "b15c3d0a-185e-44fb-b385-a906b3c37db0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar3",
-                    "type": "PassThrough",
-                    "id": "df48c025-8b62-4d60-874e-ab8c346640bb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar4",
-                    "type": "PassThrough",
-                    "id": "64fa0c92-3cfe-4f52-adaf-7ff23fefdec4",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar5",
-                    "type": "PassThrough",
-                    "id": "0e75c51c-e3da-4517-81c5-5ef36f11f63a",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar6",
-                    "type": "PassThrough",
-                    "id": "2bef8cf4-a152-40c2-9b5e-8e0b6e683f8f",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar7",
-                    "type": "PassThrough",
-                    "id": "594ae68a-dd2f-4f56-ae59-a51d73ac20d9",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar8",
-                    "type": "PassThrough",
-                    "id": "d8b7fe08-3c02-4be4-8200-cfd7daac8c7d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar9",
-                    "type": "PassThrough",
-                    "id": "714b7beb-e501-4707-bd08-541cb30c0731",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Hotbar10",
-                    "type": "PassThrough",
-                    "id": "1a7a6e99-5f65-4b92-bd30-7e9abe6180ab",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Mouse Wheel",
                     "type": "PassThrough",
                     "id": "e693445e-a007-4c64-a77d-e73b1acb2525",
@@ -282,6 +192,15 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Hotbar",
+                    "type": "Button",
+                    "id": "2e3be175-d363-49bd-aeac-6eb3b6416a61",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 }
             ],
@@ -459,116 +378,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "SprintFinish",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "5239b0f8-4d27-486c-91f1-716ae09a5035",
-                    "path": "<Keyboard>/1",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f652179a-3b9f-45c4-9603-0d38a9cc5602",
-                    "path": "<Keyboard>/2",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "70c58835-696a-4f13-9f64-7443b611cd42",
-                    "path": "<Keyboard>/3",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar3",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ac54bef3-c23a-4bbd-b3e5-b63712ea12d3",
-                    "path": "<Keyboard>/4",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar4",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8a57aa8c-ae0a-42db-8a34-a42ae8d01d4b",
-                    "path": "<Keyboard>/5",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar5",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "953eee85-dcdd-4d98-ae38-8f704aa67894",
-                    "path": "<Keyboard>/6",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar6",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "1c0e1a83-27f0-4951-bf96-b54f833dfaff",
-                    "path": "<Keyboard>/7",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar7",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "49b556b8-6c0b-4515-88c8-dd9c4ef33c0e",
-                    "path": "<Keyboard>/8",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar8",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "112e1cc6-2363-4779-baeb-4f725c967641",
-                    "path": "<Keyboard>/9",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar9",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2d8044a6-b02e-4dd0-a1b8-16a2ad890090",
-                    "path": "<Keyboard>/0",
-                    "interactions": "Press",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "Hotbar10",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -833,6 +642,116 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "AbilityHotbarDown",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "779b6f33-50c9-473e-a63f-227668efafbf",
+                    "path": "<Keyboard>/1",
+                    "interactions": "Press",
+                    "processors": "Scale",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "71181a37-8aa8-40e4-b3fe-97a67561e76c",
+                    "path": "<Keyboard>/2",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=2)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "58a2c884-a34e-4d19-9dda-c8683efc663f",
+                    "path": "<Keyboard>/3",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=3)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47df9635-abdc-4e7e-be38-bfc185959b5d",
+                    "path": "<Keyboard>/4",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=4)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ac5fdf91-a4f4-4528-bc60-f9daa36fe864",
+                    "path": "<Keyboard>/5",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=5)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7ed5861-dba9-4719-82ed-8321515145fe",
+                    "path": "<Keyboard>/6",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=6)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "32fd911c-7a9a-47dc-84c8-6cd61c8b6888",
+                    "path": "<Keyboard>/7",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=7)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "31751113-92a7-4a24-a41e-d8c928e557c3",
+                    "path": "<Keyboard>/8",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=8)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "386c4eb1-d006-4e61-b17e-b1f842a1f87b",
+                    "path": "<Keyboard>/9",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=9)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bafbbe83-fddd-4965-85a4-7b3016899c86",
+                    "path": "<Keyboard>/0",
+                    "interactions": "Press",
+                    "processors": "Scale(factor=10)",
+                    "groups": "KeyboardMouse",
+                    "action": "Hotbar",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
