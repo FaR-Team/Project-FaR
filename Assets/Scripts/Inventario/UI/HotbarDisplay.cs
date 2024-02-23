@@ -152,7 +152,11 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void Hotbar(InputAction.CallbackContext obj)
     {
-        SetIndex((int)obj.ReadValue<float>());
+        int i = (int)obj.ReadValue<float>() - 1;
+        
+        if(i == -1) return;
+        
+        HandleIndex(i);
     }
     
     #endregion
@@ -362,6 +366,19 @@ public class HotbarDisplay : HotbarDisplayBase
                 GetAssignedInventorySlot().ClearSlot();
             }
             SlotCurrentIndex().UpdateUISlot();
+        }
+    }
+
+    private void HandleIndex(int newIndex)
+    {
+        if (!PlayerInventoryHolder.isInventoryOpen)
+        {
+            SetIndex(newIndex);
+        }
+        else if (InventoryUIController.instance.hoveredUISlot != null 
+        && InventoryUIController.instance.hoveredUISlot.AssignedInventorySlot.ItemData != null)
+        {
+            InventoryUIController.instance.hoveredUISlot.ParentDisplay.SwapSlots(InventoryUIController.instance.hoveredUISlot, slots[newIndex]);
         }
     }
 

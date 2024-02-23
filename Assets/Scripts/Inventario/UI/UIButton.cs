@@ -7,6 +7,8 @@ using UnityEngine.UI;
 public class UIButton : Button
 {
     public UnityEngine.Events.UnityEvent onRightClick = new UnityEngine.Events.UnityEvent();
+    public UnityEngine.Events.UnityEvent onMouseOver = new UnityEngine.Events.UnityEvent();
+    public UnityEngine.Events.UnityEvent onMouseExit = new UnityEngine.Events.UnityEvent();
     public override void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
@@ -18,5 +20,17 @@ public class UIButton : Button
             //Invocar el click derecho
             onRightClick.Invoke();
         }
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        base.OnPointerEnter(eventData);
+        onMouseOver.Invoke();
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+        onMouseExit.Invoke();
     }
 }

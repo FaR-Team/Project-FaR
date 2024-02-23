@@ -7,8 +7,8 @@ using UnityEngine.UI;
 public abstract class InventoryDisplay : MonoBehaviour
 {
     /*
-     Es una clase abstracta mono que deberia funcionar como "mostrar inventario".
-     */ 
+        Es una clase abstracta mono que deberia funcionar como "mostrar inventario".
+    */ 
     [SerializeField] MouseItemData mouseInventoryItem;
     protected InventorySystem inventorySystem;
     protected Dictionary<InventorySlot_UIBasic, InventorySlot> slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>(); //Diccionario de slots de UI y slots del inventario
@@ -38,11 +38,35 @@ public abstract class InventoryDisplay : MonoBehaviour
     {
         bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
         
+        if (isShiftPressed && clickedUISlot.AssignedInventorySlot.ItemData != null)
+        {
+            if (InventoryUIController.instance.currentContainer != null)
+            {
+                if (inventorySystem != InventoryUIController.instance.currentContainer)
+                {
+                    if (InventoryUIController.instance.currentContainer.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize));
+                    {
+                        clickedUISlot.ClearSlot();
+                    }
+                }
+                else
+                {
+                    if (PlayerInventoryHolder.instance.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize));
+                    {
+                        clickedUISlot.ClearSlot();
+                    }
+                }
+                return;
+            }
+            else
+            {
+                
+            }
+        }
 
         if (clickedUISlot.AssignedInventorySlot.ItemData != null && 
         mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
-         //Checkea si el jugador está apretando Shift, así dividimos el stack
             if (isRightClick && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
             {
                 mouseInventoryItem.UpdateMouseSlot(halfStackSlot);
@@ -166,6 +190,26 @@ public abstract class InventoryDisplay : MonoBehaviour
         clickedUISlot.ClearSlot();
         clickedUISlot.AssignedInventorySlot.AssignItem(clonedSlot);
         clickedUISlot.UpdateUISlot();
+    }
+
+    public void SwapSlots(InventorySlot_UIBasic UISlot1, InventorySlot_UIBasic UISlot2)
+    {
+        InventorySlot clonedSlot = null;
+        if (UISlot2.AssignedInventorySlot.ItemData != null) clonedSlot = new InventorySlot(UISlot2.AssignedInventorySlot.ItemData, UISlot2.AssignedInventorySlot.StackSize);
+
+        UISlot2.ClearSlot();
+        if (UISlot1.AssignedInventorySlot.ItemData != null)
+        {
+            UISlot2.AssignedInventorySlot.AssignItem(UISlot1.AssignedInventorySlot);
+            UISlot2.UpdateUISlot();
+        }
+
+        UISlot1.ClearSlot();
+        if (clonedSlot != null && clonedSlot.ItemData != null)
+        {
+            UISlot1.AssignedInventorySlot.AssignItem(clonedSlot);
+            UISlot1.UpdateUISlot();
+        }
     }
     
 }

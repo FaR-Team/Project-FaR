@@ -9,6 +9,9 @@ public class InventoryUIController : MonoBehaviour
     public GameObject reloj;
     public bool isChestInventoryOpen = false;
 
+    public InventorySystem currentContainer {get; private set;}
+    public InventorySlot_UIBasic hoveredUISlot;
+
     public static InventoryUIController instance;
 
     private void Awake() 
@@ -30,7 +33,7 @@ public class InventoryUIController : MonoBehaviour
 
     void OnDisable()
     {
-        Container.OnDynamicInventoryDisplayRequested += DisplayInventory;
+        Container.OnDynamicInventoryDisplayRequested -= DisplayInventory;
         PlayerInventoryHolder.OnPlayerInventoryDisplayRequested -= DisplayPlayerInventory;
     }
     void Update()
@@ -38,11 +41,14 @@ public class InventoryUIController : MonoBehaviour
         if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() && isChestInventoryOpen == true ||  
             GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && isChestInventoryOpen == true) {
             inventoryPanel.gameObject.SetActive(false);
+            currentContainer = null;
             //playerBackpackPanel.gameObject.SetActive(false);
             //player.GetComponent<PlayerInventoryHolder>().CloseInventory();
             isChestInventoryOpen = false;
             StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
         }
+
+        
     }
 
     private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()
@@ -55,6 +61,8 @@ public class InventoryUIController : MonoBehaviour
     {
         inventoryPanel.gameObject.SetActive(true);
         inventoryPanel.RefreshDynamicInventory(invToDisplay, offset);
+
+        currentContainer = invToDisplay;
     }
 
     public void DisplayPlayerInventory(InventorySystem invToDisplay, int offset)

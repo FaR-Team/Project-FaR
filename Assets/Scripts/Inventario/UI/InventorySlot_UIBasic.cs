@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
+using System;
 
 public class InventorySlot_UIBasic : MonoBehaviour
 {
@@ -9,6 +10,10 @@ public class InventorySlot_UIBasic : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemCount;
     [SerializeField] protected GameObject _slotHighlight;
     [SerializeField] protected InventorySlot assignedInventorySlot;
+
+
+    private bool isHighlighted;
+    public bool _IsHighlighted => isHighlighted;
 
     private UIButton button;
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
@@ -21,6 +26,8 @@ public class InventorySlot_UIBasic : MonoBehaviour
         button = GetComponent<UIButton>();
         button?.onClick.AddListener(OnUISlotClick);
         button?.onRightClick.AddListener(OnUISlotRightClick);
+        button?.onMouseOver.AddListener(OnUISlotMouseOver);
+        button?.onMouseExit.AddListener(OnUISlotMouseExit);
         itemSprite.preserveAspect = true;
 
         ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
@@ -72,7 +79,8 @@ public class InventorySlot_UIBasic : MonoBehaviour
 
     public virtual void ToggleHighlight()
     {
-        _slotHighlight.SetActive(!_slotHighlight.activeInHierarchy);
+        isHighlighted = !_slotHighlight.activeInHierarchy;
+        _slotHighlight.SetActive(isHighlighted);
     }
 
     public virtual void OnUISlotClick()
@@ -83,6 +91,16 @@ public class InventorySlot_UIBasic : MonoBehaviour
     public virtual void OnUISlotRightClick()
     {
         ParentDisplay?.SlotClicked(this, true);
+    }
+
+    private void OnUISlotMouseExit()
+    {
+        InventoryUIController.instance.hoveredUISlot = null;
+    }
+
+    private void OnUISlotMouseOver()
+    {
+        InventoryUIController.instance.hoveredUISlot = this;
     }
 
     public Task SaveSlot()
