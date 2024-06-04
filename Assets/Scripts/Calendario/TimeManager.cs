@@ -1,22 +1,24 @@
+using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
-using UniRx;
 
 namespace FaRUtils.Systems.DateTime
 {
     public class TimeManager : MonoBehaviour
     {
+        public static TimeManager Instance { get; private set; }
+
         [Header("Opciones de Fecha y Tiempo")]
-        [Range (1, 28), Header("Dia del Mes")]
+        [Range(1, 28), Header("Dia del Mes")]
         public int dateInMonth;
-        [Range (1, 8), Header("Época del Año")]
+        [Range(1, 8), Header("Época del Año")]
         public int season;
-        [Range (1, 99), Header("Año")]
+        [Range(1, 99), Header("Año")]
         public int year;
-        [Range (0, 24), Header("Hora")]
+        [Range(0, 24), Header("Hora")]
         public int hour;
-        [Range (0, 6), Header("Minuto")]
+        [Range(0, 6), Header("Minuto")]
         public int minutes;
 
         public static DateTime DateTime;
@@ -36,9 +38,25 @@ namespace FaRUtils.Systems.DateTime
         private void Awake()
         {
             DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
+
+            SetInstance();
         }
 
-        public void Start() 
+        private void SetInstance()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else if (Instance != null && Instance != this)
+            {
+                Destroy(this);
+            }
+
+            DontDestroyOnLoad(Instance);
+        }
+
+        public void Start()
         {
             OnDateTimeChanged?.Invoke(DateTime);
             //myLocalVariable = localizedString.GetVariable("myLocalVariable");
@@ -72,7 +90,7 @@ namespace FaRUtils.Systems.DateTime
     }
 
     [System.Serializable]
-    public struct DateTime 
+    public struct DateTime
     {
         #region Campos
         private DaysEn day;
@@ -156,8 +174,8 @@ namespace FaRUtils.Systems.DateTime
             }
             else
             {
-               hour++;
-               OnHourChanged.Invoke(this.hour);
+                hour++;
+                OnHourChanged.Invoke(this.hour);
             }
         }
 
@@ -215,7 +233,7 @@ namespace FaRUtils.Systems.DateTime
 
         public void ContarDías(int Cantidad)
         {
-            if(Date >= (Date + Cantidad))
+            if (Date >= (Date + Cantidad))
             {
                 Debug.Log("Creció UwU");
             }
@@ -298,7 +316,7 @@ namespace FaRUtils.Systems.DateTime
             //UpdateDayLocals();
             return $"Idks {date}";
         }
-        
+
         public string TimeToString12()
         {
             int AdjustedHour = 0;
@@ -306,7 +324,7 @@ namespace FaRUtils.Systems.DateTime
             {
                 AdjustedHour = 12;
             }
-            else if ( hour >= 13)
+            else if (hour >= 13)
             {
                 AdjustedHour = hour - 12;
             }
@@ -330,40 +348,40 @@ namespace FaRUtils.Systems.DateTime
         [System.Serializable]
         public enum DaysEn
         {
-        NULL = 0,
-        Mon = 1,
-        Tue = 2,
-        Wed = 3,
-        Thu = 4,
-        Fri = 5,
-        Sat = 6,
-        Sun = 7
+            NULL = 0,
+            Mon = 1,
+            Tue = 2,
+            Wed = 3,
+            Thu = 4,
+            Fri = 5,
+            Sat = 6,
+            Sun = 7
         }
 
         [System.Serializable]
         public enum DaysEs
         {
-        NULL = 0,
-        Lun = 1,
-        Mar = 2,
-        Mié = 3,
-        Jue = 4,
-        Vie = 5,
-        Sab = 6,
-        Dom = 7
+            NULL = 0,
+            Lun = 1,
+            Mar = 2,
+            Mié = 3,
+            Jue = 4,
+            Vie = 5,
+            Sab = 6,
+            Dom = 7
         }
 
         [System.Serializable]
         public enum Season
         {
-        Early_Spring = 0,
-        Late_Spring = 1,
-        Early_Summer = 2,
-        Late_Summer = 3,
-        Early_Fall = 4,
-        Late_Fall = 5,
-        Early_Winter = 6,
-        Late_Winter = 7
+            Early_Spring = 0,
+            Late_Spring = 1,
+            Early_Summer = 2,
+            Late_Summer = 3,
+            Early_Fall = 4,
+            Late_Fall = 5,
+            Early_Winter = 6,
+            Late_Winter = 7
         }
     }
 }
