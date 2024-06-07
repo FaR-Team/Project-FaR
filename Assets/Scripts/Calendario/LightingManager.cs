@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using FaRUtils.Systems.DateTime;
 
-[ExecuteAlways]
+//[ExecuteAlways]
 public class LightingManager : MonoBehaviour
 {
     [Header("Referencias")]
@@ -13,6 +14,11 @@ public class LightingManager : MonoBehaviour
     public float vel = 0.011f;
     public TimeManager timeManager;
 
+
+    private void OnEnable()
+    {
+        SleepHandler.Instance.OnPlayerWakeUp += CopyHour;
+    }
 
     private void Start() {
         CopyHour();
@@ -62,6 +68,10 @@ public class LightingManager : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        SleepHandler.Instance.OnPlayerWakeUp -= CopyHour;
+    }
 
 
     //Enconctrar una luz direccional en la escena uwu

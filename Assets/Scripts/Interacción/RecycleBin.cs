@@ -16,13 +16,13 @@ public class RecycleBin : Container, IInteractable
 
     private void Start()
     {
-        Cama.Instance.isSleepingEvent.AddListener(DeleteObjects);
+        SleepHandler.Instance.OnPlayerSleep += DeleteObjects;
         inventorySystem = new InventorySystem(inventorySystem);
     }
 
     private void OnDisable()
     {
-        Cama.Instance.isSleepingEvent.RemoveListener(DeleteObjects);
+        SleepHandler.Instance.OnPlayerSleep += DeleteObjects;
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)

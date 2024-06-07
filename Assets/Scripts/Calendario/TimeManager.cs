@@ -1,3 +1,4 @@
+using System;
 using UniRx;
 using UnityEngine;
 using UnityEngine.Events;
@@ -41,6 +42,7 @@ namespace FaRUtils.Systems.DateTime
 
             SetInstance();
         }
+        
 
         private void SetInstance()
         {
@@ -85,7 +87,7 @@ namespace FaRUtils.Systems.DateTime
         {
             DateTime.AdvanceMinutes(TickMinutesIncreased);
 
-            OnDateTimeChanged?.Invoke(DateTime);
+            OnDateTimeChanged?.Invoke(DateTime); // Por qué se hace 2 veces?
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,11 @@ public class SellSystem : MonoBehaviour
 
     private Dictionary<InventoryItemData, int> _shoppingCart = new Dictionary<InventoryItemData, int>();
     private Dictionary<InventoryItemData, ShoppingCartItemUI> _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
+
+    private void OnEnable()
+    {
+        SleepHandler.Instance.OnPlayerSleep += Sell;
+    }
 
     public void SellItem(GameObject CropBoxPrefab, InventoryItemData data)
     {
@@ -173,5 +179,10 @@ public class SellSystem : MonoBehaviour
         {
             Destroy(item.gameObject);
         }
+    }
+    
+    private void OnDisable()
+    {
+        SleepHandler.Instance.OnPlayerSleep -= Sell;
     }
 }

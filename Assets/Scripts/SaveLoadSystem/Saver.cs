@@ -6,7 +6,7 @@ public abstract class Saver<T, Y> : MonoBehaviour, ISaver where T : SaveData whe
 {
     protected void Start()
     {
-        Cama.Instance.SaveDataEvent.AddListener(SaveAllData);
+        SleepHandler.Instance.SaveDataEvent.AddListener(SaveAllData);
     }
 
     public abstract Task WriteSave(T t);

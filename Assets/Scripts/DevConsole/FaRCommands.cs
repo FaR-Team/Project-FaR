@@ -6,6 +6,7 @@ using FaRUtils.Systems.ItemSystem;
 using FaRUtils.FPSController;
 using UnityStandardAssets.CrossPlatformInput;
 using IngameDebugConsole;
+using UnityEngine.Serialization;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class FaRCommands : MonoBehaviour
 	public GameObject player;
 	public Rigidbody rb;
 	public Camera cam;
-    public Cama _cama;
+    [FormerlySerializedAs("_cama")] public SleepHandler sleepHandler;
     public Database _database;
 	public bool _noclip;
 	private Camera m_Camera;
@@ -59,7 +60,7 @@ public class FaRCommands : MonoBehaviour
 
 	private void TestSave()
     {
-		Cama.Instance.SaveDataEvent.Invoke(false);
+		SleepHandler.Instance.SaveDataEvent.Invoke(false);
     }
 
 	private void TestLoad()
@@ -103,7 +104,7 @@ public class FaRCommands : MonoBehaviour
 
         TimeManager.TimeBetweenTicks = 0.01f;
         SetTestingAndIsWet(true, true);
-        _cama._yourLetterArrived = true;
+        sleepHandler._yourLetterArrived = true;
     }
 
     private void SetTestingAndIsWet(bool test, bool isWet)
@@ -120,8 +121,8 @@ public class FaRCommands : MonoBehaviour
 		TimeManager.TimeBetweenTicks = 10f;
         SetTestingAndIsWet(false, false);
 
-        _cama._yourLetterArrived = false;
-        _cama.lightingManager.CopyHour();
+        sleepHandler._yourLetterArrived = false;
+        sleepHandler.lightingManager.CopyHour();
 	}
 
 	void ImSleepy()
@@ -135,7 +136,7 @@ public class FaRCommands : MonoBehaviour
 		if (hour == 17 && areYouSleepy)
 		{
 			TimeManager.TimeBetweenTicks = 10f;
-        	_cama.lightingManager.CopyHour();
+        	sleepHandler.lightingManager.CopyHour();
 			areYouSleepy = false;
 		}
 	}

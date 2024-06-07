@@ -17,7 +17,8 @@ public class MusicManager : MonoBehaviour
     public float volumen;
 
 
-    private void Update() {
+    // TODO: Cambiar esto por qué se chequean tantos strings todos los frames aaaaaaaaaaaaa
+    private void Update() { 
         if(ClockManager.TimeText() == "06:00 AM" && yasonlas6am == false || ClockManager.TimeText() == "06:00" && yasonlas6am == false)
         {
             if (YaEligioHoy == false)
@@ -27,7 +28,7 @@ public class MusicManager : MonoBehaviour
             yasonlas6am = true;
         }
 
-        if(ClockManager.TimeText() == "12:00 PM" && yasonlas12pm == false || ClockManager.TimeText() == "12:00" && yasonlas12pm == false && Cama.Instance._isSleeping == false)
+        if(ClockManager.TimeText() == "12:00 PM" && yasonlas12pm == false || ClockManager.TimeText() == "12:00" && yasonlas12pm == false && SleepHandler.Instance._isSleeping == false)
         {
             if (YaEligioHoy == false)
             {
@@ -36,7 +37,7 @@ public class MusicManager : MonoBehaviour
             yasonlas12pm = true;
         }
 
-        if(ClockManager.TimeText() == "06:00 PM" && yasonlas6pm == false || ClockManager.TimeText() == "18:00" && yasonlas6pm == false && Cama.Instance._isSleeping == false)
+        if(ClockManager.TimeText() == "06:00 PM" && yasonlas6pm == false || ClockManager.TimeText() == "18:00" && yasonlas6pm == false && SleepHandler.Instance._isSleeping == false)
         {
             if (YaEligioHoy == false)
             {

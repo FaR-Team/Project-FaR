@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using IngameDebugConsole;
 using FaRUtils.FPSController;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -20,7 +21,7 @@ public class PauseMenu : MonoBehaviour
 
     public CambiarEscena _cambiarEscena;
     public ShopKeeper shopKeeper;
-    public Cama bed;
+    public SleepHandler sleepHandler;
     public GameObject UI;
     public GameObject Options;
     public GameObject PhysicsGun;
@@ -49,6 +50,7 @@ public class PauseMenu : MonoBehaviour
         player = GameObject.FindWithTag("Player");
         ShopKeeperObj = GameObject.FindGameObjectWithTag("Shop");
         shopKeeper = ShopKeeperObj.GetComponent<ShopKeeper>();
+        sleepHandler = SleepHandler.Instance;
         
         if (FPSLimit.target == 0)
         {
@@ -63,7 +65,7 @@ public class PauseMenu : MonoBehaviour
         if (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && 
         PlayerInventoryHolder.isInventoryOpen == false && 
         shopKeeper.IsBuying == false && 
-        bed._isSleeping == false && 
+        sleepHandler._isSleeping == false && 
         IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false) 
         {
             if (GameIsPaused) {

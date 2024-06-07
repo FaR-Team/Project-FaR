@@ -11,17 +11,6 @@ public class Cama : MonoBehaviour, IInteractable
     public static Cama Instance;
 
     [SerializeField] private GameObject _prompt;
-    public SellSystem _sellSystem;
-    public GameObject Negrura;
-    public GameObject Hotbar;
-    public FaRCharacterController player;
-    public LightingManager lightingManager;
-    public bool yasonlas6 = false;
-    public bool _isSleeping = false;
-    public bool _yourLetterArrived = false;
-
-    public UnityEvent<bool> SaveDataEvent;
-    public UnityEvent isSleepingEvent;
 
     //I DON'T KNOW SWAHILI, BUT I THINK THIS IS THE CORRECT WAY TO DO THIS (Last part was written by github copilot.)
     public GameObject InteractionPrompt => _prompt;
@@ -39,90 +28,23 @@ public class Cama : MonoBehaviour, IInteractable
             Instance = this; 
         } 
     }
-
-    private void Start() 
-    {
-        player = FaRCharacterController.instance;
-
-        DateTime.OnHourChanged.AddListener(OnHourChanged);
-    }
-
-    private void OnHourChanged(int hour)
-    {
-        if (hour != 6) return;
-
-        if(_yourLetterArrived == false)
-        {
-            TimeManager.TimeBetweenTicks = 10f;
-        }
-        lightingManager.CopyHour();
-        Negrura.GetComponent<Animation>().Play("NegroOut");
-        yasonlas6 = true;
-        player.enabled = true;
-        StartCoroutine(Wait());
-    }
-
+    
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        if (_isSleeping)
-        {
-            Debug.Log("Ya estás durmiendo");
-            interactSuccessful = false;
-            return;
-        }
-        else if(TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
-        {
-            Debug.Log("Es muy temprano para dormir");
-            interactSuccessful = false;
-            return;
-        }
-        
-        InteractOut();
-        interactSuccessful = true;
+        interactSuccessful = TrySleep();
     }
 
     public void InteractOut()
     {
-        if (_isSleeping)
-        {
-            Debug.Log("Ya estás durmiendo");
-            return;
-        }
-        else if(TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
-        {
-            Debug.Log("Es muy temprano para dormir");
-            return;
-        }
-
-        isSleepingEvent.Invoke();
-        if(_yourLetterArrived == false)
-        {
-            TimeManager.TimeBetweenTicks = 0.05f;
-        }
-        Negrura.SetActive(true);
-        Negrura.GetComponent<Animation>().Play("NegroIn");
-        SaveDataEvent.Invoke(false);
-
-        Energy.RemainingEnergy = 100;
-        Energy.UpdateEnergy();
-
-        player.enabled = false;
-        yasonlas6 = false;
-        _isSleeping = true;
-
-        _sellSystem.Sell();
-
-
-        Debug.Log("Interactuando con Cama");
+        // Movido a TrySleep
     }
-
-    public IEnumerator Wait()
+    
+    public bool TrySleep()
     {
-        yield return new WaitForSeconds(0.7f);
-        Negrura.SetActive(false);
-        _isSleeping = false;
+        Debug.Log("Interactuando con Cama");
+        return SleepHandler.Instance.FinishDay();
     }
-
+    
     public void EndInteraction()
     {
         Debug.Log("Terminando interacción con Cama");
