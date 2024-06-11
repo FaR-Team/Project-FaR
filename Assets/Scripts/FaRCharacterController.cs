@@ -12,7 +12,10 @@ namespace FaRUtils.FPSController
         private CharacterController _controller;
         
         [SerializeField] private Camera cam;
-        [SerializeField] private float movementSpeed = 20f;
+        [SerializeField] private float movementSpeed = 15f;
+
+        [SerializeField] private float defaultWalkSpeed = 6f;
+        [SerializeField] private float defaultMovementSpeed = 15f;
         [SerializeField] public float lookSensitivity = 0.05f;
         
         private float _xRotation = 0f;
@@ -22,9 +25,6 @@ namespace FaRUtils.FPSController
         public float gravity = -9.81f;
         private bool _grounded;
         public float jumpSpeed;
-
-        public bool doZoom;
-        public bool doCrouch;
         public bool doWalk;
 
         [Header("Parámetros de zoom")]
@@ -63,8 +63,6 @@ namespace FaRUtils.FPSController
         {
             DoMovement();
             DoLooking();
-            DoZoom();
-            DoCrouch();
             DoWalk();
         }
 
@@ -107,62 +105,18 @@ namespace FaRUtils.FPSController
             _controller.Move(_velocity * Time.deltaTime);
         }
 
-        private void DoZoom()
-        {
-            if (!doZoom) return;
-            
-            /*
-            if (GameInput.playerInputActions.Player.Zoom.ReadValue<float>() > 0)
-            {
-                targetFOV = zoomFOV;
-            }
-            else
-            {
-                targetFOV = baseFOV;
-            }
-
-            UpdateZoom();
-            */
-        }
-
-        private void DoCrouch()
-        {
-            if (!doCrouch) return;
-        
-            if (GameInput.playerInputActions.Player.Crouch.ReadValue<float>() > 0)
-            {
-                _controller.height = crouchHeight;
-            }
-            else
-            {
-                if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.up), 2.0f, -1))
-                {
-                    _controller.height = crouchHeight;
-                }
-                else
-                {
-                    _controller.height = _initHeight;
-                }
-            }
-        }
-
         private void DoWalk()
         {
             if (!doWalk) return;
 
             if (GameInput.playerInputActions.Player.Sprint.WasPressedThisFrame())
             {
-                movementSpeed = 6.0f;
+                movementSpeed = defaultWalkSpeed;
             }
             else if (GameInput.playerInputActions.Player.Sprint.WasReleasedThisFrame())
             {
-                movementSpeed = 20f;
+                movementSpeed = defaultMovementSpeed;
             }
-        }
-
-        private void UpdateZoom()
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, _targetFOV, zoomSpeed * Time.deltaTime);
         }
 
         public void SetBaseFOV(float fov)
