@@ -16,7 +16,7 @@ public class OptionsMenu : MonoBehaviour
     public TextMeshProUGUI SensVal;
     public TextMeshProUGUI FPSText;
     public TMP_Dropdown resolutionDropdown;
-    public bool doceh;
+    public bool doce;
     public bool isOptionsMenuOpen;
 
     public Slider fovSlider;
@@ -112,14 +112,14 @@ public class OptionsMenu : MonoBehaviour
 
     public void clock()
     {
-        if (doceh)
+        if (doce)
         {
-            doceh = false;
+            doce = false;
             RelojUI.GetComponent<ClockManager>().Time.text = dateTime.TimeToString12();
         }
         else
         {
-            doceh = true;
+            doce = true;
             RelojUI.GetComponent<ClockManager>().Time.text = dateTime.TimeToString24();
         }
     }
