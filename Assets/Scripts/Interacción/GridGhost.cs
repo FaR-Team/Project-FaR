@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,7 +9,6 @@ public class GridGhost : MonoBehaviour
     public GameObject hoeGhost, seedGhost;
     public RayAndSphereManager rayAndSphereManager;
     public Grid grid;
-    public GameObject DirtPrefab;
 
 
     public Material ghostMaterial;
@@ -26,10 +22,19 @@ public class GridGhost : MonoBehaviour
     private LayerMask layerDirt;
     [SerializeField]
     private LayerMask layerCrop;
-    
-    [SerializeField, Tooltip("La distancia máxima donde se puede arar")]
-    private float   _maxPlowDistance;
 
+    [SerializeField, Tooltip("La distancia máxima donde se puede arar")]
+    private float _maxPlowDistance;
+
+    public static int SeedRotationValue = 0;
+
+    private void Awake()
+    {
+        if (instance != this || instance == null)
+        {
+            instance = this;
+        }
+    }
 
     private void OnEnable()
     {
@@ -40,18 +45,13 @@ public class GridGhost : MonoBehaviour
     {
         Energy.OnEnergyUpdated -= HandleRemainingEnergy;
     }
+
     void Start()
     {
-        grid = FindObjectOfType<Grid>();
-        if (instance != this || instance == null)
-        {
-            instance = this;
-        }
         SeedRotationValue = RandomPos();
     }
 
 
-    public static int SeedRotationValue = 0;
     private static int RandomPos()
     {
         return Random.Range(0, 4);
@@ -64,17 +64,18 @@ public class GridGhost : MonoBehaviour
     {
         if (PauseMenu.GameIsPaused) return;
 
-        if (GetItemData() != null && 
-            GetItemData().IsHoe() && 
+        if (GetItemData() != null &&
+            GetItemData().IsHoe() &&
             !interactor._LookingAtDirt)
-        { 
-            RaycastHit hit;
-            RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance - 3, layerMask);
+        {
+            RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance - 3, layerMask);
 
-            if (CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f) == false) 
+            if (!CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f))
             {
                 MakeGridGhostUnavaliable();
-            } else {
+            }
+            else
+            {
                 MakeGridGhostAvaliable();
             }
 
@@ -87,15 +88,15 @@ public class GridGhost : MonoBehaviour
             else
             {
                 hoeGhost.SetActive(false);
-            }      
+            }
         }
-        else 
+        else
         {
             hoeGhost.SetActive(false);
         }
         SeedGhost();
     }
-    
+
     public void SeedGhost()
     {
 
@@ -105,7 +106,7 @@ public class GridGhost : MonoBehaviour
         * Si la semilla es arbol y estas mirando a una tierra. 
         * Entonces desactiva la seed y no ejecuta el código. 
         */
-        if (GetItemData() == null || 
+        if (GetItemData() == null ||
             GetItemData().IsHoe() ||
             GetItemData().IsTreeSeed() && interactor._LookingAtDirt ||
             GetItemData().IsCropSeed() && !interactor._LookingAtDirt)
@@ -114,27 +115,26 @@ public class GridGhost : MonoBehaviour
             return;
         }
 
-        
-        RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance, layerMask);
+
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
 
         if (hit.collider == null) return; //Si el raycast no pega con NADA, entonces no ejecuta el código.
-        
+
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
-        
+
         if (!hotbarDisplay.CanUseItem() && GetItemData().IsCropSeed())
         {
             seedGhost.SetActive(false);
             return;
         }
 
-        
+
         if (!CheckCrop(finalPosition, 1) && GetItemData().IsTreeSeed())
         {
             seedGhost.SetActive(false);
             return;
         }
-        
+
         ActivateSeedGhost();
 
         //seedGhost se activa en la escena, se lo pone en la posicion adecuada y se le cambia la textura por la adecuada.
@@ -204,16 +204,15 @@ public class GridGhost : MonoBehaviour
 
     public void PlantDirt()
     {
-        RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance, layerMask);
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
 #if UNITY_EDITOR
-            Debug.DrawRay(RayCameraScreenPoint().origin, RayCameraScreenPoint().direction * _maxPlowDistance, Color.green, 0.01f);
+        Debug.DrawRay(RayCameraScreenPoint().origin, RayCameraScreenPoint().direction * _maxPlowDistance, Color.green, 0.01f);
 #endif
 
         if (hit.collider == null) return;
 
         PlaceDirtNear(hit.point);
-        
+
     }
     private void PlaceDirtNear(Vector3 nearPoint)
     {
@@ -223,21 +222,20 @@ public class GridGhost : MonoBehaviour
 
     public bool PlantTreeNear(GameObject TreePrefab)
     {
-        RaycastHit hit;
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out hit, _maxPlowDistance, layerMask);
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
 
-        if(hit.collider != null)
+        if (hit.collider != null)
         {
-            GameObject.Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
+            Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
             return true;
         }
-        else {  return false;   }
+        else { return false; }
     }
 
     public void HandleRemainingEnergy(int remainingEnergy)
     {
         if (remainingEnergy > 0) // CAMBIAR A QUE COMPARE CON LA ENERGIA QUE GASTA LA AZADA
-        { 
+        {
             MakeGridGhostAvaliable();
         }
         else

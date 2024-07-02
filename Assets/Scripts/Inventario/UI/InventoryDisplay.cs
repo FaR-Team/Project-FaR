@@ -1,14 +1,11 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public abstract class InventoryDisplay : MonoBehaviour
 {
     /*
         Es una clase abstracta mono que deberia funcionar como "mostrar inventario".
-    */ 
+    */
     [SerializeField] MouseItemData mouseInventoryItem;
     protected InventorySystem inventorySystem;
     protected Dictionary<InventorySlot_UIBasic, InventorySlot> slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>(); //Diccionario de slots de UI y slots del inventario
@@ -37,21 +34,21 @@ public abstract class InventoryDisplay : MonoBehaviour
     public void SlotClicked(InventorySlot_UIBasic clickedUISlot, bool isRightClick = false)
     {
         bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
-        
+
         if (isShiftPressed && clickedUISlot.AssignedInventorySlot.ItemData != null)
         {
             if (InventoryUIController.instance.currentContainer != null)
             {
                 if (inventorySystem != InventoryUIController.instance.currentContainer)
                 {
-                    if (InventoryUIController.instance.currentContainer.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize));
+                    if (InventoryUIController.instance.currentContainer.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize))
                     {
                         clickedUISlot.ClearSlot();
                     }
                 }
                 else
                 {
-                    if (PlayerInventoryHolder.instance.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize));
+                    if (PlayerInventoryHolder.instance.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize))
                     {
                         clickedUISlot.ClearSlot();
                     }
@@ -60,11 +57,11 @@ public abstract class InventoryDisplay : MonoBehaviour
             }
             else
             {
-                
+
             }
         }
 
-        if (clickedUISlot.AssignedInventorySlot.ItemData != null && 
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null &&
         mouseInventoryItem.AssignedInventorySlot.ItemData == null)
         {
             if (isRightClick && clickedUISlot.AssignedInventorySlot.SplitStack(out InventorySlot halfStackSlot))
@@ -83,7 +80,7 @@ public abstract class InventoryDisplay : MonoBehaviour
         }
 
         // Si el slot clickeado no tiene un item y el mouse tiene un item, se agrega el item del mouse al slot
-        if (clickedUISlot.AssignedInventorySlot.ItemData == null && 
+        if (clickedUISlot.AssignedInventorySlot.ItemData == null &&
         mouseInventoryItem.AssignedInventorySlot.ItemData != null)
         {
             if (!isRightClick)
@@ -103,17 +100,17 @@ public abstract class InventoryDisplay : MonoBehaviour
 
         // Revisar si ambos slots tienen un item, decidir que hacer:
         // 1. Si son el mismo item, los combinamos
-            // La suma del slot y el mouse supera el stack máximo?; si es así, se combinan y se queda con el stack máximo
+        // La suma del slot y el mouse supera el stack máximo?; si es así, se combinan y se queda con el stack máximo
         // 2. Si son items diferentes, los intercambiamos
-        if (clickedUISlot.AssignedInventorySlot.ItemData != null && 
+        if (clickedUISlot.AssignedInventorySlot.ItemData != null &&
         mouseInventoryItem.AssignedInventorySlot.ItemData != null)
         {
             bool isSameItem = clickedUISlot.AssignedInventorySlot.ItemData == mouseInventoryItem.AssignedInventorySlot.ItemData;
-            
-            
-            if(isSameItem)
+
+
+            if (isSameItem)
             {
-                if(!isRightClick)
+                if (!isRightClick)
                 {
                     //Ambos items son iguales, así que combinamos los stacks
                     if (clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(mouseInventoryItem.AssignedInventorySlot.StackSize))
@@ -144,7 +141,8 @@ public abstract class InventoryDisplay : MonoBehaviour
                         }
                     }
                 }
-                else {
+                else
+                {
                     //Dejamos uno del stack del mouse en el slot activo
                     if (clickedUISlot.AssignedInventorySlot.EnoughRoomLeftInStack(1))
                     {
@@ -211,5 +209,5 @@ public abstract class InventoryDisplay : MonoBehaviour
             UISlot1.UpdateUISlot();
         }
     }
-    
+
 }

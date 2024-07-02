@@ -13,8 +13,8 @@ public class InventoryDataSaver : DataSaver<PlayerInventoryHolder, InventoryData
     }
     public override async Task SaveData()
     {
-        InventoryData invData = new InventoryData(PlayerInventoryHolder.instance.PrimaryInventorySystem);
-        
+        InventoryData invData = new(PlayerInventoryHolder.instance.PrimaryInventorySystem);
+
         await saverAllData.WriteSave(invData);
     }
 }
