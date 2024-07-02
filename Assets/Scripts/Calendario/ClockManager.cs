@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Samples;
 using UnityEngine.Localization.Tables;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ClockManager : MonoBehaviour

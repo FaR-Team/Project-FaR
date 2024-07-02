@@ -22,7 +22,7 @@ public class InteractionPromptUI : MonoBehaviour
     }
 
 
-    public void SetUp(GameObject InteractionPrompt)
+    public void SetUp()
     {
         _uiPanel.SetActive(true);
         IsDisplayed = true;
