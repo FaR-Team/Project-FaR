@@ -40,6 +40,7 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         base.Start();
 
+        gridGhost = GridGhost.instance;
         _currentIndex = 0;
         _currentAbilityIndex = 0;
         _maxAbilityIndexSize = 1;

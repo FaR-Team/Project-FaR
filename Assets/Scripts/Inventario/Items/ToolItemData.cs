@@ -7,10 +7,6 @@ public class ToolItemData : InventoryItemData
 {
     public int energyCost = 1;
    // private PauseMenu _pauseMenu;
-    private GridGhost _gridGhost()
-    {
-        return GameObject.FindGameObjectWithTag("Player").GetComponent<GridGhost>();
-    }
 
     public override bool UseItem()
     {
@@ -36,12 +32,12 @@ public class ToolItemData : InventoryItemData
     }
     private bool UseHoe()
     {
-        if (_gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f) == null && 
-            _gridGhost().CheckCrop(_gridGhost().finalPosition, 0.1f) == true)
+        if (GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f) == null && 
+            GridGhost.instance.CheckCrop(GridGhost.instance.finalPosition, 0.1f) == true)
         {
             if(Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
             {
-                _gridGhost().PlantDirt();
+                GridGhost.instance.PlantDirt();
                 return true;
             }
             else return false;
@@ -51,7 +47,7 @@ public class ToolItemData : InventoryItemData
 
     private bool UseBucket()
     {
-        Dirt _dirt = _gridGhost().CheckDirt(_gridGhost().finalPosition, 0.1f);
+        Dirt _dirt = GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f);
         if (_dirt != null)
         {
             _dirt.DirtIsWet();
