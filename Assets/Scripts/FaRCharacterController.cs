@@ -134,5 +134,13 @@ namespace FaRUtils.FPSController
         {
             return GameInput.playerInputActions.Player.Look.ReadValue<Vector2>();
         }
+
+        public void Teleport(Transform newPosition)
+        {
+            _controller.enabled = false;
+            transform.SetPositionAndRotation(newPosition.position, newPosition.rotation);
+            _controller.enabled = true;
+            
+        }
     }
 }

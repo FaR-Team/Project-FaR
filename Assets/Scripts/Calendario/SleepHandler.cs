@@ -4,15 +4,18 @@ using FaRUtils.Systems.DateTime;
 using FaRUtils.FPSController;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class SleepHandler : MonoBehaviour
 {
-    
+    [SerializeField] private int bedSceneIndex;
     public bool _isSleeping = false;
     public Animation Fade;
     public FaRCharacterController player;
     public LightingManager lightingManager; // TODO: Sacar de acá, solo lo usan los comandos
+
+    public float SleepingTickRate { get; } = 0.05f;
 
     public bool _yourLetterArrived = false; // Satia de mierda que signifca esto
     
@@ -49,16 +52,21 @@ public class SleepHandler : MonoBehaviour
     void ProcessHourChange(int currentHour)
     {  
         if (currentHour == 2 && !_skipTonightSleep && !_isSleeping) FinishDay();
-        else if(currentHour == 6) StartDay();
+        else if(currentHour == 6) StartCoroutine(StartDay());
     }
     
-    public void StartDay()
+    public IEnumerator StartDay()
     {
         if(_yourLetterArrived == false)
         {
             TimeManager.TimeBetweenTicks = 10f;
         }
 
+        if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
+        {
+            yield return LoadSceneAsync(bedSceneIndex);
+        }
+        
         OnPlayerWakeUp?.Invoke();
         _skipTonightSleep = false; // Reset if skipped tonight's sleep
         Fade.Play("NegroOut");
@@ -84,7 +92,7 @@ public class SleepHandler : MonoBehaviour
         OnPlayerSleep?.Invoke();
         if(_yourLetterArrived == false)
         {
-            TimeManager.TimeBetweenTicks = 0.05f;
+            TimeManager.TimeBetweenTicks = SleepingTickRate;
         }
         Fade.gameObject.SetActive(true);
         Fade.Play("NegroIn");
@@ -99,6 +107,23 @@ public class SleepHandler : MonoBehaviour
         
         return true;
         
+    }
+    
+    IEnumerator LoadSceneAsync(int sceneID)
+    {
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
+        operation.allowSceneActivation = false;
+        while (!operation.isDone)
+        {
+            float progress = Mathf.Clamp01(operation.progress / 0.9f);
+            
+            yield return null;
+            if (progress == 1)
+            {
+                operation.allowSceneActivation = true;
+            }
+            yield return null;
+        }
     }
     
     public void SkipTonightSleep() // Para poder llamar de fuera en caso de que por alguna razón se quiera saltear el dormirse esta noche

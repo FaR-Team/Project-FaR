@@ -33,8 +33,8 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     IEnumerator LoadSceneAsync(int sceneID)
     {
-        reloj.gameObject.SetActive(false);
-        LoadingScreenCanvas.SetActive(true);
+        //reloj.gameObject.SetActive(false);
+        //LoadingScreenCanvas.SetActive(true);
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
         operation.allowSceneActivation = false;
         while (!operation.isDone)

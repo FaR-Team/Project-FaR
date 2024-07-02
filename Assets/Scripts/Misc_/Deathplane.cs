@@ -10,11 +10,11 @@ public class Deathplane : MonoBehaviour
         player = this.gameObject.transform;
     }
 
-    void Update()
+    void Update() // TODO: Sacar esto, de ultima usar un trigger abajo
     {
         if (player.position.y <= -50)
         {
-            player.position = GameObject.Find("SpawnPoint").gameObject.transform.position;
+            player.position = FindObjectOfType<SpawnPoint>().gameObject.transform.position;
         }
     }
 }

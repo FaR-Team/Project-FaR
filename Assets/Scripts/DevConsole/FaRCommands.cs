@@ -39,6 +39,7 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand( "rosebud", "te da 1000 de oro", Rosebud );
 		DebugLogConsole.AddCommand<int>( "add_gold", "te da la cantidad de oro que escribas", AddGold);
 		DebugLogConsole.AddCommand( "hurrypotter", "Avanza muy rápido el tiempo", HurryPotter);
+		DebugLogConsole.AddCommand( "hurrypotterslower", "Avanza rápido el tiempo (pero no tan rápido)", HurryPotterSlower);
 		DebugLogConsole.AddCommand( "relaxpotter", "Vuelve el tiempo a la normalidad", RelaxPotter);
 		DebugLogConsole.AddCommand( "imsleepy", "Avanza el tiempo hasta que puedas dormir", ImSleepy);
 		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender", Noclip);
@@ -106,6 +107,14 @@ public class FaRCommands : MonoBehaviour
         SetTestingAndIsWet(true, true);
         sleepHandler._yourLetterArrived = true;
     }
+	
+	void HurryPotterSlower()
+	{
+
+		TimeManager.TimeBetweenTicks = 0.1f;
+		SetTestingAndIsWet(true, true);
+		sleepHandler._yourLetterArrived = true;
+	}
 
     private void SetTestingAndIsWet(bool test, bool isWet)
     {
@@ -117,8 +126,8 @@ public class FaRCommands : MonoBehaviour
     }
 
     void RelaxPotter()
-	{
-		TimeManager.TimeBetweenTicks = 10f;
+    {
+	    TimeManager.TimeBetweenTicks = sleepHandler._isSleeping ? sleepHandler.SleepingTickRate : 10f;
         SetTestingAndIsWet(false, false);
 
         sleepHandler._yourLetterArrived = false;
