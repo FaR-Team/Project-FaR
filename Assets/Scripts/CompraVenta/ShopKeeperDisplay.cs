@@ -1,12 +1,10 @@
-using System;
-using System.Runtime.CompilerServices;
-using System.Linq;
+using FaRUtils.FPSController;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using FaRUtils.FPSController;
 
 public class ShopKeeperDisplay : MonoBehaviour
 {
@@ -35,7 +33,6 @@ public class ShopKeeperDisplay : MonoBehaviour
     [SerializeField] private GameObject _shoppingCartObj;
     [SerializeField] private GameObject _shoppingCartContentPanel;
     [SerializeField] private GameObject _shoppingUIParent;
-    public ShopKeeper shopKeeper;
     public GameObject player;
 
     private int _basketTotal;
@@ -47,15 +44,16 @@ public class ShopKeeperDisplay : MonoBehaviour
     private Dictionary<InventoryItemData, int> _shoppingCart = new Dictionary<InventoryItemData, int>();
     private Dictionary<InventoryItemData, ShoppingCartItemUI> _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
 
-    private void Awake() {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
-        } 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
     public void DisplayShopWindow(ShopSystem shopSystem, PlayerInventoryHolder playerInventoryHolder)
@@ -313,7 +311,7 @@ public class ShopKeeperDisplay : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         PlayerInventoryHolder.IsBuying = false;
-        shopKeeper.IsBuying = false;
         _shoppingUIParent.SetActive(false);
+        ShopKeeper.Instance.IsBuying = false;
     }
 }

@@ -1,10 +1,8 @@
+using FaRUtils.FPSController;
+using IngameDebugConsole;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
-using IngameDebugConsole;
-using FaRUtils.FPSController;
-using TMPro;
-using UnityEngine.Serialization;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -17,10 +15,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject optionsMenuUI;
     public GameObject bindingMenuUI;
     public GameObject player;
-    public GameObject ShopKeeperObj;
 
     public CambiarEscena _cambiarEscena;
-    public ShopKeeper shopKeeper;
     public SleepHandler sleepHandler;
     public GameObject UI;
     public GameObject Options;
@@ -35,23 +31,23 @@ public class PauseMenu : MonoBehaviour
     public DebugLogManager debugLogManager;
     //public GameObject Hotbar;
 
-    private void Awake() {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
-        } 
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
 
-    private void Start() {
+    private void Start()
+    {
         player = GameObject.FindWithTag("Player");
-        ShopKeeperObj = GameObject.FindGameObjectWithTag("Shop");
-        shopKeeper = ShopKeeperObj.GetComponent<ShopKeeper>();
         sleepHandler = SleepHandler.Instance;
-        
+
         if (FPSLimit.target == 0)
         {
             FPSLimit.target = 60;
@@ -61,14 +57,16 @@ public class PauseMenu : MonoBehaviour
         FPSText.text = "FPS: " + FPSLimit.target;
     }
 
-    private void Update() {
-        if (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && 
-        PlayerInventoryHolder.isInventoryOpen == false && 
-        shopKeeper.IsBuying == false && 
-        sleepHandler._isSleeping == false && 
-        IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false) 
+    private void Update()
+    {
+        if (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() &&
+            !PlayerInventoryHolder.isInventoryOpen &&
+            !ShopIsBuying() &&
+            !sleepHandler._isSleeping &&
+            !DebugLogManager.Instance.isOnConsole)
         {
-            if (GameIsPaused) {
+            if (GameIsPaused)
+            {
                 ClosePauseMenu();
             }
             else
@@ -76,20 +74,18 @@ public class PauseMenu : MonoBehaviour
                 OpenPauseMenu();
             }
         }
-        
-        /*if (!GameIsPaused) {
-            if(Input.GetKeyDown(KeyCode.BackQuote))
-            {
-                if( debugLogManager.IsLogWindowVisible )
-                {
-                    PauseConsole();
-                }
-                else
-                {
-                    ResumeConsole();
-                }
-            }
-        }*/
+    }
+
+    private bool ShopIsBuying()
+    {
+        if (ShopKeeper.Instance == null)
+        {
+            return false;
+        }
+        else
+        {
+            return ShopKeeper.Instance.IsBuying;
+        }
     }
 
     public void ClosePauseMenu()
@@ -103,7 +99,7 @@ public class PauseMenu : MonoBehaviour
         GameInput.playerInputActions.Player.Inventory.Enable();
         pauseMenuUI.SetActive(false);
         optionsMenuUI.SetActive(false);
-        
+
         GameIsPaused = false;
         Unpause();
     }
@@ -132,8 +128,6 @@ public class PauseMenu : MonoBehaviour
 
         resumeButton.Select();
         Pause();
-
-        
     }
 
     public void Pause()

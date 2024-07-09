@@ -1,5 +1,5 @@
+using FaRUtils.Systems.DateTime;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,6 +27,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void LoadScene(int sceneID)
     {
+        TimeManager.Instance.AdvanceTime(3);
         StartCoroutine(LoadSceneAsync(sceneID));
     }
 
@@ -40,7 +41,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            
+
             yield return null;
             if (progress == 1)
             {

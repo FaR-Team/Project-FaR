@@ -1,7 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using FaRUtils.FPSController;
+using UnityEngine;
 
 public class SpawnPoint : MonoBehaviour
 {
@@ -9,9 +7,7 @@ public class SpawnPoint : MonoBehaviour
     void Start()
     {
         if (SleepHandler.Instance._isSleeping != sleepingSpawnpoint) return;
-        
-        var player = GameObject.FindObjectOfType<FaRCharacterController>();
-        
-        player.Teleport(transform);
+
+        FaRCharacterController.instance.Teleport(transform);
     }
 }

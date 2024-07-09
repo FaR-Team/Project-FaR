@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DirtSpawnerPooling : MonoBehaviour
@@ -40,7 +39,7 @@ public class DirtSpawnerPooling : MonoBehaviour
     #region DEBUG FNCTN
     public List<GameObject> GetActiveDirts()
     {
-        List<GameObject> dirtList = new List<GameObject>();
+        List<GameObject> dirtList = new();
         for (int i = 0; i < this.gameObject.transform.childCount; i++)
         {
             GameObject currentGO = gameObject.transform.GetChild(i).gameObject;

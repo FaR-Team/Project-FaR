@@ -67,21 +67,38 @@ namespace FaRUtils.Systems.DateTime
                 minutes += SecondsToAdvanceBy;
             }
         }
+        public void AdvanceHours(int hoursToAdvance)
+        {
+            var newHours = hour + hoursToAdvance;
+
+            if (newHours == 24)
+            {
+                hour = 0;
+                OnHourChanged.Invoke(hour);
+                AdvanceDay();
+            }
+            else
+            {
+                hour = newHours;
+                OnHourChanged.Invoke(hour);
+            }
+        }
 
         private void AdvanceHour()
         {
             if ((hour + 1) == 24)
             {
                 hour = 0;
-                OnHourChanged.Invoke(this.hour);
+                OnHourChanged.Invoke(hour);
                 AdvanceDay();
             }
             else
             {
                 hour++;
-                OnHourChanged.Invoke(this.hour);
+                OnHourChanged.Invoke(hour);
             }
         }
+
 
         public void AdvanceDay()
         {

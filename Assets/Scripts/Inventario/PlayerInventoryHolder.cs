@@ -8,8 +8,6 @@ public class PlayerInventoryHolder : Container
 
     public static UnityAction<InventorySystem, int> OnPlayerInventoryDisplayRequested;
 
-    public GameObject ShopKeeperObj;
-    public ShopKeeper shopKeeper;
     public GameObject TimeManager;
     public GameObject reloj;
     public static bool isInventoryOpen;
@@ -24,36 +22,46 @@ public class PlayerInventoryHolder : Container
         instance = this;
 
         inventorySystem = InventoryLoader.Load(tamañoInventario, _gold);
-
     }
-    private void Start() {
-
-        ShopKeeperObj = GameObject.FindGameObjectWithTag("Shop");
-        shopKeeper = ShopKeeperObj.GetComponent<ShopKeeper>();
+    private void Start()
+    {
         OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
         playerBackpackPanel.gameObject.SetActive(false);
     }
 
     void Update()
     {
-        if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() && 
-            isInventoryOpen == false && 
-            PauseMenu.GameIsPaused == false && 
-            shopKeeper.IsBuying == false && 
-            IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+        if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() &&
+            !isInventoryOpen &&
+            !PauseMenu.GameIsPaused &&
+            ShopIsBuying() &&
+            !IngameDebugConsole.DebugLogManager.Instance.isOnConsole)
         {
             OpenInventory();
         }
         else if ((GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() ||
                 GameInput.playerInputActions.Player.Pause.WasPressedThisFrame()) &&
-                isInventoryOpen == true && 
-                PauseMenu.GameIsPaused == true && 
-                shopKeeper.IsBuying == false &&
-                IngameDebugConsole.DebugLogManager.Instance.isOnConsole == false)
+                isInventoryOpen &&
+                PauseMenu.GameIsPaused &&
+                !ShopIsBuying() &&
+                !IngameDebugConsole.DebugLogManager.Instance.isOnConsole)
         {
             CloseInventory();
         }
     }
+
+    private bool ShopIsBuying()
+    {
+        if (ShopKeeper.Instance == null)
+        {
+            return false;
+        }
+        else
+        {
+            return ShopKeeper.Instance.IsBuying;
+        }
+    }
+
     public void OpenInventory()
     {
         OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
@@ -73,6 +81,6 @@ public class PlayerInventoryHolder : Container
     }
     public bool AñadirAInventario(InventoryItemData data, int amount)
     {
-        return (inventorySystem.AñadirAInventario(data, amount)); 
+        return (inventorySystem.AñadirAInventario(data, amount));
     }
 }

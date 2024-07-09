@@ -46,7 +46,6 @@ namespace FaRUtils.Systems.DateTime
             SetInstance();
         }
 
-
         private void SetInstance()
         {
             if (Instance == null)
@@ -66,7 +65,6 @@ namespace FaRUtils.Systems.DateTime
             OnDateTimeChanged?.Invoke(DateTime);
         }
 
-
         private void Update()
         {
             CurrentTimeBetweenTicks += Time.deltaTime;
@@ -74,15 +72,10 @@ namespace FaRUtils.Systems.DateTime
             if (CurrentTimeBetweenTicks >= TimeBetweenTicks)
             {
                 CurrentTimeBetweenTicks = 0;
-                Tick();
+                AdvanceTime();
             }
 
             OnDateTimeChanged?.Invoke(DateTime);
-        }
-
-        void Tick()
-        {
-            AdvanceTime();
         }
 
         void AdvanceTime()
@@ -90,6 +83,12 @@ namespace FaRUtils.Systems.DateTime
             DateTime.AdvanceMinutes(TickMinutesIncreased);
 
             OnDateTimeChanged?.Invoke(DateTime); // Por qué se hace 2 veces?
+        }
+
+        public void AdvanceTime(int extraHours)
+        {
+            DateTime.AdvanceHours(extraHours);
+            OnDateTimeChanged?.Invoke(DateTime);
         }
     }
 }

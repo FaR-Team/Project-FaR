@@ -1,9 +1,7 @@
+using FaRUtils.FPSController;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using FaRUtils.FPSController;
-using FaRUtils.Systems.DateTime;
 
 [RequireComponent(typeof(UniqueID))]
 public class ShopKeeper : MonoBehaviour, IInteractable
@@ -12,7 +10,9 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     [SerializeField] private ShopItemList _shopItemsHeld;
     [SerializeField] private ShopSystem _shopSystem;
-    public GameObject player;
+
+    private FaRCharacterController player;
+
     public GameObject ShopSystemUI;
     public GameObject InteractionPrompt { get; }
 
@@ -20,9 +20,11 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public static UnityAction<ShopSystem, PlayerInventoryHolder> OnShopWindowRequested;
 
-    private void Awake() 
+    private void Awake()
     {
-        player = GameObject.FindWithTag("Player");
+        SetInstance();
+
+        player = FaRCharacterController.instance;
         _shopSystem = new ShopSystem(_shopItemsHeld.Items.Count, _shopItemsHeld.BuyMarkUp);
 
         foreach (var item in _shopItemsHeld.Items)
@@ -32,13 +34,33 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         }
     }
 
-    private void Update() {
-        if  (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && IsBuying == true || GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() && IsBuying == true)
+    private void SetInstance()
+    {
+        if (Instance == null || Instance == this)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(Instance);
+            Instance = this;
+        }
+    }
+
+    private void Update()
+    {
+        bool pauseOrInventoryWasPressed = (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() ||
+                    GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame());
+
+        if (IsBuying && pauseOrInventoryWasPressed)
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            player.GetComponent<FaRCharacterController>().enabled = true;
-            ShopSystemUI.gameObject.SetActive(false);
+
+            player.enabled = true;
+
+            ShopKeeperDisplay.Instance.gameObject.SetActive(false);
+
             Time.timeScale = 1f;
             StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
         }
@@ -47,6 +69,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
     private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()
     {
         yield return new WaitForSeconds(0.1f);
+
         PlayerInventoryHolder.IsBuying = false;
         IsBuying = false;
     }
@@ -54,17 +77,14 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactionSuccessful)
     {
-        var playerInv = interactor.GetComponent<PlayerInventoryHolder>();
-
-        if (playerInv != null)
+        if (interactor.TryGetComponent<PlayerInventoryHolder>(out var playerInv))
         {
             OnShopWindowRequested?.Invoke(_shopSystem, playerInv);
             IsBuying = true;
             PlayerInventoryHolder.IsBuying = true;
-            player = GameObject.FindWithTag("Player");
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            player.GetComponent<FaRCharacterController>().enabled = false;
+            player.enabled = false;
             Time.timeScale = 1f;
         }
         else
@@ -83,6 +103,6 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-        
+
     }
 }
