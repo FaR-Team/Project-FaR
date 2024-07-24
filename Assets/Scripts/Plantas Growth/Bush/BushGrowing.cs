@@ -5,7 +5,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 {
     public GameObject TierraTexture = null;
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
 
@@ -36,14 +36,15 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 
         if (horasQuePasaronSinFrutas > horasQueDebenPasarSinFrutas)
         {
-            PonerFrutos(1, 5);
+            SpawnFruits(1, 5);
             horasQuePasaronSinFrutas = 0;
         }
     }
 
     public void StartReGrowBush()
     {
-        ReGrow++;
+        ResetSpawnPoints();
+        ReGrow++; // TODO: Ver si no se hace ya al interactuar??
         horasQuePasaronSinFrutas = 0;
         fruits.Clear();
         gameObject.layer = 3;

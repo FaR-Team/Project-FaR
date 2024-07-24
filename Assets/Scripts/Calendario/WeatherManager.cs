@@ -65,7 +65,7 @@ namespace FaRUtils.Systems.Weather
 
         private Weather GetRandomWeather()
         {
-            int randomWeather = 0;
+            int randomWeather = (int) Weather.Rain;
 
             if (!forceRain)
             {

@@ -3,8 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(UniqueID))]
 public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta
 {
-    void Awake(){
+    protected override void Awake(){
+        base.Awake();
+        CheckDayGrow();
         isFruit = true;
+        
     }
     public override void OnHourChanged(int hour)
     {

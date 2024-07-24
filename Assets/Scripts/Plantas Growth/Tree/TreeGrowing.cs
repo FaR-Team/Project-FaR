@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
 {
+    protected override void Start()
+    {
+        base.Start();
+        CheckDayGrow();
+    }
+
     public override void OnHourChanged(int hour) //TODO: Que esto sea más escalable.
     {
         if (hour == 5)
@@ -23,13 +29,14 @@ public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
 
         if (horasQuePasaronSinFrutas > horasQueDebenPasarSinFrutas)
         {
-            PonerFrutos(15, 20);
+            SpawnFruits(15, 20);
             horasQuePasaronSinFrutas = 0;
         }
     }
 
     public void StartReGrowTree()
     {
+        ResetSpawnPoints();
         ReGrow++;
         horasQuePasaronSinFrutas = 0;
         fruits.Clear();

@@ -62,10 +62,13 @@ public class SleepHandler : MonoBehaviour
             TimeManager.TimeBetweenTicks = 10f;
         }
 
+        /*
         if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
         {
             yield return LoadSceneAsync(bedSceneIndex);
         }
+        */
+        yield return null;
         
         OnPlayerWakeUp?.Invoke();
         _skipTonightSleep = false; // Reset if skipped tonight's sleep

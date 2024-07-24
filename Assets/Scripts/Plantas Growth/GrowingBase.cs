@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Linq;
-using FaRUtils.Systems.DateTime;
+using DateTime = FaRUtils.Systems.DateTime.DateTime;
 
 public class GrowingBase : MonoBehaviour
 {
@@ -17,9 +18,23 @@ public class GrowingBase : MonoBehaviour
     [HideInInspector] public MeshCollider meshCollider;
     [HideInInspector] public MeshRenderer meshRenderer;
 
-    public virtual void Start()
+    protected virtual void Awake()
     {
-        if (TryGetComponent<MeshFilter>(out MeshFilter filter))
+        TryGetComponent(out meshFilter);
+        TryGetComponent(out meshCollider);
+        TryGetComponent(out meshRenderer);
+    }
+
+    protected virtual void Start()
+    {
+        /*
+        TryGetComponent(out meshFilter);
+        TryGetComponent(out meshCollider);
+        TryGetComponent(out meshRenderer);
+        */
+        
+        
+        /*if (TryGetComponent<MeshFilter>(out MeshFilter filter))
         {
             meshFilter = filter;
         }
@@ -30,8 +45,9 @@ public class GrowingBase : MonoBehaviour
         if (TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
         {
             meshRenderer = renderer;
-        }
-
+        }*/
+        
+        
         DateTime.OnHourChanged.AddListener(OnHourChanged);
     }
 
@@ -45,6 +61,7 @@ public class GrowingBase : MonoBehaviour
 
     protected virtual void SetData()
     {
+        Debug.Log($"Current State: {currentState.name}");
         meshFilter.mesh = currentState.mesh;
         meshRenderer.material = currentState.material;
         if (meshCollider != null)

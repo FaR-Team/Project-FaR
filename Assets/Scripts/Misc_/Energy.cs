@@ -119,7 +119,7 @@ public class Energy : MonoBehaviour
     public static void UpdateEnergy()
     {
         //TextoEnergia.text = EnergiaActual.ToString() + "/" + EnergiaMax.ToString();
-        OnEnergyUpdated.Invoke(RemainingEnergy);
+        OnEnergyUpdated?.Invoke(RemainingEnergy);
         _Barra.maxValue = MaxEnergy;
         _Barra.value = RemainingEnergy;
     }

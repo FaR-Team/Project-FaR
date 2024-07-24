@@ -52,24 +52,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a90805e5a353d24ab882521c8f591a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshes:
-  - {fileID: -2432090755550338912, guid: 833b19fc3ce30cc4b81aa6437f4089a7, type: 3}
-  - {fileID: -2432090755550338912, guid: 5cbd0605bc37c954cab66697bc26d068, type: 3}
-  - {fileID: -2432090755550338912, guid: b7411ae837e9d8641a6d421a61167a32, type: 3}
-  materials:
-  - {fileID: 2100000, guid: f4025d346e8c64b4682eb73c3f94e1d4, type: 2}
-  - {fileID: 2100000, guid: 89d24429c37f72346a29faceed21d91e, type: 2}
-  - {fileID: 2100000, guid: 21b0b4b0aa05f0c469012337d1819af1, type: 2}
   DiasPlantado: 0
-  DayForChangeOfPhase: 010000000200000003000000
   isFruit: 1
+  states:
+  - {fileID: 11400000, guid: 167c8b4e99e660b4094274dead0a9e0a, type: 2}
+  - {fileID: 11400000, guid: debf60c74a3edcc4d9a32d1349599731, type: 2}
+  - {fileID: 11400000, guid: aa15d01d1c6768641a3da5ddb2f8ec44, type: 2}
+  currentState: {fileID: 0}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
-  cropSaveData:
-    Position: {x: 0, y: 0, z: 0}
-    Dia: 0
-    ID: 
   tierra: {fileID: 0}
 --- !u!114 &5635400694032940231
 MonoBehaviour:

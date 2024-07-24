@@ -9,12 +9,13 @@ public class GrowingTuber : GrowingBase {
     public GameObject interactablePrefab;
     public SkinnedMeshRenderer skinnedMeshRenderer ;
 
-    void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         tierra = transform.parent.GetComponent<Dirt>();
     }
 
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
 

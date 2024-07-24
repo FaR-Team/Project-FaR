@@ -4,7 +4,7 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
 {
     public float[] scales;
     int DiaMaduro;
-    public override void Start()
+    protected override void Start()
     {
         base.Start();
 

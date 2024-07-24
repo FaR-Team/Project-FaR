@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -8,7 +9,7 @@ public class GrowingTreeAndPlant : GrowingBase
 
     [Header("Días para cambiar de fase")]
     
-    public List<Transform> spawnPoints;
+    [SerializeField] protected List<Transform> spawnPoints;
     public List<GameObject> fruits;
     public Dirt Tierra;
         
@@ -17,13 +18,19 @@ public class GrowingTreeAndPlant : GrowingBase
 
     public GameObject Prefab;
 
-    [HideInInspector] public List<Transform> SpawnPointsAvailable => spawnPoints;
+    [HideInInspector] public List<Transform> SpawnPoints => spawnPoints;
+    private HashSet<Transform> availableSpawnPoints = new HashSet<Transform>();
     [HideInInspector] public int RandInt;
     [HideInInspector] public int ExpectedInt;
     public int horasQuePasaronSinFrutas;
     public int horasQueDebenPasarSinFrutas;
 
-    
+    protected override void Start()
+    {
+        base.Start();
+        availableSpawnPoints = SpawnPoints.ToHashSet();
+    }
+
     public override void OnHourChanged(int hour)
     {
         if (hour != 5) return;
@@ -31,21 +38,20 @@ public class GrowingTreeAndPlant : GrowingBase
             
         CheckDayGrow();
         
-        if (currentState.isLastPhase) PonerFrutos();
+        if (currentState.isLastPhase) SpawnFruits();
         
     }
 
-    public Transform GetRandomSP()
+    public Transform GetRandomSpawnPoint()
     {
-        var randomSpawnPoint = Random.Range(1, SpawnPointsAvailable.Count);
-        Transform transform = SpawnPointsAvailable[randomSpawnPoint];
+        Transform point = availableSpawnPoints.ElementAt(Random.Range(0, availableSpawnPoints.Count));
 
-        SpawnPointsAvailable.Remove(transform);
+        availableSpawnPoints.Remove(point);
 
-        return transform.transform;
+        return point;
     }
 
-    public virtual void PonerFrutos(int minFruits = 10, int maxFruits = 15)
+    public virtual void SpawnFruits(int minFruits = 10, int maxFruits = 15)
     {
         if (ReGrow == ReGrowMaxTimes) return;
 
@@ -53,12 +59,17 @@ public class GrowingTreeAndPlant : GrowingBase
 
         for (int i = 0; i < RandInt; i++)
         {
-            Transform Spawn = GetRandomSP();
-            GameObject fruit = Instantiate(Prefab, Spawn.position, Spawn.rotation, Spawn);
+            Transform spawnPoint = GetRandomSpawnPoint();
+            GameObject fruit = Instantiate(Prefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
             fruits.Add(fruit.transform.gameObject);
         }
 
         ReGrow++;
+    }
+
+    protected virtual void ResetSpawnPoints()
+    {
+        availableSpawnPoints = spawnPoints.ToHashSet();
     }
 
     public void DestroyThisBush()
