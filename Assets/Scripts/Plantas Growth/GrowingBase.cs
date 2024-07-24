@@ -61,7 +61,7 @@ public class GrowingBase : MonoBehaviour
 
     protected virtual void SetData()
     {
-        Debug.Log($"Current State: {currentState.name}");
+        //Debug.Log($"Current State: {currentState.name}");
         meshFilter.mesh = currentState.mesh;
         meshRenderer.material = currentState.material;
         if (meshCollider != null)
