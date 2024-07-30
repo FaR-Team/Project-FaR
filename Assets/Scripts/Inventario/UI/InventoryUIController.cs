@@ -47,8 +47,6 @@ public class InventoryUIController : MonoBehaviour
             isChestInventoryOpen = false;
             StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
         }
-
-        
     }
 
     private IEnumerator WaitJustSoTheInventoryDoesntOpenTwice()

@@ -29,7 +29,8 @@ public class PauseMenu : MonoBehaviour
     public TextMeshProUGUI FPSText;
 
     public DebugLogManager debugLogManager;
-    //public GameObject Hotbar;
+    
+    public Transform spawnPoint;
 
     private void Awake()
     {
@@ -144,7 +145,7 @@ public class PauseMenu : MonoBehaviour
     {
         // Cambiar para que Tpee al SpawnPoint
         player.GetComponent<CharacterController>().enabled = false;
-        player.transform.position = Vector3.zero;
+        player.transform.position = spawnPoint.position;
         player.GetComponent<CharacterController>().enabled = true;
     }
 
