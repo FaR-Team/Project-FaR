@@ -2,7 +2,8 @@
 using UnityEngine;
 
 [RequireComponent(typeof(UniqueID))]
-public class GrowingTuber : GrowingBase { 
+public class GrowingTuber : GrowingBase
+{
 
     private string id;
     public Dirt tierra;
@@ -24,22 +25,21 @@ public class GrowingTuber : GrowingBase {
     public override void OnHourChanged(int hour)
     {
         if (!tierra._isWet || hour != 4) return;
-        
-        DiasPlantado++; 
+
+        DiasPlantado++;
         CheckDayGrow();
     }
     public override void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
         GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(DiasPlantado));
-        
-        if(currentState != lastState) SetData(); // Only change mesh data if changed state
+
+        if (currentState != lastState) SetData(); // Only change mesh data if changed state
     }
     protected override void SetData()
     {
         skinnedMeshRenderer.material = currentState.material;
         skinnedMeshRenderer.sharedMesh = currentState.mesh;
-        skinnedMeshRenderer.bounds = currentState.bounds;
 
         if (currentState.isLastPhase) SetInteractable();
     }

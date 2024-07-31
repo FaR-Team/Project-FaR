@@ -6,15 +6,13 @@ using UnityEngine;
 public class GrowingState : ScriptableObject
 {
     public Mesh mesh;
-    public Bounds bounds;
     public Material material;
     [Range(0, 20)]
     public int minimalDay, maximalDay;
     public bool isLastPhase;
-
     public bool IsThisState(int day)
     {
-        if(isLastPhase)
+        if (isLastPhase)
         {
             return day >= minimalDay;
         }
