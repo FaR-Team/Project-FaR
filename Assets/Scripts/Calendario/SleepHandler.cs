@@ -24,6 +24,8 @@ public class SleepHandler : MonoBehaviour
     public event System.Action OnPlayerWakeUp;
 
     private bool _skipTonightSleep = false;
+
+    [SerializeField] private bool tpToBed;
     public static SleepHandler Instance { get; private set; }
     
     //TODO: Ver como conviene hacer asi no llenamos todo de singletons(?
@@ -62,14 +64,15 @@ public class SleepHandler : MonoBehaviour
             TimeManager.TimeBetweenTicks = 10f;
         }
 
-        /*
-        if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
+        if (tpToBed)
         {
-            yield return LoadSceneAsync(bedSceneIndex);
+            if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
+            {
+                yield return LoadSceneAsync(bedSceneIndex);
+            }
         }
-        */
-        yield return null;
-        
+        else yield return null;
+
         OnPlayerWakeUp?.Invoke();
         _skipTonightSleep = false; // Reset if skipped tonight's sleep
         Fade.Play("NegroOut");
