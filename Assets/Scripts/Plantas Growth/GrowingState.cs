@@ -6,6 +6,7 @@ using UnityEngine;
 public class GrowingState : ScriptableObject
 {
     public Mesh mesh;
+    public Bounds bounds;
     public Material material;
     [Range(0, 20)]
     public int minimalDay, maximalDay;

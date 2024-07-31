@@ -7,7 +7,7 @@ public class GrowingTuber : GrowingBase {
     private string id;
     public Dirt tierra;
     public GameObject interactablePrefab;
-    public SkinnedMeshRenderer skinnedMeshRenderer ;
+    public SkinnedMeshRenderer skinnedMeshRenderer;
 
     protected override void Awake()
     {
@@ -39,6 +39,7 @@ public class GrowingTuber : GrowingBase {
     {
         skinnedMeshRenderer.material = currentState.material;
         skinnedMeshRenderer.sharedMesh = currentState.mesh;
+        skinnedMeshRenderer.bounds = currentState.bounds;
 
         if (currentState.isLastPhase) SetInteractable();
     }

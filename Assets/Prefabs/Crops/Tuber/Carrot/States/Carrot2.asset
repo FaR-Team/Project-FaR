@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Carrot2
   m_EditorClassIdentifier: 
   mesh: {fileID: -3610810130210537131, guid: 7736fe7fc286a2046a0ecc2968f6121a, type: 3}
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 1.45, z: 0.3}
+  extent: {x: 0.5, y: 1.45, z: 0.3}
   material: {fileID: 2100000, guid: 3034a85381a0ecb4c9922554360c65ec, type: 2}
   minimalDay: 2
   maximalDay: 3
