@@ -29,6 +29,15 @@ public class DynamicInventoryDisplayBackpack : DynamicInventoryDisplay
         }
     }
 
+    public override void UpdateSlots(InventorySystem invToDisplay, int offset)
+    {
+        for (int i = 0; i < inventorySlots.Count; i++)
+        {
+            InventorySlot_UIBasic slot = inventorySlots[i];
+            slot.UpdateUISlot(invToDisplay.InventorySlots[i + offset]);
+        }
+    }
+
     private TypesOfInventory EnumAPasar(int i)
     {
         TypesOfInventory _enum;

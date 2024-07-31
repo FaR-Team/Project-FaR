@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FaRUtils.FPSController
 {
@@ -52,12 +54,11 @@ namespace FaRUtils.FPSController
             SetBaseFOV(cam.fieldOfView);
         }
 
+
         private void OnEnable()
         {
             GameInput.playerInputActions.Enable();
         }
-
-        
 
         private void Update()
         {
@@ -100,7 +101,8 @@ namespace FaRUtils.FPSController
             Vector2 movement = GetPlayerMovement();
             Vector3 move = transform.right * movement.x + transform.forward * movement.y;
             _controller.Move(move * movementSpeed * Time.deltaTime);
-
+            Debug.Log("actions: " + GameInput.playerInputActions);
+            Debug.Log("enabled: " + GameInput.playerInputActions.Player.enabled);
             _velocity.y += gravity * Time.deltaTime;
             _controller.Move(_velocity * Time.deltaTime);
         }

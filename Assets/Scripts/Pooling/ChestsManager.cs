@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class ChestsManager : MonoBehaviour
 {
@@ -25,5 +26,10 @@ public class ChestsManager : MonoBehaviour
     public static void CreateChest(Vector3 position, Quaternion rotation)
     {
         Instantiate(chestPrefab, position, rotation);
+    }
+
+    private void OnDestroy()
+    {
+        ObjectPooling.ClearReferencesFromPool(chestPrefab, parentGO);
     }
 }

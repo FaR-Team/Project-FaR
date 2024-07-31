@@ -9,7 +9,7 @@ public class DontDestroy : MonoBehaviour
     public string objID;
     void Awake() { objID = name + transform.position.ToString(); }*/
     
-    void Start()
+    void Awake()
     {
         for (int i = 0; i < Object.FindObjectsOfType<DontDestroy>().Length; i++)
         {

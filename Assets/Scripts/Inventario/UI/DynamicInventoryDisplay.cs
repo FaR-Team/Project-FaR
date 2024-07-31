@@ -21,29 +21,60 @@ public class DynamicInventoryDisplay : InventoryDisplay
 
         inventorySystem.OnInventorySlotChanged += UpdateSlot;
     }
-    public void UpdateSlots(InventorySystem invToDisplay, int offset)
+    public virtual void UpdateSlots(InventorySystem invToDisplay, int offset)
     {
-        for (int i = 0; i < inventorySlots.Count; i++)
+        // If requested inventory has more slots than the UI inventory..-
+        if (invToDisplay.InventorySlots.Count > this.inventorySlots.Count) 
         {
-            InventorySlot_UIBasic slot = inventorySlots[i];
-            slot.UpdateUISlot(invToDisplay.InventorySlots[i + offset]);
-            //print(i);
+            Debug.Log("More slots in inv");
+           
+            for (int i = 0; i < invToDisplay.InventorySlots.Count; i++)
+            {
+                if (i < inventorySlots.Count)
+                {
+                    slotDictionary[inventorySlots[i]] = invToDisplay.InventorySlots[i + offset];
+                    inventorySlots[i].Init(invToDisplay.InventorySlots[i + offset]);
+                    //inventorySlots[i].UpdateUISlot(invToDisplay.InventorySlots[i + offset]);
+                }
+                else CreateAndFillSlot(invToDisplay.inventorySlots[i+offset]); // Create new slots if necessary
+            }
+        }
+        else // If there's already more UI slots than required for current inventory...
+        {
+            Debug.Log("More slots in UI");
+            for (int i = 0; i < inventorySlots.Count; i++)
+            {
+                if (i >= invToDisplay.InventorySlots.Count)
+                {
+                    inventorySlots[i].gameObject.SetActive(false); // Deactivate unnecessary slots
+                    continue;
+                }
+                slotDictionary[inventorySlots[i]] = invToDisplay.InventorySlots[i + offset];
+                inventorySlots[i].Init(invToDisplay.InventorySlots[i + offset]);
+                //inventorySlots[i].UpdateUISlot(invToDisplay.InventorySlots[i + offset]);
+                inventorySlots[i].gameObject.SetActive(true);
+            }
         }
     }
     public override void CreateSlots(InventorySystem invToDisplay, int offset)
     {
         slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
-
         if (invToDisplay == null) return;
 
-        for (int i = offset; i < invToDisplay.tamañoInventario; i++)
+        for (int i = 0; i < invToDisplay.tamañoInventario; i++)
         {
-            InventorySlot_UIBasic uiSlot = Instantiate(slotPrefab, transform);
-            slotDictionary.Add(uiSlot, invToDisplay.InventorySlots[i]);
-            uiSlot.Init(invToDisplay.InventorySlots[i]);
-            uiSlot.UpdateUISlot();
-            inventorySlots.Add(uiSlot);
+            CreateAndFillSlot(invToDisplay.InventorySlots[i]);
         }
+        
+    }
+
+    public void CreateAndFillSlot(InventorySlot invSlot)
+    {
+        InventorySlot_UIBasic uiSlot = Instantiate(slotPrefab, transform);
+        slotDictionary.Add(uiSlot, invSlot);
+        uiSlot.Init(invSlot);
+        uiSlot.UpdateUISlot();
+        inventorySlots.Add(uiSlot);
     }
 
     private void OnDisable()

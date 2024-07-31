@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DirtSpawnerPooling : MonoBehaviour
@@ -52,4 +53,9 @@ public class DirtSpawnerPooling : MonoBehaviour
         return dirtList;
     }
     #endregion
+
+    private void OnDestroy()
+    {
+        ObjectPooling.ClearReferencesFromPool(_DirtPrefab, gameObject);
+    }
 }

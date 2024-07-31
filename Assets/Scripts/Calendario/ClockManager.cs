@@ -5,6 +5,7 @@ using UnityEngine.Localization;
 using UnityEngine.Localization.Samples;
 using UnityEngine.Localization.Tables;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ClockManager : MonoBehaviour
@@ -19,7 +20,7 @@ public class ClockManager : MonoBehaviour
     public static ClockManager InstanceClock;
     public static TextMeshProUGUI _time => InstanceClock.Time;
 
-    public GameObject OptionsMenu;
+    public OptionsMenu optionsMenu;
     [SerializeField] Image SeasonImageObj;
     private PlayerInventoryHolder _playerInventoryHolder;
 
@@ -85,7 +86,7 @@ public class ClockManager : MonoBehaviour
 
     public string CheckTimeFormat(DateTime dateTime)
     {
-        if (OptionsMenu.GetComponent<OptionsMenu>().doce)
+        if (optionsMenu.doce)
         {
             return dateTime.TimeToString12();
         }
