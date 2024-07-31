@@ -12,10 +12,13 @@ public class ObjectPooling : MonoBehaviour
     {
         int id = objectToPool.GetInstanceID();
 
-        parents.Add(id, parent);
-        pool.Add(id, new Queue<GameObject>());
-        activePool.Add(id, new Queue<GameObject>());
-        
+        if (!parents.ContainsKey(id))
+        {
+            parents.Add(id, parent);
+            pool.Add(id, new Queue<GameObject>());
+            activePool.Add(id, new Queue<GameObject>());
+        }
+
         List<GameObject> gosPreloaded = new List<GameObject>();
         
         for (int i = 0; i < amount; i++)
@@ -29,9 +32,12 @@ public class ObjectPooling : MonoBehaviour
     {
         int id = objectToPool.GetInstanceID();
 
-        parents.Add(id, parent);
-        pool.Add(id, new Queue<GameObject>());
-        activePool.Add(id, new Queue<GameObject>());
+        if (!parents.ContainsKey(id))
+        {
+            parents.Add(id, parent);
+            pool.Add(id, new Queue<GameObject>());
+            activePool.Add(id, new Queue<GameObject>());
+        }
 
         List<GameObject> gosPreloaded = new List<GameObject>();
 
@@ -100,6 +106,17 @@ public class ObjectPooling : MonoBehaviour
 
         pool[id].Enqueue(objectToRecicle);
         objectToRecicle.SetActive(false);
+    }
+
+    public static void ClearReferencesFromPool(GameObject objectToPool, GameObject parent)
+    {
+        var id = objectToPool.GetInstanceID();
+
+        if (parents.ContainsKey(id)) parents.Remove(objectToPool.GetInstanceID());
+
+        if (pool.ContainsKey(id)) pool.Remove(id);
+
+        if (activePool.ContainsKey(id)) activePool.Remove(id);
     }
 }
 
