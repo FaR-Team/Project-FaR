@@ -10,7 +10,7 @@ Material:
   m_Name: Skybox
   m_Shader: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords:
-  - _SUNDISK_SIMPLE
+  - _SUNDISK_HIGH_QUALITY
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -75,7 +75,7 @@ Material:
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SunDisk: 1
+    - _SunDisk: 2
     - _SunSize: 0.04
     - _SunSizeConvergence: 5
     - _UVSec: 0
@@ -83,6 +83,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GroundColor: {r: 0.5372549, g: 0, b: 0, a: 1}
+    - _GroundColor: {r: 0.77254903, g: 0.8509804, b: 0.9019608, a: 1}
     - _SkyTint: {r: 0, g: 0.32121766, b: 0.3773585, a: 1}
   m_BuildTextureStacks: []
