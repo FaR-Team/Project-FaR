@@ -42,11 +42,11 @@ public class PauseMenu : MonoBehaviour
         {
             Instance = this;
         }
+        player = GameObject.FindWithTag("Player"); //TODO: Not use find with tag, maybe have a universal player reference in a GameManager
     }
 
     private void Start()
     {
-        player = GameObject.FindWithTag("Player");
         sleepHandler = SleepHandler.Instance;
 
         if (FPSLimit.target == 0)

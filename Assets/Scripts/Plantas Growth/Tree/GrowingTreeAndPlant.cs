@@ -63,8 +63,6 @@ public class GrowingTreeAndPlant : GrowingBase
             GameObject fruit = Instantiate(Prefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
             fruits.Add(fruit.transform.gameObject);
         }
-
-        ReGrow++;
     }
 
     protected virtual void ResetSpawnPoints()

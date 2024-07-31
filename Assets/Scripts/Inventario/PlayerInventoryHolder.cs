@@ -34,7 +34,7 @@ public class PlayerInventoryHolder : Container
         if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() &&
             !isInventoryOpen &&
             !PauseMenu.GameIsPaused &&
-            ShopIsBuying() &&
+            !ShopIsBuying() &&
             !IngameDebugConsole.DebugLogManager.Instance.isOnConsole)
         {
             OpenInventory();

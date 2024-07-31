@@ -55,8 +55,11 @@ public class GrowingBase : MonoBehaviour
 
     public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
+        GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(DiasPlantado));
-        SetData();
+        
+        if(currentState != lastState) SetData(); // Only change mesh data if changed state
+        
     }
 
     protected virtual void SetData()

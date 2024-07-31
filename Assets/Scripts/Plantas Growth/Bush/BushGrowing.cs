@@ -44,7 +44,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
     public void StartReGrowBush()
     {
         ResetSpawnPoints();
-        ReGrow++; // TODO: Ver si no se hace ya al interactuar??
+        ReGrow++;
         horasQuePasaronSinFrutas = 0;
         fruits.Clear();
         gameObject.layer = 3;

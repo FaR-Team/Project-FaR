@@ -30,8 +30,10 @@ public class GrowingTuber : GrowingBase {
     }
     public override void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
+        GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(DiasPlantado));
-        SetData();
+        
+        if(currentState != lastState) SetData(); // Only change mesh data if changed state
     }
     protected override void SetData()
     {
