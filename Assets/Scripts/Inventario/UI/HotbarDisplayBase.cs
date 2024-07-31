@@ -49,7 +49,14 @@ public class HotbarDisplayBase : StaticInventoryDisplay
 
     protected InventoryItemData GetItemData()
     {
-        return GetAssignedInventorySlot().ItemData;
+        if (GetAssignedInventorySlot().ItemData != null)
+        {
+            return GetAssignedInventorySlot().ItemData;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     protected InventorySlot_UIBasic SlotCurrentIndex()

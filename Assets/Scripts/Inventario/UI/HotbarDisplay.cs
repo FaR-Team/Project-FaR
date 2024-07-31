@@ -355,7 +355,7 @@ public class HotbarDisplay : HotbarDisplayBase
             SlotCurrentIndex().UpdateUISlot();
         }
 
-        if (GetItemData().IsTreeSeed() &&
+        if (GetItemData() != null && GetItemData().IsTreeSeed() &&
             gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
             interactor._LookingAtDirt == false)
         {
