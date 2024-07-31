@@ -7,8 +7,8 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
 {
     public static ChestSaver Instance;
 
-    private AllChestSystems allChests = new AllChestSystems();
-    private List<ChestDataSaver> chestDataSavers = new List<ChestDataSaver>();
+    private AllChestSystems allChests = new();
+    private List<ChestDataSaver> chestDataSavers = new();
     private void Awake()
     {
         Instance = this;
@@ -22,7 +22,7 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
 
             allChests.SaveQueue();
             SaverManager.Save(allChests, isTemporarySave);
-            
+
             Debug.Log("Successfully Saved Chests");
         }
         catch (Exception e)

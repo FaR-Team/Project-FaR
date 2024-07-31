@@ -1,35 +1,33 @@
 ﻿using System.IO;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public static class PathFinder
 {
-    public static string GetPath(string finalPath, bool isTemporary)
+    public static string GetFinalPath(string objectName, bool isTemporary = true)
     {
-        string result = GetPathIfTemp(finalPath, isTemporary) + ".json";
+        string result = GetPathIfTemp(objectName, isTemporary) + ".json";
         return result;
     }
-
-    private static string GetPathIfTemp(string finalPath, bool isTemporary)
+    public static string GetPermanentFolder()
     {
-        if (isTemporary)
-        {
-            return Path.Combine(Application.persistentDataPath, GetSaveRunName(),
-                                ".temp", GetCurrentSceneName(), finalPath);
-        }
-        else
-        {
-            return Path.Combine(Application.persistentDataPath, "Run Test", GetCurrentSceneName(), finalPath);
-        }
+        return Path.Combine(Application.persistentDataPath, GetSaveRunName());
+    }
+    public static string GetTempFolder()
+    {
+        return Path.Combine(Application.persistentDataPath, "temp", GetSaveRunName());
     }
 
-    private static string GetCurrentSceneName()
+    private static string GetPathIfTemp(string objectName, bool isTemporary)
     {
-        return SceneManager.GetActiveScene().name;
+        string folder = isTemporary ?
+            GetTempFolder() :
+            GetPermanentFolder();
+
+        return Path.Combine(folder, objectName);
     }
+
     private static string GetSaveRunName()
     {
-        return RunName.instance.currentRunName;
+        return RunName.currentRunName;
     }
-
 }

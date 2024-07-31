@@ -29,6 +29,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
     {
         TimeManager.Instance.AdvanceTime(3);
         StartCoroutine(LoadSceneAsync(sceneID));
+        SaveLoadHandlerSystem.IsTemporary();
     }
 
 
@@ -36,6 +37,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
     {
         //reloj.gameObject.SetActive(false);
         //LoadingScreenCanvas.SetActive(true);
+
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
         operation.allowSceneActivation = false;
         while (!operation.isDone)

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DataSaver
 {
-    public static void saveData<T>(T dataToSave, string dataFileName)
+    public static void SaveData<T>(T dataToSave, string dataFileName)
     {
         string tempPath = Path.Combine(Application.persistentDataPath, "data");
         tempPath = Path.Combine(tempPath, dataFileName + ".txt");
@@ -42,13 +42,13 @@ public class DataSaver
         if (!Directory.Exists(Path.GetDirectoryName(tempPath)))
         {
             Debug.LogWarning("El directorio no existe");
-            return default(T);
+            return default;
         }
 
         if (!File.Exists(tempPath))
         {
             Debug.Log("El archivo no existe");
-            return default(T);
+            return default;
         }
 
         //Cargar el Json
@@ -71,7 +71,12 @@ public class DataSaver
         return (T)Convert.ChangeType(resultValue, typeof(T));
     }
 
-    public static bool deleteData(string dataFileName)
+    private static void fault<T>(T t)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static bool DeleteData(string dataFileName)
     {
         bool success = false;
 

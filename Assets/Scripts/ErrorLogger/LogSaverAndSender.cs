@@ -90,7 +90,7 @@ public class LogSaverAndSender : MonoBehaviour
 
             SendFile(messageToSend, "savelog.txt", "txt", attachmentPath, "application/msexcel", "FaR-Logs", webhook_link);
 
-            DataSaver.deleteData("savelog");
+            DataSaver.DeleteData("savelog");
         }
     }
 
@@ -143,7 +143,7 @@ public class LogSaverAndSender : MonoBehaviour
         {
             //Guardar
             if (enableSave)
-                DataSaver.saveData(logs, "savelog");
+                DataSaver.SaveData(logs, "savelog");
         }
     }
 
@@ -154,7 +154,7 @@ public class LogSaverAndSender : MonoBehaviour
         {
             //Guardar
             if (enableSave)
-                DataSaver.saveData(logs, "savelog");
+                DataSaver.SaveData(logs, "savelog");
         }
     }
 }

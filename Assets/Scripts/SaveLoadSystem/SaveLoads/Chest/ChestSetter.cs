@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class ChestSetter
@@ -16,22 +16,22 @@ public static class ChestSetter
     {
         try
         {
-            chestsDatas = LoadAllData.GetData<AllChestSystems>(false);
+            chestsDatas = LoadAllData.GetData<AllChestSystems>();
 
             List<GameObject> chestsGOs = ObjectPooling.LoadSavedObjects(chestPrefab, chestsDatas.dataCounter, gameObject);
 
             chestsGOs.ForEach(chest => { chest.GetComponent<Cofre>().LoadData(chestsDatas.data.Dequeue()); });
-           
+
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e);
+            Debug.LogWarning(e + "Chests couldnt be loaded. using preload system.");
             PreloadChests(chestPrefab, parentGO);
         }
     }
 
     private static void PreloadChests(GameObject chestPrefab, GameObject parentGO)
     {
-       ObjectPooling.PreLoad(chestPrefab, 1, parentGO);
+        ObjectPooling.PreLoad(chestPrefab, 1, parentGO);
     }
 }

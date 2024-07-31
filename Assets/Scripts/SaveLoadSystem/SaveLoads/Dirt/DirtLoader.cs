@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,14 +18,14 @@ public static class DirtSetter
     {
         try
         {
-            dirtsData = LoadAllData.GetData<AllDirtsData>(false);
+            dirtsData = LoadAllData.GetData<AllDirtsData>();
             // Se hardcodea false, pero esto debe ser dado por un game status manager,
             // que le diga si viene por primera vez o bien, si vuelve de algun sitio.
 
             List<GameObject> DirtsGOs = ObjectPooling.LoadSavedObjects(_DirtPrefab, dirtsData.counter, gameObject);
 
             DirtsGOs.ForEach(dirt => { dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue()); });
-            
+
         }
         catch (Exception e)
         {
