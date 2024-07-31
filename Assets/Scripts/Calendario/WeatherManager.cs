@@ -81,34 +81,37 @@ namespace FaRUtils.Systems.Weather
             weatherQueue.Enqueue(GetRandomWeather());
 
             OnWeatherChanged?.Invoke(currentWeather, weatherQueue);
-
-            switch (currentWeather)
+            
+            if (rainParticles != null || snowParticles != null || cloudParticles != null)
             {
-                case Weather.Sunny:
-                    rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    break;
-                case Weather.Cloudy:
-                    rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    cloudParticles.Play();
-                    IsCloudy?.Invoke();
-                    break;
-                case Weather.Rain:
-                    rainParticles.Play();
-                    snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    IsRaining?.Invoke();
-                    break;
-                case Weather.Snow:
-                    rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    snowParticles.Play();
-                    cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-                    IsSnowing?.Invoke();
-                    break;
-                default:
-                    break;
+                switch (currentWeather)
+                {
+                    case Weather.Sunny:
+                        rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        break;
+                    case Weather.Cloudy:
+                        rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        cloudParticles.Play();
+                        IsCloudy?.Invoke();
+                        break;
+                    case Weather.Rain:
+                        rainParticles.Play();
+                        snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        IsRaining?.Invoke();
+                        break;
+                    case Weather.Snow:
+                        rainParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        snowParticles.Play();
+                        cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+                        IsSnowing?.Invoke();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
