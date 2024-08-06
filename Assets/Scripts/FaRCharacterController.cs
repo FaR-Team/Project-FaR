@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 namespace FaRUtils.FPSController
@@ -41,7 +42,11 @@ namespace FaRUtils.FPSController
 
         private void Awake()
         {
-            instance = this;
+            if (instance != null && instance != this)
+            {
+                Destroy(this.gameObject);
+            }
+            else instance = this;
         }
 
         private void Start()
@@ -57,7 +62,23 @@ namespace FaRUtils.FPSController
 
         private void OnEnable()
         {
-            GameInput.playerInputActions.Enable();
+            EnableInputActions();
+            SceneManager.activeSceneChanged += SceneChangedHandler;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.activeSceneChanged -= SceneChangedHandler;
+        }
+
+        private void SceneChangedHandler(Scene arg0 = default, Scene arg1 = default)
+        {
+            Invoke(nameof(EnableInputActions), 0.1f); 
+        }
+
+        public void EnableInputActions()
+        {
+            GameInput.playerInputActions.Player.Enable();
         }
 
         private void Update()
@@ -101,8 +122,8 @@ namespace FaRUtils.FPSController
             Vector2 movement = GetPlayerMovement();
             Vector3 move = transform.right * movement.x + transform.forward * movement.y;
             _controller.Move(move * movementSpeed * Time.deltaTime);
-            //Debug.Log("actions: " + GameInput.playerInputActions);
-            //Debug.Log("enabled: " + GameInput.playerInputActions.Player.enabled);
+            Debug.Log("actions: " + GameInput.playerInputActions);
+            Debug.Log("enabled: " + GameInput.playerInputActions.Player.enabled);
             _velocity.y += gravity * Time.deltaTime;
             _controller.Move(_velocity * Time.deltaTime);
         }

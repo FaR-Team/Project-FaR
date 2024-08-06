@@ -11,9 +11,10 @@ public class DontDestroy : MonoBehaviour
     
     void Awake()
     {
-        for (int i = 0; i < Object.FindObjectsOfType<DontDestroy>().Length; i++)
+        var objects = Object.FindObjectsOfType<DontDestroy>(true);
+        for (int i = 0; i < objects.Length; i++)
         {
-            var GODontDestroy = Object.FindObjectsOfType<DontDestroy>()[i];
+            var GODontDestroy = objects[i];
 
             if (GODontDestroy != this)
             {
