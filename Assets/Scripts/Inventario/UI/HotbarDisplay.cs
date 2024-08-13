@@ -138,7 +138,7 @@ public class HotbarDisplay : HotbarDisplayBase
     protected override void OnDisable()
     {
         base.OnDisable();
-        _playerControls.Disable();
+        //_playerControls.Disable();
 
         GetPlayerControls().Hotbar.performed -= Hotbar;
 
@@ -372,7 +372,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void HandleIndex(int newIndex)
     {
-        if (!PlayerInventoryHolder.isInventoryOpen)
+        if (!UIController.isPlayerInventoryOpen)
         {
             SetIndex(newIndex);
         }

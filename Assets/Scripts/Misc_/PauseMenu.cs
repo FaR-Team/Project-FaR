@@ -61,7 +61,7 @@ public class PauseMenu : MonoBehaviour
     private void Update()
     {
         if (GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() &&
-            !PlayerInventoryHolder.isInventoryOpen &&
+            !UIController.isPlayerInventoryOpen &&
             !ShopIsBuying() &&
             !sleepHandler._isSleeping &&
             !DebugLogManager.Instance.isOnConsole)
@@ -92,7 +92,6 @@ public class PauseMenu : MonoBehaviour
     public void ClosePauseMenu()
     {
         UI.SetActive(true);
-        //Hotbar.SetActive(true);
         if (Music.clip != null)
         {
             Music.UnPause();
@@ -101,12 +100,12 @@ public class PauseMenu : MonoBehaviour
         pauseMenuUI.SetActive(false);
         optionsMenuUI.SetActive(false);
 
-        GameIsPaused = false;
         Unpause();
     }
 
     public void Unpause()
     {
+        GameIsPaused = false;
         PhysicsGun.SetActive(true);
         player.GetComponent<FaRCharacterController>().enabled = true;
         player.GetComponent<Interactor>().enabled = true;
@@ -123,7 +122,6 @@ public class PauseMenu : MonoBehaviour
         {
             Music.Pause();
         }
-        GameIsPaused = true;
         GameInput.playerInputActions.Player.Inventory.Disable();
         pauseMenuUI.SetActive(true);
 
@@ -133,6 +131,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        GameIsPaused = true;
         PhysicsGun.SetActive(false);
         player.GetComponent<FaRCharacterController>().enabled = false;
         player.GetComponent<Interactor>().enabled = false;

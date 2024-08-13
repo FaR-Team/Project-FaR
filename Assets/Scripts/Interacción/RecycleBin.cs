@@ -27,14 +27,7 @@ public class RecycleBin : Container, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        PlayerInventoryHolder.instance.OpenInventory();
-        //PlayerInventoryHolder.OnPlayerInventoryDisplayRequested?.Invoke(primaryInventorySystem, offset);
         OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        FaRCharacterController.instance.enabled = false;
-        PlayerInventoryHolder.isInventoryOpen = true;
-        InventoryUIController.instance.isChestInventoryOpen = true;
         interactSuccessful = true;
     }
 

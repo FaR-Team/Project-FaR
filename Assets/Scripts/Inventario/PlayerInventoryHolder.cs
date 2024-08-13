@@ -3,14 +3,11 @@ using UnityEngine.Events;
 
 public class PlayerInventoryHolder : Container
 {
-
     public static UnityAction OnPlayerInventoryChanged;
 
     public static UnityAction<InventorySystem, int> OnPlayerInventoryDisplayRequested;
 
     public GameObject TimeManager;
-    public GameObject reloj;
-    public static bool isInventoryOpen;
     public static bool IsBuying;
     public DynamicInventoryDisplay playerBackpackPanel;
     public InventoryUIController inventoryUIController;
@@ -32,7 +29,7 @@ public class PlayerInventoryHolder : Container
     void Update()
     {
         if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() &&
-            !isInventoryOpen &&
+            !UIController.isPlayerInventoryOpen &&
             !PauseMenu.GameIsPaused &&
             !ShopIsBuying() &&
             !IngameDebugConsole.DebugLogManager.Instance.isOnConsole)
@@ -41,12 +38,12 @@ public class PlayerInventoryHolder : Container
         }
         else if ((GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() ||
                 GameInput.playerInputActions.Player.Pause.WasPressedThisFrame()) &&
-                isInventoryOpen &&
+                UIController.isPlayerInventoryOpen &&
                 PauseMenu.GameIsPaused &&
                 !ShopIsBuying() &&
                 !IngameDebugConsole.DebugLogManager.Instance.isOnConsole)
         {
-            CloseInventory();
+            UIController.instance.CloseInventory();
         }
     }
 
@@ -65,20 +62,8 @@ public class PlayerInventoryHolder : Container
     public void OpenInventory()
     {
         OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
-        reloj.gameObject.SetActive(false);
-        PauseMenu.GameIsPaused = true;
-        isInventoryOpen = true;
-        PauseMenu.Instance.Pause();
     }
 
-    public void CloseInventory()
-    {
-        playerBackpackPanel.gameObject.SetActive(false);
-        reloj.gameObject.SetActive(true);
-        PauseMenu.GameIsPaused = false;
-        isInventoryOpen = false;
-        PauseMenu.Instance.Unpause();
-    }
     public bool AñadirAInventario(InventoryItemData data, int amount)
     {
         return (inventorySystem.AñadirAInventario(data, amount));

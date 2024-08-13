@@ -29,7 +29,7 @@ public class MouseItemData : MonoBehaviour
     private void Update()
     {        
         if (AssignedInventorySlot.ItemData == null && 
-            !PlayerInventoryHolder.isInventoryOpen) return;
+            !UIController.isPlayerInventoryOpen) return;
 
         transform.position = Input.mousePosition;
     }
