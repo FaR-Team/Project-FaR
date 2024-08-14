@@ -15,7 +15,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        Debug.Log("Cambiando a escena a" + buildIndex);
+        Debug.Log("Cambiando a escena " + buildIndex);
         LoadScene(buildIndex);
         interactSuccessful = true;
     }
@@ -27,7 +27,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void LoadScene(int sceneID)
     {
-        TimeManager.Instance.AdvanceTime(3);
+        if (sceneID == 2) TimeManager.Instance.AdvanceTime(3);
         StartCoroutine(LoadSceneAsync(sceneID));
         SaveLoadHandlerSystem.IsTemporary();
     }
@@ -35,7 +35,6 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     IEnumerator LoadSceneAsync(int sceneID)
     {
-        //reloj.gameObject.SetActive(false);
         //LoadingScreenCanvas.SetActive(true);
 
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
@@ -55,6 +54,6 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-        Debug.Log("Cambió la escena a" + buildIndex);
+        Debug.Log("Cambió la escena a " + buildIndex);
     }
 }

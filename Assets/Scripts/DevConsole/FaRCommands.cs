@@ -30,11 +30,20 @@ public class FaRCommands : MonoBehaviour
 
 	public DirtSpawnerPooling dirtSpawner;
 
+	void OnEnable()
+	{
+		DateTime.OnHourChanged.AddListener(OnHourChanged);
+	}
+
+	void OnDisable()
+	{
+		DateTime.OnHourChanged.AddListener(OnHourChanged);
+	}
+
 	void Start()
 	{
 		m_Camera = Camera.main;
 		rb = player.GetComponent<Rigidbody>();
-		DateTime.OnHourChanged.AddListener(OnHourChanged);
 		DebugLogConsole.AddCommand<int, int>( "give", "Te da un item con el número de ID que especifiques", GiveItem );
 		DebugLogConsole.AddCommand( "rosebud", "te da 1000 de oro", Rosebud );
 		DebugLogConsole.AddCommand<int>( "add_gold", "te da la cantidad de oro que escribas", AddGold);
@@ -42,7 +51,7 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand( "hurrypotterslower", "Avanza rápido el tiempo (pero no tan rápido)", HurryPotterSlower);
 		DebugLogConsole.AddCommand( "relaxpotter", "Vuelve el tiempo a la normalidad", RelaxPotter);
 		DebugLogConsole.AddCommand( "imsleepy", "Avanza el tiempo hasta que puedas dormir", ImSleepy);
-		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícl de entender", Noclip);
+		DebugLogConsole.AddCommand("noclip", "Noclip, no es tan difícil de entender", Noclip);
 		DebugLogConsole.AddCommand("skipcarrotgrowth", "Se salta el crecimiento de la zanahoria, avanzando los días necesarios", SkipCarrotGrowth);
 		DebugLogConsole.AddCommand("skipapplegrowth", "Se salta el crecimiento de la manzana, avanzando los días necesarios", SkipAppleGrowth);
 		DebugLogConsole.AddCommand("skipstrawberrygrowth", "Se salta el crecimiento de la frutilla, avanzando los días necesarios", SkipStrawberryGrowth);
@@ -62,11 +71,6 @@ public class FaRCommands : MonoBehaviour
 	private void TestSave()
     {
 		SleepHandler.Instance.SaveDataEvent.Invoke(false);
-    }
-
-	private void TestLoad()
-    {
-        
     }
 
 	public void Noclip()
@@ -142,7 +146,7 @@ public class FaRCommands : MonoBehaviour
 
 	private void OnHourChanged(int hour)
 	{
-		if (hour == 17 && areYouSleepy)
+		if (hour >= 17 && areYouSleepy)
 		{
 			TimeManager.TimeBetweenTicks = 10f;
         	sleepHandler.lightingManager.CopyHour();

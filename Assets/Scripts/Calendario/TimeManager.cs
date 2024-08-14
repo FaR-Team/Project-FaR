@@ -1,4 +1,5 @@
 using System;
+using Sirenix.Serialization;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
@@ -26,6 +27,7 @@ namespace FaRUtils.Systems.DateTime
         [Range(0, 6), Header("Minuto")]
         public int minutes;
 
+        [OdinSerialize]
         public static DateTime DateTime;
 
         [Header("Opciones de Tiempo")]
@@ -42,7 +44,6 @@ namespace FaRUtils.Systems.DateTime
 
         private void Awake()
         {
-            DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
             SetInstance();
         }
 
@@ -51,6 +52,7 @@ namespace FaRUtils.Systems.DateTime
             if (Instance == null)
             {
                 Instance = this;
+                DateTime = new DateTime(dateInMonth, season - 1, year, hour, minutes * 10);
             }
             else if (Instance != null && Instance != this)
             {

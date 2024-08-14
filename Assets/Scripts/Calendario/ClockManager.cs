@@ -65,7 +65,7 @@ public class ClockManager : MonoBehaviour
 
         SeasonImageObj.sprite = SeasonSprites[(int)dateTime.Seasons];
         RotateSprite(dateTime);
-        //UpdateText(dateTime.Day.ToString());
+        UpdateText(dateTime.Day.ToString());
     }
 
     private void UpdateText(string v)
