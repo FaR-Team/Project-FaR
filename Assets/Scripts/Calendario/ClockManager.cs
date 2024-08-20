@@ -1,66 +1,54 @@
 using FaRUtils.Systems.DateTime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Samples;
+using UnityEngine.Localization.Components;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ClockManager : MonoBehaviour
 {
     public RectTransform ClockFace;
-    public TextMeshProUGUI Date, Time, Season, Week, Year, Gold;
-
-    public TimeManager timeManager;
-    public LanguageTMPDropdown languageTMPDropdown;
-
+    public TextMeshProUGUI Time, Gold;
 
     public static ClockManager InstanceClock;
     public static TextMeshProUGUI _time => InstanceClock.Time;
 
     public OptionsMenu optionsMenu;
+
     [SerializeField] Image SeasonImageObj;
-    private PlayerInventoryHolder _playerInventoryHolder;
 
     [SerializeField] Sprite[] SeasonSprites;
 
-    [SerializeField] private LightingPreset Preset;
-
     private float startingRotation;
 
-    public Light sunlight;
-    public float nightIntensity;
-    public float dayIntensity;
+    [HideInInspector] public int place;
 
-    public AnimationCurve dayNightCurve;
+    [SerializeField] LocalizeStringEvent[] stringEvents;
 
-    public int place;
 
     private void Awake()
     {
         InstanceClock = this;
         startingRotation = ClockFace.localEulerAngles.z;
-        GameObject player = GameObject.FindWithTag("Player");
 
-        _playerInventoryHolder = player.GetComponent<PlayerInventoryHolder>();
+
     }
 
     private void Start()
     {
         place = SceneManager.GetActiveScene().buildIndex;
-        SceneManager.activeSceneChanged += ChangeSceneText;
+        SceneManager.sceneLoaded += ChangeSceneText;
     }
 
-    private void ChangeSceneText(Scene current, Scene next)
+    private void ChangeSceneText(Scene arg0, LoadSceneMode arg1)
     {
-        place = next.buildIndex;
-        // {locationVariable.place:choose(0|1|2):Farm|House|Bocaaaaaa}
-        //{locationVariable.place:choose(0|1|2):Granja|Casa|Y DAAALEEE BOCAAAA}
-        //{locationVariable.place:choose(0|1|2):swanjigranja|swajicasa|BOCAAAAAA}
+        place = arg0.buildIndex;
+        Refresh();
     }
 
     private void Update()
     {
-        Gold.text = $"{_playerInventoryHolder.PrimaryInventorySystem.Gold}G";
+        Gold.text = $"{PlayerInventoryHolder.instance.PrimaryInventorySystem.Gold}G";
     }
 
     private void OnEnable()
@@ -72,12 +60,22 @@ public class ClockManager : MonoBehaviour
         return _time.text;
     }
 
+    int count = 0;
     public void UpdateDateTime(DateTime dateTime)
     {
         Time.text = CheckTimeFormat(dateTime);
-
+        Debug.Log(count++);
         SeasonImageObj.sprite = SeasonSprites[(int)dateTime.Seasons];
         RotateSprite(dateTime);
+        Refresh();
+    }
+
+    private void Refresh()
+    {
+        foreach (LocalizeStringEvent locEvent in stringEvents)
+        {
+            locEvent.RefreshString();
+        }
     }
 
     private void RotateSprite(DateTime dateTime)

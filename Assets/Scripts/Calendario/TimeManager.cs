@@ -1,5 +1,5 @@
-using System;
 using Sirenix.Serialization;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
@@ -76,8 +76,6 @@ namespace FaRUtils.Systems.DateTime
                 CurrentTimeBetweenTicks = 0;
                 AdvanceTime();
             }
-
-            OnDateTimeChanged?.Invoke(DateTime);
         }
 
         void AdvanceTime()

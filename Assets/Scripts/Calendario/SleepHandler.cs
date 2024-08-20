@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
-using FaRUtils.Systems.DateTime;
 using FaRUtils.FPSController;
+using FaRUtils.Systems.DateTime;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class SleepHandler : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class SleepHandler : MonoBehaviour
     public float SleepingTickRate { get; } = 0.05f;
 
     public bool _yourLetterArrived = false; // Satia de mierda que signifca esto
-    
+
     public UnityEvent<bool> SaveDataEvent;
     public event System.Action OnPlayerSleep;
     public event System.Action OnPlayerWakeUp;
@@ -27,20 +25,20 @@ public class SleepHandler : MonoBehaviour
 
     [SerializeField] private bool tpToBed;
     public static SleepHandler Instance { get; private set; }
-    
+
     //TODO: Ver como conviene hacer asi no llenamos todo de singletons(?
     private void Awake()
     {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
-        } 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            Instance = this;
+        }
     }
-    
+
     private void OnEnable()
     {
         DateTime.OnHourChanged.AddListener(ProcessHourChange);
@@ -50,16 +48,16 @@ public class SleepHandler : MonoBehaviour
     {
         player = FaRCharacterController.instance;
     }
-    
+
     void ProcessHourChange(int currentHour)
-    {  
+    {
         if (currentHour == 2 && !_skipTonightSleep && !_isSleeping) FinishDay();
-        else if(currentHour == 6) StartCoroutine(StartDay());
+        else if (currentHour == 6) StartCoroutine(StartDay());
     }
-    
+
     public IEnumerator StartDay()
     {
-        if(_yourLetterArrived == false)
+        if (_yourLetterArrived == false)
         {
             TimeManager.TimeBetweenTicks = 10f;
         }
@@ -79,7 +77,7 @@ public class SleepHandler : MonoBehaviour
         player.enabled = true;
         StartCoroutine(Wait());
     }
-    
+
     public bool FinishDay()
     {
         if (_isSleeping)
@@ -87,16 +85,16 @@ public class SleepHandler : MonoBehaviour
             Debug.Log("Ya estás durmiendo");
             return false;
         }
-        if(TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
+        if (TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
         {
             Debug.Log("Es muy temprano para dormir");
             return false;
         }
 
         //TODO: TP player to side of bed
-        
+
         OnPlayerSleep?.Invoke();
-        if(_yourLetterArrived == false)
+        if (_yourLetterArrived == false)
         {
             TimeManager.TimeBetweenTicks = SleepingTickRate;
         }
@@ -109,12 +107,12 @@ public class SleepHandler : MonoBehaviour
 
         player.enabled = false;
         _isSleeping = true;
-        
-        
+
+
         return true;
-        
+
     }
-    
+
     IEnumerator LoadSceneAsync(int sceneID)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
@@ -122,7 +120,7 @@ public class SleepHandler : MonoBehaviour
         while (!operation.isDone)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            
+
             yield return null;
             if (progress == 1)
             {
@@ -131,13 +129,13 @@ public class SleepHandler : MonoBehaviour
             yield return null;
         }
     }
-    
+
     public void SkipTonightSleep() // Para poder llamar de fuera en caso de que por alguna razón se quiera saltear el dormirse esta noche
     {
         _skipTonightSleep = true;
     }
-    
-    
+
+
     public IEnumerator Wait()
     {
         yield return new WaitForSeconds(0.7f);
@@ -145,7 +143,7 @@ public class SleepHandler : MonoBehaviour
         _isSleeping = false;
     }
 
-    
+
     private void OnDisable()
     {
         DateTime.OnHourChanged.RemoveListener(ProcessHourChange);
