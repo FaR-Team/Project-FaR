@@ -2,7 +2,9 @@ using FaRUtils.Systems.DateTime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
+using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Samples;
+using UnityEngine.Localization.SmartFormat.PersistentVariables;
 using UnityEngine.Localization.Tables;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -65,15 +67,6 @@ public class ClockManager : MonoBehaviour
 
         SeasonImageObj.sprite = SeasonSprites[(int)dateTime.Seasons];
         RotateSprite(dateTime);
-        UpdateText(dateTime.Day.ToString());
-    }
-
-    private void UpdateText(string v)
-    {
-        TableReference table = "Reloj";
-        LocalizedString localizedString = new LocalizedString() { TableReference = table, TableEntryReference = "null" };
-        localizedString.SetReference(table, v);
-        Date.text = localizedString.ToString();
     }
 
     private void RotateSprite(DateTime dateTime)

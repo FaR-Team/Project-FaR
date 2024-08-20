@@ -16,12 +16,30 @@ MonoBehaviour:
     m_Code: es-US
   m_SharedData: {fileID: 11400000, guid: ba842d20f73da9748b85181e26843779, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 3129098415526903810
   m_TableData:
   - m_Id: 45314342912
-    m_Localized: '{myDateVariable:choose(1|2|3|4|5|6|7):Lun|Mar|Mie|Jue|Vie|Sab|Dom}'
+    m_Localized: '{dayVariable.DateTime.Day:choose(MonId|TueId|WedId|ThuId|FriId|SatId|SunId):Lun|Mar|Mie|Jue|Vie|Sab|Dom}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 3129098415526903810
+  - m_Id: 268955406744813568
+    m_Localized: "{seasonVariable.DateTime.Seasons:choose(Early_Spring|Late_Spring|Early_Summer|Late_Summer|Early_Fall|Late_Fall|Early_Winter|Late_Winter):Primavera
+      Temprana|Primavera Tard\xEDa|Verano Temprano|Verano Tard\xEDo|Oto\xF1o Temprano|Oto\xF1o
+      Tard\xEDo|Invierno Temprano|Invierno Tard\xEDo|}"
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903810
+  - m_Id: 268962317061980160
+    m_Localized: "A\xF1o {yearVariable.DateTime.Year}"
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903810
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3129098415526903810
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0000f28c0a000000000072778485bb0300007266cd8bbb03
