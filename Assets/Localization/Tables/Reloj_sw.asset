@@ -36,10 +36,15 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 3129098415526903811
+  - m_Id: 268965299346173952
+    m_Localized: '{locationVariable.place:choose(0|1|2):swanjigranja|swajicasa|BOCAAAAAA}'
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903811
   references:
     version: 2
     RefIds:
     - rid: 3129098415526903811
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0000f28c0a000000000072778485bb0300007266cd8bbb03
+        m_Entries: 0000f28c0a000000000072778485bb0300007266cd8bbb0300706fc4838ebb03

@@ -1,13 +1,8 @@
 using FaRUtils.Systems.DateTime;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization;
-using UnityEngine.Localization.Components;
 using UnityEngine.Localization.Samples;
-using UnityEngine.Localization.SmartFormat.PersistentVariables;
-using UnityEngine.Localization.Tables;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ClockManager : MonoBehaviour
@@ -38,6 +33,8 @@ public class ClockManager : MonoBehaviour
 
     public AnimationCurve dayNightCurve;
 
+    public int place;
+
     private void Awake()
     {
         InstanceClock = this;
@@ -45,6 +42,20 @@ public class ClockManager : MonoBehaviour
         GameObject player = GameObject.FindWithTag("Player");
 
         _playerInventoryHolder = player.GetComponent<PlayerInventoryHolder>();
+    }
+
+    private void Start()
+    {
+        place = SceneManager.GetActiveScene().buildIndex;
+        SceneManager.activeSceneChanged += ChangeSceneText;
+    }
+
+    private void ChangeSceneText(Scene current, Scene next)
+    {
+        place = next.buildIndex;
+        // {locationVariable.place:choose(0|1|2):Farm|House|Bocaaaaaa}
+        //{locationVariable.place:choose(0|1|2):Granja|Casa|Y DAAALEEE BOCAAAA}
+        //{locationVariable.place:choose(0|1|2):swanjigranja|swajicasa|BOCAAAAAA}
     }
 
     private void Update()
