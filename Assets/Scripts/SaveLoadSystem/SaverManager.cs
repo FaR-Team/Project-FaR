@@ -18,18 +18,4 @@ public static class SaverManager
 
         File.WriteAllText(pathFile, jsonFile);
     }
-
-    public static void DeleteSave(object info, bool isTemporary)
-    {
-        string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
-        if (File.Exists(pathFile))
-        {
-            File.Delete(pathFile);
-            Debug.Log($"Save file deleted: {pathFile}");
-        }
-        else
-        {
-            Debug.Log($"No save file found at: {pathFile}");
-        }
-    }
 }

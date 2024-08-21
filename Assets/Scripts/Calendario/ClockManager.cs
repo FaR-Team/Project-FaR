@@ -60,9 +60,11 @@ public class ClockManager : MonoBehaviour
         return _time.text;
     }
 
+    int count = 0;
     public void UpdateDateTime(DateTime dateTime)
     {
         Time.text = CheckTimeFormat(dateTime);
+        Debug.Log(count++);
         SeasonImageObj.sprite = SeasonSprites[(int)dateTime.Seasons];
         RotateSprite(dateTime);
         Refresh();
