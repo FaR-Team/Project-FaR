@@ -7,6 +7,7 @@ using FaRUtils.FPSController;
 using UnityStandardAssets.CrossPlatformInput;
 using IngameDebugConsole;
 using UnityEngine.Serialization;
+using System.IO;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -58,9 +59,10 @@ public class FaRCommands : MonoBehaviour
 		DebugLogConsole.AddCommand("skiptomatogrowth", "Se salta el crecimiento del tomate, avanzando los días necesarios", SkipTomatoGrowth);
 		DebugLogConsole.AddCommand<int>("setharvestlevel", "Aumenta el nivel de AreaHarvest", SetAreaHarvestLevel);
 		DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
-		DebugLogConsole.AddCommand("giveShirt", "le da pantalones", GiveShirt);
-		DebugLogConsole.AddCommand("save", "le da pantalones", TestSave);
-		//DebugLogConsole.AddCommand("load", "le da pantalones", TestLoad);
+		DebugLogConsole.AddCommand("giveShirt", "le da la remera", GiveShirt);
+		DebugLogConsole.AddCommand("save", "guarda", TestSave);
+		DebugLogConsole.AddCommand("load", "carga", TestLoad);
+		DebugLogConsole.AddCommand("deletesave", "elimina el guardado", TestDeleteSave);
 	}
 
     private void SetAreaHarvestLevel(int x)
@@ -71,6 +73,16 @@ public class FaRCommands : MonoBehaviour
 	private void TestSave()
     {
 		SleepHandler.Instance.SaveDataEvent.Invoke(false);
+    }
+
+	private void TestLoad()
+    {
+		SleepHandler.Instance.SaveDataEvent.Invoke(false);
+    }
+
+	private void TestDeleteSave()
+    {
+		
     }
 
 	public void Noclip()
