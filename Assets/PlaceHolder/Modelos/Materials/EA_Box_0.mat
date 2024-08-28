@@ -20,6 +20,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 8aa7796cd8872cb469cf6f5b378d3050, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 8aa7796cd8872cb469cf6f5b378d3050, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -28,6 +32,10 @@ Material:
     m_Floats:
     - _Alpha: 1
     - _CelShadingBlurWidth: 0.2
+    - _CelShadingLevels: 3
+    - _CelShadingThreshold: 0.5
     m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _LightColor0: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

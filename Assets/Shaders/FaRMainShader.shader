@@ -1,81 +1,115 @@
-Shader "FaRTeam/FaRMainShaderURP" {
-    Properties {
+Shader "FaRTeam/FaRMainShaderURP"
+{
+    Properties
+    {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
         _CelShadingBlurWidth ("Cel Shading Blur", Range(0,2)) = 0.2
         _Alpha ("Alpha", Range(0,1)) = 1
     }
-    SubShader {
-        Tags { "Queue" = "Transparent" "RenderType" = "Transparent" }
+    SubShader
+    {
+        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline"}
         LOD 200
         
         Cull Off
-        
         ZWrite On
         
-        Pass {
-            Name "BASE"
-            Tags { "LightMode"="UniversalForward" }
+        HLSLINCLUDE
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+        #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+        ENDHLSL
+        
+        UsePass "Universal Render Pipeline/Lit/ShadowCaster"
+        Pass
+        {
+            Name "ForwardLit"
+            Tags {"LightMode" = "UniversalForward"}
             
             Blend SrcAlpha OneMinusSrcAlpha
             
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "UnityCG.cginc"
-            
-            struct appdata {
-                float4 vertex : POSITION;
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+            #pragma multi_compile _ _SHADOWS_SOFT
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normalOS : NORMAL;
             };
-            
-            struct v2f {
+
+            struct Varyings
+            {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
-                float4 vertex : SV_POSITION;
+                float4 positionCS : SV_POSITION;
+                float3 normalWS : TEXCOORD1;
+                float3 positionWS : TEXCOORD2;
             };
-            
-            fixed4 _Color;
-            float _CelShadingBlurWidth;
-            sampler2D _MainTex;
-            float _Alpha;
-            
-            v2f vert(appdata v) {
-                v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = v.uv;
-                UNITY_TRANSFER_FOG(o,o.vertex);
-                return o;
+
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+
+            CBUFFER_START(UnityPerMaterial)
+                float4 _Color;
+                float4 _MainTex_ST;
+                float _CelShadingBlurWidth;
+                float _Alpha;
+            CBUFFER_END
+
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+                OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
+                OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
+                OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                return OUT;
             }
             
-            fixed4 frag(v2f i) : SV_Target {
-                fixed4 texColor = tex2D(_MainTex, i.uv) * _Color;
-                fixed3 albedo = texColor.rgb;
-                fixed alpha = texColor.a * _Alpha;
-                
-                fixed NdotL = dot(i.vertex.xyz, normalize(_WorldSpaceLightPos0));
-                
-                fixed cel;
-                
-                if (NdotL < 0.5 - _CelShadingBlurWidth / 2)
-                    cel = 1;
-                else if (NdotL > 0.5 + _CelShadingBlurWidth / 2)
-                    cel = 2;
-                else
-                    cel = 3 - ((0.5 + _CelShadingBlurWidth / 2 - NdotL) / _CelShadingBlurWidth);
-                
-                fixed4 finalColor;
-                finalColor.rgb = (cel + 0.3) / 2.5 * albedo;
+            half4 frag(Varyings IN) : SV_Target
+            {
+                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color;
+                half3 albedo = texColor.rgb;
+                half alpha = texColor.a * _Alpha;
+            
+                float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
+                Light mainLight = GetMainLight(shadowCoord);
+                float NdotL = dot(IN.normalWS, mainLight.direction);
+
+                // Improved shadow calculation
+                float shadowSample = MainLightRealtimeShadow(shadowCoord);
+                float softShadow = smoothstep(0.3, 0.7, shadowSample);
+                float shadowAttenuation = lerp(0.5, 1.0, softShadow);
+
+                // Ambient occlusion effect
+                float ambientOcclusion = lerp(0.8, 1.0, shadowSample);
+
+                // Smoother cel shading transition
+                float cel = smoothstep(0.4, 0.6, NdotL * shadowAttenuation * ambientOcclusion);
+
+                // Define tint colors for lit and shadowed areas
+                half3 litTint = half3(1.1, 1.05, 1.0); // Warm tint for lit areas
+                half3 shadowTint = half3(0.7, 0.8, 1.0); // Cool tint for shadowed areas
+
+                // Interpolate between shadow tint and lit tint based on cel shading
+                half3 lightingTint = lerp(shadowTint, litTint, cel);
+
+                // Apply the lighting tint to the albedo
+                half4 finalColor;
+                finalColor.rgb = albedo * lightingTint * ambientOcclusion;
                 finalColor.a = alpha;
-                
+            
                 if (finalColor.a < 0.01)
                     discard;
-                
+            
                 return finalColor;
             }
-            
-            ENDCG
+            ENDHLSL        
         }
     }
-    FallBack "Diffuse"
 }
