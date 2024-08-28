@@ -14,7 +14,7 @@ public static class PathFinder
     }
     public static string GetTempFolder()
     {
-        return Path.Combine(Application.persistentDataPath, "temp", GetSaveRunName());
+        return Path.Combine(Application.persistentDataPath, "temp");
     }
 
     private static string GetPathIfTemp(string objectName, bool isTemporary)

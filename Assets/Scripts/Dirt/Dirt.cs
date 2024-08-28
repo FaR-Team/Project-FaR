@@ -1,6 +1,6 @@
-using UnityEngine;
 using FaRUtils.Systems.Weather;
 using System;
+using UnityEngine;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -31,13 +31,14 @@ public class Dirt : MonoBehaviour
 
     public void LoadData(DirtData data)
     {
+
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
         currentSeedData = data.currentCropData;
         cropSaveData = data.cropSaveData;
         transform.position = data.position;
 
-        if(currentSeedData != null) 
+        if (currentSeedData != null)
         {
             LoadCrop();
         }
@@ -57,7 +58,7 @@ public class Dirt : MonoBehaviour
     }
     public CropSaveData GetCropSaveData()
     {
-        if( currentCrop == null ) return null;
+        if (currentCrop == null) return null;
 
         var growing = currentCrop.GetComponent<GrowingBase>();
         CropSaveData cropdata = new CropSaveData(growing.DiasPlantado, growing.currentState);
@@ -105,6 +106,7 @@ public class Dirt : MonoBehaviour
 
     void OnDisable()
     {
+        Destroy(currentCrop);
         currentCrop = null;
         currentSeedData = null;
         IsEmpty = true;

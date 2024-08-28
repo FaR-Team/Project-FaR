@@ -3,6 +3,7 @@
 public static class SaveLoadHandlerSystem
 {
     #region Save
+
     private static readonly UnityEvent<bool> SaveDataEvent = new();
 
 
@@ -18,32 +19,16 @@ public static class SaveLoadHandlerSystem
     {
         SaveDataEvent.Invoke(isTemporary);
 
-        //la escena actual, tiene que cambiar su estado en base a !isTemporary.
-        //  SetTemporary(isTemporary);
     }
     #endregion
 
     #region Load
-    public enum GameSaveStatus
+
+    public static void ForceLoad()
     {
-
-        isTemporary,
-        notTemporary
-    }
-    public static bool isCurrentTemp = false;
-
-    private static GameSaveStatus gameStatus = GameSaveStatus.notTemporary;
-
-    public static void SetTemporary(bool isTemporary)
-    {
-        gameStatus = isTemporary ?
-            GameSaveStatus.isTemporary :
-            GameSaveStatus.notTemporary;
+        ChestsManager.instance.Reload();
+        DirtSpawnerPooling.instance.Reload();
     }
 
-    public static bool IsTemporary()
-    {
-        return gameStatus.Equals(GameSaveStatus.isTemporary);
-    }
     #endregion
 }

@@ -16,8 +16,6 @@ public static class InventoryLoader
     {
         try
         {
-            // Se hardcodea false, pero esto debe ser dado por un game status manager,
-            // que le diga si viene por primera vez o bien, si vuelve de algun sitio.
             inventoryData = LoadAllData.GetData<InventoryData>();
 
             return inventoryData.inventorySystem;

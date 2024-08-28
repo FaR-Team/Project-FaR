@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ChestsManager : MonoBehaviour
 {
@@ -15,7 +14,12 @@ public class ChestsManager : MonoBehaviour
     }
     private void Start()
     {
-        ChestSetter.Load(chestPrefab, gameObject ,parentGO);
+        ChestSetter.Load(chestPrefab, parentGO);
+    }
+
+    public void Reload()
+    {
+        ChestSetter.ReloadChestData(parentGO);
     }
 
     public static int GetActiveChestsAmount()

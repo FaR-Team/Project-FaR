@@ -20,7 +20,7 @@ public class ObjectPooling : MonoBehaviour
         }
 
         List<GameObject> gosPreloaded = new List<GameObject>();
-        
+
         for (int i = 0; i < amount; i++)
         {
             gosPreloaded.Add(CreateObject(objectToPool));
@@ -30,7 +30,7 @@ public class ObjectPooling : MonoBehaviour
     }
     public static List<GameObject> LoadSavedObjects(GameObject objectToPool, int amount, GameObject parent)
     {
-        int id = objectToPool.GetInstanceID();
+        int id = objectToPool.GetInstanceID(); //Obten la id del objeto a poolear
 
         if (!parents.ContainsKey(id))
         {
@@ -54,7 +54,7 @@ public class ObjectPooling : MonoBehaviour
 
         GameObject go = Instantiate(objectToPool);
         go.transform.SetParent(GetParent(id).transform);
-        
+
         activePool[id].Enqueue(go);
 
         return go;

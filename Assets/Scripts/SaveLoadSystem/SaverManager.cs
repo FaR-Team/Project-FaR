@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 
 public static class SaverManager
@@ -9,6 +10,7 @@ public static class SaverManager
         string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
         //Debug.Log(directoryPath);
+
         GUIUtility.systemCopyBuffer = directoryPath;
 
         if (!Directory.Exists(directoryPath))
@@ -17,6 +19,11 @@ public static class SaverManager
         }
 
         File.WriteAllText(pathFile, jsonFile);
+        if (!isTemporary)
+        {
+            pathFile = PathFinder.GetFinalPath(info.GetType().FullName, false);
+            File.WriteAllText(pathFile, jsonFile);
+        }
     }
 
     public static void DeleteSave(object info, bool isTemporary)
@@ -30,6 +37,18 @@ public static class SaverManager
         else
         {
             Debug.Log($"No save file found at: {pathFile}");
+        }
+    }
+
+    public static void ClearTemp()
+    {
+        try
+        {
+            Directory.Delete(PathFinder.GetTempFolder(), true);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning(e);
         }
     }
 }

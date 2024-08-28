@@ -20,6 +20,11 @@ public class PlayerInventoryHolder : Container
 
         inventorySystem = InventoryLoader.Load(tamañoInventario, _gold);
     }
+
+    public void ReloadInventory()
+    {
+        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold);
+    }
     private void Start()
     {
         OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
@@ -28,6 +33,7 @@ public class PlayerInventoryHolder : Container
 
     void Update()
     {
+        //TO DO: QUITAR ESTO uwu
         if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() &&
             !UIController.isPlayerInventoryOpen &&
             !PauseMenu.GameIsPaused &&

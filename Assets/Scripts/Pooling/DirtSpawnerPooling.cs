@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DirtSpawnerPooling : MonoBehaviour
@@ -57,5 +56,10 @@ public class DirtSpawnerPooling : MonoBehaviour
     private void OnDestroy()
     {
         ObjectPooling.ClearReferencesFromPool(_DirtPrefab, gameObject);
+    }
+
+    public void Reload()
+    {
+        DirtSetter.ReloadDirtData(gameObject);
     }
 }

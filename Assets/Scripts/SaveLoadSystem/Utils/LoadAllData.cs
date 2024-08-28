@@ -4,12 +4,14 @@ using UnityEngine;
 
 public static class LoadAllData
 {
+
     public static T GetData<T>() where T : IAllData<T>, new()
     {
         T data = new();
         string path = PathFinder.GetFinalPath(data.GetType().FullName, true);
 
-        if (PathExists(path))
+
+        if (!PathExists(path))
         {
             Initialize();
         }
@@ -41,42 +43,54 @@ public static class LoadAllData
 
     private static void CopyFolderToTemp()
     {
-        string tempDirectory = PathFinder.GetTempFolder();
-        string sourceFolderPath = PathFinder.GetPermanentFolder();
-
-        if (!Directory.Exists(sourceFolderPath)) return;
-
-        // Crear la carpeta temp si no existe
-        if (!Directory.Exists(tempDirectory))
+        try
         {
-            Directory.CreateDirectory(tempDirectory);
-            File.SetAttributes(tempDirectory, FileAttributes.Hidden);
+            string tempDirectory = PathFinder.GetTempFolder();
+            string sourceFolderPath = PathFinder.GetPermanentFolder();
+
+            if (!Directory.Exists(sourceFolderPath)) return;
+
+            // Crear la carpeta temp si no existe
+            if (!Directory.Exists(tempDirectory))
+            {
+                Directory.CreateDirectory(tempDirectory);
+                File.SetAttributes(tempDirectory, FileAttributes.Hidden);
+            }
+
+            // Copiar el contenido de la carpeta
+            CopyDirectoryContents(sourceFolderPath, tempDirectory);
+
+            Debug.Log($"El contenido de la carpeta ha sido copiado a: {tempDirectory}");
         }
-
-        string destinationFolderPath = PathFinder.GetTempFolder();
-
-        // Copiar la carpeta
-        CopyDirectory(sourceFolderPath, destinationFolderPath);
-
-        Console.WriteLine($"La carpeta ha sido copiada a: {destinationFolderPath}");
+        catch (UnauthorizedAccessException ex)
+        {
+            Debug.LogWarning($"Error de permisos: {ex.Message}");
+        }
+        catch (IOException ex)
+        {
+            Debug.LogWarning($"Error de entrada/salida: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogWarning($"Error inesperado: {ex.Message}");
+        }
     }
 
-    static void CopyDirectory(string sourceDir, string destDir)
+    static void CopyDirectoryContents(string sourceDir, string destDir)
     {
-        Directory.CreateDirectory(destDir);
-
         foreach (var file in Directory.GetFiles(sourceDir))
         {
-            string destinyPath = PathFinder.GetFinalPath(Path.GetFileName(file));
+            string destinyPath = Path.Combine(destDir, Path.GetFileName(file));
             File.Copy(file, destinyPath, true);
         }
 
         foreach (var directory in Directory.GetDirectories(sourceDir))
         {
-            string destDirectory = Path.Combine(destDir, Path.GetFileName(directory));
-            CopyDirectory(directory, destDirectory);
+            CopyDirectoryContents(directory, destDir);
         }
     }
+
+
 }
 
 public interface IAllData<T>

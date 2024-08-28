@@ -2,7 +2,6 @@ using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public class SleepHandler : MonoBehaviour
@@ -17,7 +16,6 @@ public class SleepHandler : MonoBehaviour
 
     public bool _yourLetterArrived = false; // Satia de mierda que signifca esto
 
-    public UnityEvent<bool> SaveDataEvent;
     public event System.Action OnPlayerSleep;
     public event System.Action OnPlayerWakeUp;
 
@@ -100,7 +98,8 @@ public class SleepHandler : MonoBehaviour
         }
         Fade.gameObject.SetActive(true);
         Fade.Play("NegroIn");
-        SaveDataEvent.Invoke(false);
+
+        SaveLoadHandlerSystem.Invoke(false);
 
         Energy.RemainingEnergy = 100;
         Energy.UpdateEnergy();

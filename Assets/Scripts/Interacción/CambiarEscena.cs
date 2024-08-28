@@ -29,7 +29,6 @@ public class CambiarEscena : MonoBehaviour, IInteractable
     {
         if (sceneID == 2) TimeManager.Instance.AdvanceTime(3);
         StartCoroutine(LoadSceneAsync(sceneID));
-        SaveLoadHandlerSystem.IsTemporary();
     }
 
 
