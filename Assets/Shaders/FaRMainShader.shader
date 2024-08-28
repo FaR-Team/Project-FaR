@@ -81,25 +81,19 @@ Shader "FaRTeam/FaRMainShaderURP"
                 Light mainLight = GetMainLight(shadowCoord);
                 float NdotL = dot(IN.normalWS, mainLight.direction);
 
-                // Improved shadow calculation
                 float shadowSample = MainLightRealtimeShadow(shadowCoord);
                 float softShadow = smoothstep(0.3, 0.7, shadowSample);
                 float shadowAttenuation = lerp(0.5, 1.0, softShadow);
 
-                // Ambient occlusion effect
                 float ambientOcclusion = lerp(0.8, 1.0, shadowSample);
 
-                // Smoother cel shading transition
                 float cel = smoothstep(0.4, 0.6, NdotL * shadowAttenuation * ambientOcclusion);
 
-                // Define tint colors for lit and shadowed areas
-                half3 litTint = half3(1.1, 1.05, 1.0); // Warm tint for lit areas
-                half3 shadowTint = half3(0.7, 0.8, 1.0); // Cool tint for shadowed areas
+                half3 litTint = half3(1.1, 1.05, 1.0);
+                half3 shadowTint = half3(0.7, 0.8, 1.0);
 
-                // Interpolate between shadow tint and lit tint based on cel shading
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
 
-                // Apply the lighting tint to the albedo
                 half4 finalColor;
                 finalColor.rgb = albedo * lightingTint * ambientOcclusion;
                 finalColor.a = alpha;
