@@ -143,6 +143,10 @@ public class PauseMenu : MonoBehaviour
     public void AshudaMabel()
     {
         // Cambiar para que Tpee al SpawnPoint
+        if (spawnPoint == null)
+        {
+            spawnPoint = GameObject.Find("SpawnPoint").transform;
+        }
         player.GetComponent<CharacterController>().enabled = false;
         player.transform.position = spawnPoint.position;
         player.GetComponent<CharacterController>().enabled = true;
