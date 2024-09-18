@@ -22,7 +22,7 @@ public class GrowingCrop : GrowingBase
     {
         if (!tierra._isWet || hour != 4) return;
 
-        DiasPlantado++;
+        daysPlanted++;
         CheckDayGrow();
     }
 }

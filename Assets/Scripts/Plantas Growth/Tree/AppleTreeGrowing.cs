@@ -17,11 +17,11 @@ public class AppleTreeGrowing : GrowingTreeAndPlant
     {
         if (hour != 5) return;
         
-        if (DiasPlantado < 2) DiasPlantado++;
+        if (daysPlanted < 2) daysPlanted++;
 
         CheckDayGrow();
 
-        if (DiasPlantado is 2)
+        if (daysPlanted is 2)
         {
             DiaMaduro += 1;
             if (DiaMaduro == ExpectedInt)

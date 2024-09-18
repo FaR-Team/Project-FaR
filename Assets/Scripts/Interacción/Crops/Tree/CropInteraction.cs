@@ -55,6 +55,7 @@ public class CropInteraction : MonoBehaviour, IInteractable
         if (Energy.instance.TryUseAndAnimateEnergy(1, 5f))
         {
             Harvest(); //TODO: todas deberían de usar harvest, no wait.
+            // TODO: Ver como mejorar y que el Harvest sea funcion del Growing, o llame a una funcion de ahi para reiniciar variables
             StartCoroutine(Wait());
         }
     }

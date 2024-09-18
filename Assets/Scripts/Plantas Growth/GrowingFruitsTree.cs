@@ -13,7 +13,7 @@ public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta
     {
         if (hour != 4) return;
 
-        DiasPlantado++;
+        daysPlanted++;
         CheckDayGrow();
     }
 }

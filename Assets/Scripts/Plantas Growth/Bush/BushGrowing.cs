@@ -14,38 +14,63 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
         CheckDayGrow();
     }
 
-    public override void OnHourChanged(int hour) //TO DO: Que esto sea más escalable.
+    public override void OnHourChanged(int hour) //TODO: Que esto sea más escalable. Chequear solo si pasa el día, no cada hora 
     {
-        if (hour == 5)
-        {
-            if (Tierra._isWet) DiasPlantado++;
+        if (hour != 5) return;
 
-            CheckDayGrow();
+        if (Tierra._isWet)
+        {
+            daysPlanted++;
+            daysDry = 0;
         }
+        else
+        {
+            daysDry++;
+            if (daysDry > maxDaysDry)
+            {
+                // TODO: die if dry for more than max days
+            }
+        }
+
+        CheckDayGrow();
 
         if (!currentState.isLastPhase) return;
 
-        if (fruits.Count > 0)
-        {
-            if (fruits[0].GetComponent<GrowingFruitsBush>().currentState.isLastPhase) 
-                gameObject.layer = interactableLayerInt;
-            return;
-        }
-            
-        horasQuePasaronSinFrutas++;
 
-        if (horasQuePasaronSinFrutas > horasQueDebenPasarSinFrutas)
+        if (fruits.Count == 0) // If it's fully grown and there are no fruits, spawn them
         {
-            SpawnFruits(1, 5);
-            horasQuePasaronSinFrutas = 0;
+            if (daysWithoutFruitsCounter >= daysToGiveFruits)
+            {
+                SpawnFruits(minFruitsToSpawn, maxFruitsToSpawn);
+            }
+            else
+            {
+                daysWithoutFruitsCounter++;
+            }
+        }
+        
+        if(fruits.Count > 0)
+        {
+            if (fruits[0].GetComponent<GrowingFruitsBush>().currentState.isLastPhase)
+            {
+                if (daysWithoutHarvest >= maxDaysWithoutHarvest)
+                {
+                    //TODO: Die 
+                }
+                
+                daysWithoutHarvest++;
+                
+                gameObject.layer = interactableLayerInt;
+            }
+            return;
         }
     }
 
     public void StartReGrowBush()
     {
         ResetSpawnPoints();
-        ReGrow++;
-        horasQuePasaronSinFrutas = 0;
+        daysWithoutHarvest = 0;
+        _reGrowCounter++;
         fruits.Clear();
         gameObject.layer = 3;
     }

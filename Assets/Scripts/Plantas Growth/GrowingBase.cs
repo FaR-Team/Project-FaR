@@ -1,13 +1,18 @@
 ﻿using System;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.Serialization;
 using DateTime = FaRUtils.Systems.DateTime.DateTime;
 
 public class GrowingBase : MonoBehaviour
 {
     protected int interactableLayerInt = 7;
 
-    public int DiasPlantado; //Dias que pasaron desde que se plantó.
+    protected int daysPlanted; //Dias que pasaron desde que se plantó.
+    [SerializeField] protected int maxDaysWithoutHarvest;
+    protected int daysWithoutHarvest;
+    [SerializeField] protected int maxDaysDry;
+    protected int daysDry;
 
     public bool isFruit;
 
@@ -17,6 +22,8 @@ public class GrowingBase : MonoBehaviour
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
     [HideInInspector] public MeshRenderer meshRenderer;
+
+    public int DiasPlantado => daysPlanted;
 
     protected virtual void Awake()
     {
@@ -56,7 +63,7 @@ public class GrowingBase : MonoBehaviour
     public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
         GrowingState lastState = currentState;
-        currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(DiasPlantado));
+        currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(daysPlanted));
         
         if(currentState != lastState) SetData(); // Only change mesh data if changed state
         
@@ -83,7 +90,7 @@ public class GrowingBase : MonoBehaviour
 
     public void LoadData(CropSaveData cropSaveData)
     {
-        DiasPlantado = cropSaveData.DiasPlantado;
+        daysPlanted = cropSaveData.DiasPlantado;
         currentState = cropSaveData.GrowingState;
         SetData();
     }
