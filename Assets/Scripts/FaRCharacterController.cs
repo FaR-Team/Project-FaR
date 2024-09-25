@@ -121,7 +121,20 @@ namespace FaRUtils.FPSController
 
             Vector2 movement = GetPlayerMovement();
             Vector3 move = transform.right * movement.x + transform.forward * movement.y;
-            _controller.Move(move * movementSpeed * Time.deltaTime);
+
+            // Check for obstacles before moving
+            RaycastHit hit;
+            if (!Physics.Raycast(transform.position, move, out hit, movementSpeed * Time.deltaTime + 0.1f))
+            {
+                _controller.Move(move * movementSpeed * Time.deltaTime);
+            }
+            else
+            {
+                // If there's an obstacle, try to slide along it
+                Vector3 slideDirection = Vector3.ProjectOnPlane(move, hit.normal).normalized;
+                _controller.Move(slideDirection * movementSpeed * Time.deltaTime);
+            }
+
             _velocity.y += gravity * Time.deltaTime;
             _controller.Move(_velocity * Time.deltaTime);
         }
