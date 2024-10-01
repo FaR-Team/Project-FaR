@@ -8,7 +8,7 @@ public static class LoadAllData
     public static T GetData<T>() where T : IAllData<T>, new()
     {
         T data = new();
-        string path = PathFinder.GetFinalPath(data.GetType().FullName, true);
+        string path = PathFinder.GetFinalPath(data.GetType().FullName, false);
 
 
         if (!PathExists(path))
