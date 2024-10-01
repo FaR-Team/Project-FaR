@@ -2,9 +2,19 @@ using System;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using Utils;
 
 public class DataSaver
 {
+    public static DummyLogger logger;
+
+    static DataSaver()
+    {
+        GameObject loggerObject = new GameObject("DataSaverLogger");
+        logger = loggerObject.AddComponent<DummyLogger>();
+        UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+    }
+
     public static void SaveData<T>(T dataToSave, string dataFileName)
     {
         string tempPath = Path.Combine(Application.persistentDataPath, "data");
@@ -23,17 +33,17 @@ public class DataSaver
         try
         {
             File.WriteAllBytes(tempPath, jsonByte);
-            Debug.Log("Se guardaron los datos en: " + tempPath.Replace("/", "\\"));
+            logger.Log("Se guardaron los datos en: " + tempPath.Replace("/", "\\"));
         }
         catch (Exception e)
         {
-            Debug.LogWarning("Fallo al guardar los datos en: " + tempPath.Replace("/", "\\"));
-            Debug.LogWarning("Error: " + e.Message);
+            logger.LogWarning("Fallo al guardar los datos en: " + tempPath.Replace("/", "\\"));
+            logger.LogWarning("Error: " + e.Message);
         }
     }
 
     //Cargar
-    public static T loadData<T>(string dataFileName)
+    public static T LoadData<T>(string dataFileName)
     {
         string tempPath = Path.Combine(Application.persistentDataPath, "data");
         tempPath = Path.Combine(tempPath, dataFileName + ".txt");
@@ -41,13 +51,13 @@ public class DataSaver
         //Salir si el directorio o archivo no existe.
         if (!Directory.Exists(Path.GetDirectoryName(tempPath)))
         {
-            Debug.LogWarning("El directorio no existe");
+            logger.LogWarning("El directorio no existe");
             return default;
         }
 
         if (!File.Exists(tempPath))
         {
-            Debug.Log("El archivo no existe");
+            logger.Log("El archivo no existe");
             return default;
         }
 
@@ -56,12 +66,12 @@ public class DataSaver
         try
         {
             jsonByte = File.ReadAllBytes(tempPath);
-            Debug.Log("Se cargó desde: " + tempPath.Replace("/", "\\"));
+            logger.Log("Se cargó desde: " + tempPath.Replace("/", "\\"));
         }
         catch (Exception e)
         {
-            Debug.LogWarning("Fallo al cargar los datos desde: " + tempPath.Replace("/", "\\"));
-            Debug.LogWarning("Error: " + e.Message);
+            logger.LogWarning("Fallo al cargar los datos desde: " + tempPath.Replace("/", "\\"));
+            logger.LogWarning("Error: " + e.Message);
         }
 
         string jsonData = Encoding.ASCII.GetString(jsonByte);
@@ -86,25 +96,25 @@ public class DataSaver
         //Salir si el directorio o archivo no existe.
         if (!Directory.Exists(Path.GetDirectoryName(tempPath)))
         {
-            Debug.LogWarning("El directorio no existe");
+            logger.LogWarning("El directorio no existe");
             return false;
         }
 
         if (!File.Exists(tempPath))
         {
-            Debug.Log("El archivo no existe");
+            logger.Log("El archivo no existe");
             return false;
         }
 
         try
         {
             File.Delete(tempPath);
-            Debug.Log("Se eliminaron datos de: " + tempPath.Replace("/", "\\"));
+            logger.Log("Se eliminaron datos de: " + tempPath.Replace("/", "\\"));
             success = true;
         }
         catch (Exception e)
         {
-            Debug.LogWarning("Fallo al eliminar datos de: " + e.Message);
+            logger.LogWarning("Fallo al eliminar datos de: " + e.Message);
         }
 
         return success;

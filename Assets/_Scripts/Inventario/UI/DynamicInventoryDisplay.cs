@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public class DynamicInventoryDisplay : InventoryDisplay
 {
@@ -26,7 +27,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
         // If requested inventory has more slots than the UI inventory..-
         if (invToDisplay.InventorySlots.Count > this.inventorySlots.Count) 
         {
-            Debug.Log("More slots in inv");
+            this.Log("More slots in inv");
            
             for (int i = 0; i < invToDisplay.InventorySlots.Count; i++)
             {
@@ -41,7 +42,7 @@ public class DynamicInventoryDisplay : InventoryDisplay
         }
         else // If there's already more UI slots than required for current inventory...
         {
-            Debug.Log("More slots in UI");
+            this.Log("More slots in UI");
             for (int i = 0; i < inventorySlots.Count; i++)
             {
                 if (i >= invToDisplay.InventorySlots.Count)

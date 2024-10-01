@@ -72,7 +72,7 @@ public class LogSaverAndSender : MonoBehaviour
 
     private void discordLog()
     {
-        LogInfo loadedData = DataSaver.loadData<LogInfo>("savelog");
+        LogInfo loadedData = DataSaver.LoadData<LogInfo>("savelog");
         string date = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
 
         if (loadedData != null && loadedData.logInfoList != null
