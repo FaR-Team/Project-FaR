@@ -14,12 +14,12 @@ namespace Utils
         {
             #if UNITY_EDITOR
             var name = (myObj ? myObj.name : "NullObject").Color("lightblue");
-            var logMessage = $"{prefix}[{name}]: {String.Join("; ", msg)}\n";
             var stackTrace = new System.Diagnostics.StackTrace(2, true);
-            var frame = stackTrace.GetFrame(1);
+            var frame = stackTrace.GetFrame(0);
             var fileName = frame.GetFileName();
             var lineNumber = frame.GetFileLineNumber();
-            LogFunction($"{logMessage}\nFile: {fileName}\nLine: {lineNumber}", myObj);
+            var logMessage = $"{prefix}[{name}]: {String.Join("; ", msg)}\nFile: {fileName}\nLine: {lineNumber}\n";
+            LogFunction($"{logMessage}", myObj);
             #endif
         }
 

@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System;
-using Object = UnityEngine.Object;
 using Utils;
 using System.Linq;
 using System.IO;
@@ -73,7 +72,10 @@ public class FaRConsoleWindow : EditorWindow
         }
         else
         {
-            logEntries.Add(new LogEntry(prefix, objectName, message, stackTrace, type, fileName, lineNumber));
+            string originalFileName = "";
+            int originalLineNumber = -1;
+            ExtractOriginalFileInfo(stackTrace, out originalFileName, out originalLineNumber);
+            logEntries.Add(new LogEntry(prefix, objectName, message, stackTrace, type, originalFileName, originalLineNumber));
         }
 
         if (autoScroll)
@@ -81,6 +83,32 @@ public class FaRConsoleWindow : EditorWindow
             scrollPosition = new Vector2(0, float.MaxValue);
         }
         Repaint();
+    }
+
+    private void ExtractOriginalFileInfo(string stackTrace, out string fileName, out int lineNumber)
+    {
+        fileName = "";
+        lineNumber = -1;
+        var lines = stackTrace.Split('\n');
+        foreach (var line in lines)
+        {
+            if (!line.Contains("FaRLogger.cs") && line.Contains("(at "))
+            {
+                int startIndex = line.LastIndexOf("(at ") + 4;
+                int endIndex = line.LastIndexOf(")");
+                if (startIndex < endIndex)
+                {
+                    string fileInfo = line.Substring(startIndex, endIndex - startIndex);
+                    string[] parts = fileInfo.Split(':');
+                    if (parts.Length >= 2)
+                    {
+                        fileName = parts[0];
+                        int.TryParse(parts[1], out lineNumber);
+                        break;
+                    }
+                }
+            }
+        }
     }
     private (string prefix, string objectName, string message, string fileName, int lineNumber) ParseLogString(string logString)
     {
@@ -109,18 +137,21 @@ public class FaRConsoleWindow : EditorWindow
         foreach (var line in lines)
         {
             if (line.StartsWith("File: "))
+            {
                 fileName = line.Substring(6).Trim();
                 if (fileName.StartsWith(Application.dataPath))
                 {
                     fileName = "Assets" + fileName.Substring(Application.dataPath.Length);
                 }
+            }
             else if (line.StartsWith("Line: "))
+            {
                 int.TryParse(line.Substring(6).Trim(), out lineNumber);
+            }
         }
 
         return (prefix, objectName, message, fileName, lineNumber);
-    }
-    
+    }    
     private bool errorPause = false;
     private void OnGUI()
     {
@@ -383,7 +414,24 @@ public class FaRConsoleWindow : EditorWindow
     }
       private void SmartSelect(LogEntry entry)
       {
-          // Try to find the GameObject by name
+          // First, try to open the file and line number stored in the LogEntry
+          if (!string.IsNullOrEmpty(entry.fileName) && entry.lineNumber > 0)
+          {
+              string relativePath = entry.fileName;
+              if (!relativePath.StartsWith("Assets/"))
+              {
+                  relativePath = "Assets/" + relativePath;
+              }
+              var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(relativePath);
+              if (asset != null)
+              {
+                  Selection.activeObject = asset;
+                  AssetDatabase.OpenAsset(asset, entry.lineNumber);
+                  return;
+              }
+          }
+
+          // If that fails, try to find the GameObject by name
           GameObject obj = GameObject.Find(entry.objectName);
           if (obj != null)
           {
@@ -392,42 +440,28 @@ public class FaRConsoleWindow : EditorWindow
               return;
           }
 
-          // If not found, try to parse the stack trace for component information
+          // If still not found, parse the stack trace as a last resort
           string[] lines = entry.stackTrace.Split('\n');
           foreach (string line in lines)
           {
-              if (line.Contains("UnityEngine.Component:"))
+              if (!line.Contains("FaRLogger.cs") && line.Contains("(at "))
               {
-                  int startIndex = line.IndexOf("UnityEngine.Component:");
-                  int endIndex = line.IndexOf('(', startIndex);
+                  int startIndex = line.IndexOf("(at ") + 4;
+                  int endIndex = line.IndexOf(':', startIndex);
                   if (endIndex > startIndex)
                   {
-                      string componentName = line.Substring(startIndex + 22, endIndex - startIndex - 22);
-                      Component[] components = FindObjectsOfType(Type.GetType(componentName)) as Component[];
-                      if (components.Length > 0)
+                      string filePath = line.Substring(startIndex, endIndex - startIndex);
+                      string fullPath = Path.GetFullPath(filePath);
+                      string relativePath = "Assets" + fullPath.Substring(Application.dataPath.Length);
+                
+                      UnityEngine.Object asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(relativePath);
+                      if (asset != null)
                       {
-                          Selection.activeGameObject = components[0].gameObject;
-                          EditorGUIUtility.PingObject(components[0].gameObject);
+                          Selection.activeObject = asset;
+                          AssetDatabase.OpenAsset(asset, int.Parse(line.Substring(endIndex + 1).TrimEnd(')')));
                           return;
                       }
                   }
-              }
-          }
-
-          // If still not found, try to highlight the script asset
-          if (!string.IsNullOrEmpty(entry.fileName))
-          {
-              // Ensure the path is relative to the Assets folder
-              string relativePath = entry.fileName;
-              if (!relativePath.StartsWith("Assets/"))
-              {
-                  relativePath = "Assets/" + relativePath;
-              }
-              var asset = AssetDatabase.LoadAssetAtPath<Object>(relativePath);
-              if (asset != null)
-              {
-                  Selection.activeObject = asset;
-                  EditorGUIUtility.PingObject(asset);
               }
           }
       }
