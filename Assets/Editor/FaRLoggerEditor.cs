@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using System;
 using Object = UnityEngine.Object;
 using Utils;
+using System.Linq;
 
 [InitializeOnLoad]
 public class FaRConsoleWindow : EditorWindow
 {
     private Vector2 scrollPosition;
     private List<LogEntry> logEntries = new List<LogEntry>();
-    private bool isCollapsed = false;
     private string[] clearOptions = new string[] { "Clear", "Clear on Play", "Clear on Build" };
     private int selectedClearOption = 0;
+
+    private bool autoScroll = true;
+
 
     [MenuItem("FARUtils/FaR Console")]
     public static void ShowWindow()
@@ -52,7 +55,20 @@ public class FaRConsoleWindow : EditorWindow
     private void HandleLog(string logString, string stackTrace, LogType type)
     {
         var (prefix, objectName, message, fileName, lineNumber) = ParseLogString(logString);
-        logEntries.Add(new LogEntry(prefix, objectName, message, stackTrace, type, fileName, lineNumber));
+        var existingEntry = logEntries.FirstOrDefault(e => e.message == message && e.type == type);
+        if (existingEntry != null)
+        {
+            existingEntry.count++;
+        }
+        else
+        {
+            logEntries.Add(new LogEntry(prefix, objectName, message, stackTrace, type, fileName, lineNumber));
+        }
+
+        if (autoScroll)
+        {
+            scrollPosition = new Vector2(0, float.MaxValue);
+        }
         Repaint();
     }
     private (string prefix, string objectName, string message, string fileName, int lineNumber) ParseLogString(string logString)
@@ -111,11 +127,11 @@ public class FaRConsoleWindow : EditorWindow
             menu.ShowAsContext();
         }
 
-        // Collapse toggle
-        isCollapsed = GUILayout.Toggle(isCollapsed, "Collapse", EditorStyles.toolbarButton);
-
         // Error Pause toggle
         errorPause = GUILayout.Toggle(errorPause, "Error Pause", EditorStyles.toolbarButton);
+
+        // Auto Scroll toggle
+        autoScroll = GUILayout.Toggle(autoScroll, "Auto Scroll", EditorStyles.toolbarButton);
 
         GUILayout.FlexibleSpace();
 
@@ -126,7 +142,7 @@ public class FaRConsoleWindow : EditorWindow
         for (int i = 0; i < logEntries.Count; i++)
         {
             var entry = logEntries[i];
-            if (isCollapsed && i > 0 && entry.message == logEntries[i - 1].message)
+            if (i > 0 && entry.message == logEntries[i - 1].message)
                 continue;
 
             GUIStyle style = new GUIStyle(GUI.skin.box);
@@ -139,7 +155,6 @@ public class FaRConsoleWindow : EditorWindow
             EditorGUILayout.BeginHorizontal(GUILayout.Width(15));
             entry.isExpanded = EditorGUILayout.Foldout(entry.isExpanded, "");
             EditorGUILayout.EndHorizontal();
-
             EditorGUILayout.BeginHorizontal();
             
             if (GUILayout.Button($"{entry.prefix}[<color=lightblue>{entry.objectName}</color>] {entry.message}", style, GUILayout.ExpandWidth(true)))
@@ -160,6 +175,12 @@ public class FaRConsoleWindow : EditorWindow
                     }
                 }
             }
+
+            if (entry.count > 1)
+            {
+                GUILayout.Label($"({entry.count})", GUILayout.Width(30));
+            }
+
             EditorGUILayout.EndHorizontal();
 
             if (entry.isExpanded)
@@ -258,6 +279,7 @@ public class FaRConsoleWindow : EditorWindow
         public bool isExpanded;
         public string fileName;
         public int lineNumber;
+        public int count = 1;
 
         public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
         {
