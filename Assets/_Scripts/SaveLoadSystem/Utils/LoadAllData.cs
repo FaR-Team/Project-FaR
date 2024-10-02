@@ -1,9 +1,22 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using Utils;
 
 public static class LoadAllData
 {
+    public static DummyLogger logger;
+
+    static LoadAllData()
+    {
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
+    }
 
     public static T GetData<T>() where T : IAllData<T>, new()
     {
@@ -60,19 +73,19 @@ public static class LoadAllData
             // Copiar el contenido de la carpeta
             CopyDirectoryContents(sourceFolderPath, tempDirectory);
 
-            Debug.Log($"El contenido de la carpeta ha sido copiado a: {tempDirectory}");
+            logger.Log($"El contenido de la carpeta ha sido copiado a: {tempDirectory}");
         }
         catch (UnauthorizedAccessException ex)
         {
-            Debug.LogWarning($"Error de permisos: {ex.Message}");
+            logger.LogWarning($"Error de permisos: {ex.Message}");
         }
         catch (IOException ex)
         {
-            Debug.LogWarning($"Error de entrada/salida: {ex.Message}");
+            logger.LogWarning($"Error de entrada/salida: {ex.Message}");
         }
         catch (Exception ex)
         {
-            Debug.LogWarning($"Error inesperado: {ex.Message}");
+            logger.LogWarning($"Error inesperado: {ex.Message}");
         }
     }
 
