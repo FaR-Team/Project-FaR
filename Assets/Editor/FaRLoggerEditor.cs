@@ -13,14 +13,21 @@ public class FaRConsoleWindow : EditorWindow
     private List<LogEntry> logEntries = new List<LogEntry>();
     private string[] clearOptions = new string[] { "Clear", "Clear on Play", "Clear on Build" };
     private int selectedClearOption = 0;
-
     private bool autoScroll = true;
+
+    private string searchText = "";
+    
+    private bool showInfo = true;
+    private bool showWarning = true;
+    private bool showError = true;
+    private bool showSuccess = true;
+
 
 
     [MenuItem("FARUtils/FaR Console")]
     public static void ShowWindow()
     {
-        GetWindow<FaRConsoleWindow>("FaR Console");
+        GetWindow<FaRConsoleWindow>("</> FaR Console");
     }
 
     static FaRConsoleWindow()
@@ -30,7 +37,7 @@ public class FaRConsoleWindow : EditorWindow
 
     private static void OpenWindow()
     {
-        GetWindow<FaRConsoleWindow>("FaR Console");
+        GetWindow<FaRConsoleWindow>("</> FaR Console");
     }
 
     private void OnEnable()
@@ -135,14 +142,27 @@ public class FaRConsoleWindow : EditorWindow
 
         GUILayout.FlexibleSpace();
 
+        // Add search field
+        searchText = EditorGUILayout.TextField(searchText, EditorStyles.toolbarSearchField);
+
+        // Toggle buttons for each log type
+        showInfo = GUILayout.Toggle(showInfo, new GUIContent("ⓘ", "Info"), EditorStyles.toolbarButton, GUILayout.Width(30));
+        showWarning = GUILayout.Toggle(showWarning, new GUIContent("⚠", "Warning"), EditorStyles.toolbarButton, GUILayout.Width(30));
+        showError = GUILayout.Toggle(showError, new GUIContent("⌧", "Error"), EditorStyles.toolbarButton, GUILayout.Width(30));
+        showSuccess = GUILayout.Toggle(showSuccess, new GUIContent("✓", "Success"), EditorStyles.toolbarButton, GUILayout.Width(30));
+
         EditorGUILayout.EndHorizontal();
-
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
-
         for (int i = 0; i < logEntries.Count; i++)
         {
             var entry = logEntries[i];
             if (i > 0 && entry.message == logEntries[i - 1].message)
+                continue;
+
+            if (!string.IsNullOrEmpty(searchText) && !MatchesSearch(entry))
+                continue;
+
+            if (!ShouldShowLogType(entry.entryType))
                 continue;
 
             GUIStyle style = new GUIStyle(GUI.skin.box);
@@ -156,7 +176,7 @@ public class FaRConsoleWindow : EditorWindow
             entry.isExpanded = EditorGUILayout.Foldout(entry.isExpanded, "");
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
-            
+
             if (GUILayout.Button($"{entry.prefix}[<color=lightblue>{entry.objectName}</color>] {entry.message}", style, GUILayout.ExpandWidth(true)))
             {
                 // Handle click event
@@ -193,8 +213,23 @@ public class FaRConsoleWindow : EditorWindow
 
             EditorGUILayout.EndVertical();
         }
-
         EditorGUILayout.EndScrollView();
+    }
+    private bool ShouldShowLogType(LogEntryType type)
+    {
+        switch (type)
+        {
+            case LogEntryType.Info:
+                return showInfo;
+            case LogEntryType.Warning:
+                return showWarning;
+            case LogEntryType.Error:
+                return showError;
+            case LogEntryType.Success:
+                return showSuccess;
+            default:
+                return true;
+        }
     }
 
     private void PerformClearAction(int option)
@@ -244,6 +279,15 @@ public class FaRConsoleWindow : EditorWindow
                 return Color.white;
         }
     }
+
+    private bool MatchesSearch(LogEntry entry)
+    {
+        string searchLower = searchText.ToLower();
+        return entry.message.ToLower().Contains(searchLower) ||
+            entry.fileName.ToLower().Contains(searchLower) ||
+            entry.objectName.ToLower().Contains(searchLower) ||
+            entry.stackTrace.ToLower().Contains(searchLower);
+    }
     private void JumpToCode(string stackTrace)
     {
         var lines = stackTrace.Split('\n');
@@ -268,8 +312,16 @@ public class FaRConsoleWindow : EditorWindow
             }
         }
         this.LogWarning("Could not find a valid file and line number in the stack trace.");
-    }    
-    private class LogEntry
+    }
+    public enum LogEntryType
+    {
+        Info,
+        Warning,
+        Error,
+        Success
+    }
+
+    public class LogEntry
     {
         public string prefix;
         public string objectName;
@@ -280,6 +332,7 @@ public class FaRConsoleWindow : EditorWindow
         public string fileName;
         public int lineNumber;
         public int count = 1;
+        public LogEntryType entryType;
 
         public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
         {
@@ -291,7 +344,26 @@ public class FaRConsoleWindow : EditorWindow
             this.isExpanded = false;
             this.fileName = fileName;
             this.lineNumber = lineNumber;
+            this.entryType = DetermineLogEntryType(prefix, type);
+        }
+
+        private LogEntryType DetermineLogEntryType(string prefix, LogType type)
+        {
+            if (prefix.Contains("✓"))
+                return LogEntryType.Success;
+            switch (type)
+            {
+                case LogType.Log:
+                    return LogEntryType.Info;
+                case LogType.Warning:
+                    return LogEntryType.Warning;
+                case LogType.Error:
+                case LogType.Exception:
+                case LogType.Assert:
+                    return LogEntryType.Error;
+                default:
+                    return LogEntryType.Info;
+            }
         }
     }
-
 }
