@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Utils;
 
 public class ChestSaver : Saver<ChestData, ChestDataSaver>
 {
@@ -9,9 +10,19 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
 
     private AllChestSystems allChests = new();
     private List<ChestDataSaver> chestDataSavers = new();
+
+    public static DummyLogger logger;
+
     private void Awake()
     {
         Instance = this;
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
     }
 
     protected override async void SaveAllData(bool isTemporarySave)
@@ -23,11 +34,11 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
             allChests.SaveQueue();
             SaverManager.Save(allChests, isTemporarySave);
 
-            Debug.Log("Successfully Saved Chests");
+            this.Log("Successfully Saved Chests");
         }
         catch (Exception e)
         {
-            Debug.LogError($"Failed Save Chests. Reason: {e}");
+            this.LogError($"Failed Save Chests. Reason: {e}");
         }
     }
 

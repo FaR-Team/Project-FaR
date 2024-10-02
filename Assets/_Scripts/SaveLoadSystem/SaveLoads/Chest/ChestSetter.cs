@@ -1,12 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public static class ChestSetter
 {
     static AllChestSystems chestsDatas;
     static List<GameObject> chestsGOs;
     static GameObject _chestPrefab;
+
+    public static DummyLogger logger;
+
+    static ChestSetter()
+    {
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
+    }
+
     public static void Load(GameObject chestPrefab, GameObject parentGO)
     {
         _chestPrefab = chestPrefab;
@@ -26,7 +41,7 @@ public static class ChestSetter
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e + "Chests couldnt be loaded. using preload system.");
+            logger.LogWarning(e + "Chests couldnt be loaded. using preload system.");
             PreloadChests(parentGO);
         }
     }

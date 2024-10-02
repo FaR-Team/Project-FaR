@@ -5,6 +5,7 @@ using UnityEngine.Localization;
 using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 using UnityEngine.Events;
+using Utils;
 
 public class Cama : MonoBehaviour, IInteractable
 {
@@ -41,12 +42,12 @@ public class Cama : MonoBehaviour, IInteractable
     
     public bool TrySleep()
     {
-        Debug.Log("Interactuando con Cama");
+        this.Log("Interactuando con Cama");
         return SleepHandler.Instance.FinishDay();
     }
     
     public void EndInteraction()
     {
-        Debug.Log("Terminando interacción con Cama");
+        this.Log("Terminando interacción con Cama");
     }
 }

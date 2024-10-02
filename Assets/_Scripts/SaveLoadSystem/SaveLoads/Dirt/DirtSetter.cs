@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public static class DirtSetter
 {
@@ -9,6 +10,19 @@ public static class DirtSetter
 
     static List<GameObject> dirtsGO;
     static GameObject dirtPrefab;
+
+    public static DummyLogger logger;
+
+    static DirtSetter()
+    {
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
+    }
 
     public static void Load(GameObject _DirtPrefab, GameObject parentGO)
     {
@@ -30,7 +44,7 @@ public static class DirtSetter
         }
         catch (Exception e)
         {
-            Debug.LogWarning($"Failed to preload dirt information. reason {e}");
+            logger.LogWarning($"Failed to preload dirt information. reason {e}");
             PreloadDirts(dirtPrefab, parentGO);
         }
     }

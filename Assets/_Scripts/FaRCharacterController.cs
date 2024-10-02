@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace FaRUtils.FPSController
 {
@@ -55,7 +56,6 @@ namespace FaRUtils.FPSController
             if (cam == null) cam = GetComponentInChildren<Camera>();
             _initHeight = _controller.height;
             Cursor.lockState = CursorLockMode.Locked;
-            //Cursor.visible = false;
             SetBaseFOV(cam.fieldOfView);
         }
 

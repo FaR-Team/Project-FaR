@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Discord;
+using Utils;
 
 public class DiscordController : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class DiscordController : MonoBehaviour
             }
             else
             {
-                Debug.LogError($"Estado de discord fallido");
+                this.LogError($"Estado de discord fallido");
             }
         });
     }

@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using UnityEngine;
+using Utils;
 
 public class InventorySaver : Saver<InventoryData, InventoryDataSaver>
 {
@@ -38,11 +39,11 @@ public class InventorySaver : Saver<InventoryData, InventoryDataSaver>
 
             SaverManager.Save(InventoryData, isTemporarySave);
 
-            Debug.Log("Successfully Saved Inventory");
+            this.Log("Successfully Saved Inventory");
         }
         catch (Exception e)
         {
-            Debug.LogError($"Failed Save Inventory. Reason: {e}");
+            this.LogError($"Failed Save Inventory. Reason: {e}");
         }
     }
 

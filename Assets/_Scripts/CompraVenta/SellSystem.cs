@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Utils;
 
 public class SellSystem : MonoBehaviour
 {
@@ -58,7 +59,7 @@ public class SellSystem : MonoBehaviour
         else 
         {
             _shoppingCart.Add(data, 1);
-            Debug.Log("ADDCART");
+            this.Log("AddCart");
             AddBox(CropBoxPrefab, data);
             var shoppingCartTextObj = Instantiate(_shoppingCartItemPrefab, _shoppingCartContentPanel.transform);
             var newString = $"{data.Nombre} x{_shoppingCart[data]}";
@@ -71,7 +72,7 @@ public class SellSystem : MonoBehaviour
 
     public void AddBox(GameObject CropBoxPrefab, InventoryItemData data)
     {
-        Debug.Log("ADDbOX");
+        this.Log("AddBox");
         if (BoxCount == 0)
         {
             Vector3 dir = -transform.right;

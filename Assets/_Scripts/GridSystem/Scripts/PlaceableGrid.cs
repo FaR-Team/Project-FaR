@@ -2,6 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
 namespace FaRUtils.Systems.GridSystem
 {
@@ -114,7 +115,7 @@ namespace FaRUtils.Systems.GridSystem
             }
             else
             {
-                Debug.LogError($"Tried to get a world point from coord: {coord} but wasn't found in dictionary - returning Vector3.zero");
+                this.LogError($"Tried to get a world point from coord: {coord} but wasn't found in dictionary - returning Vector3.zero");
                 return Vector3.zero;
             }
         }

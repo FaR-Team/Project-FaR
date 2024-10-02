@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 public class StaticInventoryDisplay : InventoryDisplay
 {
@@ -22,7 +23,7 @@ public class StaticInventoryDisplay : InventoryDisplay
         }
         else
         {
-            Debug.LogError($"No hay inventario asignado a {this.gameObject}");
+            this.LogError($"No hay inventario asignado a {this.gameObject}");
         }
 
         CreateSlots(inventorySystem, 0);

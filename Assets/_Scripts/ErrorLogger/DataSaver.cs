@@ -10,9 +10,13 @@ public class DataSaver
 
     static DataSaver()
     {
-        GameObject loggerObject = new GameObject("DataSaverLogger");
-        logger = loggerObject.AddComponent<DummyLogger>();
-        UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
     }
 
     public static void SaveData<T>(T dataToSave, string dataFileName)

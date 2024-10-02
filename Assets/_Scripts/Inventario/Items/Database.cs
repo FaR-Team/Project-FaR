@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Utils;
 
 namespace FaRUtils.Systems.ItemSystem
 {
@@ -26,18 +27,18 @@ namespace FaRUtils.Systems.ItemSystem
             var index = 0;
             for (int i = 0; i < foundItems.Count; i++)
             {
-                Debug.Log($"Checkeando ID {i}");
+                this.Log($"Checkeando ID {i}");
                 var itemToAdd = hasIDInRange.Find(d => d.ID == i);
              
                 if (itemToAdd != null)
                 {
-                    Debug.Log($"Se encontró un item {itemToAdd} que tiene un ID de {itemToAdd.ID}");
+                    this.Log($"Se encontró un item {itemToAdd} que tiene un ID de {itemToAdd.ID}");
                     _itemDatabase.Add(itemToAdd);
                 }
                 else if(index < noID.Count)
                 {
                     noID[index].ID = i;
-                    Debug.Log($"Fijando item {noID[index]} que tenía un ID inválido al ID {i}");
+                    this.Log($"Fijando item {noID[index]} que tenía un ID inválido al ID {i}");
                     itemToAdd = noID[index];
                     index++;
                     _itemDatabase.Add(itemToAdd);

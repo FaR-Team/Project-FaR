@@ -10,12 +10,16 @@ namespace Utils
         {
             return $"<color={color}>{myStr}</color>";
         }
-
         private static void DoLog(Action<string, Object> LogFunction, string prefix, Object myObj, params object[] msg)
         {
             #if UNITY_EDITOR
             var name = (myObj ? myObj.name : "NullObject").Color("lightblue");
-            LogFunction($"{prefix}[{name}]: {String.Join("; ", msg)}\n ", myObj);
+            var logMessage = $"{prefix}[{name}]: {String.Join("; ", msg)}\n";
+            var stackTrace = new System.Diagnostics.StackTrace(2, true);
+            var frame = stackTrace.GetFrame(1);
+            var fileName = frame.GetFileName();
+            var lineNumber = frame.GetFileLineNumber();
+            LogFunction($"{logMessage}\nFile: {fileName}\nLine: {lineNumber}", myObj);
             #endif
         }
 

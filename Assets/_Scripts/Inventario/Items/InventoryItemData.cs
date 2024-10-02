@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utils;
 
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/Item", order = 0)]
 
@@ -28,19 +29,19 @@ public class InventoryItemData : ScriptableObject
 
     public virtual bool SearchTool() 
     {
-        Debug.LogError("aaaaaaaaaa");
+        this.LogError("aaaaaaaaaa");
         return false;
     }
 
     public virtual bool UseItem()
     {
-        Debug.Log($"Usando {Nombre}");
+        this.Log($"Usando {Nombre}");
         return true;
     }
 
     public virtual bool UseItem(Dirt dirt)
     {
-        Debug.Log($"Usando {Nombre}");
+        this.Log($"Usando {Nombre}");
         return true;
     }
     public bool IsTool()

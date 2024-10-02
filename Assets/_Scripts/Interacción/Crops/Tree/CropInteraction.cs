@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FaRUtils;
+using Utils;
 
 public class CropInteraction : MonoBehaviour, IInteractable
 {
@@ -82,6 +83,6 @@ public class CropInteraction : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-        Debug.Log("Terminando Interacción.");
+        this.Log("Terminando Interacción.");
     }
 }

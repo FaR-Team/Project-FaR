@@ -1,15 +1,27 @@
 ﻿using System;
 using System.IO;
 using UnityEngine;
+using Utils;
 
 public static class SaverManager
 {
+    public static DummyLogger logger;
+
+    static SaverManager()
+    {
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
+    }
     public static void Save(object info, bool isTemporary)
     {
         string jsonFile = JsonUtility.ToJson(info);
         string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
-        //Debug.Log(directoryPath);
 
         GUIUtility.systemCopyBuffer = directoryPath;
 
@@ -32,11 +44,11 @@ public static class SaverManager
         if (File.Exists(pathFile))
         {
             File.Delete(pathFile);
-            Debug.Log($"Save file deleted: {pathFile}");
+            logger.Log($"Save file deleted: {pathFile}");
         }
         else
         {
-            Debug.Log($"No save file found at: {pathFile}");
+            logger.Log($"No save file found at: {pathFile}");
         }
     }
 
@@ -48,7 +60,7 @@ public static class SaverManager
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e);
+            logger.LogWarning(e);
         }
     }
 }

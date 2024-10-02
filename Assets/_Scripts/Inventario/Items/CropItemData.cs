@@ -25,7 +25,6 @@ public class CropItemData : InventoryItemData
             if (hit.transform.tag == "Sell")
             {
                 IsLookingAtStore = true;
-                //Debug.Log($"ALFAJOR");
                 _sellSystem.SellItem(CropBoxPrefab, this);
                 return true;
             }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using FaRUtils.FPSController;
 using UnityEngine.Events;
+using Utils;
 
 [RequireComponent(typeof(UniqueID))]
 public class Cofre : Container, IInteractable
@@ -22,12 +23,12 @@ public class Cofre : Container, IInteractable
 
     public void InteractOut()
     {
-        Debug.Log("InteractOut");
+        this.Log("InteractOut");
     }
 
     public void EndInteraction()
     {
-        Debug.Log("Terminando Interacción con Cofre");
+        this.Log("Terminando Interacción con Cofre");
     }
 
     public void LoadData(ChestData data)

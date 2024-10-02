@@ -2,6 +2,7 @@ using FaRUtils.FPSController;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
 [RequireComponent(typeof(UniqueID))]
 public class ShopKeeper : MonoBehaviour, IInteractable
@@ -29,7 +30,6 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
         foreach (var item in _shopItemsHeld.Items)
         {
-            //Debug.Log($"{item.ItemData.Nombre}: {item.Amount}");
             _shopSystem.AddToShop(item.ItemData, item.Amount);
         }
     }
@@ -90,7 +90,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         else
         {
             interactionSuccessful = false;
-            Debug.LogError("No existe inventario del Jugador");
+            this.LogError("No existe inventario del Jugador");
         }
 
         interactionSuccessful = true;
@@ -98,7 +98,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        Debug.Log(null);
+        this.Log(null);
     }
 
     public void EndInteraction()

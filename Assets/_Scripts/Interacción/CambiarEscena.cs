@@ -2,6 +2,7 @@ using FaRUtils.Systems.DateTime;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 public class CambiarEscena : MonoBehaviour, IInteractable
 {
@@ -15,14 +16,14 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        Debug.Log("Cambiando a escena " + buildIndex);
+        this.Log("Cambiando a escena " + buildIndex);
         LoadScene(buildIndex);
         interactSuccessful = true;
     }
 
     public void InteractOut()
     {
-        Debug.Log(null);
+        this.Log(null);
     }
 
     public void LoadScene(int sceneID)
@@ -53,6 +54,6 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-        Debug.Log("Cambió la escena a " + buildIndex);
+        this.Log("Cambió la escena a " + buildIndex);
     }
 }

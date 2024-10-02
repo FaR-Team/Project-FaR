@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using Utils;
 
 public class DirtSaver : Saver<DirtData, SaveDirtData>
 {
@@ -24,11 +25,11 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
             allDirtsData.SaveQueue();
             SaverManager.Save(allDirtsData, isTemporarySave);
 
-            Debug.Log("Successfully Saved dirts information");
+            this.Log("Successfully Saved dirts information");
         }
         catch (Exception e)
         {
-            Debug.LogError("Failed Save Dirt. Reason: " + e);
+            this.LogError("Failed Save Dirt. Reason: " + e);
         }
     }
 

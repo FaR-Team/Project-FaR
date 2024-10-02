@@ -1,6 +1,7 @@
 using FaRUtils.Systems.Weather;
 using System;
 using UnityEngine;
+using Utils;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
 public class Dirt : MonoBehaviour
@@ -53,7 +54,7 @@ public class Dirt : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogWarning(e);
+            this.LogWarning(e);
         }
     }
     public CropSaveData GetCropSaveData()

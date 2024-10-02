@@ -1,8 +1,22 @@
 ﻿using System;
 using UnityEngine;
+using Utils;
 
 public static class InventoryLoader
 {
+    public static DummyLogger logger;
+
+    static InventoryLoader()
+    {
+        logger = GameObject.FindObjectOfType<DummyLogger>();
+        if (logger == null)
+        {
+            GameObject loggerObject = new GameObject("DataSaverLogger");
+            logger = loggerObject.AddComponent<DummyLogger>();
+            UnityEngine.Object.DontDestroyOnLoad(loggerObject);
+        }
+    }
+
     public static InventoryData inventoryData;
     /*
      PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUNQUE SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
@@ -22,7 +36,7 @@ public static class InventoryLoader
         }
         catch (Exception e)
         {
-            Debug.LogWarning($"Failed to preload Inventory information. reason {e}");
+            logger.LogWarning($"Failed to preload Inventory information. reason {e}");
 
             return new InventorySystem(defaultSize, defaultgold);
         }

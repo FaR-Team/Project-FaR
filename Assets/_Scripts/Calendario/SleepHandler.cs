@@ -3,6 +3,7 @@ using FaRUtils.Systems.DateTime;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 public class SleepHandler : MonoBehaviour
 {
@@ -80,12 +81,12 @@ public class SleepHandler : MonoBehaviour
     {
         if (_isSleeping)
         {
-            Debug.Log("Ya estás durmiendo");
+            this.Log("Ya estás durmiendo");
             return false;
         }
         if (TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
         {
-            Debug.Log("Es muy temprano para dormir");
+            this.Log("Es muy temprano para dormir");
             return false;
         }
 
