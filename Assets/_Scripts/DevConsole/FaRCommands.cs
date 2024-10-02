@@ -84,7 +84,7 @@ public class FaRCommands : MonoBehaviour
 
     private void TestDeleteSave()
     {
-
+        SaverManager.DeleteAllSaves();
     }
 
     public void Noclip()

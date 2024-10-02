@@ -61,7 +61,7 @@ public class DataSaver
 
         if (!File.Exists(tempPath))
         {
-            logger.Log("El archivo no existe");
+            logger.LogWarning("El archivo no existe");
             return default;
         }
 

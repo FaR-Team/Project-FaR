@@ -52,6 +52,27 @@ public static class SaverManager
         }
     }
 
+    public static void DeleteAllSaves()
+    {
+        string folderPath = PathFinder.GetPermanentFolder();
+
+        if (Directory.Exists(folderPath))
+        {
+            string[] files = Directory.GetFiles(folderPath);
+
+            foreach (string file in files)
+            {
+                File.Delete(file);
+                logger.Log($"Save file deleted: {file}");
+            }
+
+            logger.Log($"All save files deleted in folder: {folderPath}");
+        }
+        else
+        {
+            logger.Log($"No save folder found at: {folderPath}");
+        }
+    }
     public static void ClearTemp()
     {
         try

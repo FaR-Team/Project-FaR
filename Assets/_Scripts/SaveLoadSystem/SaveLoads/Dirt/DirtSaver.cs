@@ -26,7 +26,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
             SaverManager.Save(allDirtsData, isTemporarySave);
             allDirtsData.ClearAfterSave();
 
-            this.Log("Successfully Saved dirts information");
+            this.LogSuccess("Successfully Saved dirts information");
         }
         catch (Exception e)
         {

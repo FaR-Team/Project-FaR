@@ -8,10 +8,12 @@ public static class PathFinder
         string result = GetPathIfTemp(objectName, isTemporary) + ".json";
         return result;
     }
+
     public static string GetPermanentFolder()
     {
         return Path.Combine(Application.persistentDataPath, GetSaveRunName());
     }
+    
     public static string GetTempFolder()
     {
         return Path.Combine(Application.persistentDataPath, "temp");
