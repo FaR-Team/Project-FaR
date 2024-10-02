@@ -34,7 +34,7 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
             allChests.SaveQueue();
             SaverManager.Save(allChests, isTemporarySave);
 
-            this.Log("Successfully Saved Chests");
+            this.LogSuccess("Successfully Saved Chests");
         }
         catch (Exception e)
         {
