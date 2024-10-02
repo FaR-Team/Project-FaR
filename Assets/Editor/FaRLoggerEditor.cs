@@ -24,7 +24,9 @@ public class FaRConsoleWindow : EditorWindow
     private bool showError = true;
     private bool showSuccess = true;
 
-
+    private bool useRegex = false;
+    private string[] searchFields = new string[] { "All", "Message", "Stack Trace", "Object Name" };
+    private int selectedSearchField = 0;
 
     [MenuItem("FARUtils/FaR Console")]
     public static void ShowWindow()
@@ -149,8 +151,11 @@ public class FaRConsoleWindow : EditorWindow
             ExportLogsToFile();
         }
 
-        // Add search field
+        EditorGUILayout.BeginHorizontal();
         searchText = EditorGUILayout.TextField(searchText, EditorStyles.toolbarSearchField);
+        useRegex = EditorGUILayout.Toggle(useRegex, GUILayout.Width(20));
+        selectedSearchField = EditorGUILayout.Popup(selectedSearchField, searchFields, EditorStyles.toolbarPopup, GUILayout.Width(100));
+        EditorGUILayout.EndHorizontal();
 
         // Toggle buttons for each log type
         showInfo = GUILayout.Toggle(showInfo, new GUIContent("ⓘ", "Info"), EditorStyles.toolbarButton, GUILayout.Width(30));
@@ -352,12 +357,35 @@ public class FaRConsoleWindow : EditorWindow
 
     private bool MatchesSearch(LogEntry entry)
     {
-        string searchLower = searchText.ToLower();
-        return entry.message.ToLower().Contains(searchLower) ||
-            entry.fileName.ToLower().Contains(searchLower) ||
-            entry.objectName.ToLower().Contains(searchLower) ||
-            entry.stackTrace.ToLower().Contains(searchLower);
+        if (string.IsNullOrEmpty(searchText))
+            return true;
+
+        string searchTarget = searchFields[selectedSearchField] switch
+        {
+            "Message" => entry.message,
+            "Stack Trace" => entry.stackTrace,
+            "Object Name" => entry.objectName,
+            _ => $"{entry.message} {entry.stackTrace} {entry.objectName}"
+        };
+
+        if (useRegex)
+        {
+            try
+            {
+                return System.Text.RegularExpressions.Regex.IsMatch(searchTarget, searchText, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+            }
+            catch (System.ArgumentException)
+            {
+                // Invalid regex, fall back to normal search
+                return searchTarget.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+        }
+        else
+        {
+            return searchTarget.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
     }
+
     private void JumpToCode(string stackTrace)
     {
         var lines = stackTrace.Split('\n');

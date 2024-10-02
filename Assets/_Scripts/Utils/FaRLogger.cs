@@ -25,22 +25,22 @@ namespace Utils
 
         public static void Log(this Object myObj, params object[] msg)
         {
-            DoLog(Debug.Log, "ℹ️", myObj, msg);
+            DoLog(Debug.Log, "ℹ️ ", myObj, msg);
         }
 
         public static void LogError(this Object myObj, params object[] msg)
         {
-            DoLog(Debug.LogError, "⌧".Color("red"), myObj, msg);
+            DoLog(Debug.LogError, "⌧ ".Color("red"), myObj, msg);
         }
 
         public static void LogWarning(this Object myObj, params object[] msg)
         {
-            DoLog(Debug.LogWarning, "⚠".Color("yellow"), myObj, msg);
+            DoLog(Debug.LogWarning, "⚠ ".Color("yellow"), myObj, msg);
         }
 
         public static void LogSuccess(this Object myObj, params object[] msg)
         {
-            DoLog(Debug.Log, "✓".Color("green"), myObj, msg);
+            DoLog(Debug.Log, "✓ ".Color("green"), myObj, msg);
         }
     }
 }
