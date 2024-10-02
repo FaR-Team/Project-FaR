@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class AllDirtsData : IAllData<AllDirtsData>
@@ -35,5 +36,11 @@ public class AllDirtsData : IAllData<AllDirtsData>
         dataList = allData.dataList;
         counter = allData.counter;
         LoadQueue();
+    }
+
+    public void ClearAfterSave()
+    {
+        counter = 0;
+        data.Clear();
     }
 }

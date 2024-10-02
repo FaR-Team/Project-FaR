@@ -24,6 +24,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
 
             allDirtsData.SaveQueue();
             SaverManager.Save(allDirtsData, isTemporarySave);
+            allDirtsData.ClearAfterSave();
 
             this.Log("Successfully Saved dirts information");
         }
