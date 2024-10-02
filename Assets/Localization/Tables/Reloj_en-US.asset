@@ -17,17 +17,34 @@ MonoBehaviour:
   m_SharedData: {fileID: 11400000, guid: ba842d20f73da9748b85181e26843779, type: 2}
   m_Metadata:
     m_Items:
-    - rid: 5506500714086006784
+    - rid: 3129098415526903812
   m_TableData:
   - m_Id: 45314342912
-    m_Localized: '{myDateVariable:choose(1|2|3|4|5|6|7):Mon|Tue|Wed|Thu|Fri|Sat|Sun|}'
+    m_Localized: '{dayVariable.DateTime.Day:choose(MonId|TueId|WedId|ThuId|FriId|SatId|SunId):Mon|Tue|Wed|Thu|Fri|Sat|Sun|}'
     m_Metadata:
       m_Items:
-      - rid: 5506500714086006784
+      - rid: 3129098415526903812
+  - m_Id: 268955406744813568
+    m_Localized: '{seasonVariable.DateTime.Seasons:choose(Early_Spring|Late_Spring|Early_Summer|Late_Summer|Early_Fall|Late_Fall|Early_Winter|Late_Winter):Early
+      Spring|Late Spring|Early Summer|Late Summer|Early Fall|Late Fall|Early Winter|Late
+      Winter|}'
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903812
+  - m_Id: 268962317061980160
+    m_Localized: Year {yearVariable.DateTime.Year}
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903812
+  - m_Id: 268965299346173952
+    m_Localized: '{locationVariable.place:choose(0|1|2):Farm|House|Town}'
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903812
   references:
     version: 2
     RefIds:
-    - rid: 5506500714086006784
+    - rid: 3129098415526903812
       type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
       data:
-        m_Entries: 0000f28c0a000000
+        m_Entries: 0000f28c0a000000000072778485bb0300007266cd8bbb0300706fc4838ebb03

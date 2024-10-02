@@ -16,12 +16,35 @@ MonoBehaviour:
     m_Code: sw
   m_SharedData: {fileID: 11400000, guid: ba842d20f73da9748b85181e26843779, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 3129098415526903811
   m_TableData:
   - m_Id: 45314342912
-    m_Localized: '{myDateVariable:choose(1|2|3|4|5|6|7):IDKS|IDKS|IDKS|IDKS|IDKS|IDKS|IDKS}'
+    m_Localized: '{dayVariable.DateTime.Day:choose(MonId|TueId|WedId|ThuId|FriId|SatId|SunId):IDKS|IDKS|IDKS|IDKS|IDKS|IDKS|IDKS}'
     m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 3129098415526903811
+  - m_Id: 268955406744813568
+    m_Localized: "{seasonVariable.DateTime.Seasons:choose(Early_Spring|Late_Spring|Early_Summer|Late_Summer|Early_Fall|Late_Fall|Early_Winter|Late_Winter):IDKS
+      Mapema\r|IDKS Marehemu|IDKS Mapema|IDKS Marehemu|IDKS Mapema|IDKS Marehemu|IDKS
+      Mapema|IDKS Marehemu|}"
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903811
+  - m_Id: 268962317061980160
+    m_Localized: IDKS {yearVariable.DateTime.Year}
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903811
+  - m_Id: 268965299346173952
+    m_Localized: '{locationVariable.place:choose(0|1|2):swanjigranja|swajicasa|Swahili}'
+    m_Metadata:
+      m_Items:
+      - rid: 3129098415526903811
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3129098415526903811
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 0000f28c0a000000000072778485bb0300007266cd8bbb0300706fc4838ebb03

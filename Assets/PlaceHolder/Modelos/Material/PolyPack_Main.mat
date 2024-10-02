@@ -36,6 +36,10 @@ Material:
         m_Texture: {fileID: 2800000, guid: 6119701bb0c09044e9b9207ec9ac57e4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 6119701bb0c09044e9b9207ec9ac57e4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -227,6 +231,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AdvancedTab: 0
+    - _Alpha: 1
     - _AlphaBaseCutout: 1
     - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
@@ -240,6 +245,8 @@ Material:
     - _Brightness: 1
     - _BumpScale: 1
     - _CelShadingBlurWidth: 0.2
+    - _CelShadingLevels: 3
+    - _CelShadingThreshold: 0.5
     - _ColorGrading: 0
     - _Compa: 4
     - _Contrast: 1
@@ -394,6 +401,8 @@ Material:
     - _SelfShadowThreshold: 0.85
     - _ShadowColorTexturePower: 0
     - _ShadowHardness: 0
+    - _ShadowIntensity: 0.5
+    - _ShadowStrength: 0.5
     - _ShadowTColorPower: 1
     - _ShadowTHardness: 1
     - _ShadowTIntensity: 1
@@ -443,6 +452,7 @@ Material:
     m_Colors:
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _AmbientColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _CustomLightDirection: {r: 0, g: 0, b: 10, a: 0}
     - _DabsScale: {r: 1, g: 1, b: 1, a: 1}
@@ -454,6 +464,7 @@ Material:
     - _GoochDarkColor: {r: 0, g: 0, b: 0, a: 1}
     - _HighlightColor: {r: 1, g: 1, b: 1, a: 1}
     - _IridescenceColor: {r: 1, g: 1, b: 1, a: 0.5}
+    - _LightColor0: {r: 1, g: 1, b: 1, a: 1}
     - _LightTransmissionColor: {r: 1, g: 0.65, b: 0, a: 1}
     - _MainColor: {r: 0.6886792, g: 0.6886792, b: 0.6886792, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
@@ -465,6 +476,7 @@ Material:
     - _RimLightColor: {r: 1, g: 1, b: 1, a: 1}
     - _SelfLitColor: {r: 1, g: 1, b: 1, a: 1}
     - _SelfShadowRealTimeShadowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _ShadowTColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}
