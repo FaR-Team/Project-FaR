@@ -5,6 +5,7 @@ using System;
 using Object = UnityEngine.Object;
 using Utils;
 using System.Linq;
+using System.IO;
 
 [InitializeOnLoad]
 public class FaRConsoleWindow : EditorWindow
@@ -142,6 +143,11 @@ public class FaRConsoleWindow : EditorWindow
 
         GUILayout.FlexibleSpace();
 
+        if (GUILayout.Button("Export", EditorStyles.toolbarButton))
+        {
+            ExportLogsToFile();
+        }
+
         // Add search field
         searchText = EditorGUILayout.TextField(searchText, EditorStyles.toolbarSearchField);
 
@@ -151,7 +157,8 @@ public class FaRConsoleWindow : EditorWindow
         showError = GUILayout.Toggle(showError, new GUIContent("⌧", "Error"), EditorStyles.toolbarButton, GUILayout.Width(30));
         showSuccess = GUILayout.Toggle(showSuccess, new GUIContent("✓", "Success"), EditorStyles.toolbarButton, GUILayout.Width(30));
 
-        EditorGUILayout.EndHorizontal();
+
+        EditorGUILayout.EndHorizontal();        
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
         for (int i = 0; i < logEntries.Count; i++)
         {
@@ -215,6 +222,28 @@ public class FaRConsoleWindow : EditorWindow
         }
         EditorGUILayout.EndScrollView();
     }
+
+    private void ExportLogsToFile()
+    {
+        string path = EditorUtility.SaveFilePanel("Save Console Log", "", "ConsoleLog.txt", "txt");
+        if (!string.IsNullOrEmpty(path))
+        {
+            using (StreamWriter writer = new StreamWriter(path))
+            {
+                foreach (var entry in logEntries)
+                {
+                    writer.WriteLine($"{entry.prefix}[{entry.objectName}] {entry.message}");
+                    writer.WriteLine($"File: {entry.fileName}");
+                    writer.WriteLine($"Line: {entry.lineNumber}");
+                    writer.WriteLine("Stack Trace:");
+                    writer.WriteLine(entry.stackTrace);
+                    writer.WriteLine();
+                }
+            }
+            this.LogSuccess($"Console log exported to: {path}");
+        }
+    }
+
     private bool ShouldShowLogType(LogEntryType type)
     {
         switch (type)
