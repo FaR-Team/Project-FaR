@@ -6,11 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="764f0ecb-e681-4b92-ac7b-4c0bd37240ad" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Project-FaR/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Project-FaR/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/Granja.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/Granja.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scene/PlayerHouse.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scene/PlayerHouse.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/FaRCharacterController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/FaRCharacterController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SaveLoadSystem/SaveOnScene/DontDestroy.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SaveLoadSystem/SaveOnScene/DontDestroy.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/SaveLoadSystem/SaveOnScene/DontDestroy.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/SaveLoadSystem/SaveOnScene/DontDestroy.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Crops/Tuber/Carrot/CarrotInDirt.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Crops/Tuber/Carrot/CarrotInDirt.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Dirt/Dirt.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Dirt/Dirt.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Plantas Growth/GrowingBase.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Plantas Growth/GrowingBase.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/Plantas Growth/GrowingTuber.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/Plantas Growth/GrowingTuber.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/SaveLoadSystem/SaveLoads/Chest/AllChestSystems.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/SaveLoadSystem/SaveLoads/Chest/AllChestSystems.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/_Scripts/SaveLoadSystem/SaveLoads/Chest/ChestSaver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/_Scripts/SaveLoadSystem/SaveLoads/Chest/ChestSaver.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +34,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Data/Save/DSNodeSaveData.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Elements/DSGroup.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Editor/DialogueSystem/Utilities/DSIOUtility.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/InteractTeleportPlayer.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/TestSaverClass.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />

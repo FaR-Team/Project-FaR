@@ -34,10 +34,11 @@ public class GrowingTuber : GrowingBase
         GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(daysPlanted));
 
-        if (currentState != lastState) SetData(); // Only change mesh data if changed state
+        if (currentState != lastState) UpdateState(); // Only change mesh data if changed state
     }
-    protected override void SetData()
+    protected override void UpdateState()
     {
+        Debug.Log("UPDATING STATE");
         skinnedMeshRenderer.material = currentState.material;
         skinnedMeshRenderer.sharedMesh = currentState.mesh;
 

@@ -34,4 +34,10 @@ public class AllChestSystems : IAllData<AllChestSystems>
         dataCounter = allChestsData.dataCounter;
         LoadQueue();
     }
+    
+    public void ClearAfterSave()
+    {
+        dataCounter = 0;
+        data.Clear();
+    }
 }
