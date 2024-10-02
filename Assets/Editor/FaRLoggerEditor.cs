@@ -6,6 +6,7 @@ using Object = UnityEngine.Object;
 using Utils;
 using System.Linq;
 using System.IO;
+using System.Text;
 
 [InitializeOnLoad]
 public class FaRConsoleWindow : EditorWindow
@@ -223,23 +224,63 @@ public class FaRConsoleWindow : EditorWindow
         EditorGUILayout.EndScrollView();
     }
 
+    private string GenerateHtmlContent()
+    {
+        StringBuilder html = new StringBuilder();
+        html.AppendLine("<!DOCTYPE html>");
+        html.AppendLine("<html lang='en'>");
+        html.AppendLine("<head>");
+        html.AppendLine("<meta charset='UTF-8'>");
+        html.AppendLine("<title>FaR Console Log</title>");
+        html.AppendLine("<style>");
+        html.AppendLine("body { font-family: Arial, sans-serif; background-color: #1e1e1e; color: #d4d4d4; }");
+        html.AppendLine(".log-entry { border: 1px solid #3c3c3c; margin: 5px; padding: 5px; }");
+        html.AppendLine(".log-header { cursor: pointer; }");
+        html.AppendLine(".stack-trace { display: none; white-space: pre-wrap; }");
+        html.AppendLine(".info { color: #569cd6; }");
+        html.AppendLine(".warning { color: #dcdcaa; }");
+        html.AppendLine(".error { color: #f44747; }");
+        html.AppendLine(".success { color: #6a9955; }");
+        html.AppendLine("</style>");
+        html.AppendLine("</head>");
+        html.AppendLine("<body>");
+
+        for (int i = 0; i < logEntries.Count; i++)
+        {
+            var entry = logEntries[i];
+            string logClass = entry.entryType.ToString().ToLower();
+            html.AppendLine($"<div class='log-entry {logClass}'>");
+            html.AppendLine($"<div class='log-header' onclick='toggleStackTrace({i})'>");
+            html.AppendLine($"{entry.prefix}[{entry.objectName}] {entry.message}");
+            html.AppendLine("</div>");
+            html.AppendLine($"<div id='stackTrace{i}' class='stack-trace'>");
+            html.AppendLine($"File: {entry.fileName}<br>");
+            html.AppendLine($"Line: {entry.lineNumber}<br>");
+            html.AppendLine("Stack Trace:<br>");
+            html.AppendLine(entry.stackTrace.Replace("\n", "<br>"));
+            html.AppendLine("</div>");
+            html.AppendLine("</div>");
+        }
+
+        html.AppendLine("<script>");
+        html.AppendLine("function toggleStackTrace(id) {");
+        html.AppendLine("  var stackTrace = document.getElementById('stackTrace' + id);");
+        html.AppendLine("  stackTrace.style.display = stackTrace.style.display === 'none' ? 'block' : 'none';");
+        html.AppendLine("}");
+        html.AppendLine("</script>");
+        html.AppendLine("</body>");
+        html.AppendLine("</html>");
+
+        return html.ToString();
+    }
+
     private void ExportLogsToFile()
     {
-        string path = EditorUtility.SaveFilePanel("Save Console Log", "", "ConsoleLog.txt", "txt");
+        string path = EditorUtility.SaveFilePanel("Save Console Log", "", "ConsoleLog.html", "html");
         if (!string.IsNullOrEmpty(path))
         {
-            using (StreamWriter writer = new StreamWriter(path))
-            {
-                foreach (var entry in logEntries)
-                {
-                    writer.WriteLine($"{entry.prefix}[{entry.objectName}] {entry.message}");
-                    writer.WriteLine($"File: {entry.fileName}");
-                    writer.WriteLine($"Line: {entry.lineNumber}");
-                    writer.WriteLine("Stack Trace:");
-                    writer.WriteLine(entry.stackTrace);
-                    writer.WriteLine();
-                }
-            }
+            string htmlContent = GenerateHtmlContent();
+            File.WriteAllText(path, htmlContent);
             this.LogSuccess($"Console log exported to: {path}");
         }
     }
