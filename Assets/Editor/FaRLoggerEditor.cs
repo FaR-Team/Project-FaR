@@ -110,6 +110,10 @@ public class FaRConsoleWindow : EditorWindow
         {
             if (line.StartsWith("File: "))
                 fileName = line.Substring(6).Trim();
+                if (fileName.StartsWith(Application.dataPath))
+                {
+                    fileName = "Assets" + fileName.Substring(Application.dataPath.Length);
+                }
             else if (line.StartsWith("Line: "))
                 int.TryParse(line.Substring(6).Trim(), out lineNumber);
         }
@@ -185,28 +189,19 @@ public class FaRConsoleWindow : EditorWindow
 
             EditorGUILayout.BeginVertical(GUI.skin.box);
 
+            EditorGUILayout.BeginHorizontal(GUI.skin.box);
+
+            // Add time column
+            EditorGUILayout.LabelField(entry.timestamp.ToString("HH:mm:ss"), GUILayout.Width(70));
+
             EditorGUILayout.BeginHorizontal(GUILayout.Width(15));
             entry.isExpanded = EditorGUILayout.Foldout(entry.isExpanded, "");
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.BeginHorizontal();
-
+            
             if (GUILayout.Button($"{entry.prefix}[<color=lightblue>{entry.objectName}</color>] {entry.message}", style, GUILayout.ExpandWidth(true)))
             {
-                // Handle click event
-                if (entry.stackTrace.Contains("UnityEngine.Debug:Log"))
-                {
-                    JumpToCode(entry.stackTrace);
-                }
-                else
-                {
-                    // Highlight the object
-                    var obj = GameObject.Find(entry.objectName);
-                    if (obj != null)
-                    {
-                        Selection.activeObject = obj;
-                        EditorGUIUtility.PingObject(obj);
-                    }
-                }
+                SmartSelect(entry);
             }
 
             if (entry.count > 1)
@@ -214,6 +209,7 @@ public class FaRConsoleWindow : EditorWindow
                 GUILayout.Label($"({entry.count})", GUILayout.Width(30));
             }
 
+            EditorGUILayout.EndHorizontal();
             EditorGUILayout.EndHorizontal();
 
             if (entry.isExpanded)
@@ -385,32 +381,56 @@ public class FaRConsoleWindow : EditorWindow
             return searchTarget.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
+      private void SmartSelect(LogEntry entry)
+      {
+          // Try to find the GameObject by name
+          GameObject obj = GameObject.Find(entry.objectName);
+          if (obj != null)
+          {
+              Selection.activeGameObject = obj;
+              EditorGUIUtility.PingObject(obj);
+              return;
+          }
 
-    private void JumpToCode(string stackTrace)
-    {
-        var lines = stackTrace.Split('\n');
-        string fileName = null;
-        int lineNumber = -1;
+          // If not found, try to parse the stack trace for component information
+          string[] lines = entry.stackTrace.Split('\n');
+          foreach (string line in lines)
+          {
+              if (line.Contains("UnityEngine.Component:"))
+              {
+                  int startIndex = line.IndexOf("UnityEngine.Component:");
+                  int endIndex = line.IndexOf('(', startIndex);
+                  if (endIndex > startIndex)
+                  {
+                      string componentName = line.Substring(startIndex + 22, endIndex - startIndex - 22);
+                      Component[] components = FindObjectsOfType(Type.GetType(componentName)) as Component[];
+                      if (components.Length > 0)
+                      {
+                          Selection.activeGameObject = components[0].gameObject;
+                          EditorGUIUtility.PingObject(components[0].gameObject);
+                          return;
+                      }
+                  }
+              }
+          }
 
-        foreach (var line in lines)
-        {
-            if (line.StartsWith("File: "))
-                fileName = line.Substring(6).Trim();
-            else if (line.StartsWith("Line: "))
-                int.TryParse(line.Substring(6).Trim(), out lineNumber);
-        }
-
-        if (fileName != null && lineNumber != -1)
-        {
-            var asset = AssetDatabase.LoadAssetAtPath<Object>(fileName);
-            if (asset != null)
-            {
-                AssetDatabase.OpenAsset(asset, lineNumber);
-                return;
-            }
-        }
-        this.LogWarning("Could not find a valid file and line number in the stack trace.");
-    }
+          // If still not found, try to highlight the script asset
+          if (!string.IsNullOrEmpty(entry.fileName))
+          {
+              // Ensure the path is relative to the Assets folder
+              string relativePath = entry.fileName;
+              if (!relativePath.StartsWith("Assets/"))
+              {
+                  relativePath = "Assets/" + relativePath;
+              }
+              var asset = AssetDatabase.LoadAssetAtPath<Object>(relativePath);
+              if (asset != null)
+              {
+                  Selection.activeObject = asset;
+                  EditorGUIUtility.PingObject(asset);
+              }
+          }
+      }
     public enum LogEntryType
     {
         Info,
@@ -418,50 +438,51 @@ public class FaRConsoleWindow : EditorWindow
         Error,
         Success
     }
+      public class LogEntry
+      {
+          public string prefix;
+          public string objectName;
+          public string message;
+          public string stackTrace;
+          public LogType type;
+          public bool isExpanded;
+          public string fileName;
+          public int lineNumber;
+          public int count = 1;
+          public LogEntryType entryType;
+          public DateTime timestamp;
 
-    public class LogEntry
-    {
-        public string prefix;
-        public string objectName;
-        public string message;
-        public string stackTrace;
-        public LogType type;
-        public bool isExpanded;
-        public string fileName;
-        public int lineNumber;
-        public int count = 1;
-        public LogEntryType entryType;
+          public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
+          {
+              this.prefix = prefix;
+              this.objectName = objectName;
+              this.message = message;
+              this.stackTrace = stackTrace;
+              this.type = type;
+              this.isExpanded = false;
+              this.fileName = fileName;
+              this.lineNumber = lineNumber;
+              this.entryType = DetermineLogEntryType(prefix, type);
+              this.timestamp = DateTime.Now;
+          }
 
-        public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
-        {
-            this.prefix = prefix;
-            this.objectName = objectName;
-            this.message = message;
-            this.stackTrace = stackTrace;
-            this.type = type;
-            this.isExpanded = false;
-            this.fileName = fileName;
-            this.lineNumber = lineNumber;
-            this.entryType = DetermineLogEntryType(prefix, type);
-        }
-
-        private LogEntryType DetermineLogEntryType(string prefix, LogType type)
-        {
-            if (prefix.Contains("✓"))
-                return LogEntryType.Success;
-            switch (type)
-            {
-                case LogType.Log:
-                    return LogEntryType.Info;
-                case LogType.Warning:
-                    return LogEntryType.Warning;
-                case LogType.Error:
-                case LogType.Exception:
-                case LogType.Assert:
-                    return LogEntryType.Error;
-                default:
-                    return LogEntryType.Info;
-            }
-        }
+          private LogEntryType DetermineLogEntryType(string prefix, LogType type)
+          {
+              if (prefix.Contains("✓"))
+                  return LogEntryType.Success;
+              switch (type)
+              {
+                  case LogType.Log:
+                      return LogEntryType.Info;
+                  case LogType.Warning:
+                      return LogEntryType.Warning;
+                  case LogType.Error:
+                  case LogType.Exception:
+                  case LogType.Assert:
+                      return LogEntryType.Error;
+                  default:
+                      return LogEntryType.Info;
+              }
+          }
     }
 }
