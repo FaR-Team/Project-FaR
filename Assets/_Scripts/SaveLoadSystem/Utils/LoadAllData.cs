@@ -102,8 +102,6 @@ public static class LoadAllData
             CopyDirectoryContents(directory, destDir);
         }
     }
-
-
 }
 
 public interface IAllData<T>

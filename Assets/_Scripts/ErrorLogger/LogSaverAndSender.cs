@@ -72,25 +72,15 @@ public class LogSaverAndSender : MonoBehaviour
 
     private void discordLog()
     {
-        LogInfo loadedData = DataSaver.LoadData<LogInfo>("savelog");
-        string date = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
-
-        if (loadedData != null && loadedData.logInfoList != null
-
-            && loadedData.logInfoList.Count > 0)
+        string logFilePath = Path.Combine(Application.persistentDataPath, "savelog.txt");
+        if (File.Exists(logFilePath))
         {
+            string date = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:sszzz");
+            string messageToSend = $"Date: {date}\nDevice Name: {SystemInfo.deviceName}\nGame: {Application.productName}\nVersion: {Application.version}\nOS: {SystemInfo.operatingSystem}\nLogs:\n";
 
-            Debug.Log("Se encontró un Log!");
+            SendFile(messageToSend, "savelog.txt", "txt", logFilePath, "application/msexcel", "FaR-Logs", webhook_link);
 
-            //Convertir a json
-            string messageToSend = "Date: " + date + "\n" + "Device Name: " + SystemInfo.deviceName + "\n" + "Game: " + Application.productName + "\n" + "Version: " + Application.version + "\n" + "OS: " + SystemInfo.operatingSystem + "\n" + "Logs:\n";
-
-            string attachmentPath = Path.Combine(Application.persistentDataPath, "data");
-            attachmentPath = Path.Combine(attachmentPath, "savelog.txt");
-
-            SendFile(messageToSend, "savelog.txt", "txt", attachmentPath, "application/msexcel", "FaR-Logs", webhook_link);
-
-            DataSaver.DeleteData("savelog");
+            File.Delete(logFilePath);
         }
     }
 
@@ -141,22 +131,27 @@ public class LogSaverAndSender : MonoBehaviour
     {
         if (!hasFocus && hasError)
         {
-            //Guardar
             if (enableSave)
-                DataSaver.SaveData(logs, "savelog");
+                SaveLogsToFile();
         }
     }
 
-    //Guardar log al salir
     void OnApplicationPause(bool pauseStatus)
     {
         if (pauseStatus)
         {
-            //Guardar
             if (enableSave)
-                DataSaver.SaveData(logs, "savelog");
+                SaveLogsToFile();
         }
     }
+
+    private void SaveLogsToFile()
+    {
+        string logFilePath = Path.Combine(Application.persistentDataPath, "savelog.txt");
+        string jsonLogs = JsonUtility.ToJson(logs);
+        File.WriteAllText(logFilePath, jsonLogs);
+    }
+
 }
 
 public static class FormUpload
