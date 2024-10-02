@@ -5,6 +5,7 @@ using System;
 using Object = UnityEngine.Object;
 using Utils;
 
+[InitializeOnLoad]
 public class FaRConsoleWindow : EditorWindow
 {
     private Vector2 scrollPosition;
@@ -15,6 +16,16 @@ public class FaRConsoleWindow : EditorWindow
 
     [MenuItem("FARUtils/FaR Console")]
     public static void ShowWindow()
+    {
+        GetWindow<FaRConsoleWindow>("FaR Console");
+    }
+
+    static FaRConsoleWindow()
+    {
+        EditorApplication.delayCall += OpenWindow;
+    }
+
+    private static void OpenWindow()
     {
         GetWindow<FaRConsoleWindow>("FaR Console");
     }
@@ -80,8 +91,6 @@ public class FaRConsoleWindow : EditorWindow
     }
     
     private bool errorPause = false;
-    private string[] editorOptions = new string[] { "Editor", "Player" };
-    private int selectedEditorOption = 0;
     private void OnGUI()
     {
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
