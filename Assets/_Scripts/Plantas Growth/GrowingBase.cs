@@ -17,7 +17,9 @@ public class GrowingBase : MonoBehaviour
     public bool isFruit;
 
     [SerializeField] protected GrowingState[] states;
-    public GrowingState currentState;
+    
+    [Tooltip("Always reference first state in prefab")]
+    public GrowingState currentState; // TODO: Cambiar a protected y que los demás objetos hagan Get de una propiedad, pero me da paja
 
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
@@ -65,11 +67,11 @@ public class GrowingBase : MonoBehaviour
         GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(daysPlanted));
         
-        if(currentState != lastState) SetData(); // Only change mesh data if changed state
+        if(currentState != lastState) UpdateState(); // Only change mesh data if changed state
         
     }
 
-    protected virtual void SetData()
+    protected virtual void UpdateState()
     {
         //Debug.Log($"Current State: {currentState.name}");
         meshFilter.mesh = currentState.mesh;
@@ -92,7 +94,7 @@ public class GrowingBase : MonoBehaviour
     {
         daysPlanted = cropSaveData.DiasPlantado;
         currentState = cropSaveData.GrowingState;
-        SetData();
+        UpdateState();
     }
 
     void OnDisable()

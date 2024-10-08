@@ -33,6 +33,7 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
 
             allChests.SaveQueue();
             SaverManager.Save(allChests, isTemporarySave);
+            allChests.ClearAfterSave();
 
             this.LogSuccess("Successfully Saved Chests");
         }

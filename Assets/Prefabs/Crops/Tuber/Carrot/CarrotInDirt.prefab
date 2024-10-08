@@ -47,13 +47,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46379ef3c70820479fe2de9aebb7a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DiasPlantado: 0
+  maxDaysWithoutHarvest: 0
+  maxDaysDry: 0
   isFruit: 0
   states:
   - {fileID: 11400000, guid: 7a60740a78284d346880259f591ed8ca, type: 2}
   - {fileID: 11400000, guid: e45b56c4b5c380a43aaa69dd838b0d01, type: 2}
   - {fileID: 11400000, guid: b767c7c14dae9ff4ca893dec615a0ca3, type: 2}
-  currentState: {fileID: 0}
+  currentState: {fileID: 11400000, guid: 7a60740a78284d346880259f591ed8ca, type: 2}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
@@ -73,7 +74,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1f00bf49-a6e0-4beb-a7db-69b95ace868e
+  _ID: c1a30443-b10c-46dd-997c-54309764f315
 --- !u!111 &2946311036401442136
 Animation:
   m_ObjectHideFlags: 0
