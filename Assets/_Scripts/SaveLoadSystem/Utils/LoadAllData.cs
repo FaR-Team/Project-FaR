@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 using Utils;
 
@@ -36,7 +37,8 @@ public static class LoadAllData
             T result = new();
 
             string fileContent = File.ReadAllText(path);
-            T preresult = JsonUtility.FromJson<T>(fileContent);
+            //T preresult = JsonUtility.FromJson<T>(fileContent);
+            T preresult = JsonConvert.DeserializeObject<T>(fileContent);
 
             result.CopyData(preresult);
 

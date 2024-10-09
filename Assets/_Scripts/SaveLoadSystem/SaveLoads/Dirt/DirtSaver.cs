@@ -47,7 +47,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
         return Task.CompletedTask;
     }
 
-    public void LoadDictionary(SerializableDictionary<string, List<DirtData>> dict)
+    public void LoadDictionary(Dictionary<string, List<DirtData>> dict)
     {
         allDirtsData.SetDictionaryOnLoad(dict);
     }

@@ -21,7 +21,7 @@ public abstract class Saver<T, Y> : MonoBehaviour, ISaver where T : SaveData whe
     void ISaver.AddSavedObject(IDataSavable savable) => AddSavedObject((Y)savable);
     void ISaver.RemoveSavedObject(IDataSavable savable) => RemoveSavedObject((Y)savable);
 
-    private static void OnApplicationQuit()
+    private void OnApplicationQuit()
     {
         SaverManager.ClearTemp();
     }

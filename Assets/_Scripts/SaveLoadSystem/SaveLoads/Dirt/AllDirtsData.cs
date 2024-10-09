@@ -7,7 +7,7 @@ using Utils;
 [Serializable]
 public class AllDirtsData : IAllData<AllDirtsData>
 {
-    public SerializableDictionary<string, List<DirtData>> sceneDataDictionary;
+    public Dictionary<string, List<DirtData>> sceneDataDictionary;
     public List<DirtData> dataList;
     
     public Queue<DirtData> data;
@@ -36,7 +36,7 @@ public class AllDirtsData : IAllData<AllDirtsData>
         }
     }
 
-    public void SetDictionaryOnLoad(SerializableDictionary<string, List<DirtData>> dict)
+    public void SetDictionaryOnLoad(Dictionary<string, List<DirtData>> dict)
     {
         sceneDataDictionary = dict;
     }
