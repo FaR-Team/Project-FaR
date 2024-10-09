@@ -224,6 +224,15 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": ""Press"",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SkillTree"",
+                    ""type"": ""Button"",
+                    ""id"": ""74619580-3c81-4b0f-b0b1-0899815bb82e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -776,6 +785,17 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""action"": ""Hotbar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7e6196ed-a836-4382-be28-7cbb8c1affe1"",
+                    ""path"": ""<Keyboard>/h"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SkillTree"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -844,6 +864,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_AbilityHotbarDown = m_Player.FindAction("AbilityHotbarDown", throwIfNotFound: true);
         m_Player_HotbarLeft = m_Player.FindAction("HotbarLeft", throwIfNotFound: true);
         m_Player_Hotbar = m_Player.FindAction("Hotbar", throwIfNotFound: true);
+        m_Player_SkillTree = m_Player.FindAction("SkillTree", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -925,6 +946,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_AbilityHotbarDown;
     private readonly InputAction m_Player_HotbarLeft;
     private readonly InputAction m_Player_Hotbar;
+    private readonly InputAction m_Player_SkillTree;
     public struct PlayerActions
     {
         private @PlayerInput2 m_Wrapper;
@@ -951,6 +973,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @AbilityHotbarDown => m_Wrapper.m_Player_AbilityHotbarDown;
         public InputAction @HotbarLeft => m_Wrapper.m_Player_HotbarLeft;
         public InputAction @Hotbar => m_Wrapper.m_Player_Hotbar;
+        public InputAction @SkillTree => m_Wrapper.m_Player_SkillTree;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1026,6 +1049,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Hotbar.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar;
                 @Hotbar.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar;
                 @Hotbar.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnHotbar;
+                @SkillTree.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkillTree;
+                @SkillTree.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkillTree;
+                @SkillTree.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSkillTree;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -1096,6 +1122,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Hotbar.started += instance.OnHotbar;
                 @Hotbar.performed += instance.OnHotbar;
                 @Hotbar.canceled += instance.OnHotbar;
+                @SkillTree.started += instance.OnSkillTree;
+                @SkillTree.performed += instance.OnSkillTree;
+                @SkillTree.canceled += instance.OnSkillTree;
             }
         }
     }
@@ -1142,5 +1171,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnAbilityHotbarDown(InputAction.CallbackContext context);
         void OnHotbarLeft(InputAction.CallbackContext context);
         void OnHotbar(InputAction.CallbackContext context);
+        void OnSkillTree(InputAction.CallbackContext context);
     }
 }

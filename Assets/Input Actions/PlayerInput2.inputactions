@@ -202,6 +202,15 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SkillTree",
+                    "type": "Button",
+                    "id": "74619580-3c81-4b0f-b0b1-0899815bb82e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -752,6 +761,17 @@
                     "processors": "Scale(factor=10)",
                     "groups": "KeyboardMouse",
                     "action": "Hotbar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7e6196ed-a836-4382-be28-7cbb8c1affe1",
+                    "path": "<Keyboard>/h",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillTree",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
