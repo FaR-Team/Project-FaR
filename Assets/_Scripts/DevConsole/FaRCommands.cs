@@ -61,6 +61,7 @@ public class FaRCommands : MonoBehaviour
         DebugLogConsole.AddCommand("saveTemp", "Guardado temporal.", TestSaveTemp);
         DebugLogConsole.AddCommand("load", "forzar cargado.", TestLoad);
         DebugLogConsole.AddCommand("deletesave", "elimina el guardado", TestDeleteSave);
+        DebugLogConsole.AddCommand("clear", "Clears the console", ClearConsole);
     }
 
     private void SetAreaHarvestLevel(int x)
@@ -85,6 +86,11 @@ public class FaRCommands : MonoBehaviour
     private void TestDeleteSave()
     {
         SaverManager.DeleteAllSaves();
+    }
+
+    private void ClearConsole()
+    {
+        DebugLogManager.Instance.ClearLogs();
     }
 
     public void Noclip()

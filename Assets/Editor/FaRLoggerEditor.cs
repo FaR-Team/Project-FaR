@@ -7,7 +7,6 @@ using System.Linq;
 using System.IO;
 using System.Text;
 
-[InitializeOnLoad]
 public class FaRConsoleWindow : EditorWindow
 {
     private Vector2 scrollPosition;
