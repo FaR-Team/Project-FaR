@@ -4,7 +4,7 @@ Shader "FaRTeam/FaRMainShaderURP"
     {
         _Color ("Color", Color) = (1,1,1,1)
         _MainTex ("Texture", 2D) = "white" {}
-        _CelShadingBlurWidth ("Cel Shading Blur", Range(0,2)) = 0.2
+        _CelSteps ("Cel Shading Steps", Range(1, 10)) = 3
         _Alpha ("Alpha", Range(0,1)) = 1
     }
     SubShader
@@ -57,7 +57,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
                 float4 _MainTex_ST;
-                float _CelShadingBlurWidth;
+                float _CelSteps;
                 float _Alpha;
             CBUFFER_END
 
@@ -87,10 +87,11 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 float ambientOcclusion = lerp(0.8, 1.0, shadowSample);
 
-                float cel = smoothstep(0.4, 0.6, NdotL * shadowAttenuation * ambientOcclusion);
+                float celValue = NdotL * shadowAttenuation * ambientOcclusion;
+                float cel = floor(celValue * _CelSteps) / _CelSteps;
 
-                half3 litTint = half3(1.1, 1.05, 1.0);
-                half3 shadowTint = half3(0.7, 0.8, 1.0);
+                half3 litTint = mainLight.color.rgb * 1.2; // Amplify light color for lit areas
+                half3 shadowTint = mainLight.color.rgb * half3(0.7, 0.8, 1.0); // Tint shadows with light color
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
 

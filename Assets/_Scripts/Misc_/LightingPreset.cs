@@ -8,4 +8,5 @@ public class LightingPreset : ScriptableObject
     public Gradient ColorAmbiente;
     public Gradient ColorDireccional;
     public Gradient ColorNiebla;
+    public Material DaySkybox;
 }
