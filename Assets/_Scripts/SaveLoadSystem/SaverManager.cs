@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using Newtonsoft.Json;
 using UnityEngine;
 using Utils;
 
@@ -19,7 +20,11 @@ public static class SaverManager
     }
     public static void Save(object info, bool isTemporary)
     {
-        string jsonFile = JsonUtility.ToJson(info);
+        //string jsonFile = JsonUtility.ToJson(info);
+        string jsonFile = JsonConvert.SerializeObject(info, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+        });
         string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
 
