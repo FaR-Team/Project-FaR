@@ -40,13 +40,13 @@ public class DirtAreaHarvest : MonoBehaviour
 
     private IEnumerator AreaHarvest(BoxCollider box)
     {
-        if (PlayerStats.Instance.areaHarvestLevel == 1)
+        if (PlayerStats.Instance.GetSkillLevel(SkillType.AreaHarvestSkill) == 1)
         {
             yield return delay;
             box.size = SizeOfBox(1);
 
         }
-        else if (PlayerStats.Instance.areaHarvestLevel == 2)
+        else if (PlayerStats.Instance.GetSkillLevel(SkillType.AreaHarvestSkill) == 2)
         {
             yield return delay;
             box.size = SizeOfBox(1);
