@@ -12,6 +12,7 @@ public class SkillTreeUI : MonoBehaviour
     public TextMeshProUGUI skillPointsText;
     public Button[] skillButtons;
     public TextMeshProUGUI[] skillLevelTexts;
+    public SkillData[] skillData;
 
     private void Awake()
     {
@@ -69,7 +70,6 @@ public class SkillTreeUI : MonoBehaviour
         skillTreePanel.SetActive(false);
         PauseMenu.Instance.Unpause();
     }
-
     public void UpdateUI()
     {
         skillPointsText.text = "Skill Points: " + PlayerStats.Instance.skillPoints;
@@ -77,14 +77,14 @@ public class SkillTreeUI : MonoBehaviour
         for (int i = 0; i < PlayerStats.Instance.skills.Count; i++)
         {
             Skill skill = PlayerStats.Instance.skills[i];
-            skillLevelTexts[i].text = skill.name + " (Level " + skill.level + ")";
-            skillButtons[i].interactable = PlayerStats.Instance.skillPoints >= skill.costPerLevel[skill.level];
+            SkillData data = skillData[i];
+            skillLevelTexts[i].text = data.skillName + " (Level " + skill.level + ")";
+            skillButtons[i].interactable = PlayerStats.Instance.skillPoints >= data.costPerLevel[skill.level];
         }
     }
-
     public void OnSkillButtonClicked(int skillIndex)
     {
-        if (PlayerStats.Instance.UpgradeSkill(PlayerStats.Instance.skills[skillIndex].type))
+        if (PlayerStats.Instance.UpgradeSkill(skillData[skillIndex].type))
         {
             UpdateUI();
         }

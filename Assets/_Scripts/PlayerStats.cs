@@ -14,11 +14,12 @@ public class PlayerStats : MonoBehaviour
     }
 
     public List<Skill> skills = new List<Skill>();
-
     public int skillPoints = 0;
 
     public static bool hasPants;
     public static bool hasShirt;
+
+    [SerializeField] private SkillData[] availableSkills;
 
     private void Start()
     {
@@ -27,16 +28,18 @@ public class PlayerStats : MonoBehaviour
 
     private void InitializeSkills()
     {
-        skills.Add(new Skill { name = "Area Harvest", 
-        type = SkillType.AreaHarvestSkill, level = 0, maxLevel = 2, costPerLevel = new int[] { 1, 2} });
+        foreach (var skillData in availableSkills)
+        {
+            skills.Add(new Skill { data = skillData, level = 0 });
+        }
     }
 
     public bool UpgradeSkill(SkillType skillType)
     {
-        Skill skill = skills.Find(s => s.type == skillType);
-        if (skill != null && skill.level < skill.maxLevel && skillPoints >= skill.costPerLevel[skill.level])
+        Skill skill = skills.Find(s => s.data.type == skillType);
+        if (skill != null && skill.level < skill.data.maxLevel && skillPoints >= skill.data.costPerLevel[skill.level])
         {
-            skillPoints -= skill.costPerLevel[skill.level];
+            skillPoints -= skill.data.costPerLevel[skill.level];
             skill.level++;
             return true;
         }
@@ -50,8 +53,8 @@ public class PlayerStats : MonoBehaviour
 
     public bool CheatUpgradeSkill(SkillType skillType)
     {
-        Skill skill = skills.Find(s => s.type == skillType);
-        if (skill != null && skill.level < skill.maxLevel)
+        Skill skill = skills.Find(s => s.data.type == skillType);
+        if (skill != null && skill.level < skill.data.maxLevel)
         {
             skill.level++;
             return true;
@@ -61,7 +64,7 @@ public class PlayerStats : MonoBehaviour
 
     public int GetSkillLevel(SkillType skillType)
     {
-        Skill skill = skills.Find(s => s.type == skillType);
+        Skill skill = skills.Find(s => s.data.type == skillType);
         return skill != null ? skill.level : 0;
     }
 }
@@ -75,9 +78,6 @@ public enum SkillType
 [System.Serializable]
 public class Skill
 {
-    public string name;
-    public SkillType type;
+    public SkillData data;
     public int level;
-    public int maxLevel;
-    public int[] costPerLevel;
 }
