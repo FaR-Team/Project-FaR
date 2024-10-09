@@ -22,17 +22,17 @@ public static class ChestSetter
         }
     }
 
-    public static void Load(GameObject chestPrefab, GameObject parentGO)
+    public static void Load(GameObject chestPrefab, GameObject parentGO, bool temporary) // TODO: No es necesario tantas funciones entre medio que pasen el mismo parámetro
     {
         _chestPrefab = chestPrefab;
-        TryPreloadSavedChests(parentGO);
+        TryPreloadSavedChests(parentGO, temporary);
     }
 
-    private static void TryPreloadSavedChests(GameObject parentGO)
+    private static void TryPreloadSavedChests(GameObject parentGO, bool temporary)
     {
         try
         {
-            chestsDatas = LoadAllData.GetData<AllChestSystems>();
+            chestsDatas = LoadAllData.GetData<AllChestSystems>(temporary);
 
             chestsGOs = ObjectPooling.LoadSavedObjects(_chestPrefab, chestsDatas.dataCounter, parentGO);
 
@@ -61,6 +61,6 @@ public static class ChestSetter
         {
             ObjectPooling.RecicleObject(chest, _chestPrefab);
         });
-        TryPreloadSavedChests(parentGO);
+        TryPreloadSavedChests(parentGO, false);
     }
 }

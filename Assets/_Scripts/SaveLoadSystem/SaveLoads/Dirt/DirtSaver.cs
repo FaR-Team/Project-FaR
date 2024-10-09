@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utils;
 
 public class DirtSaver : Saver<DirtData, SaveDirtData>
@@ -14,19 +15,24 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
 
     private void Awake()
     {
-        instance = this;
+        if(instance != null && instance != this) Destroy(this);
+        else instance = this;
     }
     protected async override void SaveAllData(bool isTemporarySave)
     {
         try
         {
+            Debug.Log("Dirts to save: " + dirts.Count);
+            if (dirts.Count == 0) return; // Don't save if no dirts to save
+            
+            Debug.Log("START SAVING DIRTS");
             await SaveDirts();
 
-            allDirtsData.SaveQueue();
+            allDirtsData.SaveQueue(SceneManager.GetActiveScene().name);
             SaverManager.Save(allDirtsData, isTemporarySave);
             allDirtsData.ClearAfterSave();
 
-            this.LogSuccess("Successfully Saved dirts information");
+            this.LogSuccess("Successfully Saved dirts information in scene in scene " + SceneManager.GetActiveScene().name );
         }
         catch (Exception e)
         {
@@ -41,6 +47,11 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
         return Task.CompletedTask;
     }
 
+    public void LoadDictionary(SerializableDictionary<string, List<DirtData>> dict)
+    {
+        allDirtsData.SetDictionaryOnLoad(dict);
+    }
+
     private async Task SaveDirts()
     {
         foreach (var dirt in dirts)
@@ -51,6 +62,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
 
     public override void AddSavedObject(SaveDirtData dirtData)
     {
+        Debug.Log("Added dirt to save in DirtSaver");
         dirts.Add(dirtData);
     }
 

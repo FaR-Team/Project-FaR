@@ -31,6 +31,7 @@ public static class SaverManager
         }
 
         File.WriteAllText(pathFile, jsonFile);
+        Debug.Log("Saved temporary in " + pathFile);
         if (!isTemporary)
         {
             pathFile = PathFinder.GetFinalPath(info.GetType().FullName, false);

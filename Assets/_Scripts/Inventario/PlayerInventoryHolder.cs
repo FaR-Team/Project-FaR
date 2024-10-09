@@ -18,12 +18,12 @@ public class PlayerInventoryHolder : Container
     {
         instance = this;
 
-        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold);
+        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold, false);
     }
 
     public void ReloadInventory()
     {
-        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold);
+        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold, false);
     }
     private void Start()
     {

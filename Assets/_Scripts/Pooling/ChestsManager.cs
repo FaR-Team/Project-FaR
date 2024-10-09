@@ -14,7 +14,7 @@ public class ChestsManager : MonoBehaviour
     }
     private void Start()
     {
-        ChestSetter.Load(chestPrefab, parentGO);
+        ChestSetter.Load(chestPrefab, parentGO, false); // On Start, load non-temporary save
     }
 
     public void Reload()

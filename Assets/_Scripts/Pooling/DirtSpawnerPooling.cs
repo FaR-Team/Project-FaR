@@ -6,6 +6,7 @@ public class DirtSpawnerPooling : MonoBehaviour
     [SerializeField] GameObject Prefab;
 
     public static DirtSpawnerPooling instance;
+    private static bool firstLoad = false;
 
     public static GameObject _DirtPrefab => instance.Prefab;
 
@@ -22,7 +23,18 @@ public class DirtSpawnerPooling : MonoBehaviour
 
     private void Start()
     {
-        DirtSetter.Load(_DirtPrefab, gameObject);
+        if(firstLoad)
+        {
+            Debug.Log("Load temporary dirt");
+            DirtSetter.Load(_DirtPrefab, gameObject, true); // If already loaded when opening game, load temporal save
+        }
+        else
+        {
+            Debug.Log("Load non-temporary dirt save file");
+            DirtSetter.Load(_DirtPrefab, gameObject, false); // On Start, load non-temporary dirt data
+            firstLoad = true;
+        }
+        
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)
