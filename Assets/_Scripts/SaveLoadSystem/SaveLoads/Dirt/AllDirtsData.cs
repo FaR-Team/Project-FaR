@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Utils;
 
 [Serializable]
 public class AllDirtsData : IAllData<AllDirtsData>
 {
+    public SerializableDictionary<string, List<DirtData>> sceneDataDictionary;
     public List<DirtData> dataList;
     
     public Queue<DirtData> data;
@@ -15,12 +17,15 @@ public class AllDirtsData : IAllData<AllDirtsData>
     {
         dataList = new List<DirtData>();
         data = new Queue<DirtData>();
+        sceneDataDictionary = new();
         counter = 0;
     }
 
-    public void SaveQueue()
+    public void SaveQueue(string sceneName)
     {
         dataList = data.ToList();
+
+        sceneDataDictionary[sceneName] = dataList;
     }
 
     public void LoadQueue()
@@ -31,10 +36,16 @@ public class AllDirtsData : IAllData<AllDirtsData>
         }
     }
 
+    public void SetDictionaryOnLoad(SerializableDictionary<string, List<DirtData>> dict)
+    {
+        sceneDataDictionary = dict;
+    }
+
     public void CopyData(AllDirtsData allData)
     {
         dataList = allData.dataList;
         counter = allData.counter;
+        sceneDataDictionary = allData.sceneDataDictionary;
         LoadQueue();
     }
 

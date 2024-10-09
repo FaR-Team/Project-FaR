@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utils;
 
 public static class DirtSetter
@@ -24,20 +25,23 @@ public static class DirtSetter
         }
     }
 
-    public static void Load(GameObject _DirtPrefab, GameObject parentGO)
+    public static void Load(GameObject _DirtPrefab, GameObject parentGO, bool temporary)
     {
         dirtPrefab = _DirtPrefab;
-        TryPreloadSavedDirts(parentGO);
+        TryPreloadSavedDirts(parentGO, temporary);
     }
-    private static void TryPreloadSavedDirts(GameObject parentGO)
+    private static void TryPreloadSavedDirts(GameObject parentGO, bool temporary)
     {
         try
         {
-            dirtsData = LoadAllData.GetData<AllDirtsData>();
+            dirtsData = LoadAllData.GetData<AllDirtsData>(temporary);
             // Se hardcodea false, pero esto debe ser dado por un game status manager,
             // que le diga si viene por primera vez o bien, si vuelve de algun sitio.
+            
+            if(!temporary) DirtSaver.instance.LoadDictionary(dirtsData.sceneDataDictionary);
 
-            dirtsGO = ObjectPooling.LoadSavedObjects(dirtPrefab, dirtsData.counter, parentGO);
+            var dirtDataQueue = dirtsData.sceneDataDictionary[SceneManager.GetActiveScene().name];
+            dirtsGO = ObjectPooling.LoadSavedObjects(dirtPrefab, dirtDataQueue.Count, parentGO);
 
             dirtsGO.ForEach(dirt => { dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue()); });
 
@@ -60,6 +64,6 @@ public static class DirtSetter
         {
             ObjectPooling.RecicleObject(chest, dirtPrefab);
         });
-        TryPreloadSavedDirts(parentGO);
+        TryPreloadSavedDirts(parentGO, false);
     }
 }

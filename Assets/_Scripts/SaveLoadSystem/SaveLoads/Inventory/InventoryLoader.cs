@@ -22,15 +22,15 @@ public static class InventoryLoader
      PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUNQUE SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
      HACIENDO QUE ESTE TRY SEA INUTIL.
      */
-    public static InventorySystem Load(int defaultSize, int defaultgold)
+    public static InventorySystem Load(int defaultSize, int defaultgold, bool temporary)
     {
-        return TryPreloadSavedDirts(defaultSize, defaultgold);
+        return TryPreloadSavedDirts(defaultSize, defaultgold, temporary);
     }
-    private static InventorySystem TryPreloadSavedDirts(int defaultSize, int defaultgold)
+    private static InventorySystem TryPreloadSavedDirts(int defaultSize, int defaultgold, bool temporary) // TODO: Para el player no va a haber temporal probablemente, ya que no se destruye
     {
         try
         {
-            inventoryData = LoadAllData.GetData<InventoryData>();
+            inventoryData = LoadAllData.GetData<InventoryData>(temporary);
 
             return inventoryData.inventorySystem;
         }

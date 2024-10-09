@@ -5,6 +5,7 @@ using Utils;
 
 public static class LoadAllData
 {
+
     public static DummyLogger logger;
 
     static LoadAllData()
@@ -18,11 +19,12 @@ public static class LoadAllData
         }
     }
 
-    public static T GetData<T>() where T : IAllData<T>, new()
+    public static T GetData<T>(bool temporary) where T : IAllData<T>, new()
     {
         T data = new();
-        string path = PathFinder.GetFinalPath(data.GetType().FullName, false);
+        string path = PathFinder.GetFinalPath(data.GetType().FullName, temporary);
 
+        Debug.Log("Tried loading from path " + path);
 
         if (!PathExists(path))
         {

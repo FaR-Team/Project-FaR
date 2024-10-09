@@ -37,6 +37,9 @@ public class CambiarEscena : MonoBehaviour, IInteractable
     {
         //LoadingScreenCanvas.SetActive(true);
 
+        SaveLoadHandlerSystem.Invoke(true);
+        yield return new WaitForSeconds(2f); // TODO: FOR TESTING, change to WaitUntil all saving is complete
+        
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
         operation.allowSceneActivation = false;
         while (!operation.isDone)
