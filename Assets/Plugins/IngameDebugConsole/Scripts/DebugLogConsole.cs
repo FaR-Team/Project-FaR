@@ -121,8 +121,19 @@ namespace IngameDebugConsole
 		// CompareInfo used for case-insensitive command name comparison
 		internal static readonly CompareInfo caseInsensitiveComparer = new CultureInfo( "en-US" ).CompareInfo;
 
+		private static readonly List<LogEntry> logEntries = new List<LogEntry>();
+        private static bool showInfo = true;
+        private static bool showWarning = true;
+        private static bool showError = true;
+        private static bool showSuccess = true;
+        private static string searchText = "";
+        private static bool useRegex = false;
+        private static int selectedSearchField = 0;
+        private static readonly string[] searchFields = new string[] { "All", "Message", "Stack Trace", "Object Name" };
+
 		static DebugLogConsole()
 		{
+			
 			AddCommand( "help", "Prints all commands", LogAllCommands );
 			AddCommand<string>( "help", "Prints all matching commands", LogAllCommandsWithName );
 			AddCommand( "sysinfo", "Prints system information", LogSystemInfo );
@@ -206,6 +217,179 @@ namespace IngameDebugConsole
 				}
 			}
 		}
+
+		public static void HandleLog(string logString, string stackTrace, LogType type)
+        {
+            var (prefix, objectName, message, fileName, lineNumber) = ParseLogString(logString);
+            var existingEntry = logEntries.Find(e => e.message == message && e.type == type);
+            if (existingEntry != null)
+            {
+                existingEntry.count++;
+            }
+            else
+            {
+                logEntries.Add(new LogEntry(prefix, objectName, message, stackTrace, type, fileName, lineNumber));
+            }
+        }
+
+		private static (string prefix, string objectName, string message, string fileName, int lineNumber) ParseLogString(string logString)
+        {
+            // Implement parsing logic similar to FaRLoggerEditor.cs
+            // This is a simplified version, you may need to adjust it based on your log format
+            string prefix = "";
+            string objectName = "";
+            string message = logString;
+            string fileName = "";
+            int lineNumber = -1;
+
+            int prefixEnd = logString.IndexOf(']');
+            if (prefixEnd != -1)
+            {
+                prefix = logString.Substring(0, prefixEnd + 1);
+                message = logString.Substring(prefixEnd + 1).Trim();
+
+                int objectNameStart = prefix.IndexOf('[');
+                int objectNameEnd = prefix.IndexOf(']');
+                if (objectNameStart != -1 && objectNameEnd != -1)
+                {
+                    objectName = prefix.Substring(objectNameStart + 1, objectNameEnd - objectNameStart - 1);
+                    prefix = prefix.Substring(0, objectNameStart);
+                }
+            }
+
+            return (prefix, objectName, message, fileName, lineNumber);
+        }
+
+        public static List<LogEntry> GetFilteredLogEntries()
+        {
+            return logEntries.FindAll(entry => 
+                ShouldShowLogType(entry.entryType) && MatchesSearch(entry));
+        }
+
+        private static bool ShouldShowLogType(LogEntryType type)
+        {
+            switch (type)
+            {
+                case LogEntryType.Info:
+                    return showInfo;
+                case LogEntryType.Warning:
+                    return showWarning;
+                case LogEntryType.Error:
+                    return showError;
+                case LogEntryType.Success:
+                    return showSuccess;
+                default:
+                    return true;
+            }
+        }
+
+        private static bool MatchesSearch(LogEntry entry)
+        {
+            if (string.IsNullOrEmpty(searchText))
+                return true;
+
+            string searchTarget = searchFields[selectedSearchField] switch
+            {
+                "Message" => entry.message,
+                "Stack Trace" => entry.stackTrace,
+                "Object Name" => entry.objectName,
+                _ => $"{entry.message} {entry.stackTrace} {entry.objectName}"
+            };
+
+            if (useRegex)
+            {
+                try
+                {
+                    return System.Text.RegularExpressions.Regex.IsMatch(searchTarget, searchText, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                }
+                catch (System.ArgumentException)
+                {
+                    return searchTarget.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                }
+            }
+            else
+            {
+                return searchTarget.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+            }
+        }
+
+        public static void SetSearchCriteria(string text, bool regex, int field)
+        {
+            searchText = text;
+            useRegex = regex;
+            selectedSearchField = field;
+        }
+
+        public static void SetVisibilityFilters(bool info, bool warning, bool error, bool success)
+        {
+            showInfo = info;
+            showWarning = warning;
+            showError = error;
+            showSuccess = success;
+        }
+
+        public static void ClearLogs()
+        {
+            logEntries.Clear();
+        }
+
+        // Add other necessary methods and classes...
+
+        public enum LogEntryType
+        {
+            Info,
+            Warning,
+            Error,
+            Success
+        }
+
+        public class LogEntry
+        {
+            public string prefix;
+            public string objectName;
+            public string message;
+            public string stackTrace;
+            public LogType type;
+            public bool isExpanded;
+            public string fileName;
+            public int lineNumber;
+            public int count = 1;
+            public LogEntryType entryType;
+            public DateTime timestamp;
+
+            public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
+            {
+                this.prefix = prefix;
+                this.objectName = objectName;
+                this.message = message;
+                this.stackTrace = stackTrace;
+                this.type = type;
+                this.isExpanded = false;
+                this.fileName = fileName;
+                this.lineNumber = lineNumber;
+                this.entryType = DetermineLogEntryType(prefix, type);
+                this.timestamp = DateTime.Now;
+            }
+
+            private LogEntryType DetermineLogEntryType(string prefix, LogType type)
+            {
+                if (prefix.Contains("✓"))
+                    return LogEntryType.Success;
+                switch (type)
+                {
+                    case LogType.Log:
+                        return LogEntryType.Info;
+                    case LogType.Warning:
+                        return LogEntryType.Warning;
+                    case LogType.Error:
+                    case LogType.Exception:
+                    case LogType.Assert:
+                        return LogEntryType.Error;
+                    default:
+                        return LogEntryType.Info;
+                }
+            }
+        }
 
 		// Logs the list of available commands
 		public static void LogAllCommands()

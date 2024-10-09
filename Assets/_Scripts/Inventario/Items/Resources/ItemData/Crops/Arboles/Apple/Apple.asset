@@ -23,15 +23,8 @@ MonoBehaviour:
   ToolGameObject: {fileID: 0}
   Usable: 1
   Sellable: 1
-  Seed: 0
-  TreeSeed: 0
   IsLookingAtStore: 0
-  Tool: 0
-  IsHoe: 0
-  IsAxe: 0
-  IsBucket: 0
-  IsUnknown1: 0
-  IsUnknown2: 0
+  typeOfItem: 0
   CropBoxPrefab: {fileID: 3462014178256456206, guid: 9f9ea35e7be699249a4c62f93caf4987,
     type: 3}
   _sellSystem: {fileID: 0}

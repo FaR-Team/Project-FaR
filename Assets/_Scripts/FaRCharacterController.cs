@@ -41,6 +41,8 @@ namespace FaRUtils.FPSController
         private float _initHeight;
         [SerializeField] private float crouchHeight;
 
+        public bool bunnyHoppingEnabled = false;
+
         private void Awake()
         {
             if (instance != null && instance != this)
@@ -104,6 +106,7 @@ namespace FaRUtils.FPSController
 
         private void DoMovement()
         {
+            Vector2 movement = GetPlayerMovement();
             _grounded = _controller.isGrounded;
             if (_grounded)
             {
@@ -112,6 +115,11 @@ namespace FaRUtils.FPSController
                 if (GameInput.playerInputActions.Player.Jump.WasPressedThisFrame())
                 {
                     _velocity.y = jumpSpeed;
+                    if (bunnyHoppingEnabled)
+                    {
+                        Vector3 bunnyHopBoost = (transform.right * movement.x + transform.forward * movement.y).normalized;
+                        _velocity += bunnyHopBoost * movementSpeed * 0.5f;
+                    }
                 }
             }
             else
@@ -119,7 +127,6 @@ namespace FaRUtils.FPSController
                 _velocity.y += gravity * Time.deltaTime;
             }
 
-            Vector2 movement = GetPlayerMovement();
             Vector3 move = transform.right * movement.x + transform.forward * movement.y;
 
             // Check for obstacles before moving

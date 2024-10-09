@@ -32,7 +32,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
             SaverManager.Save(allDirtsData, isTemporarySave);
             allDirtsData.ClearAfterSave();
 
-            this.LogSuccess("Successfully Saved dirts information in scene in scene " + SceneManager.GetActiveScene().name );
+            this.LogSuccess("Successfully Saved dirts information in scene " + SceneManager.GetActiveScene().name );
         }
         catch (Exception e)
         {
