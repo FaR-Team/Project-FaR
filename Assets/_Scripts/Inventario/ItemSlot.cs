@@ -1,15 +1,16 @@
 using System;
 using FaRUtils.Systems.ItemSystem;
+using Newtonsoft.Json;
 using UnityEngine;
 
 [System.Serializable]
 public abstract class ItemSlot : ISerializationCallbackReceiver
 {
-    [NonSerialized] protected InventoryItemData itemData; //referencia a los datos del item
+    [SerializeField] protected InventoryItemData itemData; //referencia a los datos del item
     [SerializeField] protected int _itemID = -1;
     [SerializeField] protected int stackSize; //La cantidad de items que hay en el slot
 
-    public InventoryItemData ItemData => itemData;
+    [JsonIgnore] public InventoryItemData ItemData => itemData;
     public int StackSize => stackSize;
     public int CantidadMáxima = 100;
 
@@ -75,6 +76,18 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
         if (_itemID == -1) return;
 
         var db = Resources.Load<DatabaseSO>("Database");
-        itemData = db.GetItem(_itemID);
+        if (db != null)
+        {
+            itemData = db.GetItem(_itemID);
+            if (itemData == null)
+            {
+                Debug.LogWarning($"Item with ID {_itemID} not found in the database.");
+            }
+        }
+        else
+        {
+            Debug.LogError("Database not found in Resources folder.");
+        }
     }
+
 }

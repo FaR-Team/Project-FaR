@@ -22,23 +22,32 @@ public static class InventoryLoader
      PODEMOS HACER QUE ESTOS OBJETOS SIEMPRE ESTEN, AUNQUE SEA VACIOS SE ENCONTRARAN CADA VEZ QUE SE CREA UNA NUEVA RUN.
      HACIENDO QUE ESTE TRY SEA INUTIL.
      */
-    public static InventorySystem Load(int defaultSize, int defaultgold, bool temporary)
+    public static InventorySystem Load(int defaultSize, int defaultGold, bool temporary)
     {
-        return TryPreloadSavedDirts(defaultSize, defaultgold, temporary);
-    }
-    private static InventorySystem TryPreloadSavedDirts(int defaultSize, int defaultgold, bool temporary) // TODO: Para el player no va a haber temporal probablemente, ya que no se destruye
-    {
+        logger.Log($"Attempting to load inventory. Temporary: {temporary}");
         try
         {
             inventoryData = LoadAllData.GetData<InventoryData>(temporary);
-
-            return inventoryData.inventorySystem;
+            
+            if (inventoryData != null && inventoryData.inventorySystem != null)
+            {
+                return inventoryData.inventorySystem;
+            }
+            else
+            {
+                logger.LogWarning("Inventory data or inventory system is null. Creating a new inventory.");
+                return CreateDefaultInventory(defaultSize, defaultGold);
+            }
         }
         catch (Exception e)
         {
-            logger.LogWarning($"Failed to preload Inventory information. reason {e}");
-
-            return new InventorySystem(defaultSize, defaultgold);
+            logger.LogError($"Failed to load Inventory information. Reason: {e}");
+            return CreateDefaultInventory(defaultSize, defaultGold);
         }
+    }
+
+    private static InventorySystem CreateDefaultInventory(int defaultSize, int defaultGold)
+    {
+        return new InventorySystem(defaultSize, defaultGold);
     }
 }
