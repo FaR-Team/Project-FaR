@@ -1,10 +1,11 @@
+using System;
 using FaRUtils.Systems.ItemSystem;
 using UnityEngine;
 
 [System.Serializable]
 public abstract class ItemSlot : ISerializationCallbackReceiver
 {
-    [SerializeField] protected InventoryItemData itemData; //referencia a los datos del item
+    [NonSerialized] protected InventoryItemData itemData; //referencia a los datos del item
     [SerializeField] protected int _itemID = -1;
     [SerializeField] protected int stackSize; //La cantidad de items que hay en el slot
 
@@ -73,7 +74,7 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
     {
         if (_itemID == -1) return;
 
-        var db = Resources.Load<Database>("Database");
+        var db = Resources.Load<DatabaseSO>("Database");
         itemData = db.GetItem(_itemID);
     }
 }

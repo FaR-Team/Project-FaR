@@ -1,0 +1,76 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
+using Utils;
+
+namespace FaRUtils.Systems.ItemSystem
+{
+    [CreateAssetMenu(menuName = "Jueguito Granjil/Growing State Database")]
+    public class GrowingStateDatabaseSO : ScriptableObject
+    {
+        [SerializeField] private List<GrowingState> _itemDatabase;
+
+        public List<GrowingState> ItemDatabase => _itemDatabase;
+
+        [ContextMenu("Fijar IDs")]
+        public void SetItemIDs()
+        {
+            _itemDatabase = new List<GrowingState>();
+        
+            var foundItems = UnityEngine.Resources.LoadAll<GrowingState>("GrowingStates").OrderBy(i => i.ID).ToList();
+        
+            var hasIDInRange = foundItems.Where(i => i.ID != -1 && i.ID < foundItems.Count).OrderBy(i => i.ID).ToList();
+            var hasIDNotInRange = foundItems.Where(i => i.ID != -1 && i.ID >= foundItems.Count).OrderBy(i => i.ID).ToList();
+            var noID = foundItems.Where(i => i.ID == -1).ToList();
+
+            var index = 0;
+            for (int i = 0; i < foundItems.Count; i++)
+            {
+                this.Log($"Checkeando ID {i}");
+                var itemToAdd = hasIDInRange.Find(d => d.ID == i);
+             
+                if (itemToAdd != null)
+                {
+                    this.Log($"Se encontró un item {itemToAdd} que tiene un ID de {itemToAdd.ID}");
+                    _itemDatabase.Add(itemToAdd);
+                }
+                else if(index < noID.Count)
+                {
+                    noID[index].ID = i;
+                    this.Log($"Fijando item {noID[index]} que tenía un ID inválido al ID {i}");
+                    itemToAdd = noID[index];
+                    index++;
+                    _itemDatabase.Add(itemToAdd);
+                }
+#if UNITY_EDITOR
+                if (itemToAdd) EditorUtility.SetDirty(itemToAdd);
+#endif
+               
+            }
+         
+            foreach (var item in hasIDNotInRange)
+            {
+                _itemDatabase.Add(item);
+#if UNITY_EDITOR
+                if (item) EditorUtility.SetDirty(item);
+#endif
+            }
+ #if UNITY_EDITOR       
+            AssetDatabase.SaveAssets();
+#endif
+        
+        
+        }
+
+        public GrowingState GetItem(int id)
+        {
+            for (int i=0; i< _itemDatabase.Count; i++) {
+                if (_itemDatabase[i].ID == id) {
+                    return _itemDatabase[i] as GrowingState;
+                }
+            }
+            return null;
+        }
+    }
+}

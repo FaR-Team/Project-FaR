@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fab13deb666f1447a497464c4805fe0, type: 3}
-  m_Name: Carrot3
+  m_Name: StrawBerryPlant1
   m_EditorClassIdentifier: 
-  mesh: {fileID: -2432090755550338912, guid: 9e54d6a30758cab419e6a0c8260a8520, type: 3}
-  material: {fileID: 2100000, guid: 7d686d61c9894bd40a4668234d39d2f5, type: 2}
-  minimalDay: 4
-  maximalDay: 20
-  isLastPhase: 1
+  ID: 6
+  mesh: {fileID: -2432090755550338912, guid: 2b66475163100554996d0aafd8450a1e, type: 3}
+  material: {fileID: 2100000, guid: 83d4db8fce0b74e4a8a1f479f63b03f1, type: 2}
+  minimalDay: 0
+  maximalDay: 1
+  isLastPhase: 0

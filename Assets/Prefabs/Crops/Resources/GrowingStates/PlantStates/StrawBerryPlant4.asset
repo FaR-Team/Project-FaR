@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fab13deb666f1447a497464c4805fe0, type: 3}
-  m_Name: StrawberryState2
+  m_Name: StrawBerryPlant4
   m_EditorClassIdentifier: 
-  mesh: {fileID: -2432090755550338912, guid: 5cbd0605bc37c954cab66697bc26d068, type: 3}
-  material: {fileID: 2100000, guid: 89d24429c37f72346a29faceed21d91e, type: 2}
-  minimalDay: 1
-  maximalDay: 2
-  isLastPhase: 0
+  ID: 9
+  mesh: {fileID: -2432090755550338912, guid: 3d0e35a249365c14591fe8711d63dc46, type: 3}
+  material: {fileID: 2100000, guid: 53fdacabc5ef0a244b0a4f098774ea83, type: 2}
+  minimalDay: 5
+  maximalDay: 20
+  isLastPhase: 1

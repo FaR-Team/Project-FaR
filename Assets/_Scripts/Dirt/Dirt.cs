@@ -35,7 +35,7 @@ public class Dirt : MonoBehaviour
 
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
-        currentSeedData = data.currentCropData;
+        currentSeedData = (SeedItemData) Database.itemDatabase.GetItem(data.currentCropID);
         cropSaveData = data.cropSaveData;
         transform.position = data.position;
 
@@ -62,7 +62,7 @@ public class Dirt : MonoBehaviour
         if (currentCrop == null) return null;
 
         var growing = currentCrop.GetComponent<GrowingBase>();
-        CropSaveData cropdata = new CropSaveData(growing.DiasPlantado, growing.currentState);
+        CropSaveData cropdata = new CropSaveData(growing.DiasPlantado, growing.currentState.ID);
         return cropdata;
     }
     public bool GetCrop(SeedItemData itemData)

@@ -5,15 +5,15 @@ public class DirtData : SaveData
 {
     public bool _isWet;
     public bool IsEmpty;
-    public SeedItemData currentCropData;
+    public int currentCropID;
     public CropSaveData cropSaveData;
     public Vector3 position;
 
-    public DirtData(bool isWet, bool isEmpty, SeedItemData currentCropData, CropSaveData cropSaveData, Vector3 position)
+    public DirtData(bool isWet, bool isEmpty, int currentCropID, CropSaveData cropSaveData, Vector3 position)
     {
         _isWet = isWet;
         IsEmpty = isEmpty;
-        this.currentCropData = currentCropData;
+        this.currentCropID = currentCropID;
         this.cropSaveData = cropSaveData;
         this.position = position;
     }
@@ -21,7 +21,7 @@ public class DirtData : SaveData
     {
         _isWet = false;
         IsEmpty = true;
-        this.currentCropData = null;
+        this.currentCropID = -1;
         this.cropSaveData = null;
     }
 }

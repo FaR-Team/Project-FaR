@@ -93,7 +93,7 @@ public class GrowingBase : MonoBehaviour
     public void LoadData(CropSaveData cropSaveData)
     {
         daysPlanted = cropSaveData.DiasPlantado;
-        currentState = cropSaveData.GrowingState;
+        currentState = Database.growingStateDatabase.GetItem(cropSaveData.GrowingStateID);
         UpdateState();
     }
 
