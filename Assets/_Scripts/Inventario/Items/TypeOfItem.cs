@@ -1,4 +1,4 @@
 ﻿public enum TypeOfItem
 {
-     Crop, Hoe, Axe, Bucket, CropSeed, TreeSeed
+     Crop, Hoe, Axe, Bucket, CropSeed, TreeSeed, Special
 }

@@ -24,6 +24,7 @@ public class InventoryItemData : ScriptableObject
     public bool Usable;
     public bool Sellable;
     public bool IsLookingAtStore;
+    public AudioClip useItemSound;
 
     public TypeOfItem typeOfItem;
 
@@ -68,5 +69,9 @@ public class InventoryItemData : ScriptableObject
     {
         return TypeOfItem.TreeSeed == typeOfItem;
     }
-
+    
+    public bool IsSpecialItem()
+    {
+        return TypeOfItem.Special == typeOfItem;
+    }
 }

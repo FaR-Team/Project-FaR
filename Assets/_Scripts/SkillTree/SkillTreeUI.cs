@@ -1,7 +1,6 @@
-using IngameDebugConsole;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
+using IngameDebugConsole;
 
 public class SkillTreeUI : MonoBehaviour
 {
@@ -10,9 +9,13 @@ public class SkillTreeUI : MonoBehaviour
 
     public GameObject skillTreePanel;
     public TextMeshProUGUI skillPointsText;
-    public Button[] skillButtons;
-    public TextMeshProUGUI[] skillLevelTexts;
     public SkillData[] skillData;
+
+    [SerializeField] private Color availableColor = Color.white;
+    [SerializeField] private Color unavailableColor = Color.gray;
+    [SerializeField] private Color purchasedColor = Color.green;
+
+    [SerializeField] private SkillNodeButton[] skillNodeButtons;
 
     private void Awake()
     {
@@ -28,6 +31,7 @@ public class SkillTreeUI : MonoBehaviour
 
     private void Start()
     {
+        InitializeSkillNodes();
         UpdateUI();
         skillTreePanel.SetActive(false);
     }
@@ -41,6 +45,18 @@ public class SkillTreeUI : MonoBehaviour
             !DebugLogManager.Instance.isOnConsole)
         {
             ToggleSkillTree();
+        }
+    }
+
+    private void InitializeSkillNodes()
+    {
+        foreach (var button in skillNodeButtons)
+        {
+            SkillData data = System.Array.Find(skillData, s => s.type == button.skillType);
+            if (data != null && button.nodeIndex < data.costPerLevel.Length)
+            {
+                button.cost = data.costPerLevel[button.nodeIndex];
+            }
         }
     }
 
@@ -70,23 +86,14 @@ public class SkillTreeUI : MonoBehaviour
         skillTreePanel.SetActive(false);
         PauseMenu.Instance.Unpause();
     }
+
     public void UpdateUI()
     {
         skillPointsText.text = "Skill Points: " + PlayerStats.Instance.skillPoints;
 
-        for (int i = 0; i < PlayerStats.Instance.skills.Count; i++)
+        foreach (var skillNode in skillNodeButtons)
         {
-            Skill skill = PlayerStats.Instance.skills[i];
-            SkillData data = skillData[i];
-            skillLevelTexts[i].text = data.skillName + " (Level " + skill.level + ")";
-            skillButtons[i].interactable = PlayerStats.Instance.skillPoints >= data.costPerLevel[skill.level];
-        }
-    }
-    public void OnSkillButtonClicked(int skillIndex)
-    {
-        if (PlayerStats.Instance.UpgradeSkill(skillData[skillIndex].type))
-        {
-            UpdateUI();
+            skillNode.UpdateVisuals(availableColor, unavailableColor, purchasedColor);
         }
     }
 }

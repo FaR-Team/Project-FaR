@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using Utils;
 public class HotbarDisplay : HotbarDisplayBase
 {
     [SerializeField] private Interactor interactor;
@@ -249,6 +250,19 @@ public class HotbarDisplay : HotbarDisplayBase
     private void Holdear()
     {
         if (GetItemData() == null) return;
+
+        if (GetItemData().IsSpecialItem())
+        {
+            if (GetItemData().UseItem())
+            {
+                AudioSource audioSource = player.GetComponent<AudioSource>(); 
+                audioSource.PlayOneShot(GetItemData().useItemSound);
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            SlotCurrentIndex().UpdateUISlot();
+            return;
+        }
 
         if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
         {

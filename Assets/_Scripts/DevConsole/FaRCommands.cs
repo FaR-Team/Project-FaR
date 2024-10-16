@@ -54,7 +54,6 @@ public class FaRCommands : MonoBehaviour
         DebugLogConsole.AddCommand("skipapplegrowth", "Se salta el crecimiento de la manzana, avanzando los días necesarios", SkipAppleGrowth);
         DebugLogConsole.AddCommand("skipstrawberrygrowth", "Se salta el crecimiento de la frutilla, avanzando los días necesarios", SkipStrawberryGrowth);
         DebugLogConsole.AddCommand("skiptomatogrowth", "Se salta el crecimiento del tomate, avanzando los días necesarios", SkipTomatoGrowth);
-        DebugLogConsole.AddCommand<SkillType>("upgradeSkill", "Aumenta el nivel de la skill dada", UpgradeSkill);
         DebugLogConsole.AddCommand<int>("giveSkillPoints", "Te da la cantidad especificada de puntos de habilidad", GiveSkillPoints);
         DebugLogConsole.AddCommand("givePants", "le da pantalones", GivePants);
         DebugLogConsole.AddCommand("giveShirt", "le da la remera", GiveShirt);
@@ -63,11 +62,6 @@ public class FaRCommands : MonoBehaviour
         DebugLogConsole.AddCommand("load", "forzar cargado.", TestLoad);
         DebugLogConsole.AddCommand("deletesave", "elimina el guardado", TestDeleteSave);
         DebugLogConsole.AddCommand("clear", "Clears the console", ClearConsole);
-    }
-
-    private void UpgradeSkill(SkillType x)
-    {
-        PlayerStats.Instance.CheatUpgradeSkill(x);
     }
 
     private void GiveSkillPoints(int x)

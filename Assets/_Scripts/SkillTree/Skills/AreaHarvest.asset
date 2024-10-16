@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillName: Area Harvest
   type: 0
-  maxLevel: 2
+  maxLevel: 1
   costPerLevel: 0100000002000000
+  nodeNames:
+  - Area Harvest I
+  - Area Harvest II
+  requiredPreviousNode: 
