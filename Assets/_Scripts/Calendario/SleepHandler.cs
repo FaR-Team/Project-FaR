@@ -81,12 +81,11 @@ public class SleepHandler : MonoBehaviour
     {
         if (_isSleeping)
         {
-            this.Log("Ya estás durmiendo");
             return false;
         }
         if (TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
         {
-            this.Log("Es muy temprano para dormir");
+            this.LogOnScreen("Es muy temprano para dormir");
             return false;
         }
 

@@ -304,7 +304,7 @@ namespace IngameDebugConsole
 		private int newInfoEntryCount = 0, newWarningEntryCount = 0, newErrorEntryCount = 0;
 
 		// Filters to apply to the list of debug entries to show
-		private bool isCollapseOn = false;
+		private bool isCollapseOn = true;
 		private DebugLogFilter logFilter = DebugLogFilter.All;
 
 		// Search filter
@@ -869,6 +869,31 @@ namespace IngameDebugConsole
 
 				screenDimensionsChanged = false;
 			}
+		}
+
+		public void LogOnScreen(string message)
+		{
+			// Create a new UI Text element for the on-screen message
+			GameObject onScreenLogObj = new GameObject("OnScreenLog");
+			onScreenLogObj.transform.SetParent(transform, false);
+			Text onScreenLogText = onScreenLogObj.AddComponent<Text>();
+			
+			// Set up the text component
+			onScreenLogText.text = message;
+			onScreenLogText.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+			onScreenLogText.fontSize = 24;
+			onScreenLogText.alignment = TextAnchor.MiddleCenter;
+			onScreenLogText.color = Color.white;
+
+			// Position the text in the middle of the screen
+			RectTransform rectTransform = onScreenLogText.GetComponent<RectTransform>();
+			rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
+			rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
+			rectTransform.anchoredPosition = new Vector2(0, -50f);
+			rectTransform.sizeDelta = new Vector2(800, 100);
+
+			// Destroy the message after a few seconds
+			Destroy(onScreenLogObj, 1.5f);
 		}
 
 		public void ShowLogWindow()

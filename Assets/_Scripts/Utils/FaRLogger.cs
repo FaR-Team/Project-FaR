@@ -1,4 +1,5 @@
 using System;
+using IngameDebugConsole;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -41,6 +42,12 @@ namespace Utils
         public static void LogSuccess(this Object myObj, params object[] msg)
         {
             DoLog(Debug.Log, "✓ ".Color("green"), myObj, msg);
+        }
+
+        public static void LogOnScreen(this Object myObj, params object[] msg)
+        {
+            string logMessage = $"[{myObj.name}]: {string.Join("; ", msg)}";
+            DebugLogManager.Instance.LogOnScreen(logMessage);
         }
     }
 }
