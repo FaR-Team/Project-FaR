@@ -10,7 +10,7 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
     [SerializeField] protected int _itemID = -1;
     [SerializeField] protected int stackSize; //La cantidad de items que hay en el slot
 
-    [JsonIgnore] public InventoryItemData ItemData => itemData;
+    public InventoryItemData ItemData => itemData;
     public int StackSize => stackSize;
     public int CantidadMáxima = 100;
 

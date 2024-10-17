@@ -1,14 +1,17 @@
+using Newtonsoft.Json;
 using UnityEngine;
 
 [System.Serializable]
-
 public class InventorySlot : ItemSlot 
 {
+    [JsonProperty]
+    public int StackSize { get; set; }
 
-    public InventorySlot(InventoryItemData data, int amount) //Constructor para hacer un slot lleno
+    [JsonConstructor]
+    public InventorySlot(InventoryItemData data, int amount)
     {
         itemData = data;
-        _itemID = itemData.ID;
+        _itemID = data != null ? data.ID : -1;
         stackSize = amount;
     }
 

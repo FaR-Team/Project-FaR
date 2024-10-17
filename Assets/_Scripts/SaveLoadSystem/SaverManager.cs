@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -20,11 +21,19 @@ public static class SaverManager
     }
     public static void Save(object info, bool isTemporary)
     {
-        //string jsonFile = JsonUtility.ToJson(info);
-        string jsonFile = JsonConvert.SerializeObject(info, new JsonSerializerSettings
+        var settings = new JsonSerializerSettings
         {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        });
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Converters = new List<JsonConverter>
+            {
+                new Vector3Converter(),
+                new GameObjectConverter(),
+                new MeshConverter(),
+                new AudioClipConverter()
+            }
+        };
+
+        string json = JsonConvert.SerializeObject(info, settings);
         string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
 
@@ -35,12 +44,12 @@ public static class SaverManager
             Directory.CreateDirectory(directoryPath);
         }
 
-        File.WriteAllText(pathFile, jsonFile);
+        File.WriteAllText(pathFile, json);
         Debug.Log("Saved temporary in " + pathFile);
         if (!isTemporary)
         {
             pathFile = PathFinder.GetFinalPath(info.GetType().FullName, false);
-            File.WriteAllText(pathFile, jsonFile);
+            File.WriteAllText(pathFile, json);
         }
     }
 
