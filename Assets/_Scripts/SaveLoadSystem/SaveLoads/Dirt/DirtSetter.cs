@@ -38,9 +38,9 @@ public static class DirtSetter
             // Se hardcodea false, pero esto debe ser dado por un game status manager,
             // que le diga si viene por primera vez o bien, si vuelve de algun sitio.
             
-            if(!temporary) DirtSaver.instance.LoadDictionary(dirtsData.sceneDataDictionary);
+            if(!temporary) DirtSaver.instance.LoadScenesData(dirtsData.scenesDataList);
 
-            var dirtDataQueue = dirtsData.sceneDataDictionary[SceneManager.GetActiveScene().name];
+            var dirtDataQueue = dirtsData.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas;
             dirtsGO = ObjectPooling.LoadSavedObjects(dirtPrefab, dirtDataQueue.Count, parentGO);
 
             dirtsGO.ForEach(dirt => { dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue()); });

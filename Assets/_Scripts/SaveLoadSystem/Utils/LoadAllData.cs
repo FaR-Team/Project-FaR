@@ -37,8 +37,7 @@ public static class LoadAllData
             T result = new();
 
             string fileContent = File.ReadAllText(path);
-            //T preresult = JsonUtility.FromJson<T>(fileContent);
-            T preresult = JsonConvert.DeserializeObject<T>(fileContent);
+            T preresult = JsonUtility.FromJson<T>(fileContent);
 
             result.CopyData(preresult);
 
