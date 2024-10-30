@@ -50,11 +50,11 @@ public static class SaverManager
         if (File.Exists(pathFile))
         {
             File.Delete(pathFile);
-            logger.LogSuccess($"Save file deleted: {pathFile}");
+            logger.Log($"Save file deleted: {pathFile}");
         }
         else
         {
-            logger.LogWarning($"No save file found at: {pathFile}");
+            logger.Log($"No save file found at: {pathFile}");
         }
     }
 
@@ -69,14 +69,14 @@ public static class SaverManager
             foreach (string file in files)
             {
                 File.Delete(file);
-                logger.LogSuccess($"Save file deleted: {file}");
+                logger.Log($"Save file deleted: {file}");
             }
 
-            logger.LogSuccess($"All save files deleted in folder: {folderPath}");
+            logger.Log($"All save files deleted in folder: {folderPath}");
         }
         else
         {
-            logger.LogWarning($"No save folder found at: {folderPath}");
+            logger.Log($"No save folder found at: {folderPath}");
         }
     }
     public static void ClearTemp()
