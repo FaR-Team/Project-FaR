@@ -49,21 +49,6 @@ public static class LoadAllData
             throw; // Return default value for error case
         }
     }
-
-    public static string GetRawData()
-    {
-        string filePath = PathFinder.GetFinalPath("InventoryData", false);
-        if (File.Exists(filePath))
-        {
-            return File.ReadAllText(filePath);
-        }
-        else
-        {
-            Debug.LogWarning($"Save file not found at {filePath}");
-            return null;
-        }
-    }
-
     private static bool PathExists(string path)
     {
         return Directory.Exists(path) || File.Exists(path);

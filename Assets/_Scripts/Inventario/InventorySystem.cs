@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Linq;
-using Newtonsoft.Json;
 
 [System.Serializable]
-[JsonConverter(typeof(InventorySystemConverter))]
 public class InventorySystem
 {
     public List<InventorySlot> inventorySlots;
@@ -24,26 +22,23 @@ public class InventorySystem
         _gold = 0;
         CreateInventory(tamaño);
     }
-    
     public InventorySystem(InventorySystem inventoryData)
     {
         this.inventorySlots = inventoryData.inventorySlots;
         this._gold = inventoryData._gold;
 
     }
-
     public InventorySystem(int tamaño, int gold)
     {
         _gold = gold;
         CreateInventory(tamaño);
     }
 
-    [JsonConstructor]
     public InventorySystem(List<InventorySlot> inventorySlots, int gold, List<InventorySlot> hotbarAbilitySlots)
     {
-        this.inventorySlots = inventorySlots ?? new List<InventorySlot>();
+        this.inventorySlots = inventorySlots;
         _gold = gold;
-        this.hotbarAbilitySlots = hotbarAbilitySlots ?? new List<InventorySlot>();
+        this.hotbarAbilitySlots = hotbarAbilitySlots;
     }
 
     private void CreateInventory(int tamaño)
