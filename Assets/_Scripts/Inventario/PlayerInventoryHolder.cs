@@ -33,7 +33,7 @@ public class PlayerInventoryHolder : Container
 
     void Update()
     {
-        //TO DO: QUITAR ESTO uwu
+        //TODO: QUITAR ESTO
         if (GameInput.playerInputActions.Player.Inventory.WasPressedThisFrame() &&
             !UIController.isPlayerInventoryOpen &&
             !PauseMenu.GameIsPaused &&

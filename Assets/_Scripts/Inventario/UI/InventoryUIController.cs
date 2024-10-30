@@ -57,6 +57,7 @@ public class InventoryUIController : MonoBehaviour
     {
         inventoryPanel.gameObject.SetActive(false);
         playerBackpackPanel.gameObject.SetActive(false);
+        FindObjectOfType<Interactor>().ForceEndInteraction();
         currentContainer = null;
     }
 }
