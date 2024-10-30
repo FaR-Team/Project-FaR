@@ -32,7 +32,6 @@ public class Cofre : Container, IInteractable
     public void EndInteraction()
     {
         _animator.SetBool(IsOpen, false);
-        this.Log("Terminando Interacción con Cofre");
     }
 
     public void LoadData(ChestData data)
