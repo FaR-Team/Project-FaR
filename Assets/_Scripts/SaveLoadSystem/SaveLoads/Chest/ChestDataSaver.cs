@@ -6,7 +6,7 @@ public class ChestDataSaver : DataSaver<Cofre, ChestDataSaver>, IDataSavable
     protected override void SetThisInstance()
     {
         thisDataSaver = this;
-        saverAllData = ChestSaver.Instance; 
+        saverAllData = ChestSaver.instance; 
     }
 
     public override async Task SaveData()

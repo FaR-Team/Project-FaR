@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utils;
 
 public static class ChestSetter
@@ -33,8 +34,12 @@ public static class ChestSetter
         try
         {
             chestsDatas = LoadAllData.GetData<AllChestSystems>(temporary);
+            
+            if(!temporary) ChestSaver.instance.LoadScenesData(chestsDatas.scenesDataList);
 
-            chestsGOs = ObjectPooling.LoadSavedObjects(_chestPrefab, chestsDatas.dataCounter, parentGO);
+            // Creo que es medio al pedo conseguir la lista, se puede usar el count de la chestsDatas.data pero pa testear no quiero romper nada (lo mismo en DirtSetter
+            var chestDataQueue = chestsDatas.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas;
+            chestsGOs = ObjectPooling.LoadSavedObjects(_chestPrefab, chestDataQueue.Count, parentGO); 
 
             chestsGOs.ForEach(chest => { chest.GetComponent<Cofre>().LoadData(chestsDatas.data.Dequeue()); });
 

@@ -9,7 +9,7 @@ using Utils;
 [Serializable]
 public class AllDirtsData : IAllData<AllDirtsData>
 {
-    [FormerlySerializedAs("dataList")] public List<DirtData> currentDataList;
+    public List<DirtData> currentDataList;
     public List<SceneDirtData> scenesDataList;
 
     public Queue<DirtData> data;
