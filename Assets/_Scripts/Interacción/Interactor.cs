@@ -40,7 +40,6 @@ public class Interactor : MonoBehaviour
     {
         InteractionKey.Disable();
     }
-
     private void Update()
     {
         _numFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _interactableMask);
@@ -49,7 +48,7 @@ public class Interactor : MonoBehaviour
         {
             _interactable = _colliders[0].GetComponent<IInteractable>(); 
             if (_interactable == null) return;
-            
+        
             if (!_interactionPromptUI.IsDisplayed)
             {
                 _interactionPromptUI.SetUp();
@@ -58,28 +57,40 @@ public class Interactor : MonoBehaviour
             {
                 _interactable.Interact(this, out bool interactSuccessful);
             }
-            
         }
         else
         {
-            _interactable = (_interactable != null) ? null : _interactable;
-            
+            if (_interactable != null)
+            {
+                _interactable.EndInteraction();
+                _interactable = null;
+            }
 
-           if (_interactionPromptUI.IsDisplayed) 
-           {
-               _interactionPromptUI.Close();
-           }
+            if (_interactionPromptUI.IsDisplayed) 
+            {
+                _interactionPromptUI.Close();
+            }
         }
 
         _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 10f, _dirtMask);
-        //Toma la cantidad de tierras que hay en la capsula y si hay mas de 0, hace que lookingAtDirt sea True si la tag del primer collider sea Dirt.
-
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);
 
         IsLookingAtStore = (_numDirtFound > 0) ? (_colliders[0].transform.gameObject.transform.tag == "Sell") : false;
+    }
 
-        
+    public void ForceEndInteraction()
+    {
+        if (_interactable != null)
+        {
+            _interactable.EndInteraction();
+            _interactable = null;
+        }
+
+        if (_interactionPromptUI.IsDisplayed) 
+        {
+            _interactionPromptUI.Close();
+        }
     }
 
     private Ray CenterRay()

@@ -23,9 +23,9 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
         try
         {
             Debug.Log("Dirts to save: " + dirts.Count);
-            if (dirts.Count == 0) return; // Don't save if no dirts to save
+            //if (dirts.Count == 0) return; // Don't save if no dirts to save
             
-            Debug.Log("START SAVING DIRTS");
+            //Debug.Log("START SAVING DIRTS");
             await SaveDirts();
 
             allDirtsData.SaveQueue(SceneManager.GetActiveScene().name);
@@ -46,10 +46,14 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
         allDirtsData.counter++;
         return Task.CompletedTask;
     }
-
-    public void LoadDictionary(Dictionary<string, List<DirtData>> dict)
+    
+    /// <summary>
+    /// Loads all previously saved Scene Datas in current AllDirtsData
+    /// </summary>
+    /// <param name="datas"></param>
+    public void LoadScenesData(List<SceneDirtData> datas)
     {
-        allDirtsData.SetDictionaryOnLoad(dict);
+        allDirtsData.SetScenesDataOnLoad(datas);
     }
 
     private async Task SaveDirts()

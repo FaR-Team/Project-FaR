@@ -20,11 +20,7 @@ public static class SaverManager
     }
     public static void Save(object info, bool isTemporary)
     {
-        //string jsonFile = JsonUtility.ToJson(info);
-        string jsonFile = JsonConvert.SerializeObject(info, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-        });
+        string jsonFile = JsonUtility.ToJson(info);
         string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
 

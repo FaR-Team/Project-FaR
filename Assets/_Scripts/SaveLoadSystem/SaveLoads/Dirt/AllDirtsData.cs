@@ -1,52 +1,79 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Localization.Plugins.XLIFF.V20;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Utils;
 
 [Serializable]
 public class AllDirtsData : IAllData<AllDirtsData>
 {
-    public Dictionary<string, List<DirtData>> sceneDataDictionary;
-    public List<DirtData> dataList;
-    
+    public List<DirtData> currentDataList;
+    public List<SceneDirtData> scenesDataList;
+
     public Queue<DirtData> data;
     public int counter;
 
     public AllDirtsData() 
     {
-        dataList = new List<DirtData>();
+        currentDataList = new List<DirtData>();
         data = new Queue<DirtData>();
-        sceneDataDictionary = new();
+        scenesDataList = new();
         counter = 0;
     }
 
     public void SaveQueue(string sceneName)
     {
-        dataList = data.ToList();
+        currentDataList = data.ToList();
 
-        sceneDataDictionary[sceneName] = dataList;
+        SceneDirtData newData = new SceneDirtData()
+        {
+            sceneName = sceneName,
+            datas = data.ToList()
+        };
+        
+        int sceneIndex = scenesDataList.FindIndex(sceneData => sceneData.sceneName.Equals(sceneName));
+        
+        if (sceneIndex != -1) // If found data with Scene Name
+        {
+            scenesDataList[sceneIndex] = newData;
+        }
+        else
+        {
+            scenesDataList.Add(newData);
+        }
+        
     }
 
     public void LoadQueue()
     {
-        foreach (var item in dataList)
+        foreach (var item in currentDataList)
         {
             data.Enqueue(item);
         }
     }
 
-    public void SetDictionaryOnLoad(Dictionary<string, List<DirtData>> dict)
+    public void LoadQueue(List<DirtData> list)
     {
-        sceneDataDictionary = dict;
+        foreach (var item in list)
+        {
+            data.Enqueue(item);
+        }
+    }
+    
+
+    public void SetScenesDataOnLoad(List<SceneDirtData> datas)
+    {
+        scenesDataList = datas;
     }
 
     public void CopyData(AllDirtsData allData)
     {
-        dataList = allData.dataList;
+        currentDataList = allData.currentDataList;
         counter = allData.counter;
-        sceneDataDictionary = allData.sceneDataDictionary;
-        LoadQueue();
+        scenesDataList = allData.scenesDataList;
+        LoadQueue(GetSceneDataFromName(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name).datas);
     }
 
     public void ClearAfterSave()
@@ -54,4 +81,16 @@ public class AllDirtsData : IAllData<AllDirtsData>
         counter = 0;
         data.Clear();
     }
+    
+    public SceneDirtData GetSceneDataFromName(string sceneName)
+    {
+        return scenesDataList.FirstOrDefault(sceneData => sceneData.sceneName.Equals(sceneName));
+    }
+}
+
+[Serializable]
+public struct SceneDirtData
+{
+    public string sceneName;
+    public List<DirtData> datas;
 }

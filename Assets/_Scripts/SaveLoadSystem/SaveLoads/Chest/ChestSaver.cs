@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Utils;
 
 public class ChestSaver : Saver<ChestData, ChestDataSaver>
 {
-    public static ChestSaver Instance;
+    public static ChestSaver instance;
 
     private AllChestSystems allChests = new();
     private List<ChestDataSaver> chestDataSavers = new();
@@ -15,7 +16,9 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
 
     private void Awake()
     {
-        Instance = this;
+        if(instance != null && instance != this) Destroy(this);
+        else instance = this;
+        
         logger = GameObject.FindObjectOfType<DummyLogger>();
         if (logger == null)
         {
@@ -31,11 +34,11 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
         {
             await SaveInvs();
 
-            allChests.SaveQueue();
+            allChests.SaveQueue(SceneManager.GetActiveScene().name);
             SaverManager.Save(allChests, isTemporarySave);
             allChests.ClearAfterSave();
 
-            this.LogSuccess("Successfully Saved Chests");
+            this.LogSuccess("Successfully Saved Chests in scene " + SceneManager.GetActiveScene().name);
         }
         catch (Exception e)
         {
@@ -49,6 +52,15 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
         {
             await chestDataSaver.SaveData();
         }
+    }
+    
+    /// <summary>
+    /// Loads all previously saved Scene Datas in current AllChestsData
+    /// </summary>
+    /// <param name="datas"></param>
+    public void LoadScenesData(List<SceneChestData> datas)
+    {
+        allChests.SetScenesDataOnLoad(datas);
     }
 
     public override Task WriteSave(ChestData invSystem)
