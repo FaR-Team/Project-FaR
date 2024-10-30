@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fab13deb666f1447a497464c4805fe0, type: 3}
   m_Name: Carrot1
   m_EditorClassIdentifier: 
-  ID: 3
   mesh: {fileID: -5053925668127403250, guid: d041e4da769bbb14cab4e03ff8292f17, type: 3}
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.15, y: 0.15, z: 0.09999999}
   material: {fileID: 2100000, guid: 3fb419360618a7c49b096d4d6b8365c5, type: 2}
   minimalDay: 0
   maximalDay: 1

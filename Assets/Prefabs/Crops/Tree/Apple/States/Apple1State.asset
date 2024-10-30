@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fab13deb666f1447a497464c4805fe0, type: 3}
-  m_Name: StrawberryState3
+  m_Name: Apple1State
   m_EditorClassIdentifier: 
-  ID: 12
-  mesh: {fileID: -2432090755550338912, guid: b7411ae837e9d8641a6d421a61167a32, type: 3}
-  material: {fileID: 2100000, guid: 21b0b4b0aa05f0c469012337d1819af1, type: 2}
-  minimalDay: 2
-  maximalDay: 3
+  mesh: {fileID: -4957765090890358353, guid: 72024055436e81d40b61c1f2d3e8f882, type: 3}
+  material: {fileID: 2100000, guid: eb001af053888954b95aadee429c5c2c, type: 2}
+  minimalDay: 0
+  maximalDay: 1
   isLastPhase: 1

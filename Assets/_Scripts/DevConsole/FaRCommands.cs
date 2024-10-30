@@ -22,7 +22,7 @@ public class FaRCommands : MonoBehaviour
     public Rigidbody rb;
     public Camera cam;
     [FormerlySerializedAs("_cama")] public SleepHandler sleepHandler;
-    [FormerlySerializedAs("_database")] public DatabaseSO databaseSo;
+    public Database _database;
     public bool _noclip;
     private Camera m_Camera;
 
@@ -111,7 +111,7 @@ public class FaRCommands : MonoBehaviour
 
     void GiveItem(int x, int y)
     {
-        ItemPickUp.GiveItem(databaseSo.GetItem(x), y);
+        ItemPickUp.GiveItem(_database.GetItem(x), y);
     }
 
     void Rosebud()

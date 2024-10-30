@@ -5,7 +5,7 @@ using Utils;
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/Item", order = 0)]
 
 
-//[System.Serializable]
+[System.Serializable]
 
 public class InventoryItemData : ScriptableObject 
 {   

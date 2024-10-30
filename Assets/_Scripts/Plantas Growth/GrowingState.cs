@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class GrowingState : ScriptableObject
 {
-    public int ID = -1;
     public Mesh mesh;
     public Material material;
     [Range(0, 20)]

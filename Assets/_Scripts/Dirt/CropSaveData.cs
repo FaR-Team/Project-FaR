@@ -1,13 +1,11 @@
-﻿using UnityEngine.Serialization;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class CropSaveData : SaveData
 {
     public int DiasPlantado;
-    public int GrowingStateID;
-    public CropSaveData(int diasPlantado, int growingStateID)
+    public GrowingState GrowingState;
+    public CropSaveData(int diasPlantado, GrowingState growingState)
     {
         DiasPlantado = diasPlantado;
-        GrowingStateID = growingStateID;
+        GrowingState = growingState;
     }
 }
