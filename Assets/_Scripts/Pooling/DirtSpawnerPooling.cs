@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DirtSpawnerPooling : MonoBehaviour
 {
@@ -12,9 +13,15 @@ public class DirtSpawnerPooling : MonoBehaviour
 
     private void Awake()
     {
-        instance = this;
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
     }
-
     public static int GetActiveDirtPool()
     {
         int count = ObjectPooling.GetActiveObjects(_DirtPrefab);
@@ -34,7 +41,6 @@ public class DirtSpawnerPooling : MonoBehaviour
             DirtSetter.Load(_DirtPrefab, gameObject, false); // On Start, load non-temporary dirt data
             firstLoad = true;
         }
-        
     }
 
     public static void SpawnObject(Vector3 position, Quaternion rotation)

@@ -3,12 +3,12 @@
 [System.Serializable]
 public class ChestData : SaveData
 {
-    public Vector3 position;
+    public string id;
     public InventorySystem inventorySystem;
 
-    public ChestData(Vector3 position, InventorySystem inventorySystem)
+    public ChestData(string id, InventorySystem inventorySystem)
     {
-        this.position = position;
+        this.id = id;
         this.inventorySystem = inventorySystem;
     }
 }

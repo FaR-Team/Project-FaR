@@ -9,12 +9,17 @@ public class Cofre : Container, IInteractable
     [SerializeField] private GameObject _prompt;
     [SerializeField] private Animator _animator;
     private static readonly int IsOpen = Animator.StringToHash("IsOpen");
+    private UniqueID _uniqueID;
     
     public GameObject InteractionPrompt => _prompt;
+    
+    
+    public string ID => _uniqueID.ID;
 
     protected void Awake()
     {
         _prompt = GameObject.FindGameObjectWithTag("HouseInteraction");
+        _uniqueID = GetComponent<UniqueID>();
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
@@ -43,6 +48,6 @@ public class Cofre : Container, IInteractable
     public void LoadData(ChestData data)
     {
         inventorySystem = new InventorySystem(data.inventorySystem);
-        transform.position = data.position;
+        //transform.position = data.position; Comentado por si queremos alguna vez poder mover cofres
     }
 }

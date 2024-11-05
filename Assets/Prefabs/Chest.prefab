@@ -275,7 +275,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   "tama\xF1oInventario": 10
   inventorySystem:
-    inventorySlots: []
+    inventorySlots:
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
+    - itemData: {fileID: 0}
+      _itemID: -1
+      stackSize: -1
+      "CantidadM\xE1xima": 100
     _gold: 0
     hotbarAbilitySlots: []
   offset: 10
@@ -295,6 +375,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 21b51a2c-ece1-4750-aa06-49594328abad
+  permanentID: 1
 --- !u!114 &2807589048610464874
 MonoBehaviour:
   m_ObjectHideFlags: 0
