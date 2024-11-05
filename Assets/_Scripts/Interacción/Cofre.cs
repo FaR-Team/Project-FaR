@@ -19,7 +19,10 @@ public class Cofre : Container, IInteractable
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
-        _animator.SetBool(IsOpen, true);
+        if (_animator != null)
+        { 
+            _animator.SetBool(IsOpen, true);
+        }
         OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
         interactSuccessful = true;
     }
@@ -31,7 +34,10 @@ public class Cofre : Container, IInteractable
 
     public void EndInteraction()
     {
-        _animator.SetBool(IsOpen, false);
+        if (_animator != null)
+        { 
+            _animator.SetBool(IsOpen, false);
+        }
     }
 
     public void LoadData(ChestData data)
