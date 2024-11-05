@@ -34,11 +34,15 @@ public class GridGhost : MonoBehaviour
         {
             instance = this;
         }
-        var hotbarDisplay = FindObjectOfType<HotbarDisplay>();
+
+        hotbarDisplay = FindObjectOfType<HotbarDisplay>();
         if(hotbarDisplay != null)
         {
             hotbarDisplay.SetGridGhost(this);
         }
+
+        interactor = FindObjectOfType<Interactor>();
+        rayAndSphereManager = FindObjectOfType<RayAndSphereManager>();
     }
 
     private void OnEnable()
