@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 050b660c-0561-4671-8f70-13da575f6325
+  _ID: f64b5d1b-10ed-4ad1-9232-dab937ea2ba0
 --- !u!114 &2807589048610464874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,7 +393,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4874126678125670354, guid: 5952f3587701559499bff9f3b2626fd3, type: 3}
+  - {fileID: 2100000, guid: dc39e6b263b7b9e4eabfaf559330d4bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -730,7 +730,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6922793697723135513, guid: 5952f3587701559499bff9f3b2626fd3, type: 3}
+  - {fileID: 2100000, guid: dc39e6b263b7b9e4eabfaf559330d4bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
