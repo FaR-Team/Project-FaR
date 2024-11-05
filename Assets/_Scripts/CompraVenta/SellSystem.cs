@@ -27,6 +27,7 @@ public class SellSystem : MonoBehaviour
     private void OnEnable()
     {
         SleepHandler.Instance.OnPlayerSleep += Sell;
+        _playerInventoryHolder = GameObject.FindWithTag("Player").GetComponent<PlayerInventoryHolder>();
     }
 
     public void SellItem(GameObject CropBoxPrefab, InventoryItemData data)

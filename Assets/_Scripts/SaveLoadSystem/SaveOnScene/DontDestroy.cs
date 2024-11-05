@@ -6,10 +6,6 @@ using Utils;
 [RequireComponent(typeof(UniqueID))]
 public class DontDestroy : MonoBehaviour
 {
-    /*[HideInInspector]
-    public string objID;
-    void Awake() { objID = name + transform.position.ToString(); }*/
-    
     void Awake()
     {
         var objects = Object.FindObjectsOfType<DontDestroy>(true);
@@ -19,17 +15,21 @@ public class DontDestroy : MonoBehaviour
 
             if (GODontDestroy != this)
             {
-                /*if (GODontDestroy.objID == objID)
-                {
-                    Destroy(gameObject);
-                }*/
                 if(GODontDestroy.GetComponent<UniqueID>().ID == this.gameObject.GetComponent<UniqueID>().ID)
                 {
+                    var components = gameObject.GetComponents<Component>();
+                    foreach (var component in components)
+                    {
+                        if (component is MonoBehaviour behaviour)
+                        {
+                            behaviour.enabled = false;
+                        }
+                    }
+                    
                     Destroy(gameObject);
                     this.LogSuccess("Destroyed "  + GODontDestroy.gameObject.name);
                 }
             }
-
         }
         DontDestroyOnLoad(gameObject);
     }

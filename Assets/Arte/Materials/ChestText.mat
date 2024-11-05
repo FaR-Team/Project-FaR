@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ChestText
-  m_Shader: {fileID: 4800000, guid: 7ef84822464889546a1d665dd1682d7a, type: 3}
+  m_Shader: {fileID: 4800000, guid: 399c0f31dd38d8c4994f54d39305e980, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -96,6 +96,7 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _CelShadingBlurWidth: 0.2
+    - _CelSteps: 5
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
