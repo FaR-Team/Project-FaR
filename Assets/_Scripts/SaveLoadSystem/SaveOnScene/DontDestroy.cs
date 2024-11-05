@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 [RequireComponent(typeof(UniqueID))]
 public class DontDestroy : MonoBehaviour
@@ -25,6 +26,7 @@ public class DontDestroy : MonoBehaviour
                 if(GODontDestroy.GetComponent<UniqueID>().ID == this.gameObject.GetComponent<UniqueID>().ID)
                 {
                     Destroy(gameObject);
+                    this.LogSuccess("Destroyed "  + GODontDestroy.gameObject.name);
                 }
             }
 

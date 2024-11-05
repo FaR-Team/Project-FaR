@@ -34,14 +34,14 @@ public class HotbarDisplay : HotbarDisplayBase
 
         if (telequinesis == null) telequinesis = GameObject.FindWithTag("Telequinesis");
         if (player == null) player = GameObject.FindWithTag("Player");
-
+        if (gridGhost == null) gridGhost = GridGhost.instance;
     }
 
     protected override void Start()
     {
         base.Start();
 
-        gridGhost = GridGhost.instance;
+        if (gridGhost == null) gridGhost = GridGhost.instance;
         _currentIndex = 0;
         _currentAbilityIndex = 0;
         _maxAbilityIndexSize = 1;
@@ -110,6 +110,12 @@ public class HotbarDisplay : HotbarDisplayBase
         _currentAbilityIndex = initialIndex;
     }
 
+    public void SetGridGhost(GridGhost ghost)
+    {
+        gridGhost = ghost;
+    }
+
+
     private void UpdateAbilitySlot()
     {
         AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1); 
@@ -121,33 +127,40 @@ public class HotbarDisplay : HotbarDisplayBase
         return _currentIndex == 10;
     }
 
+    private void UseItemPressedCallback(InputAction.CallbackContext ctx) => UseItemPressed();
+    private void UseItemReleaseCallback(InputAction.CallbackContext ctx) => UseItemRelease();
+    private void SellAllPressedCallback(InputAction.CallbackContext ctx) => SellAllPressed();
+    private void SellAllReleaseCallback(InputAction.CallbackContext ctx) => SellAllRelease();
+
     protected override void OnEnable()
     {
         base.OnEnable();
+        
         _playerControls.Enable();
         GetPlayerControls().Hotbar.performed += Hotbar;
         GetPlayerControls().HotbarRight.performed += HotbarRight;
         GetPlayerControls().HotbarLeft.performed += HotbarLeft;
-
         GetPlayerControls().UseItem.performed += UseItem;
-        GetPlayerControls().UseItemHoldStart.performed += x => UseItemPressed();
-        GetPlayerControls().UseItemHoldRelease.performed += x => UseItemRelease();
-        GetPlayerControls().MassSell.performed += x => SellAllPressed();
-        GetPlayerControls().MassSellFinish.performed += x => SellAllRelease();
+        GetPlayerControls().UseItemHoldStart.performed += UseItemPressedCallback;
+        GetPlayerControls().UseItemHoldRelease.performed += UseItemReleaseCallback;
+        GetPlayerControls().MassSell.performed += SellAllPressedCallback;
+        GetPlayerControls().MassSellFinish.performed += SellAllReleaseCallback;
     }
 
     protected override void OnDisable()
     {
         base.OnDisable();
-        //_playerControls.Disable();
 
+        _playerControls.Disable();
         GetPlayerControls().Hotbar.performed -= Hotbar;
-
+        GetPlayerControls().HotbarRight.performed -= HotbarRight;
+        GetPlayerControls().HotbarLeft.performed -= HotbarLeft;
         GetPlayerControls().UseItem.performed -= UseItem;
-        GetPlayerControls().UseItemHoldStart.performed -= x => UseItemPressed();
-        GetPlayerControls().UseItemHoldRelease.performed -= x => UseItemRelease();
-        GetPlayerControls().Sprint.performed -= x => SellAllPressed();
-        GetPlayerControls().SprintFinish.performed -= x => SellAllRelease();
+        GetPlayerControls().UseItemHoldStart.performed -= UseItemPressedCallback;
+        GetPlayerControls().UseItemHoldRelease.performed -= UseItemReleaseCallback;
+        GetPlayerControls().MassSell.performed -= SellAllPressedCallback;
+        GetPlayerControls().MassSellFinish.performed -= SellAllReleaseCallback;
+        CancelInvoke();
     }
 
     #region Hotbar Select Methods
@@ -206,12 +219,16 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void UseItemRelease()
     {
+        //if (!this) return;
+        
         _isHolding = false;
         CancelInvoke();
     }
 
     private void UseItemPressed()
     {
+        //if (!this || !enabled) return;
+        
         _isHolding = true;
         InvokeRepeating("Holdear", 0, 0.1f);
     }
@@ -408,25 +425,3 @@ public class HotbarDisplay : HotbarDisplayBase
         DoChangeNameDisplay();
     }
 }
-
-/*
-public class Hand : MonoBehaviour
-{
-    Action handActions;
-
-    PlayerInput2 inputActions;
-    void Awake()
-    {
-        PlayerInputActionAdder.AddAction(accion);
-        inputActions.Player.UseItem.performed += handActions;
-    }
-    
-    void accion()
-    {
-        handActions = HotbarDisplay.GetItemData().Action();
-
-    }
-   
-
-
-}*/

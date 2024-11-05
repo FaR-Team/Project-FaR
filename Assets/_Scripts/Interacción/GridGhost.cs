@@ -34,6 +34,11 @@ public class GridGhost : MonoBehaviour
         {
             instance = this;
         }
+        var hotbarDisplay = FindObjectOfType<HotbarDisplay>();
+        if(hotbarDisplay != null)
+        {
+            hotbarDisplay.SetGridGhost(this);
+        }
     }
 
     private void OnEnable()
