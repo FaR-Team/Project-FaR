@@ -11,7 +11,7 @@ public class ChestDataSaver : DataSaver<Cofre, ChestDataSaver>, IDataSavable
 
     public override async Task SaveData()
     {
-        ChestData chestData = new ChestData(this.transform.position, objectToSave.PrimaryInventorySystem);
+        ChestData chestData = new ChestData(uniqueiD.ID, objectToSave.PrimaryInventorySystem);
 
         await saverAllData.WriteSave(chestData);
     }

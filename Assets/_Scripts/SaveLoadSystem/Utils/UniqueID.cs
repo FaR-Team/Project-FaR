@@ -9,6 +9,7 @@ public class UniqueID : MonoBehaviour
 {
     [ReadOnly, SerializeField] private string _ID;
     [SerializeField] private static SerializableDictionary<string, GameObject> IDdataBase = new SerializableDictionary<string, GameObject>();
+    [SerializeField] private bool permanentID = false;
 
     public string ID => _ID;
     private void Awake()
@@ -18,6 +19,7 @@ public class UniqueID : MonoBehaviour
        
         if (IDdataBase.ContainsKey(_ID))
         {
+            if (permanentID) return;
             Generate();
         }
         else
@@ -34,7 +36,14 @@ public class UniqueID : MonoBehaviour
             IDdataBase.Remove(_ID);
         }
     }
-    void Reset() { Generate(); }
+
+    void Reset()
+    {
+        if (!permanentID)
+        {
+            Generate();
+        }
+    }
 
 [ContextMenu("Generar ID")]
     public void Generate()
