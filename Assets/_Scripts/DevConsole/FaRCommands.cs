@@ -20,11 +20,9 @@ public class FaRCommands : MonoBehaviour
     private int daysToSkip;
     public GameObject player;
     public Rigidbody rb;
-    public Camera cam;
     [FormerlySerializedAs("_cama")] public SleepHandler sleepHandler;
     public Database _database;
     public bool _noclip;
-    private Camera m_Camera;
 
     public DirtSpawnerPooling dirtSpawner;
 
@@ -40,7 +38,6 @@ public class FaRCommands : MonoBehaviour
 
     void Start()
     {
-        m_Camera = Camera.main;
         rb = player.GetComponent<Rigidbody>();
         DebugLogConsole.AddCommand<int, int>("give", "Te da un item con el número de ID que especifiques", GiveItem);
         DebugLogConsole.AddCommand("rosebud", "te da 1000 de oro", Rosebud);
@@ -95,6 +92,11 @@ public class FaRCommands : MonoBehaviour
 
     public void Noclip()
     {
+        if (rb == null || player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+            rb = player.GetComponent<Rigidbody>();
+        }
         if (!_noclip)
         {
             rb.useGravity = false;
@@ -111,22 +113,36 @@ public class FaRCommands : MonoBehaviour
 
     void GiveItem(int x, int y)
     {
+        if (_database = null)
+        {
+            _database = Resources.Load<Database>("Database");
+        }
+
         ItemPickUp.GiveItem(_database.GetItem(x), y);
     }
 
     void Rosebud()
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         player.GetComponent<PlayerInventoryHolder>().PrimaryInventorySystem.GainGold(1000);
     }
 
     void AddGold(int amount)
     {
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player");
+        }
+
         player.GetComponent<PlayerInventoryHolder>().PrimaryInventorySystem.GainGold(amount);
     }
 
     void HurryPotter()
     {
-
         TimeManager.TimeBetweenTicks = 0.01f;
         SetTestingAndIsWet(true, true);
         sleepHandler._yourLetterArrived = true;
@@ -134,7 +150,6 @@ public class FaRCommands : MonoBehaviour
 
     void HurryPotterSlower()
     {
-
         TimeManager.TimeBetweenTicks = 0.1f;
         SetTestingAndIsWet(true, true);
         sleepHandler._yourLetterArrived = true;
@@ -142,6 +157,10 @@ public class FaRCommands : MonoBehaviour
 
     private void SetTestingAndIsWet(bool test, bool isWet)
     {
+        if (dirtSpawner == null)
+        {
+            dirtSpawner = FindObjectOfType<DirtSpawnerPooling   >();
+        }
         foreach (GameObject dirt in dirtSpawner.GetActiveDirts())
         {
             dirt.GetComponent<Dirt>().testing = test;
