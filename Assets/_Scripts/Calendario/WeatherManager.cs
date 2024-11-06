@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using FaRUtils.Systems.DateTime;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -29,16 +30,16 @@ namespace FaRUtils.Systems.Weather
         public static UnityEvent IsCloudy;
 
         void Awake()
-    {
-        if (Instance != null && Instance != this) 
-        { 
-            Destroy(this); 
-        } 
-        else 
-        { 
-            Instance = this; 
-        } 
-    }
+        {
+            if (Instance != null && Instance != this) 
+            { 
+                Destroy(this); 
+            } 
+            else 
+            { 
+                Instance = this; 
+            } 
+        }
 
         private void Start()
         {
@@ -46,6 +47,7 @@ namespace FaRUtils.Systems.Weather
             snowParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             cloudParticles.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(CheckHourChangedForWeatherChange);
+            FaRUtils.Systems.DateTime.DateTime.OnSeasonChanged.AddListener(HandleSeasonChange);
 
             FillWeatherQueue();
             ChangeWeather();
@@ -61,17 +63,41 @@ namespace FaRUtils.Systems.Weather
                 weatherQueue.Enqueue(tempWeather);
             }
         }
+        private void HandleSeasonChange(FaRUtils.Systems.DateTime.DateTime.Season newSeason)
+        {
+            FillWeatherQueue();
+            ChangeWeather();
+        }
 
         private Weather GetRandomWeather()
         {
-            int randomWeather = (int) Weather.Rain;
+            if (forceRain)
+                return Weather.Rain;
 
-            if (!forceRain)
+            var currentSeason = TimeManager.DateTime.Seasons;
+
+            switch (currentSeason)
             {
-                randomWeather = UnityEngine.Random.Range(0, (int)Weather.WEATHER_MAX + 1);
+                case FaRUtils.Systems.DateTime.DateTime.Season.Early_Spring:
+                case FaRUtils.Systems.DateTime.DateTime.Season.Late_Spring:
+                    return (Weather)UnityEngine.Random.Range(0, 3); // Sunny, Cloudy, Rain
+                    
+                case FaRUtils.Systems.DateTime.DateTime.Season.Early_Summer:
+                case FaRUtils.Systems.DateTime.DateTime.Season.Late_Summer:
+                    return (Weather)UnityEngine.Random.Range(0, 2); // Sunny, Cloudy
+                    
+                case FaRUtils.Systems.DateTime.DateTime.Season.Early_Fall:
+                case FaRUtils.Systems.DateTime.DateTime.Season.Late_Fall:
+                    return (Weather)UnityEngine.Random.Range(0, 3); // Sunny, Cloudy, Rain
+                    
+                case FaRUtils.Systems.DateTime.DateTime.Season.Early_Winter:
+                case FaRUtils.Systems.DateTime.DateTime.Season.Late_Winter:
+                    var winterWeather = UnityEngine.Random.Range(0, 4);
+                    return winterWeather == 3 ? Weather.Snow : (Weather)winterWeather; // Sunny, Cloudy, Rain, Snow
+                    
+                default:
+                    return Weather.Sunny;
             }
-
-            return (Weather)randomWeather;
         }
 
         void ChangeWeather()

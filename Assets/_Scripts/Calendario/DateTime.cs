@@ -34,6 +34,7 @@ namespace FaRUtils.Systems.DateTime
         public int CurrentWeek => totalNumWeeks % 16 == 0 ? 16 : totalNumWeeks % 16;
 
         public static UnityEvent<int> OnHourChanged;
+        public static UnityEvent<Season> OnSeasonChanged = new UnityEvent<Season>();
 
         public DateTime(int date, int season, int year, int hour, int minutes)
         {
@@ -134,6 +135,7 @@ namespace FaRUtils.Systems.DateTime
             {
                 season++;
             }
+            OnSeasonChanged?.Invoke(season);
         }
 
         private void AdvanceYear()
