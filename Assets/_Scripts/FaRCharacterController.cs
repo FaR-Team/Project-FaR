@@ -40,6 +40,10 @@ namespace FaRUtils.FPSController
         [Header("Parámetros de agacharse")]
         private float _initHeight;
         [SerializeField] private float crouchHeight;
+        
+        Locations currentLocation;
+        
+        public Locations CurrentLocation => currentLocation;
 
         private void Awake()
         {
@@ -48,12 +52,15 @@ namespace FaRUtils.FPSController
                 Destroy(this.gameObject);
             }
             else instance = this;
+            
+            _controller = GetComponent<CharacterController>();
+            if (cam == null) cam = GetComponentInChildren<Camera>();
         }
 
         private void Start()
         {
-            _controller = GetComponent<CharacterController>();
-            if (cam == null) cam = GetComponentInChildren<Camera>();
+            
+            
             _initHeight = _controller.height;
             Cursor.lockState = CursorLockMode.Locked;
             SetBaseFOV(cam.fieldOfView);
@@ -175,6 +182,11 @@ namespace FaRUtils.FPSController
             transform.SetPositionAndRotation(newPosition.position, newPosition.rotation);
             _controller.enabled = true;
             
+        }
+
+        public void SetLocation(Locations location)
+        {
+            currentLocation = location;
         }
     }
 }

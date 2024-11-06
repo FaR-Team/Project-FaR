@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44402242, g: 0.49316543, b: 0.5722324, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -816,6 +816,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sleepingSpawnpoint: 0
+  fromFarmSpawnLoc: {fileID: 1222494614}
+  fromHouseSpawnLoc: {fileID: 1222494614}
+  fromTownSpawnLoc: {fileID: 0}
+  thisLocation: 1
 --- !u!4 &1222494614
 Transform:
   m_ObjectHideFlags: 0
@@ -1190,3 +1194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sleepingSpawnpoint: 1
+  fromFarmSpawnLoc: {fileID: 2017902678}
+  fromHouseSpawnLoc: {fileID: 2017902678}
+  fromTownSpawnLoc: {fileID: 2017902678}
+  thisLocation: 1

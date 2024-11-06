@@ -32,15 +32,23 @@ public static class ChestSetter
 
     public static void Load(Cofre[] chestsInstances, bool temporary)
     {
-        chestsDatas = LoadAllData.GetData<AllChestSystems>(temporary);
-        var sceneDatas = chestsDatas.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas; // Get datas from this scene
-        
-        if(!temporary) ChestSaver.instance.LoadScenesData(chestsDatas.scenesDataList);
-
-        for (int i = 0; i < chestsInstances.Length; i++)
+        try
         {
-            var chestID = chestsInstances[i].ID;
-            chestsInstances[i].LoadData(sceneDatas.First(data => data.id.Equals(chestID)));
+            chestsDatas = LoadAllData.GetData<AllChestSystems>(temporary);
+            var sceneDatas =
+                chestsDatas.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas; // Get datas from this scene
+
+            if (!temporary) ChestSaver.instance.LoadScenesData(chestsDatas.scenesDataList);
+
+            for (int i = 0; i < chestsInstances.Length; i++)
+            {
+                var chestID = chestsInstances[i].ID;
+                chestsInstances[i].LoadData(sceneDatas.First(data => data.id.Equals(chestID)));
+            }
+        }
+        catch (Exception e)
+        {
+            logger.LogWarning(e + "Chests couldnt be loaded.");
         }
     }
 

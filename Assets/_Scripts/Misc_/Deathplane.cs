@@ -14,7 +14,7 @@ public class Deathplane : MonoBehaviour
     {
         if (player.position.y <= -50)
         {
-            player.position = FindObjectOfType<SpawnPoint>().gameObject.transform.position;
+            player.position = FindObjectOfType<LocationHandler>().gameObject.transform.position;
         }
     }
 }
