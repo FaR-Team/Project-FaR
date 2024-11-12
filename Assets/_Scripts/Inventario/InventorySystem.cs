@@ -18,7 +18,6 @@ public class InventorySystem
 
     public InventorySystem(int tamaño) //Constructo que coloca la cantidad de Slots
     {
-        _gold = 0;
         CreateInventory(tamaño);
     }
     public InventorySystem(InventorySystem inventoryData)

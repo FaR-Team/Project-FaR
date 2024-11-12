@@ -11,7 +11,6 @@ public abstract class Container : MonoBehaviour //ex inventoryholder
     [SerializeField] protected int tamañoInventario;
     [SerializeField] protected InventorySystem inventorySystem;
     [SerializeField] protected int offset = 10;
-    [SerializeField] protected int _gold;
 
     public int Offset => offset;
 

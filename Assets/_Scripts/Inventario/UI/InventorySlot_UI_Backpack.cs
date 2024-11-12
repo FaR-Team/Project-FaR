@@ -60,4 +60,11 @@ public class InventorySlot_UI_Backpack : InventorySlot_UIBasic
 
         ParentDisplay?.SlotClicked(this);
     }
+
+    public override void OnUISlotRightClick()
+    {
+        if (isSlotBlocked) return;
+        
+        ParentDisplay?.SlotClicked(this, true);
+    }
 }

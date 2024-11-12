@@ -31,6 +31,6 @@ public class InteractTeleportPlayer : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-        throw new System.NotImplementedException();
+
     }
 }

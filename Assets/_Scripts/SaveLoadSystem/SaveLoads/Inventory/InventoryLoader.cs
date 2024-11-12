@@ -24,9 +24,9 @@ public static class InventoryLoader
      */
     public static InventorySystem Load(int defaultSize, int defaultgold, bool temporary)
     {
-        return TryPreloadSavedDirts(defaultSize, defaultgold, temporary);
+        return TryGetInventoryData(defaultSize, defaultgold, temporary);
     }
-    private static InventorySystem TryPreloadSavedDirts(int defaultSize, int defaultgold, bool temporary) // TODO: Para el player no va a haber temporal probablemente, ya que no se destruye
+    private static InventorySystem TryGetInventoryData(int defaultSize, int defaultgold, bool temporary) // TODO: Para el player no va a haber temporal probablemente, ya que no se destruye
     {
         try
         {

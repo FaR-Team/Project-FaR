@@ -1,6 +1,7 @@
 using System;
 using FaRUtils.FPSController;
 using UnityEngine;
+using Utils;
 
 public class LocationHandler : MonoBehaviour
 {
@@ -18,7 +19,7 @@ public class LocationHandler : MonoBehaviour
             case Locations.Farm:
                 if (fromFarmSpawnLoc == null)
                 {
-                    Debug.LogError("Farm spawn Location not set");
+                    this.LogError("Farm spawn Location not set");
                     FaRCharacterController.instance.Teleport(transform); // TP to LocationHandler if not set, use as default position
                     break;
                 }
@@ -28,7 +29,7 @@ public class LocationHandler : MonoBehaviour
             case Locations.House:
                 if (fromHouseSpawnLoc == null)
                 {
-                    Debug.LogError("House spawn Location not set");
+                    this.LogError("House spawn Location not set");
                     FaRCharacterController.instance.Teleport(transform);
                     break;
                 }
@@ -38,7 +39,7 @@ public class LocationHandler : MonoBehaviour
             case Locations.Town:
                 if (fromTownSpawnLoc == null)
                 {
-                    Debug.LogError("Town spawn Location not set");
+                    this.LogError("Town spawn Location not set");
                     FaRCharacterController.instance.Teleport(transform);
                     break;
                 }

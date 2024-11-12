@@ -6,6 +6,7 @@ public class PlayerInventoryHolder : Container
     public static UnityAction OnPlayerInventoryChanged;
 
     public static UnityAction<InventorySystem, int> OnPlayerInventoryDisplayRequested;
+    private int _startingGold = 1000;
 
     public GameObject TimeManager;
     public static bool IsBuying;
@@ -18,13 +19,9 @@ public class PlayerInventoryHolder : Container
     {
         instance = this;
 
-        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold, false);
+        inventorySystem = InventoryLoader.Load(tamañoInventario, _startingGold, false);
     }
 
-    public void ReloadInventory()
-    {
-        inventorySystem = InventoryLoader.Load(tamañoInventario, _gold, false);
-    }
     private void Start()
     {
         OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
