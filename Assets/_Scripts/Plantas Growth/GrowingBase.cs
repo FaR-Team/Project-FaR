@@ -27,6 +27,8 @@ public class GrowingBase : MonoBehaviour
     public int MaxDaysDry => maxDaysDry;
     public int DaysWithoutHarvest => daysWithoutHarvest;
     public int MaxDaysWithoutHarvest => maxDaysWithoutHarvest;
+    
+    private bool hasCaughtUp = false;
 
     protected virtual void Awake()
     {
@@ -38,6 +40,28 @@ public class GrowingBase : MonoBehaviour
     protected virtual void Start()
     {
         GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
+        CatchUpMissedGrowth();
+    }
+
+    private void CatchUpMissedGrowth()
+    {
+        if (hasCaughtUp) return;
+        
+        var gameState = GameStateLoader.gameStateData;
+        if (gameState == null) return;
+
+        // Calculate hours between current time and last save
+        var currentTime = gameState.CurrentDateTime;
+        var lastSaveTime = gameState.LastSaveDateTime;
+        var hoursPassed = currentTime.GetHoursDifference(lastSaveTime);
+        
+        for (int i = 0; i < hoursPassed; i++)
+        {
+            OnHourChanged(0); // Simulate midnight updates for each missed day
+        }
+
+        hasCaughtUp = true;
+        CheckDayGrow();
     }
 
     public virtual void Water()

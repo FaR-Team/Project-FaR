@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Events;
 
 namespace FaRUtils.Systems.DateTime
@@ -195,6 +196,29 @@ namespace FaRUtils.Systems.DateTime
         public string TimeToString24()
         {
             return $"{hour:D2}:{minutes:D2}";
+        }
+
+        public int GetHoursDifference(DateTime otherDateTime)
+        {
+            int totalHoursDiff = 0;
+            
+            // Calculate year difference
+            int yearDiff = year - otherDateTime.year;
+            totalHoursDiff += yearDiff * 112 * 24; // 112 days per year (28 days * 4 seasons)
+            
+            // Calculate season difference
+            int seasonDiff = ((int)season - (int)otherDateTime.season);
+            totalHoursDiff += seasonDiff * 28 * 24; // 28 days per season
+            
+            // Calculate day difference
+            int dayDiff = date - otherDateTime.date;
+            totalHoursDiff += dayDiff * 24;
+            
+            // Calculate hour difference
+            int hourDiff = hour - otherDateTime.hour;
+            totalHoursDiff += hourDiff;
+            
+            return totalHoursDiff;
         }
 
         [System.Serializable]

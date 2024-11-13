@@ -37,7 +37,10 @@ public class GameStateSaver : Saver<GameStateData, GameStateDataSaver>
         try
         {
             await SaveGameState();
-
+            
+            // Update last save time before saving
+            gameStateData.SetLastSaveDateTime(gameStateData.CurrentDateTime);
+            
             SaverManager.Save(gameStateData, isTemporarySave);
 
             this.LogSuccess("Successfully Saved Game State");
@@ -47,7 +50,6 @@ public class GameStateSaver : Saver<GameStateData, GameStateDataSaver>
             this.LogError($"Failed Save Game State. Reason: {e}");
         }
     }
-
     private async Task SaveGameState()
     {
         await gameStateDataSaver.SaveData();
