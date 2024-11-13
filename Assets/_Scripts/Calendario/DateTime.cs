@@ -7,7 +7,7 @@ namespace FaRUtils.Systems.DateTime
     public struct DateTime
     {
 
-        private DaysId day;
+        [SerializeField] private DaysId day;
 
         [SerializeField] private int date;
         [SerializeField] private int year;
