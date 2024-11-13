@@ -3,6 +3,8 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.Serialization;
 using DateTime = FaRUtils.Systems.DateTime.DateTime;
+using Utils;
+using FaRUtils.Systems.DateTime;
 
 public class GrowingBase : MonoBehaviour
 {
@@ -28,7 +30,7 @@ public class GrowingBase : MonoBehaviour
     public int DaysWithoutHarvest => daysWithoutHarvest;
     public int MaxDaysWithoutHarvest => maxDaysWithoutHarvest;
     
-    private bool hasCaughtUp = false;
+    public bool hasCaughtUp = false;
 
     protected virtual void Awake()
     {
@@ -50,14 +52,27 @@ public class GrowingBase : MonoBehaviour
         var gameState = GameStateLoader.gameStateData;
         if (gameState == null) return;
 
-        // Calculate hours between current time and last save
-        var currentTime = gameState.CurrentDateTime;
+        // Calculate days between current time and last save
+        var currentTime = TimeManager.DateTime;
         var lastSaveTime = gameState.LastSaveDateTime;
-        var hoursPassed = currentTime.GetHoursDifference(lastSaveTime);
+        var daysPassed = currentTime.TotalNumDays - lastSaveTime.TotalNumDays;
         
-        for (int i = 0; i < hoursPassed; i++)
+        this.Log($"Days passed: {daysPassed}");
+        this.Log($"Current time: {currentTime.Date}");
+        this.Log($"Last save time: {lastSaveTime.Date}");
+
+        for (int i = 0; i < daysPassed; i++)
         {
-            OnHourChanged(0); // Simulate midnight updates for each missed day
+            daysDry++;
+            if(currentState.isLastPhase)
+                daysWithoutHarvest++;
+                
+            var validation = GrowthValidator.ValidateGrowthState(this);
+            if(!validation.IsValid)
+            {
+                GrowthValidator.HandleFailedValidation(this, validation);
+                return;
+            }
         }
 
         hasCaughtUp = true;
