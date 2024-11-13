@@ -64,6 +64,7 @@ namespace FaRUtils.Systems.DateTime
 
         public void Start()
         {
+            DateTime = GameStateLoader.Load(false).CurrentDateTime;
             OnDateTimeChanged?.Invoke(DateTime);
         }
 

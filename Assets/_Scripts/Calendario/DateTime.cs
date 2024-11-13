@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 namespace FaRUtils.Systems.DateTime
 {
-    [System.Serializable]
+    [System.Serializable] 
     public struct DateTime
     {
 
