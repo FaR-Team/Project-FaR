@@ -9,23 +9,24 @@ public class GrowingBase : MonoBehaviour
     protected int interactableLayerInt = 7;
 
     protected int daysPlanted; //Dias que pasaron desde que se plantó.
-    [SerializeField] protected int maxDaysWithoutHarvest;
+    [SerializeField] protected int maxDaysWithoutHarvest = 3;
     protected int daysWithoutHarvest;
-    [SerializeField] protected int maxDaysDry;
-    protected int daysDry;
+    [SerializeField] protected int maxDaysDry = 2;
+    [SerializeField] protected int daysDry;
 
     public bool isFruit;
-
     [SerializeField] protected GrowingState[] states;
-    
-    [Tooltip("Always reference first state in prefab")]
-    public GrowingState currentState; // TODO: Cambiar a protected y que los demás objetos hagan Get de una propiedad, pero me da paja
+    public GrowingState currentState;
 
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
     [HideInInspector] public MeshRenderer meshRenderer;
 
     public int DiasPlantado => daysPlanted;
+    public int DaysDry => daysDry;
+    public int MaxDaysDry => maxDaysDry;
+    public int DaysWithoutHarvest => daysWithoutHarvest;
+    public int MaxDaysWithoutHarvest => maxDaysWithoutHarvest;
 
     protected virtual void Awake()
     {
@@ -36,31 +37,35 @@ public class GrowingBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        /*
-        TryGetComponent(out meshFilter);
-        TryGetComponent(out meshCollider);
-        TryGetComponent(out meshRenderer);
-        */
-        
-        
-        /*if (TryGetComponent<MeshFilter>(out MeshFilter filter))
-        {
-            meshFilter = filter;
-        }
-        if (TryGetComponent<MeshCollider>(out MeshCollider col))
-        {
-            meshCollider = col;
-        }
-        if (TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
-        {
-            meshRenderer = renderer;
-        }*/
-        
-        
-        DateTime.OnHourChanged.AddListener(OnHourChanged);
+        GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
     }
 
-    public virtual void OnHourChanged(int hour) { }
+    public virtual void Water()
+    {
+        daysDry = 0;
+    }
+
+    public virtual void Harvest()
+    {
+        daysWithoutHarvest = 0;
+    }
+
+    public virtual void OnHourChanged(int hour)
+    {
+        if(hour == 0) // At midnight
+        {
+            daysDry++;
+            if(currentState.isLastPhase)
+                daysWithoutHarvest++;
+                
+            var validation = GrowthValidator.ValidateGrowthState(this);
+            if(!validation.IsValid)
+            {
+                GrowthValidator.HandleFailedValidation(this, validation);
+                return;
+            }
+        }
+    }
 
     public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
@@ -73,7 +78,6 @@ public class GrowingBase : MonoBehaviour
 
     protected virtual void UpdateState()
     {
-        //Debug.Log($"Current State: {currentState.name}");
         meshFilter.mesh = currentState.mesh;
         meshRenderer.material = currentState.material;
         if (meshCollider != null)
@@ -81,6 +85,9 @@ public class GrowingBase : MonoBehaviour
             meshCollider.sharedMesh = currentState.mesh;
         }
         if (currentState.isLastPhase) SetInteractable();
+        
+        // Notify subscribers about the state change
+        GrowthEventManager.Instance.NotifyGrowthStateChanged(this, currentState);
     }
 
     public virtual void SetInteractable()
@@ -93,12 +100,14 @@ public class GrowingBase : MonoBehaviour
     public void LoadData(CropSaveData cropSaveData)
     {
         daysPlanted = cropSaveData.DiasPlantado;
+        daysDry = cropSaveData.DaysDry;
+        daysWithoutHarvest = cropSaveData.DaysWithoutHarvest;
         currentState = cropSaveData.GrowingState;
         UpdateState();
     }
 
     void OnDisable()
     {
-        DateTime.OnHourChanged.RemoveListener(OnHourChanged);
+        GrowthEventManager.Instance.OnHourChanged -= OnHourChanged;
     }
 }

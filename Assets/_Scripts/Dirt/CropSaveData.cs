@@ -1,11 +1,16 @@
 ﻿[System.Serializable]
-public class CropSaveData : SaveData
+public class CropSaveData
 {
     public int DiasPlantado;
+    public int DaysDry;
+    public int DaysWithoutHarvest;
     public GrowingState GrowingState;
-    public CropSaveData(int diasPlantado, GrowingState growingState)
+
+    public CropSaveData(GrowingBase crop)
     {
-        DiasPlantado = diasPlantado;
-        GrowingState = growingState;
+        DiasPlantado = crop.DiasPlantado;
+        DaysDry = crop.DaysDry;
+        DaysWithoutHarvest = crop.DaysWithoutHarvest;
+        GrowingState = crop.currentState;
     }
 }

@@ -85,7 +85,9 @@ public class SleepHandler : MonoBehaviour
         }
         if (TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
         {
-            this.LogOnScreen("Es muy temprano para dormir");
+        #if DEBUG
+            this.LogOnScreen("Es muy temprano para dormir {Dev: Usá el comando imsleepy}");
+        #endif
             return false;
         }
 

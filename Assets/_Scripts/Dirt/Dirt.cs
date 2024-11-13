@@ -62,8 +62,7 @@ public class Dirt : MonoBehaviour
         if (currentCrop == null) return null;
 
         var growing = currentCrop.GetComponent<GrowingBase>();
-        CropSaveData cropdata = new CropSaveData(growing.DiasPlantado, growing.currentState);
-        return cropdata;
+        return new CropSaveData(growing);
     }
     public bool GetCrop(SeedItemData itemData)
     {
