@@ -13,6 +13,9 @@
 		_SurfaceDistortionAmount("Surface Distortion Amount", Range(0, 1)) = 0.8
 		_FoamMaxDistance("Foam Maximum Distance", Float) = 3
 		_FoamMinDistance("Foam Minimum Distance", Float) = 0.04
+		_WaveSpeed("Wave Speed", Float) = 1
+		_WaveAmplitude("Wave Amplitude", Float) = 0.5
+		_WaveFrequency("Wave Frequency", Float) = 2
 	}
 	
 	SubShader
@@ -30,10 +33,13 @@
 			HLSLPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
+			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
+			#pragma multi_compile _ _SHADOWS_SOFT
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 			
 			struct Attributes
 			{
@@ -41,7 +47,6 @@
 				float2 uv : TEXCOORD0;
 				float3 normalOS : NORMAL;
 			};
-
 			struct Varyings
 			{
 				float4 positionCS : SV_POSITION;
@@ -49,6 +54,8 @@
 				float2 distortUV : TEXCOORD1;
 				float4 screenPosition : TEXCOORD2;
 				float3 viewNormal : NORMAL;
+				float3 normalWS : TEXCOORD3;
+				float3 positionWS : TEXCOORD4;
 			};
 			
 			TEXTURE2D(_SurfaceNoise); SAMPLER(sampler_SurfaceNoise);
@@ -66,16 +73,21 @@
 				float _SurfaceNoiseCutoff;
 				float _SurfaceDistortionAmount;
 				float2 _SurfaceNoiseScroll;
+				float _WaveSpeed;
+				float _WaveAmplitude;
+				float _WaveFrequency;
 			CBUFFER_END
 			
 			Varyings vert(Attributes IN)
 			{
 				Varyings OUT;
-				OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+				OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+				OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
+				OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
 				OUT.screenPosition = ComputeScreenPos(OUT.positionCS);
 				OUT.distortUV = TRANSFORM_TEX(IN.uv, _SurfaceDistortion);
 				OUT.noiseUV = TRANSFORM_TEX(IN.uv, _SurfaceNoise);
-				OUT.viewNormal = TransformWorldToViewDir(TransformObjectToWorldNormal(IN.normalOS));
+				OUT.viewNormal = TransformWorldToViewDir(OUT.normalWS);
 				return OUT;
 			}
 			
@@ -90,7 +102,24 @@
 				
 				float waterDepthDifference01 = saturate(depthDifference / _DepthMaxDistance);
 				float4 waterColor = lerp(_DepthGradientShallow, _DepthGradientDeep, waterDepthDifference01);
-				
+				float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
+				Light mainLight = GetMainLight(shadowCoord);
+				float NdotL = dot(IN.normalWS, mainLight.direction);
+
+				float shadowSample = MainLightRealtimeShadow(shadowCoord);
+				float softShadow = smoothstep(0.2, 0.8, shadowSample);
+				float shadowAttenuation = lerp(0.5, 1.0, softShadow);
+
+				float ambientOcclusion = lerp(0.8, 1.0, shadowSample);
+
+				half3 litTint = mainLight.color.rgb * 1.2;
+				half3 shadowTint = mainLight.color.rgb * half3(0.7, 0.8, 1.0);
+
+				float celValue = NdotL * shadowAttenuation * ambientOcclusion;
+				float cel = smoothstep(0, 1, celValue);
+
+				half3 lightingTint = lerp(shadowTint, litTint, cel);
+				waterColor.rgb *= lightingTint * ambientOcclusion;				
 				// Improve foam calculation
 				float foamDepth = saturate(depthDifference / _FoamMaxDistance);
 				float foamGradient = 1 - foamDepth;
@@ -100,8 +129,11 @@
 				
 				// Adjust distortion calculation
 				float2 distortSample = (SAMPLE_TEXTURE2D(_SurfaceDistortion, sampler_SurfaceDistortion, IN.distortUV).xy * 2 - 1) * _SurfaceDistortionAmount;
-				float2 noiseUV = float2((IN.noiseUV.x + _Time.y * _SurfaceNoiseScroll.x) + distortSample.x, 
-																												(IN.noiseUV.y + _Time.y * _SurfaceNoiseScroll.y) + distortSample.y);
+				float2 objectOffset = IN.positionWS.xz * 0.1;
+				float2 noiseUV = float2(
+					(IN.noiseUV.x + _Time.y * _SurfaceNoiseScroll.x + objectOffset.x) + distortSample.x,
+					(IN.noiseUV.y + _Time.y * _SurfaceNoiseScroll.y + objectOffset.y) + distortSample.y
+				);
 				
 				float surfaceNoiseSample = SAMPLE_TEXTURE2D(_SurfaceNoise, sampler_SurfaceNoise, noiseUV).r;
 				float surfaceNoise = smoothstep(surfaceNoiseCutoff - 0.01, surfaceNoiseCutoff + 0.01, surfaceNoiseSample);
