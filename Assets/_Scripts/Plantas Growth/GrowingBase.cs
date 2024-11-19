@@ -45,38 +45,9 @@ public class GrowingBase : MonoBehaviour
         CatchUpMissedGrowth();
     }
 
-    private void CatchUpMissedGrowth()
+    protected virtual void CatchUpMissedGrowth()
     {
-        if (hasCaughtUp) return;
         
-        var gameState = GameStateLoader.gameStateData;
-        if (gameState == null) return;
-
-        // Calculate days between current time and last save
-        var currentTime = TimeManager.DateTime;
-        var lastSaveTime = gameState.LastSaveDateTime;
-        var daysPassed = currentTime.TotalNumDays - lastSaveTime.TotalNumDays;
-        
-        this.Log($"Days passed: {daysPassed}");
-        this.Log($"Current time: {currentTime.Date}");
-        this.Log($"Last save time: {lastSaveTime.Date}");
-
-        for (int i = 0; i < daysPassed; i++)
-        {
-            daysDry++;
-            if(currentState.isLastPhase)
-                daysWithoutHarvest++;
-                
-            var validation = GrowthValidator.ValidateGrowthState(this);
-            if(!validation.IsValid)
-            {
-                GrowthValidator.HandleFailedValidation(this, validation);
-                return;
-            }
-        }
-
-        hasCaughtUp = true;
-        CheckDayGrow();
     }
 
     public virtual void Water()
