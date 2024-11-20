@@ -94,7 +94,7 @@ namespace FaRUtils.Systems.DateTime
         {
             DateTime.AdvanceMinutes(TickMinutesIncreased);
 
-            OnDateTimeChanged?.Invoke(DateTime); // Por qué se hace 2 veces?
+            OnDateTimeChanged?.Invoke(DateTime);
         }
 
         public void AdvanceTime(int extraHours)

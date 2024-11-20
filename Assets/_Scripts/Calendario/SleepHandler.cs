@@ -70,6 +70,7 @@ public class SleepHandler : MonoBehaviour
         }
         else yield return null;
 
+        SaveLoadHandlerSystem.Invoke(false);
         OnPlayerWakeUp?.Invoke();
         _skipTonightSleep = false; // Reset if skipped tonight's sleep
         Fade.Play("NegroOut");
@@ -100,8 +101,6 @@ public class SleepHandler : MonoBehaviour
         }
         Fade.gameObject.SetActive(true);
         Fade.Play("NegroIn");
-
-        SaveLoadHandlerSystem.Invoke(false);
 
         Energy.RemainingEnergy = 100;
         Energy.UpdateEnergy();

@@ -25,7 +25,7 @@ public static class LoadAllData
         T data = new();
         string path = PathFinder.GetFinalPath(data.GetType().FullName, temporary);
 
-        Debug.Log("Tried loading from path " + path);
+        //Debug.Log("Tried loading from path " + path);
 
         if (!PathExists(path))
         {

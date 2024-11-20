@@ -32,12 +32,12 @@ public class DirtSpawnerPooling : MonoBehaviour
     {
         if(firstLoad)
         {
-            Debug.Log("Load temporary dirt");
+            //Debug.Log("Load temporary dirt");
             DirtSetter.Load(_DirtPrefab, gameObject, true); // If already loaded when opening game, load temporal save
         }
         else
         {
-            Debug.Log("Load non-temporary dirt save file");
+            //Debug.Log("Load non-temporary dirt save file");
             DirtSetter.Load(_DirtPrefab, gameObject, false); // On Start, load non-temporary dirt data
             firstLoad = true;
         }

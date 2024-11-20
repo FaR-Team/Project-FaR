@@ -33,12 +33,12 @@ public class ChestsManager : MonoBehaviour
     {
         if (firstLoad)
         {
-            Debug.Log("Load temporary chest");
+            //Debug.Log("Load temporary chest");
             ChestSetter.Load(chestsInScene, true); // If already loaded when opening game, load temporal save
         }
         else
         {
-            Debug.Log("Load non-temporary chest save file");
+            //Debug.Log("Load non-temporary chest save file");
             ChestSetter.Load(chestsInScene, false); // On Start, load non-temporary dirt data
             firstLoad = true;
         }

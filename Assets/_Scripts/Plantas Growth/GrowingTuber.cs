@@ -83,7 +83,7 @@ public class GrowingTuber : GrowingBase
     }
     protected override void UpdateState()
     {
-        Debug.Log("UPDATING STATE");
+        //Debug.Log("UPDATING STATE");
         skinnedMeshRenderer.material = currentState.material;
         skinnedMeshRenderer.sharedMesh = currentState.mesh;
 
