@@ -31,7 +31,7 @@ public class GameStateData : SaveData, IAllData<GameStateData>
     {
         _currentDateTime = time;
         _lastSaveDateTime = time;
-        _sceneStates = new List<SceneStateData>();
+        _sceneStates = sceneStates;
     }
     public void CopyData(GameStateData data)
     {
