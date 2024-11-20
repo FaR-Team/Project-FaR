@@ -6,7 +6,7 @@ using DateTime = FaRUtils.Systems.DateTime.DateTime;
 using Utils;
 using FaRUtils.Systems.DateTime;
 
-public class GrowingBase : MonoBehaviour
+public abstract class GrowingBase : MonoBehaviour
 {
     protected int interactableLayerInt = 7;
 
@@ -45,10 +45,7 @@ public class GrowingBase : MonoBehaviour
         CatchUpMissedGrowth();
     }
 
-    protected virtual void CatchUpMissedGrowth()
-    {
-        
-    }
+    protected abstract void CatchUpMissedGrowth();
 
     public virtual void Water()
     {

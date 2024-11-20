@@ -66,7 +66,7 @@ public class DirtSaver : Saver<DirtData, SaveDirtData>
 
     public override void AddSavedObject(SaveDirtData dirtData)
     {
-        Debug.Log("Added dirt to save in DirtSaver");
+        //Debug.Log("Added dirt to save in DirtSaver");
         dirts.Add(dirtData);
     }
 

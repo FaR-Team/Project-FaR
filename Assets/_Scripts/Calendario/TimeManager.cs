@@ -1,14 +1,20 @@
 using Sirenix.Serialization;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Localization;
+using UnityEngine.SceneManagement;
+using Utils;
 
 namespace FaRUtils.Systems.DateTime
 {
     public class TimeManager : MonoBehaviour
     {
         public static TimeManager Instance { get; private set; }
+        
+        [SerializeField] List<SceneStateData> _sceneStates = new();
 
         [Header("Opciones de Fecha y Tiempo")]
 
@@ -35,6 +41,8 @@ namespace FaRUtils.Systems.DateTime
         public int TickMinutesIncreased = 10;
         public static float TimeBetweenTicks = 10f;
         private float CurrentTimeBetweenTicks = 0;
+        
+        public List<SceneStateData> SceneStates => _sceneStates;
 
         public static LocalizedString localizedStringClock;
 
@@ -64,7 +72,10 @@ namespace FaRUtils.Systems.DateTime
 
         public void Start()
         {
-            DateTime = GameStateLoader.Load(false).CurrentDateTime;
+            var gameState = GameStateLoader.Load(false);
+            DateTime = gameState.CurrentDateTime;
+            _sceneStates = gameState.SceneStates;
+            
             OnDateTimeChanged?.Invoke(DateTime);
         }
 
@@ -90,6 +101,55 @@ namespace FaRUtils.Systems.DateTime
         {
             DateTime.AdvanceHours(extraHours);
             OnDateTimeChanged?.Invoke(DateTime);
+        }
+        
+        private void OnEnable()
+        {
+            SceneManager.sceneUnloaded += UpdateSceneData;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneUnloaded -= UpdateSceneData;
+        }
+
+        private void UpdateSceneData(Scene previous)
+        {
+            AddSceneLastTime(previous.name, DateTime);
+        }
+
+        
+        public void AddSceneLastTime(string sceneName, DateTime time)
+        {
+            SceneStateData newData = new SceneStateData()
+            {
+                sceneName = sceneName,
+                lastDateTime = time
+            };
+            
+            int sceneIndex = _sceneStates.FindIndex(sceneData => sceneData.sceneName.Equals(sceneName));
+        
+            if (sceneIndex != -1) // If found data with Scene Name
+            {
+                _sceneStates[sceneIndex] = newData; // TODO: Capaz no crear data innecesariamente sino reemplazar los datos, y crear en el Else
+            }
+            else
+            {
+                _sceneStates.Add(newData);
+            }
+        }
+    
+        public SceneStateData GetSceneDataFromName(string sceneName)
+        {
+            return _sceneStates.FirstOrDefault(sceneData => sceneData.sceneName.Equals(sceneName));
+        }
+
+        public DateTime GetLastTimeInScene(string sceneName)
+        {
+            var time = GetSceneDataFromName(sceneName).lastDateTime;
+            
+            if (time.TotalNumDays == 0) return DateTime; // If there's no saved time, return current
+            return time;
         }
     }
 }

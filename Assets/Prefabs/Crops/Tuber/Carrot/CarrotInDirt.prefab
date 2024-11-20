@@ -48,8 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d46379ef3c70820479fe2de9aebb7a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDaysWithoutHarvest: 0
-  maxDaysDry: 0
+  maxDaysWithoutHarvest: 3
+  maxDaysDry: 2
+  daysDry: 0
   isFruit: 0
   states:
   - {fileID: 11400000, guid: 7a60740a78284d346880259f591ed8ca, type: 2}
@@ -59,6 +60,7 @@ MonoBehaviour:
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
+  hasCaughtUp: 0
   tierra: {fileID: 0}
   interactablePrefab: {fileID: 1275932420384288578, guid: 6a26517dbfab41f439f9ad83a691cd58,
     type: 3}
@@ -75,7 +77,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c1a30443-b10c-46dd-997c-54309764f315
+  _ID: 533a9f62-a722-46ee-a6d0-6a17815bf23c
+  permanentID: 0
 --- !u!111 &2946311036401442136
 Animation:
   m_ObjectHideFlags: 0

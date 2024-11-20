@@ -36,6 +36,11 @@ public class GrowingTreeAndPlant : GrowingBase
         availableSpawnPoints = SpawnPoints.ToHashSet();
     }
 
+    protected override void CatchUpMissedGrowth()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public override void OnHourChanged(int hour)
     {
         if (hour != 5) return;

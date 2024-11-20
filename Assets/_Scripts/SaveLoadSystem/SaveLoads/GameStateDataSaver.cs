@@ -17,7 +17,7 @@ public class GameStateDataSaver : DataSaver<TimeManager, GameStateDataSaver>, ID
 
     public override async Task SaveData()
     {
-        GameStateData gameStateData = new(TimeManager.DateTime);
+        GameStateData gameStateData = new(TimeManager.DateTime, TimeManager.Instance.SceneStates);
 
         await saverAllData.WriteSave(gameStateData);
     }

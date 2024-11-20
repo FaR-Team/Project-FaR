@@ -24,15 +24,19 @@ public class GrowingCrop : GrowingBase
     {
         this.Log("Catching up missed growth...");
         if (hasCaughtUp) return;
-        this.Log("BANANA");
         
-        var gameState = GameStateLoader.gameStateData;
-        if (gameState == null) return;
+        var gameState = GameStateSaver.Instance.CurrentGameStateData;
+        
+        if (gameState == null)
+        {
+            this.LogWarning("Game State data is null for catch up");
+            return;
+        }
 
         // Calculate days between current time and last save
         var currentTime = TimeManager.DateTime;
-        var lastSaveTime = gameState.LastSaveDateTime;
-        var daysPassed = currentTime.TotalNumDays - lastSaveTime.TotalNumDays;
+        var lastSaveTime = TimeManager.Instance.GetLastTimeInScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        var daysPassed = currentTime.TotalNumDays - lastSaveTime.TotalNumDays; // TODO: No va a funcionar bien, no se fija que hayan pasado las 6
         
         this.Log($"Days passed: {daysPassed}");
         this.Log($"Current time: {currentTime.Date}");

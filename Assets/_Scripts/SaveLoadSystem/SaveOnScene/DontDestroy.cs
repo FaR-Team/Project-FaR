@@ -27,7 +27,7 @@ public class DontDestroy : MonoBehaviour
                     }
                     
                     Destroy(gameObject);
-                    this.LogSuccess("Destroyed "  + GODontDestroy.gameObject.name);
+                    //this.LogSuccess("Destroyed "  + GODontDestroy.gameObject.name);
                 }
             }
         }
