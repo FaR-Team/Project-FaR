@@ -53,12 +53,10 @@ public abstract class GrowingBase : MonoBehaviour
         // Calculate days between current time and last save
         var currentTime = TimeManager.DateTime;
         var lastSaveTime = TimeManager.Instance.GetLastTimeInScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        var daysPassed = currentTime.TotalNumDays - lastSaveTime.TotalNumDays;
 
-        if (currentTime.Hour < 6)
-        {
-            daysPassed = Mathf.Max(0, daysPassed - 1);
-        }
+        var currentDayCount = currentTime.Hour < 3 ? currentTime.TotalNumDays - 1 : currentTime.TotalNumDays;
+        var lastDayCount = lastSaveTime.Hour < 3 ? lastSaveTime.TotalNumDays - 1 : lastSaveTime.TotalNumDays;
+        var daysPassed = currentDayCount - lastDayCount;
         
         this.Log($"Days passed: {daysPassed}", $"Current time: {currentTime.Date}", $"Last save time: {lastSaveTime.Date}");
 
