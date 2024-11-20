@@ -19,7 +19,7 @@ namespace FaRUtils.Systems.DateTime
         [SerializeField] private Season season;
 
 
-        private int totalNumDays;
+        [SerializeField] private int totalNumDays;
         private int totalNumWeeks;
 
 

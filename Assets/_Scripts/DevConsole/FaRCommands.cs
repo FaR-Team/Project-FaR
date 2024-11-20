@@ -1,8 +1,10 @@
+using System.Linq;
 using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 using FaRUtils.Systems.ItemSystem;
 using IngameDebugConsole;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class FaRCommands : MonoBehaviour
@@ -83,6 +85,8 @@ public class FaRCommands : MonoBehaviour
     private void TestDeleteSave()
     {
         SaverManager.DeleteAllSaves();
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ClearConsole()

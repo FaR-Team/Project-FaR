@@ -46,12 +46,14 @@ public class FaRConsoleWindow : EditorWindow
     {
         Application.logMessageReceived += HandleLog;
         Application.logMessageReceivedThreaded += HandleLogThreaded;
+        AssemblyReloadEvents.beforeAssemblyReload += ClearOnRecompile;
     }
 
     private void OnDisable()
     {
         Application.logMessageReceived -= HandleLog;
         Application.logMessageReceivedThreaded -= HandleLogThreaded;
+        AssemblyReloadEvents.beforeAssemblyReload -= ClearOnRecompile;
     }
 
     private void HandleLogThreaded(string condition, string stackTrace, LogType type)
@@ -156,22 +158,34 @@ public class FaRConsoleWindow : EditorWindow
     {
         EditorGUILayout.BeginHorizontal(EditorStyles.toolbar);
 
-        // Clear dropdown
-        if (EditorGUILayout.DropdownButton(new GUIContent(clearOptions[selectedClearOption]), FocusType.Passive, EditorStyles.toolbarDropDown, GUILayout.Width(80)))
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Clear", EditorStyles.toolbarButton, GUILayout.Width(50)))
         {
-            GenericMenu menu = new GenericMenu();
-            for (int i = 0; i < clearOptions.Length; i++)
-            {
-                int index = i;
-                menu.AddItem(new GUIContent(clearOptions[i]), selectedClearOption == i, () => 
-                {
-                    selectedClearOption = index;
-                    PerformClearAction(index);
-                });
-            }
-            menu.ShowAsContext();
+            logEntries.Clear();
         }
 
+        // Add dropdown next to Clear button
+        if (EditorGUILayout.DropdownButton(new GUIContent("▼"), FocusType.Passive, EditorStyles.toolbarButton, GUILayout.Width(20)))
+        {
+            GenericMenu menu = new GenericMenu();
+            menu.AddItem(new GUIContent("Clear on Play"), selectedClearOption == 1, () => 
+            {
+                selectedClearOption = 1;
+                PerformClearAction(1);
+            });
+            menu.AddItem(new GUIContent("Clear on Build"), selectedClearOption == 2, () => 
+            {
+                selectedClearOption = 2;
+                PerformClearAction(2);
+            });
+            menu.AddItem(new GUIContent("Clear on Recompile"), selectedClearOption == 3, () => 
+            {
+                selectedClearOption = 3;
+                PerformClearAction(3);
+            });
+            menu.ShowAsContext();
+        }
+        EditorGUILayout.EndHorizontal();
         // Error Pause toggle
         errorPause = GUILayout.Toggle(errorPause, "Error Pause", EditorStyles.toolbarButton);
 
@@ -253,6 +267,15 @@ public class FaRConsoleWindow : EditorWindow
             EditorGUILayout.EndVertical();
         }
         EditorGUILayout.EndScrollView();
+    }
+
+    private void ClearOnRecompile()
+    {
+        if (selectedClearOption == 3)
+        {
+            logEntries.Clear();
+            Repaint();
+        }
     }
 
     private string GenerateHtmlContent()
@@ -346,6 +369,9 @@ public class FaRConsoleWindow : EditorWindow
             case 2: // Clear on Build
                 BuildPlayerWindow.RegisterBuildPlayerHandler(ClearOnBuild);
                 break;
+            case 3: // Clear on Recompile
+                AssemblyReloadEvents.beforeAssemblyReload += ClearOnRecompile;
+                break;
         }
         Repaint();
     }
@@ -411,59 +437,59 @@ public class FaRConsoleWindow : EditorWindow
             return searchTarget.IndexOf(searchText, StringComparison.OrdinalIgnoreCase) >= 0;
         }
     }
-      private void SmartSelect(LogEntry entry)
-      {
-          // First, try to open the file and line number stored in the LogEntry
-          if (!string.IsNullOrEmpty(entry.fileName) && entry.lineNumber > 0)
-          {
-              string relativePath = entry.fileName;
-              if (!relativePath.StartsWith("Assets/"))
-              {
-                  relativePath = "Assets/" + relativePath;
-              }
-              var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(relativePath);
-              if (asset != null)
-              {
-                  Selection.activeObject = asset;
-                  AssetDatabase.OpenAsset(asset, entry.lineNumber);
-                  return;
-              }
-          }
+    private void SmartSelect(LogEntry entry)
+    {
+        // First, try to open the file and line number stored in the LogEntry
+        if (!string.IsNullOrEmpty(entry.fileName) && entry.lineNumber > 0)
+        {
+            string relativePath = entry.fileName;
+            if (!relativePath.StartsWith("Assets/"))
+            {
+                relativePath = "Assets/" + relativePath;
+            }
+            var asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(relativePath);
+            if (asset != null)
+            {
+                Selection.activeObject = asset;
+                AssetDatabase.OpenAsset(asset, entry.lineNumber);
+                return;
+            }
+        }
 
-          // If that fails, try to find the GameObject by name
-          GameObject obj = GameObject.Find(entry.objectName);
-          if (obj != null)
-          {
-              Selection.activeGameObject = obj;
-              EditorGUIUtility.PingObject(obj);
-              return;
-          }
+        // If that fails, try to find the GameObject by name
+        GameObject obj = GameObject.Find(entry.objectName);
+        if (obj != null)
+        {
+            Selection.activeGameObject = obj;
+            EditorGUIUtility.PingObject(obj);
+            return;
+        }
 
-          // If still not found, parse the stack trace as a last resort
-          string[] lines = entry.stackTrace.Split('\n');
-          foreach (string line in lines)
-          {
-              if (!line.Contains("FaRLogger.cs") && line.Contains("(at "))
-              {
-                  int startIndex = line.IndexOf("(at ") + 4;
-                  int endIndex = line.IndexOf(':', startIndex);
-                  if (endIndex > startIndex)
-                  {
-                      string filePath = line.Substring(startIndex, endIndex - startIndex);
-                      string fullPath = Path.GetFullPath(filePath);
-                      string relativePath = "Assets" + fullPath.Substring(Application.dataPath.Length);
-                
-                      UnityEngine.Object asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(relativePath);
-                      if (asset != null)
-                      {
-                          Selection.activeObject = asset;
-                          AssetDatabase.OpenAsset(asset, int.Parse(line.Substring(endIndex + 1).TrimEnd(')')));
-                          return;
-                      }
-                  }
-              }
-          }
-      }
+        // If still not found, parse the stack trace as a last resort
+        string[] lines = entry.stackTrace.Split('\n');
+        foreach (string line in lines)
+        {
+            if (!line.Contains("FaRLogger.cs") && line.Contains("(at "))
+            {
+                int startIndex = line.IndexOf("(at ") + 4;
+                int endIndex = line.IndexOf(':', startIndex);
+                if (endIndex > startIndex)
+                {
+                    string filePath = line.Substring(startIndex, endIndex - startIndex);
+                    string fullPath = Path.GetFullPath(filePath);
+                    string relativePath = "Assets" + fullPath.Substring(Application.dataPath.Length);
+            
+                    UnityEngine.Object asset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(relativePath);
+                    if (asset != null)
+                    {
+                        Selection.activeObject = asset;
+                        AssetDatabase.OpenAsset(asset, int.Parse(line.Substring(endIndex + 1).TrimEnd(')')));
+                        return;
+                    }
+                }
+            }
+        }
+    }
     public enum LogEntryType
     {
         Info,
@@ -471,51 +497,51 @@ public class FaRConsoleWindow : EditorWindow
         Error,
         Success
     }
-      public class LogEntry
-      {
-          public string prefix;
-          public string objectName;
-          public string message;
-          public string stackTrace;
-          public LogType type;
-          public bool isExpanded;
-          public string fileName;
-          public int lineNumber;
-          public int count = 1;
-          public LogEntryType entryType;
-          public DateTime timestamp;
+    public class LogEntry
+    {
+        public string prefix;
+        public string objectName;
+        public string message;
+        public string stackTrace;
+        public LogType type;
+        public bool isExpanded;
+        public string fileName;
+        public int lineNumber;
+        public int count = 1;
+        public LogEntryType entryType;
+        public DateTime timestamp;
 
-          public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
-          {
-              this.prefix = prefix;
-              this.objectName = objectName;
-              this.message = message;
-              this.stackTrace = stackTrace;
-              this.type = type;
-              this.isExpanded = false;
-              this.fileName = fileName;
-              this.lineNumber = lineNumber;
-              this.entryType = DetermineLogEntryType(prefix, type);
-              this.timestamp = DateTime.Now;
-          }
+        public LogEntry(string prefix, string objectName, string message, string stackTrace, LogType type, string fileName, int lineNumber)
+        {
+            this.prefix = prefix;
+            this.objectName = objectName;
+            this.message = message;
+            this.stackTrace = stackTrace;
+            this.type = type;
+            this.isExpanded = false;
+            this.fileName = fileName;
+            this.lineNumber = lineNumber;
+            this.entryType = DetermineLogEntryType(prefix, type);
+            this.timestamp = DateTime.Now;
+        }
 
-          private LogEntryType DetermineLogEntryType(string prefix, LogType type)
-          {
-              if (prefix.Contains("✓"))
-                  return LogEntryType.Success;
-              switch (type)
-              {
-                  case LogType.Log:
-                      return LogEntryType.Info;
-                  case LogType.Warning:
-                      return LogEntryType.Warning;
-                  case LogType.Error:
-                  case LogType.Exception:
-                  case LogType.Assert:
-                      return LogEntryType.Error;
-                  default:
-                      return LogEntryType.Info;
-              }
-          }
+        private LogEntryType DetermineLogEntryType(string prefix, LogType type)
+        {
+            if (prefix.Contains("✓"))
+                return LogEntryType.Success;
+            switch (type)
+            {
+                case LogType.Log:
+                    return LogEntryType.Info;
+                case LogType.Warning:
+                    return LogEntryType.Warning;
+                case LogType.Error:
+                case LogType.Exception:
+                case LogType.Assert:
+                    return LogEntryType.Error;
+                default:
+                    return LogEntryType.Info;
+            }
+        }
     }
 }

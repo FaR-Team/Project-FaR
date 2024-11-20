@@ -68,13 +68,13 @@ namespace FaRUtils.Systems.DateTime
             }
 
             DontDestroyOnLoad(Instance);
+            var gameState = GameStateLoader.Load(false);
+            DateTime = gameState.CurrentDateTime;
+            _sceneStates = gameState.SceneStates;
         }
 
         public void Start()
         {
-            var gameState = GameStateLoader.Load(false);
-            DateTime = gameState.CurrentDateTime;
-            _sceneStates = gameState.SceneStates;
             
             OnDateTimeChanged?.Invoke(DateTime);
         }
@@ -146,9 +146,11 @@ namespace FaRUtils.Systems.DateTime
 
         public DateTime GetLastTimeInScene(string sceneName)
         {
-            var time = GetSceneDataFromName(sceneName).lastDateTime;
-            
-            if (time.TotalNumDays == 0) return DateTime; // If there's no saved time, return current
+            var time = GetSceneDataFromName(sceneName).lastDateTime;            
+            if (time.TotalNumDays == 0)
+            {
+                return DateTime; // If there's no saved time, return current
+            }
             return time;
         }
     }
