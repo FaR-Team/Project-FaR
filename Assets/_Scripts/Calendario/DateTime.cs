@@ -193,7 +193,7 @@ namespace FaRUtils.Systems.DateTime
             return $"{AdjustedHour:D2}:{minutes:D2} {AmPm}";
         }
 
-        public string TimeToString24()
+        public readonly string TimeToString24()
         {
             return $"{hour:D2}:{minutes:D2}";
         }

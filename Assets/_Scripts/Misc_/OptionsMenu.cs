@@ -1,16 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
+using System.Collections.Generic;
+
+[Serializable]
+public class OptionsData
+{
+    public float fov = 75f;
+    public float sensitivity = 0.05f;
+    public int targetFPS = 60;
+    public bool timeFormat12Hour = true;
+    public bool isFullscreen = true;
+    public int resolutionIndex = 0;
+}
 
 public class OptionsMenu : MonoBehaviour
 {
     public static OptionsMenu Instance;
     public GameObject RelojUI;
-    public DateTime dateTime;
+    public FaRUtils.Systems.DateTime.DateTime dateTime;
     public FPSLimit FPSLimit;
     public TextMeshProUGUI FovVal;
     public TextMeshProUGUI SensVal;
@@ -22,151 +33,168 @@ public class OptionsMenu : MonoBehaviour
     public Slider fovSlider;
     public Slider sensSlider;
 
-    Resolution[] resolutions;
+    private Resolution[] resolutions;
+    private OptionsData optionsData;
+    private const string OPTIONS_KEY = "GameOptions";
 
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
             Destroy(this);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
-    }
-
-    public void SetFullscreen(bool isFullscreen)
-    {
-        Screen.fullScreen = isFullscreen;
+        Instance = this;
+        LoadOptions();
     }
 
     private void Start()
     {
-        resolutions = Screen.resolutions;
+        InitializeResolutions();
+        ApplyLoadedOptions();
 
+        fovSlider.onValueChanged.AddListener(OnFOVValueChanged);
+    }
+
+    private void InitializeResolutions()
+    {
+        resolutions = Screen.resolutions;
         resolutionDropdown.ClearOptions();
 
-        List<string> options = new List<string>();
-
+        var options = new List<string>();
         int currentResolutionIndex = 0;
+
         for (int i = 0; i < resolutions.Length; i++)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
+            string option = $"{resolutions[i].width} x {resolutions[i].height}";
             options.Add(option);
 
-            if (resolutions[i].width == Screen.currentResolution.width && resolutions[i].height == Screen.currentResolution.height)
+            if (resolutions[i].width == Screen.currentResolution.width && 
+                resolutions[i].height == Screen.currentResolution.height)
             {
                 currentResolutionIndex = i;
             }
         }
 
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolutionIndex;
+        resolutionDropdown.value = optionsData.resolutionIndex;
         resolutionDropdown.RefreshShownValue();
-
-
-        if (PlayerPrefs.GetFloat("FovVal") == 0)
-        {
-            FovVal.text = fovSlider.value.ToString();
-            fovSlider.value = Camera.main.fieldOfView;
-            PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView);
-        }
-        else
-        {
-            FovVal.text = PlayerPrefs.GetFloat("FovVal").ToString();
-            fovSlider.value = PlayerPrefs.GetFloat("FovVal");
-        }
-
-        if (PlayerPrefs.GetFloat("SensVal") == 0)
-        {
-            SensVal.text = FaRCharacterController.instance.lookSensitivity.ToString(); ;
-            sensSlider.value = FaRCharacterController.instance.lookSensitivity;
-            PlayerPrefs.SetFloat("SensVal", FaRCharacterController.instance.lookSensitivity);
-        }
-        else
-        {
-            SensVal.text = PlayerPrefs.GetFloat("SensVal").ToString();
-            sensSlider.value = PlayerPrefs.GetFloat("SensVal");
-        }
-
-        if (FPSLimit.target == 0)
-        {
-            FPSLimit.target = 60;
-            PlayerPrefs.SetInt("TargetaFPS", 60);
-        }
-
-        FPSLimit.target = PlayerPrefs.GetInt("TargetaFPS");
-        FPSText.text = "FPS: " + FPSLimit.target;
     }
-    public void Update()
-    {
-        FovVal.text = fovSlider.value.ToString();
-        Camera.main.fieldOfView = fovSlider.value;
-        PlayerPrefs.SetFloat("FovVal", Camera.main.fieldOfView);
 
-        SensVal.text = FaRCharacterController.instance.lookSensitivity.ToString();
+    private void LoadOptions()
+    {
+        string jsonData = PlayerPrefs.GetString(OPTIONS_KEY, "");
+        optionsData = string.IsNullOrEmpty(jsonData) ? 
+            new OptionsData() : 
+            JsonUtility.FromJson<OptionsData>(jsonData);
+    }
+
+    private void SaveOptions()
+    {
+        optionsData.fov = fovSlider.value;
+        optionsData.sensitivity = sensSlider.value;
+        optionsData.targetFPS = FPSLimit.target;
+        optionsData.timeFormat12Hour = doce;
+        optionsData.isFullscreen = Screen.fullScreen;
+        optionsData.resolutionIndex = resolutionDropdown.value;
+
+        string jsonData = JsonUtility.ToJson(optionsData);
+        PlayerPrefs.SetString(OPTIONS_KEY, jsonData);
+        PlayerPrefs.Save();
+    }
+    private void ApplyLoadedOptions()
+    {
+        fovSlider.value = optionsData.fov;
+        sensSlider.value = optionsData.sensitivity;
+        FPSLimit.target = optionsData.targetFPS;
+        doce = optionsData.timeFormat12Hour;
+        Screen.fullScreen = optionsData.isFullscreen;
+    
+        UpdateUIValues();
+        RelojUI.GetComponent<ClockManager>().Time.text = doce ? 
+            TimeManager.DateTime.TimeToString12() : 
+            TimeManager.DateTime.TimeToString24();
+    }
+
+    public void Clock()
+    {
+        doce = !doce;
+        RelojUI.GetComponent<ClockManager>().Time.text = doce ? 
+            TimeManager.DateTime.TimeToString12() : 
+            TimeManager.DateTime.TimeToString24();
+        SaveOptions();
+    }
+
+    private void UpdateUIValues()
+    {
+        FovVal.text = fovSlider.value.ToString("F1");
+        SensVal.text = optionsData.sensitivity.ToString("F3");
+        FPSText.text = $"FPS: {optionsData.targetFPS}";
+    }
+
+    private void Update()
+    {
         FaRCharacterController.instance.lookSensitivity = sensSlider.value;
-        PlayerPrefs.SetFloat("SensVal", FaRCharacterController.instance.lookSensitivity);
+        UpdateUIValues();
     }
 
-    public void clock()
+    public void SetResolution(int resolutionIndex)
     {
-        if (doce)
-        {
-            doce = false;
-            RelojUI.GetComponent<ClockManager>().Time.text = dateTime.TimeToString12();
-        }
-        else
-        {
-            doce = true;
-            RelojUI.GetComponent<ClockManager>().Time.text = dateTime.TimeToString24();
-        }
+        Resolution resolution = resolutions[resolutionIndex];
+        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
+        SaveOptions();
+    }
+
+    public void SetFullscreen(bool isFullscreen)
+    {
+        Screen.fullScreen = isFullscreen;
+        SaveOptions();
     }
 
     public void FPS()
     {
-        if (FPSLimit.target == 30)
+        switch (FPSLimit.target)
         {
-            FPSLimit.target = 60;
-            FPSText.text = "FPS: " + FPSLimit.target;
-            PlayerPrefs.SetInt("TargetaFPS", 60);
+            case 30:
+                FPSLimit.target = 60;
+                break;
+            case 60:
+                FPSLimit.target = 120;
+                break;
+            case 120:
+                FPSLimit.target = 144;
+                break;
+            case 144:
+                FPSLimit.target = 300;
+                break;
+            default:
+                FPSLimit.target = 30;
+                break;
         }
-        else if (FPSLimit.target == 60)
-        {
-            FPSLimit.target = 120;
-            FPSText.text = "FPS: " + FPSLimit.target;
-            PlayerPrefs.SetInt("TargetaFPS", 120);
-        }
-        else if (FPSLimit.target == 120)
-        {
-            FPSLimit.target = 144;
-            FPSText.text = "FPS: " + FPSLimit.target;
-            PlayerPrefs.SetInt("TargetaFPS", 144);
-        }
-        else if (FPSLimit.target == 144)
-        {
-            FPSLimit.target = 300;
-            FPSText.text = "FPS: " + FPSLimit.target;
-            PlayerPrefs.SetInt("TargetaFPS", 300);
-        }
-        else if (FPSLimit.target == 300)
-        {
-            FPSLimit.target = 30;
-            FPSText.text = "FPS: " + FPSLimit.target;
-            PlayerPrefs.SetInt("TargetaFPS", 30);
-        }
+        FPSText.text = $"FPS: {FPSLimit.target}";
+        SaveOptions();
     }
 
     public void CancelFovButton()
     {
-        fovSlider.value = 75;
-        PlayerPrefs.SetFloat("FovVal", 75);
+        fovSlider.value = 75f;
+        SaveOptions();
+    }
+
+    private void OnFOVValueChanged(float value)
+    {
+        FovVal.text = value.ToString("F1");
+        Camera.main.fieldOfView = value;
     }
 
     public void ResetSensButton()
     {
         sensSlider.value = 0.05f;
-        PlayerPrefs.SetFloat("SensVal", 0.05f);
+        SaveOptions();
+    }
+
+    private void OnDisable()
+    {
+        SaveOptions();
     }
 }
