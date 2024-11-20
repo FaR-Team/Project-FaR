@@ -20,7 +20,8 @@ MonoBehaviour:
     - rid: 3129098415526903811
   m_TableData:
   - m_Id: 45314342912
-    m_Localized: '{dayVariable.DateTime.Day:choose(MonId|TueId|WedId|ThuId|FriId|SatId|SunId):IDKS|IDKS|IDKS|IDKS|IDKS|IDKS|IDKS}'
+    m_Localized: '{dayVariable.DateTime.Day:choose(MonId|TueId|WedId|ThuId|FriId|SatId|SunId):IDKS|IDKS|IDKS|IDKS|IDKS|IDKS|IDKS}
+      {dayVariable.DateTime.Date}'
     m_Metadata:
       m_Items:
       - rid: 3129098415526903811

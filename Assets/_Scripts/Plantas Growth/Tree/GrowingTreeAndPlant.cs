@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Utils;
 using Random = UnityEngine.Random;
 
 public class GrowingTreeAndPlant : GrowingBase
 {
-
-    
     [SerializeField] protected List<Transform> spawnPoints;
     public List<GameObject> fruits;
     public Dirt Tierra;
@@ -36,20 +35,51 @@ public class GrowingTreeAndPlant : GrowingBase
         availableSpawnPoints = SpawnPoints.ToHashSet();
     }
 
-    protected override void CatchUpMissedGrowth()
-    {
-        throw new System.NotImplementedException();
+    protected override void DayPassed()
+    {   
+        daysPlanted++;
+
+        if (!currentState.isLastPhase) return;
+
+        if (fruits.Count == 0) // If it's fully grown and there are no fruits, spawn them when necessary
+        {
+
+            if (daysWithoutFruitsCounter >= daysToGiveFruits)
+            {
+                SpawnFruits(minFruitsToSpawn, maxFruitsToSpawn);
+            }
+            else
+            {
+                daysWithoutFruitsCounter++;
+            }
+        }
+        
+        if(fruits.Count > 0)
+        {
+            // If spawned fruits are ready to harvest
+            if (fruits[0].GetComponent<GrowingFruitsTree>().currentState.isLastPhase)
+            {
+                if (daysWithoutHarvest >= maxDaysWithoutHarvest)
+                {
+                    this.Log($"Not harvested for {daysWithoutHarvest} days, destroying!");
+                    //TODO: DestroyTree();
+                }
+                
+                daysWithoutHarvest++; // PARA USAR EN EL FUTURO CUANDO, QUE SE PUDRAN SI NO SE COSECHAN POR 3 DIAS, REINICIAR AL COSECHAR
+                
+                
+                gameObject.layer = interactableLayerInt;
+            }
+            return;
+        }
     }
 
     public override void OnHourChanged(int hour)
     {
         if (hour != 5) return;
-        daysPlanted++;
+        DayPassed();
             
         CheckDayGrow();
-        
-        if (currentState.isLastPhase) SpawnFruits(minFruitsToSpawn, maxFruitsToSpawn);
-        
     }
 
     public Transform GetRandomSpawnPoint()

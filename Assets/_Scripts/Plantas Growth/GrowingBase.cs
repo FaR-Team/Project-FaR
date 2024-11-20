@@ -45,7 +45,27 @@ public abstract class GrowingBase : MonoBehaviour
         CatchUpMissedGrowth();
     }
 
-    protected abstract void CatchUpMissedGrowth();
+    protected virtual void CatchUpMissedGrowth()
+    {
+        this.Log("Catching up missed growth...");
+        if (hasCaughtUp) return;
+        
+        // Calculate days between current time and last save
+        var currentTime = TimeManager.DateTime;
+        var lastSaveTime = TimeManager.Instance.GetLastTimeInScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        var daysPassed = currentTime.TotalNumDays - lastSaveTime.TotalNumDays; // TODO: No va a funcionar bien, no se fija que hayan pasado las 6
+        
+        this.Log($"Days passed: {daysPassed}", $"Current time: {currentTime.Date}", $"Last save time: {lastSaveTime.Date}");
+
+        for (int i = 0; i < daysPassed; i++)
+        {
+            DayPassed();
+        }
+
+        hasCaughtUp = true;
+        CheckDayGrow();
+    }
+    protected abstract void DayPassed();
 
     public virtual void Water()
     {

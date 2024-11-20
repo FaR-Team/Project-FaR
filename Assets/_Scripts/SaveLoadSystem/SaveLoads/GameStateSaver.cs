@@ -44,9 +44,6 @@ public class GameStateSaver : Saver<GameStateData, GameStateDataSaver>
         {
             await SaveGameState();
             
-            // Update last save time before saving
-            gameStateData.SetLastSaveDateTime(gameStateData.CurrentDateTime);
-            
             SaverManager.Save(gameStateData, isTemporarySave);
 
             this.LogSuccess("Successfully Saved Game State");

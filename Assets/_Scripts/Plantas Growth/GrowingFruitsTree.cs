@@ -16,4 +16,9 @@ public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta
         daysPlanted++;
         CheckDayGrow();
     }
+
+    protected override void DayPassed()
+    {
+        daysPlanted++;
+    }
 }
