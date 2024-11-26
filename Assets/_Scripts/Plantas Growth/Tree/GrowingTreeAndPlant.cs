@@ -24,10 +24,13 @@ public class GrowingTreeAndPlant : GrowingBase
 
     [HideInInspector] public List<Transform> SpawnPoints => spawnPoints;
     private HashSet<Transform> availableSpawnPoints = new HashSet<Transform>();
+    private HashSet<Transform> usedSpawnPoints = new HashSet<Transform>();
     [HideInInspector] public int RandInt;
     [HideInInspector] public int ExpectedInt;
 
     public int ReGrowCounter => _reGrowCounter;
+    public int DaysWithoutFruits => daysWithoutFruitsCounter;
+    public HashSet<Transform> UsedSpawnPoints => usedSpawnPoints;
 
     protected override void Start()
     {
@@ -80,6 +83,13 @@ public class GrowingTreeAndPlant : GrowingBase
         DayPassed();
             
         CheckDayGrow();
+        
+        var validation = GrowthValidator.ValidateGrowthState(this);
+        if(!validation.IsValid)
+        {
+            GrowthValidator.HandleFailedValidation(this, validation);
+            return;
+        }
     }
 
     public Transform GetRandomSpawnPoint()
@@ -89,6 +99,7 @@ public class GrowingTreeAndPlant : GrowingBase
         Transform point = availableSpawnPoints.ElementAt(Random.Range(0, availableSpawnPoints.Count));
 
         availableSpawnPoints.Remove(point);
+        usedSpawnPoints.Add(point);
 
         return point;
     }
@@ -114,6 +125,7 @@ public class GrowingTreeAndPlant : GrowingBase
     protected virtual void ResetSpawnPoints()
     {
         availableSpawnPoints = spawnPoints.ToHashSet();
+        usedSpawnPoints.Clear();
     }
 
     public void DestroyThisBush()
@@ -124,5 +136,37 @@ public class GrowingTreeAndPlant : GrowingBase
     {
         yield return new WaitForSeconds(0.5f);
         Destroy(transform.parent.gameObject);
+    }
+
+    public void SpawnLoadedFruits(HashSet<Transform> usedPositions)
+    {
+        foreach (var pos in usedPositions)
+        {
+            if (availableSpawnPoints.Contains(pos))
+            {
+                GameObject fruit = Instantiate(fruitPrefab, pos.position, pos.rotation, pos); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
+                fruits.Add(fruit.transform.gameObject);
+                availableSpawnPoints.Remove(pos);
+            }
+            else
+            {
+                this.LogError("Tried to spawn fruits on invalid spawn position");
+            }
+        }
+    }
+    
+    public void LoadData(PlantData data)
+    {
+        daysPlanted = data.daysPlanted;
+        daysWithoutHarvest = data.daysWithoutHarvest;
+        daysWithoutFruitsCounter = data.daysWithoutFruitsCounter;
+        _reGrowCounter = data.reGrowCounter;
+        usedSpawnPoints = data.usedSpawnPoints;
+        currentState = data.growingState;
+        transform.position = data.position;
+        
+        if(usedSpawnPoints.Count > 0) SpawnLoadedFruits(usedSpawnPoints);
+        
+        UpdateState();
     }
 }

@@ -24,4 +24,7 @@ public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
         yield return new WaitForSeconds(0.5f);
     }
 
+
+    
+
 }

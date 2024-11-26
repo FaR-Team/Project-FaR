@@ -14,10 +14,10 @@ public class GrowthValidator
         if (plant.currentState == null)
             return new ValidationResult { IsValid = false, Message = "Invalid growth state: null reference" };
 
-        if (plant.DiasPlantado < 0)
+        if (plant.DaysPlanted < 0)
             return new ValidationResult { IsValid = false, Message = "Invalid day count: negative days" };
 
-        if (plant.DaysDry >= plant.MaxDaysDry)
+        if (plant.MaxDaysDry > 0 && plant.DaysDry >= plant.MaxDaysDry)
             return new ValidationResult { IsValid = false, Message = "Plant died from lack of water" };
 
         if (plant.DaysWithoutHarvest >= plant.MaxDaysWithoutHarvest)

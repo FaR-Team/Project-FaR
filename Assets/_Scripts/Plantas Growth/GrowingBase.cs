@@ -24,7 +24,7 @@ public abstract class GrowingBase : MonoBehaviour
     [HideInInspector] public MeshCollider meshCollider;
     [HideInInspector] public MeshRenderer meshRenderer;
 
-    public int DiasPlantado => daysPlanted;
+    public int DaysPlanted => daysPlanted;
     public int DaysDry => daysDry;
     public int MaxDaysDry => maxDaysDry;
     public int DaysWithoutHarvest => daysWithoutHarvest;
@@ -127,7 +127,7 @@ public abstract class GrowingBase : MonoBehaviour
         gameObject.layer = interactableLayerInt; //layer interactuable.
     }
 
-    public void LoadData(CropSaveData cropSaveData)
+    public virtual void LoadData(CropSaveData cropSaveData) // TODO: Que use como parametro un padre en común de CropSave y PlantSave
     {
         daysPlanted = cropSaveData.DiasPlantado;
         daysDry = cropSaveData.DaysDry;

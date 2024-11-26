@@ -231,11 +231,13 @@ public class GridGhost : MonoBehaviour
 
     public bool PlantTreeNear(GameObject TreePrefab)
     {
+        Debug.Log("Called PlantTreeNear");
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
 
         if (hit.collider != null)
         {
-            Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
+            TreeSpawnerPooling.SpawnObject(finalPosition, Quaternion.identity);
+            //Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
             return true;
         }
         else { return false; }

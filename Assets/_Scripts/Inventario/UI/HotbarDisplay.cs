@@ -320,6 +320,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             if (GetItemData().UseItem())
             {
+                Debug.Log("Called UseItem from Holdear");
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
             }
@@ -394,6 +395,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
             if (GetItemData().UseItem())
             {
+                Debug.Log("Called UseItem from UseItem");
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
             }

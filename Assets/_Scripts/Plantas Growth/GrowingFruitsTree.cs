@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(UniqueID))]
-public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta
+public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta TODO: Intentar unificar todas las frutas, y depende de si tienen tierra asignada o no sabemos que tipo es
 {
     protected override void Awake(){
         base.Awake();

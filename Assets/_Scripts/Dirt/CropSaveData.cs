@@ -8,7 +8,7 @@ public class CropSaveData
 
     public CropSaveData(GrowingBase crop)
     {
-        DiasPlantado = crop.DiasPlantado;
+        DiasPlantado = crop.DaysPlanted;
         DaysDry = crop.DaysDry;
         DaysWithoutHarvest = crop.DaysWithoutHarvest;
         GrowingState = crop.currentState;

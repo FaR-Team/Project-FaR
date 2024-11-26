@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: ca773adb-3dbf-46b4-a945-28023a5bfa69
+  permanentID: 0
 --- !u!114 &3866000514473496392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,7 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bad6fc5adcf3f54f811fe3f41f82e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DiasPlantado: 0
+  maxDaysWithoutHarvest: 3
+  maxDaysDry: 0
+  daysDry: 0
   isFruit: 1
   states:
   - {fileID: 11400000, guid: 1369e3b18eeec7a43992ea22da1b3654, type: 2}
@@ -74,6 +77,7 @@ MonoBehaviour:
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
+  hasCaughtUp: 0
   tierra: {fileID: 0}
 --- !u!114 &7592882300038889552
 MonoBehaviour:

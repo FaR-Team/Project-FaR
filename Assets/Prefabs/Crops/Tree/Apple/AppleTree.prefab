@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 8231588947190722257}
   - component: {fileID: 7759883468658825177}
   - component: {fileID: 5941911543052103005}
+  - component: {fileID: 871205090105256236}
   m_Layer: 3
   m_Name: AppleTree
   m_TagString: Untagged
@@ -227,14 +228,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDaysWithoutHarvest: 3
   maxDaysDry: 3
+  daysDry: 0
   isFruit: 1
   states:
   - {fileID: 11400000, guid: f7edb8cff4a179943af9fb811bfa2a40, type: 2}
   - {fileID: 11400000, guid: fa5faa4cf3549254d97c191ac7400af9, type: 2}
-  currentState: {fileID: 0}
+  currentState: {fileID: 11400000, guid: f7edb8cff4a179943af9fb811bfa2a40, type: 2}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
+  hasCaughtUp: 0
   spawnPoints:
   - {fileID: 5634044044255950256}
   - {fileID: 5634044044839173456}
@@ -361,6 +364,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6, y: 0.02757959, z: 6}
   m_Center: {x: 0.024999976, y: 0.013789795, z: -0.024999976}
+--- !u!114 &871205090105256236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5634044043551495168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8db6f14cf69a01646aaf51ccc1e54b30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thisDataSaver: {fileID: 0}
 --- !u!1 &5634044043561484131
 GameObject:
   m_ObjectHideFlags: 0

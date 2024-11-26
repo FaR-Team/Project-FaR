@@ -14,6 +14,7 @@ public class SeedItemData : InventoryItemData
 
     public override bool UseItem()
     {
+        Debug.Log("Called UseItem");
         if (typeOfItem != TypeOfItem.TreeSeed) return false;
 
         return GridGhost.instance.PlantTreeNear(DirtPrefab);
