@@ -268,19 +268,6 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         if (GetItemData() == null) return;
 
-        if (GetItemData().IsSpecialItem())
-        {
-            if (GetItemData().UseItem())
-            {
-                AudioSource audioSource = player.GetComponent<AudioSource>(); 
-                audioSource.PlayOneShot(GetItemData().useItemSound);
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-            return;
-        }
-
         if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
         {
             if (GetItemData().Sellable &&
@@ -294,37 +281,6 @@ public class HotbarDisplay : HotbarDisplayBase
                 SlotCurrentIndex().UpdateUISlot();
             }
             return;
-        }
-
-        if (GetItemData().IsHoe() || GetItemData().IsBucket())
-        {
-            GetItemData().UseItem();
-        }
-
-        if (GetItemData().IsCropSeed() &&
-            interactor._LookingAtDirt)
-        {
-            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
-
-            if (GetItemData().UseItem(dirtToTest))
-            {
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-        }
-
-        if (GetItemData().IsTreeSeed() &&
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            !interactor._LookingAtDirt)
-        {
-            if (GetItemData().UseItem())
-            {
-                Debug.Log("Called UseItem from Holdear");
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
         }
     }
 
