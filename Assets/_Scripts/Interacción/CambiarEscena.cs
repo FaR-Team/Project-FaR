@@ -13,12 +13,17 @@ public class CambiarEscena : MonoBehaviour, IInteractable
     public GameObject LoadingScreenCanvas;
     public int buildIndex;
     public GameObject reloj;
+    private bool loading = false;
 
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
         this.Log("Cambiando a escena " + buildIndex);
-        LoadScene(buildIndex);
-        interactSuccessful = true;
+        if (!loading)
+        {
+            LoadScene(buildIndex);
+            interactSuccessful = true;
+        }
+        else interactSuccessful = false;
     }
 
     public void InteractOut()
@@ -35,6 +40,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     IEnumerator LoadSceneAsync(int sceneID)
     {
+        loading = true;
         //LoadingScreenCanvas.SetActive(true);
 
         SaveLoadHandlerSystem.Invoke(true);
