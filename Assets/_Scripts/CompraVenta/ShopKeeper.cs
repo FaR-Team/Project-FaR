@@ -84,7 +84,14 @@ public class ShopKeeper : MonoBehaviour, IInteractable
             PlayerInventoryHolder.IsBuying = true;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            player.enabled = false;
+            if (player != null) 
+            {
+                player.enabled = false;
+            } else
+            {
+                player = FaRCharacterController.instance;
+                player.enabled = false;
+            }
             Time.timeScale = 1f;
         }
         else
