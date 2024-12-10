@@ -32,10 +32,16 @@ public class GrowingTreeAndPlant : GrowingBase
     public int DaysWithoutFruits => daysWithoutFruitsCounter;
     public HashSet<Transform> UsedSpawnPoints => usedSpawnPoints;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        availableSpawnPoints = SpawnPoints.ToHashSet();
+    }
+
     protected override void Start()
     {
         base.Start();
-        availableSpawnPoints = SpawnPoints.ToHashSet();
+        
     }
 
     protected override void DayPassed()
@@ -137,21 +143,27 @@ public class GrowingTreeAndPlant : GrowingBase
         yield return new WaitForSeconds(0.5f);
         Destroy(transform.parent.gameObject);
     }
+    
+    protected override void UpdateState()
+    {
+        meshFilter.mesh = currentState.mesh;
+        meshRenderer.material = currentState.material;
+        if (meshCollider != null)
+        {
+            meshCollider.sharedMesh = currentState.mesh;
+        }
+        if (currentState.isLastPhase && fruits.Count > 0) SetInteractable();
+        
+        // Notify subscribers about the state change
+        GrowthEventManager.Instance.NotifyGrowthStateChanged(this, currentState);
+    }
 
     public void SpawnLoadedFruits(HashSet<Transform> usedPositions)
     {
         foreach (var pos in usedPositions)
         {
-            if (availableSpawnPoints.Contains(pos))
-            {
-                GameObject fruit = Instantiate(fruitPrefab, pos.position, pos.rotation, pos); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
-                fruits.Add(fruit.transform.gameObject);
-                availableSpawnPoints.Remove(pos);
-            }
-            else
-            {
-                this.LogError("Tried to spawn fruits on invalid spawn position");
-            }
+            GameObject fruit = Instantiate(fruitPrefab, pos.position, pos.rotation, pos); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
+            fruits.Add(fruit.transform.gameObject);
         }
     }
     
@@ -161,12 +173,32 @@ public class GrowingTreeAndPlant : GrowingBase
         daysWithoutHarvest = data.daysWithoutHarvest;
         daysWithoutFruitsCounter = data.daysWithoutFruitsCounter;
         _reGrowCounter = data.reGrowCounter;
-        usedSpawnPoints = data.usedSpawnPoints;
+        PopulateUsedSpawnpointsByPositions(data.usedSpawnPointsPos);
         currentState = data.growingState;
         transform.position = data.position;
         
         if(usedSpawnPoints.Count > 0) SpawnLoadedFruits(usedSpawnPoints);
         
         UpdateState();
+    }
+
+    /// <summary>
+    /// Used when Loading tree data, since Transform List can't be serialized properly
+    /// </summary>
+    /// <param name="positions"></param>
+    void PopulateUsedSpawnpointsByPositions(List<Vector3> positions)
+    {
+        for (int i = 0; i < positions.Count; i++)
+        {
+            var spawnpoint = availableSpawnPoints.FirstOrDefault(t => t.localPosition == positions[i]);
+            if (spawnpoint == null)
+            {
+                Debug.LogError("Error when loading UsedSpawnpoints, not found in Available Spawnpoints");
+                continue;
+            }
+            
+            availableSpawnPoints.Remove(spawnpoint);
+            usedSpawnPoints.Add(spawnpoint);
+        }
     }
 }
