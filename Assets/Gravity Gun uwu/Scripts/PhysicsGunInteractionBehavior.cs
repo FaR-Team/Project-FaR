@@ -364,7 +364,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
             var toDestination = centerDestination - _grabbedTransform.position;
 
 
-            var force = toDestination / Time.fixedDeltaTime * 0.3f / _grabbedRigidbody.mass;
+            var force = toDestination / Time.fixedDeltaTime * 0.1f / _grabbedRigidbody.mass;
 
 
             _grabbedRigidbody.velocity = _zeroVector3;
@@ -497,6 +497,7 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         Destroy(colis);
 
         _grabbedRigidbody.MoveRotation(_desiredRotation);
+        _grabbedRigidbody.velocity = Vector3.ClampMagnitude(_grabbedRigidbody.velocity, 20f);
 
         _grabbedRigidbody.isKinematic = _wasKinematic;
         _grabbedRigidbody.interpolation = _initialInterpolationSetting;

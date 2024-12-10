@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.012100213, g: 0.011732343, b: 0.011531804, a: 1}
+  m_IndirectSpecularColor: {r: 0.007356616, g: 0.006875243, b: 0.0071216584, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -835,7 +835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 83a5ec3e-733c-4a66-be5e-19bf63aabeb1
+  _ID: 38b370b6-fd83-4539-a4f0-332a22878f10
   permanentID: 0
 --- !u!135 &36799709
 SphereCollider:
@@ -1095,14 +1095,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 58714843}
-  m_LocalRotation: {x: 0.00000008940696, y: 0.000000119209275, z: 0.3233931, w: 0.9462647}
-  m_LocalPosition: {x: -11.25, y: 0.95, z: 4.46}
+  m_LocalRotation: {x: 0.00000013411045, y: 0.00000011920929, z: 0.3823953, w: 0.92399883}
+  m_LocalPosition: {x: -11.11, y: 0.81, z: 4.46}
   m_LocalScale: {x: 3.9391007, y: 0.047830004, z: 4.3386803}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1714286970}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 37.736}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 44.964}
 --- !u!65 &58714845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1114,8 +1114,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8189355, y: 0.9999998, z: 0.61414975}
-  m_Center: {x: 0.09053147, y: -0.000011181078, z: 0.0047409446}
+  m_Size: {x: 0.7806593, y: 0.9999998, z: 0.61414975}
+  m_Center: {x: 0.07139316, y: -0.000009986808, z: 0.0047409446}
 --- !u!33 &58714846
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1343,7 +1343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b8a8d736-349d-4fc8-9c0b-c392baceb444
+  _ID: 9ee9fac2-3bdd-49c4-8e28-1ff2c4bf718f
   permanentID: 0
 --- !u!135 &67935719
 SphereCollider:
@@ -1588,6 +1588,7 @@ GameObject:
   - component: {fileID: 84385827}
   - component: {fileID: 84385826}
   - component: {fileID: 84385825}
+  - component: {fileID: 84385832}
   m_Layer: 8
   m_Name: Carrot Seeds (3)
   m_TagString: Untagged
@@ -1671,7 +1672,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 11dde91a-9999-4776-9cf4-386b18e17558
+  _ID: c17d78be-254b-496d-a253-2642da2be231
   permanentID: 0
 --- !u!135 &84385829
 SphereCollider:
@@ -1736,6 +1737,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 84385823}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &84385832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84385823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &88398122
 GameObject:
   m_ObjectHideFlags: 0
@@ -3146,7 +3161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ea290cd9-16f5-43a3-ba26-78d2538064b3
+  _ID: 5f5584e7-7044-4ab9-a497-8be8cb5ea817
   permanentID: 0
 --- !u!4 &149089408
 Transform:
@@ -3960,7 +3975,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 09b9cc89-01a1-462f-bc45-718b415a83c6
+  _ID: 204f6e48-6e79-4b43-be90-4b3db7a1015d
   permanentID: 0
 --- !u!135 &177980022
 SphereCollider:
@@ -4558,7 +4573,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: -0.2}
-  m_ConnectedAnchor: {x: 0.0008015909, y: 0.3402401}
+  m_ConnectedAnchor: {x: 0.00079914636, y: 0.3402412}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -4582,7 +4597,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.35}
-  m_ConnectedAnchor: {x: -0.9102262, y: -0.04382269}
+  m_ConnectedAnchor: {x: -0.91022694, y: -0.04382284}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -4628,43 +4643,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 2
---- !u!84 &209369152
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1104
-  m_Height: 662
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &211473444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15469,7 +15447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9e56f070-014f-494b-931a-4b9de0c58bd6
+  _ID: fb35ff9a-2f2b-4b8c-bdc9-d217cd0e68e3
   permanentID: 0
 --- !u!82 &234375707
 AudioSource:
@@ -15619,6 +15597,7 @@ MonoBehaviour:
   defaultMovementSpeed: 15
   lookSensitivity: 0.05
   gravity: -9.81
+  fallMultiplier: 2.5
   jumpSpeed: 5
   doWalk: 1
   zoomFOV: 180
@@ -16438,7 +16417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8f866141-bc0c-4c54-8f88-5ccfe3711bf5
+  _ID: ba5a6e51-3725-48e4-b680-ab6c85b2eada
   permanentID: 0
 --- !u!135 &263262883
 SphereCollider:
@@ -18425,7 +18404,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 46a9f504-ca5d-4a09-a54a-9beeaf7c74df
+  _ID: fd61c780-bd21-4d6d-9fd8-05a22c6edce4
   permanentID: 0
 --- !u!135 &313945930
 SphereCollider:
@@ -20759,7 +20738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7a50f940-3e0b-4af9-8228-1c8fcb617ce9
+  _ID: cb6345f5-55ba-446b-b0dd-743df66a703d
   permanentID: 0
 --- !u!135 &326683911
 SphereCollider:
@@ -20896,7 +20875,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2d18d7a1-53bb-46d7-8755-06dc2a9cc6c6
+  _ID: da1ca65b-dda8-4eb3-b384-c0d8659453d8
   permanentID: 0
 --- !u!135 &341577338
 SphereCollider:
@@ -26241,6 +26220,7 @@ GameObject:
   - component: {fileID: 374139738}
   - component: {fileID: 374139737}
   - component: {fileID: 374139736}
+  - component: {fileID: 374139743}
   m_Layer: 8
   m_Name: Carrot Seeds (17)
   m_TagString: Untagged
@@ -26324,7 +26304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3527b6bc-ea19-4c84-a6e2-70df38e8d14a
+  _ID: 5e553734-72da-4cf2-8716-a7af9cb3a014
   permanentID: 0
 --- !u!135 &374139740
 SphereCollider:
@@ -26389,6 +26369,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 374139734}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &374139743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 374139734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &376906827
 GameObject:
   m_ObjectHideFlags: 0
@@ -26878,7 +26872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b6cc3669-c069-4e8a-ab54-b6aa80840dbf
+  _ID: ce733c54-26a1-49ca-a47e-99ab3c09d753
   permanentID: 0
 --- !u!4 &394049641
 Transform:
@@ -29839,7 +29833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c515b63a-f8db-438d-bde1-01e2365941b0
+  _ID: 39649630-731d-4294-895d-a5c999938ae2
   permanentID: 0
 --- !u!135 &526010863
 SphereCollider:
@@ -29914,7 +29908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: be0bb944-1bbc-462b-aa37-39f98b68903c
+  _ID: 646bb763-55aa-4f60-872d-c325e0d55ed7
   permanentID: 0
 --- !u!1 &530824723
 GameObject:
@@ -30227,6 +30221,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539063335}
   m_CullTransparentMesh: 1
+--- !u!84 &546200822
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &546584668
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30802,7 +30833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 02d6a8d3-ae28-46f5-8c2e-567e2e8eb5c0
+  _ID: a79a0042-3bc6-4a6e-9e29-98ed7dff95f1
   permanentID: 0
 --- !u!135 &553631594
 SphereCollider:
@@ -31038,7 +31069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 49e190b8-e6be-43a3-bd84-7f5a7d7bb855
+  _ID: 8ccc3039-bcc7-4a75-90c8-13e31e93ea05
   permanentID: 0
 --- !u!135 &564462064
 SphereCollider:
@@ -31546,7 +31577,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 064041dd-4187-4d11-87ab-ca2e574f8332
+  _ID: 3062b12e-7ae4-4e0b-afa9-b4e8742bcb1e
   permanentID: 0
 --- !u!135 &586374014
 SphereCollider:
@@ -33533,6 +33564,7 @@ GameObject:
   - component: {fileID: 661223306}
   - component: {fileID: 661223305}
   - component: {fileID: 661223304}
+  - component: {fileID: 661223311}
   m_Layer: 8
   m_Name: Carrot Seeds (6)
   m_TagString: Untagged
@@ -33616,7 +33648,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bdbcbd28-133a-463c-9040-56e1578ecd10
+  _ID: 9faa11c3-1f99-4328-a5fe-966f792a25d4
   permanentID: 0
 --- !u!135 &661223308
 SphereCollider:
@@ -33681,6 +33713,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 661223302}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &661223311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 661223302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &662430460
 GameObject:
   m_ObjectHideFlags: 0
@@ -33802,7 +33848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e7a48020-2104-46ed-9e42-1eb38fa84d2e
+  _ID: d2dc7876-1d10-4b1e-8b6c-1e480d9e28f4
   permanentID: 0
 --- !u!135 &663371784
 SphereCollider:
@@ -34785,7 +34831,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 399e7663-39c4-478b-835f-e57b8743712c
+  _ID: b9b439d8-5ef2-42d6-b6eb-d5759fc910ae
   permanentID: 0
 --- !u!114 &719153285
 MonoBehaviour:
@@ -34864,6 +34910,7 @@ GameObject:
   - component: {fileID: 724449540}
   - component: {fileID: 724449539}
   - component: {fileID: 724449538}
+  - component: {fileID: 724449545}
   m_Layer: 8
   m_Name: Carrot Seeds (10)
   m_TagString: Untagged
@@ -34947,7 +34994,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8525de5a-a72e-49a0-87e7-5ad2161e6d46
+  _ID: 199d1082-5783-469f-91fb-0942c8090f81
   permanentID: 0
 --- !u!135 &724449542
 SphereCollider:
@@ -35012,6 +35059,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 724449536}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &724449545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 724449536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1001 &729753406
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35655,7 +35716,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 86f3ce5e-6365-49bf-8554-2d909d21ff3c
+  _ID: 75234032-0803-412a-9971-9583bc0a042f
   permanentID: 0
 --- !u!135 &754922904
 SphereCollider:
@@ -41821,7 +41882,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 0
   m_RenderingPath: 1
-  m_TargetTexture: {fileID: 209369152}
+  m_TargetTexture: {fileID: 546200822}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 0
@@ -42233,7 +42294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c912722e-2e56-40d0-a428-90bd54866df2
+  _ID: b8034a07-55f8-4064-8b29-fb7a726da266
   permanentID: 0
 --- !u!135 &855915597
 SphereCollider:
@@ -42343,6 +42404,7 @@ GameObject:
   - component: {fileID: 869583662}
   - component: {fileID: 869583661}
   - component: {fileID: 869583660}
+  - component: {fileID: 869583667}
   m_Layer: 8
   m_Name: Carrot Seeds (14)
   m_TagString: Untagged
@@ -42426,7 +42488,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b84a2991-2567-4b85-9187-f930401414bd
+  _ID: 39db42b0-1630-4cc4-b9c8-835a5af9de82
   permanentID: 0
 --- !u!135 &869583664
 SphereCollider:
@@ -42491,6 +42553,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 869583658}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &869583667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 869583658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &873737591
 GameObject:
   m_ObjectHideFlags: 0
@@ -42914,7 +42990,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 04e7f4cd-9c9c-4212-a355-137b08994a05
+  _ID: d3e6e5d4-e1bf-4e5d-bb72-124dbf0d2b99
   permanentID: 0
 --- !u!135 &892437462
 SphereCollider:
@@ -43236,7 +43312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7a372328-1859-4c3a-8a79-6f04e4f8ad84
+  _ID: 6b697c24-fc78-4d5f-98e1-ad38c38d73a0
   permanentID: 0
 --- !u!135 &917788317
 SphereCollider:
@@ -43406,7 +43482,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 772af8cc-1b6c-409f-bbdf-470f7428f4d4
+  _ID: 7375738a-b095-4b14-8687-c446a61c0b3b
   permanentID: 0
 --- !u!1 &924066068
 GameObject:
@@ -43748,7 +43824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1cc8e81f-e6c3-4eb8-b765-130a7eb104a9
+  _ID: 2372a18e-7b54-476f-86a9-b90525e61c84
   permanentID: 0
 --- !u!135 &955356165
 SphereCollider:
@@ -44157,7 +44233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4e9e4727-88f3-42d0-973a-1ff6b2985886
+  _ID: a143c4cd-959b-4038-8763-c5e6b85c44fb
   permanentID: 0
 --- !u!135 &984207767
 SphereCollider:
@@ -49681,7 +49757,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b73a39e2-4a21-4610-893d-9fb166e779be
+  _ID: 255a650a-55e5-4ad1-9b7c-d0d96f41d7e1
   permanentID: 0
 --- !u!135 &1023623806
 SphereCollider:
@@ -50010,6 +50086,7 @@ GameObject:
   - component: {fileID: 1043740795}
   - component: {fileID: 1043740794}
   - component: {fileID: 1043740793}
+  - component: {fileID: 1043740800}
   m_Layer: 8
   m_Name: Carrot Seeds (11)
   m_TagString: Untagged
@@ -50093,7 +50170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3c6a33d9-3a5c-4728-8fab-e6f8c23e30b5
+  _ID: 8e889e0a-58d9-48ac-bc36-048e1ad42b1d
   permanentID: 0
 --- !u!135 &1043740797
 SphereCollider:
@@ -50158,6 +50235,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043740791}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1043740800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043740791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1043755815
 GameObject:
   m_ObjectHideFlags: 0
@@ -52322,6 +52413,7 @@ GameObject:
   - component: {fileID: 1110671457}
   - component: {fileID: 1110671456}
   - component: {fileID: 1110671455}
+  - component: {fileID: 1110671462}
   m_Layer: 8
   m_Name: Carrot Seeds (13)
   m_TagString: Untagged
@@ -52405,7 +52497,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5949416c-8937-4680-bb39-9428cc933196
+  _ID: 2462cf8f-0bf1-4471-ba02-4d854592d54c
   permanentID: 0
 --- !u!135 &1110671459
 SphereCollider:
@@ -52470,6 +52562,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1110671453}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1110671462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1110671453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1115629688
 GameObject:
   m_ObjectHideFlags: 0
@@ -53009,7 +53115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5e8c15e1-0a94-4388-af49-3056fb957c19
+  _ID: b09442e2-b89b-4140-ad5b-f9ea41d9ecc1
   permanentID: 0
 --- !u!135 &1127048183
 SphereCollider:
@@ -54116,7 +54222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1d4710af-26f6-4dab-ad77-9568a42c23b4
+  _ID: 33e77cb6-9707-4d80-a486-8f00f2218c26
   permanentID: 0
 --- !u!135 &1191783074
 SphereCollider:
@@ -54293,7 +54399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0e5424b0-0efd-4efd-9c24-a5fea21ef8ab
+  _ID: 8f3e553d-6529-4874-92d1-3e081b5b60a2
   permanentID: 0
 --- !u!135 &1201221374
 SphereCollider:
@@ -54406,7 +54512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 390d4c64-a9ef-400c-b20c-8f5f72c6e9ec
+  _ID: 254c4f2d-ff7c-4ae1-962f-fbe9d7c0f55d
   permanentID: 0
 --- !u!135 &1203343359
 SphereCollider:
@@ -54665,6 +54771,7 @@ GameObject:
   - component: {fileID: 1230624277}
   - component: {fileID: 1230624276}
   - component: {fileID: 1230624275}
+  - component: {fileID: 1230624282}
   m_Layer: 8
   m_Name: Carrot Seeds (12)
   m_TagString: Untagged
@@ -54748,7 +54855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d8f23e00-d33c-4a00-9b35-cd02bac2ddfd
+  _ID: df20473c-f274-4762-bb04-b9e3f7a2dc3d
   permanentID: 0
 --- !u!135 &1230624279
 SphereCollider:
@@ -54813,6 +54920,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230624273}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1230624282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230624273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1233128455
 GameObject:
   m_ObjectHideFlags: 0
@@ -55205,7 +55326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bc7563b9-6cfc-4351-9d22-34a959bd0eec
+  _ID: aa76fe87-0ff2-452b-bc90-f491274f60d7
   permanentID: 0
 --- !u!135 &1243884338
 SphereCollider:
@@ -55906,7 +56027,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 04f6ca79-389f-4c81-8a52-b2b3ce6f8da7
+  _ID: b50113a4-bdb5-4efc-9c8c-35c5860d4db8
   permanentID: 0
 --- !u!135 &1266493628
 SphereCollider:
@@ -56735,6 +56856,7 @@ GameObject:
   - component: {fileID: 1301335493}
   - component: {fileID: 1301335492}
   - component: {fileID: 1301335491}
+  - component: {fileID: 1301335498}
   m_Layer: 8
   m_Name: Carrot Seeds (18)
   m_TagString: Untagged
@@ -56818,7 +56940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9bb6296d-2703-489a-b2b2-fc54d07824da
+  _ID: 9aa6c547-e2d8-4456-a943-dd3ed4d10faa
   permanentID: 0
 --- !u!135 &1301335495
 SphereCollider:
@@ -56883,6 +57005,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1301335489}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1301335498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1301335489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1001 &1305339647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -57180,7 +57316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cfb968e5-94c3-4573-a00d-da9c19989fc0
+  _ID: 7f9ca43b-adce-46c3-b68d-b65e1ac7a00f
   permanentID: 0
 --- !u!135 &1324503460
 SphereCollider:
@@ -57413,7 +57549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 22526f1b-a25e-4f27-a5be-3aaf00e7d5a8
+  _ID: 8f389e66-bc5c-4f1e-97b1-847acfcdd7a4
   permanentID: 0
 --- !u!114 &1331070919
 MonoBehaviour:
@@ -57883,6 +58019,7 @@ GameObject:
   - component: {fileID: 1349421334}
   - component: {fileID: 1349421333}
   - component: {fileID: 1349421332}
+  - component: {fileID: 1349421339}
   m_Layer: 8
   m_Name: Carrot Seeds
   m_TagString: Untagged
@@ -57966,7 +58103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2fd048f7-887b-4fe2-aeac-0b585c335925
+  _ID: 80dd080b-dcd9-48cb-b656-2c33c974ecfc
   permanentID: 0
 --- !u!135 &1349421336
 SphereCollider:
@@ -58031,6 +58168,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1349421330}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1349421339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1349421330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1354992531
 GameObject:
   m_ObjectHideFlags: 0
@@ -58129,7 +58280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7ae54303-dead-4cd9-9b21-9fa0da4851a0
+  _ID: 14871603-1d63-4541-b0c8-e595e49f6dc0
   permanentID: 0
 --- !u!135 &1354992537
 SphereCollider:
@@ -59387,6 +59538,7 @@ GameObject:
   - component: {fileID: 1429887014}
   - component: {fileID: 1429887013}
   - component: {fileID: 1429887012}
+  - component: {fileID: 1429887019}
   m_Layer: 8
   m_Name: Carrot Seeds (4)
   m_TagString: Untagged
@@ -59470,7 +59622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7b4a93a9-0f04-4862-aa7c-2838f8bd6f09
+  _ID: 830fc30e-b2f3-4a39-ba37-270b9ad1a866
   permanentID: 0
 --- !u!135 &1429887016
 SphereCollider:
@@ -59535,6 +59687,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1429887010}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1429887019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1429887010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1432519171
 GameObject:
   m_ObjectHideFlags: 0
@@ -59979,6 +60145,7 @@ GameObject:
   - component: {fileID: 1460805790}
   - component: {fileID: 1460805789}
   - component: {fileID: 1460805788}
+  - component: {fileID: 1460805795}
   m_Layer: 8
   m_Name: Carrot Seeds (1)
   m_TagString: Untagged
@@ -60062,7 +60229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: afab2ddc-d392-4376-bafb-7766bed078fa
+  _ID: 413b5a03-0e20-46a4-8f0d-cb3327a8582b
   permanentID: 0
 --- !u!135 &1460805792
 SphereCollider:
@@ -60127,6 +60294,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1460805786}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1460805795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460805786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1461262715
 GameObject:
   m_ObjectHideFlags: 0
@@ -61336,6 +61517,7 @@ GameObject:
   - component: {fileID: 1501359586}
   - component: {fileID: 1501359585}
   - component: {fileID: 1501359584}
+  - component: {fileID: 1501359591}
   m_Layer: 8
   m_Name: Carrot Seeds (5)
   m_TagString: Untagged
@@ -61419,7 +61601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a42c6cf2-639e-4202-8d59-65140588a684
+  _ID: 5e040c20-0cde-4d21-832a-90de36d42841
   permanentID: 0
 --- !u!135 &1501359588
 SphereCollider:
@@ -61484,6 +61666,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1501359582}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1501359591
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1501359582}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1512933968
 GameObject:
   m_ObjectHideFlags: 0
@@ -63889,6 +64085,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1590264816}
   m_CullTransparentMesh: 1
+--- !u!84 &1593181082
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_ForcedFallbackFormat: 4
+  m_DownscaleFallback: 0
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 5
+  m_Width: 1366
+  m_Height: 768
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 90
+  m_ColorFormat: 8
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 0
+  m_UseDynamicScale: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1 &1594812350
 GameObject:
   m_ObjectHideFlags: 0
@@ -67089,7 +67322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0c9821f7-55b7-43ad-a291-fc3afc867676
+  _ID: 98784d2f-e56e-4c24-85df-741c3870bc37
   permanentID: 0
 --- !u!135 &1685438477
 SphereCollider:
@@ -67401,8 +67634,8 @@ MonoBehaviour:
   sourceCamera: {fileID: 1693647842}
   outlineCamera: {fileID: 853014420}
   outlineShaderMaterial: {fileID: 0}
-  renderTexture: {fileID: 209369152}
-  extraRenderTexture: {fileID: 1857558562}
+  renderTexture: {fileID: 546200822}
+  extraRenderTexture: {fileID: 1593181082}
 --- !u!114 &1693647836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68438,7 +68671,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9c0e434b-877d-4d03-9eb2-add719563986
+  _ID: 9c5e575e-6b27-474a-9bfd-2d50886061c1
   permanentID: 0
 --- !u!135 &1731675126
 SphereCollider:
@@ -69818,6 +70051,7 @@ GameObject:
   - component: {fileID: 1765683842}
   - component: {fileID: 1765683841}
   - component: {fileID: 1765683840}
+  - component: {fileID: 1765683847}
   m_Layer: 8
   m_Name: Carrot Seeds (2)
   m_TagString: Untagged
@@ -69902,7 +70136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b491952b-a0ec-4432-8b1c-cba30acc1883
+  _ID: 0ffa059c-e7f5-43bf-b280-f6f89e8673f2
   permanentID: 0
 --- !u!135 &1765683844
 SphereCollider:
@@ -69967,6 +70201,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1765683838}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1765683847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765683838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1775722204
 GameObject:
   m_ObjectHideFlags: 0
@@ -71112,7 +71360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bda1aa8c-d6c5-4aa0-a845-09bb06425cb5
+  _ID: 7ba0947e-e16f-4668-a7e3-16778c32dc28
   permanentID: 0
 --- !u!135 &1844934533
 SphereCollider:
@@ -71651,43 +71899,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1852951226}
   m_Mesh: {fileID: -2432090755550338912, guid: dee8a613124c5514dba8addea3a6488d, type: 3}
---- !u!84 &1857558562
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_ForcedFallbackFormat: 4
-  m_DownscaleFallback: 0
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 5
-  m_Width: 1104
-  m_Height: 662
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 90
-  m_ColorFormat: 8
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 0
-  m_UseDynamicScale: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1857835695
 GameObject:
   m_ObjectHideFlags: 0
@@ -72469,6 +72680,7 @@ GameObject:
   - component: {fileID: 1876723625}
   - component: {fileID: 1876723624}
   - component: {fileID: 1876723623}
+  - component: {fileID: 1876723630}
   m_Layer: 8
   m_Name: Carrot Seeds (16)
   m_TagString: Untagged
@@ -72552,7 +72764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2b7b45d3-1df6-4bc7-91f6-a169d3b6b92a
+  _ID: c5900309-c30e-4e6f-a0bb-f5a53d14cb30
   permanentID: 0
 --- !u!135 &1876723627
 SphereCollider:
@@ -72617,6 +72829,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1876723621}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1876723630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1876723621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1885206330
 GameObject:
   m_ObjectHideFlags: 0
@@ -72702,7 +72928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4dcd3ff1-dd69-4f31-89e3-88b5c1e9adc7
+  _ID: eb59db5d-d96c-4f63-a971-6a3cd4140e49
   permanentID: 0
 --- !u!135 &1885206335
 SphereCollider:
@@ -73123,7 +73349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0db967ec-0b95-4cd2-a3e7-ddc801006ec2
+  _ID: 1d80e62c-939a-42c0-a905-04e03e5564da
   permanentID: 0
 --- !u!135 &1894039283
 SphereCollider:
@@ -73575,7 +73801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c58d74fa-312f-408a-82d2-43518a34240f
+  _ID: 8589fab1-1444-4b14-9456-191a93b2af29
   permanentID: 0
 --- !u!135 &1901159023
 SphereCollider:
@@ -73899,6 +74125,7 @@ GameObject:
   - component: {fileID: 1915739323}
   - component: {fileID: 1915739322}
   - component: {fileID: 1915739321}
+  - component: {fileID: 1915739328}
   m_Layer: 8
   m_Name: Carrot Seeds (8)
   m_TagString: Untagged
@@ -73982,7 +74209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 15b27574-8bc0-4e86-aae2-35f954e94d5b
+  _ID: f16ea83c-04e0-478d-b5db-ae0f4841c0e8
   permanentID: 0
 --- !u!135 &1915739325
 SphereCollider:
@@ -74047,6 +74274,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1915739319}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1915739328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1915739319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1916624228
 GameObject:
   m_ObjectHideFlags: 0
@@ -75205,7 +75446,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 09500e69-b7ce-467f-9aca-33b433839e87
+  _ID: 00089891-0f2d-444c-9054-8a79112b07b0
   permanentID: 0
 --- !u!135 &1961083484
 SphereCollider:
@@ -75437,6 +75678,7 @@ GameObject:
   - component: {fileID: 1967220052}
   - component: {fileID: 1967220051}
   - component: {fileID: 1967220050}
+  - component: {fileID: 1967220057}
   m_Layer: 8
   m_Name: Carrot Seeds (9)
   m_TagString: Untagged
@@ -75520,7 +75762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0506cd7e-9f71-4c4c-b462-28089b035d74
+  _ID: 4e61beb9-e34f-4e43-98e6-31e5a80b6268
   permanentID: 0
 --- !u!135 &1967220054
 SphereCollider:
@@ -75585,6 +75827,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1967220048}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &1967220057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967220048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &1969089024
 GameObject:
   m_ObjectHideFlags: 0
@@ -76097,7 +76353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 236396af-7085-406e-b3f5-9009aecd7992
+  _ID: ea4acc4f-94fa-4e62-989b-92adfc863b81
   permanentID: 0
 --- !u!135 &2003069870
 SphereCollider:
@@ -76561,7 +76817,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a0cd91a7-24a9-46b4-a443-5318c72715bd
+  _ID: 9789e89a-4421-4901-8158-0869ffa36c70
   permanentID: 0
 --- !u!135 &2014453792
 SphereCollider:
@@ -76794,6 +77050,7 @@ GameObject:
   - component: {fileID: 2028072758}
   - component: {fileID: 2028072757}
   - component: {fileID: 2028072756}
+  - component: {fileID: 2028072763}
   m_Layer: 8
   m_Name: Carrot Seeds (15)
   m_TagString: Untagged
@@ -76877,7 +77134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cf8a318a-0b7c-40a6-aba6-2fe78a14835a
+  _ID: 43a92a15-938b-4ad4-9fbc-abbd26798d8c
   permanentID: 0
 --- !u!135 &2028072760
 SphereCollider:
@@ -76942,6 +77199,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2028072754}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &2028072763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028072754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &2032746304
 GameObject:
   m_ObjectHideFlags: 0
@@ -78974,6 +79245,7 @@ GameObject:
   - component: {fileID: 2111158025}
   - component: {fileID: 2111158024}
   - component: {fileID: 2111158023}
+  - component: {fileID: 2111158030}
   m_Layer: 8
   m_Name: Carrot Seeds (7)
   m_TagString: Untagged
@@ -79057,7 +79329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 206fecd0-8b7d-4442-b71d-bbdda21e0d8d
+  _ID: 974ddcb7-890e-4546-ba0c-ee86901694b8
   permanentID: 0
 --- !u!135 &2111158027
 SphereCollider:
@@ -79122,6 +79394,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2111158021}
   m_Mesh: {fileID: -2432090755550338912, guid: 7d6ad3b8fcf36fa40b8b5c84af194a55, type: 3}
+--- !u!114 &2111158030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2111158021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c999001ef1b0fcd4ead472905ab998a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fallMultiplier: 2.5
+  gravity: -9.81
 --- !u!1 &2118621139
 GameObject:
   m_ObjectHideFlags: 0
@@ -79207,7 +79493,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b490d6e4-7014-47cb-bd2c-0430e8083712
+  _ID: 065c1d14-8f50-432f-a9d1-a7c44fe8c5c7
   permanentID: 0
 --- !u!135 &2118621144
 SphereCollider:
@@ -79384,7 +79670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9869961e-b36c-4af7-bc4c-6df23e4e0c85
+  _ID: 1458cda3-a14c-49be-9273-27af3e581364
   permanentID: 0
 --- !u!135 &2121028047
 SphereCollider:
@@ -79665,7 +79951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 42f1f965-cd02-433a-aeaf-b8bd4eaaa212
+  _ID: c2c20f07-0f30-468d-828b-667dc1ab5dd6
   permanentID: 0
 --- !u!114 &2134209634
 MonoBehaviour:
@@ -81613,7 +81899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 35a66856-cc6b-4d91-8a8e-f3bac2d35aac
+  _ID: 34e95de0-a427-4743-afd6-ee7112051c0f
   permanentID: 0
 --- !u!64 &2459573572716711182
 MeshCollider:
@@ -92622,7 +92908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 51fc8e99-3e06-4a43-a4ea-4d657ad41e14
+  _ID: 1671fae0-1d7d-4fc4-bb0f-6fbc65809b37
   permanentID: 0
 --- !u!4 &4782232321734291542
 Transform:
