@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using System.Threading.Tasks;
 
 [RequireComponent(typeof(TreeGrowing))]
@@ -13,7 +14,8 @@ public class SavePlantData : DataSaver<TreeGrowing, SavePlantData>, IDataSavable
     public override async Task SaveData()
     {
         PlantData dirtSaveData = 
-            new PlantData( objectToSave.DaysPlanted, objectToSave.ReGrowCounter, objectToSave.DaysWithoutHarvest, objectToSave.DaysWithoutFruits, objectToSave.UsedSpawnPoints, objectToSave.currentState, transform.position);
+            new PlantData( objectToSave.DaysPlanted, objectToSave.ReGrowCounter, objectToSave.DaysWithoutHarvest, objectToSave.DaysWithoutFruits, 
+                objectToSave.UsedSpawnPoints.Select(t => t.localPosition).ToList(), objectToSave.currentState, transform.position);
 
         await saverAllData.WriteSave(dirtSaveData);
     }
