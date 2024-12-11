@@ -43,13 +43,35 @@ public class GrowingCrop : GrowingBase
             GrowthValidator.HandleFailedValidation(this, validation);
             return;
         }
+        
+        CheckDayGrow();
     }
     
     public override void OnHourChanged(int hour)
     {
-        if (!tierra._isWet || hour != 4) return;
+        if (hour != 4) return;
+        
+        if (tierra._isWet)
+        {
+            tierra.DryDirt(5);
+            daysDry = 0;
+            daysPlanted++;
+        }
+        else
+        {
+            daysDry++;
+        }
 
-        daysPlanted++;
+        if(currentState.isLastPhase)
+            daysWithoutHarvest++;
+            
+        var validation = GrowthValidator.ValidateGrowthState(this);
+        if(!validation.IsValid)
+        {
+            GrowthValidator.HandleFailedValidation(this, validation);
+            return;
+        }
+        
         CheckDayGrow();
     }
 }

@@ -13,12 +13,12 @@ public class GrowingFruitsTree : GrowingCrop //CrecimientoFruta TODO: Intentar u
     {
         if (hour != 4) return;
 
-        daysPlanted++;
-        CheckDayGrow();
+        DayPassed();
     }
 
     protected override void DayPassed()
     {
         daysPlanted++;
+        CheckDayGrow();
     }
 }

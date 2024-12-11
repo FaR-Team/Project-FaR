@@ -7,7 +7,7 @@ using Utils;
 public static class PlantSetter
 {
 
-    public static AllPlantsData plantsData;
+    public static AllTreesData TreesData;
 
     static List<GameObject> plantsGO;
     static GameObject plantPrefab;
@@ -34,16 +34,16 @@ public static class PlantSetter
     {
         try
         {
-            plantsData = LoadAllData.GetData<AllPlantsData>(temporary);
+            TreesData = LoadAllData.GetData<AllTreesData>(temporary);
             // Se hardcodea false, pero esto debe ser dado por un game status manager,
             // que le diga si viene por primera vez o bien, si vuelve de algun sitio.
             
-            if(!temporary) PlantSaver.instance.LoadScenesData(plantsData.scenesDataList);
+            if(!temporary) PlantSaver.instance.LoadScenesData(TreesData.scenesDataList);
 
-            var plantDataQueue = plantsData.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas;
+            var plantDataQueue = TreesData.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas;
             plantsGO = ObjectPooling.LoadSavedObjects(plantPrefab, plantDataQueue.Count, parentGO);
 
-            plantsGO.ForEach(dirt => { dirt.GetComponent<TreeGrowing>().LoadData(plantsData.data.Dequeue()); });
+            plantsGO.ForEach(dirt => { dirt.GetComponent<TreeGrowing>().LoadData(TreesData.data.Dequeue()); });
 
         }
         catch (Exception e)

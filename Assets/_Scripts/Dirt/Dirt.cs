@@ -19,7 +19,7 @@ public class Dirt : MonoBehaviour
 
     public GameObject currentCrop;
     public SeedItemData currentSeedData { get; private set; }
-    public CropSaveData cropSaveData { get; private set; }
+    public PlantData cropSaveData { get; private set; }
 
     public GameObject TextureAnimation;
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
@@ -36,7 +36,19 @@ public class Dirt : MonoBehaviour
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
         currentSeedData = data.currentCropData;
-        cropSaveData = data.cropSaveData;
+        cropSaveData = data.plantData;
+        /*
+        if (data.cropData != null)
+        {
+            Debug.Log("Loaded as CropData");
+            cropSaveData = data.cropData;
+        }
+        else if (data.treeBushData != null)
+        {
+            Debug.Log("Loaded as TreeBushData");
+            cropSaveData = data.treeBushData; // TODO: No se si es la mejor forma de hacer esto
+        }*/
+
         transform.position = data.position;
 
         if (currentSeedData != null)
@@ -57,12 +69,21 @@ public class Dirt : MonoBehaviour
             this.LogWarning(e);
         }
     }
-    public CropSaveData GetCropSaveData()
+    public PlantData GetCropSaveData()
     {
         if (currentCrop == null) return null;
 
         var growing = currentCrop.GetComponent<GrowingBase>();
-        return new CropSaveData(growing);
+        if (growing is GrowingTreeAndPlant)
+        {
+            Debug.Log("Saving treebushdata");
+            return new TreeBushData(growing);
+        }
+        else // TODO: Separar mejor segun tipos de crops y eso
+        {
+            Debug.Log("Saving cropsavedata");
+            return new CropSaveData(growing);
+        }
     }
     public bool GetCrop(SeedItemData itemData)
     {

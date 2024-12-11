@@ -6,18 +6,18 @@ using UnityEngine.Serialization;
 using Utils;
 
 [Serializable]
-public class AllPlantsData : IAllData<AllPlantsData>
+public class AllTreesData : IAllData<AllTreesData>
 {
-    public List<PlantData> currentDataList;
+    public List<TreeBushData> currentDataList;
     public List<ScenePlantData> scenesDataList;
 
-    public Queue<PlantData> data;
+    public Queue<TreeBushData> data;
     public int counter;
 
-    public AllPlantsData() 
+    public AllTreesData() 
     {
-        currentDataList = new List<PlantData>();
-        data = new Queue<PlantData>();
+        currentDataList = new List<TreeBushData>();
+        data = new Queue<TreeBushData>();
         scenesDataList = new();
         counter = 0;
     }
@@ -53,7 +53,7 @@ public class AllPlantsData : IAllData<AllPlantsData>
         }
     }
 
-    public void LoadQueue(List<PlantData> list)
+    public void LoadQueue(List<TreeBushData> list)
     {
         foreach (var item in list)
         {
@@ -67,7 +67,7 @@ public class AllPlantsData : IAllData<AllPlantsData>
         scenesDataList = datas;
     }
 
-    public void CopyData(AllPlantsData allData)
+    public void CopyData(AllTreesData allData)
     {
         currentDataList = allData.currentDataList;
         counter = allData.counter;
@@ -91,5 +91,5 @@ public class AllPlantsData : IAllData<AllPlantsData>
 public struct ScenePlantData
 {
     public string sceneName;
-    public List<PlantData> datas;
+    public List<TreeBushData> datas;
 }
