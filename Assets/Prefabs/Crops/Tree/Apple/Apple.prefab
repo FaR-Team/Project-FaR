@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ca773adb-3dbf-46b4-a945-28023a5bfa69
+  _ID: c5a9f4e2-fc5b-437c-b226-bed47197ff53
   permanentID: 0
 --- !u!114 &3866000514473496392
 MonoBehaviour:
@@ -73,7 +73,7 @@ MonoBehaviour:
   isFruit: 1
   states:
   - {fileID: 11400000, guid: 1369e3b18eeec7a43992ea22da1b3654, type: 2}
-  currentState: {fileID: 0}
+  currentState: {fileID: 11400000, guid: 1369e3b18eeec7a43992ea22da1b3654, type: 2}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}

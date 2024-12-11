@@ -29,6 +29,7 @@ public abstract class GrowingBase : MonoBehaviour
     public int MaxDaysDry => maxDaysDry;
     public int DaysWithoutHarvest => daysWithoutHarvest;
     public int MaxDaysWithoutHarvest => maxDaysWithoutHarvest;
+    public GrowingState CurrentState => currentState;
     
     public bool hasCaughtUp = false;
 
@@ -37,11 +38,13 @@ public abstract class GrowingBase : MonoBehaviour
         TryGetComponent(out meshFilter);
         TryGetComponent(out meshCollider);
         TryGetComponent(out meshRenderer);
+        
+        UpdateState();
     }
 
     protected virtual void Start()
     {
-        GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
+        GrowthEventManager.Instance.OnHourChanged += OnHourChanged; // Maybe move to OnEnable and Disable?
         CatchUpMissedGrowth();
     }
 
@@ -82,7 +85,7 @@ public abstract class GrowingBase : MonoBehaviour
 
     public virtual void OnHourChanged(int hour)
     {
-        if(hour == 0) // At midnight
+        if(hour == 0) // At midnight TODO: probably not using, turn into abstract method
         {
             daysDry++;
             if(currentState.isLastPhase)
@@ -127,8 +130,14 @@ public abstract class GrowingBase : MonoBehaviour
         gameObject.layer = interactableLayerInt; //layer interactuable.
     }
 
-    public virtual void LoadData(CropSaveData cropSaveData) // TODO: Que use como parametro un padre en común de CropSave y PlantSave
+    public virtual void LoadData(PlantData data) // TODO: Que use como parametro un padre en común de CropSave y PlantSave, y en los hijos usar Save as CropSave o as PlantSave
     {
+        if (data is not CropSaveData cropSaveData)
+        {
+            this.LogError("Wasn't able to cast SaveData to a CropSaveData");
+            return;
+        }
+        
         daysPlanted = cropSaveData.DiasPlantado;
         daysDry = cropSaveData.DaysDry;
         daysWithoutHarvest = cropSaveData.DaysWithoutHarvest;

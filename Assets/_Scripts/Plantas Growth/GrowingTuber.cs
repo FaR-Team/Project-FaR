@@ -41,6 +41,8 @@ public class GrowingTuber : GrowingBase
         if(currentState.isLastPhase)
             daysWithoutHarvest++;
             
+        CheckDayGrow();
+        
         var validation = GrowthValidator.ValidateGrowthState(this);
         if(!validation.IsValid)
         {
@@ -54,7 +56,7 @@ public class GrowingTuber : GrowingBase
         if (hour != 4) return;
 
         DayPassed();
-        CheckDayGrow();
+        
     }
     public override void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {

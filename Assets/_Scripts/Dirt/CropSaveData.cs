@@ -1,5 +1,5 @@
 ﻿[System.Serializable]
-public class CropSaveData
+public class CropSaveData : PlantData
 {
     public int DiasPlantado;
     public int DaysDry;

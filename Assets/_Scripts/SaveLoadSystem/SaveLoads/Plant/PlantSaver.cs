@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 
-public class PlantSaver : Saver<PlantData, SavePlantData>
+public class PlantSaver : Saver<TreeBushData, SavePlantData>
 {
     public static PlantSaver instance;
 
-    private AllPlantsData allPlantsData = new AllPlantsData();
+    private AllTreesData _allTreesData = new AllTreesData();
 
     private List<SavePlantData> plants = new List<SavePlantData>();
 
@@ -28,9 +28,9 @@ public class PlantSaver : Saver<PlantData, SavePlantData>
             //Debug.Log("START SAVING DIRTS");
             await SaveDirts();
 
-            allPlantsData.SaveQueue(SceneManager.GetActiveScene().name);
-            SaverManager.Save(allPlantsData, isTemporarySave);
-            allPlantsData.ClearAfterSave();
+            _allTreesData.SaveQueue(SceneManager.GetActiveScene().name);
+            SaverManager.Save(_allTreesData, isTemporarySave);
+            _allTreesData.ClearAfterSave();
 
             this.LogSuccess("Successfully Saved dirts information in scene " + SceneManager.GetActiveScene().name );
         }
@@ -40,10 +40,10 @@ public class PlantSaver : Saver<PlantData, SavePlantData>
         }
     }
 
-    public override Task WriteSave(PlantData info)
+    public override Task WriteSave(TreeBushData info)
     {
-        allPlantsData.data.Enqueue(info);
-        allPlantsData.counter++;
+        _allTreesData.data.Enqueue(info);
+        _allTreesData.counter++;
         return Task.CompletedTask;
     }
     
@@ -53,7 +53,7 @@ public class PlantSaver : Saver<PlantData, SavePlantData>
     /// <param name="datas"></param>
     public void LoadScenesData(List<ScenePlantData> datas)
     {
-        allPlantsData.SetScenesDataOnLoad(datas);
+        _allTreesData.SetScenesDataOnLoad(datas);
     }
 
     private async Task SaveDirts()

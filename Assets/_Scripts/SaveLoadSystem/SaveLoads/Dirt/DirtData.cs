@@ -6,15 +6,15 @@ public class DirtData : SaveData
     public bool _isWet;
     public bool IsEmpty;
     public SeedItemData currentCropData;
-    public CropSaveData cropSaveData;
+    [SerializeReference] public PlantData plantData; // SerializeReference attribute allows polymorphism in custom serializable classes
     public Vector3 position;
 
-    public DirtData(bool isWet, bool isEmpty, SeedItemData currentCropData, CropSaveData cropSaveData, Vector3 position)
+    public DirtData(bool isWet, bool isEmpty, SeedItemData currentCropData, PlantData plantSaveData, Vector3 position)
     {
         _isWet = isWet;
         IsEmpty = isEmpty;
         this.currentCropData = currentCropData;
-        this.cropSaveData = cropSaveData;
+        plantData = plantSaveData;
         this.position = position;
     }
     public DirtData()
@@ -22,6 +22,6 @@ public class DirtData : SaveData
         _isWet = false;
         IsEmpty = true;
         this.currentCropData = null;
-        this.cropSaveData = null;
+        this.plantData = null;
     }
 }

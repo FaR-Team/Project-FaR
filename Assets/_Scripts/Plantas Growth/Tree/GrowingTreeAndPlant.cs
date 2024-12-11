@@ -23,8 +23,8 @@ public class GrowingTreeAndPlant : GrowingBase
     [FormerlySerializedAs("Prefab")] public GameObject fruitPrefab;
 
     [HideInInspector] public List<Transform> SpawnPoints => spawnPoints;
-    private HashSet<Transform> availableSpawnPoints = new HashSet<Transform>();
-    private HashSet<Transform> usedSpawnPoints = new HashSet<Transform>();
+    protected HashSet<Transform> availableSpawnPoints = new HashSet<Transform>();
+    protected HashSet<Transform> usedSpawnPoints = new HashSet<Transform>();
     [HideInInspector] public int RandInt;
     [HideInInspector] public int ExpectedInt;
 
@@ -37,18 +37,35 @@ public class GrowingTreeAndPlant : GrowingBase
         base.Awake();
         availableSpawnPoints = SpawnPoints.ToHashSet();
     }
-
-    protected override void Start()
-    {
-        base.Start();
-        
-    }
-
+    
     protected override void DayPassed()
-    {   
-        daysPlanted++;
+    {
+        if (Tierra != null) // If dirt is null, it means this plant does not need water
+        {
+            if (Tierra._isWet)
+            {
+                Tierra.DryDirt(5);
+                daysDry = 0;
+                daysPlanted++;
+            }
+            else daysDry++;
 
-        if (!currentState.isLastPhase) return;
+        }
+        else daysPlanted++;
+        
+        if (!currentState.isLastPhase)
+        {
+            CheckDayGrow(); // Try update state anyway, if it's last phase, it'll check day grow down there
+            
+            var prevalidation = GrowthValidator.ValidateGrowthState(this);
+            if(!prevalidation.IsValid)
+            {
+                GrowthValidator.HandleFailedValidation(this, prevalidation);
+                return;
+            }
+            
+            return;
+        }
 
         if (fruits.Count == 0) // If it's fully grown and there are no fruits, spawn them when necessary
         {
@@ -66,7 +83,7 @@ public class GrowingTreeAndPlant : GrowingBase
         if(fruits.Count > 0)
         {
             // If spawned fruits are ready to harvest
-            if (fruits[0].GetComponent<GrowingFruitsTree>().currentState.isLastPhase)
+            if (fruits[0].GetComponent<GrowingCrop>().currentState.isLastPhase)
             {
                 if (daysWithoutHarvest >= maxDaysWithoutHarvest)
                 {
@@ -81,13 +98,7 @@ public class GrowingTreeAndPlant : GrowingBase
             }
             return;
         }
-    }
-
-    public override void OnHourChanged(int hour)
-    {
-        if (hour != 5) return;
-        DayPassed();
-            
+        
         CheckDayGrow();
         
         var validation = GrowthValidator.ValidateGrowthState(this);
@@ -96,6 +107,12 @@ public class GrowingTreeAndPlant : GrowingBase
             GrowthValidator.HandleFailedValidation(this, validation);
             return;
         }
+    }
+
+    public override void OnHourChanged(int hour)
+    {
+        if (hour != 5) return;
+        DayPassed();
     }
 
     public Transform GetRandomSpawnPoint()
@@ -167,15 +184,22 @@ public class GrowingTreeAndPlant : GrowingBase
         }
     }
     
-    public void LoadData(PlantData data)
+    public override void LoadData(PlantData data)
     {
-        daysPlanted = data.daysPlanted;
-        daysWithoutHarvest = data.daysWithoutHarvest;
-        daysWithoutFruitsCounter = data.daysWithoutFruitsCounter;
-        _reGrowCounter = data.reGrowCounter;
-        PopulateUsedSpawnpointsByPositions(data.usedSpawnPointsPos);
-        currentState = data.growingState;
-        transform.position = data.position;
+        if (data is not TreeBushData plantData)
+        {
+            this.LogError("Wasn't able to cast SaveData to a TreeBushData");
+            return;
+        }
+        
+        daysPlanted = plantData.daysPlanted;
+        daysWithoutHarvest = plantData.daysWithoutHarvest;
+        daysWithoutFruitsCounter = plantData.daysWithoutFruitsCounter;
+        _reGrowCounter = plantData.reGrowCounter;
+        PopulateUsedSpawnpointsByPositions(plantData.usedSpawnPointsPos);
+        currentState = plantData.growingState;
+        transform.position = plantData.position;
+        daysDry = plantData.daysDry;
         
         if(usedSpawnPoints.Count > 0) SpawnLoadedFruits(usedSpawnPoints);
         

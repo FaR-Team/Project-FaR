@@ -10,7 +10,7 @@ public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
         CheckDayGrow();
     }
     
-    public void StartReGrowTree()
+    public void StartReGrowTree() // TODO: Podriamos moverlo a la clase padre, si funciona igual que el BushGrowing
     {
         ResetSpawnPoints();
         daysWithoutHarvest = 0;
