@@ -10,7 +10,7 @@ Shader "FaRTeam/FaRMainShaderURP"
     SubShader
     {
         Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline"}
-        
+        LOD 200
         
         Cull Off
         ZWrite On
