@@ -128,7 +128,7 @@ public class OptionsMenu : MonoBehaviour
     private void UpdateUIValues()
     {
         FovVal.text = fovSlider.value.ToString("F1");
-        SensVal.text = optionsData.sensitivity.ToString("F3");
+        SensVal.text = sensSlider.value.ToString("F3");
         FPSText.text = $"FPS: {optionsData.targetFPS}";
     }
 
