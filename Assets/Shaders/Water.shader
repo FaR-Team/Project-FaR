@@ -24,15 +24,15 @@
 	
 	SubShader
 	{
-		Tags {"RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent"}
-		
+		Tags {"RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent-100"}
 		Pass
 		{
 			Name "ForwardLit"
 			Tags {"LightMode" = "UniversalForward"}
 			
 			Blend SrcAlpha OneMinusSrcAlpha
-			ZWrite Off
+			ZWrite On
+			ZTest LEqual
 			
 			HLSLPROGRAM
 			#pragma vertex vert
@@ -40,6 +40,7 @@
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS
 			#pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
 			#pragma multi_compile _ _SHADOWS_SOFT
+			#pragma multi_compile_fragment _ _DEPTH_NO_MSAA
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
@@ -101,7 +102,11 @@
 			float4 frag(Varyings IN) : SV_Target
 			{
 				float2 screenUV = IN.screenPosition.xy / IN.screenPosition.w;
-				float sceneDepth = SampleSceneDepth(screenUV);
+				#if UNITY_REVERSED_Z
+					float sceneDepth = SampleSceneDepth(screenUV);
+				#else
+					float sceneDepth = lerp(UNITY_NEAR_CLIP_VALUE, 1, SampleSceneDepth(screenUV));
+				#endif
 				float linearEyeDepth = LinearEyeDepth(sceneDepth, _ZBufferParams);
 				float waterDepth = IN.screenPosition.w;
 				float depthDifference = linearEyeDepth - waterDepth;
@@ -134,9 +139,9 @@
 				
 				float foamDepth = saturate(depthDifference / _FoamMaxDistance);
 				float foamGradient = 1 - foamDepth;
-				float foamVisibility = smoothstep(_FoamMinDistance, _FoamMaxDistance, foamGradient);
+				float foamVisibility = smoothstep(_FoamMinDistance, _FoamMaxDistance * 0.7, foamGradient);
 				
-				float surfaceNoiseCutoff = foamVisibility * _SurfaceNoiseCutoff;
+				float surfaceNoiseCutoff = foamVisibility * _SurfaceNoiseCutoff * 0.8;
 				
 				// Adjust distortion calculation
 				float2 distortSample = (SAMPLE_TEXTURE2D(_SurfaceDistortion, sampler_SurfaceDistortion, IN.distortUV).xy * 2 - 1) * _SurfaceDistortionAmount;
@@ -152,7 +157,9 @@
 				float4 surfaceNoiseColor = _FoamColor;
 				surfaceNoiseColor.a *= surfaceNoise;
 				
-				return lerp(waterColor, surfaceNoiseColor, surfaceNoiseColor.a);
+				float4 finalColor = lerp(waterColor, surfaceNoiseColor, surfaceNoiseColor.a * foamVisibility);
+				finalColor.a = lerp(0.4, 0.95, saturate(depthDifference)) * _DepthGradientShallow.a;
+				return finalColor;
 			}			
 			ENDHLSL
 		}

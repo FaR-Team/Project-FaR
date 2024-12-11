@@ -9,7 +9,7 @@ Shader "FaRTeam/FaRMainShaderURP"
     }
     SubShader
     {
-        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline"}
+        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent+50"}
         LOD 200
         
         Cull Off
