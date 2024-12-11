@@ -16,6 +16,10 @@
 		_WaveSpeed("Wave Speed", Float) = 1
 		_WaveAmplitude("Wave Amplitude", Float) = 0.5
 		_WaveFrequency("Wave Frequency", Float) = 2
+		[Header(Lighting)]
+		_Glossiness("Smoothness", Range(0,1)) = 0.8
+		_Metallic("Metallic", Range(0,1)) = 0.0
+		_LightIntensity("Light Intensity", Range(0,2)) = 1.0
 	}
 	
 	SubShader
@@ -76,6 +80,9 @@
 				float _WaveSpeed;
 				float _WaveAmplitude;
 				float _WaveFrequency;
+				float _LightIntensity;
+				float _Glossiness;
+				float _Metallic;
 			CBUFFER_END
 			
 			Varyings vert(Attributes IN)
@@ -97,30 +104,34 @@
 				float sceneDepth = SampleSceneDepth(screenUV);
 				float linearEyeDepth = LinearEyeDepth(sceneDepth, _ZBufferParams);
 				float waterDepth = IN.screenPosition.w;
-				
 				float depthDifference = linearEyeDepth - waterDepth;
-				
 				float waterDepthDifference01 = saturate(depthDifference / _DepthMaxDistance);
 				float4 waterColor = lerp(_DepthGradientShallow, _DepthGradientDeep, waterDepthDifference01);
+
+				// Enhanced lighting
 				float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
 				Light mainLight = GetMainLight(shadowCoord);
-				float NdotL = dot(IN.normalWS, mainLight.direction);
-
-				float shadowSample = MainLightRealtimeShadow(shadowCoord);
-				float softShadow = smoothstep(0.2, 0.8, shadowSample);
-				float shadowAttenuation = lerp(0.5, 1.0, softShadow);
-
-				float ambientOcclusion = lerp(0.8, 1.0, shadowSample);
-
-				half3 litTint = mainLight.color.rgb * 1.2;
-				half3 shadowTint = mainLight.color.rgb * half3(0.7, 0.8, 1.0);
-
-				float celValue = NdotL * shadowAttenuation * ambientOcclusion;
-				float cel = smoothstep(0, 1, celValue);
-
-				half3 lightingTint = lerp(shadowTint, litTint, cel);
-				waterColor.rgb *= lightingTint * ambientOcclusion;				
-				// Improve foam calculation
+				
+				float3 normalWS = normalize(IN.normalWS);
+				float3 viewDirWS = normalize(GetWorldSpaceViewDir(IN.positionWS));
+				float3 halfDir = normalize(mainLight.direction + viewDirWS);
+				
+				float NdotL = saturate(dot(normalWS, mainLight.direction));
+				float NdotH = saturate(dot(normalWS, halfDir));
+				float NdotV = saturate(dot(normalWS, viewDirWS));
+				
+				float specular = pow(NdotH, _Glossiness * 100) * _Glossiness;
+				float fresnel = pow(1 - NdotV, 5) * lerp(0.04, 1, _Metallic);
+				
+				float3 ambient = SampleSH(normalWS) * 0.2;
+				float3 diffuse = mainLight.color * NdotL;
+				float3 specularColor = mainLight.color * specular;
+				
+				waterColor.rgb *= (ambient + diffuse) * _LightIntensity;
+				waterColor.rgb += specularColor * _LightIntensity;
+				waterColor.rgb += fresnel * mainLight.color;			
+				
+				
 				float foamDepth = saturate(depthDifference / _FoamMaxDistance);
 				float foamGradient = 1 - foamDepth;
 				float foamVisibility = smoothstep(_FoamMinDistance, _FoamMaxDistance, foamGradient);
