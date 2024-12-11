@@ -1,4 +1,6 @@
 using System.Linq;
+using System.IO;
+using UnityEditor;
 using FaRUtils.FPSController;
 using FaRUtils.Systems.DateTime;
 using FaRUtils.Systems.ItemSystem;
@@ -6,6 +8,7 @@ using IngameDebugConsole;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using System;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -30,12 +33,12 @@ public class FaRCommands : MonoBehaviour
 
     void OnEnable()
     {
-        DateTime.OnHourChanged.AddListener(OnHourChanged);
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(OnHourChanged);
     }
 
     void OnDisable()
     {
-        DateTime.OnHourChanged.AddListener(OnHourChanged);
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(OnHourChanged);
     }
 
     void Start()
@@ -61,6 +64,7 @@ public class FaRCommands : MonoBehaviour
         DebugLogConsole.AddCommand("load", "forzar cargado.", TestLoad);
         DebugLogConsole.AddCommand("deletesave", "elimina el guardado", TestDeleteSave);
         DebugLogConsole.AddCommand("clear", "Clears the console", ClearConsole);
+        DebugLogConsole.AddCommand("exportdata", "Exports logs and save data to a file", ExportData);
     }
 
     private void GiveSkillPoints(int x)
@@ -237,6 +241,52 @@ public class FaRCommands : MonoBehaviour
     void SkipTomatoGrowth()
     {
         //Saltar el crecimiento del tomate, avanzando rápido los días necesarios
+    }
+
+    private void ExportData()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        string timestamp = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        string tempExportPath = Path.Combine(Application.temporaryCachePath, $"FaR_Export_{timestamp}");
+        Directory.CreateDirectory(tempExportPath);
+
+        // Export logs
+        string logContent = DebugLogManager.Instance.GetAllLogs();
+        File.WriteAllText(Path.Combine(tempExportPath, "debug_logs.txt"), logContent);
+
+        // Copy all save files
+        string savesDirectory = PathFinder.GetPermanentFolder();
+        if (Directory.Exists(savesDirectory))
+        {
+            string savesFolderInZip = Path.Combine(tempExportPath, "saves");
+            Directory.CreateDirectory(savesFolderInZip);
+            foreach (string file in Directory.GetFiles(savesDirectory))
+            {
+                File.Copy(file, Path.Combine(savesFolderInZip, Path.GetFileName(file)));
+            }
+        }
+
+        // Let user choose where to save the zip
+        string saveFilePath = EditorUtility.SaveFilePanel(
+            "Save Export Data",
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            $"FaR_Export_{timestamp}.zip",
+            "zip");
+
+        if (!string.IsNullOrEmpty(saveFilePath))
+        {
+            // Create zip file
+            if (File.Exists(saveFilePath))
+                File.Delete(saveFilePath);
+                
+            System.IO.Compression.ZipFile.CreateFromDirectory(tempExportPath, saveFilePath);
+            Debug.Log($"Data exported to: {saveFilePath}");
+        }
+
+        // Cleanup temp directory
+        if (Directory.Exists(tempExportPath))
+            Directory.Delete(tempExportPath, true);
     }
 
     void GivePants()
