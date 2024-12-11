@@ -268,6 +268,19 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         if (GetItemData() == null) return;
 
+        if (GetItemData().IsSpecialItem())
+        {
+            if (GetItemData().UseItem())
+            {
+                AudioSource audioSource = player.GetComponent<AudioSource>(); 
+                audioSource.PlayOneShot(GetItemData().useItemSound);
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            SlotCurrentIndex().UpdateUISlot();
+            return;
+        }
+
         if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
         {
             if (GetItemData().Sellable &&
@@ -281,6 +294,37 @@ public class HotbarDisplay : HotbarDisplayBase
                 SlotCurrentIndex().UpdateUISlot();
             }
             return;
+        }
+
+        if (GetItemData().IsHoe() || GetItemData().IsBucket())
+        {
+            GetItemData().UseItem();
+        }
+
+        if (GetItemData().IsCropSeed() &&
+            interactor._LookingAtDirt)
+        {
+            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
+
+            if (GetItemData().UseItem(dirtToTest))
+            {
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            SlotCurrentIndex().UpdateUISlot();
+        }
+
+        if (GetItemData().IsTreeSeed() &&
+            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
+            !interactor._LookingAtDirt)
+        {
+            if (GetItemData().UseItem())
+            {
+                Debug.Log("Called UseItem from Holdear");
+                GetAssignedInventorySlot().SacarDeStack(1);
+                GetAssignedInventorySlot().ClearSlot();
+            }
+            SlotCurrentIndex().UpdateUISlot();
         }
     }
 
@@ -322,41 +366,10 @@ public class HotbarDisplay : HotbarDisplayBase
             hand.SetActive(false);
         }
     }
+
     private void UseItem(InputAction.CallbackContext obj)
     {
-        if (GetItemData() == null) return;
-
-        if (GetItemData().IsCropSeed() &&
-            interactor._LookingAtDirt)
-        {
-            var dirt = gridGhost.CheckDirt(gridGhost.finalPosition, 0.1f);
-
-            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
-
-            //var inventory = player.GetComponent<InventoryHolder>();
-
-            if (GetItemData().UseItem(dirtToTest) == true)
-            {
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-        }
-
-        if (GetItemData() != null && GetItemData().IsTreeSeed() &&
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            interactor._LookingAtDirt == false)
-        {
-            //var inventory = player.GetComponent<InventoryHolder>();
-
-            if (GetItemData().UseItem())
-            {
-                Debug.Log("Called UseItem from UseItem");
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-        }
+        // We deleted all of the code cuz it was being done in Holdear
     }
 
     private void HandleIndex(int newIndex)
