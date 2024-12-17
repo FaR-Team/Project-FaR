@@ -257,8 +257,8 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                     _grabbedRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
                     _grabbedRigidbody.gameObject.AddComponent<AvoidCollisionWPlayer>();
-                    var renderer = _grabbedRigidbody.GetComponent<Renderer>();
-                    if (renderer != null)
+                    var renderers = _grabbedRigidbody.GetComponentsInChildren<Renderer>();
+                    foreach(var renderer in renderers)
                     {
                         _propertyBlock.SetFloat("_UseOutline", 1);
                         renderer.SetPropertyBlock(_propertyBlock);
@@ -515,10 +515,10 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         _grabbedRigidbody.isKinematic = _wasKinematic;
         _grabbedRigidbody.interpolation = _initialInterpolationSetting;
         _grabbedRigidbody.freezeRotation = false;
-        var renderer = _grabbedRigidbody.GetComponent<Renderer>();
-        if (renderer != null)
+        var renderers = _grabbedRigidbody.GetComponentsInChildren<Renderer>();
+        foreach(var renderer in renderers)
         {
-            _propertyBlock.SetFloat("_UseOutline", 0);
+            _propertyBlock.SetFloat("_UseOutline", 0); 
             renderer.SetPropertyBlock(_propertyBlock);
         }
         _grabbedRigidbody = null;

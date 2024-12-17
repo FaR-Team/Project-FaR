@@ -52,7 +52,6 @@ public class CropExplode : MonoBehaviour
         
         GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
         GetComponent<CarrotTuberInteraction>().InstantiateAndDropCarrots();
-        Destroy(gameObject.GetComponent<Outline>());
 
         yield return new WaitForSeconds(0.2f);
         DirtSpawnerPooling.DeSpawn(thisCropDirt);

@@ -7,18 +7,25 @@ public class CarrotTuberInteraction : CropInteraction
 {
     public GrowingCrop GrowingCrop;
     public GameObject Prefab;
+    private MaterialPropertyBlock _propertyBlock;
+
 
     public override void Awake()
     {
         base.Awake();
-
+        _propertyBlock = new MaterialPropertyBlock();
         GrowingCrop = GetComponent<GrowingCrop>();
     }
 
     public override void Harvest()
     {
         var VisibleGO = this.GetComponentInChildren<SkinnedMeshRenderer>().gameObject;
-        VisibleGO.AddComponent<Outline>();
+        var renderer = VisibleGO.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            _propertyBlock.SetFloat("_UseOutline", 1);
+            renderer.SetPropertyBlock(_propertyBlock);
+        }
         this.GetComponent<CropExplode>().StartAnimationAndExplode();
     }
 
@@ -28,7 +35,12 @@ public class CarrotTuberInteraction : CropInteraction
         
         foreach (GameObject fruit in Fruits)
         {
-            fruit.AddComponent<Outline>();
+            var renderer = fruit.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                _propertyBlock.SetFloat("_UseOutline", 1);
+                renderer.SetPropertyBlock(_propertyBlock);
+            }
             fruit.GetComponent<FallingFruit>().FallTuber();
         }
     }

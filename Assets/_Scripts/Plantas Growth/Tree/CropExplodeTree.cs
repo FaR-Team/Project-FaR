@@ -39,7 +39,6 @@ public class CropExplodeTree : MonoBehaviour
     {
         //CropLeaf.GetComponent<MeshRenderer>().enabled = false;
         Crop.GetComponent<MeshRenderer>().enabled = false;
-        Destroy(Crop.gameObject.GetComponent<Outline>());
         yield return new WaitForSeconds(0.5f);
         Destroy(Parent);
     }

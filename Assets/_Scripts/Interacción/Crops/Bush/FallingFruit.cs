@@ -5,7 +5,14 @@ using FaRUtils;
 public class FallingFruit : MonoBehaviour
 {
     [SerializeField] private float speed = 1.5f;
+    private MaterialPropertyBlock _propertyBlock;
     // Esto seria tirar las frutas al piso y permitir al jugador recogerlas.
+
+    void Awake()
+    {
+        _propertyBlock = new MaterialPropertyBlock();
+    }
+
     public void FallFruit()
     {
         StartCoroutine(DropFruit());
@@ -29,20 +36,35 @@ public class FallingFruit : MonoBehaviour
 
         GetComponent<ItemPickUp>().enabled = true;
         GetComponent<SphereCollider>().enabled = true;
-        GetComponent<Outline>().enabled = false;
+        
+        var renderer = GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            _propertyBlock.SetFloat("_UseOutline", 0);
+            renderer.SetPropertyBlock(_propertyBlock);
+        }
     }
 
     IEnumerator DropFruit()
     {
-        if (this.GetComponent<Outline>() == null)
+        var renderer = GetComponent<Renderer>();
+        if (renderer != null)
         {
-            this.gameObject.AddComponent<Outline>();
+            _propertyBlock.SetFloat("_UseOutline", 1);
+            renderer.SetPropertyBlock(_propertyBlock);
         }
+        
         yield return new WaitForSeconds(0.5f);
         GetComponent<ItemPickUp>().enabled = true;
         GetComponent<SphereCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
-        GetComponent<Outline>().enabled = false;
+        
+        if (renderer != null)
+        {
+            _propertyBlock.SetFloat("_UseOutline", 0);
+            renderer.SetPropertyBlock(_propertyBlock);
+        }
+        
         gameObject.layer = 0;
         this.transform.parent = null;
     }

@@ -15,10 +15,13 @@ public class CropInteraction : MonoBehaviour, IInteractable
     public bool already;
     public bool isTree;
 
+    private MaterialPropertyBlock _propertyBlock;
+
     public GameObject InteractionPrompt => _prompt;
 
     public virtual void Awake()
     {
+        _propertyBlock = new MaterialPropertyBlock();
         _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
         if (isTree) return;
         dirt = GetComponentInParent<Dirt>().gameObject;
@@ -65,7 +68,25 @@ public class CropInteraction : MonoBehaviour, IInteractable
     {
         foreach (GameObject fruit in Fruits())
         {
-            fruit.AddComponent<Outline>();
+            var renderer = fruit.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                _propertyBlock.SetFloat("_UseOutline", 1);
+                renderer.SetPropertyBlock(_propertyBlock);
+            }
+        }
+    }
+
+    public void RemoveOutline()
+    {
+        foreach (GameObject fruit in Fruits())
+        {
+            var renderer = fruit.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                _propertyBlock.SetFloat("_UseOutline", 0);
+                renderer.SetPropertyBlock(_propertyBlock);
+            }
         }
     }
 

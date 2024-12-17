@@ -22,8 +22,6 @@ public class GunLineRenderer : MonoBehaviour
     private Transform       _attachEffect           = null;
 
     private GameObject      _objectToHightlight;
-    private OutlineEffect   _outlineEffect;
-
     private PhysicsGunInteractionBehavior _physicsGun;
 
     private void Start()
@@ -37,13 +35,6 @@ public class GunLineRenderer : MonoBehaviour
         _lineRenderer.positionCount = _arcResolution;
         _lineRenderer.enabled       = false;
 
-        _outlineEffect = Camera.main.GetComponent<OutlineEffect>();
-
-        if(_outlineEffect == null)
-        {
-            _outlineEffect = Camera.main.gameObject.AddComponent<OutlineEffect>();
-        }
-
         _attachEffect.gameObject.SetActive(false);
 
         _physicsGun = FindObjectOfType<PhysicsGunInteractionBehavior>();
@@ -53,19 +44,6 @@ public class GunLineRenderer : MonoBehaviour
             Debug.LogError($"{nameof(GunLineRenderer)} is missng a {nameof(PhysicsGunInteractionBehavior)}", this);
             return;
         }
-
-        _physicsGun.OnObjectGrabbed.AddListener(OnObjectGrabbed);
-    }
-
-    private void OnObjectGrabbed(GameObject grabbedObject)
-    {
-        if (grabbedObject != null)
-        {
-            StartLineRenderer(grabbedObject);
-            return;
-        }
-
-        StopLineRenderer();
     }
 
     private void LateUpdate()
@@ -100,51 +78,6 @@ public class GunLineRenderer : MonoBehaviour
         {
             _attachEffect.position = _inputPoints[_arcResolution - 1];
         }
-    }
-
-    public void StartLineRenderer(GameObject objectToHighlight)
-    {
-        //_lineRenderer.enabled = true;
-        _objectToHightlight = objectToHighlight;
-
-        var renderers = _objectToHightlight.GetComponentsInChildren<Renderer>();
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            var outline = renderers[i].GetComponent<Outline>();
-
-            if (outline == null)
-                outline = renderers[i].gameObject.AddComponent<Outline>();
-
-            _outlineEffect.AddOutline(outline);
-        }
-
-        _attachEffect.gameObject.SetActive(true);
-    }
-
-    public void StopLineRenderer()
-    {
-        _lineRenderer.enabled = false;
-        UpdateArcPoints(Vector3.zero, Vector3.zero, Vector3.zero);
-
-        _lineRenderer.SetPositions(_inputPoints);
-
-        var renderers = _objectToHightlight.GetComponentsInChildren<Renderer>();
-
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            var outline = renderers[i].GetComponent<Outline>();
-
-            if (outline != null)
-            {
-                _outlineEffect.RemoveOutline(outline);
-
-                Destroy(outline);
-            }
-        }
-        _objectToHightlight = null;
-
-        _attachEffect.gameObject.SetActive(false);
     }
 
     public void UpdateArcPoints(Vector3 a, Vector3 b, Vector3 c)
