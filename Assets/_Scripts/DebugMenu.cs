@@ -12,10 +12,6 @@ public class DebugMenu : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F3))
-        {
-            ToggleDebugMenu();
-        }
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -27,6 +23,11 @@ public class DebugMenu : MonoBehaviour
             TakeScreenshot();
         }
 
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            ToggleDebugMenu();
+        }
+        
         if (isDebugMenuVisible)
         {
             UpdateLookTarget();

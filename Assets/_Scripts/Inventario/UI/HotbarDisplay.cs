@@ -49,6 +49,7 @@ public class HotbarDisplay : HotbarDisplayBase
         _maxIndexSize = slots.Length - 1;
 
         SlotCurrentIndex().ToggleHighlight();
+        ChangeObjectInHandModel();
     }
 
     public override void Update()
@@ -63,15 +64,21 @@ public class HotbarDisplay : HotbarDisplayBase
         }
 
         ChangeAbilityGamepad();
-
-        ChangeObjectInHandModel();
     }
 
     void ChangeAbility()
     {
-        if (MouseWheelValue() > 0.1f) ChangeAbilityIndex(-1);
+        if (MouseWheelValue() > 0.1f)
+        {
+            ChangeAbilityIndex(-1);
+            ChangeObjectInHandModel();
+        }
 
-        if (MouseWheelValue() < -0.1f) ChangeAbilityIndex(1);
+        if (MouseWheelValue() < -0.1f)
+        {
+            ChangeAbilityIndex(1);
+            ChangeObjectInHandModel();
+        }
     }
 
     void ChangeAbilityGamepad()
@@ -172,6 +179,7 @@ public class HotbarDisplay : HotbarDisplayBase
         if(i == -1) return;
         
         HandleIndex(i);
+        
     }
     
     #endregion
@@ -183,6 +191,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             ChangeIndex(-1);
             DoChangeNameDisplay();
+            ChangeObjectInHandModel();
         }
     }
 
@@ -193,6 +202,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             ChangeIndex(1);
             DoChangeNameDisplay();
+            ChangeObjectInHandModel();
         }
     }
     
@@ -377,11 +387,13 @@ public class HotbarDisplay : HotbarDisplayBase
         if (!UIController.isPlayerInventoryOpen)
         {
             SetIndex(newIndex);
+            ChangeObjectInHandModel();
         }
         else if (InventoryUIController.instance.hoveredUISlot != null 
         && InventoryUIController.instance.hoveredUISlot.AssignedInventorySlot.ItemData != null)
         {
             InventoryUIController.instance.hoveredUISlot.ParentDisplay.SwapSlots(InventoryUIController.instance.hoveredUISlot, slots[newIndex]);
+            ChangeObjectInHandModel();
         }
     }
 
@@ -394,5 +406,11 @@ public class HotbarDisplay : HotbarDisplayBase
         _currentIndex = newIndex;
         SlotCurrentIndex().ToggleHighlight();
         DoChangeNameDisplay();
+    }
+
+    protected override void ChangeIndex(int direction)
+    {
+        base.ChangeIndex(direction);
+        ChangeObjectInHandModel();
     }
 }

@@ -64,7 +64,7 @@ public class HotbarDisplayBase : StaticInventoryDisplay
         return slots[_currentIndex];
     }
 
-    protected void ChangeIndex(int direction)
+    protected virtual void ChangeIndex(int direction)
     {
         SlotCurrentIndex().ToggleHighlight();
         _currentIndex += direction;
@@ -73,6 +73,7 @@ public class HotbarDisplayBase : StaticInventoryDisplay
         if (_currentIndex < 0) _currentIndex = _maxIndexSize;
 
         SlotCurrentIndex().ToggleHighlight();
+        
     }
 
     protected PlayerInput2.PlayerActions GetPlayerControls()
