@@ -49,6 +49,8 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
 
     private Quaternion _desiredRotation = Quaternion.identity;
 
+    private MaterialPropertyBlock _propertyBlock;
+
     //private bool                    _ContadorActivo         = false;
 
     private bool m_UserRotation;
@@ -157,6 +159,11 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
     public Vector3 EndPoint { get; private set; }
     public float timer = 5;
 
+    private void Awake()
+    {
+        _propertyBlock = new MaterialPropertyBlock();
+    }
+
     private void Start()
     {
         if (_camera == null)
@@ -250,6 +257,12 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
                     _grabbedRigidbody.interpolation = RigidbodyInterpolation.Interpolate;
 
                     _grabbedRigidbody.gameObject.AddComponent<AvoidCollisionWPlayer>();
+                    var renderer = _grabbedRigidbody.GetComponent<Renderer>();
+                    if (renderer != null)
+                    {
+                        _propertyBlock.SetFloat("_UseOutline", 1);
+                        renderer.SetPropertyBlock(_propertyBlock);
+                    }
 
                     OnObjectGrabbed.Invoke(_grabbedRigidbody.gameObject);
                     if (Energy._ContadorActivo == false)
@@ -502,6 +515,12 @@ public class PhysicsGunInteractionBehavior : MonoBehaviour
         _grabbedRigidbody.isKinematic = _wasKinematic;
         _grabbedRigidbody.interpolation = _initialInterpolationSetting;
         _grabbedRigidbody.freezeRotation = false;
+        var renderer = _grabbedRigidbody.GetComponent<Renderer>();
+        if (renderer != null)
+        {
+            _propertyBlock.SetFloat("_UseOutline", 0);
+            renderer.SetPropertyBlock(_propertyBlock);
+        }
         _grabbedRigidbody = null;
         _scrollWheelInput = _zeroVector3;
         _grabbedTransform = null;

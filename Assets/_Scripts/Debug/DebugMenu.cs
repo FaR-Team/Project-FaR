@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEditor;
 using System;
+using System.Collections.Generic;
 
 public class DebugMenu : MonoBehaviour
 {
@@ -9,6 +10,11 @@ public class DebugMenu : MonoBehaviour
     private bool isUIVisible = true;
     private GameObject currentLookTarget;
     public string[] ignoreTags = { "Player", "MainCamera", "UI", "Violeta", "Pared"};
+
+    private bool showProfiler = false;
+    private Queue<float> fpsBuffer = new Queue<float>();
+    private const int BUFFER_SIZE = 100;
+    private Rect profilerRect = new Rect(10, 10, 200, 100);
 
     void Update()
     {
@@ -26,6 +32,14 @@ public class DebugMenu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F3))
         {
             ToggleDebugMenu();
+        }
+
+        if (showProfiler)
+        {
+            float fps = 1.0f / Time.deltaTime;
+            fpsBuffer.Enqueue(fps);
+            if (fpsBuffer.Count > BUFFER_SIZE)
+                fpsBuffer.Dequeue();
         }
         
         if (isDebugMenuVisible)
@@ -124,7 +138,6 @@ public class DebugMenu : MonoBehaviour
             }
         }
     }
-
 
     private void UpdateLookTarget()
     {

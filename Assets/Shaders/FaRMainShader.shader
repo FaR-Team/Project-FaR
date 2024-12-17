@@ -6,6 +6,9 @@ Shader "FaRTeam/FaRMainShaderURP"
         _MainTex ("Texture", 2D) = "white" {}
         _CelSteps ("Cel Shading Steps", Range(1, 20)) = 5
         _Alpha ("Alpha", Range(0,1)) = 1
+        [Toggle] _UseOutline("Use Outline", Float) = 0
+        _OutlineColor("Outline Color", Color) = (0,0,0,1)
+        _OutlineWidth("Outline Width", Range(0, 100)) = 1
     }
     SubShader
     {
@@ -88,6 +91,59 @@ Shader "FaRTeam/FaRMainShaderURP"
                     discard;
                 
                 return 0;
+            }
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Name "Outline"
+            Tags { }
+            Cull Front
+            
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float, _UseOutline)
+            UNITY_INSTANCING_BUFFER_END(Props)
+            
+            CBUFFER_START(UnityPerMaterial)
+                float _OutlineWidth;
+                float4 _OutlineColor;
+            CBUFFER_END
+            
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                UNITY_SETUP_INSTANCE_ID(IN);
+                UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
+                
+                float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
+                float3 pos = IN.positionOS.xyz + IN.normalOS * (_OutlineWidth * 0.001 * useOutline);
+                OUT.positionCS = TransformObjectToHClip(pos);
+                return OUT;
+            }
+            
+            half4 frag(Varyings IN) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(IN);
+                return _OutlineColor;
             }
             ENDHLSL
         }
