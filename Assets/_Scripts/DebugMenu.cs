@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
+using System;
 
 public class DebugMenu : MonoBehaviour
 {
@@ -189,16 +191,22 @@ public class DebugMenu : MonoBehaviour
 
     private void TakeScreenshot()
     {
-        string folderPath = "Screenshots";
-        if (!System.IO.Directory.Exists(folderPath))
-        {
-            System.IO.Directory.CreateDirectory(folderPath);
-        }
-
         string timestamp = System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-        string filename = $"{folderPath}/screenshot_{timestamp}.png";
-        ScreenCapture.CaptureScreenshotAsTexture();
-        ScreenCapture.CaptureScreenshot(filename);
+        
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        string saveFilePath = EditorUtility.SaveFilePanel(
+            "Save Screenshot",
+            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+            $"screenshot_{timestamp}.png",
+            "png");
+
+        if (!string.IsNullOrEmpty(saveFilePath))
+        {
+            ScreenCapture.CaptureScreenshot(saveFilePath);
+            Debug.Log($"Screenshot saved to: {saveFilePath}");
+        }
     }
 }
 
