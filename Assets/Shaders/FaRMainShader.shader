@@ -7,8 +7,11 @@ Shader "FaRTeam/FaRMainShaderURP"
         _CelSteps ("Cel Shading Steps", Range(1, 20)) = 5
         _Alpha ("Alpha", Range(0,1)) = 1
         [Toggle] _UseOutline("Use Outline", Float) = 0
-        _OutlineColor("Outline Color", Color) = (0,0,0,1)
-        _OutlineWidth("Outline Width", Range(0, 100)) = 1
+        _OutlineColor("Outline Color", Color) = (0.6,0,0.6,1)
+        _OutlineWidth("Outline Width", Range(0, 100)) = 20
+        _PulseSpeed ("Pulse Speed", Range(0, 10)) = 2.5
+        _PulseMinWidth ("Pulse Min Width", Range(0, 100)) = 5
+        _PulseMaxWidth ("Pulse Max Width", Range(0, 100)) = 20
     }
     SubShader
     {
@@ -126,6 +129,9 @@ Shader "FaRTeam/FaRMainShaderURP"
             CBUFFER_START(UnityPerMaterial)
                 float _OutlineWidth;
                 float4 _OutlineColor;
+                float _PulseSpeed;
+                float _PulseMinWidth;
+                float _PulseMaxWidth;
             CBUFFER_END
             
             Varyings vert(Attributes IN)
@@ -135,11 +141,14 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
                 
                 float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
-                float3 pos = IN.positionOS.xyz + IN.normalOS * (_OutlineWidth * 0.001 * useOutline);
+                
+                float pulseValue = (sin(_Time.y * _PulseSpeed) * 0.5 + 0.5);
+                float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
+                
+                float3 pos = IN.positionOS.xyz + IN.normalOS * (pulseWidth * 0.001 * useOutline);
                 OUT.positionCS = TransformObjectToHClip(pos);
                 return OUT;
-            }
-            
+            }            
             half4 frag(Varyings IN) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
