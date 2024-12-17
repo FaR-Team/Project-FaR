@@ -4,6 +4,7 @@ using System.Linq;
 public class DebugMenu : MonoBehaviour
 {
     private bool isDebugMenuVisible = false;
+    private bool isUIVisible = true;
     private GameObject currentLookTarget;
     public string[] ignoreTags = { "Player", "MainCamera", "UI", "Violeta", "Pared"};
 
@@ -14,11 +15,22 @@ public class DebugMenu : MonoBehaviour
             ToggleDebugMenu();
         }
 
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            ToggleUIVisibility();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            TakeScreenshot();
+        }
+
         if (isDebugMenuVisible)
         {
             UpdateLookTarget();
         }
     }
+
     void OnGUI()
     {
         if (isDebugMenuVisible)
@@ -84,9 +96,36 @@ public class DebugMenu : MonoBehaviour
         isDebugMenuVisible = !isDebugMenuVisible;
     }
 
+    private void ToggleUIVisibility()
+    {
+        isUIVisible = !isUIVisible;
+        
+        Canvas[] allCanvases = FindObjectsOfType<Canvas>();
+        foreach (Canvas canvas in allCanvases)
+        {
+            canvas.enabled = isUIVisible;
+        }
+
+        GameObject[] handObjects = new GameObject[] {
+            GameObject.Find("Hand"),
+            GameObject.Find("Bucket"),
+            GameObject.Find("Hoe")
+        };
+
+        foreach (GameObject hand in handObjects)
+        {
+            if (hand != null && hand.activeSelf)
+            {
+                hand.SetActive(isUIVisible);
+                break;
+            }
+        }
+    }
+
+
     private void UpdateLookTarget()
     {
-        int layerMask = ~(1 << LayerMask.NameToLayer("Jugador"));
+        int layerMask = ~((1 << LayerMask.NameToLayer("Jugador")) | (1 << LayerMask.NameToLayer("Hand")));
         RaycastHit hit;
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, 100f, layerMask))
         {
@@ -145,8 +184,21 @@ public class DebugMenu : MonoBehaviour
             height += 20; // Height for "Not looking at any relevant object" message
         }
 
-        return height + 20; // Add some padding
+        return height + 20;
     }
 
+    private void TakeScreenshot()
+    {
+        string folderPath = "Screenshots";
+        if (!System.IO.Directory.Exists(folderPath))
+        {
+            System.IO.Directory.CreateDirectory(folderPath);
+        }
+
+        string timestamp = System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+        string filename = $"{folderPath}/screenshot_{timestamp}.png";
+        ScreenCapture.CaptureScreenshotAsTexture();
+        ScreenCapture.CaptureScreenshot(filename);
+    }
 }
 
