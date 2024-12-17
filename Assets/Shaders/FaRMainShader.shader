@@ -9,7 +9,14 @@ Shader "FaRTeam/FaRMainShaderURP"
     }
     SubShader
     {
-        Tags {"Queue" = "Transparent" "RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent+50"}
+        Tags {
+            "Queue" = "Transparent" 
+            "RenderType" = "Transparent" 
+            "RenderPipeline" = "UniversalPipeline"
+            "Queue" = "Transparent+50"
+            "IgnoreProjector" = "True"
+            "PreviewType" = "Plane"
+        }
         LOD 200
         
         Cull Off
@@ -104,6 +111,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
                 float3 normalOS : NORMAL;
+                float4 color : COLOR;
             };
 
             struct Varyings
@@ -112,6 +120,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 positionCS : SV_POSITION;
                 float3 normalWS : TEXCOORD1;
                 float3 positionWS : TEXCOORD2;
+                float4 color : COLOR;
             };
 
             TEXTURE2D(_MainTex);
@@ -131,31 +140,33 @@ Shader "FaRTeam/FaRMainShaderURP"
                 OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                OUT.color = IN.color;
                 return OUT;
             }
             
             half4 frag(Varyings IN) : SV_Target
             {
-                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color;
+                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color * IN.color;
                 half3 albedo = texColor.rgb;
                 half alpha = texColor.a * _Alpha;
             
                 float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
                 Light mainLight = GetMainLight(shadowCoord);
-                float NdotL = dot(IN.normalWS, mainLight.direction);
-
+                
+                float NdotL = dot(IN.normalWS, mainLight.direction) * 0.5 + 0.5;
+                
                 float shadowSample = MainLightRealtimeShadow(shadowCoord);
                 float softShadow = smoothstep(0.2, 0.8, shadowSample);
-                float shadowAttenuation = lerp(0.5, 1.0, softShadow);
+                float shadowAttenuation = lerp(0.7, 1.0, softShadow);
 
-                float ambientOcclusion = lerp(0.8, 1.0, shadowSample);
+                float ambientOcclusion = lerp(0.9, 1.0, shadowSample);
 
                 float celValue = NdotL * shadowAttenuation * ambientOcclusion;
                 float cel = smoothstep(0, 1, frac(celValue * _CelSteps)) + floor(celValue * _CelSteps);
                 cel /= _CelSteps;
 
-                half3 litTint = mainLight.color.rgb * 1.2; // Amplify light color for lit areas
-                half3 shadowTint = mainLight.color.rgb * half3(0.7, 0.8, 1.0); // Tint shadows with light color
+                half3 litTint = mainLight.color.rgb;
+                half3 shadowTint = mainLight.color.rgb * half3(0.8, 0.85, 1.0);
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
 
