@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5034293192233368928}
-  - component: {fileID: 6198692776865410902}
+  - component: {fileID: 3488983020183487942}
   - component: {fileID: 5635400694032940231}
   - component: {fileID: 2604436617986386753}
   - component: {fileID: 183318889982706349}
@@ -40,7 +40,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6198692776865410902
+--- !u!114 &3488983020183487942
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,11 +49,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8241547010519418602}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a90805e5a353d24ab882521c8f591a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bad6fc5adcf3f54f811fe3f41f82e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDaysWithoutHarvest: 5
-  maxDaysDry: 0
+  maxDaysWithoutHarvest: 3
+  maxDaysDry: 2
+  daysDry: 0
   isFruit: 1
   states:
   - {fileID: 11400000, guid: 450393ef2f0626440803381b157a50b9, type: 2}
@@ -63,6 +64,7 @@ MonoBehaviour:
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
+  hasCaughtUp: 0
   tierra: {fileID: 0}
 --- !u!114 &5635400694032940231
 MonoBehaviour:
@@ -77,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ID: 27129684-8734-4026-8d8a-109ae4d6f6cc
+  permanentID: 0
 --- !u!64 &2604436617986386753
 MeshCollider:
   m_ObjectHideFlags: 0

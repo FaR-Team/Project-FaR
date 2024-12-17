@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using FaRUtils;
 using System.Collections.Generic;
+using System.Linq;
 
 public class AppleInteraction : CropInteraction
 {
@@ -16,7 +17,7 @@ public class AppleInteraction : CropInteraction
     }
     public override List<GameObject> Fruits()
     {
-        return appleTree.fruits;
+        return appleTree.fruits.Select(f => f.gameObject).ToList();
     }
 
     public override IEnumerator Wait()

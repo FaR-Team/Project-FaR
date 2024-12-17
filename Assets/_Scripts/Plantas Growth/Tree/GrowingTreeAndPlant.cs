@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 public class GrowingTreeAndPlant : GrowingBase
 {
     [SerializeField] protected List<Transform> spawnPoints;
-    public List<GameObject> fruits;
+    public List<GrowingFruit> fruits;
     public Dirt Tierra;
 
     [Header("Fruits Settings")]
@@ -20,7 +20,7 @@ public class GrowingTreeAndPlant : GrowingBase
     protected int _reGrowCounter; //Veces que volvio a dar frutos.
     public int ReGrowMaxTimes; //Veces maxima que puede volver a dar frutos.
 
-    [FormerlySerializedAs("Prefab")] public GameObject fruitPrefab;
+    [FormerlySerializedAs("Prefab")] public GrowingFruit fruitPrefab;
 
     [HideInInspector] public List<Transform> SpawnPoints => spawnPoints;
     protected HashSet<Transform> availableSpawnPoints = new HashSet<Transform>();
@@ -83,7 +83,7 @@ public class GrowingTreeAndPlant : GrowingBase
         if(fruits.Count > 0)
         {
             // If spawned fruits are ready to harvest
-            if (fruits[0].GetComponent<GrowingCrop>().currentState.isLastPhase)
+            if (fruits[0].currentState.isLastPhase)
             {
                 if (daysWithoutHarvest >= maxDaysWithoutHarvest)
                 {
@@ -92,7 +92,6 @@ public class GrowingTreeAndPlant : GrowingBase
                 }
                 
                 daysWithoutHarvest++; // PARA USAR EN EL FUTURO CUANDO, QUE SE PUDRAN SI NO SE COSECHAN POR 3 DIAS, REINICIAR AL COSECHAR
-                
                 
                 gameObject.layer = interactableLayerInt;
             }
@@ -140,8 +139,8 @@ public class GrowingTreeAndPlant : GrowingBase
             Transform spawnPoint = GetRandomSpawnPoint();
             if (spawnPoint == null) return;
             
-            GameObject fruit = Instantiate(fruitPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
-            fruits.Add(fruit.transform.gameObject);
+            GrowingFruit fruit = Instantiate(fruitPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
+            fruits.Add(fruit);
         }
     }
 
@@ -175,12 +174,26 @@ public class GrowingTreeAndPlant : GrowingBase
         GrowthEventManager.Instance.NotifyGrowthStateChanged(this, currentState);
     }
 
-    public void SpawnLoadedFruits(HashSet<Transform> usedPositions)
+    public void SpawnLoadedFruits(List<FruitData> fruitDatas)
     {
-        foreach (var pos in usedPositions)
+        for (int i = 0; i < fruitDatas.Count; i++)
         {
-            GameObject fruit = Instantiate(fruitPrefab, pos.position, pos.rotation, pos); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
-            fruits.Add(fruit.transform.gameObject);
+            // Populate spawnpoints
+            var spawnpoint = availableSpawnPoints.FirstOrDefault(t => t.localPosition == fruitDatas[i].position);
+            if (spawnpoint == null)
+            {
+                Debug.LogError("Error when loading UsedSpawnpoints, not found in Available Spawnpoints");
+                continue;
+            }
+            
+            availableSpawnPoints.Remove(spawnpoint);
+            usedSpawnPoints.Add(spawnpoint);
+            
+            // Spawn and load fruit data in spawpoint
+            GrowingFruit fruit = Instantiate(fruitPrefab, spawnpoint.position, spawnpoint.rotation, spawnpoint); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
+            fruit.LoadData(fruitDatas[i]);
+            fruits.Add(fruit);
+            
         }
     }
     
@@ -196,33 +209,12 @@ public class GrowingTreeAndPlant : GrowingBase
         daysWithoutHarvest = plantData.daysWithoutHarvest;
         daysWithoutFruitsCounter = plantData.daysWithoutFruitsCounter;
         _reGrowCounter = plantData.reGrowCounter;
-        PopulateUsedSpawnpointsByPositions(plantData.usedSpawnPointsPos);
         currentState = plantData.growingState;
         transform.position = plantData.position;
         daysDry = plantData.daysDry;
         
-        if(usedSpawnPoints.Count > 0) SpawnLoadedFruits(usedSpawnPoints);
+        if(plantData.swpawnedFruits.Count > 0) SpawnLoadedFruits(plantData.swpawnedFruits);
         
         UpdateState();
-    }
-
-    /// <summary>
-    /// Used when Loading tree data, since Transform List can't be serialized properly
-    /// </summary>
-    /// <param name="positions"></param>
-    void PopulateUsedSpawnpointsByPositions(List<Vector3> positions)
-    {
-        for (int i = 0; i < positions.Count; i++)
-        {
-            var spawnpoint = availableSpawnPoints.FirstOrDefault(t => t.localPosition == positions[i]);
-            if (spawnpoint == null)
-            {
-                Debug.LogError("Error when loading UsedSpawnpoints, not found in Available Spawnpoints");
-                continue;
-            }
-            
-            availableSpawnPoints.Remove(spawnpoint);
-            usedSpawnPoints.Add(spawnpoint);
-        }
     }
 }
