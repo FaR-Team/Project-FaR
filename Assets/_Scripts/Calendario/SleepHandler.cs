@@ -25,7 +25,7 @@ public class SleepHandler : MonoBehaviour
     [SerializeField] private bool tpToBed;
     public static SleepHandler Instance { get; private set; }
 
-    //TODO: Ver como conviene hacer asi no llenamos todo de singletons(?
+    //TODO: Ver como conviene hacer asi no llenamos todo de singletons(? Shhhhhhhh
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -61,7 +61,7 @@ public class SleepHandler : MonoBehaviour
             TimeManager.TimeBetweenTicks = 10f;
         }
 
-        if (tpToBed)
+        if (tpToBed && _yourLetterArrived == false)
         {
             if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
             {
@@ -91,8 +91,6 @@ public class SleepHandler : MonoBehaviour
         #endif
             return false;
         }
-
-        //TODO: TP player to side of bed
 
         OnPlayerSleep?.Invoke();
         if (_yourLetterArrived == false)
