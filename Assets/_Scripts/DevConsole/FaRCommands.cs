@@ -121,7 +121,7 @@ public class FaRCommands : MonoBehaviour
 
     void GiveItem(int x, int y)
     {
-        if (_database = null)
+        if (_database == null)
         {
             _database = Resources.Load<Database>("Database");
         }
