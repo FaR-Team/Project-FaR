@@ -152,11 +152,16 @@ Shader "FaRTeam/FaRMainShaderURP"
             half4 frag(Varyings IN) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
+                float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
+                
+                // Discard fragment if outline is not active
+                if (useOutline < 0.5)
+                    discard;
+                    
                 return _OutlineColor;
             }
             ENDHLSL
         }
-
         Pass
         {
             Name "ForwardLit"
