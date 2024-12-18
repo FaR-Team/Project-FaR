@@ -11,13 +11,11 @@ public class FruitData : PlantData
     public GrowingState growingState;
     
     public FruitData(GrowingBase growingBase)
-        //int daysPlanted, int reGrowCounter, int daysWithoutHarvest, int daysWithoutFruitsCounter, 
-        //List<Vector3> usedSpawnPointsPos, GrowingState growingState, Vector3 position, int daysDry) : base
     {
-        GrowingTreeAndPlant growingTreeAndPlant = growingBase as GrowingTreeAndPlant;
+        GrowingFruit growingTreeAndPlant = growingBase as GrowingFruit;
         if (growingTreeAndPlant == null)
         {
-            Debug.LogError("Could not cast GrowingBase to GrowingTreeAndPlant when creating FruitData");
+            Debug.LogError("Could not cast GrowingBase to GrowingFruit when creating FruitData");
             return;
         }
         this.daysPlanted = growingTreeAndPlant.DaysPlanted;
