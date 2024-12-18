@@ -179,7 +179,7 @@ public class GrowingTreeAndPlant : GrowingBase
         for (int i = 0; i < fruitDatas.Count; i++)
         {
             // Populate spawnpoints
-            var spawnpoint = availableSpawnPoints.FirstOrDefault(t => t.localPosition == fruitDatas[i].position);
+            var spawnpoint = availableSpawnPoints.FirstOrDefault(t => t.localPosition == fruitDatas[i].spawnPosition);
             if (spawnpoint == null)
             {
                 Debug.LogError("Error when loading UsedSpawnpoints, not found in Available Spawnpoints");
@@ -189,6 +189,7 @@ public class GrowingTreeAndPlant : GrowingBase
             availableSpawnPoints.Remove(spawnpoint);
             usedSpawnPoints.Add(spawnpoint);
             
+            Debug.Log("Spawning loaded fruit");
             // Spawn and load fruit data in spawpoint
             GrowingFruit fruit = Instantiate(fruitPrefab, spawnpoint.position, spawnpoint.rotation, spawnpoint); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
             fruit.LoadData(fruitDatas[i]);
@@ -213,7 +214,8 @@ public class GrowingTreeAndPlant : GrowingBase
         transform.position = plantData.position;
         daysDry = plantData.daysDry;
         
-        if(plantData.swpawnedFruits.Count > 0) SpawnLoadedFruits(plantData.swpawnedFruits);
+        Debug.Log("Fruits to load: " + plantData.spawnedFruits.Count);
+        if(plantData.spawnedFruits.Count > 0) SpawnLoadedFruits(plantData.spawnedFruits);
         
         UpdateState();
     }

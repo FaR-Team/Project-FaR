@@ -10,7 +10,7 @@ public class TreeBushData : PlantData
     public int daysWithoutHarvest;
     public int reGrowCounter;
     public int daysWithoutFruitsCounter;
-    public List<FruitData> swpawnedFruits;
+    public List<FruitData> spawnedFruits;
     public Vector3 position;
     public GrowingState growingState;
     public int daysDry;
@@ -29,7 +29,7 @@ public class TreeBushData : PlantData
         this.reGrowCounter = growingTreeAndPlant.ReGrowCounter;
         this.daysWithoutHarvest = growingTreeAndPlant.DaysWithoutHarvest;
         this.daysWithoutFruitsCounter = growingTreeAndPlant.DaysWithoutFruits;
-        this.swpawnedFruits = growingTreeAndPlant.fruits.Select(f => f.GetData()).ToList();
+        this.spawnedFruits = growingTreeAndPlant.fruits.Select(f => f.GetData()).ToList();
         this.growingState = growingTreeAndPlant.CurrentState;
         this.position = growingTreeAndPlant.transform.position;
         this.daysDry = growingTreeAndPlant.DaysDry;

@@ -7,20 +7,20 @@ using UnityEngine.Serialization;
 public class FruitData : PlantData
 {
     public int daysPlanted;
-    public Vector3 position;
+    public Vector3 spawnPosition;
     public GrowingState growingState;
     
     public FruitData(GrowingBase growingBase)
     {
-        GrowingFruit growingTreeAndPlant = growingBase as GrowingFruit;
-        if (growingTreeAndPlant == null)
+        GrowingFruit growingFruit = growingBase as GrowingFruit;
+        if (growingFruit == null)
         {
             Debug.LogError("Could not cast GrowingBase to GrowingFruit when creating FruitData");
             return;
         }
-        this.daysPlanted = growingTreeAndPlant.DaysPlanted;
-        this.growingState = growingTreeAndPlant.CurrentState;
-        this.position = growingTreeAndPlant.transform.position;
+        this.daysPlanted = growingFruit.DaysPlanted;
+        this.growingState = growingFruit.CurrentState;
+        this.spawnPosition = growingFruit.transform.parent.localPosition;
     }
 
 }
