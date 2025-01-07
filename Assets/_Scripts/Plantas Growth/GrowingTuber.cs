@@ -11,6 +11,7 @@ public class GrowingTuber : GrowingBase
     public Dirt tierra;
     public GameObject interactablePrefab;
     public SkinnedMeshRenderer skinnedMeshRenderer;
+    protected GameObject spawnedInteractable;
 
     protected override void Awake()
     {
@@ -27,6 +28,8 @@ public class GrowingTuber : GrowingBase
 
     protected override void DayPassed()
     {
+        base.DayPassed();
+        
         if (tierra._isWet)
         {
             tierra.DryDirt(5);
@@ -41,7 +44,7 @@ public class GrowingTuber : GrowingBase
         if(currentState.isLastPhase)
             daysWithoutHarvest++;
             
-        CheckDayGrow();
+        CheckGrowState();
         
         var validation = GrowthValidator.ValidateGrowthState(this);
         if(!validation.IsValid)
@@ -58,7 +61,7 @@ public class GrowingTuber : GrowingBase
         DayPassed();
         
     }
-    public override void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
+    public override void CheckGrowState() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
         GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(daysPlanted));
@@ -71,12 +74,21 @@ public class GrowingTuber : GrowingBase
         skinnedMeshRenderer.material = currentState.material;
         skinnedMeshRenderer.sharedMesh = currentState.mesh;
 
-        if (currentState.isLastPhase) SetInteractable();
+        if (currentState.isLastPhase) SpawnInteractable();
     }
-    public override void SetInteractable()
+    public void SpawnInteractable()
     {
-        Instantiate(interactablePrefab, transform.position, Quaternion.identity, transform);
+        if (spawnedInteractable != null) return;
+        spawnedInteractable = Instantiate(interactablePrefab, transform.position, Quaternion.identity, transform);
         skinnedMeshRenderer.sharedMesh = null;
         skinnedMeshRenderer.material = null;
+    }
+
+    public override void Die()
+    {
+        base.Die();
+        //meshFilter.mesh = deadState.mesh;
+        skinnedMeshRenderer.material = deadState.material;
+        if(spawnedInteractable != null) spawnedInteractable.GetComponentInChildren<SkinnedMeshRenderer>().sharedMaterial = deadState.material;
     }
 }

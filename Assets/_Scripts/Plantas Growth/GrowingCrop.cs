@@ -23,6 +23,8 @@ public class GrowingCrop : GrowingBase
 
     protected override void DayPassed()
     {
+        base.DayPassed();
+        
         if (tierra._isWet)
         {
             tierra.DryDirt(5);
@@ -44,7 +46,7 @@ public class GrowingCrop : GrowingBase
             return;
         }
         
-        CheckDayGrow();
+        CheckGrowState();
     }
     
     public override void OnHourChanged(int hour)
@@ -72,6 +74,6 @@ public class GrowingCrop : GrowingBase
             return;
         }
         
-        CheckDayGrow();
+        CheckGrowState();
     }
 }

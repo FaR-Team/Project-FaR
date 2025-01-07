@@ -39,7 +39,7 @@ public class InventorySaver : Saver<InventoryData, InventoryDataSaver>
 
             SaverManager.Save(InventoryData, isTemporarySave);
 
-            this.LogSuccess("Successfully Saved Inventory");
+            //this.LogSuccess("Successfully Saved Inventory");
         }
         catch (Exception e)
         {

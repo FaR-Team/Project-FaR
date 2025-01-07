@@ -27,16 +27,7 @@ public class StrawberryBushInteraction : CropInteraction
         
         bushGrowing.StartReGrowBush();
 
-        DoEnumeratorIfMaxRegrows();
-
         already = false;
-    }
-
-    public override void DoEnumeratorIfMaxRegrows()
-    {
-        if (bushGrowing.ReGrowCounter < bushGrowing.ReGrowMaxTimes) return;
-
-        bushGrowing.DestroyThisBush();
     }
 
     public override List<GameObject> Fruits()

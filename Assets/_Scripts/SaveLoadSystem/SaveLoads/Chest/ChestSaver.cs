@@ -38,7 +38,7 @@ public class ChestSaver : Saver<ChestData, ChestDataSaver>
             SaverManager.Save(allChests, isTemporarySave);
             allChests.ClearAfterSave();
 
-            this.LogSuccess("Successfully Saved Chests in scene " + SceneManager.GetActiveScene().name);
+            //this.LogSuccess("Successfully Saved Chests in scene " + SceneManager.GetActiveScene().name);
         }
         catch (Exception e)
         {

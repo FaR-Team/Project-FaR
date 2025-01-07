@@ -32,7 +32,7 @@ public class PlantSaver : Saver<TreeBushData, SavePlantData>
             SaverManager.Save(_allTreesData, isTemporarySave);
             _allTreesData.ClearAfterSave();
 
-            this.LogSuccess("Successfully Saved dirts information in scene " + SceneManager.GetActiveScene().name );
+            //this.LogSuccess("Successfully Saved dirts information in scene " + SceneManager.GetActiveScene().name );
         }
         catch (Exception e)
         {

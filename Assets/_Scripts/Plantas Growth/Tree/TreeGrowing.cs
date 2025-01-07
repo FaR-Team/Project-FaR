@@ -7,7 +7,7 @@ public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
     protected override void Start()
     {
         base.Start();
-        CheckDayGrow();
+        CheckGrowState();
     }
     
     public void StartReGrowTree() // TODO: Podriamos moverlo a la clase padre, si funciona igual que el BushGrowing
@@ -21,6 +21,7 @@ public class TreeGrowing : GrowingTreeAndPlant //Crecimiento del árbol
 
     public override IEnumerator BushCedeLaPresidencia()
     {
+        Destroy(gameObject);
         yield return new WaitForSeconds(0.5f);
     }
 

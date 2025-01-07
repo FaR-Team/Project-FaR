@@ -8,7 +8,7 @@ public class GrowingFruitsBush : GrowingCrop //Crecimiento de la Fruta del arbus
         base.Start();
 
         tierra = transform.parent.parent.parent.GetComponent<BushGrowing>().Tierra; // wtf
-        CheckDayGrow();
+        CheckGrowState();
     }
     
     public override void OnHourChanged(int hour)
@@ -16,7 +16,7 @@ public class GrowingFruitsBush : GrowingCrop //Crecimiento de la Fruta del arbus
         if (hour != 4) return;
 
         daysPlanted++;
-        CheckDayGrow();
+        CheckGrowState();
         
         var validation = GrowthValidator.ValidateGrowthState(this);
         if(!validation.IsValid)
@@ -29,7 +29,7 @@ public class GrowingFruitsBush : GrowingCrop //Crecimiento de la Fruta del arbus
     protected override void DayPassed()
     {
         daysPlanted++;
-        CheckDayGrow();
+        CheckGrowState();
         
         var validation = GrowthValidator.ValidateGrowthState(this);
         if(!validation.IsValid)

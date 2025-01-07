@@ -74,6 +74,7 @@ MonoBehaviour:
   states:
   - {fileID: 11400000, guid: 1369e3b18eeec7a43992ea22da1b3654, type: 2}
   currentState: {fileID: 11400000, guid: 1369e3b18eeec7a43992ea22da1b3654, type: 2}
+  deadState: {fileID: 11400000, guid: abb306cac652acc419a173e15700bc72, type: 2}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}

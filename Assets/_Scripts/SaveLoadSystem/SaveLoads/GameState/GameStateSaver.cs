@@ -46,7 +46,7 @@ public class GameStateSaver : Saver<GameStateData, GameStateDataSaver>
             
             SaverManager.Save(gameStateData, isTemporarySave);
 
-            this.LogSuccess("Successfully Saved Game State");
+            //this.LogSuccess("Successfully Saved Game State");
         }
         catch (Exception e)
         {

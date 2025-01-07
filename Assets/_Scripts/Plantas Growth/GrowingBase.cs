@@ -15,10 +15,12 @@ public abstract class GrowingBase : MonoBehaviour
     protected int daysWithoutHarvest;
     [SerializeField] protected int maxDaysDry = 2;
     [SerializeField] protected int daysDry;
+    protected bool _isDead;
 
     public bool isFruit;
     [SerializeField] protected GrowingState[] states;
     public GrowingState currentState;
+    [SerializeField] protected GrowingState deadState;
 
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
@@ -32,6 +34,10 @@ public abstract class GrowingBase : MonoBehaviour
     public GrowingState CurrentState => currentState;
     
     public bool hasCaughtUp = false;
+    public bool IsDead => _isDead;
+    
+    public event Action OnDeath;
+    public event Action OnDayPassed;
 
     protected virtual void Awake()
     {
@@ -44,14 +50,13 @@ public abstract class GrowingBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        GrowthEventManager.Instance.OnHourChanged += OnHourChanged; // Maybe move to OnEnable and Disable?
         CatchUpMissedGrowth();
     }
 
     protected virtual void CatchUpMissedGrowth()
     {
-        this.Log("Catching up missed growth...");
-        if (hasCaughtUp) return;
+        //this.Log("Catching up missed growth...");
+        if (hasCaughtUp || _isDead) return;
         
         // Calculate days between current time and last save
         var currentTime = TimeManager.DateTime;
@@ -69,9 +74,14 @@ public abstract class GrowingBase : MonoBehaviour
         }
 
         hasCaughtUp = true;
-        CheckDayGrow();
+        CheckGrowState();
     }
-    protected abstract void DayPassed();
+
+    protected virtual void DayPassed()
+    {
+        if (_isDead) return;
+        OnDayPassed?.Invoke();
+    }
 
     public virtual void Water()
     {
@@ -100,8 +110,9 @@ public abstract class GrowingBase : MonoBehaviour
         }
     }
 
-    public virtual void CheckDayGrow() //SE FIJA LOS DIAS DEL CRECIMIENTO.
+    public virtual void CheckGrowState() //SE FIJA LOS DIAS DEL CRECIMIENTO.
     {
+        if (_isDead) return;
         GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(daysPlanted));
         
@@ -145,7 +156,21 @@ public abstract class GrowingBase : MonoBehaviour
         UpdateState();
     }
 
-    void OnDisable()
+    public virtual void Die()
+    {
+        _isDead = true;
+        OnDeath?.Invoke();
+        // meshFilter.mesh = deadState.mesh;
+        if(meshRenderer) meshRenderer.material = deadState.material;
+        SetInteractable(); // Para poder interactuar y limpiarlo al estar muerto
+    }
+
+    protected virtual void OnEnable()
+    {
+        GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
+    }
+
+    protected virtual void OnDisable()
     {
         GrowthEventManager.Instance.OnHourChanged -= OnHourChanged;
     }

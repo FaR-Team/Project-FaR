@@ -96,12 +96,6 @@ public class CropInteraction : MonoBehaviour, IInteractable
     {
         yield return null;
     }
-
-    public virtual void DoEnumeratorIfMaxRegrows()
-    {
-
-    }
-
     public void EndInteraction()
     {
         this.Log("Terminando Interacción.");

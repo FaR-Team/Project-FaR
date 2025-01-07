@@ -11,7 +11,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 
         Tierra = transform.parent.gameObject.GetComponent<Dirt>();
         TierraTexture = transform.parent.GetChild(0).gameObject;
-        CheckDayGrow();
+        CheckGrowState();
     }
     
     public void StartReGrowBush()
@@ -21,6 +21,8 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
         _reGrowCounter++;
         fruits.Clear();
         gameObject.layer = 3;
+        
+        if(_reGrowCounter > ReGrowMaxTimes) DestroyThisBush();
     }
 
     public override IEnumerator BushCedeLaPresidencia()

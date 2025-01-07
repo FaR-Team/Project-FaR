@@ -43,7 +43,7 @@ public class GrowthValidator
     public static void HandleFailedValidation(GrowingBase plant, ValidationResult result)
     {
         Debug.LogError($"Growth validation failed for {plant.name}: {result.Message}");
-        
+        plant.Die();
         // Try to recover mesh state if possible
         if (plant.currentState != null)
         {

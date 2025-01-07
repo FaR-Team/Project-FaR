@@ -40,6 +40,8 @@ public class GrowingTreeAndPlant : GrowingBase
     
     protected override void DayPassed()
     {
+        base.DayPassed();
+        
         if (Tierra != null) // If dirt is null, it means this plant does not need water
         {
             if (Tierra._isWet)
@@ -55,7 +57,7 @@ public class GrowingTreeAndPlant : GrowingBase
         
         if (!currentState.isLastPhase)
         {
-            CheckDayGrow(); // Try update state anyway, if it's last phase, it'll check day grow down there
+            CheckGrowState(); // Try update state anyway, if it's last phase, it'll check day grow down there
             
             var prevalidation = GrowthValidator.ValidateGrowthState(this);
             if(!prevalidation.IsValid)
@@ -88,7 +90,8 @@ public class GrowingTreeAndPlant : GrowingBase
                 if (daysWithoutHarvest >= maxDaysWithoutHarvest)
                 {
                     this.Log($"Not harvested for {daysWithoutHarvest} days, destroying!");
-                    //TODO: DestroyTree();
+                    Die();
+                    return;
                 }
                 
                 daysWithoutHarvest++; // PARA USAR EN EL FUTURO CUANDO, QUE SE PUDRAN SI NO SE COSECHAN POR 3 DIAS, REINICIAR AL COSECHAR
@@ -98,7 +101,7 @@ public class GrowingTreeAndPlant : GrowingBase
             return;
         }
         
-        CheckDayGrow();
+        CheckGrowState();
         
         var validation = GrowthValidator.ValidateGrowthState(this);
         if(!validation.IsValid)
@@ -141,6 +144,7 @@ public class GrowingTreeAndPlant : GrowingBase
             
             GrowingFruit fruit = Instantiate(fruitPrefab, spawnPoint.position, spawnPoint.rotation, spawnPoint);
             fruits.Add(fruit);
+            fruit.SetParentPlant(this);
         }
     }
 
@@ -194,6 +198,7 @@ public class GrowingTreeAndPlant : GrowingBase
             GrowingFruit fruit = Instantiate(fruitPrefab, spawnpoint.position, spawnpoint.rotation, spawnpoint); // TODO: Cargar estado de frutas, como las manzanas tienen 1 no es necesario
             fruit.LoadData(fruitDatas[i]);
             fruits.Add(fruit);
+            fruit.SetParentPlant(this);
             
         }
     }

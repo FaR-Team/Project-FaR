@@ -32,8 +32,6 @@ public class AppleInteraction : CropInteraction
         
         appleTree.StartReGrowTree();
 
-        DoEnumeratorIfMaxRegrows();
-
         already = false;
     }
 }
