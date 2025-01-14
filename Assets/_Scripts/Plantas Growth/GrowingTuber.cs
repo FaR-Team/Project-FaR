@@ -88,7 +88,13 @@ public class GrowingTuber : GrowingBase
     {
         base.Die();
         //meshFilter.mesh = deadState.mesh;
-        skinnedMeshRenderer.material = deadState.material;
-        if(spawnedInteractable != null) spawnedInteractable.GetComponentInChildren<SkinnedMeshRenderer>().sharedMaterial = deadState.material;
+        if(skinnedMeshRenderer)
+        {
+            skinnedMeshRenderer.material.SetFloat("_UseMultiplyTexture", 1f);
+        }
+        if(spawnedInteractable != null)
+        {
+            spawnedInteractable.GetComponentInChildren<SkinnedMeshRenderer>().material.SetFloat("_UseMultiplyTexture", 1f);
+        }
     }
 }

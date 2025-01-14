@@ -162,7 +162,10 @@ public abstract class GrowingBase : MonoBehaviour
         _isDead = true;
         OnDeath?.Invoke();
         // meshFilter.mesh = deadState.mesh;
-        if(meshRenderer) meshRenderer.material = deadState.material;
+        if(meshRenderer)
+        {
+            meshRenderer.material.SetFloat("_UseMultiplyTexture", 1f);
+        }
         SetInteractable(); // Para poder interactuar y limpiarlo al estar muerto
     }
 
