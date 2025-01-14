@@ -154,6 +154,7 @@ public abstract class GrowingBase : MonoBehaviour
         daysWithoutHarvest = cropSaveData.DaysWithoutHarvest;
         currentState = cropSaveData.GrowingState;
         UpdateState();
+        if(cropSaveData.isDead) Die();
     }
 
     public virtual void Die()

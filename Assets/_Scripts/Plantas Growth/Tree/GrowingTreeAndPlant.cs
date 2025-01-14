@@ -223,5 +223,6 @@ public class GrowingTreeAndPlant : GrowingBase
         if(plantData.spawnedFruits.Count > 0) SpawnLoadedFruits(plantData.spawnedFruits);
         
         UpdateState();
+        if(plantData.isDead) Die();
     }
 }

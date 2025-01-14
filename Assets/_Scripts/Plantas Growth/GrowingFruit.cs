@@ -48,6 +48,7 @@ public class GrowingFruit : GrowingCrop //CrecimientoFruta TODO: Intentar unific
         currentState = fruitData.growingState;
         
         UpdateState();
+        if(fruitData.isDead) Die();
     }
 
     public FruitData GetData()

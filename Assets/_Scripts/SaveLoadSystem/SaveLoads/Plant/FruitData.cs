@@ -9,6 +9,7 @@ public class FruitData : PlantData
     public int daysPlanted;
     public Vector3 spawnPosition;
     public GrowingState growingState;
+    public bool isDead;
     
     public FruitData(GrowingBase growingBase)
     {
@@ -21,6 +22,7 @@ public class FruitData : PlantData
         this.daysPlanted = growingFruit.DaysPlanted;
         this.growingState = growingFruit.CurrentState;
         this.spawnPosition = growingFruit.transform.parent.localPosition;
+        this.isDead = growingFruit.IsDead;
     }
 
 }

@@ -5,6 +5,7 @@ public class CropSaveData : PlantData
     public int DaysDry;
     public int DaysWithoutHarvest;
     public GrowingState GrowingState;
+    public bool isDead;
 
     public CropSaveData(GrowingBase crop)
     {
@@ -12,5 +13,6 @@ public class CropSaveData : PlantData
         DaysDry = crop.DaysDry;
         DaysWithoutHarvest = crop.DaysWithoutHarvest;
         GrowingState = crop.currentState;
+        isDead = crop.IsDead;
     }
 }

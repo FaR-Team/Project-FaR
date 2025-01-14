@@ -14,6 +14,7 @@ public class TreeBushData : PlantData
     public Vector3 position;
     public GrowingState growingState;
     public int daysDry;
+    public bool isDead;
     
     public TreeBushData(GrowingBase growingBase)
         //int daysPlanted, int reGrowCounter, int daysWithoutHarvest, int daysWithoutFruitsCounter, 
@@ -33,6 +34,7 @@ public class TreeBushData : PlantData
         this.growingState = growingTreeAndPlant.CurrentState;
         this.position = growingTreeAndPlant.transform.position;
         this.daysDry = growingTreeAndPlant.DaysDry;
+        this.isDead = growingTreeAndPlant.IsDead;
     }
 
 }
