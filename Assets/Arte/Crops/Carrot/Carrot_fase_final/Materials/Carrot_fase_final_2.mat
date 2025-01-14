@@ -48,6 +48,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MultiplyTex:
+        m_Texture: {fileID: 2800000, guid: 5d5b71edabad53f439d6cf58226a88d0, type: 3}
+        m_Scale: {x: 0.34285, y: 0.34285}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -70,6 +74,8 @@ Material:
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
+    - _MultiplyTexFilter: 1
+    - _MultiplyTexPixelsPerUnit: 16
     - _OcclusionStrength: 1
     - _OutlineWidth: 20
     - _Parallax: 0.02
@@ -80,6 +86,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _UseMultiplyTexture: 0
     - _UseOutline: 0
     - _ZWrite: 1
     m_Colors:
