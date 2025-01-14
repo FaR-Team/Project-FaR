@@ -50,7 +50,7 @@ public class SleepHandler : MonoBehaviour
 
     void ProcessHourChange(int currentHour)
     {
-        if (currentHour == 2 && !_skipTonightSleep && !_isSleeping) FinishDay();
+        if (currentHour == 2 && !_skipTonightSleep && !_isSleeping) StartCoroutine(FinishDay());
         else if (currentHour == 6) StartDay();
     }
 
