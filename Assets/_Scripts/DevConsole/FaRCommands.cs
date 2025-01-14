@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System;
+using Utils;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -65,6 +66,7 @@ public class FaRCommands : MonoBehaviour
         DebugLogConsole.AddCommand("deletesave", "elimina el guardado", TestDeleteSave);
         DebugLogConsole.AddCommand("clear", "Clears the console", ClearConsole);
         DebugLogConsole.AddCommand("exportdata", "Exports logs and save data to a file", ExportData);
+        DebugLogConsole.AddCommand<float>("settickrate", "Sets the time between ticks (in seconds)", SetTickRate);
     }
 
     private void GiveSkillPoints(int x)
@@ -342,5 +344,11 @@ public class FaRCommands : MonoBehaviour
                 skipdays = false;
             }
         }
+    }
+
+    private void SetTickRate(float rate)
+    {
+        TimeManager.TimeBetweenTicks = rate;
+        this.Log($"Time between ticks set to {rate} seconds");
     }
 }
