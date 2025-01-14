@@ -51,24 +51,15 @@ public class SleepHandler : MonoBehaviour
     void ProcessHourChange(int currentHour)
     {
         if (currentHour == 2 && !_skipTonightSleep && !_isSleeping) FinishDay();
-        else if (currentHour == 6) StartCoroutine(StartDay());
+        else if (currentHour == 6) StartDay();
     }
 
-    public IEnumerator StartDay()
+    public void StartDay()
     {
         if (_yourLetterArrived == false)
         {
             TimeManager.TimeBetweenTicks = 10f;
         }
-
-        if (tpToBed && _yourLetterArrived == false)
-        {
-            if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
-            {
-                yield return LoadSceneAsync(bedSceneIndex);
-            }
-        }
-        else yield return null;
 
         SaveLoadHandlerSystem.Invoke(false);
         OnPlayerWakeUp?.Invoke();
@@ -78,20 +69,8 @@ public class SleepHandler : MonoBehaviour
         StartCoroutine(Wait());
     }
 
-    public bool FinishDay()
+    public IEnumerator FinishDay()
     {
-        if (_isSleeping)
-        {
-            return false;
-        }
-        if (TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
-        {
-        #if DEBUG
-            this.LogOnScreen("Es muy temprano para dormir {Dev: Usá el comando imsleepy}");
-        #endif
-            return false;
-        }
-
         OnPlayerSleep?.Invoke();
         if (_yourLetterArrived == false)
         {
@@ -106,26 +85,32 @@ public class SleepHandler : MonoBehaviour
         player.enabled = false;
         _isSleeping = true;
 
-
-        return true;
-
+        if (tpToBed) //&& _yourLetterArrived == false
+        {
+            if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
+            {
+                yield return CambiarEscena.LoadScene(bedSceneIndex);
+            }
+        }
+        else yield return null;
     }
 
-    IEnumerator LoadSceneAsync(int sceneID)
+    public bool TrySleep()
     {
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
-        operation.allowSceneActivation = false;
-        while (!operation.isDone)
+        if (_isSleeping)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-
-            yield return null;
-            if (progress == 1)
-            {
-                operation.allowSceneActivation = true;
-            }
-            yield return null;
+            return false;
         }
+        if (TimeManager.DateTime.Hour >= 6 && TimeManager.DateTime.Hour < 17)
+        {
+        #if DEBUG
+            this.LogOnScreen("Es muy temprano para dormir {Dev: Usá el comando imsleepy}");
+        #endif
+            return false;
+        }
+
+        StartCoroutine(FinishDay());
+        return true;
     }
 
     public void SkipTonightSleep() // Para poder llamar de fuera en caso de que por alguna razón se quiera saltear el dormirse esta noche

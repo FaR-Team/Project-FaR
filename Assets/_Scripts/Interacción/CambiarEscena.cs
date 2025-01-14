@@ -20,7 +20,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
         this.Log("Cambiando a escena " + buildIndex);
         if (!loading)
         {
-            LoadScene(buildIndex);
+            StartCoroutine(LoadScene(buildIndex));
             interactSuccessful = true;
         }
         else interactSuccessful = false;
@@ -31,20 +31,10 @@ public class CambiarEscena : MonoBehaviour, IInteractable
         this.Log(null);
     }
 
-    public void LoadScene(int sceneID)
+    public static IEnumerator LoadScene(int sceneID)
     {
-        if (sceneID == 2) TimeManager.Instance.AdvanceTime(3);
-        StartCoroutine(LoadSceneAsync(sceneID));
-    }
-
-
-    IEnumerator LoadSceneAsync(int sceneID)
-    {
-        loading = true;
-        //LoadingScreenCanvas.SetActive(true);
-
         SaveLoadHandlerSystem.Invoke(true);
-        yield return new WaitForSeconds(0.25f); // TODO: FOR TESTING, change to WaitUntil all saving is complete
+        yield return new WaitForSeconds(0.25f);
         
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneID);
         operation.allowSceneActivation = false;

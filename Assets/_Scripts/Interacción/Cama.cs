@@ -43,7 +43,7 @@ public class Cama : MonoBehaviour, IInteractable
     public bool TrySleep()
     {
         this.Log("Interactuando con Cama");
-        return SleepHandler.Instance.FinishDay();
+        return SleepHandler.Instance.TrySleep();
     }
     
     public void EndInteraction()
