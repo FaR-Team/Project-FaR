@@ -12,6 +12,8 @@ Shader "FaRTeam/FaRMainShaderURP"
         _PulseSpeed ("Pulse Speed", Range(0, 10)) = 2.5
         _PulseMinWidth ("Pulse Min Width", Range(0, 100)) = 5
         _PulseMaxWidth ("Pulse Max Width", Range(0, 100)) = 20
+        [Toggle] _UseMultiplyTexture("Use Multiply Texture", Float) = 0
+        _MultiplyTex ("Multiply Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -53,6 +55,8 @@ Shader "FaRTeam/FaRMainShaderURP"
             CBUFFER_START(UnityPerMaterial)
                 float4 _MainTex_ST;
                 float _Alpha;
+                float _UseMultiplyTexture;
+                float4 _MultiplyTex_ST;
             CBUFFER_END
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -194,6 +198,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             };
 
             TEXTURE2D(_MainTex);
+            TEXTURE2D(_MultiplyTex);
             SAMPLER(sampler_MainTex);
 
             CBUFFER_START(UnityPerMaterial)
@@ -201,6 +206,8 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 _MainTex_ST;
                 float _CelSteps;
                 float _Alpha;
+                float _UseMultiplyTexture;
+                float4 _MultiplyTex_ST;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -239,6 +246,9 @@ Shader "FaRTeam/FaRMainShaderURP"
                 half3 shadowTint = mainLight.color.rgb * half3(0.8, 0.85, 1.0);
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
+
+                half4 multiplyTex = SAMPLE_TEXTURE2D(_MultiplyTex, sampler_MainTex, TRANSFORM_TEX(IN.uv, _MultiplyTex));
+                albedo = lerp(albedo, albedo * multiplyTex.rgb, _UseMultiplyTexture);
 
                 half4 finalColor;
                 finalColor.rgb = albedo * lightingTint * ambientOcclusion;
