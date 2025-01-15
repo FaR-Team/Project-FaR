@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/ToolItem")]
 public class ToolItemData : InventoryItemData
@@ -26,6 +27,11 @@ public class ToolItemData : InventoryItemData
             if (IsBucket())
             {
                 return UseBucket();
+            }
+
+            if (IsShovel())
+            {
+                return UseShovel();
             }
         }
         return true;
@@ -54,5 +60,11 @@ public class ToolItemData : InventoryItemData
             return true;
         }
         else return false;
+    }
+
+    private bool UseShovel()
+    {
+        this.LogOnScreen("OMG, agarraste la pala!!");
+        return true;
     }
 }

@@ -47,7 +47,7 @@ public class InventoryItemData : ScriptableObject
     }
     public bool IsTool()
     {
-        return TypeOfItem.Hoe == typeOfItem || TypeOfItem.Hoe == typeOfItem || TypeOfItem.Axe == typeOfItem || TypeOfItem.Bucket == typeOfItem;
+        return TypeOfItem.Hoe == typeOfItem || TypeOfItem.Hoe == typeOfItem || TypeOfItem.Axe == typeOfItem || TypeOfItem.Bucket == typeOfItem || TypeOfItem.Shovel == typeOfItem;
     }
     public bool IsHoe()
     {
@@ -60,6 +60,10 @@ public class InventoryItemData : ScriptableObject
     public bool IsBucket()
     {
         return TypeOfItem.Bucket == typeOfItem;
+    }
+    public bool IsShovel()
+    {
+        return TypeOfItem.Shovel == typeOfItem;
     }
     public bool IsCropSeed()
     {

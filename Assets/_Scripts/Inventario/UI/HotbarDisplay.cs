@@ -13,7 +13,7 @@ public class HotbarDisplay : HotbarDisplayBase
     public GridGhost gridGhost;
 
     [Header("Tool GameObjects")]
-    public GameObject hoe, bucket, blank1, blank2, blank3, hand;
+    public GameObject hoe, bucket, shovel, blank2, blank3, hand;
     /* 
      Estos objetos no son necesarios. solo se necesita un objeto mano */
     [SerializeField] private ToolItemData[] abilityTools;
@@ -344,6 +344,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             hoe.SetActive(false);
             bucket.SetActive(false);
+            shovel.SetActive(false);
             hand.SetActive(true);
             return;
         }
@@ -353,6 +354,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             hoe.SetActive(true);
             bucket.SetActive(false);
+            shovel.SetActive(false);
             hand.SetActive(false);
         }
         else if ((!GetItemData().Sellable &&
@@ -366,6 +368,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             hoe.SetActive(false);
             bucket.SetActive(false);
+            shovel.SetActive(false);
             hand.SetActive(true);
         }
 
@@ -373,6 +376,15 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             hoe.SetActive(false);
             bucket.SetActive(true);
+            shovel.SetActive(true); 
+            hand.SetActive(false);
+        }
+
+        if (GetItemData().IsShovel())
+        {
+            hoe.SetActive(false);
+            bucket.SetActive(false);
+            shovel.SetActive(true);
             hand.SetActive(false);
         }
     }

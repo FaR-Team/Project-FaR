@@ -6,9 +6,9 @@ using Sirenix.OdinInspector;
 public class InventorySlot_UIAbility : InventorySlot_UIBasic
 {
     public bool TESTING;
-    public static bool IsHoeUnlocked, IsBucketUnlocked, IsBlank1Unlocked, IsBlank2Unlocked, IsBlank3Unlocked;
+    public static bool IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked;
 
-    [ShowInInspector] public static bool[] isUnlocked = {IsHoeUnlocked, IsBucketUnlocked, IsBlank1Unlocked, IsBlank2Unlocked, IsBlank3Unlocked};
+    [ShowInInspector] public static bool[] isUnlocked = {IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked};
 
     public static bool isAbilityHotbarActive;
 
@@ -18,8 +18,9 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
         {
             IsHoeUnlocked = true;
             IsBucketUnlocked = true;
+            IsShovelUnlocked = true;
 
-            isUnlocked = new bool[] {IsHoeUnlocked, IsBucketUnlocked, IsBlank1Unlocked, IsBlank2Unlocked, IsBlank3Unlocked};
+            isUnlocked = new bool[] {IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked};
         }
         isAbilityHotbarActive = false;
     }
