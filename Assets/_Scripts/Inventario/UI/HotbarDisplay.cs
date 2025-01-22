@@ -44,7 +44,7 @@ public class HotbarDisplay : HotbarDisplayBase
         if (gridGhost == null) gridGhost = GridGhost.instance;
         _currentIndex = 0;
         _currentAbilityIndex = 0;
-        _maxAbilityIndexSize = 1;
+        _maxAbilityIndexSize = abilityTools.Length - 1;
         //UpdateAbilitySlot();
         _maxIndexSize = slots.Length - 1;
 
@@ -376,7 +376,7 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             hoe.SetActive(false);
             bucket.SetActive(true);
-            shovel.SetActive(true); 
+            shovel.SetActive(false); 
             hand.SetActive(false);
         }
 

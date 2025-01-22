@@ -21,13 +21,37 @@ public class SellSystem : MonoBehaviour
     [SerializeField] private GameObject _shoppingCartContentPanel;
     [SerializeField] private GameObject _shoppingCartObj;
 
-    private Dictionary<InventoryItemData, int> _shoppingCart = new Dictionary<InventoryItemData, int>();
+    //private Dictionary<InventoryItemData, int> _shoppingCart = new Dictionary<InventoryItemData, int>();
+    private static List<ShoppingCartItem> _shoppingCart = new(); 
     private Dictionary<InventoryItemData, ShoppingCartItemUI> _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
-
+    
+    private static bool firstLoadDone = false;
+    public static List<ShoppingCartItem> ShoppingCart => _shoppingCart;
     private void OnEnable()
     {
         SleepHandler.Instance.OnPlayerSleep += Sell;
         _playerInventoryHolder = GameObject.FindWithTag("Player").GetComponent<PlayerInventoryHolder>();
+    }
+
+    private void Start()
+    {
+        _shoppingCart.Clear();
+        SellSystemData data;
+        if (firstLoadDone)
+        {
+            //Debug.Log("Load temporary");
+            data = LoadAllData.GetData<GameStateData>(true).SellSystemData; // TODO: Ver si como ya es estática la lista, no conviene dejarla así y no hacer load temporal
+                                                                                      // TODO: sino antes fijarnos si la lista estática tiene algo dentro y hacer Load() con la misma, y no hacer .Clear()
+        }
+        else
+        {
+            //Debug.Log("Load non-temporary save file if first loading");
+            data = LoadAllData.GetData<GameStateData>(false).SellSystemData;
+            firstLoadDone = true;
+        }
+        
+        if(data != null) Load(data.shoppingCart);
+        else Debug.LogWarning("SellSystemData is null");
     }
 
     public void SellItem(GameObject CropBoxPrefab, InventoryItemData data)
@@ -45,25 +69,27 @@ public class SellSystem : MonoBehaviour
     {
         var price = GetModifiedPrice(data, 1);
 
-        if (_shoppingCart.ContainsKey(data))
+        if (TryGetShoppingCartItem(data, out ShoppingCartItem item))
         {
-            _shoppingCart[data]++;
+            item.amount++;
+            //_shoppingCart[data]++;
 
-            if (data.ID == Box1int) Box1T.text = $"{_shoppingCart[data]}";
-            if (data.ID == Box2int) Box2T.text = $"{_shoppingCart[data]}";
-            if (data.ID == Box3int) Box3T.text = $"{_shoppingCart[data]}";
-            if (data.ID == Box4int) Box4T.text = $"{_shoppingCart[data]}";
-            if (data.ID == Box5int) Box5T.text = $"{_shoppingCart[data]}";
-            var newString = $"{data.Nombre} x{_shoppingCart[data]}";
+            if (data.ID == Box1int) Box1T.text = $"{item.amount}";
+            if (data.ID == Box2int) Box2T.text = $"{item.amount}";
+            if (data.ID == Box3int) Box3T.text = $"{item.amount}";
+            if (data.ID == Box4int) Box4T.text = $"{item.amount}";
+            if (data.ID == Box5int) Box5T.text = $"{item.amount}";
+            var newString = $"{data.Nombre} x{item.amount}";
             _shoppingCartUI[data].SetItemText(newString);
         }
-        else 
+        else
         {
-            _shoppingCart.Add(data, 1);
+            ShoppingCartItem cartItem = new ShoppingCartItem(data, 1);
+            _shoppingCart.Add(cartItem);
             this.Log("AddCart");
             AddBox(CropBoxPrefab, data);
             var shoppingCartTextObj = Instantiate(_shoppingCartItemPrefab, _shoppingCartContentPanel.transform);
-            var newString = $"{data.Nombre} x{_shoppingCart[data]}";
+            var newString = $"{data.Nombre} x{cartItem.amount}";
             _shoppingCartUI.Add(data, shoppingCartTextObj);
             _shoppingCartUI[data].SetItemText(newString);
         }
@@ -74,6 +100,8 @@ public class SellSystem : MonoBehaviour
     public void AddBox(GameObject CropBoxPrefab, InventoryItemData data)
     {
         this.Log("AddBox");
+        TryGetShoppingCartItem(data, out ShoppingCartItem cartItem);
+        
         if (BoxCount == 0)
         {
             Vector3 dir = -transform.right;
@@ -83,7 +111,7 @@ public class SellSystem : MonoBehaviour
             Box1 = box1;
             Transform trans = Box1.transform;
             Box1T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box1T.text = $"{_shoppingCart[data]}";
+            Box1T.text = $"{cartItem.amount}";
             Box1int = data.ID;
             BoxCount = 1;
         }
@@ -96,7 +124,7 @@ public class SellSystem : MonoBehaviour
             Box2 = box2;
             Transform trans = Box2.transform;
             Box2T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box2T.text = $"{_shoppingCart[data]}";
+            Box2T.text = $"{cartItem.amount}";
             Box2int = data.ID;
             BoxCount = 2;
         }
@@ -109,7 +137,7 @@ public class SellSystem : MonoBehaviour
             Box3 = box3;
             Transform trans = Box3.transform;
             Box3T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box3T.text = $"{_shoppingCart[data]}";
+            Box3T.text = $"{cartItem.amount}";
             Box3int = data.ID;
             BoxCount = 3;
         }
@@ -124,7 +152,7 @@ public class SellSystem : MonoBehaviour
             Box4 = box4;
             Transform trans = Box4.transform;
             Box4T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box4T.text = $"{_shoppingCart[data]}";
+            Box4T.text = $"{cartItem.amount}";
             Box4int = data.ID;
             BoxCount = 4;
         }
@@ -139,7 +167,7 @@ public class SellSystem : MonoBehaviour
             Box5 = box5;
             Transform trans = Box5.transform;
             Box5T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box5T.text = $"{_shoppingCart[data]}";
+            Box5T.text = $"{cartItem.amount}";
             Box5int = data.ID;
             BoxCount = 5;
         }
@@ -168,7 +196,7 @@ public class SellSystem : MonoBehaviour
 
     private void ClearSlots()
     {
-        _shoppingCart = new Dictionary<InventoryItemData, int>();
+        _shoppingCart = new ();
         _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
         _basketTotal = 0;
         BoxCount = 0;
@@ -184,9 +212,70 @@ public class SellSystem : MonoBehaviour
             Destroy(item.gameObject);
         }
     }
+
+    bool IsItemInShoppingCart(InventoryItemData data)
+    {
+        return _shoppingCart.Any(i => i.data == data);
+    }
+
+    bool TryGetShoppingCartItem(InventoryItemData data, out ShoppingCartItem item)
+    {
+        item = _shoppingCart.FirstOrDefault(i => i.data == data);
+        return item != null;
+    }
+
+    public void Load(List<ShoppingCartItem> shoppingCart)
+    {
+        if (shoppingCart == null || shoppingCart.Count == 0)
+        {
+            Debug.LogWarning("Loaded shopping cart list is null or empty");
+            return;
+        }
+        
+        // Restore boxes state
+        for (int i = 0; i < shoppingCart.Count; i++)
+        {
+            if(!(shoppingCart[i].data is CropItemData cropItemData)) continue;
+            
+            for (int j = 0; j < shoppingCart[i].amount; j++)
+            {
+                AddToSellCart(cropItemData.CropBoxPrefab, shoppingCart[i].data);
+            }
+            
+        }
+    }
     
     private void OnDisable()
     {
         SleepHandler.Instance.OnPlayerSleep -= Sell;
+    }
+}
+
+[System.Serializable]
+public class SellSystemData
+{
+    public List<ShoppingCartItem> shoppingCart = new();
+
+    public SellSystemData()
+    {
+        shoppingCart = new List<ShoppingCartItem>();
+    }
+
+    public SellSystemData(List<ShoppingCartItem> shoppingCart)
+    {
+        this.shoppingCart = shoppingCart;
+    }
+}
+
+[System.Serializable]
+public class ShoppingCartItem
+{
+    public InventoryItemData data;
+    public int amount;
+
+    public ShoppingCartItem(InventoryItemData data, int amount)
+    {
+        this.data = data;
+        this.amount = amount;
     }
 }
