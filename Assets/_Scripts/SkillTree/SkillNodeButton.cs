@@ -7,16 +7,15 @@ public class SkillNodeButton : MonoBehaviour
     public SkillType skillType;
     public int nodeIndex;
     public SkillNodeButton requiredPreviousNode;
+    public bool IsUnlockeable = false;
     public int cost;
 
     private Button button;
-    private TextMeshProUGUI levelText;
     private Image buttonImage;
 
     private void Awake()
     {
         button = GetComponent<Button>();
-        levelText = GetComponentInChildren<TextMeshProUGUI>();
         buttonImage = GetComponent<Image>();
         button.onClick.AddListener(OnClick);
     }
@@ -24,7 +23,6 @@ public class SkillNodeButton : MonoBehaviour
     public void UpdateVisuals(Color availableColor, Color unavailableColor, Color purchasedColor)
     {
         int skillLevel = PlayerStats.Instance.GetSkillLevel(skillType);
-        levelText.text = $"{name} \nCost: {cost}";
         
         if (skillLevel > nodeIndex)
         {
@@ -47,7 +45,7 @@ public class SkillNodeButton : MonoBehaviour
         int skillLevel = PlayerStats.Instance.GetSkillLevel(skillType);
         return PlayerStats.Instance.skillPoints >= cost && 
                skillLevel == nodeIndex &&
-               (requiredPreviousNode == null || PlayerStats.Instance.GetSkillLevel(requiredPreviousNode.skillType) > requiredPreviousNode.nodeIndex);
+               IsUnlockeable && (requiredPreviousNode == null || PlayerStats.Instance.GetSkillLevel(requiredPreviousNode.skillType) > requiredPreviousNode.nodeIndex);
     }
 
     private void OnClick()

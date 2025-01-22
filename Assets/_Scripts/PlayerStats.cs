@@ -55,5 +55,10 @@ public class PlayerStats : MonoBehaviour
 
 public enum SkillType
 {
-    AreaHarvestSkill
+    AreaHarvestSkill,
+    QualitySkill,
+    AxeSkill,
+    HoeSkill,
+    ShovelSkill,
+    BucketSkill
 }

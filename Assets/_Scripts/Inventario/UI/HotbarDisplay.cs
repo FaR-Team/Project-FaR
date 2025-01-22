@@ -306,7 +306,7 @@ public class HotbarDisplay : HotbarDisplayBase
             return;
         }
 
-        if (GetItemData().IsHoe() || GetItemData().IsBucket())
+        if (GetItemData().IsTool())
         {
             GetItemData().UseItem();
         }
