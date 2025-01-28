@@ -178,23 +178,16 @@ public class GridGhost : MonoBehaviour
         Collider[] hitColliders = new Collider[maxColliders];
         int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerDirt);
 
-
-        if (numColliders >= 1)
+        if (numColliders > 0)
         {
             var dirt = hitColliders[0].GetComponentInParent<Dirt>();
             if (dirt != null)
             {
                 return dirt;
             }
-
-            return null;
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
-
 
     public bool CheckCrop(Vector3 center, float radius)
     {
@@ -214,15 +207,18 @@ public class GridGhost : MonoBehaviour
     public void PlantDirt()
     {
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
         Debug.DrawRay(RayCameraScreenPoint().origin, RayCameraScreenPoint().direction * _maxPlowDistance, Color.green, 0.01f);
-#endif
+    #endif
 
         if (hit.collider == null) return;
 
-        PlaceDirtNear(hit.point);
-
+        if (CheckDirt(grid.GetNearestPointOnGrid(hit.point), 0.75f) == null)
+        {
+            PlaceDirtNear(hit.point);
+        }
     }
+
     private void PlaceDirtNear(Vector3 nearPoint)
     {
         finalPosition = grid.GetNearestPointOnGrid(nearPoint);
