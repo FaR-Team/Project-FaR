@@ -76,7 +76,7 @@ public class Interactor : MonoBehaviour
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);
 
-        IsLookingAtStore = (_numDirtFound > 0) ? (_colliders[0].transform.gameObject.transform.tag == "Sell") : false;
+        IsLookingAtStore = _numDirtFound > 0 && _colliders[0] != null && _colliders[0].CompareTag("Sell");
     }
 
     public void ForceEndInteraction()

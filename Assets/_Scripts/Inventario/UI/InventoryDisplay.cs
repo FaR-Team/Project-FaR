@@ -41,14 +41,14 @@ public abstract class InventoryDisplay : MonoBehaviour
             {
                 if (inventorySystem != InventoryUIController.instance.currentContainer)
                 {
-                    if (InventoryUIController.instance.currentContainer.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize))
+                    if (InventoryUIController.instance.currentContainer.AddToInventory(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize))
                     {
                         clickedUISlot.ClearSlot();
                     }
                 }
                 else
                 {
-                    if (PlayerInventoryHolder.instance.AñadirAInventario(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize))
+                    if (PlayerInventoryHolder.instance.AddToInventory(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize))
                     {
                         clickedUISlot.ClearSlot();
                     }

@@ -53,7 +53,7 @@ public class ItemPickUp : MonoBehaviour
         
         audioSource.PlayOneShot(PickUpClip);
 
-        if (inventory.PrimaryInventorySystem.AñadirAInventario(ItemData, 1))
+        if (inventory.PrimaryInventorySystem.AddToInventory(ItemData, 1))
         {
             Destroy(this.gameObject);
         }
@@ -66,7 +66,7 @@ public class ItemPickUp : MonoBehaviour
 
         if (!inventory) return;
      
-        inventory.PrimaryInventorySystem.AñadirAInventario(data, amount);
+        inventory.PrimaryInventorySystem.AddToInventory(data, amount);
     }
 }
 

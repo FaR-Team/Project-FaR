@@ -67,8 +67,8 @@ public class PlayerInventoryHolder : Container
         OnPlayerInventoryDisplayRequested?.Invoke(inventorySystem, offset);
     }
 
-    public bool AñadirAInventario(InventoryItemData data, int amount)
+    public bool AddToInventory(InventoryItemData data, int amount)
     {
-        return (inventorySystem.AñadirAInventario(data, amount));
+        return (inventorySystem.AddToInventory(data, amount));
     }
 }

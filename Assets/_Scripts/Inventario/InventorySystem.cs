@@ -78,9 +78,9 @@ public class InventorySystem
         return !(hotbarSlots == null);
     }
     
-    public bool AñadirAInventario(InventoryItemData itemAAñadir, int cantidadParaAñadir)
+    public bool AddToInventory(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
-        if (ContieneItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
+        if (HasItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
         {
             foreach (var slot in invSlot)
             {
@@ -107,7 +107,7 @@ public class InventorySystem
         return false;
     }
 
-    public bool ContieneItem(InventoryItemData itemAAñadir, out List<InventorySlot> invSlot) //alguno de los slots ya tiene este item?
+    public bool HasItem(InventoryItemData itemAAñadir, out List<InventorySlot> invSlot) //alguno de los slots ya tiene este item?
     {
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista
         return !(invSlot == null);
@@ -138,7 +138,7 @@ public class InventorySystem
         {
             for (int i = 0; i < kvp.Value; i++)
             {
-                if (!clonedSystem.AñadirAInventario(kvp.Key, 1)) return false;
+                if (!clonedSystem.AddToInventory(kvp.Key, 1)) return false;
             }
         }
 

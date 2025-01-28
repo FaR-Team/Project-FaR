@@ -95,7 +95,7 @@ public class ShopKeeperDisplay : MonoBehaviour
 
             for (int i = 0; i < kvp.Value; i++)
             {
-                _playerInventoryHolder.PrimaryInventorySystem.AñadirAInventario(kvp.Key, 1);
+                _playerInventoryHolder.PrimaryInventorySystem.AddToInventory(kvp.Key, 1);
             }
         }
 

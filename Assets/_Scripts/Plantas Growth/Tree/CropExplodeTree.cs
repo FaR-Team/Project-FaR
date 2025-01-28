@@ -28,7 +28,7 @@ public class CropExplodeTree : MonoBehaviour
         Tierra = this.transform.root.GetChild(0).gameObject;
         Vector3 pos = new Vector3 (transform.root.GetChild(0).position.x, 2, transform.root.GetChild(0).position.z);
         var inventory = jugador.transform.GetComponent<PlayerInventoryHolder>();
-        inventory.AñadirAInventario(ItemData, 1);
+        inventory.AddToInventory(ItemData, 1);
         GameObject boom = Instantiate(Coso, pos, Quaternion.Euler(0,0,0));
         //YaExploto = true;
         Crop = CropObj;
