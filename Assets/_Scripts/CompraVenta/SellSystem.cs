@@ -118,90 +118,89 @@ public class SellSystem : MonoBehaviour
     {
         this.Log("AddBox");
         TryGetShoppingCartItem(data, out ShoppingCartItem cartItem);
-        
-        if (BoxCount == 0)
+
+        if (BoxCount >= 5)
         {
-            Vector3 dir = -transform.right;
-            float offset = 2;
-            Vector3 position = transform.position + dir * offset;
-            var box1 = Instantiate(CropBoxPrefab, position, transform.rotation);
-            Box1 = box1;
-            Transform trans = Box1.transform;
-            Box1T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box1T.text = $"{cartItem.amount}";
-            Box1int = data.ID;
-            BoxCount = 1;
+            HandleBigBox();
+            return;
         }
-        else if (BoxCount == 1)
+
+        var (position, boxNumber) = GetNextBoxPosition();
+        var box = InstantiateBox(CropBoxPrefab, position, cartItem.amount);
+        StoreBoxReference(box, boxNumber, data.ID);
+        BoxCount++;
+    }
+
+    private (Vector3 position, int boxNumber) GetNextBoxPosition()
+    {
+        switch (BoxCount)
         {
-            Vector3 dir1 = transform.forward;
-            float offset1 = 2;
-            Vector3 position = transform.position + dir1 * offset1;
-            var box2 = Instantiate(CropBoxPrefab, position, transform.rotation);
-            Box2 = box2;
-            Transform trans = Box2.transform;
-            Box2T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box2T.text = $"{cartItem.amount}";
-            Box2int = data.ID;
-            BoxCount = 2;
+            case 0:
+                return (transform.position + (-transform.right * 2), 1);
+            case 1:
+                return (transform.position + (transform.forward * 2), 2);
+            case 2:
+                return (transform.position + (-transform.forward * 2), 3);
+            case 3:
+                return (transform.position + (transform.forward * 2) + (-transform.right * 2), 4);
+            case 4:
+                return (transform.position + (-transform.forward * 2) + (-transform.right * 2), 5);
+            default:
+                return (Vector3.zero, 0);
         }
-        else if (BoxCount == 2)
+    }
+
+    private GameObject InstantiateBox(GameObject prefab, Vector3 position, int amount)
+    {
+        var box = Instantiate(prefab, position, transform.rotation);
+        var textComponent = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        textComponent.text = $"{amount}";
+        return box;
+    }
+
+    private void StoreBoxReference(GameObject box, int boxNumber, int dataId)
+    {
+        switch (boxNumber)
         {
-            Vector3 dir1 = -transform.forward;
-            float offset1 = 2;
-            Vector3 position = transform.position + dir1 * offset1;
-            var box3 = Instantiate(CropBoxPrefab, position, transform.rotation);
-            Box3 = box3;
-            Transform trans = Box3.transform;
-            Box3T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box3T.text = $"{cartItem.amount}";
-            Box3int = data.ID;
-            BoxCount = 3;
+            case 1:
+                Box1 = box;
+                Box1T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box1int = dataId;
+                break;
+            case 2:
+                Box2 = box;
+                Box2T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box2int = dataId;
+                break;
+            case 3:
+                Box3 = box;
+                Box3T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box3int = dataId;
+                break;
+            case 4:
+                Box4 = box;
+                Box4T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box4int = dataId;
+                break;
+            case 5:
+                Box5 = box;
+                Box5T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box5int = dataId;
+                break;
         }
-        else if (BoxCount == 3)
-        {
-            Vector3 dir1 = transform.forward;
-            float offset1 = 2;
-            Vector3 dir2 = -transform.right;
-            float offset2 = 2;
-            Vector3 position = transform.position + dir1 * offset1 + dir2 * offset2;
-            var box4 = Instantiate(CropBoxPrefab, position, transform.rotation);
-            Box4 = box4;
-            Transform trans = Box4.transform;
-            Box4T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box4T.text = $"{cartItem.amount}";
-            Box4int = data.ID;
-            BoxCount = 4;
-        }
-        else if (BoxCount == 4)
-        {
-            Vector3 dir1 = -transform.forward;
-            float offset1 = 2;
-            Vector3 dir2 = -transform.right;
-            float offset2 = 2;
-            Vector3 position = transform.position + dir1 * offset1 + dir2 * offset2;
-            var box5 = Instantiate(CropBoxPrefab, position, transform.rotation);
-            Box5 = box5;
-            Transform trans = Box5.transform;
-            Box5T = trans.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-            Box5T.text = $"{cartItem.amount}";
-            Box5int = data.ID;
-            BoxCount = 5;
-        }
-        else if (BoxCount == 5)
-        {
-            Vector3 dir = transform.up;
-            float offset = 1;
-            BoxCount = 6;
-            Destroy(Box1);
-            Destroy(Box2);
-            Destroy(Box3);
-            Destroy(Box4);
-            Destroy(Box5);
-            Destroy(Box6);
-            Vector3 position = transform.position + dir * offset;
-            BigBox.gameObject.SetActive(true);
-        }
+    }
+
+    private void HandleBigBox()
+    {
+        BoxCount = 6;
+        Destroy(Box1);
+        Destroy(Box2);
+        Destroy(Box3);
+        Destroy(Box4);
+        Destroy(Box5);
+        Destroy(Box6);
+        BigBox.gameObject.SetActive(true);
+        BigBox.transform.position = transform.position + (transform.up * 1);
     }
 
     public static int GetModifiedPrice(InventoryItemData data, int amount)
