@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Utils;
+using FaRUtils.Systems.DateTime;
 
 public class SellSystem : MonoBehaviour
 {
@@ -39,18 +40,19 @@ public class SellSystem : MonoBehaviour
         SellSystemData data;
         if (firstLoadDone)
         {
-            //Debug.Log("Load temporary");
-            data = LoadAllData.GetData<GameStateData>(true).SellSystemData; // TODO: Ver si como ya es estática la lista, no conviene dejarla así y no hacer load temporal
-                                                                                      // TODO: sino antes fijarnos si la lista estática tiene algo dentro y hacer Load() con la misma, y no hacer .Clear()
+            data = LoadAllData.GetData<GameStateData>(true).SellSystemData;
         }
         else
         {
-            //Debug.Log("Load non-temporary save file if first loading");
             data = LoadAllData.GetData<GameStateData>(false).SellSystemData;
             firstLoadDone = true;
         }
         
-        if(data != null) Load(data.shoppingCart);
+        if(data != null) 
+        {
+            Load(data.shoppingCart);
+            CatchUpMissedSales();
+        }
         else Debug.LogWarning("SellSystemData is null");
     }
 
@@ -95,6 +97,21 @@ public class SellSystem : MonoBehaviour
         }
 
         _basketTotal += price;
+    }
+
+    private void CatchUpMissedSales()
+    {
+        var currentTime = TimeManager.DateTime;
+        var lastSaveTime = TimeManager.Instance.GetLastTimeInScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+
+        var currentDayCount = currentTime.Hour < 3 ? currentTime.TotalNumDays - 1 : currentTime.TotalNumDays;
+        var lastDayCount = lastSaveTime.Hour < 3 ? lastSaveTime.TotalNumDays - 1 : lastSaveTime.TotalNumDays;
+        var daysPassed = currentDayCount - lastDayCount;
+
+        if (daysPassed > 0)
+        {
+            Sell();
+        }
     }
 
     public void AddBox(GameObject CropBoxPrefab, InventoryItemData data)
