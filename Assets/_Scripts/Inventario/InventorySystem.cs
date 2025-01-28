@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Linq;
@@ -15,6 +16,7 @@ public class InventorySystem
     public int tamañoInventario => inventorySlots.Count;
 
     public UnityAction<InventorySlot> OnInventorySlotChanged;
+    public event Action<int> OnGoldAmountChanged;
 
     public InventorySystem(int tamaño) //Constructo que coloca la cantidad de Slots
     {
@@ -146,10 +148,12 @@ public class InventorySystem
     public void SpendGold(int basketTotal)
     {
         _gold -= basketTotal;
+        OnGoldAmountChanged?.Invoke(_gold);
     }
 
     public void GainGold(int price)
     {
         _gold += price;
+        OnGoldAmountChanged?.Invoke(_gold);
     }
 }

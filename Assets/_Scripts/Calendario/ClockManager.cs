@@ -1,9 +1,11 @@
+using System;
 using FaRUtils.Systems.DateTime;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization.Components;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DateTime = FaRUtils.Systems.DateTime.DateTime;
 
 public class ClockManager : MonoBehaviour
 {
@@ -30,14 +32,13 @@ public class ClockManager : MonoBehaviour
     {
         InstanceClock = this;
         startingRotation = ClockFace.localEulerAngles.z;
-
-
     }
 
     private void Start()
     {
         place = SceneManager.GetActiveScene().buildIndex;
         SceneManager.sceneLoaded += ChangeSceneText;
+        UpdateGoldText(PlayerInventoryHolder.instance.PrimaryInventorySystem.Gold);
     }
 
     private void ChangeSceneText(Scene arg0, LoadSceneMode arg1)
@@ -46,15 +47,23 @@ public class ClockManager : MonoBehaviour
         Refresh();
     }
 
-    private void Update()
-    {
-        Gold.text = $"{PlayerInventoryHolder.instance.PrimaryInventorySystem.Gold}G";
-    }
-
     private void OnEnable()
     {
         TimeManager.OnDateTimeChanged += UpdateDateTime;
+        PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged += UpdateGoldText;
     }
+
+    private void OnDisable()
+    {
+        TimeManager.OnDateTimeChanged -= UpdateDateTime;
+        PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged -= UpdateGoldText;
+    }
+
+    private void UpdateGoldText(int gold)
+    {
+        Gold.text = $"{gold}G";
+    }
+
     public static string TimeText()
     {
         return _time.text;
