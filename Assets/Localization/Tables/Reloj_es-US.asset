@@ -38,7 +38,7 @@ MonoBehaviour:
       m_Items:
       - rid: 3129098415526903810
   - m_Id: 268965299346173952
-    m_Localized: '{locationVariable.place:choose(0|1|2):Granja|Casa|Ciudad}'
+    m_Localized: '{locationVariable.place:choose(0|1|2):Granja|Casa|Ciudad|IAmError}'
     m_Metadata:
       m_Items:
       - rid: 3129098415526903810

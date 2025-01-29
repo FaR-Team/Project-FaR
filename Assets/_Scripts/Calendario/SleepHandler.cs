@@ -89,7 +89,7 @@ public class SleepHandler : MonoBehaviour
         {
             if (SceneManager.GetActiveScene().buildIndex != bedSceneIndex)
             {
-                yield return CambiarEscena.LoadScene(bedSceneIndex);
+                LoadingManager.LoadNewScene(bedSceneIndex);
             }
         }
         else yield return null;
