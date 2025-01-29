@@ -251,26 +251,18 @@ public class HotbarDisplay : HotbarDisplayBase
     private void SellAllPressed()
     {
         _isHoldingCtrl = true;
+        // TODO: Se usa? capaz conviene llamrlo desde aca directo en vez de en holdear
         //SellAll();
     }
 
     private void SellAll()
     {
-        if (!_isHoldingCtrl || !_isHolding || !interactor.IsLookingAtStore) return; //TODO: && GetPlayerControls().UseItem.WasPressedThisFrame()
-
-        if (GetItemData() == null || !GetItemData().Sellable) return;
-
-        if (GetItemData().IsCropSeed() || !GetItemData().Usable) return;
-
-        int i = 0;
-
-        while (i < GetAssignedInventorySlot().StackSize)
+        while (GetAssignedInventorySlot().StackSize > 0)
         {
             GetItemData().UseItem();
             GetAssignedInventorySlot().SacarDeStack(1);
         }
         GetAssignedInventorySlot().ClearSlot();
-
         SlotCurrentIndex().UpdateUISlot();
     }
 
@@ -291,17 +283,24 @@ public class HotbarDisplay : HotbarDisplayBase
             return;
         }
 
-        if (_isHolding && !_isHoldingCtrl && interactor.IsLookingAtStore)
+        if (_isHolding && interactor.IsLookingAtStore)
         {
             if (GetItemData().Sellable &&
                 !GetItemData().IsCropSeed() &&
                 GetItemData().Usable)
             {
-                GetItemData().UseItem();
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
+                if (!_isHoldingCtrl)
+                {
+                    GetItemData().UseItem();
+                    GetAssignedInventorySlot().SacarDeStack(1);
+                    GetAssignedInventorySlot().ClearSlot();
 
-                SlotCurrentIndex().UpdateUISlot();
+                    SlotCurrentIndex().UpdateUISlot();
+                }
+                else
+                {
+                    SellAll();
+                }
             }
             return;
         }
