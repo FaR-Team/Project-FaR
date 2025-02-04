@@ -17,7 +17,7 @@ public class Dirt : MonoBehaviour
     public bool IsEmpty { get; private set; }
     public GameObject violeta { get; private set; }
 
-    public GameObject currentCrop;
+    public GrowingBase currentCrop;
     public SeedItemData currentSeedData { get; private set; }
     public PlantData cropSaveData { get; private set; }
 
@@ -62,7 +62,7 @@ public class Dirt : MonoBehaviour
         GetCrop(currentSeedData);
         try
         {
-            currentCrop.GetComponent<GrowingBase>().LoadData(cropSaveData);
+            currentCrop.LoadData(cropSaveData);
         }
         catch (Exception e)
         {
@@ -72,17 +72,16 @@ public class Dirt : MonoBehaviour
     public PlantData GetCropSaveData()
     {
         if (currentCrop == null) return null;
-
-        var growing = currentCrop.GetComponent<GrowingBase>();
-        if (growing is GrowingTreeAndPlant)
+        
+        if (currentCrop is GrowingTreeAndPlant)
         {
             Debug.Log("Saving treebushdata");
-            return new TreeBushData(growing);
+            return new TreeBushData(currentCrop);
         }
         else // TODO: Separar mejor segun tipos de crops y eso
         {
             Debug.Log("Saving cropsavedata");
-            return new CropSaveData(growing);
+            return new CropSaveData(currentCrop);
         }
     }
     public bool GetCrop(SeedItemData itemData)
@@ -91,7 +90,7 @@ public class Dirt : MonoBehaviour
 
         GameObject instantiated = Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
 
-        currentCrop = instantiated;
+        currentCrop = instantiated.GetComponent<GrowingBase>();
         currentSeedData = itemData;
 
         GridGhost.UpdateRandomSeed();
@@ -136,5 +135,11 @@ public class Dirt : MonoBehaviour
         colliders.transform.position = this.transform.position;
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
         WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
+    }
+
+    public void DestroyDirtAndCrop()
+    {
+        // TODO: Chequear si con esto ya es suficiente
+        DirtSpawnerPooling.DeSpawn(gameObject);
     }
 }

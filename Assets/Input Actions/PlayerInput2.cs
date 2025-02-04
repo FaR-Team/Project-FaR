@@ -136,6 +136,15 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""PrimaryUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cbedf84-8d2e-4d6c-b2ea-021fc12cb4ff"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Use Item"",
                     ""type"": ""Button"",
                     ""id"": ""f64b8da7-5ec9-4a92-b386-a58fc7635510"",
@@ -796,6 +805,28 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""action"": ""SkillTree"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b3d0ce13-988e-4669-be93-814d86c025e3"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""PrimaryUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5813ddcc-092b-4f72-bcd0-e9dcdd5050a3"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""PrimaryUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -854,6 +885,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_MassSellFinish = m_Player.FindAction("MassSellFinish", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_MouseWheel = m_Player.FindAction("Mouse Wheel", throwIfNotFound: true);
+        m_Player_PrimaryUse = m_Player.FindAction("PrimaryUse", throwIfNotFound: true);
         m_Player_UseItem = m_Player.FindAction("Use Item", throwIfNotFound: true);
         m_Player_UseItemHoldStart = m_Player.FindAction("UseItemHoldStart", throwIfNotFound: true);
         m_Player_UseItemHoldRelease = m_Player.FindAction("UseItemHoldRelease", throwIfNotFound: true);
@@ -936,6 +968,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_MassSellFinish;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_MouseWheel;
+    private readonly InputAction m_Player_PrimaryUse;
     private readonly InputAction m_Player_UseItem;
     private readonly InputAction m_Player_UseItemHoldStart;
     private readonly InputAction m_Player_UseItemHoldRelease;
@@ -963,6 +996,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @MassSellFinish => m_Wrapper.m_Player_MassSellFinish;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @MouseWheel => m_Wrapper.m_Player_MouseWheel;
+        public InputAction @PrimaryUse => m_Wrapper.m_Player_PrimaryUse;
         public InputAction @UseItem => m_Wrapper.m_Player_UseItem;
         public InputAction @UseItemHoldStart => m_Wrapper.m_Player_UseItemHoldStart;
         public InputAction @UseItemHoldRelease => m_Wrapper.m_Player_UseItemHoldRelease;
@@ -1019,6 +1053,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @MouseWheel.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseWheel;
                 @MouseWheel.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseWheel;
                 @MouseWheel.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMouseWheel;
+                @PrimaryUse.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryUse;
+                @PrimaryUse.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryUse;
+                @PrimaryUse.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnPrimaryUse;
                 @UseItem.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
                 @UseItem.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
                 @UseItem.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnUseItem;
@@ -1092,6 +1129,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @MouseWheel.started += instance.OnMouseWheel;
                 @MouseWheel.performed += instance.OnMouseWheel;
                 @MouseWheel.canceled += instance.OnMouseWheel;
+                @PrimaryUse.started += instance.OnPrimaryUse;
+                @PrimaryUse.performed += instance.OnPrimaryUse;
+                @PrimaryUse.canceled += instance.OnPrimaryUse;
                 @UseItem.started += instance.OnUseItem;
                 @UseItem.performed += instance.OnUseItem;
                 @UseItem.canceled += instance.OnUseItem;
@@ -1161,6 +1201,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnMassSellFinish(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnMouseWheel(InputAction.CallbackContext context);
+        void OnPrimaryUse(InputAction.CallbackContext context);
         void OnUseItem(InputAction.CallbackContext context);
         void OnUseItemHoldStart(InputAction.CallbackContext context);
         void OnUseItemHoldRelease(InputAction.CallbackContext context);

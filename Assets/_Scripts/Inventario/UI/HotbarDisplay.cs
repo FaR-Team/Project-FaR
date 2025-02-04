@@ -147,12 +147,15 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().Hotbar.performed += Hotbar;
         GetPlayerControls().HotbarRight.performed += HotbarRight;
         GetPlayerControls().HotbarLeft.performed += HotbarLeft;
+        GetPlayerControls().PrimaryUse.performed += UseItemPrimary;
         GetPlayerControls().UseItem.performed += UseItem;
         GetPlayerControls().UseItemHoldStart.performed += UseItemPressedCallback;
         GetPlayerControls().UseItemHoldRelease.performed += UseItemReleaseCallback;
         GetPlayerControls().MassSell.performed += SellAllPressedCallback;
         GetPlayerControls().MassSellFinish.performed += SellAllReleaseCallback;
     }
+
+    
 
     protected override void OnDisable()
     {
@@ -266,9 +269,9 @@ public class HotbarDisplay : HotbarDisplayBase
         SlotCurrentIndex().UpdateUISlot();
     }
 
-    private void Holdear()
+    private void Holdear() // TODO: mejorar esto, que no sean tantos if, usar el item data de forma mas genérica
     {
-        if (GetItemData() == null) return;
+        if (GetItemData() == null || GetItemData().leftClickUse) return;
 
         if (GetItemData().IsSpecialItem())
         {
@@ -334,6 +337,16 @@ public class HotbarDisplay : HotbarDisplayBase
                 GetAssignedInventorySlot().ClearSlot();
             }
             SlotCurrentIndex().UpdateUISlot();
+        }
+    }
+    
+    private void UseItemPrimary(InputAction.CallbackContext obj)
+    {
+        if (GetItemData() == null || !GetItemData().leftClickUse) return;
+        
+        if (GetItemData().IsTool())
+        {
+            GetItemData().UseItem();
         }
     }
 

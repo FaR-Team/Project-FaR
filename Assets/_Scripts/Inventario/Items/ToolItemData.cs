@@ -64,7 +64,18 @@ public class ToolItemData : InventoryItemData
 
     private bool UseShovel()
     {
-        this.LogOnScreen("OMG, agarraste la pala!!");
-        return true;
+        Dirt dirt = GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f);
+        
+        // Check if dirt has rotten crop
+        if (dirt != null && dirt.currentCrop && dirt.currentCrop.IsDead)
+        {
+            dirt.DestroyDirtAndCrop();
+            this.LogOnScreen("OMG, agarraste la pala!!");
+            return true;
+        }
+        
+        this.LogOnScreen("No pudiste agarrar la pala!1!");
+        return false;
+        
     }
 }

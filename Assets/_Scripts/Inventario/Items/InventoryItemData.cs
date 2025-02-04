@@ -24,6 +24,7 @@ public class InventoryItemData : ScriptableObject
     public bool Usable;
     public bool Sellable;
     public bool IsLookingAtStore;
+    public bool leftClickUse = false;
     public AudioClip useItemSound;
 
     public TypeOfItem typeOfItem;
