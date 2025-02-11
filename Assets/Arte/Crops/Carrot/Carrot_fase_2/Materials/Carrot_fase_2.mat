@@ -24,14 +24,27 @@ Material:
         m_Texture: {fileID: 2800000, guid: fdb9bcd62bb12184992b2fa03cb8379f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MultiplyTex:
+        m_Texture: {fileID: 2800000, guid: 5d5b71edabad53f439d6cf58226a88d0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Alpha: 1
     - _CelShadingBlurWidth: 0.2
+    - _CelSteps: 5
     - _Cutoff: 0.5
+    - _OutlineWidth: 20
+    - _PulseMaxWidth: 20
+    - _PulseMinWidth: 5
+    - _PulseSpeed: 2.5
     - _ShakeBending: 1
     - _ShakeDisplacement: 1
     - _ShakeTime: 1
     - _ShakeWindspeed: 1
+    - _UseMultiplyTexture: 0
+    - _UseOutline: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColor: {r: 0.6, g: 0, b: 0.6, a: 1}
   m_BuildTextureStacks: []

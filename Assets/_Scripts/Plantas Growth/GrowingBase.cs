@@ -9,6 +9,7 @@ using FaRUtils.Systems.DateTime;
 public abstract class GrowingBase : MonoBehaviour
 {
     protected int interactableLayerInt = 7;
+    protected int initialLayerInt = 0;
 
     protected int daysPlanted; //Dias que pasaron desde que se plantó.
     [SerializeField] protected int maxDaysWithoutHarvest = 3;
@@ -44,6 +45,8 @@ public abstract class GrowingBase : MonoBehaviour
         TryGetComponent(out meshFilter);
         TryGetComponent(out meshCollider);
         TryGetComponent(out meshRenderer);
+
+        initialLayerInt = gameObject.layer;
         
         UpdateState();
     }
@@ -134,11 +137,13 @@ public abstract class GrowingBase : MonoBehaviour
         GrowthEventManager.Instance.NotifyGrowthStateChanged(this, currentState);
     }
 
-    public virtual void SetInteractable()
+    public virtual void SetInteractable(bool interactable = true)
     {
         if (isFruit) return;
 
-        gameObject.layer = interactableLayerInt; //layer interactuable.
+        if (interactable) gameObject.layer = interactableLayerInt; //layer interactuable.
+        else gameObject.layer = initialLayerInt;
+
     }
 
     public virtual void LoadData(PlantData data) // TODO: Que use como parametro un padre en común de CropSave y PlantSave, y en los hijos usar Save as CropSave o as PlantSave
@@ -166,7 +171,7 @@ public abstract class GrowingBase : MonoBehaviour
         {
             meshRenderer.material.SetFloat("_UseMultiplyTexture", 1f);
         }
-        SetInteractable(); // Para poder interactuar y limpiarlo al estar muerto
+        SetInteractable(false); // Para deshabilitar interaccion y limpiar con la pala
     }
 
     protected virtual void OnEnable()

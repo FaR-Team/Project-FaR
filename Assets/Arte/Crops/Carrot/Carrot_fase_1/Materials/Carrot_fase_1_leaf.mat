@@ -129,6 +129,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MultiplyTex:
+        m_Texture: {fileID: 2800000, guid: 5d5b71edabad53f439d6cf58226a88d0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -209,6 +213,7 @@ Material:
     m_Floats:
     - LIGHTMAP: 0
     - _AdvancedTab: 0
+    - _Alpha: 1
     - _AlphaClipping: 0
     - _AlphaCutoff: 0.5
     - _Anisotropy: 0
@@ -223,6 +228,7 @@ Material:
     - _Brightness: 1
     - _BumpScale: 1
     - _CelShadingBlurWidth: 0.2
+    - _CelSteps: 5
     - _ColorGrading: 0
     - _Contrast: 1
     - _Cutoff: 0.5
@@ -282,7 +288,11 @@ Material:
     - _OutlineSize: 5
     - _OutlineTab: 0
     - _OutlineThickness: 1
+    - _OutlineWidth: 20
     - _Parallax: 0
+    - _PulseMaxWidth: 20
+    - _PulseMinWidth: 5
+    - _PulseSpeed: 2.5
     - _QueueControl: -1
     - _QueueOffset: 0
     - _REFLECTIONS_IOR: 1.52
@@ -325,6 +335,8 @@ Material:
     - _TRANSPARENCY: 0
     - _ThresholdMapScale: 1
     - _UVSec: 0
+    - _UseMultiplyTexture: 0
+    - _UseOutline: 0
     - _VertexAnimation: 1
     - _VertexAnimationIntensity: 0.005
     - _VertexAnimationStutter: 0
