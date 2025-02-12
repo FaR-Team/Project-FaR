@@ -40,12 +40,12 @@ public class Dirt : MonoBehaviour
         /*
         if (data.cropData != null)
         {
-            Debug.Log("Loaded as CropData");
+            this.Log("Loaded as CropData");
             cropSaveData = data.cropData;
         }
         else if (data.treeBushData != null)
         {
-            Debug.Log("Loaded as TreeBushData");
+            this.Log("Loaded as TreeBushData");
             cropSaveData = data.treeBushData; // TODO: No se si es la mejor forma de hacer esto
         }*/
 
@@ -75,12 +75,12 @@ public class Dirt : MonoBehaviour
         
         if (currentCrop is GrowingTreeAndPlant)
         {
-            Debug.Log("Saving treebushdata");
+            this.Log("Saving treebushdata");
             return new TreeBushData(currentCrop);
         }
         else // TODO: Separar mejor segun tipos de crops y eso
         {
-            Debug.Log("Saving cropsavedata");
+            this.Log("Saving cropsavedata");
             return new CropSaveData(currentCrop);
         }
     }

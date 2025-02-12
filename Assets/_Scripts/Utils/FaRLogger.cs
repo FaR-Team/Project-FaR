@@ -14,6 +14,9 @@ namespace Utils
         private static void DoLog(Action<string, Object> LogFunction, string prefix, Object myObj, params object[] msg)
         {
             #if UNITY_EDITOR
+            if (FaRLoggerSettings.IsScriptMuted(myObj))
+                return;
+                
             var name = (myObj ? myObj.name : "NullObject").Color("lightblue");
             var stackTrace = new System.Diagnostics.StackTrace(2, true);
             var frame = stackTrace.GetFrame(0);

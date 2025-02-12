@@ -110,6 +110,7 @@ public class HotbarDisplay : HotbarDisplayBase
             }
             else{
                 UpdateAbilitySlot();
+                DoChangeNameDisplay();
                 return;
             }
         }
