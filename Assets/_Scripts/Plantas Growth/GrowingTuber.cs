@@ -95,6 +95,7 @@ public class GrowingTuber : GrowingBase
         if(spawnedInteractable != null)
         {
             spawnedInteractable.GetComponentInChildren<SkinnedMeshRenderer>().material.SetFloat("_UseMultiplyTexture", 1f);
+            spawnedInteractable.layer = LayerMask.NameToLayer("Default");
         }
     }
 }
