@@ -2,9 +2,8 @@
 {
 	Properties
 	{
-		_DepthGradientShallow("Shallow Depth Gradient", Color) = (0.325, 0.807, 0.971, 0.725)
-		_DepthGradientDeep("Deep Depth Gradient", Color) = (0.086, 0.407, 1, 0.749)
-		_DepthMaxDistance("Depth Maximum Distance", Float) = 1
+		_DepthGradientShallow("Shallow Depth Gradient", Color) = (0.325, 0.807, 0.971, 0.525)
+		_DepthGradientDeep("Deep Depth Gradient", Color) = (0.086, 0.407, 1, 0.549)		_DepthMaxDistance("Depth Maximum Distance", Float) = 1
 		_FoamColor("Foam Color", Color) = (1,1,1,1)
 		_SurfaceNoise("Surface Noise", 2D) = "white" {}
 		_SurfaceNoiseScroll("Surface Noise Scroll", Vector) = (0.03, 0.03, 0, 0)
@@ -24,7 +23,7 @@
 	
 	SubShader
 	{
-		Tags {"RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent-100"}
+		Tags {"RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent+100"}
 		Pass
 		{
 			Name "ForwardLit"
@@ -32,7 +31,7 @@
 			
 			Blend SrcAlpha OneMinusSrcAlpha
 			ZWrite On
-			ZTest LEqual
+			ZTest Less
 			
 			HLSLPROGRAM
 			#pragma vertex vert
@@ -158,7 +157,7 @@
 				surfaceNoiseColor.a *= surfaceNoise;
 				
 				float4 finalColor = lerp(waterColor, surfaceNoiseColor, surfaceNoiseColor.a * foamVisibility);
-				finalColor.a = lerp(0.4, 0.95, saturate(depthDifference)) * _DepthGradientShallow.a;
+				finalColor.a = lerp(0.2, 0.6, saturate(depthDifference)) * _DepthGradientShallow.a;
 				return finalColor;
 			}			
 			ENDHLSL

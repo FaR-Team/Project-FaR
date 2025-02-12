@@ -18,10 +18,9 @@ Shader "FaRTeam/FaRMainShaderURP"
     SubShader
     {
         Tags {
-            "Queue" = "Transparent" 
+            "Queue" = "Transparent+50" 
             "RenderType" = "Transparent" 
             "RenderPipeline" = "UniversalPipeline"
-            "Queue" = "Transparent+50"
             "IgnoreProjector" = "True"
             "PreviewType" = "Plane"
         }
@@ -172,6 +171,8 @@ Shader "FaRTeam/FaRMainShaderURP"
             Tags {"LightMode" = "UniversalForward"}
             
             Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite On
+            ZTest LEqual
             
             HLSLPROGRAM
             #pragma vertex vert

@@ -75,13 +75,15 @@ Material:
     - _DepthMaxDistance: 5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FoamMaxDistance: 0.32
-    - _FoamMinDistance: 0.5
+    - _EditorViewCorrection: 0.5
+    - _FoamMaxDistance: 0.35
+    - _FoamMinDistance: 0.25
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _IntersectionFalloff: -1
     - _IntersectionThreshold: 114.32
+    - _LightIntensity: 1
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
