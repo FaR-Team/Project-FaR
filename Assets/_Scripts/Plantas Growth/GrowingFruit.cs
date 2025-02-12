@@ -15,17 +15,27 @@ public class GrowingFruit : GrowingCrop //CrecimientoFruta TODO: Intentar unific
 
     protected override void OnEnable()
     {
+        if (_parentPlant == null) return;
+
         _parentPlant.OnDayPassed += DayPassed;
         _parentPlant.OnDeath += Die;
     }
     
     protected override void OnDisable()
     {
+        if (_parentPlant == null) return;
+
         _parentPlant.OnDayPassed -= DayPassed;
         _parentPlant.OnDeath -= Die;
     }
 
-    public void SetParentPlant(GrowingTreeAndPlant plant) => _parentPlant = plant;
+    public void SetParentPlant(GrowingTreeAndPlant plant)
+    {
+        _parentPlant = plant;
+        _parentPlant.OnDayPassed += DayPassed;
+        _parentPlant.OnDeath += Die;
+    }
+    
     public override void OnHourChanged(int hour){} // Que las frutas escuchen al evento de la planta padre para el DayPassed, para que dependan de la misma
 
     protected override void DayPassed()

@@ -5,14 +5,21 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
 {
     public GameObject TierraTexture = null;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        Tierra = transform.parent.gameObject.GetComponent<Dirt>();
+        TierraTexture = transform.parent.GetChild(0).gameObject;
+    }
+
     protected override void Start()
     {
         base.Start();
 
-        Tierra = transform.parent.gameObject.GetComponent<Dirt>();
-        TierraTexture = transform.parent.GetChild(0).gameObject;
         CheckGrowState();
     }
+
     
     public void StartReGrowBush()
     {
@@ -22,7 +29,7 @@ public class BushGrowing : GrowingTreeAndPlant //Crecimiento del arbusto
         fruits.Clear();
         gameObject.layer = 3;
         
-        if(_reGrowCounter > ReGrowMaxTimes) DestroyThisBush();
+        if(_reGrowCounter > ReGrowMaxTimes) Die();
     }
 
     public override IEnumerator BushCedeLaPresidencia()

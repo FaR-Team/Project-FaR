@@ -166,6 +166,7 @@ public class GrowingTreeAndPlant : GrowingBase
     
     protected override void UpdateState()
     {
+        this.Log("UpdateState");
         meshFilter.mesh = currentState.mesh;
         meshRenderer.material = currentState.material;
         if (meshCollider != null)

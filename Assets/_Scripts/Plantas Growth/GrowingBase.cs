@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.Serialization;
-using DateTime = FaRUtils.Systems.DateTime.DateTime;
 using Utils;
 using FaRUtils.Systems.DateTime;
 
@@ -25,7 +23,7 @@ public abstract class GrowingBase : MonoBehaviour
 
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
-    [HideInInspector] public MeshRenderer meshRenderer;
+    public MeshRenderer meshRenderer;
 
     public int DaysPlanted => daysPlanted;
     public int DaysDry => daysDry;
@@ -169,7 +167,9 @@ public abstract class GrowingBase : MonoBehaviour
         // meshFilter.mesh = deadState.mesh;
         if(meshRenderer)
         {
+            this.Log($"MeshRenderer found on {gameObject.name}");
             meshRenderer.material.SetFloat("_UseMultiplyTexture", 1f);
+            this.Log($"{meshRenderer.material.GetFloat("_UseMultiplyTexture")}");
         }
         SetInteractable(false); // Para deshabilitar interaccion y limpiar con la pala
     }
