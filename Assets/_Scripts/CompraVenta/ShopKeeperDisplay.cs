@@ -204,27 +204,30 @@ public class ShopKeeperDisplay : MonoBehaviour
         {
             if (_basketTotal - price < 0) return;
 
-            _shoppingCart[data]--;
-            var newString = $"{data.Nombre} ({price}G) x{_shoppingCart[data]}";
-            _shoppingCartUI[data].SetItemText(newString);
-
-            if (_shoppingCart[data] <= 0)
+            if (_shoppingCart[data] >= _BuyMulti)
             {
-                _shoppingCart.Remove(data);
-                var tempObj = _shoppingCartUI[data].gameObject;
-                _shoppingCartUI.Remove(data);
-                Destroy(tempObj);
-            }
+                _shoppingCart[data] -= _BuyMulti;
+                var newString = $"{data.Nombre} ({price}G) x{_shoppingCart[data]}";
+                _shoppingCartUI[data].SetItemText(newString);
 
-            _basketTotal -= price;
-            _basketTotalText.text = $"Total: {_basketTotal}G";
+                if (_shoppingCart[data] <= 0)
+                {
+                    _shoppingCart.Remove(data);
+                    var tempObj = _shoppingCartUI[data].gameObject;
+                    _shoppingCartUI.Remove(data);
+                    Destroy(tempObj);
+                }
 
-            if (_basketTotal <= 0 && _basketTotalText.IsActive())
-            {
-                _basketTotalText.enabled = false;
-                _buyButton.gameObject.SetActive(false);
-                ClearItemPreview();
-                return;
+                _basketTotal -= price;
+                _basketTotalText.text = $"Total: {_basketTotal}G";
+
+                if (_basketTotal <= 0 && _basketTotalText.IsActive())
+                {
+                    _basketTotalText.enabled = false;
+                    _buyButton.gameObject.SetActive(false);
+                    ClearItemPreview();
+                    return;
+                }
             }
         }
 
