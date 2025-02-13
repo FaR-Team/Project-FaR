@@ -556,7 +556,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""05d91c75-b745-4b16-bd56-c9d74551254a"",
-                    ""path"": ""<Keyboard>/ctrl"",
+                    ""path"": ""<Keyboard>/shift"",
                     ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
