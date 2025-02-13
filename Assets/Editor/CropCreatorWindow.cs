@@ -35,6 +35,12 @@ public class CropCreatorWindow : EditorWindow
         maxDays = new int[5];
     }
 
+    [MenuItem("FARUtils/Crop Creator")]
+    public static void ShowWindow()
+    {
+        GetWindow<CropCreatorWindow>("Crop Creator");
+    }
+
     private void OnGUI()
     {
         scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
