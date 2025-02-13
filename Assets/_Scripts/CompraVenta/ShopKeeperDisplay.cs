@@ -202,6 +202,8 @@ public class ShopKeeperDisplay : MonoBehaviour
 
         if (_shoppingCart.ContainsKey(data))
         {
+            if (_basketTotal - price < 0) return;
+
             _shoppingCart[data]--;
             var newString = $"{data.Nombre} ({price}G) x{_shoppingCart[data]}";
             _shoppingCartUI[data].SetItemText(newString);
@@ -213,17 +215,17 @@ public class ShopKeeperDisplay : MonoBehaviour
                 _shoppingCartUI.Remove(data);
                 Destroy(tempObj);
             }
-        }
 
-        _basketTotal -= price;
-        _basketTotalText.text = $"Total: {_basketTotal}G";
+            _basketTotal -= price;
+            _basketTotalText.text = $"Total: {_basketTotal}G";
 
-        if (_basketTotal <= 0 && _basketTotalText.IsActive())
-        {
-            _basketTotalText.enabled = false;
-            _buyButton.gameObject.SetActive(false);
-            ClearItemPreview();
-            return;
+            if (_basketTotal <= 0 && _basketTotalText.IsActive())
+            {
+                _basketTotalText.enabled = false;
+                _buyButton.gameObject.SetActive(false);
+                ClearItemPreview();
+                return;
+            }
         }
 
         CheckCartVsAvaliableGold();
