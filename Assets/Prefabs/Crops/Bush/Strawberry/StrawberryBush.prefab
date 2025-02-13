@@ -117,7 +117,6 @@ GameObject:
   - component: {fileID: 3071990004628987140}
   - component: {fileID: 7778193720637594493}
   - component: {fileID: 7258992419382639283}
-  - component: {fileID: 3639658408022018820}
   m_Layer: 3
   m_Name: StrawberryBush
   m_TagString: Crop
@@ -163,7 +162,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2cb6d26f9f0d30e48b767c532ff7c940, type: 2}
   - {fileID: 11400000, guid: 4eb7bb045010aec438e002bf30c2a097, type: 2}
   currentState: {fileID: 11400000, guid: 167c8b4e99e660b4094274dead0a9e0a, type: 2}
-  deadState: {fileID: 11400000, guid: abb306cac652acc419a173e15700bc72, type: 2}
   meshFilter: {fileID: 0}
   meshCollider: {fileID: 0}
   meshRenderer: {fileID: 0}
@@ -310,20 +308,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: d0fa25b0-3b69-4ea4-a22a-4a4f1a144ab6
   permanentID: 0
---- !u!64 &3639658408022018820
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3706794725306583263}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -2432090755550338912, guid: e11335e2583bf644fbc6c971531d6c57, type: 3}
 --- !u!1 &4762027240988218916
 GameObject:
   m_ObjectHideFlags: 0
