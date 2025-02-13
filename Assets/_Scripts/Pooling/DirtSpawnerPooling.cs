@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +13,8 @@ public class DirtSpawnerPooling : MonoBehaviour
     private static bool firstLoad = false;
 
     public static GameObject _DirtPrefab => instance.Prefab;
+
+    public static event Action OnAllDirtsLoaded;
 
     private void Awake()
     {
@@ -33,12 +38,12 @@ public class DirtSpawnerPooling : MonoBehaviour
         if(firstLoad)
         {
             //Debug.Log("Load temporary dirt");
-            DirtSetter.Load(_DirtPrefab, gameObject, true); // If already loaded when opening game, load temporal save
+            StartCoroutine(WaitForLoadCompletion(DirtSetter.Load(_DirtPrefab, gameObject, true))); // If already loaded when opening game, load temporal save
         }
         else
         {
             //Debug.Log("Load non-temporary dirt save file");
-            DirtSetter.Load(_DirtPrefab, gameObject, false); // On Start, load non-temporary dirt data
+            StartCoroutine(WaitForLoadCompletion(DirtSetter.Load(_DirtPrefab, gameObject, false))); // On Start, load non-temporary dirt data
             firstLoad = true;
         }
     }
@@ -71,6 +76,18 @@ public class DirtSpawnerPooling : MonoBehaviour
     }
     #endregion
 
+    static IEnumerator WaitForLoadCompletion(Task loadTask)
+    {
+        while (!loadTask.IsCompleted)
+        {
+            Debug.Log("Running load task...");
+            yield return null;
+        }
+        
+        Debug.Log("Completed Load task!");
+        OnAllDirtsLoaded?.Invoke();
+        
+    }
     private void OnDestroy()
     {
         ObjectPooling.ClearReferencesFromPool(_DirtPrefab, gameObject);

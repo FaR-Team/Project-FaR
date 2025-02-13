@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -25,12 +27,15 @@ public static class DirtSetter
         }
     }
 
-    public static void Load(GameObject _DirtPrefab, GameObject parentGO, bool temporary)
+    public static Task Load(GameObject _DirtPrefab, GameObject parentGO, bool temporary)
     {
         dirtPrefab = _DirtPrefab;
-        TryPreloadSavedDirts(parentGO, temporary);
+        return TryPreloadSavedDirts(parentGO, temporary);
+        
     }
-    private static void TryPreloadSavedDirts(GameObject parentGO, bool temporary)
+    
+    
+    private static async Task TryPreloadSavedDirts(GameObject parentGO, bool temporary)
     {
         try
         {
@@ -43,7 +48,11 @@ public static class DirtSetter
             var dirtDataQueue = dirtsData.GetSceneDataFromName(SceneManager.GetActiveScene().name).datas;
             dirtsGO = ObjectPooling.LoadSavedObjects(dirtPrefab, dirtDataQueue.Count, parentGO);
 
-            dirtsGO.ForEach(dirt => { dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue()); });
+            foreach (var dirt in dirtsGO)
+            {
+                await dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue());
+            }
+            //dirtsGO.ForEach(dirt => { await dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue()); });
 
         }
         catch (Exception e)

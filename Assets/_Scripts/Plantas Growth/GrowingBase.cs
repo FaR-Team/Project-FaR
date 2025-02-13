@@ -19,8 +19,6 @@ public abstract class GrowingBase : MonoBehaviour
     public bool isFruit;
     [SerializeField] protected GrowingState[] states;
     public GrowingState currentState;
-    [SerializeField] protected GrowingState deadState;
-
     [HideInInspector] public MeshFilter meshFilter;
     [HideInInspector] public MeshCollider meshCollider;
     public MeshRenderer meshRenderer;
@@ -48,26 +46,15 @@ public abstract class GrowingBase : MonoBehaviour
         
         UpdateState();
     }
-
+    
     protected virtual void Start()
     {
-        CatchUpMissedGrowth();
+        //CatchUpMissedGrowth();
     }
 
-    protected virtual void CatchUpMissedGrowth()
+    protected virtual void CatchUpMissedGrowth(int daysPassed)
     {
-        //this.Log("Catching up missed growth...");
         if (hasCaughtUp || _isDead) return;
-        
-        // Calculate days between current time and last save
-        var currentTime = TimeManager.DateTime;
-        var lastSaveTime = TimeManager.Instance.GetLastTimeInScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-
-        var currentDayCount = currentTime.Hour < 3 ? currentTime.TotalNumDays - 1 : currentTime.TotalNumDays;
-        var lastDayCount = lastSaveTime.Hour < 3 ? lastSaveTime.TotalNumDays - 1 : lastSaveTime.TotalNumDays;
-        var daysPassed = currentDayCount - lastDayCount;
-        
-        this.Log($"Days passed: {daysPassed}", $"Current time: {currentTime.Date}", $"Last save time: {lastSaveTime.Date}");
 
         for (int i = 0; i < daysPassed; i++)
         {
@@ -177,10 +164,12 @@ public abstract class GrowingBase : MonoBehaviour
     protected virtual void OnEnable()
     {
         GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
+        CatchUpBroadcaster.Instance.OnCatchUpBroadcast += CatchUpMissedGrowth;
     }
 
     protected virtual void OnDisable()
     {
         GrowthEventManager.Instance.OnHourChanged -= OnHourChanged;
+        CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= CatchUpMissedGrowth;
     }
 }

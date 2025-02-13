@@ -1,5 +1,6 @@
 using FaRUtils.Systems.Weather;
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
 
@@ -30,7 +31,7 @@ public class Dirt : MonoBehaviour
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
     }
 
-    public void LoadData(DirtData data)
+    public async Task LoadData(DirtData data)
     {
 
         _isWet = data._isWet;
@@ -53,11 +54,11 @@ public class Dirt : MonoBehaviour
 
         if (currentSeedData != null)
         {
-            LoadCrop();
+            await LoadCrop();
         }
     }
 
-    private void LoadCrop()
+    private Task LoadCrop()
     {
         GetCrop(currentSeedData);
         try
@@ -68,6 +69,8 @@ public class Dirt : MonoBehaviour
         {
             this.LogWarning(e);
         }
+        
+        return Task.CompletedTask;
     }
     public PlantData GetCropSaveData()
     {
