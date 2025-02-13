@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f950adb2907ddd4ebc0e801ebe79547, type: 3}
+  m_Name: BeetSeed
+  m_EditorClassIdentifier: 
+  ID: -1
+  Nombre: Semilla de Remolacha
+  "Descripci\xF3n": 
+  Icono: {fileID: 21300000, guid: 5778e699eb0386141977aee5bd5e57be, type: 3}
+  Valor: 100
+  ItemPrefab: {fileID: 97846187706656559, guid: 47f53833e785ab541bce540462b463de,
+    type: 3}
+  DirtPrefabGhost: {fileID: 3527519740424981801, guid: aa927d940b021654b8965ff4a1ee798f,
+    type: 3}
+  ghostMesh: {fileID: -2432090755550338912, guid: bef0f754dcbc88e4c9631b67fa22b4f7,
+    type: 3}
+  ToolGameObject: {fileID: 0}
+  Usable: 1
+  Sellable: 0
+  IsLookingAtStore: 0
+  leftClickUse: 0
+  useItemSound: {fileID: 0}
+  typeOfItem: 5
+  DirtPrefab: {fileID: 97846187706656559, guid: 47f53833e785ab541bce540462b463de,
+    type: 3}

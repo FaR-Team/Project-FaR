@@ -50,8 +50,19 @@ public class CropExplode : MonoBehaviour
         thisCropDirt.transform.position = new Vector3(thisCropDirt.transform.position.x, -2, thisCropDirt.transform.position.z);
         Instantiate(ExplotionGameObject, GetPosition(), Quaternion.identity);
         
-        GetComponentInChildren<SkinnedMeshRenderer>().enabled = false;
-        GetComponent<CarrotTuberInteraction>().InstantiateAndDropCarrots();
+        var skinnedMesh = GetComponentInChildren<SkinnedMeshRenderer>();
+        var standardMesh = GetComponentInChildren<MeshRenderer>();
+        
+        if (skinnedMesh != null)
+        {
+            skinnedMesh.enabled = false;
+            GetComponent<SkinnedMeshTuberInteraction>()?.InstantiateAndDropFruits();
+        }
+        else if (standardMesh != null) 
+        {
+            standardMesh.enabled = false;
+            GetComponent<MeshTuberInteraction>()?.InstantiateAndDropCarrots();
+        }
 
         yield return new WaitForSeconds(0.2f);
         DirtSpawnerPooling.DeSpawn(thisCropDirt);

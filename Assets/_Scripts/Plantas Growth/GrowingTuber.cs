@@ -70,32 +70,64 @@ public class GrowingTuber : GrowingBase
     }
     protected override void UpdateState()
     {
-        //Debug.Log("UPDATING STATE");
-        skinnedMeshRenderer.material = currentState.material;
-        skinnedMeshRenderer.sharedMesh = currentState.mesh;
+        if (skinnedMeshRenderer != null)
+        {
+            skinnedMeshRenderer.material = currentState.material;
+            skinnedMeshRenderer.sharedMesh = currentState.mesh;
+        }
+        
+        if (meshRenderer != null)
+        {
+            meshRenderer.material = currentState.material;
+            if (meshFilter != null)
+                meshFilter.mesh = currentState.mesh;
+        }
 
         if (currentState.isLastPhase) SpawnInteractable();
     }
+
     public void SpawnInteractable()
     {
         if (spawnedInteractable != null) return;
         spawnedInteractable = Instantiate(interactablePrefab, transform.position, Quaternion.identity, transform);
-        skinnedMeshRenderer.sharedMesh = null;
-        skinnedMeshRenderer.material = null;
+        if(skinnedMeshRenderer)
+        {
+            skinnedMeshRenderer.sharedMesh = null;
+            skinnedMeshRenderer.material = null;
+        }
+        else if (meshRenderer)
+        {
+            meshRenderer.material = null;
+            meshFilter.mesh = null;
+        }
     }
 
     public override void Die()
     {
         base.Die();
-        //meshFilter.mesh = deadState.mesh;
+        
         if(skinnedMeshRenderer)
         {
             skinnedMeshRenderer.material.SetFloat("_UseMultiplyTexture", 1f);
         }
+        
+        if(meshRenderer)
+        {
+            meshRenderer.material.SetFloat("_UseMultiplyTexture", 1f);
+        }
+        
         if(spawnedInteractable != null)
         {
-            spawnedInteractable.GetComponentInChildren<SkinnedMeshRenderer>().material.SetFloat("_UseMultiplyTexture", 1f);
+            var spawnedSkinned = spawnedInteractable.GetComponentInChildren<SkinnedMeshRenderer>();
+            var spawnedMesh = spawnedInteractable.GetComponentInChildren<MeshRenderer>();
+            
+            if(spawnedSkinned)
+                spawnedSkinned.material.SetFloat("_UseMultiplyTexture", 1f);
+            if(spawnedMesh)
+                spawnedMesh.material.SetFloat("_UseMultiplyTexture", 1f);
+                
             spawnedInteractable.layer = LayerMask.NameToLayer("Default");
         }
     }
+
 }

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fab13deb666f1447a497464c4805fe0, type: 3}
+  m_Name: Beet1
+  m_EditorClassIdentifier: 
+  mesh: {fileID: -2432090755550338912, guid: bef0f754dcbc88e4c9631b67fa22b4f7, type: 3}
+  material: {fileID: 2100000, guid: b96af59234eb1d047b3d3cb066fb015c, type: 2}
+  minimalDay: 0
+  maximalDay: 1
+  isLastPhase: 0
