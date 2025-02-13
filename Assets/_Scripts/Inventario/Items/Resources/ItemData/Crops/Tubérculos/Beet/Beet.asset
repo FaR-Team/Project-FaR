@@ -12,18 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6d1a23525c1b7d44b73ed3bbd393b04, type: 3}
   m_Name: Beet
   m_EditorClassIdentifier: 
-  ID: -1
+  ID: 12
   Nombre: Remolacha
   "Descripci\xF3n": 
   Icono: {fileID: 21300000, guid: 7f38181c2a503324686bd46a5023d8f6, type: 3}
-  Valor: 0
+  Valor: 80
   ItemPrefab: {fileID: 0}
   DirtPrefabGhost: {fileID: 0}
   ghostMesh: {fileID: 0}
   ToolGameObject: {fileID: 0}
-  Usable: 0
-  Sellable: 0
-  IsLookingAtStore: 0
+  Usable: 1
+  Sellable: 1
+  IsLookingAtStore: 1
   leftClickUse: 0
   useItemSound: {fileID: 0}
   typeOfItem: 0

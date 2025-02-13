@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1945226740999173627}
   - component: {fileID: 3598525278618117499}
   - component: {fileID: 4979446001967435849}
-  - component: {fileID: 1731623576318032020}
+  - component: {fileID: 1251315523415586125}
   m_Layer: 7
   m_Name: BeetInteractablePrefab
   m_TagString: Untagged
@@ -116,7 +116,7 @@ Animation:
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
---- !u!114 &1731623576318032020
+--- !u!114 &1251315523415586125
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1275932420384288578}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cb0d847a5fb0794dbc3593c69cf337b, type: 3}
+  m_Script: {fileID: 11500000, guid: 70cf959ece0d2b74f817560177da04f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Crop: {fileID: 0}
