@@ -206,21 +206,9 @@ public class DebugMenu : MonoBehaviour
     private void TakeScreenshot()
     {
         string timestamp = System.DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-        
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
-        string saveFilePath = EditorUtility.SaveFilePanel(
-            "Save Screenshot",
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            $"screenshot_{timestamp}.png",
-            "png");
-
-        if (!string.IsNullOrEmpty(saveFilePath))
-        {
-            ScreenCapture.CaptureScreenshot(saveFilePath);
-            Debug.Log($"Screenshot saved to: {saveFilePath}");
-        }
+        FaREditorUtils.SaveScreenshot(timestamp);
     }
 }
 

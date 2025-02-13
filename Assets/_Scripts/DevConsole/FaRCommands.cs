@@ -251,44 +251,9 @@ public class FaRCommands : MonoBehaviour
         Cursor.visible = true;
         string timestamp = System.DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
         string tempExportPath = Path.Combine(Application.temporaryCachePath, $"FaR_Export_{timestamp}");
-        Directory.CreateDirectory(tempExportPath);
-
-        // Export logs
         string logContent = DebugLogManager.Instance.GetAllLogs();
-        File.WriteAllText(Path.Combine(tempExportPath, "debug_logs.txt"), logContent);
-
-        // Copy all save files
-        string savesDirectory = PathFinder.GetPermanentFolder();
-        if (Directory.Exists(savesDirectory))
-        {
-            string savesFolderInZip = Path.Combine(tempExportPath, "saves");
-            Directory.CreateDirectory(savesFolderInZip);
-            foreach (string file in Directory.GetFiles(savesDirectory))
-            {
-                File.Copy(file, Path.Combine(savesFolderInZip, Path.GetFileName(file)));
-            }
-        }
-
-        // Let user choose where to save the zip
-        string saveFilePath = EditorUtility.SaveFilePanel(
-            "Save Export Data",
-            Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            $"FaR_Export_{timestamp}.zip",
-            "zip");
-
-        if (!string.IsNullOrEmpty(saveFilePath))
-        {
-            // Create zip file
-            if (File.Exists(saveFilePath))
-                File.Delete(saveFilePath);
-                
-            System.IO.Compression.ZipFile.CreateFromDirectory(tempExportPath, saveFilePath);
-            Debug.Log($"Data exported to: {saveFilePath}");
-        }
-
-        // Cleanup temp directory
-        if (Directory.Exists(tempExportPath))
-            Directory.Delete(tempExportPath, true);
+        
+        FaREditorUtils.ExportData(timestamp, tempExportPath, logContent);
     }
 
     void GivePants()

@@ -330,13 +330,12 @@ public class FaRConsoleWindow : EditorWindow
 
     private void ExportLogsToFile()
     {
-        string path = EditorUtility.SaveFilePanel("Save Console Log", "", "ConsoleLog.html", "html");
-        if (!string.IsNullOrEmpty(path))
-        {
-            string htmlContent = GenerateHtmlContent();
-            File.WriteAllText(path, htmlContent);
-            this.LogSuccess($"Console log exported to: {path}");
-        }
+        string timestamp = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+        string tempExportPath = Path.Combine(Application.temporaryCachePath, $"FaR_Export_{timestamp}");
+        string logContent = GenerateHtmlContent();
+        
+        FaREditorUtils.ExportData(timestamp, tempExportPath, logContent);
+        this.LogSuccess($"Console log exported successfully");
     }
 
     private bool ShouldShowLogType(LogEntryType type)
