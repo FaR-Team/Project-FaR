@@ -173,7 +173,7 @@ public class GrowingTreeAndPlant : GrowingBase
         {
             meshCollider.sharedMesh = currentState.mesh;
         }
-        if (currentState.isLastPhase && fruits.Count > 0) SetInteractable();
+        if (currentState.isLastPhase && fruits.Count > 0 && FruitsAreReady()) SetInteractable();
         
         // Notify subscribers about the state change
         GrowthEventManager.Instance.NotifyGrowthStateChanged(this, currentState);
@@ -203,6 +203,8 @@ public class GrowingTreeAndPlant : GrowingBase
             
         }
     }
+
+    public bool FruitsAreReady() => fruits.Any(fruit => fruit.currentState.isLastPhase);
     
     public override void LoadData(PlantData data)
     {
