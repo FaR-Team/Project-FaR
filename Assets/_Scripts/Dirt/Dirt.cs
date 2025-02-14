@@ -33,7 +33,6 @@ public class Dirt : MonoBehaviour
 
     public async Task LoadData(DirtData data)
     {
-
         _isWet = data._isWet;
         IsEmpty = data.IsEmpty;
         currentSeedData = data.currentCropData;
@@ -129,20 +128,26 @@ public class Dirt : MonoBehaviour
 
     void OnDisable()
     {
-        Destroy(currentCrop);
-        currentCrop = null;
-        currentSeedData = null;
-        IsEmpty = true;
-        _isWet = false;
-        TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
-        colliders.transform.position = this.transform.position;
-        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
-        WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
+        Reset();
     }
 
     public void DestroyDirtAndCrop()
     {
         // TODO: Chequear si con esto ya es suficiente
         DirtSpawnerPooling.DeSpawn(gameObject);
+    }
+
+    public void Reset()
+    {
+        if(currentCrop) Destroy(currentCrop.gameObject);
+        currentCrop = null;
+        currentSeedData = null;
+        cropSaveData = null;
+        IsEmpty = true;
+        _isWet = false;
+        TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
+        colliders.transform.position = this.transform.position;
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
+        WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
     }
 }
