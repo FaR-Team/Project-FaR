@@ -67,12 +67,12 @@ public static class DirtSetter
         ObjectPooling.PreLoad(_DirtPrefab, 10, gameObject);
     }
 
-    public static void ReloadDirtData(GameObject parentGO)
+    public static async Task ReloadDirtData(GameObject parentGO)
     {
         dirtsGO.ForEach((chest) =>
         {
             ObjectPooling.RecicleObject(chest, dirtPrefab);
         });
-        TryPreloadSavedDirts(parentGO, false);
+        await TryPreloadSavedDirts(parentGO, false);
     }
 }

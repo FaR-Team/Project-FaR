@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using System;
 using Utils;
+using System.Threading.Tasks;
 
 public class FaRCommands : MonoBehaviour
 {
@@ -83,9 +84,9 @@ public class FaRCommands : MonoBehaviour
         SaveLoadHandlerSystem.Invoke(true);
     }
 
-    private void TestLoad()
+    private async Task TestLoad()
     {
-        SaveLoadHandlerSystem.ForceLoad();
+        await SaveLoadHandlerSystem.ForceLoad();
     }
 
     private void TestDeleteSave()

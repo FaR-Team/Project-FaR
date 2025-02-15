@@ -27,11 +27,19 @@ public class SellSystem : MonoBehaviour
     private Dictionary<InventoryItemData, ShoppingCartItemUI> _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
     
     private static bool firstLoadDone = false;
+    private static bool sellRequested = false;
     public static List<ShoppingCartItem> ShoppingCart => _shoppingCart;
     private void OnEnable()
     {
         SleepHandler.Instance.OnPlayerSleep += Sell;
+        CatchUpBroadcaster.Instance.OnCatchUpBroadcast += wasSellRequested;
         _playerInventoryHolder = GameObject.FindWithTag("Player").GetComponent<PlayerInventoryHolder>();
+    }
+
+    private void OnDisable()
+    {
+        SleepHandler.Instance.OnPlayerSleep -= Sell;
+        CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= wasSellRequested;
     }
 
     private void Start()
@@ -51,7 +59,6 @@ public class SellSystem : MonoBehaviour
         if(data != null) 
         {
             Load(data.shoppingCart);
-            CatchUpMissedSales();
         }
         else Debug.LogWarning("SellSystemData is null");
     }
@@ -64,7 +71,9 @@ public class SellSystem : MonoBehaviour
     public void Sell()
     {
         _playerInventoryHolder.PrimaryInventorySystem.GainGold(_basketTotal);
+        this.LogSuccess($"Sold for {_basketTotal} gold");
         ClearSlots();
+        sellRequested = false;
     }
     
     public void AddToSellCart(GameObject CropBoxPrefab, InventoryItemData data)
@@ -88,7 +97,6 @@ public class SellSystem : MonoBehaviour
         {
             ShoppingCartItem cartItem = new ShoppingCartItem(data, 1);
             _shoppingCart.Add(cartItem);
-            this.Log("AddCart");
             AddBox(CropBoxPrefab, data);
             var shoppingCartTextObj = Instantiate(_shoppingCartItemPrefab, _shoppingCartContentPanel.transform);
             var newString = $"{data.Nombre} x{cartItem.amount}";
@@ -99,24 +107,20 @@ public class SellSystem : MonoBehaviour
         _basketTotal += price;
     }
 
-    private void CatchUpMissedSales()
+    private void wasSellRequested(int daysPassed)
     {
-        var currentTime = TimeManager.DateTime;
-        var lastSaveTime = TimeManager.Instance.GetLastTimeInScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-
-        var currentDayCount = currentTime.Hour < 3 ? currentTime.TotalNumDays - 1 : currentTime.TotalNumDays;
-        var lastDayCount = lastSaveTime.Hour < 3 ? lastSaveTime.TotalNumDays - 1 : lastSaveTime.TotalNumDays;
-        var daysPassed = currentDayCount - lastDayCount;
-
         if (daysPassed > 0)
         {
-            Sell();
+            sellRequested = true;
+        }
+        else
+        {
+            sellRequested = false;
         }
     }
 
     public void AddBox(GameObject CropBoxPrefab, InventoryItemData data)
     {
-        this.Log("AddBox");
         TryGetShoppingCartItem(data, out ShoppingCartItem cartItem);
 
         if (BoxCount >= 5)
@@ -259,11 +263,11 @@ public class SellSystem : MonoBehaviour
             }
             
         }
-    }
-    
-    private void OnDisable()
-    {
-        SleepHandler.Instance.OnPlayerSleep -= Sell;
+
+        if (sellRequested)
+        {
+            Sell();
+        }
     }
 }
 

@@ -93,8 +93,8 @@ public class DirtSpawnerPooling : MonoBehaviour
         ObjectPooling.ClearReferencesFromPool(_DirtPrefab, gameObject);
     }
 
-    public void Reload()
+    public async Task Reload()
     {
-        DirtSetter.ReloadDirtData(gameObject);
+        await DirtSetter.ReloadDirtData(gameObject);
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using System.Threading.Tasks;
+using UnityEngine.Events;
 
 public static class SaveLoadHandlerSystem
 {
@@ -26,10 +27,10 @@ public static class SaveLoadHandlerSystem
 
     #region Load
 
-    public static void ForceLoad()
+    public static async Task ForceLoad()
     {
         ChestsManager.instance.Reload();
-        DirtSpawnerPooling.instance.Reload();
+        await DirtSpawnerPooling.instance.Reload();
     }
 
     #endregion
