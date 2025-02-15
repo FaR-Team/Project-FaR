@@ -29,6 +29,11 @@ public class Dirt : MonoBehaviour
     {
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(DryDirt);
         WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
+
+        if (WeatherManager.Instance.CurrentWeather == Weather.Rain)
+        {
+            DirtIsWet();
+        }
     }
 
     public async Task LoadData(DirtData data)
@@ -37,17 +42,6 @@ public class Dirt : MonoBehaviour
         IsEmpty = data.IsEmpty;
         currentSeedData = data.currentCropData;
         cropSaveData = data.plantData;
-        /*
-        if (data.cropData != null)
-        {
-            this.Log("Loaded as CropData");
-            cropSaveData = data.cropData;
-        }
-        else if (data.treeBushData != null)
-        {
-            this.Log("Loaded as TreeBushData");
-            cropSaveData = data.treeBushData; // TODO: No se si es la mejor forma de hacer esto
-        }*/
 
         transform.position = data.position;
 
@@ -67,6 +61,11 @@ public class Dirt : MonoBehaviour
         catch (Exception e)
         {
             this.LogWarning(e);
+        }
+
+        if (WeatherManager.Instance.CurrentWeather == Weather.Rain)
+        {
+            DirtIsWet();
         }
         
         return Task.CompletedTask;

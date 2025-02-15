@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
 using FaRUtils.Systems.DateTime;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
 namespace FaRUtils.Systems.Weather
 {
@@ -63,7 +63,7 @@ namespace FaRUtils.Systems.Weather
                 weatherQueue.Enqueue(tempWeather);
             }
         }
-        private void HandleSeasonChange(FaRUtils.Systems.DateTime.DateTime.Season newSeason)
+        private void HandleSeasonChange(DateTime.DateTime.Season newSeason)
         {
             FillWeatherQueue();
             ChangeWeather();
