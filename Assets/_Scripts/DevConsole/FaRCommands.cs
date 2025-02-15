@@ -23,7 +23,7 @@ public class FaRCommands : MonoBehaviour
 
     public int actualDay;
     private bool skipdays;
-    private bool areYouSleepy;
+    private static bool areYouSleepy;
     private int daysToSkip;
     public GameObject player;
     public Rigidbody rb;
@@ -188,7 +188,7 @@ public class FaRCommands : MonoBehaviour
         sleepHandler.lightingManager.CopyHour();
     }
 
-    void ImSleepy()
+    public static void ImSleepy()
     {
         TimeManager.TimeBetweenTicks = 0.01f;
         areYouSleepy = true;

@@ -873,9 +873,15 @@ namespace IngameDebugConsole
 
 		public void LogOnScreen(string message)
 		{
-			// Create a new UI Text element for the on-screen message
+			// Create background object first
+			GameObject backgroundObj = new GameObject("LogBackground");
+			backgroundObj.transform.SetParent(transform, false);
+			Image background = backgroundObj.AddComponent<Image>();
+			background.color = new Color(0, 0, 0, 0.7f); // Semi-transparent black background
+			
+			// Create text object as child of background
 			GameObject onScreenLogObj = new GameObject("OnScreenLog");
-			onScreenLogObj.transform.SetParent(transform, false);
+			onScreenLogObj.transform.SetParent(backgroundObj.transform, false);
 			Text onScreenLogText = onScreenLogObj.AddComponent<Text>();
 			
 			// Set up the text component
@@ -885,15 +891,22 @@ namespace IngameDebugConsole
 			onScreenLogText.alignment = TextAnchor.MiddleCenter;
 			onScreenLogText.color = Color.white;
 
-			// Position the text in the middle of the screen
-			RectTransform rectTransform = onScreenLogText.GetComponent<RectTransform>();
-			rectTransform.anchorMin = new Vector2(0.5f, 0.5f);
-			rectTransform.anchorMax = new Vector2(0.5f, 0.5f);
-			rectTransform.anchoredPosition = new Vector2(0, -50f);
-			rectTransform.sizeDelta = new Vector2(800, 100);
+			// Position and size the background
+			RectTransform backgroundRect = background.GetComponent<RectTransform>();
+			backgroundRect.anchorMin = new Vector2(0.5f, 0.5f);
+			backgroundRect.anchorMax = new Vector2(0.5f, 0.5f);
+			backgroundRect.anchoredPosition = new Vector2(0, -50f);
+			backgroundRect.sizeDelta = new Vector2(820, 120);
 
-			// Destroy the message after a few seconds
-			Destroy(onScreenLogObj, 1.5f);
+			// Position and size the text
+			RectTransform textRect = onScreenLogText.GetComponent<RectTransform>();
+			textRect.anchorMin = Vector2.zero;
+			textRect.anchorMax = Vector2.one;
+			textRect.sizeDelta = Vector2.zero;
+			textRect.anchoredPosition = Vector2.zero;
+
+			// Destroy both objects after delay
+			Destroy(backgroundObj, 1.5f);
 		}
 
 		public void ShowLogWindow()
