@@ -49,7 +49,7 @@ public class ItemPickUp : MonoBehaviour
 
         if (!inventory) return;
         audioSource.pitch = Random.Range(0.8f, 1.2f);
-        audioSource.volume = 0.3f;
+        audioSource.volume = 0.05f;
         
         audioSource.PlayOneShot(PickUpClip);
 
