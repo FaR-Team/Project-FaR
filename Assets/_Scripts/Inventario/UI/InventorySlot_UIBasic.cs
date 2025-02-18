@@ -59,6 +59,7 @@ public class InventorySlot_UIBasic : MonoBehaviour
     public virtual void Init(InventorySlot slot)
     {
         assignedInventorySlot = slot;
+        slot.UISlot = this;
         UpdateUISlot(slot);
     }
 

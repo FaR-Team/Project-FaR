@@ -80,10 +80,12 @@ public class InventorySystem
     
     public bool AddToInventory(InventoryItemData itemAAñadir, int cantidadParaAñadir)
     {
-        if (HasItem(itemAAñadir, out List<InventorySlot> invSlot)) //Revisa si el item ya existe en el inventario
+        if (HasItem(itemAAñadir, out List<InventorySlot> invSlot))
         {
             foreach (var slot in invSlot)
             {
+                if (slot.IsBlocked) continue;
+
                 if (slot.EnoughRoomLeftInStack(cantidadParaAñadir))
                 {
                     slot.AddToStack(cantidadParaAñadir);
@@ -93,15 +95,16 @@ public class InventorySystem
             }
         }
 
-        if (HaySlotLibre(out InventorySlot SlotLibre)) //Busca el primer slot libre
+        if (HaySlotLibre(out InventorySlot SlotLibre))
         {
+            if (SlotLibre.IsBlocked) return false;
+
             if (SlotLibre.EnoughRoomLeftInStack(cantidadParaAñadir))
             {
                 SlotLibre.UpdateInventorySlot(itemAAñadir, cantidadParaAñadir);
                 OnInventorySlotChanged?.Invoke(SlotLibre);
                 return true;
             }
-            //Implementar sólo añadir lo que se peuda añadir al stack, y dejar el resto en otro stack libre
         }
 
         return false;
@@ -121,7 +124,7 @@ public class InventorySystem
 
     public bool HaySlotLibre(out InventorySlot SlotLibre)
     {
-        SlotLibre = InventorySlots.FirstOrDefault(i => i.ItemData == null); //Busca el primer slot libre
+        SlotLibre = InventorySlots.FirstOrDefault(i => i.ItemData == null && !i.IsBlocked); //Busca el primer slot libre y no bloqueado
         return !(SlotLibre == null);
     }
 

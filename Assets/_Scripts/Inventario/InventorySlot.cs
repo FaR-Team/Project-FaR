@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class InventorySlot : ItemSlot 
 {
+    public InventorySlot_UIBasic UISlot { get; set; }
+
+    public bool IsBlocked => UISlot is InventorySlot_UI_Backpack backpackSlot && backpackSlot.isSlotBlocked;
 
     public InventorySlot(InventoryItemData data, int amount) //Constructor para hacer un slot lleno
     {
