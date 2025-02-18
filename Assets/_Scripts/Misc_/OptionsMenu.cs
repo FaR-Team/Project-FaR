@@ -11,7 +11,7 @@ public class OptionsData
 {
     public float fov = 75f;
     public float sensitivity = 0.05f;
-    public int targetFPS = 60;
+    public int targetFPS = 300;
     public bool timeFormat12Hour = true;
     public bool isFullscreen = true;
     public int resolutionIndex = 0;
@@ -153,25 +153,16 @@ public class OptionsMenu : MonoBehaviour
 
     public void FPS()
     {
-        switch (FPSLimit.target)
+        int newTarget = FPSLimit.target switch
         {
-            case 30:
-                FPSLimit.target = 60;
-                break;
-            case 60:
-                FPSLimit.target = 120;
-                break;
-            case 120:
-                FPSLimit.target = 144;
-                break;
-            case 144:
-                FPSLimit.target = 300;
-                break;
-            default:
-                FPSLimit.target = 30;
-                break;
-        }
-        FPSText.text = $"FPS: {FPSLimit.target}";
+            30 => 60,
+            60 => 120,
+            120 => 144,
+            144 => 300,
+            _ => 30
+        };
+        
+        FPSLimit.SetFrameRateTarget(newTarget);
         SaveOptions();
     }
 

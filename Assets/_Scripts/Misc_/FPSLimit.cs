@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
@@ -10,24 +8,34 @@ public class FPSLimit : MonoBehaviour
     
     void OnEnable()
     {
-        target  =  PlayerPrefs.GetInt("TargetaFPS");
-        FPSText.text = "FPS: " + target;
+        target = PlayerPrefs.GetInt("TargetFPS", 60);
+        UpdateFPSDisplay();
     }
 
     void OnDisable()
     {
-        PlayerPrefs.SetInt("TargetaFPS", target);
+        PlayerPrefs.SetInt("TargetFPS", target);
     }
 
-    void Awake()
+    void Start()
     {
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = target;
+        UpdateFPSDisplay();
     }
-      
-    void Update()
+
+    public void SetFrameRateTarget(int newTarget)
     {
-        if(Application.targetFrameRate != target)
-            Application.targetFrameRate = target;
+        target = newTarget;
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = target;
+        PlayerPrefs.SetInt("TargetFPS", target);
+        UpdateFPSDisplay();
+    }
+
+    private void UpdateFPSDisplay()
+    {
+        if(FPSText != null)
+            FPSText.text = "FPS: " + target;
     }
 }
