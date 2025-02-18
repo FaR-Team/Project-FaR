@@ -51,6 +51,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "SprintFinish",
+                    "type": "Button",
+                    "id": "f88a2743-6c3d-4e9d-9237-cca2bcffc8cb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Crouch",
                     "type": "Value",
                     "id": "9520bbd4-d763-40d1-af1c-e8233eb95f8a",
@@ -76,15 +85,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
-                },
-                {
-                    "name": "SprintFinish",
-                    "type": "Button",
-                    "id": "f88a2743-6c3d-4e9d-9237-cca2bcffc8cb",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
                 },
                 {
                     "name": "MassSellFinish",
@@ -379,28 +379,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2b55d280-8799-4c12-aaf6-a6d0e22350ca",
-                    "path": "<Keyboard>/shift",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "SprintFinish",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c0248830-7eff-4d4a-8539-5301761c8148",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "SprintFinish",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0d29300b-72ec-49db-b39e-db08c918271f",
                     "path": "<Mouse>/scroll/y",
                     "interactions": "",
@@ -506,28 +484,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "ec8d9258-46e9-4953-a854-9fdb7ba4c5e1",
-                    "path": "<Keyboard>/ctrl",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "KeyboardMouse",
-                    "action": "MassSellFinish",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "13c6f392-1d40-4cf4-bcca-bbeadb2c55b8",
-                    "path": "<Gamepad>/rightTrigger",
-                    "interactions": "Press(behavior=1)",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "MassSellFinish",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -803,6 +759,50 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "PrimaryUse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ec8d9258-46e9-4953-a854-9fdb7ba4c5e1",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "MassSellFinish",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13c6f392-1d40-4cf4-bcca-bbeadb2c55b8",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "MassSellFinish",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2b55d280-8799-4c12-aaf6-a6d0e22350ca",
+                    "path": "<Keyboard>/shift",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "SprintFinish",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c0248830-7eff-4d4a-8539-5301761c8148",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SprintFinish",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

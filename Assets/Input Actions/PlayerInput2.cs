@@ -73,6 +73,15 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
+                    ""name"": ""SprintFinish"",
+                    ""type"": ""Button"",
+                    ""id"": ""f88a2743-6c3d-4e9d-9237-cca2bcffc8cb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Crouch"",
                     ""type"": ""Value"",
                     ""id"": ""9520bbd4-d763-40d1-af1c-e8233eb95f8a"",
@@ -98,15 +107,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
-                },
-                {
-                    ""name"": ""SprintFinish"",
-                    ""type"": ""Button"",
-                    ""id"": ""f88a2743-6c3d-4e9d-9237-cca2bcffc8cb"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 },
                 {
                     ""name"": ""MassSellFinish"",
@@ -401,28 +401,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""2b55d280-8799-4c12-aaf6-a6d0e22350ca"",
-                    ""path"": ""<Keyboard>/shift"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""SprintFinish"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""c0248830-7eff-4d4a-8539-5301761c8148"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""SprintFinish"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""0d29300b-72ec-49db-b39e-db08c918271f"",
                     ""path"": ""<Mouse>/scroll/y"",
                     ""interactions"": """",
@@ -528,28 +506,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""ec8d9258-46e9-4953-a854-9fdb7ba4c5e1"",
-                    ""path"": ""<Keyboard>/ctrl"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": ""KeyboardMouse"",
-                    ""action"": ""MassSellFinish"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""13c6f392-1d40-4cf4-bcca-bbeadb2c55b8"",
-                    ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": ""Press(behavior=1)"",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""MassSellFinish"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -827,6 +783,50 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                     ""action"": ""PrimaryUse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ec8d9258-46e9-4953-a854-9fdb7ba4c5e1"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""MassSellFinish"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""13c6f392-1d40-4cf4-bcca-bbeadb2c55b8"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""MassSellFinish"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b55d280-8799-4c12-aaf6-a6d0e22350ca"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""SprintFinish"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0248830-7eff-4d4a-8539-5301761c8148"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": ""Press(behavior=1)"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""SprintFinish"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -878,10 +878,10 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         m_Player_Interaction = m_Player.FindAction("Interaction", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_SprintFinish = m_Player.FindAction("SprintFinish", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Zoom = m_Player.FindAction("Zoom", throwIfNotFound: true);
         m_Player_MassSell = m_Player.FindAction("MassSell", throwIfNotFound: true);
-        m_Player_SprintFinish = m_Player.FindAction("SprintFinish", throwIfNotFound: true);
         m_Player_MassSellFinish = m_Player.FindAction("MassSellFinish", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_MouseWheel = m_Player.FindAction("Mouse Wheel", throwIfNotFound: true);
@@ -961,10 +961,10 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interaction;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_SprintFinish;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Zoom;
     private readonly InputAction m_Player_MassSell;
-    private readonly InputAction m_Player_SprintFinish;
     private readonly InputAction m_Player_MassSellFinish;
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_MouseWheel;
@@ -989,10 +989,10 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         public InputAction @Interaction => m_Wrapper.m_Player_Interaction;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @SprintFinish => m_Wrapper.m_Player_SprintFinish;
         public InputAction @Crouch => m_Wrapper.m_Player_Crouch;
         public InputAction @Zoom => m_Wrapper.m_Player_Zoom;
         public InputAction @MassSell => m_Wrapper.m_Player_MassSell;
-        public InputAction @SprintFinish => m_Wrapper.m_Player_SprintFinish;
         public InputAction @MassSellFinish => m_Wrapper.m_Player_MassSellFinish;
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @MouseWheel => m_Wrapper.m_Player_MouseWheel;
@@ -1032,6 +1032,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Sprint.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
                 @Sprint.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprint;
+                @SprintFinish.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
+                @SprintFinish.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
+                @SprintFinish.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
                 @Crouch.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCrouch;
@@ -1041,9 +1044,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @MassSell.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSell;
                 @MassSell.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSell;
                 @MassSell.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSell;
-                @SprintFinish.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
-                @SprintFinish.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
-                @SprintFinish.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSprintFinish;
                 @MassSellFinish.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSellFinish;
                 @MassSellFinish.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSellFinish;
                 @MassSellFinish.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMassSellFinish;
@@ -1108,6 +1108,9 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @Sprint.started += instance.OnSprint;
                 @Sprint.performed += instance.OnSprint;
                 @Sprint.canceled += instance.OnSprint;
+                @SprintFinish.started += instance.OnSprintFinish;
+                @SprintFinish.performed += instance.OnSprintFinish;
+                @SprintFinish.canceled += instance.OnSprintFinish;
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
@@ -1117,9 +1120,6 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 @MassSell.started += instance.OnMassSell;
                 @MassSell.performed += instance.OnMassSell;
                 @MassSell.canceled += instance.OnMassSell;
-                @SprintFinish.started += instance.OnSprintFinish;
-                @SprintFinish.performed += instance.OnSprintFinish;
-                @SprintFinish.canceled += instance.OnSprintFinish;
                 @MassSellFinish.started += instance.OnMassSellFinish;
                 @MassSellFinish.performed += instance.OnMassSellFinish;
                 @MassSellFinish.canceled += instance.OnMassSellFinish;
@@ -1194,10 +1194,10 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
         void OnInteraction(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnSprintFinish(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnZoom(InputAction.CallbackContext context);
         void OnMassSell(InputAction.CallbackContext context);
-        void OnSprintFinish(InputAction.CallbackContext context);
         void OnMassSellFinish(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnMouseWheel(InputAction.CallbackContext context);
