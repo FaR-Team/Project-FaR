@@ -17,7 +17,8 @@ public class PlayerInventoryHolder : Container
 
     protected void Awake()
     {
-        instance = this;
+        if(instance != null && instance != this) Destroy(gameObject);
+        else instance = this;
 
         inventorySystem = InventoryLoader.Load(tamañoInventario, _startingGold, false);
     }

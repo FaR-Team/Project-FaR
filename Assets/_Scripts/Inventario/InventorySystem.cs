@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
 using System.Linq;
+using UnityEngine;
 
 [System.Serializable]
 public class InventorySystem
@@ -98,7 +99,6 @@ public class InventorySystem
         if (HaySlotLibre(out InventorySlot SlotLibre))
         {
             if (SlotLibre.IsBlocked) return false;
-
             if (SlotLibre.EnoughRoomLeftInStack(cantidadParaAñadir))
             {
                 SlotLibre.UpdateInventorySlot(itemAAñadir, cantidadParaAñadir);
@@ -113,7 +113,7 @@ public class InventorySystem
     public bool HasItem(InventoryItemData itemAAñadir, out List<InventorySlot> invSlot) //alguno de los slots ya tiene este item?
     {
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista
-        return !(invSlot == null);
+        return invSlot is { Count: > 0 };
     }
 
     public bool HaySlotLibreEnLaSpecialHotbar(out InventorySlot SlotLibre)
