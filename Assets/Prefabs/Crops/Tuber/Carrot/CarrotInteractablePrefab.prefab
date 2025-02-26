@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1945226740999173624}
   - component: {fileID: 1945226740999173627}
   - component: {fileID: 3598525278618117499}
-  - component: {fileID: 4979446001967435849}
   - component: {fileID: 1731623576318032020}
+  - component: {fileID: 5927948657687139601}
   m_Layer: 7
   m_Name: CarrotInteractablePrefab
   m_TagString: Untagged
@@ -69,22 +69,7 @@ MonoBehaviour:
   ItemData: {fileID: 11400000, guid: ed5118089d2f4d747a4abb1145371469, type: 2}
   player: {fileID: 0}
   radius: 10
---- !u!111 &4979446001967435849
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1275932420384288578}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 1da8b302447c9d54182522aaac6a2c63, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 1da8b302447c9d54182522aaac6a2c63, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  explosionAnimIndex: 0
 --- !u!114 &1731623576318032020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,6 +89,26 @@ MonoBehaviour:
   isTree: 0
   GrowingCrop: {fileID: 0}
   Prefab: {fileID: 6461032584782359218, guid: 45cec035f344ce14c86fea7dcf7ceb12, type: 3}
+--- !u!95 &5927948657687139601
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275932420384288578}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 83550fbb59353e14cbcd300a0379a6c0, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3161543016739225818
 GameObject:
   m_ObjectHideFlags: 0
@@ -199,7 +204,7 @@ Transform:
   - {fileID: 8356743940615841952}
   m_Father: {fileID: 7371829884302353766}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 89.98021, y: 0, z: 0}
 --- !u!1 &6090992648687425531
 GameObject:
   m_ObjectHideFlags: 0
@@ -231,7 +236,7 @@ Transform:
   - {fileID: 5724054993526725687}
   m_Father: {fileID: 2238721810684629477}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 7.016709e-15, y: 179.99998, z: 180}
 --- !u!1 &6399660175283003690
 GameObject:
   m_ObjectHideFlags: 0

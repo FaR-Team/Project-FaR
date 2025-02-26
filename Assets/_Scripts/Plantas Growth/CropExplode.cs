@@ -10,8 +10,7 @@ public class CropExplode : MonoBehaviour
 
     public InventoryItemData ItemData;
     public GameObject player;
-
-    //public Vector3 center;
+    
     public float radius = 10;
 
 
@@ -25,9 +24,9 @@ public class CropExplode : MonoBehaviour
     public void StartAnimationAndExplode()
     {
         //TODO: No matarse (En swahilli).
-        if (this.GetComponent<Animation>() != null)
+        if (TryGetComponent(out Animator anim))
         {
-            this.GetComponent<Animation>().Play();
+            anim.SetTrigger("Harvest");
         }
         if (thisCropDirt.GetComponentInChildren<Animation>() != null)
         {
