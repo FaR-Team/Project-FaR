@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7221040229018545152}
   - component: {fileID: 4395658518830584872}
   - component: {fileID: 2188836714450380470}
-  - component: {fileID: 2946311036401442136}
   - component: {fileID: 2667748476553205741}
   m_Layer: 3
   m_Name: CarrotInDirt
@@ -79,22 +78,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _ID: f8c63ba1-1a9d-48cd-ad53-771aa2ac92f0
   permanentID: 0
---- !u!111 &2946311036401442136
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 97846187706656559}
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 367ec11e9b0cc5941af0a1a50445e6e6, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 367ec11e9b0cc5941af0a1a50445e6e6, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!64 &2667748476553205741
 MeshCollider:
   m_ObjectHideFlags: 0
