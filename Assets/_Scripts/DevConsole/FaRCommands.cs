@@ -93,7 +93,7 @@ public class FaRCommands : MonoBehaviour
     {
         SaverManager.DeleteAllSaves();
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Application.Quit();
     }
 
     private void ClearConsole()
@@ -177,6 +177,8 @@ public class FaRCommands : MonoBehaviour
             dirt.GetComponent<Dirt>().testing = test;
             dirt.GetComponent<Dirt>()._isWet = isWet;
         }
+
+        SleepHandler.Instance.tpToBed = !test;
     }
 
     void RelaxPotter()

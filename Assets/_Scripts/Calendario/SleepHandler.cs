@@ -22,7 +22,7 @@ public class SleepHandler : MonoBehaviour
 
     private bool _skipTonightSleep = false;
 
-    [SerializeField] private bool tpToBed;
+    public bool tpToBed;
     public static SleepHandler Instance { get; private set; }
 
     //TODO: Ver como conviene hacer asi no llenamos todo de singletons(? Shhhhhhhh

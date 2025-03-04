@@ -232,7 +232,8 @@ public class GridGhost : MonoBehaviour
 
         if (hit.collider != null)
         {
-            TreeSpawnerPooling.SpawnObject(finalPosition, Quaternion.identity);
+            TreeSpawnerPooling.SpawnObject(finalPosition, Rotation());
+            UpdateRandomSeed();
             //Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
             return true;
         }
