@@ -79,6 +79,16 @@ public class GridGhost : MonoBehaviour
         HandleSeedGhost();
     }
 
+    public bool CheckAvailableSpace(Vector3 center, Vector3 requiredSpace)
+    {            
+        int maxColliders = 5;
+        Collider[] hitColliders = new Collider[maxColliders];
+        int numColliders = Physics.OverlapBoxNonAlloc(center, requiredSpace * 0.5f, hitColliders, Quaternion.identity, layerCrop);
+        
+        
+        return numColliders == 0;
+    }
+
     private void HandleHoeGhost()
     {
         if (GetItemData() == null || !GetItemData().IsHoe())
@@ -99,7 +109,9 @@ public class GridGhost : MonoBehaviour
         hoeGhost.SetActive(true);
         hoeGhost.transform.position = finalPosition;
         
-        bool canPlow = CheckCrop(finalPosition, 0.1f) && !interactor._LookingAtDirt;
+        bool isDirtAlreadyHere = CheckDirt(finalPosition, 0.5f) != null;
+        bool noCropPresent = CheckCrop(finalPosition, 0.5f);
+        bool canPlow = !isDirtAlreadyHere && !interactor._LookingAtDirt && noCropPresent;
         
         if (canPlow)
         {
@@ -111,7 +123,7 @@ public class GridGhost : MonoBehaviour
         }
     }
 
-   private void HandleSeedGhost()
+    private void HandleSeedGhost()
     {
         if (GetItemData() == null || 
             GetItemData().IsHoe() || 
@@ -129,26 +141,45 @@ public class GridGhost : MonoBehaviour
         }
 
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
-        ActivateSeedGhost();
         
+        bool shouldShowGhost = false;
         bool canPlant = false;
+        var hasCrop = false;
+
+        Vector3 requiredSpace = GetItemData().RequiredGridSpace;
         
         if (GetItemData().IsCropSeed())
         {
-            canPlant = interactor._LookingAtDirt && hotbarDisplay.CanUseItem();
+            shouldShowGhost = interactor._LookingAtDirt;
+            var currentCheckedDirt = CheckDirt(finalPosition, 0.5f);
+            if (shouldShowGhost && currentCheckedDirt != null)
+            {
+                hasCrop = currentCheckedDirt.currentCrop != null;
+            }
+            canPlant = shouldShowGhost && hotbarDisplay.CanUseItem() && !hasCrop;
         }
         else if (GetItemData().IsTreeSeed()) 
         {
-            canPlant = !interactor._LookingAtDirt && CheckCrop(finalPosition, 1);
+            shouldShowGhost = true;
+            
+            // Can only plant on non-dirt areas with enough space
+            canPlant = !interactor._LookingAtDirt && CheckAvailableSpace(finalPosition, requiredSpace);
         }
         
-        if (canPlant)
+        seedGhost.SetActive(shouldShowGhost);
+        
+        if (shouldShowGhost)
         {
-            MakeGridGhostAvaliable();
-        }
-        else
-        {
-            MakeGridGhostUnavaliable();
+            ActivateSeedGhost();
+            
+            if (canPlant)
+            {
+                MakeGridGhostAvaliable();
+            }
+            else
+            {
+                MakeGridGhostUnavaliable();
+            }
         }
     }
 
@@ -230,16 +261,19 @@ public class GridGhost : MonoBehaviour
 
     public bool PlantTreeNear(GameObject TreePrefab)
     {
-        Debug.Log("Called PlantTreeNear");
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
 
         if (hit.collider != null)
         {
-            TreeSpawnerPooling.SpawnObject(finalPosition, Rotation());
-            UpdateRandomSeed();
-            return true;
+            Vector3 requiredSpace = GetItemData().RequiredGridSpace;
+            if (CheckAvailableSpace(finalPosition, requiredSpace))
+            {
+                TreeSpawnerPooling.SpawnObject(finalPosition, Rotation());
+                UpdateRandomSeed();
+                return true;
+            }
         }
-        else { return false; }
+        return false;
     }
 
     public void HandleRemainingEnergy(int remainingEnergy)

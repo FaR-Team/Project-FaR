@@ -21,6 +21,9 @@ public class InventoryItemData : ScriptableObject
     public Mesh ghostMesh = null;
     public GameObject ToolGameObject = null;
 
+    [Tooltip("The size of the grid space required for this item")]
+    public Vector3 RequiredGridSpace = new Vector3(2.1f, 0.1f, 2.1f); 
+
     public bool Usable;
     public bool Sellable;
     public bool IsLookingAtStore;

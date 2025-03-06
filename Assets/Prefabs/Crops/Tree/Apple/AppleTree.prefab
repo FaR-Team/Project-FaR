@@ -190,7 +190,7 @@ GameObject:
   - component: {fileID: 8231588947190722257}
   - component: {fileID: 871205090105256236}
   - component: {fileID: 7023035240458704545}
-  - component: {fileID: 7487147038924788134}
+  - component: {fileID: 525453463031563840}
   m_Layer: 3
   m_Name: AppleTree
   m_TagString: Untagged
@@ -365,7 +365,7 @@ CapsuleCollider:
   m_Height: 7.999999
   m_Direction: 1
   m_Center: {x: 0, y: 3.5, z: 0}
---- !u!65 &7487147038924788134
+--- !u!65 &525453463031563840
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -376,8 +376,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 8.4, y: 0.02757959, z: 8.4}
-  m_Center: {x: 0.024999976, y: 0.013789795, z: -0.024999976}
+  m_Size: {x: 8.4, y: 0.1, z: 8.4}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5634044043561484131
 GameObject:
   m_ObjectHideFlags: 0
