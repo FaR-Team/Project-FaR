@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 using Random = UnityEngine.Random;
 
 public class GridGhost : MonoBehaviour
@@ -69,84 +70,86 @@ public class GridGhost : MonoBehaviour
     {
         return hotbarDisplay.slots[HotbarDisplayBase._currentIndex].AssignedInventorySlot.ItemData;
     }
+
     void FixedUpdate()
     {
         if (PauseMenu.GameIsPaused) return;
 
-        if (GetItemData() != null &&
-            GetItemData().IsHoe() &&
-            !interactor._LookingAtDirt)
+        HandleHoeGhost();
+        HandleSeedGhost();
+    }
+
+    private void HandleHoeGhost()
+    {
+        if (GetItemData() == null || !GetItemData().IsHoe())
         {
-            RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance - 3, layerMask);
-
-            if (!CheckCrop(grid.GetNearestPointOnGrid(hit.point), 0.1f))
-            {
-                MakeGridGhostUnavaliable();
-            }
-            else
-            {
-                MakeGridGhostAvaliable();
-            }
-
-            if (hit.collider != null)
-            {
-                finalPosition = grid.GetNearestPointOnGrid(hit.point);
-                hoeGhost.SetActive(true);
-                hoeGhost.transform.position = finalPosition; //Pone el fantasma de la tierra en el lugar que debe estar.
-            }
-            else
-            {
-                hoeGhost.SetActive(false);
-            }
+            hoeGhost.SetActive(false);
+            return;
+        }
+        
+        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance - 3, layerMask);
+        
+        if (hit.collider == null)
+        {
+            hoeGhost.SetActive(false);
+            return;
+        }
+        
+        finalPosition = grid.GetNearestPointOnGrid(hit.point);
+        hoeGhost.SetActive(true);
+        hoeGhost.transform.position = finalPosition;
+        
+        bool canPlow = CheckCrop(finalPosition, 0.1f) && !interactor._LookingAtDirt;
+        
+        if (canPlow)
+        {
+            MakeGridGhostAvaliable();
         }
         else
         {
-            hoeGhost.SetActive(false);
+            MakeGridGhostUnavaliable();
         }
-        SeedGhost();
     }
 
-    public void SeedGhost()
+   private void HandleSeedGhost()
     {
-
-        /*      
-        * Si no tiene semilla en la mano O 
-        * Si la semilla es cultivo y no estas mirando tierra O
-        * Si la semilla es arbol y estas mirando a una tierra. 
-        * Entonces desactiva la seed y no ejecuta el código. 
-        */
-        if (GetItemData() == null ||
-            GetItemData().IsHoe() ||
-            GetItemData().IsTreeSeed() && interactor._LookingAtDirt ||
-            GetItemData().IsCropSeed() && !interactor._LookingAtDirt)
+        if (GetItemData() == null || 
+            GetItemData().IsHoe() || 
+            (!GetItemData().IsCropSeed() && !GetItemData().IsTreeSeed()))
         {
             seedGhost.SetActive(false);
             return;
         }
-
 
         RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
-
-        if (hit.collider == null) return; //Si el raycast no pega con NADA, entonces no ejecuta el código.
+        if (hit.collider == null)
+        {
+            seedGhost.SetActive(false);
+            return;
+        }
 
         finalPosition = grid.GetNearestPointOnGrid(hit.point);
-
-        if (!hotbarDisplay.CanUseItem() && GetItemData().IsCropSeed())
-        {
-            seedGhost.SetActive(false);
-            return;
-        }
-
-
-        if (!CheckCrop(finalPosition, 1) && GetItemData().IsTreeSeed())
-        {
-            seedGhost.SetActive(false);
-            return;
-        }
-
         ActivateSeedGhost();
-
-        //seedGhost se activa en la escena, se lo pone en la posicion adecuada y se le cambia la textura por la adecuada.
+        
+        bool canPlant = false;
+        
+        if (GetItemData().IsCropSeed())
+        {
+            canPlant = interactor._LookingAtDirt && hotbarDisplay.CanUseItem();
+        }
+        else if (GetItemData().IsTreeSeed()) 
+        {
+            canPlant = !interactor._LookingAtDirt && CheckCrop(finalPosition, 1);
+        }
+        
+        if (canPlant)
+        {
+            MakeGridGhostAvaliable();
+        }
+        else
+        {
+            MakeGridGhostUnavaliable();
+        }
     }
 
     private static Ray RayCameraScreenPoint()
@@ -234,7 +237,6 @@ public class GridGhost : MonoBehaviour
         {
             TreeSpawnerPooling.SpawnObject(finalPosition, Rotation());
             UpdateRandomSeed();
-            //Instantiate(TreePrefab, finalPosition, Quaternion.identity, hit.transform.parent.gameObject.transform);
             return true;
         }
         else { return false; }
@@ -255,11 +257,13 @@ public class GridGhost : MonoBehaviour
     private void MakeGridGhostUnavaliable()
     {
         hoeGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
+        seedGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
     }
 
     private void MakeGridGhostAvaliable()
     {
         hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
+        seedGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
     }
 
 }
