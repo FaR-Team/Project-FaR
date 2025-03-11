@@ -10,8 +10,10 @@ public class ItemPickUp : MonoBehaviour
     public InventoryItemData ItemData;
     public AudioClip PickUpClip;
 
+    [Range(0.0f, 1.0f)]
+    public float PickupVolume = 0.05f;
+
     private SphereCollider _collider;
-    private AudioSource audioSource;
     private GameObject player;
 
     [SerializeField] private ItemPickUpSaveData itemSaveData;
@@ -21,7 +23,6 @@ public class ItemPickUp : MonoBehaviour
     {
         itemSaveData = new ItemPickUpSaveData(ItemData, transform.position, transform.rotation);
         player = GameObject.FindGameObjectWithTag("Player");
-        audioSource = player.GetComponent<AudioSource>();
 
         _collider = GetComponent<SphereCollider>();
         _collider.isTrigger = true;
@@ -48,10 +49,11 @@ public class ItemPickUp : MonoBehaviour
         var inventory = other.transform.GetComponent<Container>();
 
         if (!inventory) return;
-        audioSource.pitch = Random.Range(0.8f, 1.2f);
-        audioSource.volume = 0.05f;
-        
-        audioSource.PlayOneShot(PickUpClip);
+
+        if (MusicManager.Instance != null && PickUpClip != null)
+        {
+            MusicManager.Instance.PlaySFX(PickUpClip, PickupVolume, 0.8f, 1.2f);
+        }
 
         if (inventory.PrimaryInventorySystem.AddToInventory(ItemData, 1))
         {

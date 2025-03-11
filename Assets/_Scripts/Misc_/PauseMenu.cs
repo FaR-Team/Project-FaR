@@ -3,6 +3,7 @@ using IngameDebugConsole;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class PauseMenu : MonoBehaviour
     public GameObject pauseMenuUI;
     public GameObject optionsMenuUI;
     public GameObject bindingMenuUI;
+    public GameObject soundOptionsMenuUI;
+
     public GameObject player;
 
     public CambiarEscena _cambiarEscena;
@@ -66,6 +69,7 @@ public class PauseMenu : MonoBehaviour
             !sleepHandler._isSleeping &&
             !DebugLogManager.Instance.isOnConsole)
         {
+
             if (GameIsPaused)
             {
                 ClosePauseMenu();
@@ -99,6 +103,8 @@ public class PauseMenu : MonoBehaviour
         GameInput.playerInputActions.Player.Inventory.Enable();
         pauseMenuUI.SetActive(false);
         optionsMenuUI.SetActive(false);
+        soundOptionsMenuUI.SetActive(false);
+
 
         Unpause();
     }
@@ -156,7 +162,20 @@ public class PauseMenu : MonoBehaviour
     {
         Time.timeScale = 1f;
         //SceneManager.LoadScene("Menu");
-        Debug.Log("Aún no hay menú xd");
+        this.LogOnScreen("Aún no hay menú xd");
+    }
+
+    public void SoundOptionsMenu()
+    {
+        pauseMenuUI.SetActive(false);
+        Options.SetActive(false);
+        soundOptionsMenuUI.SetActive(true);
+    }
+
+    public void SoundOptionsMenuBack()
+    {
+        soundOptionsMenuUI.SetActive(false);
+        Options.SetActive(true);
     }
 
     public void OptionsMenu()
