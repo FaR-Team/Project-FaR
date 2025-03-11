@@ -147,6 +147,7 @@ public class OptionsMenu : MonoBehaviour
         string jsonData = JsonUtility.ToJson(optionsData);
         PlayerPrefs.SetString(OPTIONS_KEY, jsonData);
         PlayerPrefs.Save();
+        ApplySoundSettings();
     }
 
     public void Clock()
