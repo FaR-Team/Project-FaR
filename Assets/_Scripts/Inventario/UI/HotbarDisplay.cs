@@ -149,7 +149,7 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().HotbarRight.performed += HotbarRight;
         GetPlayerControls().HotbarLeft.performed += HotbarLeft;
         GetPlayerControls().PrimaryUse.performed += UseItemPrimary;
-        GetPlayerControls().UseItem.performed += UseItem;
+        GetPlayerControls().Interaction.performed += UseItem;
         GetPlayerControls().UseItemHoldStart.performed += UseItemPressedCallback;
         GetPlayerControls().UseItemHoldRelease.performed += UseItemReleaseCallback;
         GetPlayerControls().MassSell.performed += SellAllPressedCallback;
@@ -272,7 +272,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void Holdear() // TODO: mejorar esto, que no sean tantos if, usar el item data de forma mas genérica
     {
-        if (GetItemData() == null || GetItemData().leftClickUse) return;
+        if (GetItemData() == null || interactor.HasInteractable || GetItemData().leftClickUse) return;
 
         if (GetItemData().IsSpecialItem())
         {

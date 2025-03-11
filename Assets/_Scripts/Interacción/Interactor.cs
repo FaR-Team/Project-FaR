@@ -30,6 +30,7 @@ public class Interactor : MonoBehaviour
     //private float distance = 10f;
     private Vector3 _oneVector3 = Vector3.one;
 
+    public bool HasInteractable => _interactable != null;
     private void OnEnable()
     {
         InteractionKey = GameInput.playerInputActions.Player.Interaction;

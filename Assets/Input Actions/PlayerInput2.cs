@@ -336,7 +336,7 @@ public partial class @PlayerInput2 : IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""39314041-2273-454d-8240-5940fa28f80c"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Mouse>/rightButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KeyboardMouse"",
