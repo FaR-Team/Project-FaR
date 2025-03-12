@@ -15,12 +15,13 @@ MonoBehaviour:
   ID: 12
   Nombre: Remolacha
   "Descripci\xF3n": 
-  Icono: {fileID: 21300000, guid: 7f38181c2a503324686bd46a5023d8f6, type: 3}
+  Icono: {fileID: 21300000, guid: 900d438d4867a4b49bdcb930883b7a1a, type: 3}
   Valor: 80
   ItemPrefab: {fileID: 0}
   DirtPrefabGhost: {fileID: 0}
   ghostMesh: {fileID: 0}
   ToolGameObject: {fileID: 0}
+  RequiredGridSpace: {x: 2.1, y: 0.1, z: 2.1}
   Usable: 1
   Sellable: 1
   IsLookingAtStore: 1
