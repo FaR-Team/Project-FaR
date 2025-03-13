@@ -174,9 +174,10 @@ public class OptionsMenu : MonoBehaviour
 
     private void Update()
     {
+        // TODO: Sacar todo de update
         float mappedSensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, sensSlider.value);
         FaRCharacterController.instance.lookSensitivity = mappedSensitivity;
-        UpdateUIValues();
+        UpdateUIValues(); 
     }
 
     public void SetResolution(int resolutionIndex)
@@ -224,16 +225,7 @@ public class OptionsMenu : MonoBehaviour
         optionsData.masterVolume = value;
         UpdateUIValues();
         
-        if (MusicManager.Instance != null)
-        {
-            MusicManager.Instance.SetVolume("MasterVolume", value);
-        }
-        else
-        {
-            audioMixer.SetFloat("MasterVolume", ConvertToDecibel(value));
-        }
-        
-        SaveOptions();
+        ApplySoundSettings();
     }
 
     public void OnMusicVolumeChanged(float value)
@@ -241,16 +233,7 @@ public class OptionsMenu : MonoBehaviour
         optionsData.musicVolume = value;
         UpdateUIValues();
         
-        if (MusicManager.Instance != null)
-        {
-            MusicManager.Instance.OnMusicVolumeChanged(value);
-        }
-        else
-        {
-            audioMixer.SetFloat("MusicVolume", ConvertToDecibel(value));
-        }
-        
-        SaveOptions();
+        ApplySoundSettings();
     }
 
     public void OnSFXVolumeChanged(float value)
@@ -258,33 +241,15 @@ public class OptionsMenu : MonoBehaviour
         optionsData.sfxVolume = value;
         UpdateUIValues();
         
-        if (MusicManager.Instance != null)
-        {
-            MusicManager.Instance.SetVolume("SFXVolume", value);
-        }
-        else
-        {
-            audioMixer.SetFloat("SFXVolume", ConvertToDecibel(value));
-        }
-        
-        SaveOptions();
+        ApplySoundSettings();
     }
 
     public void OnUIVolumeChanged(float value)
     {
         optionsData.uiVolume = value;
         UpdateUIValues();
-        
-        if (MusicManager.Instance != null)
-        {
-            MusicManager.Instance.SetVolume("UIVolume", value);
-        }
-        else
-        {
-            audioMixer.SetFloat("UIVolume", ConvertToDecibel(value));
-        }
-        
-        SaveOptions();
+
+        ApplySoundSettings();
     }
 
 
