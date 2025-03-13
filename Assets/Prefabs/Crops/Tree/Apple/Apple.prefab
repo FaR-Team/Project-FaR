@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 6f4355ee-df82-42a7-b748-f4c5c13d96c9
+  _ID: 80b94b50-600f-4229-a957-ae345d129beb
   permanentID: 0
 --- !u!114 &3866000514473496392
 MonoBehaviour:
@@ -130,6 +130,7 @@ MonoBehaviour:
   PickUpRadius: 5
   ItemData: {fileID: 11400000, guid: 094bb315d8984794aa2992499392580f, type: 2}
   PickUpClip: {fileID: 8300000, guid: dd9b63af1ddee4140aadb924057a501d, type: 3}
+  PickupVolume: 0.05
   itemSaveData:
     ItemData: {fileID: 0}
     Position: {x: 0, y: 0, z: 0}
