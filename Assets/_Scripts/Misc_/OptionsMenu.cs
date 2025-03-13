@@ -40,6 +40,11 @@ public class OptionsMenu : MonoBehaviour
     public Slider fovSlider;
     public Slider sensSlider;
 
+    [Header("Sensitivity Settings")]
+    public float minSensitivity = 0.01f;
+    public float maxSensitivity = 0.2f;
+    public int sensitivitySteps = 20;
+
     private Resolution[] resolutions;
     private OptionsData optionsData;
 
@@ -162,13 +167,15 @@ public class OptionsMenu : MonoBehaviour
     private void UpdateUIValues()
     {
         FovVal.text = fovSlider.value.ToString("F1");
-        SensVal.text = sensSlider.value.ToString("F3");
+        int sensitivityStep = Mathf.RoundToInt(sensSlider.value * sensitivitySteps);
+        SensVal.text = sensitivityStep.ToString();
         FPSText.text = $"FPS: {optionsData.targetFPS}";
     }
 
     private void Update()
     {
-        FaRCharacterController.instance.lookSensitivity = sensSlider.value;
+        float mappedSensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, sensSlider.value);
+        FaRCharacterController.instance.lookSensitivity = mappedSensitivity;
         UpdateUIValues();
     }
 
@@ -332,7 +339,7 @@ public class OptionsMenu : MonoBehaviour
 
     public void ResetSensButton()
     {
-        sensSlider.value = 0.05f;
+        sensSlider.value = 0.25f;
         SaveOptions();
     }
 
