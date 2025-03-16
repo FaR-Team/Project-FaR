@@ -9,7 +9,7 @@ using UnityEditor;
 [CustomEditor(typeof(AutoVoxel))]
 public class AutoVoxelEditor : Editor
 {
-    private string outputPath = "Assets/AutoVoxel/Meshes";
+    private string outputPath = "Assets/Resoruces/AutoVoxel/Meshes";
     private bool enableOptimization = true;
 
     public override void OnInspectorGUI()
