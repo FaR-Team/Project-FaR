@@ -108,7 +108,7 @@ public abstract class GrowingBase : MonoBehaviour
         
     }
 
-    protected virtual void UpdateState()
+    protected virtual void UpdateState(int state = 0)
     {
         meshFilter.mesh = currentState.mesh;
         meshRenderer.material = currentState.material;

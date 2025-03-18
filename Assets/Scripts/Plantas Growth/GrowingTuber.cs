@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using EasyTextEffects.Editor.MyBoxCopy.Extensions;
 using FaRUtils.Systems.DateTime;
 using UnityEngine;
 using Utils;
@@ -12,6 +13,9 @@ public class GrowingTuber : GrowingBase
     public GameObject interactablePrefab;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     protected GameObject spawnedInteractable;
+
+    [SerializeField]
+    private Animator animator;
 
     protected override void Awake()
     {
@@ -66,9 +70,10 @@ public class GrowingTuber : GrowingBase
         GrowingState lastState = currentState;
         currentState = states.FirstOrDefault<GrowingState>(state => state.IsThisState(daysPlanted));
 
-        if (currentState != lastState) UpdateState(); // Only change mesh data if changed state
+        if (currentState != lastState) UpdateState(states.IndexOfItem(currentState)); // Only change mesh data if changed state
     }
-    protected override void UpdateState()
+
+    protected override void UpdateState(int state)
     {
         if (skinnedMeshRenderer != null)
         {
@@ -81,6 +86,11 @@ public class GrowingTuber : GrowingBase
             meshRenderer.material = currentState.material;
             if (meshFilter != null)
                 meshFilter.mesh = currentState.mesh;
+        }
+
+        if (animator != null)
+        {
+            animator.SetInteger("Phase", state);
         }
 
         if (currentState.isLastPhase) SpawnInteractable();

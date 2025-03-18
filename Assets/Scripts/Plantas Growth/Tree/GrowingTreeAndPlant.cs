@@ -164,7 +164,7 @@ public class GrowingTreeAndPlant : GrowingBase
         Destroy(transform.parent.gameObject);
     }
     
-    protected override void UpdateState()
+    protected override void UpdateState(int state = 0)
     {
         this.Log("UpdateState");
         meshFilter.mesh = currentState.mesh;

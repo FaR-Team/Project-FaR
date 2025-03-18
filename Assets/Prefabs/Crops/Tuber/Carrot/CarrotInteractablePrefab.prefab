@@ -69,7 +69,6 @@ MonoBehaviour:
   ItemData: {fileID: 11400000, guid: ed5118089d2f4d747a4abb1145371469, type: 2}
   player: {fileID: 0}
   radius: 10
-  explosionAnimIndex: 0
 --- !u!114 &1731623576318032020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -99,7 +98,7 @@ Animator:
   m_GameObject: {fileID: 1275932420384288578}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 83550fbb59353e14cbcd300a0379a6c0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2f4052266a4a86a48a16f4323cdfd4b3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
