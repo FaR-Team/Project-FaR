@@ -16,16 +16,12 @@ public class GridGhost : MonoBehaviour
     public Material noEnergyGhostMaterial;
 
     public Vector3 finalPosition;
+    public Vector3 FinalPosition => grid.GetNearestPointOnGrid(interactor.hit.point);
 
-    [SerializeField]
-    private LayerMask layerMask;
     [SerializeField]
     private LayerMask layerDirt;
     [SerializeField]
     private LayerMask layerCrop;
-
-    [SerializeField, Tooltip("La distancia máxima donde se puede arar")]
-    private float _maxPlowDistance;
 
     public static int SeedRotationValue = 0;
 
@@ -97,15 +93,13 @@ public class GridGhost : MonoBehaviour
             return;
         }
         
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance - 3, layerMask);
-        
-        if (hit.collider == null)
+        if (interactor.hit.collider == null)
         {
             hoeGhost.SetActive(false);
             return;
         }
         
-        finalPosition = grid.GetNearestPointOnGrid(hit.point);
+        finalPosition = grid.GetNearestPointOnGrid(interactor.hit.point);
         hoeGhost.SetActive(true);
         hoeGhost.transform.position = finalPosition;
         
@@ -133,14 +127,13 @@ public class GridGhost : MonoBehaviour
             return;
         }
 
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
-        if (hit.collider == null)
+        if (interactor.hit.collider == null)
         {
             seedGhost.SetActive(false);
             return;
         }
 
-        finalPosition = grid.GetNearestPointOnGrid(hit.point);
+        finalPosition = grid.GetNearestPointOnGrid(interactor.hit.point);
         
         bool shouldShowGhost = false;
         bool canPlant = false;
@@ -183,10 +176,6 @@ public class GridGhost : MonoBehaviour
         }
     }
 
-    private static Ray RayCameraScreenPoint()
-    {
-        return Camera.main.ScreenPointToRay(Input.mousePosition);
-    }
     private void ActivateSeedGhost()
     {
         seedGhost.transform.rotation = Rotation();
@@ -206,7 +195,7 @@ public class GridGhost : MonoBehaviour
         SeedRotationValue = RandomPos();
     }
 
-    public Dirt CheckDirt(Vector3 center, float radius)
+    public Dirt CheckDirt(Vector3 center, float radius) //TODO: Sólo llamarlo cuando cambia finalposition
     {
         int maxColliders = 5;
         Collider[] hitColliders = new Collider[maxColliders];
@@ -240,16 +229,11 @@ public class GridGhost : MonoBehaviour
 
     public void PlantDirt()
     {
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
-    #if UNITY_EDITOR
-        Debug.DrawRay(RayCameraScreenPoint().origin, RayCameraScreenPoint().direction * _maxPlowDistance, Color.green, 0.01f);
-    #endif
+        if (interactor.hit.collider == null) return;
 
-        if (hit.collider == null) return;
-
-        if (CheckDirt(grid.GetNearestPointOnGrid(hit.point), 0.75f) == null)
+        if (CheckDirt(grid.GetNearestPointOnGrid(interactor.hit.point), 0.75f) == null)
         {
-            PlaceDirtNear(hit.point);
+            PlaceDirtNear(interactor.hit.point);
         }
     }
 
@@ -261,9 +245,7 @@ public class GridGhost : MonoBehaviour
 
     public bool PlantTreeNear(GameObject TreePrefab)
     {
-        RayAndSphereManager.DoRaycast(RayCameraScreenPoint(), out RaycastHit hit, _maxPlowDistance, layerMask);
-
-        if (hit.collider != null)
+        if (interactor.hit.collider != null)
         {
             Vector3 requiredSpace = GetItemData().RequiredGridSpace;
             if (CheckAvailableSpace(finalPosition, requiredSpace))

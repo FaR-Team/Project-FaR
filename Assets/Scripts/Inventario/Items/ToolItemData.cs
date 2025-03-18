@@ -53,7 +53,7 @@ public class ToolItemData : InventoryItemData
 
     private bool UseBucket()
     {
-        Dirt _dirt = GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f);
+        Dirt _dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         if (_dirt != null)
         {
             _dirt.DirtIsWet();
@@ -64,7 +64,7 @@ public class ToolItemData : InventoryItemData
 
     private bool UseShovel()
     {
-        Dirt dirt = GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f);
+        Dirt dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         
         // Check if dirt has rotten crop
         if (dirt != null && dirt.currentCrop && dirt.currentCrop.IsDead)

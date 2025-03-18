@@ -26,6 +26,13 @@ public class Interactor : MonoBehaviour
     [SerializeField] private Camera _camera;
     public bool _LookingAtDirt = false;
     public bool IsLookingAtStore = false;
+    public RaycastHit hit;
+    
+    [SerializeField, Tooltip("La distancia del rayo")]
+    private float _maxRayDistance;
+
+    [SerializeField]
+    private LayerMask layerMask;
 
     //private float distance = 10f;
     private Vector3 _oneVector3 = Vector3.one;
@@ -74,6 +81,8 @@ public class Interactor : MonoBehaviour
         }
 
         _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 10f, _dirtMask);
+
+        RayAndSphereManager.DoRaycast(RayAndSphereManager.RayCameraScreenPoint(), out hit, _maxRayDistance, layerMask);
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);
 
