@@ -5,12 +5,22 @@ using FaRUtils;
 public class FallingFruit : MonoBehaviour
 {
     [SerializeField] private float speed = 1.5f;
+    [SerializeField] private float destroyYThreshold = 2.05f; 
     private MaterialPropertyBlock _propertyBlock;
     // Esto seria tirar las frutas al piso y permitir al jugador recogerlas.
+
+    private bool isFalling = false;
+    private Rigidbody rb;
 
     void Awake()
     {
         _propertyBlock = new MaterialPropertyBlock();
+        rb = GetComponent<Rigidbody>();
+        if (rb == null)
+        {
+            rb = gameObject.AddComponent<Rigidbody>();
+        }
+        rb.isKinematic = true;
     }
 
     public void FallFruit()
@@ -45,6 +55,14 @@ public class FallingFruit : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (isFalling && transform.position.y <= destroyYThreshold)
+        {
+            //TODO: Acá se debería de añadir el item al inventario del player, y destruir el objeto.
+        }
+    }
+
     IEnumerator DropFruit()
     {
         var renderer = GetComponent<Renderer>();
@@ -58,6 +76,7 @@ public class FallingFruit : MonoBehaviour
         GetComponent<ItemPickUp>().enabled = true;
         GetComponent<SphereCollider>().enabled = true;
         GetComponent<Rigidbody>().isKinematic = false;
+        isFalling = true;
         
         if (renderer != null)
         {

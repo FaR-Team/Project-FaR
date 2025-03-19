@@ -8,6 +8,8 @@ public class AppleInteraction : CropInteraction
 {
 
     public TreeGrowing appleTree;
+    [SerializeField]
+    private Animator treeAnimator;
 
     public override void Awake()
     {
@@ -15,18 +17,14 @@ public class AppleInteraction : CropInteraction
 
         appleTree = GetComponent<TreeGrowing>();
     }
-    public override List<GameObject> Fruits()
-    {
-        return appleTree.fruits.Select(f => f.gameObject).ToList();
-    }
 
     public override IEnumerator Wait()
     {
+        treeAnimator.SetTrigger("Harvest");
         yield return new WaitForSeconds(0.5f);
 
-        foreach (GameObject fruit in Fruits())
+        foreach (var fruit in appleTree.fruits)
         {
-            //GetComponent<CropExplodeBush>().Chau(fruit);
             fruit.GetComponent<FallingFruit>().FallFruit();
         }
         

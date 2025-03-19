@@ -53,7 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 80b94b50-600f-4229-a957-ae345d129beb
+  _ID: b3aac873-d62f-456a-8123-d0abbf300205
   permanentID: 0
 --- !u!114 &3866000514473496392
 MonoBehaviour:
@@ -146,7 +146,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 10
+  m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &4123674341176744112
 MeshFilter:
