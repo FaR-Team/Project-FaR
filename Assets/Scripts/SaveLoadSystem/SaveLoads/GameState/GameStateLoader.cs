@@ -6,7 +6,7 @@ using Utils;
 public static class GameStateLoader
 {
     public static DummyLogger logger;
-    
+    public static event Action<GameStateData> OnGameStateLoaded;
     static GameStateLoader()
     {
         logger = GameObject.FindObjectOfType<DummyLogger>();
@@ -22,7 +22,9 @@ public static class GameStateLoader
     
     public static GameStateData Load(bool temporary)
     {
-        return TryGetGameStateData(temporary);
+        var gameData = TryGetGameStateData(temporary);
+        OnGameStateLoaded?.Invoke(gameData);
+        return gameData;
     }
     private static GameStateData TryGetGameStateData(bool temporary)
     {

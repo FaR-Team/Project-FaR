@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,11 @@ public class PlayerStats : MonoBehaviour
         {
             Instance = this;
         }
+    }
+
+    private void OnEnable()
+    {
+        GameStateLoader.OnGameStateLoaded += LoadStats;
     }
 
     public static bool hasPants;
@@ -51,8 +57,62 @@ public class PlayerStats : MonoBehaviour
 
         return true;
     }
+
+    public void LoadStats(GameStateData gameData)
+    {
+        skillPoints = gameData.PlayerStatsData.skillPoints;
+        hasPants = gameData.PlayerStatsData.hasPants;
+        hasShirt = gameData.PlayerStatsData.hasShirt;
+        Debug.Log("Loading Stats");
+        if (gameData.PlayerStatsData.skillAndLevels != null)
+        {
+            for (int i = 0; i < gameData.PlayerStatsData.skillAndLevels.Length; i++)
+            {
+                var skillAndLevel = gameData.PlayerStatsData.skillAndLevels[i];
+                Debug.Log("Loading skill " + skillAndLevel.skillType);
+                skillLevels[skillAndLevel.skillType] = skillAndLevel.level;
+            }
+        }
+    }
 }
 
+[System.Serializable]
+public struct PlayerStatsData
+{
+    public int skillPoints;
+    public bool hasPants;
+    public bool hasShirt;
+    public SkillAndLevel[] skillAndLevels;
+    
+    public PlayerStatsData(PlayerStats playerStats)
+    {
+        skillPoints = playerStats.skillPoints;
+        hasPants = PlayerStats.hasPants;
+        hasShirt = PlayerStats.hasShirt;
+        skillAndLevels = new SkillAndLevel[playerStats.skillLevels.Count];
+        int i = 0;
+        Debug.Log("Creating PlayerStatsData. Unlocked skills count: " + playerStats.skillLevels.Count);
+        foreach (var kvp in playerStats.skillLevels)
+        {
+            skillAndLevels[i] = new SkillAndLevel(kvp.Key, kvp.Value);
+            i++;
+        }
+    }
+    
+}
+
+[System.Serializable]
+public class SkillAndLevel
+{
+    public SkillType skillType;
+    public int level;
+
+    public SkillAndLevel(SkillType skillType, int level)
+    {
+        this.skillType = skillType;
+        this.level = level;
+    }
+}
 public enum SkillType
 {
     AreaHarvestSkill,
