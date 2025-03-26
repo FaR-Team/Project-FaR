@@ -473,6 +473,9 @@ MonoBehaviour:
   isTree: 1
   appleTree: {fileID: -6246397013572878763}
   treeAnimator: {fileID: 3773311353614787896}
+  interactionAnimationPrefab: {fileID: 4630994439996126341, guid: dd14f21bc710aea47843a59c77b540b0,
+    type: 3}
+  animationDuration: 2.3
 --- !u!33 &1062288900735988520
 MeshFilter:
   m_ObjectHideFlags: 0

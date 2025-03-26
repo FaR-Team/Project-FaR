@@ -14,14 +14,13 @@ public class HotbarDisplay : HotbarDisplayBase
 
     [Header("Tool GameObjects")]
     public GameObject hoe, bucket, shovel, blank2, blank3, hand;
+    [SerializeField] private Animator hoeAnimator, bucketAnimator, shovelAnimator, blank2Animator, blank3Animator; 
     /* 
      Estos objetos no son necesarios. solo se necesita un objeto mano */
     [SerializeField] private ToolItemData[] abilityTools;
     [SerializeField] private Dictionary<ToolItemData, bool> abilityToolsDictionary = new Dictionary<ToolItemData, bool>();
 
     private int _currentAbilityIndex;
-
-    private InventoryItemData gameobj1, gameobj2, gameobj3, gameibj4, gameobj5;
 
     Dirt dirtToTest;
 
@@ -35,6 +34,7 @@ public class HotbarDisplay : HotbarDisplayBase
         if (telequinesis == null) telequinesis = GameObject.FindWithTag("Telequinesis");
         if (player == null) player = GameObject.FindWithTag("Player");
         if (gridGhost == null) gridGhost = GridGhost.instance;
+        if (hoeAnimator == null && hoe != null) hoeAnimator = hoe.GetComponent<Animator>();
     }
 
     protected override void Start()
@@ -312,6 +312,12 @@ public class HotbarDisplay : HotbarDisplayBase
         if (GetItemData().IsTool())
         {
             GetItemData().UseItem();
+
+            if (hoeAnimator != null && GetItemData().IsHoe())
+            {
+                hoeAnimator.SetBool("Plow", true);
+                StartCoroutine(ResetPlowAnimation());
+            }
         }
 
         if (GetItemData().IsCropSeed() &&
@@ -348,7 +354,18 @@ public class HotbarDisplay : HotbarDisplayBase
         if (GetItemData().IsTool())
         {
             GetItemData().UseItem();
+            if (hoeAnimator != null && GetItemData().IsHoe())
+            {
+                hoeAnimator.SetBool("Plow", true);
+                StartCoroutine(ResetPlowAnimation());
+            }
         }
+    }
+
+    private IEnumerator ResetPlowAnimation()
+    {
+        yield return new WaitForSeconds(1.07f);
+        hoeAnimator.SetBool("Plow", false);
     }
 
     private void ChangeObjectInHandModel()

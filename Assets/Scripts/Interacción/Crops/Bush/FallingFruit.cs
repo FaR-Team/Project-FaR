@@ -5,7 +5,7 @@ using FaRUtils;
 public class FallingFruit : MonoBehaviour
 {
     [SerializeField] private float speed = 1.5f;
-    [SerializeField] private float destroyYThreshold = 2.05f; 
+    [SerializeField] private float destroyYThreshold = 1f; 
     private MaterialPropertyBlock _propertyBlock;
     // Esto seria tirar las frutas al piso y permitir al jugador recogerlas.
 
@@ -59,7 +59,27 @@ public class FallingFruit : MonoBehaviour
     {
         if (isFalling && transform.position.y <= destroyYThreshold)
         {
-            //TODO: Acá se debería de añadir el item al inventario del player, y destruir el objeto.
+            ItemPickUp itemPickUp = GetComponent<ItemPickUp>();
+            if (itemPickUp != null && itemPickUp.ItemData != null)
+            {
+                var player = GameObject.FindGameObjectWithTag("Player");
+                if (player != null)
+                {
+                    var inventory = player.GetComponent<Container>();
+                    if (inventory != null)
+                    {
+                        if (inventory.PrimaryInventorySystem.AddToInventory(itemPickUp.ItemData, 1))
+                        {
+                            if (MusicManager.Instance != null && itemPickUp.PickUpClip != null)
+                            {
+                                MusicManager.Instance.PlaySFX(itemPickUp.PickUpClip, itemPickUp.PickupVolume, 0.8f, 1.2f);
+                            }
+                            
+                            Destroy(gameObject);
+                        }
+                    }
+                }
+            }
         }
     }
 
