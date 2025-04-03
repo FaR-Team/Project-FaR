@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DirtAnimation : MonoBehaviour
@@ -14,5 +12,10 @@ public class DirtAnimation : MonoBehaviour
     public void PrepareToGetDown()
     {
         parent.GetComponent<Dirt>().GetDown();
+    }
+
+    public void PrepareToRaiseColliders()
+    {
+        parent.GetComponent<Dirt>().RaiseColliders();
     }
 }

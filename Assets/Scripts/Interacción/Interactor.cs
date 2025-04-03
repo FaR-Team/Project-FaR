@@ -11,7 +11,6 @@ public class Interactor : MonoBehaviour
     [SerializeField] private float _interactionPointRadius = 0.7f;
     [SerializeField] private LayerMask _interactableMask;	
     [SerializeField] private LayerMask _dirtMask, _sellMask;	
-    [SerializeField] private InteractionPromptUI _interactionPromptUI;
     public bool IsInteracting { get; private set; }
 
     private readonly Collider[] _colliders = new Collider[3];
@@ -57,10 +56,6 @@ public class Interactor : MonoBehaviour
             _interactable = _colliders[0].GetComponent<IInteractable>(); 
             if (_interactable == null) return;
         
-            if (!_interactionPromptUI.IsDisplayed)
-            {
-                _interactionPromptUI.SetUp();
-            }
             if (GameInput.playerInputActions.Player.Interaction.WasPressedThisFrame())
             {
                 _interactable.Interact(this, out bool interactSuccessful);
@@ -72,11 +67,6 @@ public class Interactor : MonoBehaviour
             {
                 _interactable.EndInteraction();
                 _interactable = null;
-            }
-
-            if (_interactionPromptUI.IsDisplayed) 
-            {
-                _interactionPromptUI.Close();
             }
         }
 
@@ -95,11 +85,6 @@ public class Interactor : MonoBehaviour
         {
             _interactable.EndInteraction();
             _interactable = null;
-        }
-
-        if (_interactionPromptUI.IsDisplayed) 
-        {
-            _interactionPromptUI.Close();
         }
     }
 

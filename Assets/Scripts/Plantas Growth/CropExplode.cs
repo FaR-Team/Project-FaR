@@ -28,9 +28,9 @@ public class CropExplode : MonoBehaviour
         {
             anim.SetTrigger("Harvest");
         }
-        if (thisCropDirt.GetComponentInChildren<Animation>() != null)
+        if (thisCropDirt.GetComponentInChildren<Animator>() != null)
         {
-            thisCropDirt.GetComponentInChildren<Animation>().Play();
+            thisCropDirt.GetComponentInChildren<Animator>().SetBool("Plow", true);
         }
     }
 

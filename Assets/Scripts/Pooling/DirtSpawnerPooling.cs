@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 public class DirtSpawnerPooling : MonoBehaviour
 {
@@ -52,6 +53,19 @@ public class DirtSpawnerPooling : MonoBehaviour
     {
         GameObject dirtGO = ObjectPooling.GetObject(_DirtPrefab);
         dirtGO.transform.SetPositionAndRotation(position, rotation);
+
+        Animator dirtAnimator = dirtGO.GetComponentInChildren<Animator>();
+
+        Dirt dirt = dirtGO.GetComponent<Dirt>();
+        if (dirt != null)
+        {
+            dirt.GetDown();
+        }
+
+        if (dirtAnimator != null)
+        {
+            dirtAnimator.SetTrigger("Enter");
+        }
     }
 
     public static void DeSpawn(GameObject go)

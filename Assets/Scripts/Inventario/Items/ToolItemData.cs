@@ -70,12 +70,9 @@ public class ToolItemData : InventoryItemData
         if (dirt != null && dirt.currentCrop && dirt.currentCrop.IsDead)
         {
             dirt.DestroyDirtAndCrop();
-            this.LogOnScreen("OMG, agarraste la pala!!");
             return true;
         }
         
-        this.LogOnScreen("No pudiste agarrar la pala!1!");
         return false;
-        
     }
 }

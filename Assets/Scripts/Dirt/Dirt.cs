@@ -22,8 +22,8 @@ public class Dirt : MonoBehaviour
     public SeedItemData currentSeedData { get; private set; }
     public PlantData cropSaveData { get; private set; }
 
-    public GameObject TextureAnimation;
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
+    [SerializeField] private Animator animator;
 
     void Start()
     {
@@ -104,9 +104,21 @@ public class Dirt : MonoBehaviour
         gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
     }
 
-    public void GetDown()
+    public void GetDown() // And move it all around
     {
         colliders.transform.position = new Vector3(colliders.transform.position.x, -2, colliders.transform.position.z);
+    }
+
+    public void RaiseColliders()
+    {
+        if (colliders != null)
+        {
+            colliders.transform.position = new Vector3(
+                colliders.transform.position.x, 
+                0, 
+                colliders.transform.position.z
+            );
+        }
     }
 
     public void DryDirt(int hour)
@@ -121,8 +133,7 @@ public class Dirt : MonoBehaviour
 
     void OnEnable()
     {
-        TextureAnimation = GetComponentInChildren<Animation>().gameObject;
-        TextureAnimation.GetComponent<Animation>().enabled = true;
+        animator = GetComponentInChildren<Animator>();
     }
 
     void OnDisable()
@@ -144,7 +155,6 @@ public class Dirt : MonoBehaviour
         cropSaveData = null;
         IsEmpty = true;
         _isWet = false;
-        TextureAnimation.GetComponent<Animation>().clip.SampleAnimation(TextureAnimation, 0f);
         colliders.transform.position = this.transform.position;
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
         WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
