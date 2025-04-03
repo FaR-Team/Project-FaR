@@ -19,8 +19,8 @@ public abstract class GrowingBase : MonoBehaviour
     public bool isFruit;
     [SerializeField] protected GrowingState[] states;
     public GrowingState currentState;
-    [HideInInspector] public MeshFilter meshFilter;
-    [HideInInspector] public MeshCollider meshCollider;
+    public MeshFilter meshFilter;
+    public MeshCollider meshCollider;
     public MeshRenderer meshRenderer;
 
     public int DaysPlanted => daysPlanted;
@@ -41,7 +41,8 @@ public abstract class GrowingBase : MonoBehaviour
         TryGetComponent(out meshFilter);
         TryGetComponent(out meshCollider);
         TryGetComponent(out meshRenderer);
-
+        if(meshFilter == null) Debug.LogError("Could not get Mesh Filter from " + gameObject.name);
+        else Debug.LogError("Correctly got component Mesh Filter from " + gameObject.name);
         initialLayerInt = gameObject.layer;
         
         UpdateState();
