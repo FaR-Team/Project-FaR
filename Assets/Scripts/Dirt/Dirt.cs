@@ -1,5 +1,6 @@
 using FaRUtils.Systems.Weather;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 using UnityEngine;
 using Utils;
@@ -143,7 +144,22 @@ public class Dirt : MonoBehaviour
 
     public void DestroyDirtAndCrop()
     {
-        // TODO: Chequear si con esto ya es suficiente
+        if (currentCrop == null)
+        {
+            animator.SetBool("Plow", true);
+            StartCoroutine(DestroyDirtAndCropCoroutine());
+        }
+        else
+        {
+            Destroy(currentCrop.gameObject);
+            animator.SetBool("Plow", true);
+            StartCoroutine(DestroyDirtAndCropCoroutine());
+        }
+    }
+
+    private IEnumerator DestroyDirtAndCropCoroutine()
+    {
+        yield return new WaitForSeconds(4.25f);
         DirtSpawnerPooling.DeSpawn(gameObject);
     }
 

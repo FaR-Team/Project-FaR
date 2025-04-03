@@ -66,8 +66,15 @@ public class ToolItemData : InventoryItemData
     {
         Dirt dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         
-        // Check if dirt has rotten crop
+        // Check if dirt has rotten crop.
         if (dirt != null && dirt.currentCrop && dirt.currentCrop.IsDead)
+        {
+            dirt.DestroyDirtAndCrop();
+            return true;
+        }
+
+        // Check if dirt doesn't have crop.
+        if (dirt != null && dirt.currentCrop == null)
         {
             dirt.DestroyDirtAndCrop();
             return true;
