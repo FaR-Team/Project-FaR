@@ -5,7 +5,7 @@ Shader "FaRTeam/OutlinePostProcess"
         _MainTex ("Texture", 2D) = "white" {}
         _OutlineColor ("Outline Color", Color) = (0.6, 0, 0.6, 1)
         _OutlineThickness ("Outline Thickness", Range(0, 10)) = 1
-        _DepthThreshold ("Depth Threshold", Range(0, 1)) = 0.1
+        _DepthThreshold ("Depth Threshold", Range(0, 100)) = 0.1
         _NormalThreshold ("Normal Threshold", Range(0, 1)) = 0.4
         _DistanceCutoff ("Distance Cutoff", Range(0, 100)) = 50
         _FadeDistance ("Fade Distance", Range(0, 20)) = 5
@@ -86,25 +86,14 @@ Shader "FaRTeam/OutlinePostProcess"
                 maxDiff = max(maxDiff, abs(depth - depthUp));
                 maxDiff = max(maxDiff, abs(depth - depthDown));
                 
-                // Adjusted threshold for skybox boundaries
-                // If any neighbor is skybox (very large depth), we should detect an edge
-                isBorder = maxDiff > threshold * depth;
+                // Ultra simple threshold - no distance dependency at all
+                // Use a percentage-based threshold instead of absolute values
+                float relativeThreshold = threshold * 0.01; // Convert to percentage
+                isBorder = (maxDiff / depth) > relativeThreshold;
                 
-                // Distance cutoff - fade outline as it approaches cutoff distance
-                float distanceFactor = 1.0;
-                if (depth > _DistanceCutoff - _FadeDistance)
-                {
-                    distanceFactor = saturate((_DistanceCutoff - depth) / _FadeDistance);
-                }
-                
-                // Apply distance cutoff - only show outline if within cutoff distance
-                if (depth > _DistanceCutoff || distanceFactor <= 0)
-                {
-                    return col;
-                }
-                
-                // Apply outline with distance-based fade
-                return isBorder ? lerp(col, _OutlineColor, distanceFactor) : col;
+                // NO DISTANCE CUTOFF - let's see if this fixes the horizontal line
+                // Just apply the outline everywhere without any distance limits
+                return isBorder ? _OutlineColor : col;
             }
             ENDHLSL
         }

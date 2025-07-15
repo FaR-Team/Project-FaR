@@ -65,6 +65,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MultiplyTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -113,8 +117,8 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineWidth: 20
     - _Parallax: 0.005
-    - _PulseMaxWidth: 20
-    - _PulseMinWidth: 5
+    - _PulseMaxWidth: 1
+    - _PulseMinWidth: 0
     - _PulseSpeed: 2.5
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -124,6 +128,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _UseMultiplyTexture: 0
     - _UseOutline: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
