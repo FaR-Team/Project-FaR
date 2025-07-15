@@ -202,6 +202,8 @@ public class GrowingTreeAndPlant : GrowingBase
             fruit.SetParentPlant(this);
             
         }
+        
+        UpdateState();
     }
 
     public bool FruitsAreReady() => fruits.Any(fruit => fruit.currentState.isLastPhase);
@@ -222,10 +224,11 @@ public class GrowingTreeAndPlant : GrowingBase
         transform.position = plantData.position;
         daysDry = plantData.daysDry;
         
+        UpdateState();
+        
         Debug.Log("Fruits to load: " + plantData.spawnedFruits.Count);
         if(plantData.spawnedFruits.Count > 0) SpawnLoadedFruits(plantData.spawnedFruits);
         
-        UpdateState();
         if(plantData.isDead) Die();
     }
 }
