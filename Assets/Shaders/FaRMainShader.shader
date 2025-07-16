@@ -18,8 +18,8 @@ Shader "FaRTeam/FaRMainShaderURP"
     SubShader
     {
         Tags {
-            "Queue" = "Transparent+50" 
-            "RenderType" = "Transparent" 
+            "Queue" = "AlphaTest" 
+            "RenderType" = "TransparentCutout" 
             "RenderPipeline" = "UniversalPipeline"
             "IgnoreProjector" = "True"
             "PreviewType" = "Plane"
@@ -34,6 +34,61 @@ Shader "FaRTeam/FaRMainShaderURP"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
         ENDHLSL
+        
+        Pass
+        {
+            Name "DepthOnly"
+            Tags {"LightMode" = "DepthOnly"}
+            
+            ZWrite On
+            ZTest LEqual
+            ColorMask 0
+            Cull Off
+            
+            HLSLPROGRAM
+            #pragma vertex DepthOnlyVertex
+            #pragma fragment DepthOnlyFragment
+            
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+            
+            CBUFFER_START(UnityPerMaterial)
+                float4 _MainTex_ST;
+                float _Alpha;
+            CBUFFER_END
+            
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float2 uv : TEXCOORD0;
+            };
+            
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float2 uv : TEXCOORD0;
+            };
+            
+            Varyings DepthOnlyVertex(Attributes input)
+            {
+                Varyings output;
+                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+                output.uv = TRANSFORM_TEX(input.uv, _MainTex);
+                return output;
+            }
+            
+            half4 DepthOnlyFragment(Varyings input) : SV_TARGET
+            {
+                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                half alpha = texColor.a * _Alpha;
+                
+                if (alpha < 0.01)
+                    discard;
+                    
+                return 0;
+            }
+            ENDHLSL
+        }
         
         Pass
         {
@@ -170,7 +225,6 @@ Shader "FaRTeam/FaRMainShaderURP"
             Name "ForwardLit"
             Tags {"LightMode" = "UniversalForward"}
             
-            Blend SrcAlpha OneMinusSrcAlpha
             ZWrite On
             ZTest LEqual
             

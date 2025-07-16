@@ -3,7 +3,8 @@
 	Properties
 	{
 		_DepthGradientShallow("Shallow Depth Gradient", Color) = (0.325, 0.807, 0.971, 0.525)
-		_DepthGradientDeep("Deep Depth Gradient", Color) = (0.086, 0.407, 1, 0.549)		_DepthMaxDistance("Depth Maximum Distance", Float) = 1
+		_DepthGradientDeep("Deep Depth Gradient", Color) = (0.086, 0.407, 1, 0.549)
+		_DepthMaxDistance("Depth Maximum Distance", Float) = 1
 		_FoamColor("Foam Color", Color) = (1,1,1,1)
 		_SurfaceNoise("Surface Noise", 2D) = "white" {}
 		_SurfaceNoiseScroll("Surface Noise Scroll", Vector) = (0.03, 0.03, 0, 0)
@@ -23,15 +24,60 @@
 	
 	SubShader
 	{
-		Tags {"RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent+100"}
+		Tags {"RenderType" = "Transparent" "RenderPipeline" = "UniversalPipeline" "Queue" = "Transparent-100"}
+		
+		Pass
+		{
+			Name "DepthOnly"
+			Tags {"LightMode" = "DepthOnly"}
+			
+			ZWrite On
+			ZTest LEqual
+			ColorMask 0
+			Cull Off
+			
+			HLSLPROGRAM
+			#pragma vertex DepthOnlyVertex
+			#pragma fragment DepthOnlyFragment
+			
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+			
+			struct Attributes
+			{
+				float4 positionOS : POSITION;
+				float2 uv : TEXCOORD0;
+			};
+			
+			struct Varyings
+			{
+				float4 positionCS : SV_POSITION;
+				float2 uv : TEXCOORD0;
+			};
+			
+			Varyings DepthOnlyVertex(Attributes input)
+			{
+				Varyings output;
+				output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
+				output.uv = input.uv;
+				return output;
+			}
+			
+			half4 DepthOnlyFragment(Varyings input) : SV_TARGET
+			{
+				return 0;
+			}
+			ENDHLSL
+		}
+		
 		Pass
 		{
 			Name "ForwardLit"
 			Tags {"LightMode" = "UniversalForward"}
 			
 			Blend SrcAlpha OneMinusSrcAlpha
-			ZWrite On
-			ZTest Less
+			ZWrite Off
+			ZTest LEqual
+			Cull Off
 			
 			HLSLPROGRAM
 			#pragma vertex vert

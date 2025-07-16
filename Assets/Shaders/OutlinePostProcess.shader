@@ -86,10 +86,14 @@ Shader "FaRTeam/OutlinePostProcess"
                 maxDiff = max(maxDiff, abs(depth - depthUp));
                 maxDiff = max(maxDiff, abs(depth - depthDown));
                 
-                // Ultra simple threshold - no distance dependency at all
-                // Use a percentage-based threshold instead of absolute values
-                float relativeThreshold = threshold * 0.01; // Convert to percentage
-                isBorder = (maxDiff / depth) > relativeThreshold;
+                // Smooth adaptive threshold - no hard cutoffs
+                float relativeThreshold = threshold * 0.01; // Base percentage threshold
+                
+                // Add a small boost for close objects that fades smoothly with distance
+                float proximityBoost = 0.02 / (1.0 + depth * 0.1); // Fades smoothly with distance
+                float adaptiveThreshold = relativeThreshold + proximityBoost;
+                
+                isBorder = (maxDiff / max(depth, 0.1)) > adaptiveThreshold;
                 
                 // NO DISTANCE CUTOFF - let's see if this fixes the horizontal line
                 // Just apply the outline everywhere without any distance limits

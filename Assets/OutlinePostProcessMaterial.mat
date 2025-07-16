@@ -87,14 +87,14 @@ Material:
     - _ColorWeight: 0.5
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthThreshold: 0.03
+    - _DepthThreshold: 100
     - _DepthWeight: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistanceCutoff: 30
+    - _DistanceCutoff: 6
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FadeDistance: 19.6
+    - _FadeDistance: 7.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
@@ -102,7 +102,7 @@ Material:
     - _Metallic: 0
     - _NormalThreshold: 0.4
     - _OcclusionStrength: 1
-    - _OutlineThickness: 1.5
+    - _OutlineThickness: 3
     - _Parallax: 0.005
     - _PixelPerfect: 0
     - _QueueOffset: 0
