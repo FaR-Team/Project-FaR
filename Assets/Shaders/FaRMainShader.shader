@@ -14,6 +14,11 @@ Shader "FaRTeam/FaRMainShaderURP"
         _PulseMaxWidth ("Pulse Max Width", Range(0, 100)) = 20
         [Toggle] _UseMultiplyTexture("Use Multiply Texture", Float) = 0
         _MultiplyTex ("Multiply Texture", 2D) = "white" {}
+        [Header(Pixel Perfect Shadows)]
+        [Toggle] _UsePixelPerfectShadows("Use Pixel Perfect Shadows", Float) = 1
+        _ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
+        _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
+        _PixelSizeNew("Pixel Size", Range(1, 64)) = 8
     }
     SubShader
     {
@@ -212,7 +217,6 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_SETUP_INSTANCE_ID(IN);
                 float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
                 
-                // Discard fragment if outline is not active
                 if (useOutline < 0.5)
                     discard;
                     
@@ -263,6 +267,10 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float _Alpha;
                 float _UseMultiplyTexture;
                 float4 _MultiplyTex_ST;
+                float _UsePixelPerfectShadows;
+                float _ShadowThreshold;
+                float4 _ShadowColor;
+                float _PixelSizeNew;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -288,17 +296,51 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float NdotL = dot(IN.normalWS, mainLight.direction) * 0.5 + 0.5;
                 
                 float shadowSample = MainLightRealtimeShadow(shadowCoord);
-                float softShadow = smoothstep(0.2, 0.8, shadowSample);
-                float shadowAttenuation = lerp(0.7, 1.0, softShadow);
+                float shadowAttenuation = 1.0;
+                
+                if (_UsePixelPerfectShadows > 0.5)
+                {
+                    float blockSize = 0.01 * (64.0 / _PixelSizeNew);
+                    float3 quantizedWorldPos = floor(IN.positionWS / blockSize) * blockSize;
+                    
+                    float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
+                    
+                    float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
+                    
+                    shadowAttenuation = quantizedShadowSample > _ShadowThreshold ? 1.0 : 0.0;
+                }
+                else
+                {
+                    float softShadow = smoothstep(0.2, 0.8, shadowSample);
+                    shadowAttenuation = lerp(0.7, 1.0, softShadow);
+                }
 
-                float ambientOcclusion = lerp(0.9, 1.0, shadowSample);
+                float ambientOcclusion = 1.0;
 
-                float celValue = NdotL * shadowAttenuation * ambientOcclusion;
-                float cel = smoothstep(0, 1, frac(celValue * _CelSteps)) + floor(celValue * _CelSteps);
-                cel /= _CelSteps;
+                float celValue = NdotL * shadowAttenuation;
+                float cel;
+                
+                if (_UsePixelPerfectShadows > 0.5)
+                {
+                    cel = celValue > _ShadowThreshold ? 1.0 : 0.0;
+                }
+                else
+                {
+                    cel = smoothstep(0, 1, frac(celValue * _CelSteps)) + floor(celValue * _CelSteps);
+                    cel /= _CelSteps;
+                }
 
                 half3 litTint = mainLight.color.rgb;
-                half3 shadowTint = mainLight.color.rgb * half3(0.8, 0.85, 1.0);
+                half3 shadowTint;
+                
+                if (_UsePixelPerfectShadows > 0.5)
+                {
+                    shadowTint = _ShadowColor.rgb * mainLight.color.rgb;
+                }
+                else
+                {
+                    shadowTint = mainLight.color.rgb * half3(0.8, 0.85, 1.0);
+                }
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
 
