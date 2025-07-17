@@ -18,7 +18,9 @@ Shader "FaRTeam/FaRMainShaderURP"
         [Toggle] _UsePixelPerfectShadows("Use Pixel Perfect Shadows", Float) = 1
         _ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
         _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
-        _PixelSized("Pixel Size", Range(1, 64)) = 6
+        _ShadowAlignmentX("Shadow Alignment X", Range(-1, 1)) = 0
+        _ShadowAlignmentsY("Shadow Alignment Y", Range(-1, 1)) = 0.5
+        _ShadowAlignmentZ("Shadow Alignment Z", Range(-1, 1)) = 0
     }
     SubShader
     {
@@ -271,6 +273,12 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float _ShadowThreshold;
                 float4 _ShadowColor;
                 float _PixelSized;
+                float _ShadowAlignmentX;
+                float _ShadowAlignmentsY;
+                float _ShadowAlignmentZ;
+                float _GridOffsetX;
+                float _GridOffsetY;
+                float _GridOffsetZ;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -300,8 +308,17 @@ Shader "FaRTeam/FaRMainShaderURP"
                 
                 if (_UsePixelPerfectShadows > 0.5)
                 {
-                    float blockSize = 0.01 * (64.0 / _PixelSized);
-                    float3 quantizedWorldPos = floor(IN.positionWS / blockSize) * blockSize;
+                    float pixelSize = 0.1;
+                    
+                    float3 gridOffset = float3(_GridOffsetX, _GridOffsetY, _GridOffsetZ);
+                    float3 offsetWorldPos = IN.positionWS + gridOffset;
+                    
+                    float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentsY * pixelSize, _ShadowAlignmentZ * pixelSize);
+                    float3 alignedWorldPos = offsetWorldPos + alignmentOffset;
+                    
+                    float3 quantizedWorldPos = round(alignedWorldPos / pixelSize) * pixelSize;
+                    
+                    quantizedWorldPos -= gridOffset;
                     
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
                     
