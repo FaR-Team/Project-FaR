@@ -16,6 +16,16 @@
 		_WaveSpeed("Wave Speed", Float) = 1
 		_WaveAmplitude("Wave Amplitude", Float) = 0.5
 		_WaveFrequency("Wave Frequency", Float) = 2
+		[Header(Cel Shading)]
+		_CelSteps("Cel Shading Steps", Range(1, 20)) = 5
+		_ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
+		[Header(Pixel Perfect Shadows)]
+		[Toggle] _UsePixelPerfectShadows("Use Pixel Perfect Shadows", Float) = 1
+		_ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
+		_ShadowDepthBias("Shadow Depth Bias", Range(0, 0.01)) = 0.00001
+		_GridOffsetX("Grid Offset X", Range(-2.1, 2.1)) = 0
+		_GridOffsetY("Grid Offset Y", Range(-2.1, 2.1)) = 0
+		_GridOffsetZ("Grid Offset Z", Range(-2.1, 2.1)) = 0
 		[Header(Lighting)]
 		_Glossiness("Smoothness", Range(0,1)) = 0.8
 		_Metallic("Metallic", Range(0,1)) = 0.0
@@ -129,6 +139,14 @@
 				float _LightIntensity;
 				float _Glossiness;
 				float _Metallic;
+				float _CelSteps;
+				float4 _ShadowColor;
+				float _UsePixelPerfectShadows;
+				float _ShadowThreshold;
+				float _ShadowDepthBias;
+				float _GridOffsetX;
+				float _GridOffsetY;
+				float _GridOffsetZ;
 			CBUFFER_END
 			
 			Varyings vert(Attributes IN)
@@ -158,28 +176,69 @@
 				float waterDepthDifference01 = saturate(depthDifference / _DepthMaxDistance);
 				float4 waterColor = lerp(_DepthGradientShallow, _DepthGradientDeep, waterDepthDifference01);
 
-				// Enhanced lighting
+				// Cel-shaded lighting matching main shader
 				float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
 				Light mainLight = GetMainLight(shadowCoord);
 				
 				float3 normalWS = normalize(IN.normalWS);
-				float3 viewDirWS = normalize(GetWorldSpaceViewDir(IN.positionWS));
-				float3 halfDir = normalize(mainLight.direction + viewDirWS);
+				float NdotL = dot(normalWS, mainLight.direction) * 0.5 + 0.5;
 				
-				float NdotL = saturate(dot(normalWS, mainLight.direction));
-				float NdotH = saturate(dot(normalWS, halfDir));
-				float NdotV = saturate(dot(normalWS, viewDirWS));
+				float shadowSample = MainLightRealtimeShadow(shadowCoord);
+				float shadowAttenuation = 1.0;
 				
-				float specular = pow(NdotH, _Glossiness * 100) * _Glossiness;
-				float fresnel = pow(1 - NdotV, 5) * lerp(0.04, 1, _Metallic);
+				if (_UsePixelPerfectShadows > 0.5)
+				{
+					float pixelSize = 0.1;
+					
+					float3 gridOffset = float3(_GridOffsetX, _GridOffsetY, _GridOffsetZ);
+					float3 offsetWorldPos = IN.positionWS + gridOffset;
+					
+					float3 quantizedWorldPos = round(offsetWorldPos / pixelSize) * pixelSize;
+					quantizedWorldPos -= gridOffset;
+					
+					// Apply bias to prevent self-shadowing
+					float3 normalWSBias = normalize(IN.normalWS);
+					float NdotL_bias = dot(normalWSBias, mainLight.direction);
+					float surfaceBias = (1.0 - abs(NdotL_bias)) * _ShadowDepthBias * 10.0;
+					quantizedWorldPos += mainLight.direction * (surfaceBias + _ShadowDepthBias);
+					
+					float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
+					float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
+					
+					shadowAttenuation = quantizedShadowSample > _ShadowThreshold ? 1.0 : 0.0;
+				}
+				else
+				{
+					float softShadow = smoothstep(0.2, 0.8, shadowSample);
+					shadowAttenuation = lerp(0.7, 1.0, softShadow);
+				}
+
+				float cel;
+				if (_UsePixelPerfectShadows > 0.5)
+				{
+					cel = shadowAttenuation;
+				}
+				else
+				{
+					float celValue = NdotL * shadowAttenuation;
+					cel = smoothstep(0, 1, frac(celValue * _CelSteps)) + floor(celValue * _CelSteps);
+					cel /= _CelSteps;
+				}
+
+				half3 litTint = mainLight.color.rgb;
+				half3 shadowTint;
 				
-				float3 ambient = SampleSH(normalWS) * 0.2;
-				float3 diffuse = mainLight.color * NdotL;
-				float3 specularColor = mainLight.color * specular;
-				
-				waterColor.rgb *= (ambient + diffuse) * _LightIntensity;
-				waterColor.rgb += specularColor * _LightIntensity;
-				waterColor.rgb += fresnel * mainLight.color;			
+				if (_UsePixelPerfectShadows > 0.5)
+				{
+					shadowTint = _ShadowColor.rgb * mainLight.color.rgb;
+				}
+				else
+				{
+					shadowTint = mainLight.color.rgb * half3(0.8, 0.85, 1.0);
+				}
+
+				half3 lightingTint = lerp(shadowTint, litTint, cel);
+				waterColor.rgb *= lightingTint * _LightIntensity;			
 				
 				
 				float foamDepth = saturate(depthDifference / _FoamMaxDistance);
