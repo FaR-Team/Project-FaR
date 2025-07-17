@@ -18,7 +18,7 @@ Shader "FaRTeam/FaRMainShaderURP"
         [Toggle] _UsePixelPerfectShadows("Use Pixel Perfect Shadows", Float) = 1
         _ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
         _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
-        _PixelSizeNew("Pixel Size", Range(1, 64)) = 8
+        _PixelSized("Pixel Size", Range(1, 64)) = 6
     }
     SubShader
     {
@@ -270,7 +270,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float _UsePixelPerfectShadows;
                 float _ShadowThreshold;
                 float4 _ShadowColor;
-                float _PixelSizeNew;
+                float _PixelSized;
             CBUFFER_END
 
             Varyings vert(Attributes IN)
@@ -300,7 +300,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 
                 if (_UsePixelPerfectShadows > 0.5)
                 {
-                    float blockSize = 0.01 * (64.0 / _PixelSizeNew);
+                    float blockSize = 0.01 * (64.0 / _PixelSized);
                     float3 quantizedWorldPos = floor(IN.positionWS / blockSize) * blockSize;
                     
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
