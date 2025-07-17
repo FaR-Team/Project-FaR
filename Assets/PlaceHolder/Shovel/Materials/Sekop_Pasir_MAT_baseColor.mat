@@ -32,13 +32,24 @@ Material:
     m_Floats:
     - _Alpha: 1
     - _CelSteps: 5
+    - _GridOffsetX: 0
+    - _GridOffsetY: 0
+    - _GridOffsetZ: 0
     - _OutlineWidth: 20
     - _PulseMaxWidth: 20
     - _PulseMinWidth: 5
     - _PulseSpeed: 2.5
+    - _ShadowAlignmentX: 0
+    - _ShadowAlignmentZ: 0
+    - _ShadowAlignmentssssY: 0.5001
+    - _ShadowDepthBias: 0.00001
+    - _ShadowSharpness: 0.1
+    - _ShadowThreshold: 0.5
     - _UseMultiplyTexture: 0
     - _UseOutline: 0
+    - _UsePixelPerfectShadows: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0.6, g: 0, b: 0.6, a: 1}
+    - _ShadowColor: {r: 0.5, g: 0.5, b: 0.7, a: 1}
   m_BuildTextureStacks: []

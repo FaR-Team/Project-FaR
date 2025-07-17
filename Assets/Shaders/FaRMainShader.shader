@@ -110,10 +110,13 @@ Shader "FaRTeam/FaRMainShaderURP"
             ZWrite On
             ZTest LEqual
             ColorMask 0
+            Cull Off
 
             HLSLPROGRAM
             #pragma vertex ShadowPassVertex
             #pragma fragment ShadowPassFragment
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
@@ -129,38 +132,66 @@ Shader "FaRTeam/FaRMainShaderURP"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
 
             float3 _LightDirection;
+            float3 _LightPosition;
 
             struct Attributes
             {
                 float4 positionOS   : POSITION;
                 float3 normalOS     : NORMAL;
                 float2 texcoord     : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
             {
                 float2 uv           : TEXCOORD0;
                 float4 positionCS   : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
+
+            float4 GetShadowPositionHClip(Attributes input)
+            {
+                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
+                float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
+
+            #if _CASTING_PUNCTUAL_LIGHT_SHADOW
+                float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+            #else
+                float3 lightDirectionWS = _LightDirection;
+            #endif
+
+                float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+
+            #if UNITY_REVERSED_Z
+                positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+            #else
+                positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+            #endif
+
+                return positionCS;
+            }
 
             Varyings ShadowPassVertex(Attributes input)
             {
                 Varyings output;
                 UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_TRANSFER_INSTANCE_ID(input, output);
 
-                output.uv = input.texcoord;
-                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
-                float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
-                output.positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, _LightDirection));
+                output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
+                output.positionCS = GetShadowPositionHClip(input);
+                
                 return output;
             }
 
             half4 ShadowPassFragment(Varyings input) : SV_TARGET
             {
+                UNITY_SETUP_INSTANCE_ID(input);
+                
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 half alpha = texColor.a * _Alpha;
                 
-                if (alpha < 0.5)
+                // Very low threshold to ensure maximum shadow casting
+                if (alpha < 0.01)
                     discard;
                 
                 return 0;
@@ -327,17 +358,31 @@ Shader "FaRTeam/FaRMainShaderURP"
                     
                     quantizedWorldPos -= gridOffset;
                     
-                    // Add depth bias for horizontal surfaces to prevent z-fighting
-                    float normalY = abs(IN.normalWS.y);
-                    float horizontalBias = normalY * _ShadowDepthBias;
-                    quantizedWorldPos.y += horizontalBias;
+                    // Improved bias calculation to prevent seams
+                    float3 normalWS = normalize(IN.normalWS);
+                    float NdotL_bias = dot(normalWS, mainLight.direction);
+                    
+                    // Surface-aware bias - more bias for surfaces facing away from light
+                    float surfaceBias = (1.0 - abs(NdotL_bias)) * _ShadowDepthBias * 10.0;
+                    
+                    // Additional bias for steep surfaces to prevent seams
+                    float steepnessBias = (1.0 - abs(normalWS.y)) * _ShadowDepthBias * 5.0;
+                    
+                    // Apply bias in light direction to prevent self-shadowing
+                    quantizedWorldPos += mainLight.direction * (surfaceBias + steepnessBias + _ShadowDepthBias);
                     
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
                     
                     float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
                     
-                    // Completely binary shadow decision - no smoothstep, just hard threshold
-                    shadowAttenuation = quantizedShadowSample > _ShadowThreshold ? 1.0 : 0.0;
+                    // Slightly softer threshold to reduce harsh seams
+                    float threshold = _ShadowThreshold;
+                    shadowAttenuation = quantizedShadowSample > threshold ? 1.0 : 0.0;
+                    
+                    // Optional: Add tiny bit of smoothing for very harsh edges
+                    float smoothRange = 0.02;
+                    shadowAttenuation = smoothstep(threshold - smoothRange, threshold + smoothRange, quantizedShadowSample);
+                    shadowAttenuation = shadowAttenuation > 0.5 ? 1.0 : 0.0; // Keep it binary but smoother
                 }
                 else
                 {
