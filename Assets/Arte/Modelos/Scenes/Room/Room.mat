@@ -73,6 +73,9 @@ Material:
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
+    - _GridOffsetX: 0
+    - _GridOffsetY: 0
+    - _GridOffsetZ: 0
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -82,7 +85,12 @@ Material:
     - _PulseMaxWidth: 20
     - _PulseMinWidth: 5
     - _PulseSpeed: 2.5
-    - _ShadowThreshold: 1
+    - _ShadowAlignmentX: 0
+    - _ShadowAlignmentY: 0.5
+    - _ShadowAlignmentZ: 0
+    - _ShadowAlignmentssssY: 0
+    - _ShadowDepthBias: 0.00001
+    - _ShadowThreshold: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1

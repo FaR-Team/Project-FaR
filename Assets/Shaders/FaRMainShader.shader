@@ -17,10 +17,15 @@ Shader "FaRTeam/FaRMainShaderURP"
         [Header(Pixel Perfect Shadows)]
         [Toggle] _UsePixelPerfectShadows("Use Pixel Perfect Shadows", Float) = 1
         _ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
+        _ShadowSharpness("Shadow Sharpness", Range(0.01, 0.5)) = 0.1
         _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
         _ShadowAlignmentX("Shadow Alignment X", Range(-1, 1)) = 0
-        _ShadowAlignmentssssY("Shadow Alignment Y", Range(-1, 1)) = 0.500001
+        _ShadowAlignmentssssY("Shadow Alignment Y", Range(-1, 1)) = 0.5001
         _ShadowAlignmentZ("Shadow Alignment Z", Range(-1, 1)) = 0
+        _ShadowDepthBias("Shadow Depth Bias", Range(0, 0.01)) = 0.00001
+        _GridOffsetX("Grid Offset X", Range(-2.1, 2.1)) = 0
+        _GridOffsetY("Grid Offset Y", Range(-2.1, 2.1)) = 0
+        _GridOffsetZ("Grid Offset Z", Range(-2.1, 2.1)) = 0
     }
     SubShader
     {
@@ -271,11 +276,13 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 _MultiplyTex_ST;
                 float _UsePixelPerfectShadows;
                 float _ShadowThreshold;
+                float _ShadowSharpness;
                 float4 _ShadowColor;
                 float _PixelSized;
                 float _ShadowAlignmentX;
-                float _ShadowAlignmentsY;
+                float _ShadowAlignmentssssY;
                 float _ShadowAlignmentZ;
+                float _ShadowDepthBias;
                 float _GridOffsetX;
                 float _GridOffsetY;
                 float _GridOffsetZ;
@@ -313,17 +320,23 @@ Shader "FaRTeam/FaRMainShaderURP"
                     float3 gridOffset = float3(_GridOffsetX, _GridOffsetY, _GridOffsetZ);
                     float3 offsetWorldPos = IN.positionWS + gridOffset;
                     
-                    float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentsY * pixelSize, _ShadowAlignmentZ * pixelSize);
+                    float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentssssY * pixelSize, _ShadowAlignmentZ * pixelSize);
                     float3 alignedWorldPos = offsetWorldPos + alignmentOffset;
                     
                     float3 quantizedWorldPos = round(alignedWorldPos / pixelSize) * pixelSize;
                     
                     quantizedWorldPos -= gridOffset;
                     
+                    // Add depth bias for horizontal surfaces to prevent z-fighting
+                    float normalY = abs(IN.normalWS.y);
+                    float horizontalBias = normalY * _ShadowDepthBias;
+                    quantizedWorldPos.y += horizontalBias;
+                    
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
                     
                     float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
                     
+                    // Completely binary shadow decision - no smoothstep, just hard threshold
                     shadowAttenuation = quantizedShadowSample > _ShadowThreshold ? 1.0 : 0.0;
                 }
                 else
@@ -334,15 +347,16 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 float ambientOcclusion = 1.0;
 
-                float celValue = NdotL * shadowAttenuation;
                 float cel;
                 
                 if (_UsePixelPerfectShadows > 0.5)
                 {
-                    cel = celValue > _ShadowThreshold ? 1.0 : 0.0;
+                    // For pixel perfect shadows, use pure binary decision - no NdotL mixing
+                    cel = shadowAttenuation;
                 }
                 else
                 {
+                    float celValue = NdotL * shadowAttenuation;
                     cel = smoothstep(0, 1, frac(celValue * _CelSteps)) + floor(celValue * _CelSteps);
                     cel /= _CelSteps;
                 }
