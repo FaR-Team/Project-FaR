@@ -19,7 +19,7 @@ Shader "FaRTeam/FaRMainShaderURP"
         _ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
         _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
         _ShadowAlignmentX("Shadow Alignment X", Range(-1, 1)) = 0
-        _ShadowAlignmentsY("Shadow Alignment Y", Range(-1, 1)) = 0.5
+        _ShadowAlignmentssssY("Shadow Alignment Y", Range(-1, 1)) = 0.500001
         _ShadowAlignmentZ("Shadow Alignment Z", Range(-1, 1)) = 0
     }
     SubShader
