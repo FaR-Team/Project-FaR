@@ -17,7 +17,8 @@ public class InteractTeleportPlayer : MonoBehaviour, IInteractable
         
     }
 
-    public GameObject InteractionPrompt { get; }
+    public InteractionPromptUI InteractionPrompt { get; }
+    public Transform InteractionTarget => transform;
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {
         interactor.gameObject.GetComponent<FaRCharacterController>().Teleport(newPosition);
@@ -31,6 +32,9 @@ public class InteractTeleportPlayer : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-
+        if (InteractionPrompt != null)
+        {
+            InteractionPrompt.Close();
+        }
     }
 }

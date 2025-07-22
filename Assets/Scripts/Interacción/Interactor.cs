@@ -53,8 +53,26 @@ public class Interactor : MonoBehaviour
 
         if (_numFound > 0)
         {
-            _interactable = _colliders[0].GetComponent<IInteractable>(); 
-            if (_interactable == null) return;
+            var newInteractable = _colliders[0].GetComponent<IInteractable>(); 
+            if (newInteractable == null) return;
+
+            // If this is a new interactable, show its prompt
+            if (_interactable != newInteractable)
+            {
+                // Hide previous prompt if exists
+                if (_interactable != null)
+                {
+                    _interactable.EndInteraction();
+                }
+
+                _interactable = newInteractable;
+                
+                // Show new prompt
+                if (_interactable.InteractionPrompt != null)
+                {
+                    _interactable.InteractionPrompt.SetUp(_interactable.InteractionTarget);
+                }
+            }
         
             if (GameInput.playerInputActions.Player.Interaction.WasPressedThisFrame())
             {

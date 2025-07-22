@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class DialogueTrigger :  MonoBehaviour, IInteractable
 {
-    private GameObject _prompt;
+    private InteractionPromptUI _prompt;
 
-    public GameObject InteractionPrompt => _prompt;
+    public InteractionPromptUI InteractionPrompt => _prompt;
+    public Transform InteractionTarget => transform;
 
     public DSDialogueContainerSO dialogueContainerSO;
 
@@ -15,7 +16,10 @@ public class DialogueTrigger :  MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-        throw new System.NotImplementedException();
+        if (_prompt != null)
+        {
+            _prompt.Close();
+        }
     }
 
     public void Interact(Interactor interactor, out bool interactSuccessful)

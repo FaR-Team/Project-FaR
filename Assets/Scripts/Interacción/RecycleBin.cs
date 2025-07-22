@@ -6,14 +6,9 @@ using Utils;
 [RequireComponent(typeof(UniqueID))]
 public class RecycleBin : Container, IInteractable
 {
-    [SerializeField] private GameObject _prompt;
-    public GameObject InteractionPrompt => _prompt;
-
-    protected void Awake()
-    {
-        _prompt = GameObject.FindGameObjectWithTag("HouseInteraction"); //MODIFICAR. FINDGO ES LENTO, SE PUEDE HACER UN SINGLETON U OTRA COSA.
-        //TODO: DISCUTIR ESTO, TIENE QUE HABER DISTINTOS INTERACTION UI PARA CADA OBJETO, SI ES QUE ES IMPORTANTE, SI NO SALDRÍA F PARA INTERACTUAR
-    }
+    [SerializeField] private InteractionPromptUI _prompt;
+    public InteractionPromptUI InteractionPrompt => _prompt;
+    public Transform InteractionTarget => transform;
 
     private void Start()
     {
@@ -45,5 +40,9 @@ public class RecycleBin : Container, IInteractable
     public void EndInteraction()
     {
         this.Log("Terminando Interacción con Cofre");
+        if (_prompt != null)
+        {
+            _prompt.Close();
+        }
     }
 }

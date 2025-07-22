@@ -6,8 +6,9 @@ using Utils;
 
 public class CambiarEscena : MonoBehaviour, IInteractable
 {
-    [SerializeField] private GameObject _prompt;
-    public GameObject InteractionPrompt => _prompt;
+    [SerializeField] private InteractionPromptUI _prompt;
+    public InteractionPromptUI InteractionPrompt => _prompt;
+    public Transform InteractionTarget => transform;
     
     public int targetSceneIndex;
 
@@ -29,6 +30,9 @@ public class CambiarEscena : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-
+        if (_prompt != null)
+        {
+            _prompt.Close();
+        }
     }
 }

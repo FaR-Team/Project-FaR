@@ -15,7 +15,8 @@ public class ShopKeeper : MonoBehaviour, IInteractable
     private FaRCharacterController player;
 
     public GameObject ShopSystemUI;
-    public GameObject InteractionPrompt { get; }
+    public InteractionPromptUI InteractionPrompt { get; }
+    public Transform InteractionTarget => transform;
 
     public bool IsBuying;
 
@@ -110,6 +111,9 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     public void EndInteraction()
     {
-
+        if (InteractionPrompt != null)
+        {
+            InteractionPrompt.Close();
+        }
     }
 }

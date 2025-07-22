@@ -1,36 +1,30 @@
-using System.Net.Mime;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class InteractionPromptUI : MonoBehaviour
 {
-    [SerializeField] public GameObject _uiPanel;
-    public GameObject _BedPanel;
-    public GameObject _ChestPanel;
-    public GameObject _HousePanel;
-    public GameObject _CropPanel;
+    [SerializeField] private GameObject _promptImage;
     
-
-    //[SerializeField] private TextMeshProUGUI _promptText;
-    public bool IsDisplayed;
+    public bool IsDisplayed { get; private set; }
 
     private void Start()
     {
-        //_uiPanel.SetActive(false);
+        if (_promptImage != null)
+            _promptImage.SetActive(false);
     }
 
-
-    public void SetUp()
+    public void SetUp(Transform target)
     {
-        _uiPanel.SetActive(true);
-        IsDisplayed = true;
+        if (_promptImage != null)
+        {
+            _promptImage.SetActive(true);
+            IsDisplayed = true;
+        }
     }
 
     public void Close()
     {
-        _uiPanel.SetActive(false);
+        if (_promptImage != null)
+            _promptImage.SetActive(false);
         IsDisplayed = false;
     }
 }

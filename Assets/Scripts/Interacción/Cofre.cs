@@ -6,19 +6,19 @@ using Utils;
 [RequireComponent(typeof(UniqueID))]
 public class Cofre : Container, IInteractable
 {
-    [SerializeField] private GameObject _prompt;
+    [SerializeField] private InteractionPromptUI _prompt;
     [SerializeField] private Animator _animator;
     private static readonly int IsOpen = Animator.StringToHash("IsOpen");
     private UniqueID _uniqueID;
     
-    public GameObject InteractionPrompt => _prompt;
+    public InteractionPromptUI InteractionPrompt => _prompt;
+    public Transform InteractionTarget => transform;
     
     
     public string ID => _uniqueID.ID;
 
     protected void Awake()
     {
-        _prompt = GameObject.FindGameObjectWithTag("HouseInteraction");
         _uniqueID = GetComponent<UniqueID>();
     }
 
@@ -42,6 +42,10 @@ public class Cofre : Container, IInteractable
         if (_animator != null)
         { 
             _animator.SetBool(IsOpen, false);
+        }
+        if (_prompt != null)
+        {
+            _prompt.Close();
         }
     }
 

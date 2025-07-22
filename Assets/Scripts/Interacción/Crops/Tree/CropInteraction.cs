@@ -10,19 +10,19 @@ public class CropInteraction : MonoBehaviour, IInteractable
     public GameObject Crop;
     private GameObject dirt;
     public Animation anim;
-    public GameObject _prompt;
+    public InteractionPromptUI _prompt;
 
     public bool already;
     public bool isTree;
 
     private MaterialPropertyBlock _propertyBlock;
 
-    public GameObject InteractionPrompt => _prompt;
+    public InteractionPromptUI InteractionPrompt => _prompt;
+    public Transform InteractionTarget => transform;
 
     public virtual void Awake()
     {
         _propertyBlock = new MaterialPropertyBlock();
-        _prompt = GameObject.FindGameObjectWithTag("CropInteraction");
         if (isTree) return;
         dirt = GetComponentInParent<Dirt>().gameObject;
     }
@@ -99,5 +99,9 @@ public class CropInteraction : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         this.Log("Terminando Interacción.");
+        if (_prompt != null)
+        {
+            _prompt.Close();
+        }
     }
 }

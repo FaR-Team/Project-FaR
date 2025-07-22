@@ -11,15 +11,13 @@ public class Cama : MonoBehaviour, IInteractable
 {
     public static Cama Instance;
 
-    [SerializeField] private GameObject _prompt;
+    [SerializeField] private InteractionPromptUI _prompt;
 
-    //I DON'T KNOW SWAHILI, BUT I THINK THIS IS THE CORRECT WAY TO DO THIS (Last part was written by github copilot.)
-    public GameObject InteractionPrompt => _prompt;
+    public InteractionPromptUI InteractionPrompt => _prompt;
+    public Transform InteractionTarget => transform;
 
     
     private void Awake() {
-        _prompt = GameObject.FindGameObjectWithTag("BedInteraction");
-
         if (Instance != null && Instance != this) 
         { 
             Destroy(this); 
@@ -49,5 +47,9 @@ public class Cama : MonoBehaviour, IInteractable
     public void EndInteraction()
     {
         this.Log("Terminando interacción con Cama");
+        if (_prompt != null)
+        {
+            _prompt.Close();
+        }
     }
 }
