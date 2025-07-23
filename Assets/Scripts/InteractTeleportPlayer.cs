@@ -6,6 +6,8 @@ using UnityEngine;
 public class InteractTeleportPlayer : MonoBehaviour, IInteractable
 {
     [SerializeField] private Transform newPosition;
+    [SerializeField] private InteractionPromptUI _prompt;
+    
     void Start()
     {
         
@@ -17,7 +19,7 @@ public class InteractTeleportPlayer : MonoBehaviour, IInteractable
         
     }
 
-    public InteractionPromptUI InteractionPrompt { get; }
+    public InteractionPromptUI InteractionPrompt => _prompt;
     public Transform InteractionTarget => transform;
     public void Interact(Interactor interactor, out bool interactSuccessful)
     {

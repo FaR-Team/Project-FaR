@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 61af71368d2b23243a62500ea6ae8e30, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.7490196}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -130,6 +130,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _promptImage: {fileID: 4550980068244119219}
-  _offset: {x: 0, y: 2, z: 0}
-  _followSpeed: 5
-  _faceCamera: 1

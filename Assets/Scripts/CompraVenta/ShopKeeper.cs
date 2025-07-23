@@ -11,11 +11,12 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
     [SerializeField] private ShopItemList _shopItemsHeld;
     [SerializeField] private ShopSystem _shopSystem;
+    [SerializeField] private InteractionPromptUI _prompt;
 
     private FaRCharacterController player;
 
     public GameObject ShopSystemUI;
-    public InteractionPromptUI InteractionPrompt { get; }
+    public InteractionPromptUI InteractionPrompt => _prompt;
     public Transform InteractionTarget => transform;
 
     public bool IsBuying;
