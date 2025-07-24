@@ -21,7 +21,7 @@ public class InteractTeleportPlayer : MonoBehaviour, IInteractable
 
     public InteractionPromptUI InteractionPrompt => _prompt;
     public Transform InteractionTarget => transform;
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         interactor.gameObject.GetComponent<FaRCharacterController>().Teleport(newPosition);
         interactSuccessful = true;

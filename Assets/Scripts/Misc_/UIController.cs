@@ -8,6 +8,8 @@ public class UIController : MonoBehaviour
 {
     public static UIController instance { get; private set; }
     [SerializeField] private ShopKeeperDisplay _shopKeeperDisplay;
+    [SerializeField] private RectTransform crosshair;
+    private bool _crosshairMovement;
     public GameObject clockUI;
     public GameObject nameDisplayer;
 
@@ -48,6 +50,11 @@ public class UIController : MonoBehaviour
             GameInput.playerInputActions.Player.Pause.WasPressedThisFrame() && isChestInventoryOpen == true) 
         {
             CloseInventory();
+        }
+
+        if (_crosshairMovement)
+        {
+            crosshair.transform.position = Input.mousePosition;
         }
     }
 
@@ -99,5 +106,20 @@ public class UIController : MonoBehaviour
     {
         yield return new WaitForSeconds(0.1f);
         isPlayerInventoryOpen = false;
+    }
+
+    void ResetCrosshair()
+    {
+        crosshair.anchoredPosition = Vector2.zero;
+    }
+
+    public void EnableCrosshairMovement(bool enable)
+    {
+        _crosshairMovement = enable;
+
+        if (!enable)
+        {
+            ResetCrosshair();
+        }
     }
 }

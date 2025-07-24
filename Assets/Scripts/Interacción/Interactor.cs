@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class Interactor : MonoBehaviour
+public class Interactor : InteractorBase
 {
     [SerializeField] private Transform _interactionPoint;
     [SerializeField] private Transform _interactionPoint2;

@@ -5,7 +5,7 @@ public interface IInteractable
     public InteractionPromptUI InteractionPrompt { get; }
     public Transform InteractionTarget { get; }
 
-    public void Interact(Interactor interactor, out bool interactSuccessful);
+    public void Interact(InteractorBase interactor, out bool interactSuccessful);
 
     public void InteractOut();
 

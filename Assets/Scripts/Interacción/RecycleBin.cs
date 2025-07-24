@@ -21,7 +21,7 @@ public class RecycleBin : Container, IInteractable
         SleepHandler.Instance.OnPlayerSleep += DeleteObjects;
     }
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
         interactSuccessful = true;

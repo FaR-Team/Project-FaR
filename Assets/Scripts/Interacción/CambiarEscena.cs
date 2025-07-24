@@ -12,7 +12,7 @@ public class CambiarEscena : MonoBehaviour, IInteractable
     
     public int targetSceneIndex;
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         if (LoadingManager.LoadNewScene(targetSceneIndex))
         {

@@ -77,7 +77,7 @@ public class ShopKeeper : MonoBehaviour, IInteractable
     }
 
 
-    public void Interact(Interactor interactor, out bool interactionSuccessful)
+    public void Interact(InteractorBase interactor, out bool interactionSuccessful)
     {
         if (interactor.TryGetComponent<PlayerInventoryHolder>(out var playerInv))
         {

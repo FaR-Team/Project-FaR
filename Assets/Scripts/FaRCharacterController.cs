@@ -21,7 +21,9 @@ namespace FaRUtils.FPSController
         [SerializeField] private float defaultWalkSpeed = 6f;
         [SerializeField] private float defaultMovementSpeed = 15f;
         [SerializeField] public float lookSensitivity = 0.05f;
-        
+
+        [SerializeField] Interactor interactor;
+        [SerializeField] ThirdPersonInteractor thirdPersonInteractor;
         private float _xRotation = 0f;
 
         [Header("Parámetros de movimiento")]
@@ -40,8 +42,10 @@ namespace FaRUtils.FPSController
         [Header("Parámetros de agacharse")]
         private float _initHeight;
         [SerializeField] private float crouchHeight;
+        private bool _thirdPersonMode;
         
         Locations currentLocation;
+        private IMinigame currentMinigame; // TODO: Mover a GameManager u otro lado
         
         public Locations CurrentLocation => currentLocation;
 
@@ -90,6 +94,7 @@ namespace FaRUtils.FPSController
 
         private void Update()
         {
+            if (_thirdPersonMode) return;
             DoMovement();
             DoLooking();
             DoWalk();
@@ -187,6 +192,28 @@ namespace FaRUtils.FPSController
         public void SetLocation(Locations location)
         {
             currentLocation = location;
+        }
+
+        public void EnableThirdPerson(bool enable)
+        {
+            _thirdPersonMode = enable;
+            interactor.enabled = !enable;
+            thirdPersonInteractor.gameObject.SetActive(enable);
+        }
+
+        public void SetMinigame(IMinigame minigame)
+        {
+            currentMinigame = minigame;
+            if (minigame == null) return;
+            
+            currentMinigame.OnMinigameFinished += HandleMinigameFinished;
+        }
+
+        private void HandleMinigameFinished()
+        {
+            currentMinigame.OnMinigameFinished -= HandleMinigameFinished;
+            if(_thirdPersonMode) EnableThirdPerson(false);
+            SetMinigame(null);
         }
     }
 }

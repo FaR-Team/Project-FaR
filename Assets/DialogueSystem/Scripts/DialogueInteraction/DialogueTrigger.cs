@@ -22,7 +22,7 @@ public class DialogueTrigger :  MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         interactSuccessful = true;
         InteractOut();

@@ -32,7 +32,7 @@ public class CropInteraction : MonoBehaviour, IInteractable
         return null;
     }
 
-    public virtual void Interact(Interactor interactor, out bool interactSuccessful)
+    public virtual void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         if (Energy.RemainingEnergy >= 1)
         {

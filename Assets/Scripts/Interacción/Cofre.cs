@@ -22,7 +22,7 @@ public class Cofre : Container, IInteractable
         _uniqueID = GetComponent<UniqueID>();
     }
 
-    public void Interact(Interactor interactor, out bool interactSuccessful)
+    public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         if (_animator != null)
         { 
