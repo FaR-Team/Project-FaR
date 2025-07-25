@@ -110,7 +110,7 @@ public class UIController : MonoBehaviour
 
     void ResetCrosshair()
     {
-        crosshair.anchoredPosition = Vector2.zero;
+        if(crosshair) crosshair.anchoredPosition = Vector2.zero;
     }
 
     public void EnableCrosshairMovement(bool enable)

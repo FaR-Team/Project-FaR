@@ -9,7 +9,9 @@ public class FishingSpot : MonoBehaviour, IInteractable
     [SerializeField] private FishTarget fish;
     [SerializeField] private FishingMissCollider missCol;
     [SerializeField] private InteractionPromptUI prompt;
+    [SerializeField] private Collider mainCollider;
 
+    private FishDataSO _fishData;
     private int _misses;
     public Transform InteractionTarget => transform;
 
@@ -21,6 +23,11 @@ public class FishingSpot : MonoBehaviour, IInteractable
         missCol.Setup(this);
     }
 
+    public void Setup(FishDataSO fishData)
+    {
+        _fishData = fishData;
+    }
+
     public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
         minigame.StartMinigame(this);
@@ -29,27 +36,35 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void EndInteraction()
     {
-        
+        if (prompt != null)
+        {
+            prompt.Close();
+        }
     }
 
     public void EnableFishInteraction(bool enable)
     {
         fish.EnableInteraction(enable);
         missCol.gameObject.SetActive(enable);
+        EnableMainCollider(!enable);
     }
 
     public void CaughtFish()
     {
-        transform.localScale = new Vector3(3, 3, 3);
+        // TODO: Dar FishDataSO como Item o como sea al player, mejorar transiciones de camara, efectitos y etc (?
+        
+        Destroy(gameObject);
         minigame.EndMinigame();
+        Debug.Log("Caught fish");
     }
     public void MissedFish()
     {
+        Debug.Log("Missed fish");
         _misses++;
 
         if (_misses > 2)
@@ -58,4 +73,6 @@ public class FishingSpot : MonoBehaviour, IInteractable
             Destroy(gameObject);
         }
     }
+    
+    public void EnableMainCollider(bool enable) => mainCollider.enabled = enable;
 }

@@ -21,16 +21,14 @@ public class FishTarget : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        throw new System.NotImplementedException();
     }
 
-    public void EndInteraction()
+    public void EndInteraction() // TODO: Ni se llama desde ThirdPersonInteractor
     {
-       
     }
 
-    public void EnableInteraction(bool enabled)
+    public void EnableInteraction(bool enable)
     {
-        col.enabled = enabled;
+        col.enabled = enable;
     }
 }

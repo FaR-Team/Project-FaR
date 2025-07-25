@@ -24,6 +24,8 @@ namespace FaRUtils.FPSController
 
         [SerializeField] Interactor interactor;
         [SerializeField] ThirdPersonInteractor thirdPersonInteractor;
+        [SerializeField] ThirdPersonCamera thirdPersonCamera;
+        [SerializeField] private GameObject thirdPersonModel;
         private float _xRotation = 0f;
 
         [Header("Parámetros de movimiento")]
@@ -48,6 +50,7 @@ namespace FaRUtils.FPSController
         private IMinigame currentMinigame; // TODO: Mover a GameManager u otro lado
         
         public Locations CurrentLocation => currentLocation;
+        public ThirdPersonCamera ThirdPersonCam => thirdPersonCamera;
 
         private void Awake()
         {
@@ -138,13 +141,13 @@ namespace FaRUtils.FPSController
             RaycastHit hit;
             if (!Physics.Raycast(transform.position, move, out hit, movementSpeed * Time.deltaTime + 0.1f))
             {
-                _controller.Move(move * movementSpeed * Time.deltaTime);
+                _controller.Move(move * (movementSpeed * Time.deltaTime));
             }
             else
             {
                 // If there's an obstacle, try to slide along it
                 Vector3 slideDirection = Vector3.ProjectOnPlane(move, hit.normal).normalized;
-                _controller.Move(slideDirection * movementSpeed * Time.deltaTime);
+                _controller.Move(slideDirection * (movementSpeed * Time.deltaTime));
             }
 
             _velocity.y += gravity * Time.deltaTime;
@@ -194,11 +197,15 @@ namespace FaRUtils.FPSController
             currentLocation = location;
         }
 
-        public void EnableThirdPerson(bool enable)
+        public void EnableThirdPerson(bool enable, Transform camTarget = null)
         {
             _thirdPersonMode = enable;
-            interactor.enabled = !enable;
             thirdPersonInteractor.gameObject.SetActive(enable);
+            thirdPersonCamera.SetCameraTarget(camTarget);
+            thirdPersonModel.SetActive(enable);
+            
+            cam.enabled = !enable;
+            interactor.enabled = !enable;
         }
 
         public void SetMinigame(IMinigame minigame)

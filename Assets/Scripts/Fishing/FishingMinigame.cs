@@ -29,14 +29,13 @@ public class FishingMinigame : MonoBehaviour, IMinigame
     public void MinigameStarted()
     {
         _currentSpot.EnableFishInteraction(true);
-        FaRCharacterController.instance.EnableThirdPerson(true);
+        FaRCharacterController.instance.EnableThirdPerson(true, _currentSpot.transform);
         FaRCharacterController.instance.SetMinigame(this);
     }
 
     public void EndMinigame()
     {
         _currentSpot.EnableFishInteraction(false);
-        
         _currentSpot = null;
         OnMinigameFinished?.Invoke();
     }

@@ -10,6 +10,7 @@ public class ThirdPersonInteractor : InteractorBase
 {
     [SerializeField] private LayerMask interactableLayer;
     private Camera _cam;
+    private CursorLockMode previousLockMode;
 
     private void Awake()
     {
@@ -20,12 +21,15 @@ public class ThirdPersonInteractor : InteractorBase
     {
         GameInput.playerInputActions.Player.PrimaryUse.performed += TryInteract;
         UIController.instance.EnableCrosshairMovement(true);
+        previousLockMode = Cursor.lockState;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     private void OnDisable()
     {
         GameInput.playerInputActions.Player.PrimaryUse.performed -= TryInteract;
         UIController.instance.EnableCrosshairMovement(false);
+        Cursor.lockState = previousLockMode;
     }
 
     private void TryInteract(InputAction.CallbackContext ctx)
@@ -33,7 +37,7 @@ public class ThirdPersonInteractor : InteractorBase
         if (!ctx.performed) return;
 
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out RaycastHit hit, 5f, interactableLayer);
+        Physics.Raycast(ray, out RaycastHit hit, 8f, interactableLayer);
 
         if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
         {
