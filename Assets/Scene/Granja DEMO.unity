@@ -816,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 46923d4e-bb4c-4f65-8a7c-d53c5b1a22c9
+  _ID: a3bbc28e-ae32-41e9-8f12-4b2e9cad8aad
   permanentID: 0
 --- !u!135 &25711483
 SphereCollider:
@@ -1210,7 +1210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9dc590c4-9e7b-4771-8759-26bbc687438c
+  _ID: 7c0b7367-8b77-4bf1-9aa4-5ef09d03879a
   permanentID: 0
 --- !u!135 &36799709
 SphereCollider:
@@ -2145,7 +2145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2ba1b920-ae55-4bab-8e2d-c4e6e4eb6939
+  _ID: a29f2936-2043-4b3b-bb51-54e1feb30fe2
   permanentID: 0
 --- !u!135 &67935719
 SphereCollider:
@@ -2662,7 +2662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 499cd245-5179-476b-8794-02d6f3ed72bd
+  _ID: ffcbda20-3f46-48f3-9615-523dd4565152
   permanentID: 0
 --- !u!135 &84385829
 SphereCollider:
@@ -3931,8 +3931,8 @@ RectTransform:
   m_Father: {fileID: 939269352}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.52071285}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4428,8 +4428,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 124.0223, y: 92.716225}
-  m_SizeDelta: {x: 202.3436, y: 132.6993}
+  m_AnchoredPosition: {x: 137.00717, y: 102.04303}
+  m_SizeDelta: {x: 222.4962, y: 145.9139}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &120814492
 PrefabInstance:
@@ -4746,7 +4746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 497d5002-a51a-4d63-91f7-c64c52a77efd
+  _ID: 29b0a08c-d0a6-4fc1-b295-ac521fc243d5
   permanentID: 0
 --- !u!135 &121276045
 SphereCollider:
@@ -4927,11 +4927,11 @@ MonoBehaviour:
     m_Right: 10
     m_Top: 10
     m_Bottom: 10
-  m_ChildAlignment: 0
+  m_ChildAlignment: 1
   m_StartCorner: 0
-  m_StartAxis: 0
+  m_StartAxis: 1
   m_CellSize: {x: 250, y: 50}
-  m_Spacing: {x: 0, y: 0}
+  m_Spacing: {x: 0, y: 8}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!224 &129400607
@@ -5593,7 +5593,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8966c236-0d0d-4d6f-b797-d4a463f685c4
+  _ID: 089315e5-22ba-481f-845d-3a599090419d
   permanentID: 0
 --- !u!4 &149089408
 Transform:
@@ -6822,7 +6822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 49ee3764-ef2a-419f-8f29-c04fab3d8a76
+  _ID: 1c21a6e6-9386-49eb-b1eb-1469de877ce9
   permanentID: 0
 --- !u!135 &177980022
 SphereCollider:
@@ -7815,7 +7815,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: -0.2}
-  m_ConnectedAnchor: {x: 0.0007997545, y: 0.34023938}
+  m_ConnectedAnchor: {x: 0.00080195774, y: 0.34024158}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -7839,7 +7839,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0.35}
-  m_ConnectedAnchor: {x: -0.91022694, y: -0.04382327}
+  m_ConnectedAnchor: {x: -0.9102265, y: -0.04382299}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0
@@ -8047,7 +8047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f7cfca6d-e00b-43db-aee5-6f48cb5f1ada
+  _ID: b72a1e6a-a325-4d4e-95b6-7ed91612965a
   permanentID: 0
 --- !u!135 &202335508
 SphereCollider:
@@ -8179,7 +8179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: facfe26f-ff3c-48c4-af5e-f4ee4dcea57f
+  _ID: 8014f5b4-355d-46a7-b624-8e14f7978030
   permanentID: 0
 --- !u!135 &208192198
 SphereCollider:
@@ -9688,7 +9688,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 02b23bfd-3778-413e-ac94-2d8bb0e0c0e2
+  _ID: c7dbbf57-1b15-4a2f-b999-031369a284e1
   permanentID: 0
 --- !u!54 &234375708
 Rigidbody:
@@ -11168,7 +11168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 877b97c8-5e48-496c-91c8-55c59dabcb3f
+  _ID: cce06938-114a-4e60-8f03-f728a7cb77f0
   permanentID: 0
 --- !u!135 &263262883
 SphereCollider:
@@ -12126,7 +12126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -74.48447, y: 42.70297}
+  m_AnchoredPosition: {x: -74.48447, y: 43.7855}
   m_SizeDelta: {x: 53.3751, y: 47.293}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &287142764
@@ -12452,9 +12452,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -16, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &297595520
 MonoBehaviour:
@@ -13744,7 +13744,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bde0e6b1-15e9-43f7-9ca3-645b49546d96
+  _ID: 5b8e46a8-3fa2-4028-a7d9-b3868afc0e11
   permanentID: 0
 --- !u!135 &313945930
 SphereCollider:
@@ -16329,7 +16329,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d48e6b23-8d8a-4b14-94fa-dce66d6f3fc2
+  _ID: ed63c751-7032-4fc3-b14f-f20803a11028
   permanentID: 0
 --- !u!135 &326683911
 SphereCollider:
@@ -16551,7 +16551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2c7af24b-c3b4-4d1f-8c13-a7b87ea3d9f0
+  _ID: 16f6f41b-e8de-4d7f-a51d-7d6c811e74d0
   permanentID: 0
 --- !u!135 &341577338
 SphereCollider:
@@ -22592,7 +22592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0b667ff0-cfc1-4453-8000-a35a6f341d77
+  _ID: 5c128d2b-cd96-42db-b3c8-f940a79016eb
   permanentID: 0
 --- !u!135 &374139740
 SphereCollider:
@@ -23366,7 +23366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5b1dc45b-4846-4733-a2a3-6f4f980ca68e
+  _ID: 779063e9-ee9e-4dce-ae91-c0413f866a54
   permanentID: 0
 --- !u!4 &394049641
 Transform:
@@ -25717,7 +25717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 36441d28-bb9e-4343-8e68-2a74926f6640
+  _ID: c5e79e4c-0309-4d5e-b443-e068db9c6993
   permanentID: 0
 --- !u!135 &452462296
 SphereCollider:
@@ -26511,7 +26511,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: dd12465e-bbf6-4fb8-baa7-b11988be5044
+  _ID: 0ab5ac69-98b0-433d-bac6-a2ddfe078f59
   permanentID: 0
 --- !u!135 &465102357
 SphereCollider:
@@ -28540,7 +28540,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 35f1c203-4712-4dd8-afcb-62e47bc1a1d8
+  _ID: cc9f872d-7df4-4ba3-9174-f4c3f9d86060
   permanentID: 0
 --- !u!135 &526010863
 SphereCollider:
@@ -28917,7 +28917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8a3eb459-2a43-43c4-8359-a6b2d6e956a4
+  _ID: 2bf67c51-6e74-4240-84b4-468c39b70a99
   permanentID: 0
 --- !u!4 &529966446 stripped
 Transform:
@@ -30339,7 +30339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2336c2fc-ef24-4837-ab55-18b30461db7d
+  _ID: a08385fd-99aa-4d00-91fc-df300ea22752
   permanentID: 0
 --- !u!135 &553631594
 SphereCollider:
@@ -30665,7 +30665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: fd98973c-26c7-4ce7-b790-20d7f430c3d5
+  _ID: 84e0ca25-c78a-49bc-81d1-4d5947664d21
   permanentID: 0
 --- !u!135 &564462064
 SphereCollider:
@@ -31620,7 +31620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cfb078fa-6a6e-4e96-a59e-74a33252b320
+  _ID: a632d998-1e9b-495b-9f15-fa3861346129
   permanentID: 0
 --- !u!135 &586374014
 SphereCollider:
@@ -32977,7 +32977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: eb068ad9-7cee-4e34-9214-3c5cb5c7f52c
+  _ID: 37895c7c-33e4-4202-af2e-f5af4645c027
   permanentID: 0
 --- !u!135 &612858909
 SphereCollider:
@@ -34718,7 +34718,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9033fa5e-b983-423f-88c8-4bae10aed928
+  _ID: 03ff7f9e-b29d-496e-8177-b018c3898303
   permanentID: 0
 --- !u!135 &661223308
 SphereCollider:
@@ -34929,7 +34929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b32d1fff-1eb7-490f-8d2b-554687ff1fc2
+  _ID: 3ffed70b-8c4d-4985-b518-942e81fe52f6
   permanentID: 0
 --- !u!135 &663371784
 SphereCollider:
@@ -36168,10 +36168,10 @@ RectTransform:
   m_Father: {fileID: 1233128456}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -235}
-  m_SizeDelta: {x: 400, y: 470}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &699768070 stripped
 Transform:
@@ -36912,7 +36912,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 37f00a15-9342-4d92-8806-c2a9878df1ec
+  _ID: b529d245-7c05-449f-b457-97f0b80c4926
   permanentID: 0
 --- !u!114 &719153285
 MonoBehaviour:
@@ -37099,7 +37099,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8ee98f24-ce74-4519-8363-e0ad1ca18c94
+  _ID: bde2f657-022e-4ae4-ad65-4046807e1d07
   permanentID: 0
 --- !u!135 &724449542
 SphereCollider:
@@ -37816,7 +37816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 40394caa-0916-40ff-9d2c-b87cf42330b6
+  _ID: eab68366-52ea-4a01-b009-6245fdc96b75
   permanentID: 0
 --- !u!135 &747810240
 SphereCollider:
@@ -37996,7 +37996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4f86c439-f8b8-4039-aaf7-0ef04d1f1f54
+  _ID: 4126b969-f2ca-4a7e-a220-7ac3488de580
   permanentID: 0
 --- !u!135 &754922904
 SphereCollider:
@@ -39606,7 +39606,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 17c7f80a-e9f5-4a74-8efc-bdd6cb9877a9
+  _ID: 329e3b8a-091b-4ed0-8e26-641049450d29
   permanentID: 0
 --- !u!135 &808408235
 SphereCollider:
@@ -46094,7 +46094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 50ba87a8-c313-435f-a17b-e6023ef7f874
+  _ID: 6b3843f5-d856-4b26-a5a7-c7fb128329a7
   permanentID: 0
 --- !u!135 &855915597
 SphereCollider:
@@ -46640,7 +46640,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2bb411ef-5aa4-4500-bee9-ea246a867df0
+  _ID: 8e69eaeb-a6b7-4f97-9519-f26c00ef3d0a
   permanentID: 0
 --- !u!135 &869583664
 SphereCollider:
@@ -47279,7 +47279,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: eb0223d8-cdac-4ce6-9780-bab57488a7e3
+  _ID: 5c66e2d7-9e0b-4345-bbb9-40a6daba7e94
   permanentID: 0
 --- !u!135 &892437462
 SphereCollider:
@@ -47638,7 +47638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: dd6396dd-d9c9-44bc-956d-934ac9645114
+  _ID: 3c33091b-3ba1-43cc-b8e1-da3ff577d669
   permanentID: 0
 --- !u!135 &902192363
 SphereCollider:
@@ -48702,7 +48702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ef769a98-30fd-44d7-80b0-1e6132a9c765
+  _ID: fa4685ce-c684-41f3-bc90-67b84aa136f5
   permanentID: 0
 --- !u!135 &917788317
 SphereCollider:
@@ -49080,7 +49080,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5f8e524d-f8ea-4527-bafb-e923ac39d9b2
+  _ID: cfb8525a-cf1a-4020-86c9-dc76b8e88402
   permanentID: 0
 --- !u!4 &923324367 stripped
 Transform:
@@ -49277,8 +49277,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -8.2989, y: 24.9648}
-  m_SizeDelta: {x: -128.86, y: -211.7825}
+  m_AnchoredPosition: {x: -9.5656, y: 31.821}
+  m_SizeDelta: {x: -139.99, y: -225.495}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &927269492
 MonoBehaviour:
@@ -49639,7 +49639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b53c7816-0653-4953-bdac-2765590cecda
+  _ID: 35b9b5e1-557a-46bc-a0bf-8f68bbbd87fd
   permanentID: 0
 --- !u!135 &955356165
 SphereCollider:
@@ -50294,7 +50294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 45c7770c-2d2c-48c5-8e38-45a4d1f81a83
+  _ID: 958138f2-9dfc-41d3-97a4-a3e80266c9b7
   permanentID: 0
 --- !u!135 &984207767
 SphereCollider:
@@ -55554,10 +55554,10 @@ RectTransform:
   m_Father: {fileID: 1233128456}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 600, y: -235}
-  m_SizeDelta: {x: 400, y: 470}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1007353790
 GameObject:
@@ -55701,7 +55701,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 981f945f-ff1e-47bd-bf7a-4709ce127093
+  _ID: af3d0ef4-50e1-4c46-8483-114643055fbd
   permanentID: 0
 --- !u!135 &1009222135
 SphereCollider:
@@ -56370,7 +56370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3453cb16-087c-4fdc-b39b-0727ee9fcf7a
+  _ID: 4aba777d-a97a-4ed6-9c40-c16e3e0bd02f
   permanentID: 0
 --- !u!135 &1023623806
 SphereCollider:
@@ -56484,7 +56484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 96133af3-dedf-48cd-8397-8cb3bceb745d
+  _ID: 8d151083-24fd-453d-ba67-abc838a66974
   permanentID: 0
 --- !u!135 &1023629616
 SphereCollider:
@@ -57019,7 +57019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b0e63b46-d4b9-422e-8b52-52d5e3ce8161
+  _ID: f240c0e6-386f-4d50-876e-3c276c234438
   permanentID: 0
 --- !u!135 &1043740797
 SphereCollider:
@@ -57425,7 +57425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 62baaf50-d24f-468c-b162-c99ccf61e950
+  _ID: 15f65b55-2033-414b-916c-b58b48a93e19
   permanentID: 0
 --- !u!135 &1054615411
 SphereCollider:
@@ -59937,7 +59937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0cef3231-3c11-45bb-b11a-67b33853c8c3
+  _ID: 2cbc6019-127d-4009-acb9-fd5d4c756cf1
   permanentID: 0
 --- !u!135 &1110671459
 SphereCollider:
@@ -61067,7 +61067,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a2f8b9dd-34b9-49a6-bcd4-cb5ca635e513
+  _ID: 1201230c-9aeb-4771-bfee-37359a98a486
   permanentID: 0
 --- !u!135 &1125939907
 SphereCollider:
@@ -61272,7 +61272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8c98bcfb-27fc-4672-89db-e11335474175
+  _ID: 5ef17b78-246d-42d1-ad50-9170dc5aae63
   permanentID: 0
 --- !u!135 &1127048183
 SphereCollider:
@@ -63145,7 +63145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7d6bcec2-51a8-47b5-8935-27c09f90fbdf
+  _ID: a7c371fa-7d3c-483d-8749-bc351d6ea25d
   permanentID: 0
 --- !u!135 &1191783074
 SphereCollider:
@@ -63428,7 +63428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: de933141-e2f5-4fe0-aade-313c30460a69
+  _ID: 7c9b1094-5bc2-4eb5-91a8-a7bbf87a4827
   permanentID: 0
 --- !u!135 &1201221374
 SphereCollider:
@@ -63548,7 +63548,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ba9ae7b2-ed84-4160-9a1f-50fddc52d3a1
+  _ID: f6d64bab-ae25-447e-8626-7080a6f33cb1
   permanentID: 0
 --- !u!135 &1203343359
 SphereCollider:
@@ -64042,7 +64042,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9266f863-42b9-4357-acfd-3387fc951e78
+  _ID: e80bea4a-7d93-428c-a7e4-986b7d55f5f6
   permanentID: 0
 --- !u!135 &1230624279
 SphereCollider:
@@ -64155,10 +64155,10 @@ RectTransform:
   m_Father: {fileID: 1261944680}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 700, y: 370}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.5082, y: 0.0005}
+  m_SizeDelta: {x: 884.0164, y: 519.5975}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1233128457
 MonoBehaviour:
@@ -64591,7 +64591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cc56e33a-b0c9-44da-8c1b-03f313c41000
+  _ID: faf782d2-76a5-4f78-836b-f748e2d4835f
   permanentID: 0
 --- !u!135 &1243884338
 SphereCollider:
@@ -64952,8 +64952,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 45.99611, y: -116.81718}
-  m_SizeDelta: {x: 14.779, y: 16.7423}
+  m_AnchoredPosition: {x: 50.84, y: -129.12994}
+  m_SizeDelta: {x: 16.2066, y: 18.4462}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1250316208
 MonoBehaviour:
@@ -65224,7 +65224,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1261944680
 RectTransform:
   m_ObjectHideFlags: 0
@@ -65277,6 +65277,8 @@ MonoBehaviour:
   _shoppingCartObj: {fileID: 327570607}
   _shoppingCartContentPanel: {fileID: 115230348}
   _shoppingUIParent: {fileID: 1261944679}
+  _shopPagination: {fileID: 0}
+  _shopGridLayout: {fileID: 0}
   player: {fileID: 0}
   _BuyMulti: 1
 --- !u!4 &1262526786 stripped
@@ -65497,7 +65499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3bd881b1-237c-4009-ac8c-d4158f8c779d
+  _ID: 4b0ac160-e9d9-4a60-a074-334a3b80cd60
   permanentID: 0
 --- !u!135 &1266493628
 SphereCollider:
@@ -66406,7 +66408,7 @@ Transform:
   m_GameObject: {fileID: 1280934414}
   m_LocalRotation: {x: -0, y: 0.70710707, z: -0, w: 0.70710653}
   m_LocalPosition: {x: 90.7, y: 15.2, z: -0.7}
-  m_LocalScale: {x: 185.55525, y: 31.497501, z: 19.929}
+  m_LocalScale: {x: 185.55525, y: 31.497501, z: 9.716982}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 423991597}
@@ -67317,7 +67319,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1fa9778e-38c6-46ae-b652-a83d828b21ce
+  _ID: 0cfb5882-5774-4a33-87e6-d2379b1dbaf4
   permanentID: 0
 --- !u!135 &1301335495
 SphereCollider:
@@ -67931,7 +67933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: da4ad1cd-310e-47a8-9d03-aee7e2bdbe6f
+  _ID: 4076ed7e-6d35-426d-8592-8a979eb8cb2d
   permanentID: 0
 --- !u!135 &1317434546
 SphereCollider:
@@ -68205,7 +68207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: fc778ad6-ed37-4e74-8e37-d218f03531c1
+  _ID: 2351661a-d2a5-4112-91d1-dc2fae999a21
   permanentID: 0
 --- !u!135 &1324503460
 SphereCollider:
@@ -68443,7 +68445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b206cf67-58e3-4346-aa28-1c8efbb5b6e9
+  _ID: 25644f32-ae83-4bf8-b81f-f6fe7432bfdf
   permanentID: 0
 --- !u!114 &1331070919
 MonoBehaviour:
@@ -68592,8 +68594,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 81.96226, y: -143.9}
-  m_SizeDelta: {x: 92.0954, y: 31.997}
+  m_AnchoredPosition: {x: 91.343834, y: -159.11}
+  m_SizeDelta: {x: 100.1953, y: 35.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1332188973
 MonoBehaviour:
@@ -69252,7 +69254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: fce287a6-e45a-4d91-b50d-d5e4157da309
+  _ID: c9e3817b-a5e0-47a8-84c7-b65637df7099
   permanentID: 0
 --- !u!135 &1349421336
 SphereCollider:
@@ -69750,7 +69752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: eee230c8-d7be-44ba-ad8e-af1fca58422f
+  _ID: e5af3b99-1aee-4599-8f26-79a050c583c2
   permanentID: 0
 --- !u!135 &1354992537
 SphereCollider:
@@ -71238,7 +71240,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 26.687, y: 41.3}
+  m_AnchoredPosition: {x: 26.687, y: 46.351814}
   m_SizeDelta: {x: 148.97, y: 16.5951}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1396605205
@@ -71297,10 +71299,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
-  m_fontSizeBase: 36
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -72423,7 +72425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a6ff40d8-95ae-44c1-9b61-748dbf70d0b3
+  _ID: 19cd66e8-0eee-47bd-acdd-c04cf52d1b81
   permanentID: 0
 --- !u!135 &1429887016
 SphereCollider:
@@ -73379,7 +73381,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8e496a04-6980-4879-89a3-f8f8010cad81
+  _ID: 473300be-6f11-44a6-8fca-8bc7d58a367e
   permanentID: 0
 --- !u!135 &1460805792
 SphereCollider:
@@ -75339,7 +75341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 84172755-6dc8-4aca-a2e6-dc5cd8302f5f
+  _ID: 8dd9dfbb-7db9-435d-91d7-3f1a4b471a55
   permanentID: 0
 --- !u!135 &1501359588
 SphereCollider:
@@ -80802,8 +80804,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -63.318974, y: -116.81718}
-  m_SizeDelta: {x: 14.857, y: 16.7423}
+  m_AnchoredPosition: {x: -69.964264, y: -129.13}
+  m_SizeDelta: {x: 16.3255, y: 18.445}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1604244342
 MonoBehaviour:
@@ -83660,7 +83662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8fa588a1-677a-4a93-a962-a1bb25d74649
+  _ID: e54bdfb4-7bbb-4942-8ba4-126025e8bb45
   permanentID: 0
 --- !u!135 &1673529675
 SphereCollider:
@@ -84240,7 +84242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9962af60-b548-493f-8249-fa975d5e0264
+  _ID: 55d4793b-be65-4ccf-b94c-b503015029fc
   permanentID: 0
 --- !u!135 &1685438477
 SphereCollider:
@@ -85809,8 +85811,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -100.01, y: -143.93}
-  m_SizeDelta: {x: 90.624, y: 31.936}
+  m_AnchoredPosition: {x: -110.493385, y: -159.11}
+  m_SizeDelta: {x: 100.158, y: 35.355}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1724573578
 MonoBehaviour:
@@ -86174,7 +86176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9a2461d4-8c33-425f-b43d-c283fb60818f
+  _ID: 31e970c7-3dd2-4b84-b8f3-f320bd40ba2d
   permanentID: 0
 --- !u!135 &1731675126
 SphereCollider:
@@ -87092,8 +87094,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -9.393208, y: -143.9}
-  m_SizeDelta: {x: 90.6136, y: 31.998}
+  m_AnchoredPosition: {x: -9.583995, y: -159.11}
+  m_SizeDelta: {x: 101.66, y: 35.357}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1749782312
 MonoBehaviour:
@@ -90120,7 +90122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b3fb7d1e-be83-4063-9675-d1752546f686
+  _ID: d3088a49-9bc3-44b1-9513-b29504d6c1ad
   permanentID: 0
 --- !u!135 &1844934533
 SphereCollider:
@@ -91821,7 +91823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 35cecb66-ddf9-4b11-a0eb-43eb49548b48
+  _ID: 4e7976d1-1076-4296-ac4e-4fab8ce2db1d
   permanentID: 0
 --- !u!135 &1876723627
 SphereCollider:
@@ -92051,7 +92053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ed0396ce-97ff-4e44-9af4-69aaad25fcec
+  _ID: 8b4c3e6d-a632-400a-9795-b76156179120
   permanentID: 0
 --- !u!135 &1885206335
 SphereCollider:
@@ -92620,7 +92622,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e3784666-8297-4345-9fdb-c117d29ecdd4
+  _ID: a6953650-f88e-4080-82d1-1c282e2ed974
   permanentID: 0
 --- !u!135 &1894039283
 SphereCollider:
@@ -93323,7 +93325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c2f69502-9d1b-4671-9ebf-51badbb0f958
+  _ID: 1aa61fc4-3b55-4c80-9be8-04c475d9f07a
   permanentID: 0
 --- !u!135 &1901159023
 SphereCollider:
@@ -94199,7 +94201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 702f48bf-8e21-4f51-bf28-fa92ec1d025c
+  _ID: 68ea78d2-cb5d-4792-8ee7-be6c1a0012cf
   permanentID: 0
 --- !u!135 &1915739325
 SphereCollider:
@@ -94620,9 +94622,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Esta es una zanahoria, se puede meter en tu ano con la telequinesis y
-    se siente re piola, me lo esne\xF1\xF3 la abuela uwu nya (Es la idea, pedofilia
-    go brrrrrrr) Btw puto el que lo lea Jajaj sasha puto woooooo gan\xE9 pt"
+  m_text: 'Esta es una zanahoria, se puede meter en tu ano con la telequinesis y
+    se siente re piola.
+
+    TEXTOtextotextotextotextotextoTEXTOtextotextotextotextotextoTEXTOtextotextotextotextotexto'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 34b6fd15e796a9d45a20a7aa895828e8, type: 2}
   m_sharedMaterial: {fileID: -4842901479643617724, guid: 34b6fd15e796a9d45a20a7aa895828e8,
@@ -94650,8 +94653,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 15
-  m_fontSizeBase: 15
+  m_fontSize: 20
+  m_fontSizeBase: 20
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 20
@@ -94686,7 +94689,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -0.5070877, y: 0, z: 0.5122986, w: 0.949644}
+  m_margin: {x: 0.014328003, y: 0, z: 0.012931825, w: 0.044420183}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -94717,8 +94720,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.41083062, y: -26.408913}
-  m_SizeDelta: {x: 201.5219, y: 79.8821}
+  m_AnchoredPosition: {x: 0.0114, y: -27.5459}
+  m_SizeDelta: {x: 221.0243, y: 90.8223}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &1927886193 stripped
 Transform:
@@ -95854,7 +95857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e1f74df0-c778-4e41-925d-f689d6b12f3f
+  _ID: 0b716a08-13b9-4ed7-a39d-06daead531ee
   permanentID: 0
 --- !u!135 &1961083484
 SphereCollider:
@@ -96194,7 +96197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 60dab1a8-e9c3-48a9-972d-2ed5e2821a49
+  _ID: 48ed627d-c163-46a7-b9ae-2121d9e4dce9
   permanentID: 0
 --- !u!135 &1967220054
 SphereCollider:
@@ -96455,8 +96458,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 104549649}
   m_HandleRect: {fileID: 104549648}
   m_Direction: 2
-  m_Value: 1.0000029
-  m_Size: 0.47928715
+  m_Value: 1.0000032
+  m_Size: 0.5458945
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -97239,7 +97242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 52858d77-6d04-444b-9628-709db88fc711
+  _ID: c15b4ad0-821a-407f-83a6-32d55320ef5d
   permanentID: 0
 --- !u!135 &2003069870
 SphereCollider:
@@ -97776,7 +97779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1064b971-c2e2-4f21-a40b-4ff5722b8e23
+  _ID: 0e4f4887-b992-4c68-89d4-b1604540e286
   permanentID: 0
 --- !u!135 &2014453792
 SphereCollider:
@@ -98534,7 +98537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c0802538-e967-4086-ad77-ca999db75c58
+  _ID: abecb019-d078-4b18-ae3d-aa3cd77acbb7
   permanentID: 0
 --- !u!135 &2028072760
 SphereCollider:
@@ -99957,7 +99960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 762e1c49-5e7e-4483-801d-07ffa0a26cbd
+  _ID: bdef8478-222a-4fbc-96e7-d983c6f561f0
   permanentID: 0
 --- !u!4 &2063280636 stripped
 Transform:
@@ -100261,7 +100264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9fa95a83-47f2-415e-8d51-277f43568321
+  _ID: b88eda49-6183-48be-adc7-b1766efd66d2
   permanentID: 0
 --- !u!135 &2075764653
 SphereCollider:
@@ -101821,7 +101824,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: eb5671b0-b649-4f71-b460-c11cdd6be4d6
+  _ID: 59eeac41-1de4-42bb-8153-d2722cbedb53
   permanentID: 0
 --- !u!135 &2111158027
 SphereCollider:
@@ -102175,7 +102178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f1fb055a-d152-430c-bbce-aa389916b19d
+  _ID: ded6a95c-1ad1-4754-8d7c-250585dda63b
   permanentID: 0
 --- !u!135 &2118621144
 SphereCollider:
@@ -102353,7 +102356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a2215a9d-a53a-4873-828d-8ac20e2ed230
+  _ID: 34a0c360-0bc6-4a53-8526-5910245044e8
   permanentID: 0
 --- !u!135 &2121028047
 SphereCollider:
@@ -102786,7 +102789,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9d08d9c9-6c7c-4e09-8a67-22de4cf617a0
+  _ID: 2eafe861-93ab-422b-b210-536fbc6fe830
   permanentID: 0
 --- !u!114 &2134209634
 MonoBehaviour:
@@ -107001,7 +107004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c94c253f-4de6-434e-bcff-7060b81df311
+  _ID: 37f2db6f-157b-4ad4-8957-f8ac7427f729
   permanentID: 0
 --- !u!64 &2459573572716711182
 MeshCollider:
@@ -273635,7 +273638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: acac4cf1-73cf-46e1-930a-3e23c5e69845
+  _ID: 075509bb-d19b-4cdc-9ee8-f27550ebd3c0
   permanentID: 0
 --- !u!1 &8164078558139713323
 GameObject:
