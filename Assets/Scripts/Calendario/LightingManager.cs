@@ -33,6 +33,15 @@ public class LightingManager : MonoBehaviour
     private float sunriseTintStartTime = 4f; // 5 AM
     private float sunriseTintEndTime = 6f;   // 6 AM
     [SerializeField] private float starRotationSpeed = 1f;
+    
+    [Header("Sun Movement")]
+    [SerializeField] private float sunRotationSpeed = 2f;
+    [SerializeField] private bool smoothSunMovement = true;
+    [SerializeField] private float sunSmoothingFactor = 3f;
+    [SerializeField] private float nightSunYOffset = -30f;
+    
+    private Quaternion targetSunRotation;
+    private bool sunRotationInitialized = false;
 
     private void OnEnable()
     {
@@ -43,6 +52,14 @@ public class LightingManager : MonoBehaviour
         CopyHour();
         tintedSkyboxMaterial = new Material(Shader.Find("Skybox/6 Sided"));
         RenderSettings.skybox = tintedSkyboxMaterial;
+        
+        // Initialize sun rotation
+        if (DirectionalLight != null)
+        {
+            targetSunRotation = CalculateSunRotation(TimeOfDay / 24f);
+            DirectionalLight.transform.localRotation = targetSunRotation;
+            sunRotationInitialized = true;
+        }
     }
     private void Update()
     {
@@ -70,6 +87,43 @@ public class LightingManager : MonoBehaviour
     public void CopyHour()
     {
         TimeOfDay = TimeManager.DateTime.Hour;
+        
+        if (DirectionalLight != null && sunRotationInitialized)
+        {
+            targetSunRotation = CalculateSunRotation(TimeOfDay / 24f);
+        }
+    }
+    
+    private Quaternion CalculateSunRotation(float timePercent)
+    {
+        //(0-24 hours a 0-360 grados)
+        float sunAngle = timePercent * 360f;
+        
+        float xRotation;
+        float yRotation = 170f;
+        
+        if (TimeOfDay >= sunriseTime && TimeOfDay <= sunsetTime)
+        {
+            float dayProgress = Mathf.InverseLerp(sunriseTime, sunsetTime, TimeOfDay);
+            
+            float arcHeight = Mathf.Sin(dayProgress * Mathf.PI) * 80f;
+            xRotation = arcHeight - 10f;
+        }
+        else
+        {
+            if (TimeOfDay < sunriseTime)
+            {
+                float nightProgress = TimeOfDay / sunriseTime;
+                xRotation = nightSunYOffset + (nightProgress * 10f);
+            }
+            else
+            {
+                float nightProgress = (TimeOfDay - sunsetTime) / (24f - sunsetTime);
+                xRotation = nightSunYOffset - (nightProgress * 10f);
+            }
+        }
+        
+        return Quaternion.Euler(xRotation, yRotation, 0);
     }
     private void UpdateLighting(float timePercent)
     {
@@ -84,7 +138,6 @@ public class LightingManager : MonoBehaviour
             targetDirectionalColor = Preset.ColorDireccional.Evaluate(timePercent);
             DirectionalLight.color = Color.Lerp(DirectionalLight.color, targetDirectionalColor, Time.deltaTime * transitionSpeed);
 
-            // New intensity calculation
             float intensity;
             float sunriseIntensity = maxIntensity * 1.5f;
             float middayIntensity = maxIntensity * 0.8f;
@@ -92,15 +145,15 @@ public class LightingManager : MonoBehaviour
             if (TimeOfDay >= sunriseTime && TimeOfDay <= sunsetTime)
             {
                 float t = Mathf.InverseLerp(sunriseTime, sunsetTime, TimeOfDay);
-                if (t < 0.25f) // Sunrise period
+                if (t < 0.25f)
                 {
                     intensity = Mathf.Lerp(minIntensity, sunriseIntensity, t * 4);
                 }
-                else if (t < 0.75f) // Daytime period
+                else if (t < 0.75f)
                 {
                     intensity = Mathf.Lerp(sunriseIntensity, middayIntensity, (t - 0.25f) * 2);
                 }
-                else // Sunset period
+                else
                 {
                     intensity = Mathf.Lerp(middayIntensity, minIntensity, (t - 0.75f) * 4);
                 }
@@ -112,10 +165,23 @@ public class LightingManager : MonoBehaviour
 
             DirectionalLight.intensity = Mathf.Lerp(DirectionalLight.intensity, intensity, Time.deltaTime * transitionSpeed);
 
-            DirectionalLight.transform.localRotation = Quaternion.Euler(new Vector3((timePercent * 360f) - 90f, 170f, 0));
+            targetSunRotation = CalculateSunRotation(timePercent);
+            
+            if (smoothSunMovement && sunRotationInitialized)
+            {
+                DirectionalLight.transform.localRotation = Quaternion.Slerp(
+                    DirectionalLight.transform.localRotation, 
+                    targetSunRotation, 
+                    Time.deltaTime * sunRotationSpeed * sunSmoothingFactor
+                );
+            }
+            else
+            {
+                DirectionalLight.transform.localRotation = targetSunRotation;
+                sunRotationInitialized = true;
+            }
         }
 
-        // Implement sunrise tint-up logic
         if (TimeOfDay >= sunriseTintStartTime && TimeOfDay < sunriseTintEndTime)
         {
             float tintProgress = Mathf.InverseLerp(sunriseTintStartTime, sunriseTintEndTime, TimeOfDay);
@@ -138,14 +204,12 @@ public class LightingManager : MonoBehaviour
 
             RenderSettings.skybox = nightSkyboxMaterial;
         }
-        else // Day time
+        else
         {
-            daySkyboxMaterial.SetColor("_Tint", Color.white); // Reset tint
+            daySkyboxMaterial.SetColor("_Tint", Color.white);
             RenderSettings.skybox = daySkyboxMaterial;
         }
-        // Rotate the skybox
         RenderSettings.skybox.SetFloat("_Rotation", Time.time * starRotationSpeed);
-        // Force skybox update
         DynamicGI.UpdateEnvironment();
     }
     private void OnDisable()
