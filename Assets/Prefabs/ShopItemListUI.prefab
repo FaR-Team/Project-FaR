@@ -627,11 +627,11 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -960, y: -1080}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &-72740379904287682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -653,7 +653,6 @@ MonoBehaviour:
     "CantidadM\xE1xima": 100
   _addItemToCartButton: {fileID: 5398542311599042837}
   _removeItemFromCartButton: {fileID: 5398542310990470369}
-  ItemBoop: {fileID: 7400000, guid: bd217332c7eabae49b5b774969d0ba78, type: 2}
 --- !u!1 &5398542312525544578
 GameObject:
   m_ObjectHideFlags: 0

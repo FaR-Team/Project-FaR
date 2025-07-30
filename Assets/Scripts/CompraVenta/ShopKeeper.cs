@@ -56,15 +56,10 @@ public class ShopKeeper : MonoBehaviour, IInteractable
 
         if (IsBuying && pauseOrInventoryWasPressed)
         {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            player.enabled = true;
-
-            ShopKeeperDisplay.Instance.gameObject.SetActive(false);
-
-            Time.timeScale = 1f;
-            StartCoroutine(WaitJustSoTheInventoryDoesntOpenTwice());
+            if (ShopKeeperDisplay.Instance != null)
+            {
+                ShopKeeperDisplay.Instance.CloseShopUITabSilent();
+            }
         }
     }
 

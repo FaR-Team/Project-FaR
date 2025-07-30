@@ -232,17 +232,13 @@ public class HotbarDisplay : HotbarDisplayBase
     }
 
     private void UseItemRelease()
-    {
-        //if (!this) return;
-        
+    {        
         _isHolding = false;
         CancelInvoke();
     }
 
     private void UseItemPressed()
     {
-        //if (!this || !enabled) return;
-        
         _isHolding = true;
         InvokeRepeating("Holdear", 0, 0.1f);
     }
@@ -256,7 +252,6 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         _isHoldingCtrl = true;
         // TODO: Se usa? capaz conviene llamrlo desde aca directo en vez de en holdear
-        //SellAll();
     }
 
     private void SellAll()
