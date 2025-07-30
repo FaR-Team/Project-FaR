@@ -68,6 +68,9 @@ public class ShopKeeperDisplay : MonoBehaviour
     private int _baseBuyMulti = 1;
     private bool _isShiftHeld = false;
     private bool _isControlHeld = false;
+    
+    // Backpack functionality
+    private bool _isInBackpackMode = false;
 
     private void Awake()
     {
@@ -401,6 +404,14 @@ public class ShopKeeperDisplay : MonoBehaviour
         }
     }
 
+    public void BackpackButton()
+    {
+        if (!_isInBackpackMode)
+        {
+            OpenBackpackMode();
+        }
+    }
+
     public void ClearShoppingCart()
     {
         _shoppingCart.Clear();
@@ -590,5 +601,67 @@ public class ShopKeeperDisplay : MonoBehaviour
         {
             UIController.instance.clockUI.SetActive(true);
         }
+    }
+
+    private void OpenBackpackMode()
+    {
+        _isInBackpackMode = true;
+        
+        // Hide shop UI temporarily (but keep the shopping cart data)
+        _shoppingUIParent.SetActive(false);
+        
+        // Show game UI (hotbar and clock)
+        ShowGameUI();
+        
+        // Enable player controls for inventory navigation
+        player = GameObject.FindWithTag("Player");
+        if (player != null)
+        {
+            player.GetComponent<FaRCharacterController>().enabled = true;
+        }
+        
+        // Set cursor for inventory use
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
+        // Open the player inventory
+        if (PlayerInventoryHolder.instance != null)
+        {
+            PlayerInventoryHolder.instance.OpenInventory();
+        }
+    }
+
+    public void ReturnToShopFromBackpack()
+    {
+        if (!_isInBackpackMode) return;
+        
+        _isInBackpackMode = false;
+        
+        // Close inventory if it's open
+        if (UIController.instance != null)
+        {
+            UIController.instance.CloseInventory();
+        }
+        
+        // Hide game UI again
+        HideGameUI();
+        
+        // Show shop UI
+        _shoppingUIParent.SetActive(true);
+        
+        // Disable player controls for shop mode
+        if (player != null)
+        {
+            player.GetComponent<FaRCharacterController>().enabled = false;
+        }
+        
+        // Set cursor for shop use
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    public bool IsInBackpackMode()
+    {
+        return _isInBackpackMode;
     }
 }

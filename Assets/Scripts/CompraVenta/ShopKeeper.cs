@@ -58,7 +58,16 @@ public class ShopKeeper : MonoBehaviour, IInteractable
         {
             if (ShopKeeperDisplay.Instance != null)
             {
-                ShopKeeperDisplay.Instance.CloseShopUITabSilent();
+                // Check if we're in backpack mode and should return to shop
+                if (ShopKeeperDisplay.Instance.IsInBackpackMode())
+                {
+                    ShopKeeperDisplay.Instance.ReturnToShopFromBackpack();
+                }
+                else
+                {
+                    // Normal shop close
+                    ShopKeeperDisplay.Instance.CloseShopUITabSilent();
+                }
             }
         }
     }
