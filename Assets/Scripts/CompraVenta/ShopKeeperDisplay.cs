@@ -69,7 +69,6 @@ public class ShopKeeperDisplay : MonoBehaviour
     private bool _isShiftHeld = false;
     private bool _isControlHeld = false;
     
-    // Backpack functionality
     private bool _isInBackpackMode = false;
 
     private void Awake()
@@ -130,7 +129,6 @@ public class ShopKeeperDisplay : MonoBehaviour
             _originalTextPosition = _basketTotalText.rectTransform.anchoredPosition;
         }
 
-        // Hide hotbar and clock UI when shop opens
         HideGameUI();
 
         RefreshDisplay();
@@ -520,7 +518,6 @@ public class ShopKeeperDisplay : MonoBehaviour
         _shoppingUIParent.SetActive(false);
         ShopKeeper.Instance.IsBuying = false;
         
-        // Show game UI after the shop UI has been properly deactivated
         ShowGameUI();
     }
 
@@ -558,11 +555,9 @@ public class ShopKeeperDisplay : MonoBehaviour
 
     private void HideGameUI()
     {
-        // Hide hotbar UI visually but keep GameObject active for input handling
         var hotbarDisplay = FindObjectOfType<HotbarDisplay>();
         if (hotbarDisplay != null)
         {
-            // Hide the visual components instead of the entire GameObject
             var canvasGroup = hotbarDisplay.GetComponent<CanvasGroup>();
             if (canvasGroup == null)
             {
@@ -573,7 +568,6 @@ public class ShopKeeperDisplay : MonoBehaviour
             canvasGroup.blocksRaycasts = false;
         }
 
-        // Hide clock UI through UIController
         if (UIController.instance != null)
         {
             UIController.instance.clockUI.SetActive(false);
@@ -582,11 +576,9 @@ public class ShopKeeperDisplay : MonoBehaviour
 
     private void ShowGameUI()
     {
-        // Show hotbar UI visually
         var hotbarDisplay = FindObjectOfType<HotbarDisplay>();
         if (hotbarDisplay != null)
         {
-            // Show the visual components
             var canvasGroup = hotbarDisplay.GetComponent<CanvasGroup>();
             if (canvasGroup != null)
             {
@@ -596,7 +588,6 @@ public class ShopKeeperDisplay : MonoBehaviour
             }
         }
 
-        // Show clock UI through UIController
         if (UIController.instance != null)
         {
             UIController.instance.clockUI.SetActive(true);
@@ -607,24 +598,19 @@ public class ShopKeeperDisplay : MonoBehaviour
     {
         _isInBackpackMode = true;
         
-        // Hide shop UI temporarily (but keep the shopping cart data)
         _shoppingUIParent.SetActive(false);
         
-        // Show game UI (hotbar and clock)
         ShowGameUI();
         
-        // Enable player controls for inventory navigation
         player = GameObject.FindWithTag("Player");
         if (player != null)
         {
             player.GetComponent<FaRCharacterController>().enabled = true;
         }
         
-        // Set cursor for inventory use
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         
-        // Open the player inventory
         if (PlayerInventoryHolder.instance != null)
         {
             PlayerInventoryHolder.instance.OpenInventory();
@@ -637,25 +623,20 @@ public class ShopKeeperDisplay : MonoBehaviour
         
         _isInBackpackMode = false;
         
-        // Close inventory if it's open
         if (UIController.instance != null)
         {
             UIController.instance.CloseInventory();
         }
         
-        // Hide game UI again
         HideGameUI();
         
-        // Show shop UI
         _shoppingUIParent.SetActive(true);
         
-        // Disable player controls for shop mode
         if (player != null)
         {
             player.GetComponent<FaRCharacterController>().enabled = false;
         }
         
-        // Set cursor for shop use
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
