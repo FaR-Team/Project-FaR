@@ -4,11 +4,12 @@ Shader "FaRTeam/OutlinePostProcess"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _OutlineColor ("Outline Color", Color) = (0.6, 0, 0.6, 1)
-        _OutlineThickness ("Outline Thickness", Range(0, 10)) = 1
-        _DepthThreshold ("Depth Threshold", Range(0, 100)) = 0.1
-        _NormalThreshold ("Normal Threshold", Range(0, 1)) = 0.4
-        _DistanceCutoff ("Distance Cutoff", Range(0, 100)) = 50
-        _FadeDistance ("Fade Distance", Range(0, 20)) = 5
+        _OutlineThickness ("Outline Thickness", Range(1, 5)) = 1
+        _DepthThreshold ("Depth Threshold", Range(0.001, 1)) = 0.1
+        _DepthSensitivity ("Depth Sensitivity", Range(0.1, 10)) = 1
+        _NormalThreshold ("Normal Threshold", Range(0.1, 1)) = 0.4
+        _MaxDistance ("Max Distance", Range(10, 200)) = 100
+        [Toggle] _UseAdaptiveThreshold ("Use Adaptive Threshold", Float) = 1
     }
     SubShader
     {
@@ -23,6 +24,7 @@ Shader "FaRTeam/OutlinePostProcess"
             
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareDepthTexture.hlsl"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/DeclareNormalsTexture.hlsl"
 
             struct Attributes
             {
@@ -39,11 +41,16 @@ Shader "FaRTeam/OutlinePostProcess"
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
             float4 _MainTex_TexelSize;
-            float4 _OutlineColor;
-            float _OutlineThickness;
-            float _DepthThreshold;
-            float _DistanceCutoff;
-            float _FadeDistance;
+            
+            CBUFFER_START(UnityPerMaterial)
+                float4 _OutlineColor;
+                float _OutlineThickness;
+                float _DepthThreshold;
+                float _DepthSensitivity;
+                float _NormalThreshold;
+                float _MaxDistance;
+                float _UseAdaptiveThreshold;
+            CBUFFER_END
             
             Varyings vert(Attributes input)
             {
@@ -53,51 +60,87 @@ Shader "FaRTeam/OutlinePostProcess"
                 return output;
             }
             
-            // Sample a cross pattern around the pixel for better edge detection
             float SampleDepth(float2 uv)
             {
-                return LinearEyeDepth(SampleSceneDepth(uv), _ZBufferParams);
+                float rawDepth = SampleSceneDepth(uv);
+                return LinearEyeDepth(rawDepth, _ZBufferParams);
+            }
+            
+            float3 SampleNormal(float2 uv)
+            {
+                return SampleSceneNormals(uv);
+            }
+            
+            // Sobel edge detection for depth
+            float SobelDepth(float2 uv, float2 texelSize)
+            {
+                float tl = SampleDepth(uv + float2(-texelSize.x, texelSize.y));   // top left
+                float tm = SampleDepth(uv + float2(0, texelSize.y));             // top middle
+                float tr = SampleDepth(uv + float2(texelSize.x, texelSize.y));   // top right
+                float ml = SampleDepth(uv + float2(-texelSize.x, 0));            // middle left
+                float mr = SampleDepth(uv + float2(texelSize.x, 0));             // middle right
+                float bl = SampleDepth(uv + float2(-texelSize.x, -texelSize.y)); // bottom left
+                float bm = SampleDepth(uv + float2(0, -texelSize.y));            // bottom middle
+                float br = SampleDepth(uv + float2(texelSize.x, -texelSize.y));  // bottom right
+                
+                float sobelX = (tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl);
+                float sobelY = (tl + 2.0 * tm + tr) - (bl + 2.0 * bm + br);
+                
+                return sqrt(sobelX * sobelX + sobelY * sobelY);
+            }
+            
+            // Sobel edge detection for normals
+            float SobelNormal(float2 uv, float2 texelSize)
+            {
+                float3 tl = SampleNormal(uv + float2(-texelSize.x, texelSize.y));
+                float3 tm = SampleNormal(uv + float2(0, texelSize.y));
+                float3 tr = SampleNormal(uv + float2(texelSize.x, texelSize.y));
+                float3 ml = SampleNormal(uv + float2(-texelSize.x, 0));
+                float3 mr = SampleNormal(uv + float2(texelSize.x, 0));
+                float3 bl = SampleNormal(uv + float2(-texelSize.x, -texelSize.y));
+                float3 bm = SampleNormal(uv + float2(0, -texelSize.y));
+                float3 br = SampleNormal(uv + float2(texelSize.x, -texelSize.y));
+                
+                float3 sobelX = (tr + 2.0 * mr + br) - (tl + 2.0 * ml + bl);
+                float3 sobelY = (tl + 2.0 * tm + tr) - (bl + 2.0 * bm + br);
+                
+                return length(sobelX) + length(sobelY);
             }
             
             half4 frag(Varyings input) : SV_Target
             {
                 half4 col = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
+                
                 float2 texelSize = _MainTex_TexelSize.xy * _OutlineThickness;
+                float centerDepth = SampleDepth(input.uv);
                 
-                // Use a cross pattern for sampling
-                float depth = SampleDepth(input.uv);
-                float depthLeft = SampleDepth(input.uv - float2(texelSize.x, 0));
-                float depthRight = SampleDepth(input.uv + float2(texelSize.x, 0));
-                float depthUp = SampleDepth(input.uv + float2(0, texelSize.y));
-                float depthDown = SampleDepth(input.uv - float2(0, texelSize.y));
+                // Distance-based fade
+                float fadeDistance = saturate(centerDepth / _MaxDistance);
+                if (fadeDistance > 0.95) return col;
                 
-                // Calculate relative depth difference
-                float threshold = _DepthThreshold;
+                // Use Sobel edge detection for better edge detection
+                float depthEdge = SobelDepth(input.uv, texelSize);
+                float normalEdge = SobelNormal(input.uv, texelSize);
                 
-                // Check if we're at a depth discontinuity (object edge)
-                bool isBorder = false;
+                // Adaptive threshold based on distance
+                float adaptiveDepthThreshold = _DepthThreshold;
+                if (_UseAdaptiveThreshold > 0.5)
+                {
+                    // Closer objects need lower threshold, farther objects need higher
+                    adaptiveDepthThreshold = _DepthThreshold * (1.0 + centerDepth * _DepthSensitivity * 0.1);
+                }
                 
-                float maxDiff = 0;
+                // Combine depth and normal edge detection
+                bool isDepthEdge = depthEdge > adaptiveDepthThreshold;
+                bool isNormalEdge = normalEdge > _NormalThreshold;
                 
-                // Compare with neighbors and find max difference
-                // For skybox neighbors, this will create a large difference
-                maxDiff = max(maxDiff, abs(depth - depthLeft));
-                maxDiff = max(maxDiff, abs(depth - depthRight));
-                maxDiff = max(maxDiff, abs(depth - depthUp));
-                maxDiff = max(maxDiff, abs(depth - depthDown));
+                // Use either depth or normal edges
+                bool isBorder = isDepthEdge || isNormalEdge;
                 
-                // Smooth adaptive threshold - no hard cutoffs
-                float relativeThreshold = threshold * 0.01; // Base percentage threshold
+                // Smooth the outline with distance fade
+                float outlineStrength = 1.0 - fadeDistance;
                 
-                // Add a small boost for close objects that fades smoothly with distance
-                float proximityBoost = 0.02 / (1.0 + depth * 0.1); // Fades smoothly with distance
-                float adaptiveThreshold = relativeThreshold + proximityBoost;
-                
-                isBorder = (maxDiff / max(depth, 0.1)) > adaptiveThreshold;
-                
-                // NO DISTANCE CUTOFF - let's see if this fixes the horizontal line
-                // Just apply the outline everywhere without any distance limits
-                return isBorder ? _OutlineColor : col;
+                return isBorder ? lerp(col, _OutlineColor, _OutlineColor.a * outlineStrength) : col;
             }
             ENDHLSL
         }
