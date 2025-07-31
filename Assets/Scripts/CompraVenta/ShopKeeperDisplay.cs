@@ -184,6 +184,7 @@ public class ShopKeeperDisplay : MonoBehaviour
         ClearShoppingCart();
         
         _playerGoldText.text = $"{_playerInventoryHolder.PrimaryInventorySystem.Gold}";
+        CloseShopUITab();
     }
 
     private void ClearSlots()
