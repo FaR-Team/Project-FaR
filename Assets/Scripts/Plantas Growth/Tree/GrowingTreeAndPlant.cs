@@ -222,6 +222,7 @@ public class GrowingTreeAndPlant : GrowingBase
         _reGrowCounter = plantData.reGrowCounter;
         currentState = plantData.growingState;
         transform.position = plantData.position;
+        transform.rotation = plantData.rotation;
         daysDry = plantData.daysDry;
         
         UpdateState();

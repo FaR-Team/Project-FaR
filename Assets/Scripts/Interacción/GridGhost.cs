@@ -155,7 +155,6 @@ public class GridGhost : MonoBehaviour
         {
             shouldShowGhost = true;
             
-            // Can only plant on non-dirt areas with enough space
             canPlant = !interactor._LookingAtDirt && CheckAvailableSpace(finalPosition, requiredSpace);
         }
         
@@ -227,14 +226,16 @@ public class GridGhost : MonoBehaviour
         }
     }
 
-    public void PlantDirt()
+    public bool PlantDirt()
     {
-        if (interactor.hit.collider == null) return;
+        if (interactor.hit.collider == null) return false;
 
         if (CheckDirt(grid.GetNearestPointOnGrid(interactor.hit.point), 0.75f) == null)
         {
             PlaceDirtNear(interactor.hit.point);
+            return true;
         }
+        return false;
     }
 
     private void PlaceDirtNear(Vector3 nearPoint)

@@ -306,9 +306,9 @@ public class HotbarDisplay : HotbarDisplayBase
 
         if (GetItemData().IsTool())
         {
-            GetItemData().UseItem();
+            bool toolUsedSuccessfully = GetItemData().UseItem();
 
-            if (hoeAnimator != null && GetItemData().IsHoe())
+            if (toolUsedSuccessfully && hoeAnimator != null && GetItemData().IsHoe())
             {
                 hoeAnimator.SetBool("Plow", true);
                 StartCoroutine(ResetPlowAnimation());
@@ -334,7 +334,6 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             if (GetItemData().UseItem())
             {
-                Debug.Log("Called UseItem from Holdear");
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
             }
@@ -343,13 +342,17 @@ public class HotbarDisplay : HotbarDisplayBase
     }
     
     private void UseItemPrimary(InputAction.CallbackContext obj)
-    {
-        if (GetItemData() == null || !GetItemData().leftClickUse) return;
+    {        
+        if (GetItemData() == null || !GetItemData().leftClickUse) 
+        {
+            return;
+        }
         
         if (GetItemData().IsTool())
         {
-            GetItemData().UseItem();
-            if (hoeAnimator != null && GetItemData().IsHoe())
+            bool toolUsedSuccessfully = GetItemData().UseItem();
+            
+            if (toolUsedSuccessfully && hoeAnimator != null && GetItemData().IsHoe())
             {
                 hoeAnimator.SetBool("Plow", true);
                 StartCoroutine(ResetPlowAnimation());

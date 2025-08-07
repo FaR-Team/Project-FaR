@@ -12,6 +12,7 @@ public class TreeBushData : PlantData
     public int daysWithoutFruitsCounter;
     public List<FruitData> spawnedFruits;
     public Vector3 position;
+    public Quaternion rotation;
     public GrowingState growingState;
     public int daysDry;
     public bool isDead;
@@ -33,6 +34,7 @@ public class TreeBushData : PlantData
         this.spawnedFruits = growingTreeAndPlant.fruits.Select(f => f.GetData()).ToList();
         this.growingState = growingTreeAndPlant.CurrentState;
         this.position = growingTreeAndPlant.transform.position;
+        this.rotation = growingTreeAndPlant.transform.rotation;
         this.daysDry = growingTreeAndPlant.DaysDry;
         this.isDead = growingTreeAndPlant.IsDead;
     }

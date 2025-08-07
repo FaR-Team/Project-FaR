@@ -36,6 +36,7 @@ public class ToolItemData : InventoryItemData
         }
         return true;
     }
+
     private bool UseHoe()
     {
         if (GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f) == null && 
@@ -43,12 +44,18 @@ public class ToolItemData : InventoryItemData
         {
             if(Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
             {
-                GridGhost.instance.PlantDirt();
-                return true;
+                bool dirtPlanted = GridGhost.instance.PlantDirt();
+                return dirtPlanted;
             }
-            else return false;
+            else 
+            {
+                return false;
+            }
         }
-        else return false;
+        else 
+        {
+            return false;
+        }
     }
 
     private bool UseBucket()
