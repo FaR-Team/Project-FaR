@@ -6,12 +6,28 @@ using Utils;
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/ToolItem")]
 public class ToolItemData : InventoryItemData
 {
+    [Header("Tool Specific")]
     public int energyCost = 1;
-   // private PauseMenu _pauseMenu;
+    
+    public override ItemCategory Category => ItemCategory.Tool;
+    
+    public ToolType ToolType 
+    { 
+        get 
+        {
+            return typeOfItem switch
+            {
+                TypeOfItem.Hoe => ToolType.Hoe,
+                TypeOfItem.Axe => ToolType.Axe,
+                TypeOfItem.Bucket => ToolType.Bucket,
+                TypeOfItem.Shovel => ToolType.Shovel,
+                _ => ToolType.Hoe
+            };
+        }
+    }
 
     public override bool UseItem()
     {
-        //_pauseMenu = PauseMenu.Instance;
         if (!PauseMenu.GameIsPaused)
         {
             if (IsHoe())
@@ -73,14 +89,12 @@ public class ToolItemData : InventoryItemData
     {
         Dirt dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         
-        // Check if dirt has rotten crop.
         if (dirt != null && dirt.currentCrop && dirt.currentCrop.IsDead)
         {
             dirt.DestroyDirtAndCrop();
             return true;
         }
 
-        // Check if dirt doesn't have crop.
         if (dirt != null && dirt.currentCrop == null)
         {
             dirt.DestroyDirtAndCrop();

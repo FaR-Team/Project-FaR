@@ -273,8 +273,15 @@ public class HotbarDisplay : HotbarDisplayBase
         {
             if (GetItemData().UseItem())
             {
-                AudioSource audioSource = player.GetComponent<AudioSource>(); 
-                audioSource.PlayOneShot(GetItemData().useItemSound);
+                // Only play sound if the AudioClip is assigned
+                if (GetItemData().useItemSound != null)
+                {
+                    AudioSource audioSource = player.GetComponent<AudioSource>(); 
+                    if (audioSource != null)
+                    {
+                        audioSource.PlayOneShot(GetItemData().useItemSound);
+                    }
+                }
                 GetAssignedInventorySlot().SacarDeStack(1);
                 GetAssignedInventorySlot().ClearSlot();
             }

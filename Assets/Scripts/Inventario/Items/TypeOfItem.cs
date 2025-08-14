@@ -1,4 +1,14 @@
-﻿public enum TypeOfItem
+﻿using System;
+
+[Serializable]
+public enum TypeOfItem
 {
-     Crop, Hoe, Axe, Bucket, Shovel, CropSeed, TreeSeed, Special
+    Hoe,
+    Axe,
+    Bucket,
+    Shovel,
+    CropSeed,
+    TreeSeed,
+    Special,
+    Crop,
 }
