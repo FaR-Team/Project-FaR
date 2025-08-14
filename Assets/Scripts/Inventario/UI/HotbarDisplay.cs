@@ -45,7 +45,6 @@ public class HotbarDisplay : HotbarDisplayBase
         _currentIndex = 0;
         _currentAbilityIndex = 0;
         _maxAbilityIndexSize = abilityTools.Length - 1;
-        //UpdateAbilitySlot();
         _maxIndexSize = slots.Length - 1;
 
         SlotCurrentIndex().ToggleHighlight();
@@ -94,28 +93,33 @@ public class HotbarDisplay : HotbarDisplayBase
     {
         //This is a void to ask god if he's de boca DE BOKITA
         var initialIndex = _currentAbilityIndex;
-        _currentAbilityIndex += direction;
         
-        if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
-        if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
-
-        for(int i = 0; i < abilityTools.Length; i++)
+        for (int attempts = 0; attempts < abilityTools.Length; attempts++)
         {
-            if(InventorySlot_UIAbility.isUnlocked[_currentAbilityIndex] == false)
+            _currentAbilityIndex = WrapAbilityIndex(_currentAbilityIndex + direction);
+            
+            if (IsAbilityUnlocked(_currentAbilityIndex))
             {
-                _currentAbilityIndex += direction;
-        
-                if (_currentAbilityIndex > _maxAbilityIndexSize) _currentAbilityIndex = 0;
-                if (_currentAbilityIndex < 0) _currentAbilityIndex = _maxAbilityIndexSize;
-            }
-            else{
                 UpdateAbilitySlot();
                 DoChangeNameDisplay();
                 return;
             }
         }
-
+        
         _currentAbilityIndex = initialIndex;
+    }
+
+    private int WrapAbilityIndex(int index)
+    {
+        if (index > _maxAbilityIndexSize) return 0;
+        if (index < 0) return _maxAbilityIndexSize;
+        return index;
+    }
+
+    private bool IsAbilityUnlocked(int index)
+    {
+        return index < InventorySlot_UIAbility.isUnlocked.Length && 
+               InventorySlot_UIAbility.isUnlocked[index];
     }
 
     public void SetGridGhost(GridGhost ghost)
@@ -265,86 +269,144 @@ public class HotbarDisplay : HotbarDisplayBase
         SlotCurrentIndex().UpdateUISlot();
     }
 
-    private void Holdear() // TODO: mejorar esto, que no sean tantos if, usar el item data de forma mas genérica
+    private void Holdear()
     {
-        if (GetItemData() == null || interactor.HasInteractable || GetItemData().leftClickUse) return;
+        if (!CanProcessItemUse()) return;
 
-        if (GetItemData().IsSpecialItem())
+        var itemData = GetItemData();
+        
+        switch (itemData.Category)
         {
-            if (GetItemData().UseItem())
-            {
-                // Only play sound if the AudioClip is assigned
-                if (GetItemData().useItemSound != null)
-                {
-                    AudioSource audioSource = player.GetComponent<AudioSource>(); 
-                    if (audioSource != null)
-                    {
-                        audioSource.PlayOneShot(GetItemData().useItemSound);
-                    }
-                }
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
-            return;
+            case ItemCategory.Special:
+                HandleSpecialItem(itemData);
+                break;
+                
+            case ItemCategory.Tool:
+                HandleToolItem(itemData);
+                break;
+                
+            case ItemCategory.Seed:
+                HandleSeedItem(itemData);
+                break;
+                
+            default:
+                HandleGenericItem(itemData);
+           break;
         }
+    }
 
-        if (_isHolding && interactor.IsLookingAtStore)
+    private bool CanProcessItemUse()
+    {
+        return GetItemData() != null && 
+               !interactor.HasInteractable && 
+               !GetItemData().leftClickUse;
+    }
+
+    private void HandleSpecialItem(InventoryItemData itemData)
+    {
+        if (itemData.UseItem())
         {
-            if (GetItemData().Sellable &&
-                !GetItemData().IsCropSeed() &&
-                GetItemData().Usable)
-            {
-                if (!_isHoldingCtrl)
-                {
-                    GetItemData().UseItem();
-                    GetAssignedInventorySlot().SacarDeStack(1);
-                    GetAssignedInventorySlot().ClearSlot();
-
-                    SlotCurrentIndex().UpdateUISlot();
-                }
-                else
-                {
-                    SellAll();
-                }
-            }
-            return;
+            PlayItemSound(itemData);
+            ConsumeItem();
         }
+        UpdateCurrentSlot();
+    }
 
-        if (GetItemData().IsTool())
+    private void HandleToolItem(InventoryItemData itemData)
+    {
+        bool toolUsedSuccessfully = itemData.UseItem();
+
+        if (toolUsedSuccessfully && itemData.IsHoe() && hoeAnimator != null)
         {
-            bool toolUsedSuccessfully = GetItemData().UseItem();
+            hoeAnimator.SetBool("Plow", true);
+            StartCoroutine(ResetPlowAnimation());
+        }
+    }
 
-            if (toolUsedSuccessfully && hoeAnimator != null && GetItemData().IsHoe())
+    private void HandleSeedItem(InventoryItemData itemData)
+    {
+        if (itemData.IsCropSeed() && interactor._LookingAtDirt)
+        {
+            HandleCropSeed(itemData);
+        }
+        else if (itemData.IsTreeSeed() && !interactor._LookingAtDirt)
+        {
+            HandleTreeSeed(itemData);
+        }
+    }
+
+    private void HandleCropSeed(InventoryItemData itemData)
+    {
+        if (!CanUseItem()) return;
+
+        if (itemData.UseItem(dirtToTest))
+        {
+            ConsumeItem();
+        }
+        UpdateCurrentSlot();
+    }
+
+    private void HandleTreeSeed(InventoryItemData itemData)
+    {
+        if (gridGhost.CheckCrop(gridGhost.finalPosition, 1))
+        {
+            if (itemData.UseItem())
             {
-                hoeAnimator.SetBool("Plow", true);
-                StartCoroutine(ResetPlowAnimation());
+                ConsumeItem();
+            }
+            UpdateCurrentSlot();
+        }
+    }
+
+    private void HandleGenericItem(InventoryItemData itemData)
+    {
+        if (_isHolding && interactor.IsLookingAtStore && CanSellItem(itemData))
+        {
+            if (!_isHoldingCtrl)
+            {
+                SellSingleItem(itemData);
+            }
+            else
+            {
+                SellAll();
             }
         }
+    }
 
-        if (GetItemData().IsCropSeed() &&
-            interactor._LookingAtDirt)
+    private bool CanSellItem(InventoryItemData itemData)
+    {
+        return itemData.Sellable && 
+               !itemData.IsCropSeed() && 
+               itemData.Usable;
+    }
+
+    private void SellSingleItem(InventoryItemData itemData)
+    {
+        itemData.UseItem();
+        ConsumeItem();
+        UpdateCurrentSlot();
+    }
+
+    private void ConsumeItem()
+    {
+        GetAssignedInventorySlot().SacarDeStack(1);
+        GetAssignedInventorySlot().ClearSlot();
+    }
+
+    private void UpdateCurrentSlot()
+    {
+        SlotCurrentIndex().UpdateUISlot();
+    }
+
+    private void PlayItemSound(InventoryItemData itemData)
+    {
+        if (itemData.useItemSound != null)
         {
-            if (!CanUseItem()) return; // Si la tierra ya tiene algo plantado o no existe
-
-            if (GetItemData().UseItem(dirtToTest))
+            AudioSource audioSource = player.GetComponent<AudioSource>();
+            if (audioSource != null)
             {
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
+                audioSource.PlayOneShot(itemData.useItemSound);
             }
-            SlotCurrentIndex().UpdateUISlot();
-        }
-
-        if (GetItemData().IsTreeSeed() &&
-            gridGhost.CheckCrop(gridGhost.finalPosition, 1) &&
-            !interactor._LookingAtDirt)
-        {
-            if (GetItemData().UseItem())
-            {
-                GetAssignedInventorySlot().SacarDeStack(1);
-                GetAssignedInventorySlot().ClearSlot();
-            }
-            SlotCurrentIndex().UpdateUISlot();
         }
     }
     
@@ -375,52 +437,50 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void ChangeObjectInHandModel()
     {
-        if (GetItemData() == null)
+        SetAllToolsInactive();
+
+        var itemData = GetItemData();
+        if (itemData == null)
         {
-            hoe.SetActive(false);
-            bucket.SetActive(false);
-            shovel.SetActive(false);
             hand.SetActive(true);
             return;
         }
 
-
-        if (GetItemData().IsHoe())
+        if (itemData.Category == ItemCategory.Tool)
         {
-            hoe.SetActive(true);
-            bucket.SetActive(false);
-            shovel.SetActive(false);
-            hand.SetActive(false);
+            SetToolModel(itemData);
         }
-        else if ((!GetItemData().Sellable &&
-            !GetItemData().IsCropSeed() &&
-            !GetItemData().Usable &&
-            !GetItemData().IsTool())
-
-            ||
-
-            GetItemData().Usable)
+        else
         {
-            hoe.SetActive(false);
-            bucket.SetActive(false);
-            shovel.SetActive(false);
             hand.SetActive(true);
         }
+    }
 
-        if (GetItemData().IsBucket())
+    private void SetAllToolsInactive()
+    {
+        hoe.SetActive(false);
+        bucket.SetActive(false);
+        shovel.SetActive(false);
+        hand.SetActive(false);
+    }
+
+    private void SetToolModel(InventoryItemData toolData)
+    {
+        if (toolData.IsHoe())
         {
-            hoe.SetActive(false);
-            bucket.SetActive(true);
-            shovel.SetActive(false); 
-            hand.SetActive(false);
+            hoe.SetActive(true);
         }
-
-        if (GetItemData().IsShovel())
+        else if (toolData.IsBucket())
         {
-            hoe.SetActive(false);
-            bucket.SetActive(false);
+            bucket.SetActive(true);
+        }
+        else if (toolData.IsShovel())
+        {
             shovel.SetActive(true);
-            hand.SetActive(false);
+        }
+        else
+        {
+            hand.SetActive(true);
         }
     }
 
