@@ -1,14 +1,62 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class FishSpawner : MonoBehaviour
 {
+    [SerializeField] private FishingSpot spotPrefab;
     [SerializeField] private FishDataSO[] fishDatas;
     [SerializeField] private Transform[] possibleSpots;
-
+    
+    Dictionary<Transform, FishingSpot> currentFishingSpots = new Dictionary<Transform, FishingSpot>();
+    
+    #if UNITY_EDITOR
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            SpawnRandomFish();
+        }
+    }
+    #endif
     void SpawnRandomFish()
     {
-        // TODO: Elegir un spot random, y spawnear un prefab de FishingSpot ahí, hacerle Setup al FishingSpot para que reciba el FishData de ese spot, y se lo de al player al agarrarlo
+        var spawnpoint = GetRandomSpawnpoint();
+        
+        var newSpot = Instantiate(spotPrefab, spawnpoint.position, spawnpoint.rotation);
+        newSpot.Setup(GetRandomFish(), this);
+        
+        currentFishingSpots.Add(spawnpoint, newSpot);
+    }
+
+    FishDataSO GetRandomFish()
+    {
+        // TODO: Rarity and weights
+        return fishDatas[Random.Range(0, fishDatas.Length)];
+    }
+
+    Transform GetRandomSpawnpoint()
+    {
+        if (currentFishingSpots.Count == possibleSpots.Length)
+        {
+            Debug.LogError("No Fishing Spawnpoints available");
+            return null;
+        }
+        Transform[] available = possibleSpots.Where(s => !currentFishingSpots.ContainsKey(s)).ToArray();
+        
+        return available[Random.Range(0, available.Length)];
+    }
+
+    public void FreeSpot(FishingSpot spot)
+    {
+        if (!currentFishingSpots.ContainsValue(spot))
+        {
+            Debug.LogError("Tried to free a fishing spot that is not being used");
+        }
+        
+        currentFishingSpots.Remove(spot.transform);
     }
 }

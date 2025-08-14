@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[SelectionBase]
 public class FishingSpot : MonoBehaviour, IInteractable
 {
-    [SerializeField] FishingMinigame minigame;
     [SerializeField] private FishTarget fish;
     [SerializeField] private FishingMissCollider missCol;
     [SerializeField] private InteractionPromptUI prompt;
@@ -13,9 +13,13 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
     private FishDataSO _fishData;
     private int _misses;
+    
+    private FishSpawner _spawner;
     public Transform InteractionTarget => transform;
-
     public InteractionPromptUI InteractionPrompt => prompt;
+
+    public event Action OnFishingFinished;
+    //public event Action<Transform> 
 
     private void Start()
     {
@@ -23,14 +27,15 @@ public class FishingSpot : MonoBehaviour, IInteractable
         missCol.Setup(this);
     }
 
-    public void Setup(FishDataSO fishData)
+    public void Setup(FishDataSO fishData, FishSpawner spawner)
     {
         _fishData = fishData;
+        this._spawner = spawner;
     }
 
     public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
-        minigame.StartMinigame(this);
+        MinigameManager.instance.StartFishingMinigame(this);
         interactSuccessful = true;
     }
 
@@ -58,9 +63,11 @@ public class FishingSpot : MonoBehaviour, IInteractable
     {
         // TODO: Dar FishDataSO como Item o como sea al player, mejorar transiciones de camara, efectitos y etc (?
         
-        Destroy(gameObject);
-        minigame.EndMinigame();
+        //minigame.EndMinigame();
+        _spawner.FreeSpot(this);
         Debug.Log("Caught fish");
+        OnFishingFinished?.Invoke();
+        Destroy(gameObject);
     }
     public void MissedFish()
     {
@@ -69,7 +76,8 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
         if (_misses > 2)
         {
-            minigame.EndMinigame();
+            OnFishingFinished?.Invoke();
+            _spawner.FreeSpot(this);
             Destroy(gameObject);
         }
     }

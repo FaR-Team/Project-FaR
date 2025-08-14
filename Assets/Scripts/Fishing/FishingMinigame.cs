@@ -7,22 +7,14 @@ using UnityEngine;
 public class FishingMinigame : MonoBehaviour, IMinigame
 {
     private FishingSpot _currentSpot;
-    
-    public event Action OnMinigameFinished;
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public FishingSpot CurrentSpot;
+    public event Action OnMinigameFinished;
 
     public void StartMinigame(FishingSpot spot)
     {
         _currentSpot = spot;
+        _currentSpot.OnFishingFinished += EndMinigame;
         MinigameStarted();
     }
 
@@ -35,9 +27,15 @@ public class FishingMinigame : MonoBehaviour, IMinigame
 
     public void EndMinigame()
     {
+        _currentSpot.OnFishingFinished -= EndMinigame;
         _currentSpot.EnableFishInteraction(false);
         _currentSpot = null;
         OnMinigameFinished?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        if (_currentSpot) _currentSpot.OnFishingFinished -= EndMinigame;
     }
 }
 
