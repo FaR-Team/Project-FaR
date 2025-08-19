@@ -11,7 +11,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
     [SerializeField] private InteractionPromptUI prompt;
     [SerializeField] private Collider mainCollider;
 
-    private FishDataSO _fishData;
+    private FishItemData _fishData;
     private int _misses;
     
     private FishSpawner _spawner;
@@ -27,7 +27,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
         missCol.Setup(this);
     }
 
-    public void Setup(FishDataSO fishData, FishSpawner spawner)
+    public void Setup(FishItemData fishData, FishSpawner spawner)
     {
         _fishData = fishData;
         this._spawner = spawner;
@@ -66,6 +66,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
         //minigame.EndMinigame();
         _spawner.FreeSpot(this);
         Debug.Log("Caught fish");
+        PlayerInventoryHolder.instance?.AddToInventory(_fishData, 1);
         OnFishingFinished?.Invoke();
         Destroy(gameObject);
     }

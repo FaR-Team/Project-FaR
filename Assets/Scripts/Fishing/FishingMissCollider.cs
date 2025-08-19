@@ -22,11 +22,11 @@ public class FishingMissCollider : MonoBehaviour, IInteractable
 
     public void InteractOut()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void EndInteraction()
     {
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }

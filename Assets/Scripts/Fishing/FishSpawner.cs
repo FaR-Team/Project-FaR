@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class FishSpawner : MonoBehaviour
 {
     [SerializeField] private FishingSpot spotPrefab;
-    [SerializeField] private FishDataSO[] fishDatas;
+    [SerializeField] private FishItemData[] fishItemDatas;
     [SerializeField] private Transform[] possibleSpots;
     
     Dictionary<Transform, FishingSpot> currentFishingSpots = new Dictionary<Transform, FishingSpot>();
@@ -32,10 +32,10 @@ public class FishSpawner : MonoBehaviour
         currentFishingSpots.Add(spawnpoint, newSpot);
     }
 
-    FishDataSO GetRandomFish()
+    FishItemData GetRandomFish()
     {
         // TODO: Rarity and weights
-        return fishDatas[Random.Range(0, fishDatas.Length)];
+        return fishItemDatas[Random.Range(0, fishItemDatas.Length)];
     }
 
     Transform GetRandomSpawnpoint()
