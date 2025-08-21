@@ -6,7 +6,7 @@ using UnityEngine;
 public class MinigameManager : MonoBehaviour
 {
     public static MinigameManager instance;
-
+    public static event Action<IMinigame> OnMinigameStarted;
     [SerializeField] FishingMinigame fishingMinigame;
     private void Awake()
     {
@@ -20,7 +20,7 @@ public class MinigameManager : MonoBehaviour
     public void StartFishingMinigame(FishingSpot usedSpot)
     {
         fishingMinigame.StartMinigame(usedSpot);
-        
+        OnMinigameStarted?.Invoke(fishingMinigame);
         //usedSpot.OnFishingFinished += EndFishingMinigame;
     }
     

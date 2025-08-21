@@ -7,7 +7,7 @@ using UnityEngine;
 public class FishingMinigame : MonoBehaviour, IMinigame
 {
     private FishingSpot _currentSpot;
-
+    public MinigameTools Tool => MinigameTools.Spear;
     public FishingSpot CurrentSpot;
     public event Action OnMinigameFinished;
 
@@ -44,4 +44,11 @@ public interface IMinigame
     event Action OnMinigameFinished;
     void MinigameStarted();
     void EndMinigame();
+    
+    public MinigameTools Tool { get; }
+}
+
+public enum MinigameTools
+{
+    Spear
 }

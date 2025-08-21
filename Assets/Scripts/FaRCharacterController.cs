@@ -45,6 +45,9 @@ namespace FaRUtils.FPSController
         private float _initHeight;
         [SerializeField] private float crouchHeight;
         private bool _thirdPersonMode;
+
+        [Header("Minigame Tools")] 
+        [SerializeField] private GameObject spear;
         
         Locations currentLocation;
         private IMinigame currentMinigame; // TODO: Mover a GameManager u otro lado
@@ -78,7 +81,9 @@ namespace FaRUtils.FPSController
         {
             EnableInputActions();
             SceneManager.activeSceneChanged += SceneChangedHandler;
+            MinigameManager.OnMinigameStarted += MinigameStartedHandler;
         }
+        
 
         private void OnDisable()
         {
@@ -218,9 +223,36 @@ namespace FaRUtils.FPSController
 
         private void HandleMinigameFinished()
         {
+            DeactivateMinigameTools(currentMinigame);
             currentMinigame.OnMinigameFinished -= HandleMinigameFinished;
             if(_thirdPersonMode) EnableThirdPerson(false);
             SetMinigame(null);
+        }
+        
+        private void MinigameStartedHandler(IMinigame minigame)
+        {
+            // TODO: Mover a otra clase y manejar mejor logica de varias herramientas
+            switch (minigame.Tool)
+            {
+                case MinigameTools.Spear:
+                    spear.SetActive(true);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        // TODO: Mover a otra clase y manejar mejor logica de varias herramientas
+        private void DeactivateMinigameTools(IMinigame minigame)
+        {
+            switch (minigame.Tool)
+            {
+                case MinigameTools.Spear:
+                    spear.SetActive(false);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

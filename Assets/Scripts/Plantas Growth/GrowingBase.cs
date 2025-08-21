@@ -41,8 +41,8 @@ public abstract class GrowingBase : MonoBehaviour
         TryGetComponent(out meshFilter);
         TryGetComponent(out meshCollider);
         TryGetComponent(out meshRenderer);
-        if(meshFilter == null) Debug.LogError("Could not get Mesh Filter from " + gameObject.name);
-        else Debug.LogError("Correctly got component Mesh Filter from " + gameObject.name);
+        //if(meshFilter == null) Debug.LogError("Could not get Mesh Filter from " + gameObject.name);
+        //else Debug.LogError("Correctly got component Mesh Filter from " + gameObject.name);
         initialLayerInt = gameObject.layer;
         
         UpdateState();

@@ -10,7 +10,8 @@ public class ThirdPersonInteractor : InteractorBase
 {
     [SerializeField] private LayerMask interactableLayer;
     private Camera _cam;
-    private CursorLockMode previousLockMode;
+    private CursorLockMode _previousLockMode;
+    private IInteractable _interactable;
 
     private void Awake()
     {
@@ -21,7 +22,7 @@ public class ThirdPersonInteractor : InteractorBase
     {
         GameInput.playerInputActions.Player.PrimaryUse.performed += TryInteract;
         UIController.instance.EnableCrosshairMovement(true);
-        previousLockMode = Cursor.lockState;
+        _previousLockMode = Cursor.lockState;
         Cursor.lockState = CursorLockMode.None;
     }
 
@@ -29,19 +30,25 @@ public class ThirdPersonInteractor : InteractorBase
     {
         GameInput.playerInputActions.Player.PrimaryUse.performed -= TryInteract;
         UIController.instance.EnableCrosshairMovement(false);
-        Cursor.lockState = previousLockMode;
+        Cursor.lockState = _previousLockMode;
+    }
+
+    private void Update()
+    {
+        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit hit, 8f, interactableLayer);
+
+        if (hit.collider == null || !hit.collider.gameObject.TryGetComponent(out IInteractable interactable)) return;
+            
+        RaycastHitEvent(hit.point);
+        _interactable = interactable != _interactable ? interactable : _interactable;
     }
 
     private void TryInteract(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed) return;
-
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
-        Physics.Raycast(ray, out RaycastHit hit, 8f, interactableLayer);
-
-        if (hit.collider != null && hit.collider.gameObject.TryGetComponent(out IInteractable interactable))
-        {
-            interactable.Interact(this, out bool interacted);
-        }
+        if (!ctx.performed || _interactable == null || isInteractorAnimating) return;
+        
+        InteractTryEvent();
+        _interactable.Interact(this, out bool interacted);
     }
 }
