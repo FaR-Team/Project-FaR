@@ -66,7 +66,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spotPrefab: {fileID: 2869099066540752692, guid: 8b271442e08bfa647ac0697674f8fb70,
     type: 3}
-  fishDatas: []
+  fishItemDatas:
+  - {fileID: 11400000, guid: 98f578f1a30eafe45b75c29f2b28d231, type: 2}
   possibleSpots:
   - {fileID: 7712288838237389129}
   - {fileID: 7712288837931622537}

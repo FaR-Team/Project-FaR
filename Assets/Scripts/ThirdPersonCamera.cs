@@ -18,7 +18,7 @@ public class ThirdPersonCamera : MonoBehaviour
     
     void Update()
     {
-        if (lookingAtTarget)
+        if (lookingAtTarget && lookTarget)
         {
             Vector3 dir = lookTarget.position - transform.position;
             dir.Normalize();

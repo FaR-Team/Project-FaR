@@ -1,8 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishTarget : MonoBehaviour, IInteractable
+public class FishTarget : MonoBehaviour
 {
     [SerializeField] Collider col;
     private FishingSpot _spot;
@@ -11,20 +12,16 @@ public class FishTarget : MonoBehaviour, IInteractable
     {
         _spot = spot;
     }
-    public InteractionPromptUI InteractionPrompt => null;
-    public Transform InteractionTarget => transform;
-    public void Interact(InteractorBase interactor, out bool interactSuccessful)
-    {
-        _spot.CaughtFish();
-        interactSuccessful = true;
-    }
 
-    public void InteractOut()
+    private void OnTriggerEnter(Collider other)
     {
-    }
-
-    public void EndInteraction() // TODO: Ni se llama desde ThirdPersonInteractor
-    {
+        Debug.Log("Something collided with fish");
+        if (other.TryGetComponent(out Spear spear))
+        {
+            Debug.Log("Fish caught by spear");
+            spear.SetCatchVisual(_spot.FishData.ItemPrefab);
+            _spot.CaughtFish();
+        }
     }
 
     public void EnableInteraction(bool enable)

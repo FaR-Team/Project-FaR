@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishingMissCollider : MonoBehaviour, IInteractable
+public class FishingInteractCollider : MonoBehaviour, IInteractable
 {
     public InteractionPromptUI InteractionPrompt => null;
     public Transform InteractionTarget => transform;
@@ -15,8 +15,6 @@ public class FishingMissCollider : MonoBehaviour, IInteractable
     }
     public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
-        _spot.MissedFish();
-        
         interactSuccessful = true;
     }
 
