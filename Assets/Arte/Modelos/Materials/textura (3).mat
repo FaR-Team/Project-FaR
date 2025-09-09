@@ -39,14 +39,24 @@ Material:
     - _CelShadingLevels: 3
     - _CelShadingThreshold: 0.5
     - _CelSteps: 5
+    - _GridOffsetX: 0
+    - _GridOffsetY: 0
+    - _GridOffsetZ: 0
     - _OutlineWidth: 20
     - _PulseMaxWidth: 1
     - _PulseMinWidth: 0
     - _PulseSpeed: 2.5
+    - _ShadowAlignmentX: 0
+    - _ShadowAlignmentZ: 0
+    - _ShadowAlignmentssssY: 0.5001
+    - _ShadowDepthBias: 0.00001
     - _ShadowIntensity: 0.5
+    - _ShadowSharpness: 0.1
     - _ShadowStrength: 0.5
+    - _ShadowThreshold: 0.5
     - _UseMultiplyTexture: 0
     - _UseOutline: 0
+    - _UsePixelPerfectShadows: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}

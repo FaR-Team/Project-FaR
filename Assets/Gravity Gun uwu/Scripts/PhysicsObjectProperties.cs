@@ -16,7 +16,7 @@ public class PhysicsObjectProperties : MonoBehaviour
     private float _density = 1f;
     
     [SerializeField, Tooltip("Usar cálculo automático de masa basado en densidad")]
-    private bool _useAutomaticMass = false;
+    private bool _useAutomaticMass = true;
 
     [Header("Propiedades de Interacción")]
     [SerializeField, Tooltip("Factor de dificultad adicional para levantar este objeto")]

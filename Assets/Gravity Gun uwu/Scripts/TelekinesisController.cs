@@ -228,16 +228,22 @@ public class TelekinesisController : MonoBehaviour
         Vector3 currentGrabPoint = currentPosition + rb.rotation * grabOffset;
         Vector3 grabPointError = targetPosition - currentGrabPoint;
         
-        Vector3 followForce = grabPointError * followStrength * 0.1f;
-        Vector3 dampingForce = -rb.velocity * followDamping * 0.5f;
+        float massScaleFactor = Mathf.Clamp(rb.mass / 2f, 0.5f, 2f);
         
-        Vector3 gravityCompensation = -Physics.gravity * rb.mass * 0.8f;
+        float followForceMultiplier = rb.mass <= 1f ? 0.05f : 0.1f;
+        float dampingMultiplier = rb.mass <= 1f ? 0.8f : 0.5f;
+        
+        Vector3 followForce = grabPointError * followStrength * followForceMultiplier;
+        Vector3 dampingForce = -rb.velocity * followDamping * dampingMultiplier;
+        
+        Vector3 gravityCompensation = -Physics.gravity * rb.mass * 0.9f;
         
         Vector3 totalForce = followForce + dampingForce + gravityCompensation;
         
         if (IsValidVector3(totalForce))
         {
-            totalForce = Vector3.ClampMagnitude(totalForce, maxFollowForce * 0.5f);
+            float maxForce = maxFollowForce * 0.3f * massScaleFactor;
+            totalForce = Vector3.ClampMagnitude(totalForce, maxForce);
             rb.AddForceAtPosition(totalForce, currentGrabPoint, ForceMode.Force);
         }
         
@@ -254,8 +260,9 @@ public class TelekinesisController : MonoBehaviour
             
             if (angle > 180f) angle -= 360f;
             
-            Vector3 torque = axis * angle * Mathf.Deg2Rad * orientationStrength * 0.1f;
-            Vector3 angularDamping = -rb.angularVelocity * rotationDamping;
+            float torqueMultiplier = rb.mass <= 1f ? 0.05f : 0.1f;
+            Vector3 torque = axis * angle * Mathf.Deg2Rad * orientationStrength * torqueMultiplier;
+            Vector3 angularDamping = -rb.angularVelocity * rotationDamping * (rb.mass <= 1f ? 2f : 1f);
             
             if (IsValidVector3(torque) && IsValidVector3(angularDamping))
             {
@@ -267,7 +274,7 @@ public class TelekinesisController : MonoBehaviour
             }
         }
         
-        Debug.Log($"Forces - Follow: {followForce.magnitude:F2}, Damping: {dampingForce.magnitude:F2}, Gravity: {gravityCompensation.magnitude:F2}, Total: {totalForce.magnitude:F2}");
+        Debug.Log($"Mass: {rb.mass:F1} - Forces - Follow: {followForce.magnitude:F2}, Damping: {dampingForce.magnitude:F2}, Gravity: {gravityCompensation.magnitude:F2}, Total: {totalForce.magnitude:F2}");
     }
     
     private bool IsValidVector3(Vector3 vector)

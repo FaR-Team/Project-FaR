@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2901676202894180412
+--- !u!114 &-389932149615231371
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: textura
+  m_Name: Fertilizer
   m_Shader: {fileID: 4800000, guid: 399c0f31dd38d8c4994f54d39305e980, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -34,7 +34,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: c8e198bb96208b9469fea979c1defd7e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2ecfadf1b5e4ead4ba45fea25cf82171, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -58,7 +58,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c8e198bb96208b9469fea979c1defd7e, type: 3}
+        m_Texture: {fileID: 2800000, guid: 2ecfadf1b5e4ead4ba45fea25cf82171, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -98,10 +98,8 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _Blend: 0
-    - _BlendOp: 0
     - _BumpScale: 1
-    - _CelShadingBlurWidth: 0.2
-    - _CelSteps: 3
+    - _CelSteps: 5
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
@@ -111,7 +109,7 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
-    - _Glossiness: 32
+    - _Glossiness: 0
     - _GlossyReflections: 0
     - _GridOffsetX: 0
     - _GridOffsetY: 0
@@ -120,12 +118,11 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineWidth: 20
     - _Parallax: 0.005
-    - _PulseMaxWidth: 1
-    - _PulseMinWidth: 0
+    - _PulseMaxWidth: 20
+    - _PulseMinWidth: 5
     - _PulseSpeed: 2.5
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SampleGI: 0
     - _ShadowAlignmentX: 0
     - _ShadowAlignmentZ: 0
     - _ShadowAlignmentssssY: 0.5001
@@ -143,12 +140,10 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _AmbientColor: {r: 0.4, g: 0.4, b: 0.4, a: 1}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _OutlineColor: {r: 0.6, g: 0, b: 0.6, a: 1}
     - _ShadowColor: {r: 0.5, g: 0.5, b: 0.7, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _SpecularColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
   m_BuildTextureStacks: []
