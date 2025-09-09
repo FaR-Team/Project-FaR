@@ -41,7 +41,6 @@ public class PhysicsObjectProperties : MonoBehaviour
             return;
         }
 
-        // Guardar valores originales
         _originalCenterOfMass = _rigidbody.centerOfMass;
         _originalMass = _rigidbody.mass;
         _originalDrag = _rigidbody.drag;
@@ -60,14 +59,10 @@ public class PhysicsObjectProperties : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Aplica las propiedades físicas configuradas al rigidbody
-    /// </summary>
     private void ApplyPhysicsProperties()
     {
         if (_rigidbody == null) return;
 
-        // Configurar centro de masa
         if (_useCustomCenterOfMass)
         {
             _rigidbody.centerOfMass = _customCenterOfMass;
@@ -77,7 +72,6 @@ public class PhysicsObjectProperties : MonoBehaviour
             _rigidbody.centerOfMass = _originalCenterOfMass;
         }
 
-        // Configurar masa
         if (_useAutomaticMass)
         {
             CalculateAutomaticMass();
@@ -87,25 +81,17 @@ public class PhysicsObjectProperties : MonoBehaviour
             _rigidbody.mass = _mass;
         }
 
-        // Configurar resistencia al aire
         _rigidbody.drag = _dragCoefficient;
     }
 
-    /// <summary>
-    /// Calcula la masa automáticamente basada en la densidad y el volumen aproximado
-    /// </summary>
     private void CalculateAutomaticMass()
     {
         if (_rigidbody == null) return;
 
-        // Obtener el volumen aproximado del objeto usando su collider
         float volume = GetApproximateVolume();
         _rigidbody.mass = volume * _density;
     }
 
-    /// <summary>
-    /// Obtiene el volumen aproximado del objeto basado en sus colliders
-    /// </summary>
     private float GetApproximateVolume()
     {
         Collider[] colliders = GetComponentsInChildren<Collider>();
@@ -135,26 +121,19 @@ public class PhysicsObjectProperties : MonoBehaviour
             }
             else
             {
-                // Para otros tipos de colliders, usar bounds como aproximación
                 Bounds bounds = col.bounds;
                 totalVolume += bounds.size.x * bounds.size.y * bounds.size.z;
             }
         }
 
-        return Mathf.Max(totalVolume, 0.1f); // Mínimo volumen para evitar división por cero
+        return Mathf.Max(totalVolume, 0.1f);
     }
 
-    /// <summary>
-    /// Obtiene el factor de dificultad para levantar este objeto
-    /// </summary>
     public float GetLiftDifficultyMultiplier()
     {
         return _liftDifficultyMultiplier;
     }
 
-    /// <summary>
-    /// Resetea las propiedades físicas a sus valores originales
-    /// </summary>
     public void ResetToOriginalProperties()
     {
         if (_rigidbody == null) return;
@@ -169,12 +148,10 @@ public class PhysicsObjectProperties : MonoBehaviour
     {
         if (_rigidbody == null) return;
 
-        // Dibujar centro de masa
         Gizmos.color = _useCustomCenterOfMass ? Color.red : Color.green;
         Vector3 worldCenterOfMass = transform.TransformPoint(_rigidbody.centerOfMass);
         Gizmos.DrawWireSphere(worldCenterOfMass, 0.1f);
 
-        // Dibujar información de masa
         UnityEditor.Handles.Label(worldCenterOfMass + Vector3.up * 0.5f, 
             $"Masa: {_rigidbody.mass:F2}kg\nDificultad: {_liftDifficultyMultiplier:F1}x");
     }
@@ -183,12 +160,10 @@ public class PhysicsObjectProperties : MonoBehaviour
     {
         if (_rigidbody == null) return;
 
-        // Dibujar centro de masa más prominente cuando está seleccionado
         Gizmos.color = Color.yellow;
         Vector3 worldCenterOfMass = transform.TransformPoint(_rigidbody.centerOfMass);
         Gizmos.DrawSphere(worldCenterOfMass, 0.2f);
 
-        // Dibujar ejes desde el centro de masa
         Gizmos.color = Color.red;
         Gizmos.DrawRay(worldCenterOfMass, transform.right * 0.5f);
         Gizmos.color = Color.green;
