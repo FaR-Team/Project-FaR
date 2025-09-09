@@ -9,6 +9,7 @@ public abstract class InteractorBase : MonoBehaviour
     public event Action OnInteractTry;
 
     protected bool isInteractorAnimating;
+    protected bool _canInteract;
 
     protected virtual void RaycastHitEvent(Vector3 vector3)
     {

@@ -8,6 +8,7 @@ public class MouseFollower : MonoBehaviour
     [SerializeField] private Camera cam;
     [SerializeField] private float zOffset = 2;
     private Quaternion _initialRotation;
+    private bool _follow = true;
     private void Awake()
     {
         _initialRotation = transform.rotation;
@@ -20,8 +21,14 @@ public class MouseFollower : MonoBehaviour
 
     private void Update()
     {
+        if (!_follow) return;
         var mousePos = Input.mousePosition;
         mousePos.z = zOffset;
         transform.right = (cam.ScreenToWorldPoint(mousePos) - transform.position).normalized;
+    }
+
+    public void EnableFollow(bool follow)
+    {
+        _follow = follow;
     }
 }

@@ -20,6 +20,7 @@ public class ThirdPersonInteractor : InteractorBase
 
     private void OnEnable()
     {
+        _canInteract = true; // By default, when interacting, set CanInteract to true
         GameInput.playerInputActions.Player.PrimaryUse.performed += TryInteract;
         UIController.instance.EnableCrosshairMovement(true);
         _previousLockMode = Cursor.lockState;
@@ -35,6 +36,8 @@ public class ThirdPersonInteractor : InteractorBase
 
     private void Update()
     {
+        if (!_canInteract) return;
+                
         Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(ray, out RaycastHit hit, 8f, interactableLayer);
 
@@ -46,9 +49,14 @@ public class ThirdPersonInteractor : InteractorBase
 
     private void TryInteract(InputAction.CallbackContext ctx)
     {
-        if (!ctx.performed || _interactable == null || isInteractorAnimating) return;
+        if (!_canInteract || !ctx.performed || _interactable == null || isInteractorAnimating) return;
         
         InteractTryEvent();
         _interactable.Interact(this, out bool interacted);
+    }
+
+    public void SetCanInteract(bool canInteract)
+    {
+        _canInteract = canInteract;
     }
 }

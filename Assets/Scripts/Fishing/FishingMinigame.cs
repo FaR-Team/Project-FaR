@@ -6,9 +6,10 @@ using UnityEngine;
 
 public class FishingMinigame : MonoBehaviour, IMinigame
 {
+    [SerializeField] private float endDelay;
     private FishingSpot _currentSpot;
     public MinigameTools Tool => MinigameTools.Spear;
-    public FishingSpot CurrentSpot;
+    public FishingSpot CurrentSpot => _currentSpot;
     public event Action OnMinigameFinished;
 
     public void StartMinigame(FishingSpot spot)
@@ -27,15 +28,22 @@ public class FishingMinigame : MonoBehaviour, IMinigame
 
     public void EndMinigame()
     {
-        _currentSpot.OnFishingFinished -= EndMinigame;
-        _currentSpot.EnableFishInteraction(false);
-        _currentSpot = null;
-        OnMinigameFinished?.Invoke();
+        StartCoroutine(EndCoroutine());
     }
 
     private void OnDisable()
     {
         if (_currentSpot) _currentSpot.OnFishingFinished -= EndMinigame;
+    }
+
+    IEnumerator EndCoroutine()
+    {
+        FaRCharacterController.instance.DisableMinigameInput();
+        _currentSpot.OnFishingFinished -= EndMinigame;
+        _currentSpot.EnableFishInteraction(false);
+        _currentSpot = null;
+        yield return new WaitForSeconds(endDelay);
+        OnMinigameFinished?.Invoke();
     }
 }
 

@@ -228,10 +228,24 @@ namespace FaRUtils.FPSController
             if(_thirdPersonMode) EnableThirdPerson(false);
             SetMinigame(null);
         }
+
+        public void DisableMinigameInput()
+        {
+            // TODO: Mover tema herramientas a PlayerInventoryHolder o clase MinigameToolHandler, clase abstracta para tools y switch reutilizable para conseguirla
+            switch (currentMinigame.Tool)
+            {
+                case MinigameTools.Spear:
+                    spear.GetComponentInChildren<Spear>()?.EnablePivot(false);
+                    thirdPersonInteractor.SetCanInteract(false);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
         
         private void MinigameStartedHandler(IMinigame minigame)
         {
-            // TODO: Mover a otra clase y manejar mejor logica de varias herramientas
+            // TODO: Mover a otra clase tipo ToolController y manejar mejor logica de varias herramientas
             switch (minigame.Tool)
             {
                 case MinigameTools.Spear:
@@ -242,7 +256,7 @@ namespace FaRUtils.FPSController
             }
         }
 
-        // TODO: Mover a otra clase y manejar mejor logica de varias herramientas
+        // TODO: Mover a otra clase tipo ToolController y manejar mejor logica de varias herramientas
         private void DeactivateMinigameTools(IMinigame minigame)
         {
             switch (minigame.Tool)

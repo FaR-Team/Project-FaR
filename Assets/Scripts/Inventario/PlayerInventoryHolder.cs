@@ -7,12 +7,12 @@ public class PlayerInventoryHolder : Container
 
     public static UnityAction<InventorySystem, int> OnPlayerInventoryDisplayRequested;
     private int _startingGold = 1000;
-
-    public GameObject TimeManager;
+    
     public static bool IsBuying;
     public DynamicInventoryDisplay playerBackpackPanel;
     public InventoryUIController inventoryUIController;
-
+    [SerializeField] private Spear spear;
+    
     public static PlayerInventoryHolder instance;
 
     protected void Awake()
@@ -71,5 +71,10 @@ public class PlayerInventoryHolder : Container
     public bool AddToInventory(InventoryItemData data, int amount)
     {
         return (inventorySystem.AddToInventory(data, amount));
+    }
+
+    public Spear GetSpear() // TODO: Haría un GetTool y que se le pase un enum, para cuando esté la red, esta y la lanza sean "MinigameTools" o algo así
+    {
+        return spear;
     }
 }

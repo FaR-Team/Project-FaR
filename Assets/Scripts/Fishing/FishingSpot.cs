@@ -7,7 +7,7 @@ using UnityEngine;
 public class FishingSpot : MonoBehaviour, IInteractable
 {
     [SerializeField] private FishTarget fish;
-    [SerializeField] private FishingMissCollider missCol;
+    [SerializeField] private FishingInteractCollider interactCol;
     [SerializeField] private InteractionPromptUI prompt;
     [SerializeField] private Collider mainCollider;
 
@@ -18,13 +18,15 @@ public class FishingSpot : MonoBehaviour, IInteractable
     public Transform InteractionTarget => transform;
     public InteractionPromptUI InteractionPrompt => prompt;
 
+    public FishItemData FishData => _fishData;
     public event Action OnFishingFinished;
-    //public event Action<Transform> 
+
+    private Spear _playerSpear;
 
     private void Start()
     {
         fish.Setup(this);
-        missCol.Setup(this);
+        interactCol.Setup(this);
     }
 
     public void Setup(FishItemData fishData, FishSpawner spawner)
@@ -35,8 +37,20 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
     public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
-        MinigameManager.instance.StartFishingMinigame(this);
-        interactSuccessful = true;
+        // Get player Spear/Minigame Tool
+        _playerSpear = interactor.GetComponentInParent<PlayerInventoryHolder>()?.GetSpear();
+
+        if (_playerSpear)
+        {
+            MinigameManager.instance.StartFishingMinigame(this);
+            _playerSpear.OnMiss += MissedFish;
+            interactSuccessful = true;
+        }
+        else
+        {
+            Debug.LogError("Spear not found, unable to start fishing minigame");
+            interactSuccessful = false;
+        }
     }
 
     public void InteractOut()
@@ -55,7 +69,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
     public void EnableFishInteraction(bool enable)
     {
         fish.EnableInteraction(enable);
-        missCol.gameObject.SetActive(enable);
+        interactCol.gameObject.SetActive(enable);
         EnableMainCollider(!enable);
     }
 
@@ -64,6 +78,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
         // TODO: Dar FishDataSO como Item o como sea al player, mejorar transiciones de camara, efectitos y etc (?
         
         //minigame.EndMinigame();
+        _playerSpear.OnMiss -= MissedFish;
         _spawner.FreeSpot(this);
         Debug.Log("Caught fish");
         PlayerInventoryHolder.instance?.AddToInventory(_fishData, 1);
@@ -77,6 +92,7 @@ public class FishingSpot : MonoBehaviour, IInteractable
 
         if (_misses > 2)
         {
+            _playerSpear.OnMiss -= MissedFish;
             OnFishingFinished?.Invoke();
             _spawner.FreeSpot(this);
             Destroy(gameObject);
