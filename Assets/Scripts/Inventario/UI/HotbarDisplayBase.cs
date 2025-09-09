@@ -103,7 +103,7 @@ public class HotbarDisplayBase : StaticInventoryDisplay
 
     protected bool IsNotGrabingNorPausedNorConsole()
     {
-        return (!PhysicsGunInteractionBehavior.isGrabbingObject &&
+        return (/*TODO: ACÁ ESTABA NO AGARRAR DE LA TELEKINESIS ANTES DEL REFACTOR, VOLVE A PONERLA PUTO &&*/
                     !PauseMenu.GameIsPaused &&
                     !PlayerInventoryHolder.IsBuying &&
                     !IngameDebugConsole.DebugLogManager.Instance.isOnConsole);
