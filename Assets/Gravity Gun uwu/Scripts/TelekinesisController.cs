@@ -30,11 +30,22 @@ public class TelekinesisController : MonoBehaviour
     [SerializeField] private bool useAdaptiveForces = true;
     [SerializeField] private float massBasedDamping = 1f;
     
+    [Header("Sistema de Agarre")]
+    [SerializeField] private float maxGrabOffsetDistance = 2f;
+    [SerializeField] private AnimationCurve stabilityByOffset = AnimationCurve.EaseInOut(0f, 1f, 1f, 0.2f);
+    [SerializeField] private AnimationCurve stabilityByMass = AnimationCurve.EaseInOut(0.1f, 1f, 10f, 0.1f);
+    [SerializeField] private float gravityCompensation = 0.8f;
+    [SerializeField] private float instabilityTorqueMultiplier = 5f;
+    [SerializeField] private float wobbleForce = 100f;
+    [SerializeField] private float maxWobbleSpeed = 2f;
+    
     [Header("Comportamiento")]
     [SerializeField] private bool maintainOrientation = true;
     [SerializeField] private float orientationStrength = 500f;
     [SerializeField] private float smoothingFactor = 0.85f;
     [SerializeField] private bool useMouseSmoothing = true;
+    [SerializeField] private float initialGrabDuration = 0.5f;
+    [SerializeField] private AnimationCurve initialGrabCurve = AnimationCurve.EaseInOut(0f, 0.1f, 1f, 1f);
     
     [Header("Efectos Visuales")]
     [SerializeField] private bool showDebugLines = true;
@@ -49,6 +60,14 @@ public class TelekinesisController : MonoBehaviour
     private Vector3 smoothedTargetPosition;
     private Quaternion initialGrabRotation;
     private Quaternion grabRotationOffset;
+    private float grabStartTime;
+    private bool isInitialGrab = false;
+    
+    private float grabOffsetMagnitude;
+    private float objectMass;
+    private float stabilityFactor;
+    private Vector3 wobbleAccumulator;
+    private float currentInstability;
     
     public Vector3 StartPoint { get; private set; }
     public Vector3 MidPoint { get; private set; }
@@ -124,6 +143,11 @@ public class TelekinesisController : MonoBehaviour
             Rigidbody rb = hit.rigidbody;
             if (rb != null && !rb.isKinematic)
             {
+                if (rb.mass > maxMassForTelekinesis)
+                {
+                    return;
+                }
+                
                 GrabObject(rb, hit);
             }
         }
@@ -147,10 +171,19 @@ public class TelekinesisController : MonoBehaviour
         
         grabOffset = grabPoint - centerOfMass;
         
+        objectMass = rigidbody.mass;
+        grabOffsetMagnitude = grabOffset.magnitude;
+        stabilityFactor = 1f;
+        currentInstability = 0f;
+        wobbleAccumulator = Vector3.zero;
+        
         initialGrabRotation = rigidbody.rotation;
         grabRotationOffset = Quaternion.identity;
         
-        smoothedTargetPosition = targetPosition;
+        smoothedTargetPosition = rigidbody.worldCenterOfMass + grabOffset;
+        
+        grabStartTime = Time.time;
+        isInitialGrab = true;
         
         isGrabbing = true;
         UpdateTargetPosition();
@@ -189,60 +222,58 @@ public class TelekinesisController : MonoBehaviour
         if (grabbedObject == null) return;
         
         Rigidbody rb = grabbedObject.Rigidbody;
+        if (rb == null) return;
         
-        if (useMouseSmoothing)
-        {
-            smoothedTargetPosition = Vector3.Lerp(smoothedTargetPosition, targetPosition, 
-                Time.fixedDeltaTime * (1f - smoothingFactor) * 20f);
-        }
-        else
-        {
-            smoothedTargetPosition = targetPosition;
-        }
-        
-        Vector3 desiredPosition = smoothedTargetPosition - grabOffset;
         Vector3 currentPosition = rb.worldCenterOfMass;
-        Vector3 positionError = desiredPosition - currentPosition;
+        Vector3 currentGrabPoint = currentPosition + rb.rotation * grabOffset;
+        Vector3 grabPointError = targetPosition - currentGrabPoint;
         
-        Vector3 followForce = positionError * followStrength;
-        Vector3 dampingForce = -rb.velocity * followDamping;
-        Vector3 totalForce = followForce + dampingForce;
-
-        totalForce /= Mathf.Sqrt(rb.mass);
+        Vector3 followForce = grabPointError * followStrength * 0.1f;
+        Vector3 dampingForce = -rb.velocity * followDamping * 0.5f;
         
-        totalForce = Vector3.ClampMagnitude(totalForce, maxFollowForce);
+        Vector3 gravityCompensation = -Physics.gravity * rb.mass * 0.8f;
         
-        rb.AddForceAtPosition(totalForce, currentPosition, ForceMode.Force);
+        Vector3 totalForce = followForce + dampingForce + gravityCompensation;
+        
+        if (IsValidVector3(totalForce))
+        {
+            totalForce = Vector3.ClampMagnitude(totalForce, maxFollowForce * 0.5f);
+            rb.AddForceAtPosition(totalForce, currentGrabPoint, ForceMode.Force);
+        }
         
         if (maintainOrientation)
         {
-            Quaternion desiredRotation = initialGrabRotation * grabRotationOffset;
-            Quaternion currentRotation = rb.rotation;
-            
-            Quaternion rotationError = desiredRotation * Quaternion.Inverse(currentRotation);
+            Quaternion desiredRotation = initialGrabRotation;
+            Quaternion rotationError = desiredRotation * Quaternion.Inverse(rb.rotation);
             
             rotationError.ToAngleAxis(out float angle, out Vector3 axis);
+            if (float.IsNaN(angle) || float.IsInfinity(angle) || !IsValidVector3(axis))
+            {
+                return;
+            }
             
             if (angle > 180f) angle -= 360f;
             
-            Vector3 torque = axis * angle * Mathf.Deg2Rad * orientationStrength;
+            Vector3 torque = axis * angle * Mathf.Deg2Rad * orientationStrength * 0.1f;
             Vector3 angularDamping = -rb.angularVelocity * rotationDamping;
             
-            rb.AddTorque(torque + angularDamping, ForceMode.Force);
+            if (IsValidVector3(torque) && IsValidVector3(angularDamping))
+            {
+                Vector3 totalTorque = torque + angularDamping;
+                if (IsValidVector3(totalTorque))
+                {
+                    rb.AddTorque(totalTorque, ForceMode.Force);
+                }
+            }
         }
-        else
-        {
-            Vector3 grabPoint = grabbedObject.GrabPoint;
-            Vector3 grabPointToCenter = currentPosition - grabPoint;
-            Vector3 desiredGrabPoint = smoothedTargetPosition;
-            Vector3 currentGrabPoint = currentPosition + grabPointToCenter;
-            Vector3 grabPointError = desiredGrabPoint - currentGrabPoint;
-            
-            Vector3 torque = Vector3.Cross(grabPointToCenter, grabPointError) * rotationStrength;
-            Vector3 angularDamping = -rb.angularVelocity * rotationDamping;
-            
-            rb.AddTorque(torque + angularDamping, ForceMode.Force);
-        }
+        
+        Debug.Log($"Forces - Follow: {followForce.magnitude:F2}, Damping: {dampingForce.magnitude:F2}, Gravity: {gravityCompensation.magnitude:F2}, Total: {totalForce.magnitude:F2}");
+    }
+    
+    private bool IsValidVector3(Vector3 vector)
+    {
+        return !float.IsNaN(vector.x) && !float.IsNaN(vector.y) && !float.IsNaN(vector.z) &&
+               !float.IsInfinity(vector.x) && !float.IsInfinity(vector.y) && !float.IsInfinity(vector.z);
     }
     
     private void ReleaseObject()
@@ -255,6 +286,7 @@ public class TelekinesisController : MonoBehaviour
         grabbedObject.Cleanup();
         grabbedObject = null;
         isGrabbing = false;
+        isInitialGrab = false;
         
         OnObjectReleased?.Invoke();
         
@@ -298,6 +330,13 @@ public class TelekinesisController : MonoBehaviour
     public Transform GetGrabbedTransform() => grabbedObject?.transform;
     public bool HasGrabbedObject => grabbedObject != null;
     
+    public float CurrentStability => stabilityFactor;
+    public float CurrentInstability => currentInstability;
+    public float GrabbedObjectMass => objectMass;
+    public float GrabOffsetDistance => grabOffsetMagnitude;
+    public bool IsObjectTooHeavy(float mass) => mass > maxMassForTelekinesis;
+    public bool IsGrabUnstable => currentInstability > 0.5f;
+    
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
@@ -310,11 +349,18 @@ public class TelekinesisController : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(grabbedObject.Rigidbody.worldCenterOfMass, 0.1f);
         
+        Vector3 currentGrabPoint = grabbedObject.Rigidbody.worldCenterOfMass + grabbedObject.Rigidbody.rotation * grabOffset;
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(grabbedObject.GrabPoint, 0.05f);
+        Gizmos.DrawWireSphere(currentGrabPoint, 0.05f);
         
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(targetPosition, 0.1f);
+        
+        Gizmos.color = Color.Lerp(Color.red, Color.green, stabilityFactor);
+        Gizmos.DrawLine(grabbedObject.Rigidbody.worldCenterOfMass, currentGrabPoint);
+        
+        UnityEditor.Handles.Label(grabbedObject.transform.position + Vector3.up * 2f, 
+            $"Mass: {objectMass:F1}kg\nStability: {stabilityFactor:F2}\nInstability: {currentInstability:F2}\nOffset: {grabOffsetMagnitude:F2}m");
     }
 #endif
 }
