@@ -296,31 +296,25 @@ public class TelekineticRayRenderer : MonoBehaviour
     {
         if (!enableRayParticles || !isActive || rayParticles == null || rayPoints == null || rayPoints.Length < 2)
             return;
-        
+
         for (int i = 0; i < cubeParticleCount; i++)
         {
-            particleProgress[i] += Time.deltaTime * cubeSpeed;
-            if (particleProgress[i] > 1f)
-            {
-                particleProgress[i] = 0f;
-            }
-            
-            Vector3 position = GetPositionAlongRay(particleProgress[i]);
-            
-            Vector3 randomOffset = new Vector3(
-                Random.Range(-0.01f, 0.01f),
-                Random.Range(-0.01f, 0.01f),
-                Random.Range(-0.01f, 0.01f)
+            float t = (float)i / (cubeParticleCount - 1);
+            Vector3 basePos = GetPositionAlongRay(t);
+
+            float floatPhase = animationTime * cubeSpeed + i * 0.5f;
+            Vector3 floatOffset = new Vector3(
+                Mathf.Sin(floatPhase + i) * 0.03f,
+                Mathf.Cos(floatPhase * 1.2f + i * 0.7f) * 0.03f,
+                Mathf.Sin(floatPhase * 0.7f + i * 1.3f) * 0.03f
             );
-            
-            position += randomOffset;
-            
-            cubeParticles[i].position = position;
-            cubeParticles[i].startSize = cubeSize * (0.8f + Random.Range(0f, 0.4f));
+
+            cubeParticles[i].position = basePos + floatOffset;
+            cubeParticles[i].startSize = cubeSize * (0.8f + Mathf.Sin(animationTime + i) * 0.2f);
             cubeParticles[i].remainingLifetime = 1f;
             cubeParticles[i].startLifetime = 1f;
         }
-        
+
         rayParticles.SetParticles(cubeParticles, cubeParticleCount);
     }
     

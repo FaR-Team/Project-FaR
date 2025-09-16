@@ -52,7 +52,6 @@ public class TelekinesisController : MonoBehaviour
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private bool enableTelekineticRay = true;
     
-    // Componente de rayo visual
     private TelekineticRayRenderer rayRenderer;
     
     private TelekineticObject grabbedObject;
@@ -92,7 +91,6 @@ public class TelekinesisController : MonoBehaviour
         if (playerCamera == null)
             playerCamera = Camera.main;
             
-        // Inicializar el renderer del rayo
         rayRenderer = GetComponent<TelekineticRayRenderer>();
         if (rayRenderer == null && enableTelekineticRay)
         {
@@ -323,7 +321,6 @@ public class TelekinesisController : MonoBehaviour
     
     private void UpdateVisualPoints()
     {
-        // Punto de inicio del rayo
         if (laserStartPoint != null)
         {
             StartPoint = laserStartPoint.position;
@@ -335,22 +332,17 @@ public class TelekinesisController : MonoBehaviour
         
         if (isGrabbing && grabbedObject != null)
         {
-            // Punto medio (posición objetivo del cursor)
             MidPoint = targetPosition;
             
-            // Punto final (punto de agarre en el objeto)
             EndPoint = grabbedObject.GrabPoint;
             
-            // Asegurar que el EndPoint esté actualizado con la rotación del objeto
             Vector3 currentGrabPoint = grabbedObject.Rigidbody.worldCenterOfMass + grabbedObject.Rigidbody.rotation * grabOffset;
             EndPoint = currentGrabPoint;
         }
         else
         {
-            // Cuando no está agarrando nada, el rayo apunta hacia adelante
             Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0));
             
-            // Buscar si hay algo en el rango de agarre para mostrar el rayo de preview
             if (Physics.Raycast(ray, out RaycastHit hit, maxGrabDistance, grabLayerMask))
             {
                 MidPoint = ray.GetPoint(Vector3.Distance(StartPoint, hit.point) * 0.7f);
@@ -358,25 +350,21 @@ public class TelekinesisController : MonoBehaviour
             }
             else
             {
-                // No hay objetivo, ocultar el rayo
                 MidPoint = Vector3.zero;
                 EndPoint = Vector3.zero;
             }
         }
         
-        // Activar/desactivar el renderer del rayo
         if (enableTelekineticRay)
         {
-            // Intentar obtener el componente si no lo tenemos
             if (rayRenderer == null)
             {
                 rayRenderer = GetComponent<TelekineticRayRenderer>();
             }
             
-            // Si tenemos el componente, configurarlo
             if (rayRenderer != null)
             {
-                rayRenderer.SetRayActive(isGrabbing || EndPoint != Vector3.zero);
+                rayRenderer.SetRayActive(isGrabbing);
             }
         }
     }

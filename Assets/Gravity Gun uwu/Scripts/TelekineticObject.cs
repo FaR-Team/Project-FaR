@@ -65,8 +65,6 @@ public class TelekineticObject : MonoBehaviour
         {
             gameObject.AddComponent<AvoidCollisionWPlayer>();
         }
-        
-        Debug.Log($"Telekinetic object initialized: {gameObject.name}, Mass: {Mass:F1}kg, Center of Mass: {_rigidbody.worldCenterOfMass}");
     }
 
     public void Cleanup()
