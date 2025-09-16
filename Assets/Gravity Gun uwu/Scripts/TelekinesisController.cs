@@ -282,8 +282,6 @@ public class TelekinesisController : MonoBehaviour
                 }
             }
         }
-        
-        Debug.Log($"Mass: {rb.mass:F1} - Forces - Follow: {followForce.magnitude:F2}, Damping: {dampingForce.magnitude:F2}, Gravity: {gravityCompensation.magnitude:F2}, Total: {totalForce.magnitude:F2}");
     }
     
     private bool IsValidVector3(Vector3 vector)

@@ -25,9 +25,9 @@ public class TelekineticRayRenderer : MonoBehaviour
     
     [Header("Partículas del Rayo")]
     [SerializeField] private ParticleSystem rayParticles;
-    [SerializeField] private int cubeParticleCount = 15;
-    [SerializeField] private float cubeSize = 0.02f;
-    [SerializeField] private float cubeSpeed = 2f;
+    [SerializeField] private int rayParticleCount = 40;
+    [SerializeField] private float rayParticleSize = 0.015f;
+    [SerializeField] private float rayParticleFloatSpeed = 1.5f;
     [SerializeField] private Color cubeStartColor = new Color(1f, 0.8f, 1f, 0.8f);
     [SerializeField] private Color cubeEndColor = new Color(0.8f, 0.3f, 1f, 0.3f);
     [SerializeField] private bool enableRayParticles = true;
@@ -39,6 +39,7 @@ public class TelekineticRayRenderer : MonoBehaviour
     private bool isActive = false;
     
     private ParticleSystem.Particle[] cubeParticles;
+    private ParticleSystem.Particle[] rayParticlesArray;
     private float[] particleProgress;
     
     private void Awake()
@@ -49,7 +50,7 @@ public class TelekineticRayRenderer : MonoBehaviour
         SetupLineRenderer();
         rayPoints = new Vector3[raySegments];
         
-        InitializeCubeParticles();
+        InitializeRayParticles();
     }
     
     private void SetupLineRenderer()
@@ -242,41 +243,25 @@ public class TelekineticRayRenderer : MonoBehaviour
         lineRenderer.startWidth = Mathf.Lerp(lineRenderer.startWidth, finalStartWidth, Time.deltaTime * 5f);
         lineRenderer.endWidth = Mathf.Lerp(lineRenderer.endWidth, finalEndWidth, Time.deltaTime * 5f);
     }
-    
-    private void InitializeCubeParticles()
+
+    private void InitializeRayParticles()
     {
         if (!enableRayParticles || rayParticles == null) return;
-        
-        cubeParticles = new ParticleSystem.Particle[cubeParticleCount];
-        particleProgress = new float[cubeParticleCount];
-        
+        rayParticlesArray = new ParticleSystem.Particle[rayParticleCount];
+        particleProgress = new float[rayParticleCount];
         var main = rayParticles.main;
         main.startLifetime = 2f;
         main.startSpeed = 0f;
-        main.startSize = cubeSize;
-        main.startColor = cubeStartColor;
-        main.maxParticles = cubeParticleCount;
+        main.startSize = rayParticleSize;
+        main.maxParticles = rayParticleCount;
         main.simulationSpace = ParticleSystemSimulationSpace.World;
-        
         var shape = rayParticles.shape;
         shape.enabled = false;
-        
         var emission = rayParticles.emission;
         emission.enabled = false;
-        
         var rotationOverLifetime = rayParticles.rotationOverLifetime;
         rotationOverLifetime.enabled = true;
         rotationOverLifetime.z = new ParticleSystem.MinMaxCurve(0f, 360f * Mathf.Deg2Rad);
-        
-        var colorOverLifetime = rayParticles.colorOverLifetime;
-        colorOverLifetime.enabled = true;
-        Gradient gradient = new Gradient();
-        gradient.SetKeys(
-            new GradientColorKey[] { new GradientColorKey(cubeStartColor, 0.0f), new GradientColorKey(cubeEndColor, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(cubeStartColor.a, 0.0f), new GradientAlphaKey(cubeEndColor.a, 1.0f) }
-        );
-        colorOverLifetime.color = gradient;
-        
         var sizeOverLifetime = rayParticles.sizeOverLifetime;
         sizeOverLifetime.enabled = true;
         AnimationCurve sizeCurve = new AnimationCurve();
@@ -285,8 +270,7 @@ public class TelekineticRayRenderer : MonoBehaviour
         sizeCurve.AddKey(0.9f, 1f);
         sizeCurve.AddKey(1f, 0.2f);
         sizeOverLifetime.size = new ParticleSystem.MinMaxCurve(1f, sizeCurve);
-        
-        for (int i = 0; i < cubeParticleCount; i++)
+        for (int i = 0; i < rayParticleCount; i++)
         {
             particleProgress[i] = Random.Range(0f, 1f);
         }
@@ -297,25 +281,31 @@ public class TelekineticRayRenderer : MonoBehaviour
         if (!enableRayParticles || !isActive || rayParticles == null || rayPoints == null || rayPoints.Length < 2)
             return;
 
-        for (int i = 0; i < cubeParticleCount; i++)
+        if (!rayParticles.isPlaying)
+            rayParticles.Play();
+
+        if (rayParticlesArray == null || rayParticlesArray.Length != rayParticleCount)
+            rayParticlesArray = new ParticleSystem.Particle[rayParticleCount];
+
+        int visibleParticles = 0;
+        for (int i = 0; i < rayParticleCount; i++)
         {
-            float t = (float)i / (cubeParticleCount - 1);
+            float t = (float)i / (rayParticleCount - 1);
             Vector3 basePos = GetPositionAlongRay(t);
-
-            float floatPhase = animationTime * cubeSpeed + i * 0.5f;
+            float floatPhase = animationTime * rayParticleFloatSpeed + i * 0.5f;
             Vector3 floatOffset = new Vector3(
-                Mathf.Sin(floatPhase + i) * 0.03f,
-                Mathf.Cos(floatPhase * 1.2f + i * 0.7f) * 0.03f,
-                Mathf.Sin(floatPhase * 0.7f + i * 1.3f) * 0.03f
+                Mathf.Sin(floatPhase + i) * 0.025f,
+                Mathf.Cos(floatPhase * 1.2f + i * 0.7f) * 0.025f,
+                Mathf.Sin(floatPhase * 0.7f + i * 1.3f) * 0.025f
             );
-
-            cubeParticles[i].position = basePos + floatOffset;
-            cubeParticles[i].startSize = cubeSize * (0.8f + Mathf.Sin(animationTime + i) * 0.2f);
-            cubeParticles[i].remainingLifetime = 1f;
-            cubeParticles[i].startLifetime = 1f;
+            rayParticlesArray[i].position = basePos + floatOffset;
+            rayParticlesArray[i].rotation = floatPhase * 30f;
+            rayParticlesArray[i].startSize = Mathf.Max(rayParticleSize, 0.5f);
+            rayParticlesArray[i].remainingLifetime = 1f;
+            rayParticlesArray[i].startLifetime = 1f;
+            visibleParticles++;
         }
-
-        rayParticles.SetParticles(cubeParticles, cubeParticleCount);
+        rayParticles.SetParticles(rayParticlesArray, rayParticleCount);
     }
     
     private Vector3 GetPositionAlongRay(float t)
