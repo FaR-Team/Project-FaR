@@ -26,6 +26,7 @@ Shader "FaRTeam/FaRMainShaderURP"
         _GridOffsetX("Grid Offset X", Range(-2.1, 2.1)) = 0
         _GridOffsetY("Grid Offset Y", Range(-2.1, 2.1)) = 0
         _GridOffsetZ("Grid Offset Z", Range(-2.1, 2.1)) = 0
+        [Toggle(_USE_FOG)] _UseFog ("Use Fog", Float) = 0
     }
     SubShader
     {
@@ -276,6 +277,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma shader_feature_local _USE_FOG
 
             struct Attributes
             {
@@ -297,6 +299,13 @@ Shader "FaRTeam/FaRMainShaderURP"
             TEXTURE2D(_MainTex);
             TEXTURE2D(_MultiplyTex);
             SAMPLER(sampler_MainTex);
+            
+            // ---------- Fog globals (set from C# manager) ----------
+float4 _FogColor;
+float4x4 _FogWorldToLocal[4];
+float _FadeStart; // normalized 0..1
+float _FadeEnd;   // normalized 0..1
+// ------------------------------------------------------
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
@@ -429,6 +438,35 @@ Shader "FaRTeam/FaRMainShaderURP"
             
                 if (finalColor.a < 0.01)
                     discard;
+
+                #ifdef _USE_FOG
+    // ----------------- Fog blending (4 walls) -----------------
+    float maxFog = 0.0;
+
+    // Transform world position to each fog local space and compute a normalized Z
+    for (int i = 0; i < 4; i++)
+    {
+        // pos in fog local space
+        float3 posLS = mul(_FogWorldToLocal[i], float4(IN.positionWS, 1)).xyz;
+
+        // check XY bounds: default cube extents are -0.5..+0.5 => inside box if abs(x) <= 0.5 && abs(y) <= 0.5
+        // you can tweak these checks if your fog mesh differs (or remove check to make infinite plane)
+        if (abs(posLS.x) <= 0.5 && abs(posLS.y) <= 0.5 && posLS.z >= -0.5 && posLS.z <= 0.5)
+        {
+            // normalize Z to 0..1 (local -0.5..0.5 -> 0..1)
+            float zNorm = saturate(posLS.z + 0.5);
+
+            // compute fog contribution from this wall
+            float f = 0.0;
+            if (_FadeEnd > _FadeStart) // avoid div-by-zero
+                f = saturate((zNorm - _FadeStart) / (_FadeEnd - _FadeStart));
+
+            // take max across walls
+            maxFog = max(maxFog, f);
+        }
+    }
+                finalColor.rgb = lerp(finalColor.rgb, _FogColor.rgb, maxFog);
+#endif
             
                 return finalColor;
             }

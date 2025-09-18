@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: tree_2
+  m_Name: Grass_chunk_fog
   m_Shader: {fileID: 4800000, guid: 399c0f31dd38d8c4994f54d39305e980, type: 3}
   m_ValidKeywords:
   - _USE_FOG
@@ -23,7 +23,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: c8a8be47431a0d84290de57d43410a60, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6506bcd0495cd2d4ba1a81269d22628c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -47,7 +47,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: c8a8be47431a0d84290de57d43410a60, type: 3}
+        m_Texture: {fileID: 2800000, guid: 6506bcd0495cd2d4ba1a81269d22628c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -88,6 +88,7 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
+    - _CelShadingBlurWidth: 0.2
     - _CelSteps: 5
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -113,7 +114,9 @@ Material:
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _ShadowAlignmentX: 0
+    - _ShadowAlignmentY: 0.5001
     - _ShadowAlignmentZ: 0
+    - _ShadowAlignmentsssY: 0.5
     - _ShadowAlignmentssssY: 0.5001
     - _ShadowDepthBias: 0.00001
     - _ShadowSharpness: 0.1
@@ -137,7 +140,7 @@ Material:
     - _ShadowColor: {r: 0.5, g: 0.5, b: 0.7, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3325824238895612325
+--- !u!114 &406973020171001804
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
