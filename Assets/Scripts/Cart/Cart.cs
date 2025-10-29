@@ -128,11 +128,7 @@ public class Cart : MonoBehaviour
         if (playerTransform == null || backHandle == null) return;
         
         Vector3 playerForward = playerTransform.forward;
-        Vector3 desiredHandlePosition = playerTransform.position + playerForward * attachmentDistance;
-        desiredHandlePosition.y = backHandle.position.y;
-        
-        Vector3 handleToCartOffset = transform.position - backHandle.position;
-        Vector3 desiredCartPosition = desiredHandlePosition + handleToCartOffset;
+        Vector3 desiredCartPosition = playerTransform.position + playerForward * attachmentDistance;
         desiredCartPosition.y = transform.position.y;
         
         Vector3 positionError = desiredCartPosition - transform.position;
