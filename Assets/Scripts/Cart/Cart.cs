@@ -192,7 +192,7 @@ public class Cart : MonoBehaviour
     
     private void UpdateWheelRotations()
     {
-        if (currentSpeed < 0.1f) return;
+        if (currentSpeed < 0.01f) return;
         
         float rotationAmount = currentSpeed * wheelRotationSpeed * Time.deltaTime;
         
