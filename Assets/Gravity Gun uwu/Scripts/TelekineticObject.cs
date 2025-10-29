@@ -46,7 +46,7 @@ public class TelekineticObject : MonoBehaviour
         _renderers = GetComponentsInChildren<Renderer>();
     }
     
-    public void Initialize(RaycastHit hit)
+    public virtual void Initialize(RaycastHit hit)
     {
         GrabPoint = hit.point;
         GrabNormal = hit.normal;
@@ -67,7 +67,7 @@ public class TelekineticObject : MonoBehaviour
         }
     }
 
-    public void Cleanup()
+    public virtual void Cleanup()
     {
         _rigidbody.centerOfMass = _originalCenterOfMass;
         _rigidbody.constraints = _originalConstraints;
@@ -86,7 +86,7 @@ public class TelekineticObject : MonoBehaviour
         _rigidbody.angularVelocity = Vector3.ClampMagnitude(_rigidbody.angularVelocity, 10f);
     }
 
-    public void SetOutlineActive(bool active, Material outlineMaterial = null)
+    public virtual void SetOutlineActive(bool active, Material outlineMaterial = null)
     {
         if (_renderers == null) return;
         
