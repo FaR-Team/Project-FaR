@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(ContainerPhysics))]
@@ -29,6 +30,7 @@ public class SimpleContainer : MonoBehaviour
 
     private ContainerPhysics _containerPhysics;
     private MaterialPropertyBlock _materialPropertyBlock;
+    private float _spillTimer;
 
     private void Awake()
     {
@@ -46,7 +48,7 @@ public class SimpleContainer : MonoBehaviour
         _containerPhysics.OnContentSpilled += OnContentSpilled;
         _containerPhysics.OnContainerEmpty += OnContainerEmpty;
         
-        SetupParticleSystem();
+        //SetupParticleSystem();
         UpdateVisualContent();
     }
 
@@ -57,6 +59,18 @@ public class SimpleContainer : MonoBehaviour
             _containerPhysics.OnContentChanged -= OnContentChanged;
             _containerPhysics.OnContentSpilled -= OnContentSpilled;
             _containerPhysics.OnContainerEmpty -= OnContainerEmpty;
+        }
+    }
+
+    private void Update()
+    {
+        if (_spillTimer > 0)
+        {
+            _spillTimer -= Time.deltaTime;
+            if (_spillTimer <= 0)
+            {
+                StopSpillEffect();
+            }
         }
     }
 
@@ -117,7 +131,9 @@ public class SimpleContainer : MonoBehaviour
         main.startSpeed = Mathf.Lerp(1f, 3f, amount);
 
         var emission = _spillParticleSystem.emission;
-        emission.rateOverTime = 0f;
+        int particleCount = Mathf.RoundToInt(_baseEmissionRate + (amount * _emissionIntensityMultiplier));
+        Debug.Log($"Spill amount: {amount}. Emission count: {particleCount}");
+        emission.rateOverTime = particleCount;
         
         var shape = _spillParticleSystem.shape;
         shape.angle = Mathf.Lerp(5f, 25f, amount);
@@ -139,8 +155,8 @@ public class SimpleContainer : MonoBehaviour
         velocityOverLifetime.y = new ParticleSystem.MinMaxCurve(minY, maxY);
         velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(minZ, maxZ);
         
-        int particleCount = Mathf.RoundToInt(_baseEmissionRate + (amount * _emissionIntensityMultiplier));
-        _spillParticleSystem.Emit(particleCount);
+        _spillTimer = _spillEffectDuration;
+        //_spillParticleSystem.Emit(particleCount);
         
         if (!_spillParticleSystem.isPlaying)
         {
@@ -171,6 +187,10 @@ public class SimpleContainer : MonoBehaviour
         Destroy(spillObj, 10f);
     }
 
+    void StopSpillEffect()
+    {
+        _spillParticleSystem.Stop();
+    }
     private void SetupParticleSystem()
     {
         if (_spillParticleSystem == null) return;

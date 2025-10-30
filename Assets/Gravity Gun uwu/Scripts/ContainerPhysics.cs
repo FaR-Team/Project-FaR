@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ContainerPhysics : MonoBehaviour
@@ -36,6 +37,9 @@ public class ContainerPhysics : MonoBehaviour
     [SerializeField, Tooltip("Tiempo mínimo entre derrames")]
     private float _spillCooldown = 0.1f;
 
+    [SerializeField, Tooltip("Puntos extras calculados en los edges superiores del box collider")]
+    private int pointsPerEdge = 3;
+
     [Header("Ajustes de Gravedad (diagnóstico)")]
     [SerializeField, Tooltip("Multiplicador de gravedad aplicado al Rigidbody. 1 = gravedad del proyecto, >1 = más fuerte. 0 = desactivado.")]
     private float _gravityMultiplier = 1f;
@@ -53,9 +57,9 @@ public class ContainerPhysics : MonoBehaviour
     
     private bool _isUnstable;
     
-    public System.Action<float> OnContentChanged;
-    public System.Action<Vector3, float, Vector3> OnContentSpilled;
-    public System.Action OnContainerEmpty;
+    public event System.Action<float> OnContentChanged;
+    public event System.Action<Vector3, float, Vector3> OnContentSpilled;
+    public event System.Action OnContainerEmpty;
 
     private void Awake()
     {
@@ -158,7 +162,7 @@ public class ContainerPhysics : MonoBehaviour
         if (_currentContent != previousContent)
         {
             OnContentChanged?.Invoke(_currentContent);
-            OnContentSpilled?.Invoke(GetSpillPosition(), amount, GetSpillDirection());
+            OnContentSpilled?.Invoke(GetLowestEdgePoint(_emissionSource, pointsPerEdge), amount, GetSpillDirection());
             
             if (IsEmpty && !previousContent.Equals(0f))
             {
@@ -205,6 +209,45 @@ public class ContainerPhysics : MonoBehaviour
         }
         
         return spillPoint;
+    }
+    
+    Vector3 GetLowestEdgePoint(BoxCollider box, int samplesPerEdge)
+    {
+        Vector3 half = box.size * 0.5f;
+        Vector3 c = box.center;
+        Transform t = box.transform;
+
+        // --- Definir los 4 vértices de la cara superior en espacio local ---
+        Vector3[] topCorners = new Vector3[4];
+        topCorners[0] = c + new Vector3(-half.x, half.y, -half.z);
+        topCorners[1] = c + new Vector3( half.x, half.y, -half.z);
+        topCorners[2] = c + new Vector3( half.x, half.y,  half.z);
+        topCorners[3] = c + new Vector3(-half.x, half.y,  half.z);
+
+        Vector3 lowest = Vector3.positiveInfinity;
+        float lowestY = float.PositiveInfinity;
+
+        // --- Recorrer los 4 bordes y muestrear ---
+        for (int i = 0; i < 4; i++)
+        {
+            Vector3 a = topCorners[i];
+            Vector3 b = topCorners[(i + 1) % 4];
+
+            for (int s = 0; s <= samplesPerEdge; s++)
+            {
+                float tLerp = s / (float)samplesPerEdge;
+                Vector3 localPoint = Vector3.Lerp(a, b, tLerp);
+                Vector3 worldPoint = t.TransformPoint(localPoint);
+
+                if (worldPoint.y < lowestY)
+                {
+                    lowestY = worldPoint.y;
+                    lowest = worldPoint;
+                }
+            }
+        }
+
+        return lowest;
     }
 
     private Vector3 GetSpillDirection()
@@ -338,7 +381,7 @@ public class ContainerPhysics : MonoBehaviour
         
         if (Application.isPlaying && _isUnstable && !IsEmpty)
         {
-            Vector3 spillPos = GetSpillPosition();
+            Vector3 spillPos = GetLowestEdgePoint(_emissionSource, pointsPerEdge);
             Vector3 spillDir = GetSpillDirection();
             
             Gizmos.color = Color.cyan;
