@@ -129,9 +129,6 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 _MultiplyTex_ST;
             CBUFFER_END
 
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
-
             float3 _LightDirection;
             float3 _LightPosition;
 
