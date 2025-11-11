@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.Events;
+using System;
 
 [RequireComponent(typeof(Rigidbody))]
 public class ContainerPhysics : MonoBehaviour
@@ -61,15 +62,33 @@ public class ContainerPhysics : MonoBehaviour
     public event System.Action<Vector3, float, Vector3> OnContentSpilled;
     public event System.Action OnContainerEmpty;
 
+    private bool _enableAutoTilt = true;
+    [SerializeField] private LayerMask _autoTiltLayer = 0;
+
+    [SerializeField] private float _autoTiltRange = 5f;
+
+    private float _autoTiltAngle = 60f;
+
+    private float _autoTiltSpeed = 4f;
+
+    [SerializeField] private float _autoTiltHoldTime = 0.1f;
+
+    private Quaternion _initialRotation;
+    private Quaternion _targetRotation;
+    private float _autoTiltTimer = 0f;
+
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+        _initialRotation = transform.rotation;
+        _targetRotation = _initialRotation;
     }
 
     private void FixedUpdate()
     {
         ApplyGravityMultiplierIfNeeded();
         CalculatePhysicsState();
+        CheckForHoverAndAutoTilt();
         CheckStabilityConditions();
         
         if (_isUnstable && !IsEmpty)
@@ -102,9 +121,55 @@ public class ContainerPhysics : MonoBehaviour
         bool tiltExceeded = _currentTiltAngle > _maxTiltAngle;
         bool velocityExceeded = _currentVelocityMagnitude > _maxVelocity;
         bool angularVelocityExceeded = _currentAngularVelocityMagnitude > _maxAngularVelocity;
-        
+
         _isUnstable = tiltExceeded || velocityExceeded || angularVelocityExceeded;
     }
+
+    private void CheckForHoverAndAutoTilt()
+    {
+        if (!_enableAutoTilt || IsEmpty || _rigidbody == null) return;
+
+        Vector3 center = _emissionSource != null ? _emissionSource.bounds.center : transform.position;
+        Collider[] hits = Physics.OverlapSphere(center, _autoTiltRange, _autoTiltLayer, QueryTriggerInteraction.Ignore);
+
+        if (hits != null && hits.Length > 0)
+        {
+            Collider hit = hits[0];
+            Vector3 hitPoint = hit.bounds.center;
+
+            Vector3 dir = (hitPoint - transform.position);
+            if (dir.sqrMagnitude <= 0.0001f) return;
+
+            Vector3 axis = Vector3.Cross(Vector3.up, dir.normalized);
+            if (axis.sqrMagnitude <= 0.0001f)
+            {
+                axis = transform.right;
+            }
+            axis.Normalize();
+
+            float angle = Mathf.Clamp(_autoTiltAngle, 0f, 89f);
+            _targetRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
+
+            _autoTiltTimer = _autoTiltHoldTime;
+        } else {
+            if (_autoTiltTimer > 0f)
+            {
+                _autoTiltTimer -= Time.fixedDeltaTime;
+            }
+            else
+            {
+                _targetRotation = _initialRotation;
+            }
+        }
+
+        if (_rigidbody != null)
+        {
+            _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, _targetRotation, Mathf.Clamp01(_autoTiltSpeed * Time.fixedDeltaTime)));
+        } else {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Mathf.Clamp01(_autoTiltSpeed * Time.fixedDeltaTime));
+        }
+    }
+    
 
     private void ProcessContentLoss()
     {
@@ -137,8 +202,7 @@ public class ContainerPhysics : MonoBehaviour
     private void SpillContent(float amount)
     {
         float previousContent = _currentContent;
-        _currentContent = Mathf.Max(0f, _currentContent - amount);
-        
+        _currentContent = Mathf.Max(0f, _currentContent - amount / _maxCapacity);        
         if (_currentContent != previousContent)
         {
             OnContentChanged?.Invoke(_currentContent);
@@ -370,10 +434,19 @@ public class ContainerPhysics : MonoBehaviour
             Gizmos.color = Color.yellow;
             Gizmos.DrawRay(spillPos, spillDir * 1.5f);
         }
-        
+
         if (Application.isPlaying)
         {
             UnityEditor.Handles.Label(transform.position + Vector3.up * 3f, GetStatusInfo());
+        }
+        
+        if (_enableAutoTilt)
+        {
+            Vector3 center = _emissionSource != null ? _emissionSource.bounds.center : transform.position;
+            Gizmos.color = new Color(0f, 0.5f, 1f, 0.15f);
+            Gizmos.DrawSphere(center, _autoTiltRange);
+            Gizmos.color = new Color(0f, 0.5f, 1f, 0.8f);
+            Gizmos.DrawWireSphere(center, _autoTiltRange);
         }
     }
 #endif

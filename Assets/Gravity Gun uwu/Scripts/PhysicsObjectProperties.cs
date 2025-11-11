@@ -26,6 +26,9 @@ public class PhysicsObjectProperties : MonoBehaviour
     [SerializeField, Tooltip("Resistencia al viento/movimiento")]
     [Range(0f, 10f)]
     private float _dragCoefficient = 0.5f;
+    
+    private bool _allowAutoTilt = true;
+    public bool AllowAutoTilt => _allowAutoTilt;
 
     private Rigidbody _rigidbody;
     private Vector3 _originalCenterOfMass;

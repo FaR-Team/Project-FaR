@@ -365,6 +365,24 @@ public class SimpleContainer : MonoBehaviour
         Debug.Log("Configurado para líquido ligero (agua)");
     }
 
+    public void ToggleAutoTilt()
+    {
+        if (_containerPhysics == null) _containerPhysics = GetComponent<ContainerPhysics>();
+        if (_containerPhysics == null) return;
+
+        var prop = _containerPhysics.GetType().GetField("_enableAutoTilt", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (prop != null)
+        {
+            bool current = (bool)prop.GetValue(_containerPhysics);
+            prop.SetValue(_containerPhysics, !current);
+            Debug.Log($"Auto-Tilt {(current ? "deshabilitado" : "habilitado")} en {_containerPhysics.gameObject.name}");
+        }
+        else
+        {
+            Debug.LogWarning("No se pudo alternar Auto-Tilt (campo no encontrado).");
+        }
+    }
+
 #if UNITY_EDITOR
     private void OnDrawGizmos()
     {
