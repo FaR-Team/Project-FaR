@@ -140,11 +140,11 @@ public class SellSystem : MonoBehaviour
         switch (BoxCount)
         {
             case 0:
-                return (transform.position + (-transform.right * 2), 1);
+                return (transform.position + (-transform.forward * 2), 3);
             case 1:
                 return (transform.position + (transform.forward * 2), 2);
             case 2:
-                return (transform.position + (-transform.forward * 2), 3);
+                return (transform.position + (-transform.right * 2), 1);
             case 3:
                 return (transform.position + (transform.forward * 2) + (-transform.right * 2), 4);
             case 4:
