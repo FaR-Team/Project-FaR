@@ -88,26 +88,6 @@ public class ContainerPhysics : MonoBehaviour
         _rigidbody.AddForce(extraGravity, ForceMode.Force);
     }
 
-    [ContextMenu("Log Rigidbody Info")]
-    public void LogRigidbodyInfo()
-    {
-        if (_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
-        Debug.Log($"[ContainerPhysics] Rigidbody.useGravity={_rigidbody.useGravity}, mass={_rigidbody.mass}, drag={_rigidbody.drag}, angularDrag={_rigidbody.angularDrag}, velocity={_rigidbody.velocity}, Physics.gravity={Physics.gravity}, Time.timeScale={Time.timeScale}");
-    }
-
-    [ContextMenu("Auto-Fix Common Physics")]
-    public void AutoFixCommonPhysics()
-    {
-        if (_rigidbody == null) _rigidbody = GetComponent<Rigidbody>();
-
-        _rigidbody.useGravity = true;
-        if (_rigidbody.mass <= 0f) _rigidbody.mass = 1f;
-        _rigidbody.drag = Mathf.Clamp(_rigidbody.drag, 0f, 1f);
-        _rigidbody.angularDrag = Mathf.Clamp(_rigidbody.angularDrag, 0.05f, 1f);
-
-        Debug.Log($"[ContainerPhysics] Applied common fixes: useGravity={_rigidbody.useGravity}, mass={_rigidbody.mass}, drag={_rigidbody.drag}, angularDrag={_rigidbody.angularDrag}");
-    }
-
     private void CalculatePhysicsState()
     {
         Vector3 upDirection = transform.up;

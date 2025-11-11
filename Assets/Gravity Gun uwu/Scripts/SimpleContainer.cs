@@ -132,7 +132,6 @@ public class SimpleContainer : MonoBehaviour
 
         var emission = _spillParticleSystem.emission;
         int particleCount = Mathf.RoundToInt(_baseEmissionRate + (amount * _emissionIntensityMultiplier));
-        Debug.Log($"Spill amount: {amount}. Emission count: {particleCount}");
         emission.rateOverTime = particleCount;
         
         var shape = _spillParticleSystem.shape;
