@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Reflection;
 using System.IO;
 using UnityEditor;
 using FaRUtils.FPSController;
@@ -46,7 +47,51 @@ public class FaRCommands : MonoBehaviour
     void Start()
     {
         rb = player.GetComponent<Rigidbody>();
-        DebugLogConsole.AddCommand<int, int>("give", "Te da un item con el número de ID que especifiques", GiveItem);
+    DebugLogConsole.AddCommand<string, int>("give", "Te da un item por nombre (ej: give \"Zanahoria\" 3)", GiveItem);
+        // Load prebuilt items index for fast lookups and autocompletion
+        var itemsIndex = Resources.Load<ItemsIndex>("ItemIndex");
+    if(itemsIndex != null && itemsIndex.items != null && itemsIndex.items.Length > 0)
+        {
+            // Register argument suggestions for the 'give' command (first parameter = item name)
+                DebugLogConsole.RegisterArgumentSuggestions("give", (paramIndex, currentInput) =>
+                {
+                    if(paramIndex != 0) return System.Array.Empty<string>();
+                    if(string.IsNullOrEmpty(currentInput))
+                    {
+                        // return a limited set of item display names to avoid huge lists
+                        return itemsIndex.items.Select(i => i.Nombre).Where(n => n != null).Take(50).ToArray();
+                    }
+                    string q = currentInput.Trim();
+                    // More permissive matching: include any item that contains the query (case-insensitive)
+                    // Prioritize items that start with the query so results feel like prefix autocomplete
+                    var matches = itemsIndex.items.Select(i => i.Nombre).Where(n => n != null && n.IndexOf(q, System.StringComparison.OrdinalIgnoreCase) >= 0);
+                    var ordered = matches.OrderByDescending(n => n.StartsWith(q, System.StringComparison.OrdinalIgnoreCase)).Take(50).ToArray();
+                    return ordered;
+                });
+            Debug.Log($"FaRCommands: Registered 'give' argument suggestions from ItemsIndex ({itemsIndex.items.Length} items).");
+        }
+        else
+        {
+            // Fallback: try to use Database item list for suggestions (if available)
+            var db = Resources.Load<Database>("Database");
+            if(db != null && db.ItemDatabase != null)
+            {
+                DebugLogConsole.RegisterArgumentSuggestions("give", (paramIndex, currentInput) =>
+                {
+                    if(paramIndex != 0) return System.Array.Empty<string>();
+                    var names = db.ItemDatabase.Select(i => i.Nombre).Where(n => n != null);
+                    if(string.IsNullOrEmpty(currentInput)) return names.Take(50).ToArray();
+                    string q = currentInput.Trim();
+                    var matches = names.Where(n => n.IndexOf(q, StringComparison.OrdinalIgnoreCase) >= 0);
+                    return matches.OrderByDescending(n => n.StartsWith(q, StringComparison.OrdinalIgnoreCase)).Take(50).ToArray();
+                });
+                Debug.Log($"FaRCommands: Registered 'give' argument suggestions from Database (fallback) ({db.ItemDatabase.Count} items).");
+            }
+            else
+            {
+                Debug.Log("FaRCommands: No ItemsIndex found and Database not available in Resources; 'give' will not have name autocompletion. Run FARUtils -> Build Item Index in the Editor.");
+            }
+        }
         DebugLogConsole.AddCommand("rosebud", "te da 1000 de oro", Rosebud);
         DebugLogConsole.AddCommand<int>("add_gold", "te da la cantidad de oro que escribas", AddGold);
         DebugLogConsole.AddCommand("hurrypotter", "Avanza muy rápido el tiempo", HurryPotter);
@@ -122,14 +167,60 @@ public class FaRCommands : MonoBehaviour
         }
     }
 
-    void GiveItem(int x, int y)
+    void GiveItem(string itemName, int amount)
     {
-        if (_database == null)
+        Debug.Log($"FaRCommands.give called with itemName='{itemName}' amount={amount}");
+
+        // Prefer using a prebuilt ItemsIndex to avoid expensive Resources.LoadAll at runtime
+        var itemsIndex = Resources.Load<ItemsIndex>("ItemIndex");
+        InventoryItemData item = null;
+
+        if (itemsIndex != null && itemsIndex.items != null && itemsIndex.items.Length > 0)
         {
-            _database = Resources.Load<Database>("Database");
+            item = itemsIndex.items.FirstOrDefault(i => string.Equals(i.Nombre, itemName, StringComparison.OrdinalIgnoreCase)
+                                                    || string.Equals(i.name, itemName, StringComparison.OrdinalIgnoreCase));
+            Debug.Log(item != null ? $"FaRCommands.give: Found item in ItemsIndex: {item.name}" : "FaRCommands.give: Not found in ItemsIndex");
         }
 
-        ItemPickUp.GiveItem(_database.GetItem(x), y);
+        // If not found in index, try Database.GetItem(string) or search its ItemDatabase
+        if (item == null)
+        {
+            if (_database == null)
+                _database = Resources.Load<Database>("Database");
+
+            if (_database != null)
+            {
+                try
+                {
+                    // Database defines GetItem(string)
+                    item = _database.GetItem(itemName);
+                    Debug.Log(item != null ? $"FaRCommands.give: Found item in Database.GetItem: {item.name}" : "FaRCommands.give: Database.GetItem returned null");
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogWarning($"FaRCommands.give: Database.GetItem threw: {ex.Message}");
+                    // Fallback: search the list property if exposed
+                    try {
+                        item = _database.ItemDatabase?.FirstOrDefault(i => string.Equals(i.Nombre, itemName, StringComparison.OrdinalIgnoreCase) || string.Equals(i.name, itemName, StringComparison.OrdinalIgnoreCase));
+                        Debug.Log(item != null ? $"FaRCommands.give: Found item in Database.ItemDatabase: {item.name}" : "FaRCommands.give: Not found in Database.ItemDatabase");
+                    } catch (Exception ex2) { Debug.LogWarning($"FaRCommands.give: Exception while searching Database.ItemDatabase: {ex2.Message}"); }
+                }
+            }
+            else
+            {
+                Debug.Log("FaRCommands.give: Database asset not found in Resources.");
+            }
+        }
+
+        // If still not found, avoid Resources.LoadAll (expensive) and instruct to build the index
+        if (item == null)
+        {
+            this.LogError($"No se encontró item con nombre '{itemName}'. Asegúrate de ejecutar FARUtils -> Build Item Index (editor) para generar Resources/ItemIndex.asset.");
+            return;
+        }
+
+        Debug.Log($"FaRCommands.give: Giving item '{item.name}' x{amount}");
+        ItemPickUp.GiveItem(item, amount);
     }
 
     void Rosebud()

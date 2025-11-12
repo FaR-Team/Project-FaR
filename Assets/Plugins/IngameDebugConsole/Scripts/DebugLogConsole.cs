@@ -115,6 +115,9 @@ namespace IngameDebugConsole
 		// Split arguments of an entered command
 		private static readonly List<string> commandArguments = new List<string>( 8 );
 
+		// Argument suggestion providers per command name. Key: command name, Value: func(paramIndex, currentInput) -> suggestions
+		private static readonly System.Collections.Generic.Dictionary<string, System.Func<int, string, string[]>> argumentSuggestionProviders = new System.Collections.Generic.Dictionary<string, System.Func<int, string, string[]>>( System.StringComparer.OrdinalIgnoreCase );
+
 		// Command parameter delimeter groups
 		private static readonly string[] inputDelimiters = new string[] { "\"\"", "''", "{}", "()", "[]" };
 
@@ -791,6 +794,23 @@ namespace IngameDebugConsole
 				result = methods[i].command;
 
 			return result;
+		}
+
+		// Register provider for argument suggestions for a command. paramIndex = 0 for first parameter.
+		public static void RegisterArgumentSuggestions(string command, System.Func<int, string, string[]> provider)
+		{
+			if(string.IsNullOrEmpty(command) || provider == null) return;
+			argumentSuggestionProviders[command] = provider;
+		}
+
+		public static string[] GetArgumentSuggestions(string command, int paramIndex, string currentInput)
+		{
+			if(argumentSuggestionProviders.TryGetValue(command, out var provider))
+			{
+				try { return provider(paramIndex, currentInput) ?? System.Array.Empty<string>(); }
+				catch { return System.Array.Empty<string>(); }
+			}
+			return System.Array.Empty<string>();
 		}
 
 		// Parse the command and try to execute it

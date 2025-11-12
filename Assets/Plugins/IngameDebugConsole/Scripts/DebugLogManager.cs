@@ -358,6 +358,12 @@ namespace IngameDebugConsole
 		private string commandInputFieldAutoCompleteBase;
 		private bool commandInputFieldAutoCompletedNow;
 
+		// Argument autocomplete state (for cycling suggestions)
+		private string commandArgumentAutoCompleteBase;
+		private string commandArgumentPrevSuggestion;
+		private string commandArgumentPrevCommandName;
+		private int commandArgumentPrevParamIndex = -1;
+
 		// Pools for memory efficiency
 		private List<DebugLogEntry> pooledLogEntries;
 		private List<DebugLogItem> pooledLogItems;
@@ -853,6 +859,30 @@ namespace IngameDebugConsole
 						}
 					}
 				}
+
+				// Fallback: if InputField doesn't send the tab char to OnValidateCommand, detect Tab here and run autocomplete
+				if( commandInputField.isFocused )
+				{
+					bool tabPressed = false;
+#if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
+					if( UnityEngine.InputSystem.Keyboard.current != null )
+						tabPressed = UnityEngine.InputSystem.Keyboard.current[UnityEngine.InputSystem.Key.Tab].wasPressedThisFrame;
+					else
+						tabPressed = Input.GetKeyDown( KeyCode.Tab );
+#else
+					tabPressed = Input.GetKeyDown( KeyCode.Tab );
+#endif
+
+					if( tabPressed )
+					{
+						Debug.Log("DebugLogManager: Tab detected (fallback) - attempting argument/command autocomplete");
+						if( TryHandleTabAutocompleteFromCode() )
+						{
+							// We updated the input field text programmatically; mark that an autocomplete just happened
+							commandInputFieldAutoCompletedNow = true;
+						}
+					}
+				}
 			}
 
 			if( screenDimensionsChanged )
@@ -971,6 +1001,79 @@ namespace IngameDebugConsole
 					if( string.IsNullOrEmpty( commandInputFieldAutoCompleteBase ) )
 						commandInputFieldAutoCompleteBase = text;
 
+					// Try argument-level suggestions if caret is inside an argument
+					var caretIndexIncrements = new System.Collections.Generic.List<int>();
+					var matching = new System.Collections.Generic.List<ConsoleMethodInfo>();
+					string commandName = null;
+					int numberOfParameters;
+					DebugLogConsole.GetCommandSuggestions( text, matching, caretIndexIncrements, ref commandName, out numberOfParameters );
+
+					int caretArgumentIndex = 0;
+					for( int i = 0; i < caretIndexIncrements.Count; i++ )
+					{
+						if( charIndex > caretIndexIncrements[i] )
+							caretArgumentIndex++;
+					}
+
+					if( caretArgumentIndex > 0 && !string.IsNullOrEmpty( commandName ) )
+					{
+						var args = new System.Collections.Generic.List<string>();
+						DebugLogConsole.FetchArgumentsFromCommand( text, args );
+						string currentArg = args.Count > caretArgumentIndex ? args[caretArgumentIndex] : string.Empty;
+						string[] argSuggestions = DebugLogConsole.GetArgumentSuggestions( commandName, caretArgumentIndex - 1, currentArg );
+						if( argSuggestions != null && argSuggestions.Length > 0 )
+						{
+							// Determine base for cycling: if base changed, reset previous suggestion
+							if( string.IsNullOrEmpty( commandArgumentAutoCompleteBase ) || commandArgumentPrevCommandName != commandName || commandArgumentPrevParamIndex != (caretArgumentIndex - 1) || commandArgumentAutoCompleteBase != currentArg )
+							{
+								commandArgumentAutoCompleteBase = currentArg;
+								commandArgumentPrevSuggestion = null;
+								commandArgumentPrevCommandName = commandName;
+								commandArgumentPrevParamIndex = caretArgumentIndex - 1;
+							}
+
+							string nextSuggestion;
+							if( string.IsNullOrEmpty( commandArgumentPrevSuggestion ) )
+							{
+								nextSuggestion = argSuggestions[0];
+							}
+							else
+							{
+								int prevIdx = System.Array.IndexOf( argSuggestions, commandArgumentPrevSuggestion );
+								int nextIdx = (prevIdx < 0) ? 0 : ( ( prevIdx + 1 ) % argSuggestions.Length );
+								nextSuggestion = argSuggestions[nextIdx];
+							}
+
+							commandArgumentPrevSuggestion = nextSuggestion;
+
+							// Rebuild command replacing the current argument with the suggestion (quote if contains spaces)
+							var sb = new System.Text.StringBuilder();
+							sb.Append( args.Count > 0 ? args[0] : commandName );
+							int maxArg = System.Math.Max( args.Count - 1, caretArgumentIndex );
+							for( int j = 1; j <= maxArg; j++ )
+							{
+								sb.Append(' ');
+								string val;
+								if( j == caretArgumentIndex )
+									val = nextSuggestion;
+								else if( j < args.Count )
+									val = args[j];
+								else
+									val = string.Empty;
+
+								if( !string.IsNullOrEmpty( val ) && val.IndexOf(' ') >= 0 )
+									sb.Append('"').Append(val).Append('"');
+								else
+									sb.Append(val);
+							}
+
+							commandInputFieldAutoCompletedNow = true;
+							commandInputField.text = sb.ToString();
+							return '\0';
+						}
+					}
+
+					// Fallback: command-level autocomplete (as before)
 					string autoCompletedCommand = DebugLogConsole.GetAutoCompleteCommand( commandInputFieldAutoCompleteBase, text );
 					if( !string.IsNullOrEmpty( autoCompletedCommand ) && autoCompletedCommand != text )
 					{
@@ -1008,7 +1111,7 @@ namespace IngameDebugConsole
 			return addedChar;
 		}
 
-		// A debug entry is received
+ 		// A debug entry is received
 		public void ReceivedLog( string logString, string stackTrace, LogType logType )
 		{
 #if UNITY_EDITOR
@@ -1209,6 +1312,127 @@ namespace IngameDebugConsole
 				indexOfLogEntryToSelectAndFocus = logEntryIndexInEntriesToShow;
 		}
 
+		// Attempt to perform the same Tab autocomplete logic as OnValidateCommand but triggered from code (fallback)
+		private bool TryHandleTabAutocompleteFromCode()
+		{
+			try
+			{
+				string text = commandInputField.text;
+				if( string.IsNullOrEmpty( text ) )
+					return false;
+
+				if( string.IsNullOrEmpty( commandInputFieldAutoCompleteBase ) )
+					commandInputFieldAutoCompleteBase = text;
+
+				var caretIndexIncrements = new System.Collections.Generic.List<int>();
+				var matching = new System.Collections.Generic.List<ConsoleMethodInfo>();
+				string commandName = null;
+				int numberOfParameters;
+				DebugLogConsole.GetCommandSuggestions( text, matching, caretIndexIncrements, ref commandName, out numberOfParameters );
+
+				int caretArgumentIndex = 0;
+				int caretPos = commandInputField.caretPosition;
+				for( int i = 0; i < caretIndexIncrements.Count; i++ )
+				{
+					if( caretPos > caretIndexIncrements[i] )
+						caretArgumentIndex++;
+				}
+
+				if( caretArgumentIndex > 0 && !string.IsNullOrEmpty( commandName ) )
+				{
+					var args = new System.Collections.Generic.List<string>();
+					DebugLogConsole.FetchArgumentsFromCommand( text, args );
+					string currentArg = args.Count > caretArgumentIndex ? args[caretArgumentIndex] : string.Empty;
+					// Normalize currentArg for comparisons (strip surrounding quotes)
+					string currentArgNormalized = currentArg;
+					if( currentArgNormalized.Length >= 2 && ((currentArgNormalized[0] == '"' && currentArgNormalized[currentArgNormalized.Length-1] == '"') || (currentArgNormalized[0] == '\'' && currentArgNormalized[currentArgNormalized.Length-1] == '\'')) )
+						currentArgNormalized = currentArgNormalized.Substring(1, currentArgNormalized.Length - 2);
+
+					string[] argSuggestions = DebugLogConsole.GetArgumentSuggestions( commandName, caretArgumentIndex - 1, currentArgNormalized );
+
+					// Diagnostic logging to debug cycling behavior
+					Debug.LogFormat("DebugLogManager: Tab-autocomplete request: command='{0}' paramIndex={1} currentArg='{2}' (normalized='{3}')", commandName, caretArgumentIndex - 1, currentArg, currentArgNormalized );
+					if( argSuggestions != null && argSuggestions.Length > 0 )
+					{
+						// Determine base for cycling: if base changed, reset previous suggestion
+						if( string.IsNullOrEmpty( commandArgumentAutoCompleteBase ) || commandArgumentPrevCommandName != commandName || commandArgumentPrevParamIndex != ( caretArgumentIndex - 1 ) || commandArgumentAutoCompleteBase != currentArgNormalized )
+						{
+							commandArgumentAutoCompleteBase = currentArgNormalized;
+							commandArgumentPrevSuggestion = null;
+							commandArgumentPrevCommandName = commandName;
+							commandArgumentPrevParamIndex = caretArgumentIndex - 1;
+						}
+
+						string nextSuggestion;
+						if( string.IsNullOrEmpty( commandArgumentPrevSuggestion ) )
+						{
+							nextSuggestion = argSuggestions[0];
+						}
+						else
+						{
+							// Try to match previous suggestion with the suggestions list; compare normalized values
+							int prevIdx = -1;
+							for( int pi = 0; pi < argSuggestions.Length; pi++ )
+							{
+								string cand = argSuggestions[pi];
+								if( cand == commandArgumentPrevSuggestion ) { prevIdx = pi; break; }
+							}
+							int nextIdx = ( prevIdx < 0 ) ? 0 : ( ( prevIdx + 1 ) % argSuggestions.Length );
+							nextSuggestion = argSuggestions[nextIdx];
+							Debug.LogFormat("DebugLogManager: argSuggestions=[{0}], prevSuggestion='{1}', prevIdx={2}, nextIdx={3}, nextSuggestion='{4}'", string.Join(", ", argSuggestions), commandArgumentPrevSuggestion, prevIdx, nextIdx, nextSuggestion );
+						}
+
+						// Store previous suggestion normalized (no surrounding quotes)
+						commandArgumentPrevSuggestion = nextSuggestion;
+
+						// Rebuild command replacing the current argument with the suggestion (quote if contains spaces)
+						var sb = new System.Text.StringBuilder();
+						sb.Append( args.Count > 0 ? args[0] : commandName );
+						int maxArg = System.Math.Max( args.Count - 1, caretArgumentIndex );
+						for( int j = 1; j <= maxArg; j++ )
+						{
+							sb.Append(' ');
+							string val;
+							if( j == caretArgumentIndex )
+								val = nextSuggestion;
+							else if( j < args.Count )
+								val = args[j];
+							else
+								val = string.Empty;
+
+							if( !string.IsNullOrEmpty( val ) && val.IndexOf(' ') >= 0 )
+								sb.Append('"').Append( val ).Append('"');
+							else
+								sb.Append( val );
+						}
+
+						commandInputFieldAutoCompletedNow = true;
+						commandInputField.text = sb.ToString();
+						// Place caret at end of field so repeated Tab cycles continue from same argument
+						commandInputField.ActivateInputField();
+						commandInputField.caretPosition = commandInputField.text.Length;
+						return true;
+					}
+				}
+
+				// Fallback: command-level autocomplete (as before)
+				string autoCompletedCommand = DebugLogConsole.GetAutoCompleteCommand( commandInputFieldAutoCompleteBase, text );
+				if( !string.IsNullOrEmpty( autoCompletedCommand ) && autoCompletedCommand != text )
+				{
+					commandInputFieldAutoCompletedNow = true;
+					commandInputField.text = autoCompletedCommand;
+					return true;
+				}
+
+				return false;
+			}
+			catch( System.Exception ex )
+			{
+				Debug.LogWarning( "TryHandleTabAutocompleteFromCode exception: " + ex.Message );
+				return false;
+			}
+		}
+
 		// Value of snapToBottom is changed (user scrolled the list manually)
 		public void SetSnapToBottom( bool snapToBottom )
 		{
@@ -1389,6 +1613,45 @@ namespace IngameDebugConsole
 				OnEndEditCommand( command );
 			else
 			{
+				// If caret is on an argument, ask DebugLogConsole for argument suggestions first
+				if( caretArgumentIndex > 0 && !string.IsNullOrEmpty( commandInputFieldPrevCommandName ) )
+				{
+					var args = new System.Collections.Generic.List<string>();
+					DebugLogConsole.FetchArgumentsFromCommand( command, args );
+					string currentArg = args.Count > caretArgumentIndex ? args[caretArgumentIndex] : string.Empty;
+					string[] argSuggestions = DebugLogConsole.GetArgumentSuggestions( commandInputFieldPrevCommandName, caretArgumentIndex - 1, currentArg );
+					if( argSuggestions != null && argSuggestions.Length > 0 )
+					{
+						if( !commandSuggestionsContainer.gameObject.activeSelf )
+							commandSuggestionsContainer.gameObject.SetActive( true );
+
+						int argSuggestionsCount = argSuggestions.Length;
+						for( int i = 0; i < argSuggestionsCount; i++ )
+						{
+							if( i >= visibleCommandSuggestionInstances )
+							{
+								if( i >= commandSuggestionInstances.Count )
+									commandSuggestionInstances.Add( (Text) Instantiate( commandSuggestionPrefab, commandSuggestionsContainer, false ) );
+								else
+									commandSuggestionInstances[i].gameObject.SetActive( true );
+
+								visibleCommandSuggestionInstances++;
+							}
+
+							// Build suggestion: "command suggestion"
+							sharedStringBuilder.Length = 0;
+							sharedStringBuilder.Append( commandInputFieldPrevCommandName ).Append( " " ).Append( commandSuggestionHighlightStart ).Append( argSuggestions[i] ).Append( commandSuggestionHighlightEnd );
+							commandSuggestionInstances[i].text = sharedStringBuilder.ToString();
+						}
+
+						for( int i = visibleCommandSuggestionInstances - 1; i >= argSuggestionsCount; i-- )
+							commandSuggestionInstances[i].gameObject.SetActive( false );
+
+						visibleCommandSuggestionInstances = argSuggestionsCount;
+						return;
+					}
+				}
+
 				if( !commandSuggestionsContainer.gameObject.activeSelf )
 					commandSuggestionsContainer.gameObject.SetActive( true );
 
@@ -1448,7 +1711,14 @@ namespace IngameDebugConsole
 			RefreshCommandSuggestions( command );
 
 			if( !commandInputFieldAutoCompletedNow )
+			{
 				commandInputFieldAutoCompleteBase = null;
+				// reset argument autocomplete state as user changed the input
+				commandArgumentAutoCompleteBase = null;
+				commandArgumentPrevSuggestion = null;
+				commandArgumentPrevCommandName = null;
+				commandArgumentPrevParamIndex = -1;
+			}
 			else // This change was caused by autocomplete
 				commandInputFieldAutoCompletedNow = false;
 		}
