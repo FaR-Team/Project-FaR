@@ -20,9 +20,10 @@ public class DiscordController : MonoBehaviour
             instance = this; 
         } 
     }
-
+    
     void Start()
     {
+#if !UNITY_EDITOR_LINUX
         discord = new Discord.Discord(1046654363021623377, (System.UInt64)Discord.CreateFlags.Default);
         var activityManager = discord.GetActivityManager();
         var activity = new Discord.Activity
@@ -46,15 +47,22 @@ public class DiscordController : MonoBehaviour
                 this.LogError($"Estado de discord fallido");
             }
         });
+#endif
     }
 
     void Update()
     {
-        discord.RunCallbacks();
+        if (discord != null)
+        {
+            discord.RunCallbacks();
+        }
     }
 
     void OnApplicationQuit()
     {
-        discord.Dispose();
+        if (discord != null)
+        {
+            discord.Dispose();
+        }
     }
 }

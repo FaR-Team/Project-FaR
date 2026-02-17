@@ -16,14 +16,18 @@ public class StaticInventoryDisplay : InventoryDisplay
     }
 
     private void RefreshStaticDisplay() {
+        if (playerInventoryHolder == null) playerInventoryHolder = PlayerInventoryHolder.instance;
+
         if (playerInventoryHolder != null)
         {
+            if (inventorySystem != null) inventorySystem.OnInventorySlotChanged -= UpdateSlot;
             inventorySystem = playerInventoryHolder.PrimaryInventorySystem;
             inventorySystem.OnInventorySlotChanged += UpdateSlot;
         }
         else
         {
-            this.LogError($"No hay inventario asignado a {this.gameObject}");
+            this.LogWarning($"No hay inventario asignado a {this.gameObject}. No se puede refrescar.");
+            return;
         }
 
         CreateSlots(inventorySystem, 0);
@@ -36,12 +40,22 @@ public class StaticInventoryDisplay : InventoryDisplay
 
     public override void CreateSlots(InventorySystem invToDisplay, int offset)
     {
-        slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
+        if (playerInventoryHolder == null) playerInventoryHolder = PlayerInventoryHolder.instance;
+        if (playerInventoryHolder == null || inventorySystem == null) return;
 
-        for (int i = 0; i < playerInventoryHolder.Offset; i++)
+        slotDictionary = new Dictionary<InventorySlot_UIBasic, InventorySlot>();
+        inventorySlots = new List<InventorySlot_UIBasic>();
+
+        int slotCount = Mathf.Min(slots.Length, playerInventoryHolder.Offset);
+
+        for (int i = 0; i < slotCount; i++)
         {
+            if (slots[i] == null) continue;
+
             slotDictionary.Add(slots[i], inventorySystem.InventorySlots[i]);
             slots[i].Init(inventorySystem.InventorySlots[i]);
+            slots[i].SetParentDisplay(this);
+            inventorySlots.Add(slots[i]);
         }
     }
 }

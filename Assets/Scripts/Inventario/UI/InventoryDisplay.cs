@@ -33,7 +33,7 @@ public abstract class InventoryDisplay : MonoBehaviour
 
     public void SlotClicked(InventorySlot_UIBasic clickedUISlot, bool isRightClick = false)
     {
-        bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
+        bool isShiftPressed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
         if (isShiftPressed && clickedUISlot.AssignedInventorySlot.ItemData != null)
         {
@@ -57,7 +57,28 @@ public abstract class InventoryDisplay : MonoBehaviour
             }
             else
             {
+                // Mover dentro del mismo inventario (Hotbar <-> Backpack)
+                if (inventorySystem == PlayerInventoryHolder.instance.PrimaryInventorySystem)
+                {
+                    int clickedIndex = inventorySystem.InventorySlots.IndexOf(clickedUISlot.AssignedInventorySlot);
+                    int offset = PlayerInventoryHolder.instance.Offset;
 
+                    if (clickedIndex < offset) // Está en la Hotbar, mover a la Backpack
+                    {
+                        if (inventorySystem.AddToInventory(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, offset, inventorySystem.InventorySlots.Count))
+                        {
+                            clickedUISlot.ClearSlot();
+                        }
+                    }
+                    else // Está en la Backpack, mover a la Hotbar
+                    {
+                        if (inventorySystem.AddToInventory(clickedUISlot.AssignedInventorySlot.ItemData, clickedUISlot.AssignedInventorySlot.StackSize, 0, offset))
+                        {
+                            clickedUISlot.ClearSlot();
+                        }
+                    }
+                }
+                return;
             }
         }
 

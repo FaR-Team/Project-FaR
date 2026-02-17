@@ -110,6 +110,35 @@ public class InventorySystem
         return false;
     }
 
+    public bool AddToInventory(InventoryItemData item, int amount, int start, int end)
+    {
+        for (int i = start; i < end && i < inventorySlots.Count; i++)
+        {
+            var slot = inventorySlots[i];
+            if (slot.IsBlocked) continue;
+            if (slot.ItemData == item && slot.EnoughRoomLeftInStack(amount))
+            {
+                slot.AddToStack(amount);
+                OnInventorySlotChanged?.Invoke(slot);
+                return true;
+            }
+        }
+
+        for (int i = start; i < end && i < inventorySlots.Count; i++)
+        {
+            var slot = inventorySlots[i];
+            if (slot.IsBlocked) continue;
+            if (slot.ItemData == null)
+            {
+                slot.UpdateInventorySlot(item, amount);
+                OnInventorySlotChanged?.Invoke(slot);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public bool HasItem(InventoryItemData itemAAñadir, out List<InventorySlot> invSlot) //alguno de los slots ya tiene este item?
     {
         invSlot = InventorySlots.Where(i => i.ItemData == itemAAñadir).ToList(); // Selecciona los slots que contienen el item, y los pone en una lista

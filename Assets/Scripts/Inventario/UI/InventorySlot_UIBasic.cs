@@ -19,6 +19,11 @@ public class InventorySlot_UIBasic : MonoBehaviour
     public InventorySlot AssignedInventorySlot => assignedInventorySlot;
     public InventoryDisplay ParentDisplay { get; private set; }
 
+    public void SetParentDisplay(InventoryDisplay parent)
+    {
+        ParentDisplay = parent;
+    }
+
     protected virtual void Awake()
     {
         ClearSlot();
@@ -30,7 +35,7 @@ public class InventorySlot_UIBasic : MonoBehaviour
         button?.onMouseExit.AddListener(OnUISlotMouseExit);
         itemSprite.preserveAspect = true;
 
-        ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
+        ParentDisplay = GetComponentInParent<InventoryDisplay>();
     }
 
     public void UpdateUISlot(InventorySlot slot)
@@ -86,11 +91,13 @@ public class InventorySlot_UIBasic : MonoBehaviour
 
     public virtual void OnUISlotClick()
     {
+        if (ParentDisplay == null) ParentDisplay = GetComponentInParent<InventoryDisplay>();
         ParentDisplay?.SlotClicked(this);
     }
 
     public virtual void OnUISlotRightClick()
     {
+        if (ParentDisplay == null) ParentDisplay = GetComponentInParent<InventoryDisplay>();
         ParentDisplay?.SlotClicked(this, true);
     }
 
