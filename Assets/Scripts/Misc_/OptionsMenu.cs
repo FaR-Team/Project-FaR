@@ -15,6 +15,7 @@ public class OptionsData
     public int targetFPS = 300;
     public bool timeFormat12Hour = true;
     public bool isFullscreen = true;
+    public int windowMode = 0; // 0: Fullscreen, 1: FullscreenWindow, 2: Windowed
     public int resolutionIndex = 0;
 
     public float masterVolume = 1.0f;
@@ -34,6 +35,7 @@ public class OptionsMenu : MonoBehaviour
     public TextMeshProUGUI SensVal;
     public TextMeshProUGUI FPSText;
     public TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown windowModeDropdown;
     public bool doce;
     public bool isOptionsMenuOpen;
 
@@ -83,27 +85,78 @@ public class OptionsMenu : MonoBehaviour
 
     private void InitializeResolutions()
     {
-        resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
+        Resolution[] allResolutions = Screen.resolutions;
+        List<Resolution> filteredResolutions = new List<Resolution>();
+        HashSet<string> seenResolutions = new HashSet<string>();
 
+        float targetAspect = (float)Screen.width / Screen.height;
+        float epsilon = 0.01f;
+
+        for (int i = allResolutions.Length - 1; i >= 0; i--)
+        {
+            float aspect = (float)allResolutions[i].width / allResolutions[i].height;
+            if (Mathf.Abs(aspect - targetAspect) > epsilon) continue;
+
+            string key = $"{allResolutions[i].width}x{allResolutions[i].height}";
+            if (!seenResolutions.Contains(key))
+            {
+                filteredResolutions.Add(allResolutions[i]);
+                seenResolutions.Add(key);
+            }
+        }
+        
+        if (filteredResolutions.Count == 0)
+        {
+            for (int i = allResolutions.Length - 1; i >= 0; i--)
+            {
+                string key = $"{allResolutions[i].width}x{allResolutions[i].height}";
+                if (!seenResolutions.Contains(key))
+                {
+                    filteredResolutions.Add(allResolutions[i]);
+                    seenResolutions.Add(key);
+                }
+            }
+        }
+
+        filteredResolutions.Reverse();
+        resolutions = filteredResolutions.ToArray();
+
+        resolutionDropdown.ClearOptions();
         var options = new List<string>();
-        int currentResolutionIndex = 0;
+        int currentResolutionIndex = -1;
 
         for (int i = 0; i < resolutions.Length; i++)
         {
             string option = $"{resolutions[i].width} x {resolutions[i].height}";
             options.Add(option);
 
-            if (resolutions[i].width == Screen.currentResolution.width && 
-                resolutions[i].height == Screen.currentResolution.height)
+            if (resolutions[i].width == Screen.width && 
+                resolutions[i].height == Screen.height)
             {
                 currentResolutionIndex = i;
             }
         }
 
         resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = optionsData.resolutionIndex;
+        
+        if (optionsData.resolutionIndex >= 0 && optionsData.resolutionIndex < resolutions.Length)
+        {
+            resolutionDropdown.value = optionsData.resolutionIndex;
+        }
+        else if (currentResolutionIndex != -1)
+        {
+            resolutionDropdown.value = currentResolutionIndex;
+        }
+
         resolutionDropdown.RefreshShownValue();
+
+        if (windowModeDropdown != null)
+        {
+            windowModeDropdown.ClearOptions();
+            windowModeDropdown.AddOptions(new List<string> { "Fullscreen", "Borderless", "Windowed" });
+            windowModeDropdown.value = optionsData.windowMode;
+            windowModeDropdown.RefreshShownValue();
+        }
     }
 
     private void LoadOptions()
@@ -120,7 +173,9 @@ public class OptionsMenu : MonoBehaviour
         sensSlider.value = optionsData.sensitivity;
         FPSLimit.target = optionsData.targetFPS;
         doce = optionsData.timeFormat12Hour;
-        Screen.fullScreen = optionsData.isFullscreen;
+        
+        InitializeResolutions(); 
+        ApplyGraphicsSettings();
 
         masterVolumeSlider.value = optionsData.masterVolume;
         musicVolumeSlider.value = optionsData.musicVolume;
@@ -140,7 +195,8 @@ public class OptionsMenu : MonoBehaviour
         optionsData.sensitivity = sensSlider.value;
         optionsData.targetFPS = FPSLimit.target;
         optionsData.timeFormat12Hour = doce;
-        optionsData.isFullscreen = Screen.fullScreen;
+        optionsData.windowMode = windowModeDropdown != null ? windowModeDropdown.value : 0;
+        optionsData.isFullscreen = optionsData.windowMode == 0;
         optionsData.resolutionIndex = resolutionDropdown.value;
 
         optionsData.masterVolume = masterVolumeSlider.value;
@@ -180,16 +236,53 @@ public class OptionsMenu : MonoBehaviour
         UpdateUIValues(); 
     }
 
+    public void ApplyGraphicsSettings()
+    {
+        if (resolutions == null || resolutionDropdown.value < 0 || resolutionDropdown.value >= resolutions.Length)
+        {
+            Debug.LogError("[GraphicsSettings] Invalid resolution index selected.");
+            return;
+        }
+
+        Resolution resolution = resolutions[resolutionDropdown.value];
+        FullScreenMode mode = GetFullScreenMode(windowModeDropdown.value);
+        
+        Debug.Log($"[GraphicsSettings] User Apply Pressed: {resolution.width}x{resolution.height} @ {mode}");
+        
+        optionsData.resolutionIndex = resolutionDropdown.value;
+        optionsData.windowMode = windowModeDropdown.value;
+        
+        Screen.SetResolution(resolution.width, resolution.height, mode);
+        SaveOptions();
+    }
+
     public void SetResolution(int resolutionIndex)
     {
-        Resolution resolution = resolutions[resolutionIndex];
-        Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
-        SaveOptions();
+        optionsData.resolutionIndex = resolutionIndex;
+        Debug.Log($"[GraphicsSettings] Selected Resolution Index: {resolutionIndex}");
+    }
+
+    public void SetWindowMode(int index)
+    {
+        optionsData.windowMode = index;
+        Debug.Log($"[GraphicsSettings] Selected Window Mode Index: {index}");
+    }
+
+    private FullScreenMode GetFullScreenMode(int index)
+    {
+        return index switch
+        {
+            0 => FullScreenMode.ExclusiveFullScreen,
+            1 => FullScreenMode.FullScreenWindow,
+            2 => FullScreenMode.Windowed,
+            _ => FullScreenMode.ExclusiveFullScreen
+        };
     }
 
     public void SetFullscreen(bool isFullscreen)
     {
-        Screen.fullScreen = isFullscreen;
+        optionsData.windowMode = isFullscreen ? 0 : 2;
+        Screen.fullScreenMode = GetFullScreenMode(optionsData.windowMode);
         SaveOptions();
     }
 
@@ -267,7 +360,6 @@ public class OptionsMenu : MonoBehaviour
         }
         else
         {
-            // Fallback to direct AudioMixer manipulation
             audioMixer.SetFloat("MasterVolume", ConvertToDecibel(optionsData.masterVolume));
             audioMixer.SetFloat("MusicVolume", ConvertToDecibel(optionsData.musicVolume));
             audioMixer.SetFloat("SFXVolume", ConvertToDecibel(optionsData.sfxVolume));
@@ -278,9 +370,8 @@ public class OptionsMenu : MonoBehaviour
     private float ConvertToDecibel(float sliderValue)
     {
         if (sliderValue <= 0.0001f)
-            return -80f; // Minimum volume (-80dB is practically silent)
+            return -80f;
             
-        // Convert from 0-1 scale to logarithmic decibel scale
         return Mathf.Log10(sliderValue) * 20f;
     }
 
