@@ -69,10 +69,27 @@ public class PauseMenu : MonoBehaviour
             !sleepHandler._isSleeping &&
             !DebugLogManager.Instance.isOnConsole)
         {
-
             if (GameIsPaused)
             {
-                ClosePauseMenu();
+                if (bindingMenuUI != null && bindingMenuUI.activeSelf)
+                {
+                    if (BindingMenuUI.Instance != null && !BindingMenuUI.Instance.IsRebinding)
+                    {
+                        BindingsMenuBack();
+                    }
+                }
+                else if (soundOptionsMenuUI != null && soundOptionsMenuUI.activeSelf)
+                {
+                    SoundOptionsMenuBack();
+                }
+                else if (Options != null && Options.activeSelf)
+                {
+                    OptionsMenuBack();
+                }
+                else
+                {
+                    ClosePauseMenu();
+                }
             }
             else
             {
@@ -101,9 +118,17 @@ public class PauseMenu : MonoBehaviour
             Music.UnPause();
         }
         GameInput.playerInputActions.Player.Inventory.Enable();
-        pauseMenuUI.SetActive(false);
-        optionsMenuUI.SetActive(false);
-        soundOptionsMenuUI.SetActive(false);
+        
+        if (pauseMenuUI != null) pauseMenuUI.SetActive(false);
+        if (optionsMenuUI != null) optionsMenuUI.SetActive(false);
+        if (Options != null) Options.SetActive(false);
+        if (soundOptionsMenuUI != null) soundOptionsMenuUI.SetActive(false);
+        if (bindingMenuUI != null) bindingMenuUI.SetActive(false);
+        
+        if (this.GetComponent<OptionsMenu>() != null)
+        {
+            this.GetComponent<OptionsMenu>().isOptionsMenuOpen = false;
+        }
 
 
         Unpause();

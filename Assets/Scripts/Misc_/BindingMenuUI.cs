@@ -38,6 +38,7 @@ public class BindingMenuUI : MonoBehaviour
 
 
     private Action onCloseButtonAction;
+    public bool IsRebinding { get; private set; } = false;
 
 
     private void Awake() 
@@ -94,10 +95,18 @@ public class BindingMenuUI : MonoBehaviour
 
     private void RebindBinding(GameInput.Binding binding)
     {
+        IsRebinding = true;
         ShowPressToRebindKey();
         GameInput.RebindBinding(binding, () => {
+            IsRebinding = false;
             HidePressToRebindKey();
             UpdateVisual();
         });
+    }
+
+    public void ResetBindings()
+    {
+        GameInput.ResetBindings();
+        UpdateVisual();
     }
 }

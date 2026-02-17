@@ -146,6 +146,7 @@ playerInputActions = new PlayerInput2();
         }        
 
         inputAction.PerformInteractiveRebinding(bindingIndex)
+            .WithCancelingThrough("<Keyboard>/escape")
             .OnComplete(callback => {
                 callback.Dispose();
                 playerInputActions.Player.Enable();
@@ -156,6 +157,21 @@ playerInputActions = new PlayerInput2();
                 var a = new GameInput();
                 OnBindingRebind?.Invoke(a, EventArgs.Empty);
             })
+            .OnCancel(callback => {
+                callback.Dispose();
+                playerInputActions.Player.Enable();
+                OnActionRebound();
+            })
             .Start(); //Igual, no estaría viendo dónde se usa el evento xd
+   }
+   
+   public static void ResetBindings()
+   {
+        playerInputActions.RemoveAllBindingOverrides();
+        PlayerPrefs.SetString(PLAYER_PREFS_BINDINGS, playerInputActions.SaveBindingOverridesAsJson());
+        PlayerPrefs.Save();
+        
+        var a = new GameInput();
+        OnBindingRebind?.Invoke(a, EventArgs.Empty);
    }
 }

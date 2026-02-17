@@ -403,4 +403,41 @@ public class OptionsMenu : MonoBehaviour
     {
         SaveOptions();
     }
+
+    public void ResetAllSettings()
+    {
+        Debug.Log("[GraphicsSettings] Reverting all settings to defaults");
+        optionsData.fov = 75f;
+        optionsData.sensitivity = 0.05f;
+        optionsData.targetFPS = 300;
+        optionsData.timeFormat12Hour = true;
+        optionsData.windowMode = 0; // Fullscreen
+        optionsData.masterVolume = 1.0f;
+        optionsData.musicVolume = 0.8f;
+        optionsData.sfxVolume = 1.0f;
+        optionsData.uiVolume = 1.0f;
+        optionsData.muteWhenInBackground = true;
+
+        if (resolutions != null && resolutions.Length > 0)
+        {
+            optionsData.resolutionIndex = resolutions.Length - 1;
+        }
+
+        fovSlider.value = optionsData.fov;
+        sensSlider.value = optionsData.sensitivity;
+        FPSLimit.target = optionsData.targetFPS;
+        FPSText.text = "FPS: " + optionsData.targetFPS;
+        doce = optionsData.timeFormat12Hour;
+        windowModeDropdown.value = optionsData.windowMode;
+        resolutionDropdown.value = optionsData.resolutionIndex;
+
+        masterVolumeSlider.value = optionsData.masterVolume;
+        musicVolumeSlider.value = optionsData.musicVolume;
+        sfxVolumeSlider.value = optionsData.sfxVolume;
+        uiVolumeSlider.value = optionsData.uiVolume;
+        muteBackgroundToggle.isOn = optionsData.muteWhenInBackground;
+
+        ApplyGraphicsSettings();
+        SaveOptions();
+    }
 }
