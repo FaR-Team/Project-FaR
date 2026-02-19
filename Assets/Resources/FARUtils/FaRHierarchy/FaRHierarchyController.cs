@@ -14,7 +14,6 @@ using UnityEditor.IMGUI.Controls;
 using Type = System.Type;
 using static FaRHierarchy.Libs.VUtils;
 using static FaRHierarchy.Libs.VGUI;
-// using static VTools.VDebug;
 using static FaRHierarchy.FaRHierarchy;
 using static FaRHierarchy.FaRHierarchyData;
 using static FaRHierarchy.FaRHierarchyCache;

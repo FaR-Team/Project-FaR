@@ -12,7 +12,6 @@ using UnityEditor.SceneManagement;
 using UnityEditorInternal;
 using static FaRHierarchy.Libs.VUtils;
 using static FaRHierarchy.Libs.VGUI;
-// using static VTools.VDebug;
 
 
 namespace FaRHierarchy

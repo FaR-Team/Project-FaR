@@ -13,7 +13,6 @@ using UnityEditor.SceneManagement;
 using UnityEditor.IMGUI.Controls;
 using static FaRHierarchy.Libs.VUtils;
 using static FaRHierarchy.Libs.VGUI;
-// using static VTools.VDebug;
 using static FaRHierarchy.FaRHierarchyPalette;
 
 
