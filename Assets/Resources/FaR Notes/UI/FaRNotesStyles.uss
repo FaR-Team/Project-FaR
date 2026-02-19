@@ -1,0 +1,122 @@
+:root {
+    --far-bg-color: rgba(45, 45, 45, 0.95);
+    --far-accent-color: #4A90E2;
+    --far-accent-hover: #5DA1F3;
+    --far-text-color: #E0E0E0;
+    --far-text-secondary: #AAAAAA;
+    --far-border-radius: 8px;
+    --far-spacing: 8px;
+    --far-card-bg: rgba(60, 60, 60, 0.8);
+    --far-card-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Overlay Styles */
+.far-overlay-root {
+    background-color: var(--far-bg-color);
+    border-radius: var(--far-border-radius);
+    padding: var(--far-spacing);
+    border-width: 1px;
+    border-color: var(--far-card-border);
+    flex-direction: column;
+}
+
+.far-toolbar {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: var(--far-spacing);
+}
+
+.far-button {
+    background-color: var(--far-accent-color);
+    color: white;
+    border-radius: 4px;
+    padding: 6px 12px;
+    border-width: 0;
+    font-size: 13px;
+    -unity-font-style: bold;
+    transition-duration: 0.2s;
+}
+
+.far-button:hover {
+    background-color: var(--far-accent-hover);
+    scale: 1.02;
+}
+
+.far-button:active {
+    background-color: var(--far-accent-color);
+    scale: 0.98;
+}
+
+/* Inspector Styles */
+.far-inspector-root {
+    padding: 10px;
+}
+
+.far-card {
+    background-color: var(--far-card-bg);
+    border-radius: var(--far-border-radius);
+    border-width: 1px;
+    border-color: var(--far-card-border);
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.far-title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: var(--far-accent-color);
+    margin-bottom: 8px;
+    -unity-text-align: middle-center;
+}
+
+.far-label {
+    color: var(--far-text-secondary);
+    font-size: 12px;
+}
+
+.far-value {
+    color: var(--far-text-color);
+    font-size: 13px;
+}
+
+/* Comment Section */
+.far-comment-container {
+    margin-top: 10px;
+}
+
+.far-comment-bubble {
+    background-color: rgba(70, 70, 70, 0.6);
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-left-width: 4px;
+    border-left-color: var(--far-accent-color);
+}
+
+.far-comment-author {
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: var(--far-accent-color);
+}
+
+.far-comment-text {
+    font-size: 12px;
+    color: var(--far-text-color);
+    white-space: normal;
+}
+
+.far-comment-meta {
+    font-size: 10px;
+    color: var(--far-text-secondary);
+    -unity-text-align: lower-right;
+}
+
+/* Toggles and Fields */
+.far-toggle {
+    margin: 2px;
+}
+
+.far-field {
+    margin-bottom: 4px;
+}
