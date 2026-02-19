@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class EditorTools : Editor
 {
-    [MenuItem("FARUtils/Remesh Skin")]
+    [MenuItem("FARUtils/Remesh Skin", false, 143)]
     static void RemeshSkin()
     {
         Selection.activeGameObject.transform.GetComponent<SkinnedMeshRenderer>().ResetBounds();

@@ -4,7 +4,7 @@ using System.Linq;
 
 public class ItemsIndexBuilder
 {
-    [MenuItem("FARUtils/Build Item Index")]
+    [MenuItem("FARUtils/Build Item Index", false, 142)]
     public static void BuildIndex()
     {
         string[] guids = AssetDatabase.FindAssets("t:InventoryItemData");

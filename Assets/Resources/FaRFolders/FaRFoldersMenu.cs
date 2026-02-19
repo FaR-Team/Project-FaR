@@ -52,51 +52,51 @@ namespace FaRFolders
 
 
 
-        [MenuItem(dir + "Features", false, 1)] static void daasddsas() { }
-        [MenuItem(dir + "Features", true, 1)] static bool dadsdasas123() => false;
+        [MenuItem(dir + "Features", false, 101)] static void daasddsas() { }
+        [MenuItem(dir + "Features", true, 101)] static bool dadsdasas123() => false;
 
-        [MenuItem(hierarchyLines, false, 2)] static void dadsadadsadass() { hierarchyLinesEnabled = !hierarchyLinesEnabled; EditorApplication.RepaintProjectWindow(); }
-        [MenuItem(hierarchyLines, true, 2)] static bool dadsaddasaasddsas() { Menu.SetChecked(hierarchyLines, hierarchyLinesEnabled); return !pluginDisabled; }
+        [MenuItem(hierarchyLines, false, 102)] static void dadsadadsadass() { hierarchyLinesEnabled = !hierarchyLinesEnabled; EditorApplication.RepaintProjectWindow(); }
+        [MenuItem(hierarchyLines, true, 102)] static bool dadsaddasaasddsas() { Menu.SetChecked(hierarchyLines, hierarchyLinesEnabled); return !pluginDisabled; }
 
-        [MenuItem(clearerRows, false, 3)] static void dadsadadsadsadass() { clearerRowsEnabled = !clearerRowsEnabled; EditorApplication.RepaintProjectWindow(); }
-        [MenuItem(clearerRows, true, 3)] static bool dadsaddasadsaasddsas() { Menu.SetChecked(clearerRows, clearerRowsEnabled); return !pluginDisabled; }
+        [MenuItem(clearerRows, false, 103)] static void dadsadadsadsadass() { clearerRowsEnabled = !clearerRowsEnabled; EditorApplication.RepaintProjectWindow(); }
+        [MenuItem(clearerRows, true, 103)] static bool dadsaddasadsaasddsas() { Menu.SetChecked(clearerRows, clearerRowsEnabled); return !pluginDisabled; }
 
-        [MenuItem(minimalMode, false, 4)] static void dadsadadsaddsasadass() { minimalModeEnabled = !minimalModeEnabled; EditorApplication.RepaintProjectWindow(); }
-        [MenuItem(minimalMode, true, 4)] static bool dadsaddasadsadsaasddsas() { Menu.SetChecked(minimalMode, minimalModeEnabled); return !pluginDisabled; }
+        [MenuItem(minimalMode, false, 104)] static void dadsadadsaddsasadass() { minimalModeEnabled = !minimalModeEnabled; EditorApplication.RepaintProjectWindow(); }
+        [MenuItem(minimalMode, true, 104)] static bool dadsaddasadsadsaasddsas() { Menu.SetChecked(minimalMode, minimalModeEnabled); return !pluginDisabled; }
 
-        [MenuItem(zebraStriping, false, 5)] static void dadsadaddsasadsadass() { zebraStripingEnabled = !zebraStripingEnabled; EditorApplication.RepaintProjectWindow(); }
-        [MenuItem(zebraStriping, true, 5)] static bool dadsaddadassadsaasddsas() { Menu.SetChecked(zebraStriping, zebraStripingEnabled); return !pluginDisabled; }
+        [MenuItem(zebraStriping, false, 105)] static void dadsadaddsasadsadass() { zebraStripingEnabled = !zebraStripingEnabled; EditorApplication.RepaintProjectWindow(); }
+        [MenuItem(zebraStriping, true, 105)] static bool dadsaddadassadsaasddsas() { Menu.SetChecked(zebraStriping, zebraStripingEnabled); return !pluginDisabled; }
 
-        [MenuItem(contentMinimap, false, 6)] static void dadsadadasdsadass() { contentMinimapEnabled = !contentMinimapEnabled; EditorApplication.RepaintProjectWindow(); }
-        [MenuItem(contentMinimap, true, 6)] static bool dadsadddasasaasddsas() { Menu.SetChecked(contentMinimap, contentMinimapEnabled); return !pluginDisabled; }
+        [MenuItem(contentMinimap, false, 106)] static void dadsadadasdsadass() { contentMinimapEnabled = !contentMinimapEnabled; EditorApplication.RepaintProjectWindow(); }
+        [MenuItem(contentMinimap, true, 106)] static bool dadsadddasasaasddsas() { Menu.SetChecked(contentMinimap, contentMinimapEnabled); return !pluginDisabled; }
 
-        [MenuItem(autoIcons, false, 7)] static void dadsadadsas() { autoIconsEnabled = !autoIconsEnabled; EditorApplication.RepaintProjectWindow(); }
-        [MenuItem(autoIcons, true, 7)] static bool dadsaddasadsas() { Menu.SetChecked(autoIcons, autoIconsEnabled); return !pluginDisabled; }
+        [MenuItem(autoIcons, false, 107)] static void dadsadadsas() { autoIconsEnabled = !autoIconsEnabled; EditorApplication.RepaintProjectWindow(); }
+        [MenuItem(autoIcons, true, 107)] static bool dadsaddasadsas() { Menu.SetChecked(autoIcons, autoIconsEnabled); return !pluginDisabled; }
 #if UNITY_EDITOR_OSX
-        [MenuItem(foldersFirst, false, 8)] static void dadsdsfaadsdadsas() { foldersFirstEnabled = !foldersFirstEnabled; EditorApplication.RepaintProjectWindow(); if (!foldersFirstEnabled) UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(); }
-        [MenuItem(foldersFirst, true, 8)] static bool dadsasdfdadsdasadsas() { Menu.SetChecked(foldersFirst, foldersFirstEnabled); return !pluginDisabled; }
+        [MenuItem(foldersFirst, false, 108)] static void dadsdsfaadsdadsas() { foldersFirstEnabled = !foldersFirstEnabled; EditorApplication.RepaintProjectWindow(); if (!foldersFirstEnabled) UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(); }
+        [MenuItem(foldersFirst, true, 108)] static bool dadsasdfdadsdasadsas() { Menu.SetChecked(foldersFirst, foldersFirstEnabled); return !pluginDisabled; }
 #endif
 
 
 
-        [MenuItem(dir + "Shortcuts", false, 101)] static void dadsas() { }
-        [MenuItem(dir + "Shortcuts", true, 101)] static bool dadsas123() => false;
+        [MenuItem(dir + "Shortcuts", false, 109)] static void dadsas() { }
+        [MenuItem(dir + "Shortcuts", true, 109)] static bool dadsas123() => false;
 
-        [MenuItem(toggleExpanded, false, 102)] static void dadsadsadasdsadadsas() => toggleExpandedEnabled = !toggleExpandedEnabled;
-        [MenuItem(toggleExpanded, true, 102)] static bool dadsaddsasadadsdasadsas() { Menu.SetChecked(toggleExpanded, toggleExpandedEnabled); return !pluginDisabled; }
+        [MenuItem(toggleExpanded, false, 110)] static void dadsadsadasdsadadsas() => toggleExpandedEnabled = !toggleExpandedEnabled;
+        [MenuItem(toggleExpanded, true, 110)] static bool dadsaddsasadadsdasadsas() { Menu.SetChecked(toggleExpanded, toggleExpandedEnabled); return !pluginDisabled; }
 
-        [MenuItem(collapseEverythingElse, false, 103)] static void dadsadsasdadasdsadadsas() => collapseEverythingElseEnabled = !collapseEverythingElseEnabled;
-        [MenuItem(collapseEverythingElse, true, 103)] static bool dadsaddsdasasadadsdasadsas() { Menu.SetChecked(collapseEverythingElse, collapseEverythingElseEnabled); return !pluginDisabled; }
+        [MenuItem(collapseEverythingElse, false, 111)] static void dadsadsasdadasdsadadsas() => collapseEverythingElseEnabled = !collapseEverythingElseEnabled;
+        [MenuItem(collapseEverythingElse, true, 111)] static bool dadsaddsdasasadadsdasadsas() { Menu.SetChecked(collapseEverythingElse, collapseEverythingElseEnabled); return !pluginDisabled; }
 
-        [MenuItem(collapseEverything, false, 104)] static void dadsadsdasadasdsadadsas() => collapseEverythingEnabled = !collapseEverythingEnabled;
-        [MenuItem(collapseEverything, true, 104)] static bool dadsaddssdaasadadsdasadsas() { Menu.SetChecked(collapseEverything, collapseEverythingEnabled); return !pluginDisabled; }
-
-
+        [MenuItem(collapseEverything, false, 112)] static void dadsadsdasadasdsadadsas() => collapseEverythingEnabled = !collapseEverythingEnabled;
+        [MenuItem(collapseEverything, true, 112)] static bool dadsaddssdaasadadsdasadsas() { Menu.SetChecked(collapseEverything, collapseEverythingEnabled); return !pluginDisabled; }
 
 
 
-        [MenuItem(disablePlugin, false, 10001)] static void dadsadsdasadasdasdsadadsas() { pluginDisabled = !pluginDisabled; UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(); }
-        [MenuItem(disablePlugin, true, 10001)] static bool dadsaddssdaasadsadadsdasadsas() { Menu.SetChecked(disablePlugin, pluginDisabled); return true; }
+
+
+        [MenuItem(disablePlugin, false, 113)] static void dadsadsdasadasdasdsadadsas() { pluginDisabled = !pluginDisabled; UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(); }
+        [MenuItem(disablePlugin, true, 113)] static bool dadsaddssdaasadsadadsdasadsas() { Menu.SetChecked(disablePlugin, pluginDisabled); return true; }
 
 
 

@@ -18,7 +18,7 @@ namespace DS.Windows
         private Button saveButton;
         private Button miniMapButton;
 
-        [MenuItem("FARUtils/DIalogues/Dialogue Graph")]
+        [MenuItem("FARUtils/Dialogues/Dialogue Graph", false, 130)]
         public static void Open()
         {
             GetWindow<DSEditorWindow>("Dialogue Graph");

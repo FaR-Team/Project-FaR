@@ -12,7 +12,7 @@ namespace FARUtils.Notes
         private VisualElement root;
         private StyleSheet styleSheet;
 
-        [MenuItem("FARUtils/FaR Notes/Style Settings")]
+        [MenuItem("FARUtils/FaR Notes/Style Settings", false, 120)]
         public static void Open()
         {
             GetWindow<FaRNoteStyleWindow>("Scene Notes Style");

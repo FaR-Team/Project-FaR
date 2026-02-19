@@ -12,7 +12,7 @@ namespace jandd661.EditorTools.SearchAndReplace
 {
 	public class SearchAndReplace : EditorWindow
 	{
-		private const string MENU_PATH = "Tools/Search and Replace Objects";
+		private const string MENU_PATH = "FARUtils/Search and Replace Objects";
 		private const string WINDOW_TITLE = "Search and Replace Objects";
 		private const string MESSAGE_GREETING = "Please save your project before continuing!\nWARNING: Replacing prefabs that have scripts with references to other scene objects will break those references!";
 		private const string MESSAGE_WARNING_TOP = "There are object warnings! Please review the below list.";
@@ -55,7 +55,7 @@ namespace jandd661.EditorTools.SearchAndReplace
 		private string _searchText = "";
 		private SearchUtils.SearchType _searchType = SearchUtils.SearchType.StartsWith;
 
-		[MenuItem(MENU_PATH)]
+		[MenuItem(MENU_PATH, false, 146)]
 		public static void ShowWindow()
 		{
 			SearchAndReplace window = GetWindow<SearchAndReplace>(WINDOW_TITLE, true);

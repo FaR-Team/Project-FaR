@@ -26,7 +26,7 @@ public class FaRConsoleWindow : EditorWindow
     private string[] searchFields = new string[] { "All", "Message", "Stack Trace", "Object Name" };
     private int selectedSearchField = 0;
 
-    [MenuItem("FARUtils/FaR Console")]
+    [MenuItem("FARUtils/FaR Console", false, 140)]
     public static void ShowWindow()
     {
         GetWindow<FaRConsoleWindow>("</> FaR Console");

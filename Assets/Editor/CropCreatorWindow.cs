@@ -35,7 +35,7 @@ public class CropCreatorWindow : EditorWindow
         maxDays = new int[5];
     }
 
-    [MenuItem("FARUtils/Crop Creator")]
+    [MenuItem("FARUtils/Crop Creator", false, 141)]
     public static void ShowWindow()
     {
         GetWindow<CropCreatorWindow>("Crop Creator");

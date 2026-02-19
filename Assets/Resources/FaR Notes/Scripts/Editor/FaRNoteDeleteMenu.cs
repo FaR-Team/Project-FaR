@@ -7,7 +7,7 @@ namespace FARUtils.Notes
 
     public static class FaRNoteDeleteMenu
     {
-        [MenuItem("FARUtils/FaR Notes/Delete All Notes")]
+        [MenuItem("FARUtils/FaR Notes/Delete All Notes", false, 121)]
         private static void DeleteAllNotes()
         {
             bool confirm = EditorUtility.DisplayDialog(

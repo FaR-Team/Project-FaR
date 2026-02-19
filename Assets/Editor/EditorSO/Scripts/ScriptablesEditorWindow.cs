@@ -35,7 +35,7 @@ namespace FaRUtils.SOE
 
         protected Rect typeButton;
 
-        [MenuItem("FARUtils/Editor de Scriptable Objects")]
+        [MenuItem("FARUtils/Scriptable Object Editor", false, 144)]
         protected static void ShowWindow()
         {
             window = GetWindow<ScriptablesEditorWindow>("Editor de Scriptable Objects");
