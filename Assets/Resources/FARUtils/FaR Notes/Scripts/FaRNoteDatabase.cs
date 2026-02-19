@@ -37,7 +37,7 @@ namespace FARUtils.Notes
             if (string.IsNullOrEmpty(scene.path))
                 return null;
 
-            string folder = "Assets/Resources/FaR Notes/FaRNotes";
+            string folder = "Assets/Resources/FARUtils/FaR Notes/FaRNotes";
 
             string assetPath = $"{folder}/{scene.name}_Notes.asset";
 

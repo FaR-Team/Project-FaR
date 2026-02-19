@@ -90,7 +90,7 @@ namespace DS.Windows
 
         private void Load()
         {
-            string filePath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets/Editor/DialogueSystem/Graphs", "asset");
+            string filePath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets/Resources/FARUtils/Editor/DialogueSystem/Graphs", "asset");
 
             if (string.IsNullOrEmpty(filePath))
             {

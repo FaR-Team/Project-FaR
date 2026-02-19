@@ -19,7 +19,7 @@ namespace DS.Utilities
         {
             foreach (string styleSheetName in styleSheetNames)
             {
-                StyleSheet styleSheet = (StyleSheet) EditorGUIUtility.Load(styleSheetName);
+                StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>($"Assets/Resources/FARUtils/Editor Default Resources/{styleSheetName}");
 
                 element.styleSheets.Add(styleSheet);
             }

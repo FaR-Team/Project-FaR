@@ -58,7 +58,7 @@ namespace FARUtils.Notes
                 root.Add(new HelpBox("No Style Config found.", HelpBoxMessageType.Warning));
                 var createBtn = new Button(() => {
                     config = CreateInstance<FaRNoteStyleConfig>();
-                    AssetDatabase.CreateAsset(config, "Assets/Resources/FaR Notes/FaRNoteStyleConfig.asset");
+                    AssetDatabase.CreateAsset(config, "Assets/Resources/FARUtils/FaR Notes/FaRNoteStyleConfig.asset");
                     AssetDatabase.SaveAssets();
                     CreateGUI();
                 }) { text = "Create Style Config" };

@@ -52,7 +52,7 @@ namespace DS.Utilities
 
             GetElementsFromGraphView();
 
-            DSGraphSaveDataSO graphData = CreateAsset<DSGraphSaveDataSO>("Assets/Editor/DialogueSystem/Graphs", $"{graphFileName}Graph");
+            DSGraphSaveDataSO graphData = CreateAsset<DSGraphSaveDataSO>("Assets/Resources/FARUtils/Editor/DialogueSystem/Graphs", $"{graphFileName}Graph");
 
             graphData.Initialize(graphFileName);
 
@@ -280,14 +280,14 @@ namespace DS.Utilities
 
         public static void Load()
         {
-            DSGraphSaveDataSO graphData = LoadAsset<DSGraphSaveDataSO>("Assets/Editor/DialogueSystem/Graphs", graphFileName);
+            DSGraphSaveDataSO graphData = LoadAsset<DSGraphSaveDataSO>("Assets/Resources/FARUtils/Editor/DialogueSystem/Graphs", graphFileName);
 
             if (graphData == null)
             {
                 EditorUtility.DisplayDialog(
                     "Could not find the file!",
                     "The file at the following path could not be found:\n\n" +
-                    $"\"Assets/Editor/DialogueSystem/Graphs/{graphFileName}\".\n\n" +
+                    $"\"Assets/Resources/FARUtils/Editor/DialogueSystem/Graphs/{graphFileName}\".\n\n" +
                     "Make sure you chose the right file and it's placed at the folder path mentioned above.",
                     "Thanks!"
                 );
@@ -373,7 +373,7 @@ namespace DS.Utilities
 
         private static void CreateDefaultFolders()
         {
-            CreateFolder("Assets/Editor/DialogueSystem", "Graphs");
+            CreateFolder("Assets/Resources/FARUtils/Editor/DialogueSystem", "Graphs");
 
             CreateFolder("Assets", "DialogueSystem");
             CreateFolder("Assets/DialogueSystem", "Dialogues");
