@@ -3,16 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
+using UnityEditor.UIElements;
 using static FaRHierarchy.Libs.VUtils;
 using static FaRHierarchy.Libs.VGUI;
-// using static VTools.VDebug;
-
 
 namespace FaRHierarchy
 {
-    class FaRHierarchyMenu
+    public class FaRHierarchyMenu : EditorWindow
     {
-
         public static bool navigationBarEnabled { get => EditorPrefsCached.GetBool("FaRHierarchy-navigationBarEnabled", false); set => EditorPrefsCached.SetBool("FaRHierarchy-navigationBarEnabled", value); }
         public static bool sceneSelectorEnabled { get => EditorPrefsCached.GetBool("FaRHierarchy-sceneSelectorEnabled", false); set => EditorPrefsCached.SetBool("FaRHierarchy-sceneSelectorEnabled", value); }
         public static bool componentMinimapEnabled { get => EditorPrefsCached.GetBool("FaRHierarchy-componentMinimapEnabled", false); set => EditorPrefsCached.SetBool("FaRHierarchy-componentMinimapEnabled", value); }
@@ -31,99 +30,128 @@ namespace FaRHierarchy
 
         public static bool pluginDisabled { get => EditorPrefsCached.GetBool("FaRHierarchy-pluginDisabled", false); set => EditorPrefsCached.SetBool("FaRHierarchy-pluginDisabled", value); }
 
+        [MenuItem("FARUtils/FaR Hierarchy/Settings", false, 1)]
+        public static void Open()
+        {
+            GetWindow<FaRHierarchyMenu>("FaR Hierarchy Settings");
+        }
 
+        [MenuItem("FARUtils/FaR Hierarchy/Disable FaR Hierarchy", false, 100)]
+        static void TogglePlugin()
+        {
+            pluginDisabled = !pluginDisabled;
+            UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation();
+        }
 
+        [MenuItem("FARUtils/FaR Hierarchy/Disable FaR Hierarchy", true)]
+        static bool TogglePluginValidate()
+        {
+            Menu.SetChecked("FARUtils/FaR Hierarchy/Disable FaR Hierarchy", pluginDisabled);
+            return true;
+        }
 
-        const string dir = "FARUtils/FaR Hierarchy/";
+        private void OnEnable()
+        {
+            minSize = new Vector2(350, 550);
+        }
 
-        const string navigationBar = dir + "Navigation bar";
-        const string sceneSelector = dir + "Scene selector";
-        const string componentMinimap = dir + "Component minimap";
-        const string activationToggle = dir + "Activation toggle";
-        const string hierarchyLines = dir + "Hierarchy lines";
-        const string zebraStriping = dir + "Zebra striping";
-        const string minimalMode = dir + "Minimal mode";
+        public void CreateGUI()
+        {
+            VisualElement root = rootVisualElement;
+            root.AddToClassList("far-window-root");
 
-        const string toggleActive = dir + "A to toggle active";
-        const string focus = dir + "F to focus";
-        const string delete = dir + "X to delete";
-        const string toggleExpanded = dir + "E to expand or collapse";
-        const string isolate = dir + "Shift-E to isolate";
-        const string collapseEverything = dir + "Ctrl-Shift-E to collapse all";
-        const string setDefaultParent = dir + "D to set default parent";
+            var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Resources/FARUtils/UI/FaRSharedStyles.uss");
+            if (styleSheet != null)
+                root.styleSheets.Add(styleSheet);
 
-        const string disablePlugin = dir + "Disable FaRHierarchy";
+            // Header
+            var header = new VisualElement();
+            header.AddToClassList("far-header");
+            root.Add(header);
 
+            var title = new Label("FaR Hierarchy");
+            title.AddToClassList("far-title");
+            header.Add(title);
 
+            var subtitle = new Label("A cleaner, faster, and more powerful hierarchy for Unity.");
+            subtitle.AddToClassList("far-subtitle");
+            header.Add(subtitle);
 
+            var scrollView = new ScrollView();
+            root.Add(scrollView);
 
+            // Appearance Section
+            var appearanceSection = CreateSection(scrollView, "Appearance");
+            CreateToggle(appearanceSection, "Hierarchy Lines", hierarchyLinesEnabled, (v) => { hierarchyLinesEnabled = v; RepaintHierarchy(); });
+            CreateToggle(appearanceSection, "Zebra Striping", zebraStripingEnabled, (v) => { zebraStripingEnabled = v; RepaintHierarchy(); });
+            CreateToggle(appearanceSection, "Minimal Mode", minimalModeEnabled, (v) => { minimalModeEnabled = v; RepaintHierarchy(); });
+            CreateToggle(appearanceSection, "Navigation Bar", navigationBarEnabled, (v) => { navigationBarEnabled = v; RepaintHierarchy(); });
+            CreateToggle(appearanceSection, "Scene Selector", sceneSelectorEnabled, (v) => { sceneSelectorEnabled = v; RepaintHierarchy(); });
+            CreateToggle(appearanceSection, "Component Minimap", componentMinimapEnabled, (v) => { componentMinimapEnabled = v; RepaintHierarchy(); });
+            CreateToggle(appearanceSection, "Activation Toggle", activationToggleEnabled, (v) => { activationToggleEnabled = v; RepaintHierarchy(); });
 
+            // Shortcuts Section
+            var shortcutsSection = CreateSection(scrollView, "Shortcuts");
+            CreateToggle(shortcutsSection, "A: Toggle Active", toggleActiveEnabled, (v) => toggleActiveEnabled = v);
+            CreateToggle(shortcutsSection, "F: Focus In Scene", focusEnabled, (v) => focusEnabled = v);
+            CreateToggle(shortcutsSection, "X: Delete GameObject", deleteEnabled, (v) => deleteEnabled = v);
+            CreateToggle(shortcutsSection, "E: Expand / Collapse", toggleExpandedEnabled, (v) => toggleExpandedEnabled = v);
+            CreateToggle(shortcutsSection, "Shift-E: Isolate", isolateEnabled, (v) => isolateEnabled = v);
+            CreateToggle(shortcutsSection, "Ctrl-Shift-E: Collapse All", collapseEverythingEnabled, (v) => collapseEverythingEnabled = v);
+            CreateToggle(shortcutsSection, "D: Set Default Parent", setDefaultParentEnabled, (v) => setDefaultParentEnabled = v);
 
-        [MenuItem(dir + "Features", false, 1)] static void daasddsas() { }
-        [MenuItem(dir + "Features", true, 1)] static bool dadsdasas123() => false;
+            // Status Section
+            var statusSection = CreateSection(scrollView, "Status");
+            var pluginStatus = new Label(pluginDisabled ? "Plugin is currently DISABLED" : "Plugin is ACTIVE");
+            pluginStatus.style.color = pluginDisabled ? Color.red : Color.green;
+            pluginStatus.style.fontSize = 11;
+            statusSection.Add(pluginStatus);
 
-        [MenuItem(navigationBar, false, 2)] static void dadsaadsdsadasdsadadsas() { navigationBarEnabled = !navigationBarEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(navigationBar, true, 2)] static bool dadsaddasdsasadadsdasadsas() { Menu.SetChecked(navigationBar, navigationBarEnabled); return !pluginDisabled; }
+            var toggleBtn = new Button(() => { pluginDisabled = !pluginDisabled; UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(); Close(); }) { text = pluginDisabled ? "Enable Plugin" : "Disable Plugin" };
+            toggleBtn.AddToClassList("far-button");
+            statusSection.Add(toggleBtn);
 
-        [MenuItem(sceneSelector, false, 3)] static void dadsaadsdsadassddsadadsas() { sceneSelectorEnabled = !sceneSelectorEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(sceneSelector, true, 3)] static bool dadsaddasdsasadsdadsdasadsas() { Menu.SetChecked(sceneSelector, sceneSelectorEnabled); return !pluginDisabled; }
+            // Footer
+            var footer = new VisualElement();
+            footer.AddToClassList("far-footer");
+            root.Add(footer);
 
-        [MenuItem(componentMinimap, false, 4)] static void daadsdsadasdadsas() { componentMinimapEnabled = !componentMinimapEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(componentMinimap, true, 4)] static bool dadsadasddasadsas() { Menu.SetChecked(componentMinimap, componentMinimapEnabled); return !pluginDisabled; }
+            var version = new Label("v2.5.2-FaR");
+            version.AddToClassList("far-version-label");
+            footer.Add(version);
+        }
 
-        [MenuItem(activationToggle, false, 5)] static void daadsdsadadsasdadsas() { activationToggleEnabled = !activationToggleEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(activationToggle, true, 5)] static bool dadsadasdsaddasadsas() { Menu.SetChecked(activationToggle, activationToggleEnabled); return !pluginDisabled; }
+        private VisualElement CreateSection(VisualElement parent, string title)
+        {
+            var section = new VisualElement();
+            section.AddToClassList("far-section");
+            parent.Add(section);
 
-        [MenuItem(hierarchyLines, false, 6)] static void dadsadadsadadasss() { hierarchyLinesEnabled = !hierarchyLinesEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(hierarchyLines, true, 6)] static bool dadsaddasdasaasddsas() { Menu.SetChecked(hierarchyLines, hierarchyLinesEnabled); return !pluginDisabled; }
+            var header = new Label(title);
+            header.AddToClassList("far-section-title");
+            section.Add(header);
 
-        [MenuItem(zebraStriping, false, 7)] static void dadsadadadssadsadass() { zebraStripingEnabled = !zebraStripingEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(zebraStriping, true, 7)] static bool dadsaddadaadsssadsaasddsas() { Menu.SetChecked(zebraStriping, zebraStripingEnabled); return !pluginDisabled; }
+            return section;
+        }
 
-        [MenuItem(minimalMode, false, 8)] static void dadsadadasdsdasadadasss() { minimalModeEnabled = !minimalModeEnabled; EditorApplication.RepaintHierarchyWindow(); }
-        [MenuItem(minimalMode, true, 8)] static bool dadsaddadsasdadsasaasddsas() { Menu.SetChecked(minimalMode, minimalModeEnabled); return !pluginDisabled; }
+        private void CreateToggle(VisualElement section, string label, bool value, System.Action<bool> onValueChanged)
+        {
+            var container = new VisualElement();
+            container.AddToClassList("far-field-container");
+            section.Add(container);
 
+            var nameLabel = new Label(label);
+            nameLabel.AddToClassList("far-field-label");
+            container.Add(nameLabel);
 
+            var toggle = new Toggle();
+            toggle.value = value;
+            toggle.AddToClassList("far-toggle");
+            toggle.RegisterValueChangedCallback(evt => onValueChanged?.Invoke(evt.newValue));
+            container.Add(toggle);
+        }
 
-
-
-
-        [MenuItem(dir + "Shortcuts", false, 101)] static void dadsas() { }
-        [MenuItem(dir + "Shortcuts", true, 101)] static bool dadsas123() => false;
-
-
-
-        [MenuItem(setDefaultParent, false, 102)] static void dadsadasdsdasadasdsadadsas() => setDefaultParentEnabled = !setDefaultParentEnabled;
-        [MenuItem(setDefaultParent, true, 102)] static bool dadsadsdadssdaasadadsdasadsas() { Menu.SetChecked(setDefaultParent, setDefaultParentEnabled); return !pluginDisabled; }
-
-
-        [MenuItem(toggleActive, false, 103)] static void dadsadadsas() => toggleActiveEnabled = !toggleActiveEnabled;
-        [MenuItem(toggleActive, true, 103)] static bool dadsaddasadsas() { Menu.SetChecked(toggleActive, toggleActiveEnabled); return !pluginDisabled; }
-
-        [MenuItem(focus, false, 104)] static void dadsadasdadsas() => focusEnabled = !focusEnabled;
-        [MenuItem(focus, true, 104)] static bool dadsadsaddasadsas() { Menu.SetChecked(focus, focusEnabled); return !pluginDisabled; }
-
-        [MenuItem(delete, false, 105)] static void dadsadsadasdadsas() => deleteEnabled = !deleteEnabled;
-        [MenuItem(delete, true, 105)] static bool dadsaddsasaddasadsas() { Menu.SetChecked(delete, deleteEnabled); return !pluginDisabled; }
-
-        [MenuItem(toggleExpanded, false, 106)] static void dadsadsadasdsadadsas() => toggleExpandedEnabled = !toggleExpandedEnabled;
-        [MenuItem(toggleExpanded, true, 106)] static bool dadsaddsasadadsdasadsas() { Menu.SetChecked(toggleExpanded, toggleExpandedEnabled); return !pluginDisabled; }
-
-        [MenuItem(isolate, false, 107)] static void dadsadsasdadasdsadadsas() => isolateEnabled = !isolateEnabled;
-        [MenuItem(isolate, true, 107)] static bool dadsaddsdasasadadsdasadsas() { Menu.SetChecked(isolate, isolateEnabled); return !pluginDisabled; }
-
-        [MenuItem(collapseEverything, false, 108)] static void dadsadsdasadasdsadadsas() => collapseEverythingEnabled = !collapseEverythingEnabled;
-        [MenuItem(collapseEverything, true, 108)] static bool dadsaddssdaasadadsdasadsas() { Menu.SetChecked(collapseEverything, collapseEverythingEnabled); return !pluginDisabled; }
-
-
-
-        [MenuItem(disablePlugin, false, 10001)] static void dadsadsdasadasdasdsadadsas() { pluginDisabled = !pluginDisabled; UnityEditor.Compilation.CompilationPipeline.RequestScriptCompilation(); }
-        [MenuItem(disablePlugin, true, 10001)] static bool dadsaddssdaasadsadadsdasadsas() { Menu.SetChecked(disablePlugin, pluginDisabled); return true; }
-
-
-
-
-
+        private void RepaintHierarchy() => EditorApplication.RepaintHierarchyWindow();
     }
 }
 #endif

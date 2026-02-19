@@ -1,0 +1,118 @@
+:root {
+    --far-bg-color: rgba(35, 35, 35, 0.98);
+    --far-header-bg: rgba(45, 45, 45, 0.5);
+    --far-accent-color: #4A90E2;
+    --far-accent-hover: #5DA1F3;
+    --far-text-color: #E0E0E0;
+    --far-text-secondary: #AAAAAA;
+    --far-border-color: rgba(255, 255, 255, 0.1);
+    --far-border-radius: 8px;
+    --far-spacing: 10px;
+}
+
+.far-window-root {
+    background-color: var(--far-bg-color);
+    padding: 15px;
+    flex-grow: 1;
+}
+
+.far-header {
+    background-color: var(--far-header-bg);
+    padding: 15px;
+    border-radius: var(--far-border-radius);
+    margin-bottom: 20px;
+    border-width: 1px;
+    border-color: var(--far-border-color);
+    align-items: center;
+}
+
+.far-title {
+    font-size: 20px;
+    -unity-font-style: bold;
+    color: var(--far-accent-color);
+    margin-bottom: 4px;
+}
+
+.far-subtitle {
+    font-size: 11px;
+    color: var(--far-text-secondary);
+}
+
+.far-section {
+    background-color: rgba(60, 60, 60, 0.3);
+    border-radius: var(--far-border-radius);
+    padding: 12px;
+    margin-bottom: 12px;
+    border-width: 1px;
+    border-color: var(--far-border-color);
+}
+
+.far-section-title {
+    font-size: 14px;
+    -unity-font-style: bold;
+    color: var(--far-text-color);
+    margin-bottom: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--far-border-color);
+    padding-bottom: 4px;
+}
+
+.far-field-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+    padding: 4px;
+    border-radius: 4px;
+    transition-duration: 0.1s;
+}
+
+.far-field-container:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.far-field-label {
+    flex-grow: 1;
+    color: var(--far-text-color);
+    font-size: 12px;
+}
+
+.far-toggle {
+    margin: 0;
+}
+
+.far-button {
+    background-color: var(--far-accent-color);
+    color: white;
+    border-radius: 6px;
+    padding: 8px 16px;
+    border-width: 0;
+    font-size: 13px;
+    -unity-font-style: bold;
+    transition-duration: 0.2s;
+    margin-top: 10px;
+}
+
+.far-button:hover {
+    background-color: var(--far-accent-hover);
+    scale: 1.02;
+}
+
+.far-button:active {
+    background-color: var(--far-accent-color);
+    scale: 0.98;
+}
+
+.far-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top-width: 1px;
+    border-top-color: var(--far-border-color);
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.far-version-label {
+    font-size: 10px;
+    color: var(--far-text-secondary);
+}

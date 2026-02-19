@@ -39,7 +39,7 @@ namespace FaRHierarchy
             {
                 if (Application.platform == RuntimePlatform.OSXEditor) return;
 
-                position.SetPos(0, 0).DrawOutline(Greyscale(.1f));
+                position.SetPos(0, 0).DrawOutline(Greyscale(.1f, .5f));
 
             }
             void colors()
@@ -57,14 +57,14 @@ namespace FaRHierarchy
                     {
                         if (!colorIndexes_initial.Contains(i)) return;
 
-                        cellRect.Resize(1).DrawRounded(selectedBackground, 2);
+                        cellRect.Resize(1).DrawRounded(selectedBackground, 6);
 
                     }
                     void backgroundHovered()
                     {
                         if (!cellRect.IsHovered()) return;
 
-                        cellRect.Resize(1).DrawRounded(this.hoveredBackground, 2);
+                        cellRect.Resize(1).DrawRounded(this.hoveredBackground, 6);
 
                     }
                     void crossIcon()
@@ -80,7 +80,7 @@ namespace FaRHierarchy
 
                         var outlineColor = i <= FaRHierarchyPalette.greyColorsCount ? Greyscale(.0f, .4f) : Greyscale(.15f, .2f);
 
-                        cellRect.Resize(3).DrawRounded(outlineColor, 4);
+                        cellRect.Resize(3).DrawRounded(outlineColor, 6);
 
                     }
                     void color()
@@ -116,7 +116,7 @@ namespace FaRHierarchy
 
 
 
-                        cellRect.Resize(4).DrawRounded(color, 3);
+                        cellRect.Resize(4).DrawRounded(color, 5);
 
                         if (drawGradients)
                             cellRect.Resize(4).AddWidthFromRight(-2).DrawCurtainLeft(GUIColors.windowBackground.SetAlpha(.45f));
@@ -211,14 +211,14 @@ namespace FaRHierarchy
                         {
                             if (!iconNamesOrGuids_initial.Contains(iconNameOrGuid)) return;
 
-                            cellRect.Resize(1).DrawRounded(selectedBackground, 2);
+                            cellRect.Resize(1).DrawRounded(selectedBackground, 6);
 
                         }
                         void backgroundHovered()
                         {
                             if (!cellRect.IsHovered()) return;
 
-                            cellRect.Resize(1).DrawRounded(this.hoveredBackground, 2);
+                            cellRect.Resize(1).DrawRounded(this.hoveredBackground, 6);
 
                         }
                         void crossIcon()
@@ -443,9 +443,9 @@ namespace FaRHierarchy
         static float paddingX => 12;
         static float paddingY => 12;
 
-        Color windowBackground => isDarkTheme ? Greyscale(.23f) : Greyscale(.75f);
-        Color selectedBackground => isDarkTheme ? new Color(.3f, .5f, .7f, .8f) : new Color(.3f, .5f, .7f, .6f) * 1.25f;
-        Color hoveredBackground => isDarkTheme ? Greyscale(1, .3f) : Greyscale(0, .1f);
+        Color windowBackground => isDarkTheme ? Greyscale(.14f, .98f) : Greyscale(.85f);
+        Color selectedBackground => isDarkTheme ? new Color(74/255f, 144/255f, 226/255f, .8f) : new Color(74/255f, 144/255f, 226/255f, .6f);
+        Color hoveredBackground => isDarkTheme ? new Color(74/255f, 144/255f, 226/255f, .25f) : Greyscale(0, .1f);
 
         public Vector2 targetPosition;
         public Vector2 currentPosition;

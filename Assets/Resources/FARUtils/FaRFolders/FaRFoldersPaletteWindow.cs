@@ -37,7 +37,7 @@ namespace FaRFolders
             {
                 if (Application.platform == RuntimePlatform.OSXEditor) return;
 
-                position.SetPos(0, 0).DrawOutline(Greyscale(.1f));
+                position.SetPos(0, 0).DrawOutline(Greyscale(.1f, .5f));
 
             }
             void colors()
@@ -54,14 +54,14 @@ namespace FaRFolders
                     {
                         if (!initialColorIndexes.Contains(i)) return;
 
-                        cellRect.Resize(1).DrawWithRoundedCorners(selectedBackground, 2);
+                        cellRect.Resize(1).DrawWithRoundedCorners(selectedBackground, 6);
 
                     }
                     void backgroundHovered()
                     {
                         if (!cellRect.IsHovered()) return;
 
-                        cellRect.Resize(1).DrawWithRoundedCorners(this.hoveredBackground, 2);
+                        cellRect.Resize(1).DrawWithRoundedCorners(this.hoveredBackground, 6);
 
                     }
                     void crossIcon()
@@ -82,8 +82,8 @@ namespace FaRFolders
                         var brightness = 1.00f;
                         var outlineColor = Greyscale(.15f, .2f);
 
-                        cellRect.Resize(3).DrawWithRoundedCorners(outlineColor, 4);
-                        cellRect.Resize(4).DrawWithRoundedCorners((palette.colors[i - 1] * brightness).SetAlpha(1), 3);
+                        cellRect.Resize(3).DrawWithRoundedCorners(outlineColor, 6);
+                        cellRect.Resize(4).DrawWithRoundedCorners((palette.colors[i - 1] * brightness).SetAlpha(1), 5);
                         cellRect.Resize(4).AddWidthFromRight(-2).DrawCurtainLeft(GUIColors.windowBackground.SetAlpha((1 - palette.colors[i - 1].a) * .45f));
                         // cellRect.Resize(4).AddWidthFromRight(-2).DrawCurtainLeft(GUIColors.windowBackground.SetAlpha((1 - .1f) * .45f));
 
@@ -144,14 +144,14 @@ namespace FaRFolders
                         {
                             if (!initialIconNamesOrGuids.Contains(iconNameOrGuid)) return;
 
-                            cellRect.Resize(1).DrawWithRoundedCorners(selectedBackground, 2);
+                            cellRect.Resize(1).DrawWithRoundedCorners(selectedBackground, 6);
 
                         }
                         void backgroundHovered()
                         {
                             if (!cellRect.IsHovered()) return;
 
-                            cellRect.Resize(1).DrawWithRoundedCorners(this.hoveredBackground, 2);
+                            cellRect.Resize(1).DrawWithRoundedCorners(this.hoveredBackground, 6);
 
                         }
                         void crossIcon()
@@ -330,9 +330,9 @@ namespace FaRFolders
         static float paddingX => 12;
         static float paddingY => 12;
 
-        Color windowBackground => isDarkTheme ? Greyscale(.23f) : Greyscale(.7f);
-        Color selectedBackground => isDarkTheme ? new Color(.3f, .5f, .7f, .8f) : new Color(.3f, .5f, .7f, .4f) * 1.35f;
-        Color hoveredBackground = Greyscale(1, .3f);
+        Color windowBackground => isDarkTheme ? Greyscale(.14f, .98f) : Greyscale(.85f);
+        Color selectedBackground => isDarkTheme ? new Color(74/255f, 144/255f, 226/255f, .8f) : new Color(74/255f, 144/255f, 226/255f, .6f);
+        Color hoveredBackground => isDarkTheme ? new Color(74/255f, 144/255f, 226/255f, .25f) : Greyscale(0, .1f);
         Color colorOutline => Greyscale(.2f, .5f);
 
         public Vector2 targetPosition;

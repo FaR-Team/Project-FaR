@@ -131,8 +131,8 @@ namespace FaRHierarchy
                     if (searchString != "") return;
                     if (!bookmarkedEntries.Any()) return;
 
-                    var splitterColor = Greyscale(.36f);
-                    var splitterRect = bookmarksRect.SetHeightFromBottom(0).SetHeight(dividerHeight).SetHeightFromMid(1).AddWidthFromMid(-10);
+                    var splitterColor = isDarkTheme ? Greyscale(.1f, .5f) : Greyscale(.36f);
+                    var splitterRect = bookmarksRect.SetHeightFromBottom(0).SetHeight(dividerHeight).SetHeightFromMid(1).AddWidthFromMid(-15);
 
                     splitterRect.Draw(splitterColor);
 
@@ -209,7 +209,7 @@ namespace FaRHierarchy
             {
                 if (Application.platform == RuntimePlatform.OSXEditor) return;
 
-                position.SetPos(0, 0).DrawOutline(Greyscale(.1f));
+                position.SetPos(0, 0).DrawOutline(Greyscale(.1f, .5f));
 
             }
             // void resizing()
@@ -241,7 +241,7 @@ namespace FaRHierarchy
 
         SearchField searchField;
 
-        Color windowBackground => Greyscale(isDarkTheme ? .23f : .8f);
+        Color windowBackground => isDarkTheme ? Greyscale(.14f, .98f) : Greyscale(.85f);
 
         string searchString = "";
         string prevSearchString = "";
@@ -309,7 +309,7 @@ namespace FaRHierarchy
 
                 var backgroundRect = rowRect.AddHeightFromMid(-3);
 
-                backgroundRect.Draw(GUIColors.selectedBackground);
+                backgroundRect.DrawRounded(new Color(74/255f, 144/255f, 226/255f, .8f), 6);
 
 
             }
@@ -462,10 +462,10 @@ namespace FaRHierarchy
 
                 var backgroundRect = rowRect.AddHeightFromMid(-2);
 
-                var backgroundColor = Greyscale(isDarkTheme ? 1 : 0, isPressed ? .085f : .12f);
+                var backgroundColor = isDarkTheme ? Greyscale(1, .05f) : Greyscale(0, .08f);
 
 
-                backgroundRect.Draw(backgroundColor);
+                backgroundRect.DrawRounded(backgroundColor, 6);
 
             }
 

@@ -31,7 +31,7 @@ namespace FaRHierarchy
 
             void background()
             {
-                position.SetPos(0, 0).Draw(GUIColors.windowBackground);
+                position.SetPos(0, 0).Draw(isDarkTheme ? Greyscale(.14f, .98f) : Greyscale(.85f));
             }
             void header()
             {
@@ -39,7 +39,7 @@ namespace FaRHierarchy
                 var pinButtonRect = headerRect.SetWidthFromRight(17).SetHeightFromMid(17).Move(-21, .5f);
                 var closeButtonRect = headerRect.SetWidthFromRight(16).SetHeightFromMid(16).Move(-3, .5f);
 
-                var backgroundColor = isDarkTheme ? Greyscale(.25f) : GUIColors.windowBackground;
+                var backgroundColor = isDarkTheme ? Greyscale(.18f) : Greyscale(.9f);
 
                 void startDragging()
                 {
@@ -95,7 +95,7 @@ namespace FaRHierarchy
                 {
                     headerRect.Draw(backgroundColor);
 
-                    headerRect.SetHeightFromBottom(1).Draw(isDarkTheme ? Greyscale(.2f) : Greyscale(.7f));
+                    headerRect.SetHeightFromBottom(1).Draw(isDarkTheme ? Greyscale(.12f) : Greyscale(.7f));
 
                 }
                 void icon()
@@ -140,6 +140,7 @@ namespace FaRHierarchy
 
 
                     SetLabelBold();
+                    SetLabelFontSize(12);
 
                     GUI.Label(nameRect, s);
 
@@ -162,13 +163,13 @@ namespace FaRHierarchy
 
                     var normalColor = isDarkTheme ? Greyscale(.65f) : Greyscale(.8f);
                     var hoveredColor = isDarkTheme ? Greyscale(.9f) : normalColor;
-                    var activeColor = Color.white;
+                    var activeColor = new Color(74/255f, 144/255f, 226/255f);
 
 
 
                     SetGUIColor(isPinned ? activeColor : pinButtonRect.IsHovered() ? hoveredColor : normalColor);
 
-                    GUI.Label(pinButtonRect, EditorGUIUtility.IconContent("pinned"));
+                    GUI.Label(pinButtonRect, EditorIcons.GetIcon("pinned"));
 
                     ResetGUIColor();
 
@@ -209,9 +210,9 @@ namespace FaRHierarchy
                     var hoveredColor = isDarkTheme ? Greyscale(.9f) : normalColor;
 
 
-                    SetGUIColor(closeButtonRect.IsHovered() ? hoveredColor : normalColor);
+                    SetGUIColor(closeButtonRect.IsHovered() ? Color.white : normalColor);
 
-                    GUI.Label(closeButtonRect, EditorGUIUtility.IconContent("CrossIcon"));
+                    GUI.Label(closeButtonRect, EditorIcons.GetIcon("CrossIcon"));
 
                     ResetGUIColor();
 
@@ -277,7 +278,7 @@ namespace FaRHierarchy
             {
                 if (Application.platform == RuntimePlatform.OSXEditor) return;
 
-                position.SetPos(0, 0).DrawOutline(Greyscale(.1f));
+                position.SetPos(0, 0).DrawOutline(Greyscale(.1f, .5f));
 
             }
 
