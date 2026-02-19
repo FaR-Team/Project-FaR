@@ -139,7 +139,7 @@ namespace FaRUtils.FPSController
                 _velocity.y += gravity * Time.deltaTime;
             }
 
-            Vector2 movement = GetPlayerMovement();
+            Vector2 movement = Vector2.ClampMagnitude(GetPlayerMovement(), 1f);
             Vector3 move = transform.right * movement.x + transform.forward * movement.y;
 
             // Check for obstacles before moving
