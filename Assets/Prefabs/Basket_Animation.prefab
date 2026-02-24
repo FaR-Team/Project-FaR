@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1366151365329195911
+--- !u!1 &326412606638308247
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,7 +8,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5408187817234181464}
+  - component: {fileID: 6737266082822260040}
   m_Layer: 0
   m_Name: Agarradera
   m_TagString: Untagged
@@ -16,23 +16,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5408187817234181464
+--- !u!4 &6737266082822260040
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1366151365329195911}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -1.1355622, y: 3.8057067, z: -0.7175761}
+  m_GameObject: {fileID: 326412606638308247}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.011355622, y: 0.038057067, z: -0.007175761}
   m_LocalScale: {x: 0.083592534, y: 0.083592534, z: 0.083592534}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2491737714724931276}
-  m_Father: {fileID: 4131805525373055604}
+  - {fileID: 3811808742838742748}
+  m_Father: {fileID: 3397177427680909924}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 89.98021, y: 0, z: 0}
---- !u!1 &4013250700730806404
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2433003569890957460
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2491737714724931276}
+  - component: {fileID: 3811808742838742748}
   m_Layer: 0
   m_Name: Cesta
   m_TagString: Untagged
@@ -48,23 +48,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2491737714724931276
+--- !u!4 &3811808742838742748
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4013250700730806404}
+  m_GameObject: {fileID: 2433003569890957460}
   m_LocalRotation: {x: 0.00000016292071, y: 9.705882e-24, z: 9.705882e-24, w: 1}
-  m_LocalPosition: {x: -0.0000009536743, y: 0.6599989, z: 0}
+  m_LocalPosition: {x: -0.000000009536743, y: 0.006599989, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8590237505657062515}
-  m_Father: {fileID: 5408187817234181464}
+  - {fileID: 7008879320296025187}
+  m_Father: {fileID: 6737266082822260040}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.000018669338, y: 1.1122123e-21, z: 1.1122123e-21}
---- !u!1 &4065200161754302110
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3276138866719341815
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,39 +72,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8590237505657062515}
-  m_Layer: 0
-  m_Name: Nuevo hueso re loco
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8590237505657062515
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4065200161754302110}
-  m_LocalRotation: {x: 0.000000029802322, y: 3.529011e-24, z: 1.0873925e-31, w: 1}
-  m_LocalPosition: {x: -0.0000009536743, y: -0.20347483, z: -0.79686093}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8719749486713279924}
-  m_Father: {fileID: 2491737714724931276}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0.0000034150944, y: 4.0439486e-22, z: 2.4512505e-29}
---- !u!1 &4252808815920420071
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4131805525373055604}
+  - component: {fileID: 3397177427680909924}
   m_Layer: 0
   m_Name: Armature.001
   m_TagString: Untagged
@@ -112,22 +80,54 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4131805525373055604
+--- !u!4 &3397177427680909924
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4252808815920420071}
-  m_LocalRotation: {x: 0.49991274, y: 0.50008726, z: -0.49991274, w: 0.50008726}
+  m_GameObject: {fileID: 3276138866719341815}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
   m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6737266082822260040}
+  m_Father: {fileID: 5408621137115967039}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+--- !u!1 &3321496975798955662
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7008879320296025187}
+  m_Layer: 0
+  m_Name: Nuevo hueso re loco
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7008879320296025187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3321496975798955662}
+  m_LocalRotation: {x: 0.000000029802322, y: 3.529011e-24, z: 1.0873925e-31, w: 1}
+  m_LocalPosition: {x: -0.000000009536743, y: -0.0020347482, z: -0.007968609}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5408187817234181464}
-  m_Father: {fileID: 5408621137115967039}
+  - {fileID: 8030173297575378340}
+  m_Father: {fileID: 3811808742838742748}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 89.98, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4630994439996126341
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,14 +157,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4131805525373055604}
-  - {fileID: 8448181117768872154}
+  - {fileID: 3397177427680909924}
+  - {fileID: 7156178110771665098}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &5408621137115967036
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -181,8 +181,9 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &6298753423844290111
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &4691492116243514927
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +191,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8719749486713279924}
+  - component: {fileID: 8030173297575378340}
   m_Layer: 0
   m_Name: Nuevo hueso re loco_end
   m_TagString: Untagged
@@ -198,22 +199,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8719749486713279924
+--- !u!4 &8030173297575378340
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6298753423844290111}
+  m_GameObject: {fileID: 4691492116243514927}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 1, z: 0}
+  m_LocalPosition: {x: -0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8590237505657062515}
+  m_Father: {fileID: 7008879320296025187}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6902804407518996856
+--- !u!1 &5312450879965987176
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -221,8 +222,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8448181117768872154}
-  - component: {fileID: 6252006148227490523}
+  - component: {fileID: 7156178110771665098}
+  - component: {fileID: 4661713331044109003}
   m_Layer: 0
   m_Name: Cube.784
   m_TagString: Untagged
@@ -230,28 +231,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8448181117768872154
+--- !u!4 &7156178110771665098
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6902804407518996856}
-  m_LocalRotation: {x: -0.000000037748947, y: 2.3647997e-30, z: 1e-45, w: 1}
+  m_GameObject: {fileID: 5312450879965987176}
+  m_LocalRotation: {x: -0.000000037748944, y: 2.364799e-30, z: -1e-45, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5408621137115967039}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!137 &6252006148227490523
+--- !u!137 &4661713331044109003
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6902804407518996856}
+  m_GameObject: {fileID: 5312450879965987176}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -290,14 +291,14 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -7773343829242599182, guid: d17098baa1a35f2469fe2db2308ba14a, type: 3}
+  m_Mesh: {fileID: -7773343829242599182, guid: f19cbda14351d7902b97c347aa248a86, type: 3}
   m_Bones:
-  - {fileID: 5408187817234181464}
-  - {fileID: 2491737714724931276}
-  - {fileID: 8590237505657062515}
+  - {fileID: 6737266082822260040}
+  - {fileID: 3811808742838742748}
+  - {fileID: 7008879320296025187}
   m_BlendShapeWeights: []
-  m_RootBone: {fileID: 5408187817234181464}
+  m_RootBone: {fileID: 6737266082822260040}
   m_AABB:
-    m_Center: {x: 0.0000005364418, y: 0.70652884, z: 0.0000027418137}
-    m_Extent: {x: 0.6499995, y: 0.75000054, z: 1.0500003}
+    m_Center: {x: -0.000000007450581, y: 0.0070652324, z: -0.00000004284084}
+    m_Extent: {x: 0.0065000025, y: 0.0075000175, z: 0.010500007}
   m_DirtyAABB: 0
