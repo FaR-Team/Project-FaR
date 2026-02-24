@@ -224,7 +224,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2807589048610464864}
-  - component: {fileID: 2807589048610464871}
   - component: {fileID: 2807589048610464870}
   - component: {fileID: 2807589048610464865}
   - component: {fileID: 2807589048610464874}
@@ -251,20 +250,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &2807589048610464871
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2807589048610464867}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1220985409575643258, guid: 5952f3587701559499bff9f3b2626fd3, type: 3}
 --- !u!114 &2807589048610464870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -364,7 +349,7 @@ MonoBehaviour:
     hotbarAbilitySlots: []
   offset: 10
   _prompt: {fileID: 0}
-  _animator: {fileID: 0}
+  _animator: {fileID: 1829852586451437165}
 --- !u!114 &2807589048610464865
 MonoBehaviour:
   m_ObjectHideFlags: 0
