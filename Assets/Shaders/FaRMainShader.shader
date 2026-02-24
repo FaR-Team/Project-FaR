@@ -188,7 +188,6 @@ Shader "FaRTeam/FaRMainShaderURP"
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 half alpha = texColor.a * _Alpha;
                 
-                // Very low threshold to ensure maximum shadow casting
                 if (alpha < 0.01)
                     discard;
                 
@@ -297,12 +296,10 @@ Shader "FaRTeam/FaRMainShaderURP"
             TEXTURE2D(_MultiplyTex);
             SAMPLER(sampler_MainTex);
             
-            // ---------- Fog globals (set from C# manager) ----------
-float4 _FogColor;
-float4x4 _FogWorldToLocal[4];
-float _FadeStart; // normalized 0..1
-float _FadeEnd;   // normalized 0..1
-// ------------------------------------------------------
+            float4 _FogColor;
+            float4x4 _FogWorldToLocal[4];
+            float _FadeStart;
+            float _FadeEnd;
 
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
@@ -354,8 +351,13 @@ float _FadeEnd;   // normalized 0..1
                 {
                     float pixelSize = 0.1;
                     
+                    float3 normalWS = normalize(IN.normalWS);
+                    
+                    float biasMagnitude = pixelSize * (0.8 + _ShadowDepthBias * 50.0);
+                    float3 biasedPosWS = IN.positionWS + normalWS * biasMagnitude;
+                    
                     float3 gridOffset = float3(_GridOffsetX, _GridOffsetY, _GridOffsetZ);
-                    float3 offsetWorldPos = IN.positionWS + gridOffset;
+                    float3 offsetWorldPos = biasedPosWS + gridOffset;
                     
                     float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentssssY * pixelSize, _ShadowAlignmentZ * pixelSize);
                     float3 alignedWorldPos = offsetWorldPos + alignmentOffset;
@@ -364,31 +366,18 @@ float _FadeEnd;   // normalized 0..1
                     
                     quantizedWorldPos -= gridOffset;
                     
-                    // Improved bias calculation to prevent seams
-                    float3 normalWS = normalize(IN.normalWS);
-                    float NdotL_bias = dot(normalWS, mainLight.direction);
-                    
-                    // Surface-aware bias - more bias for surfaces facing away from light
-                    float surfaceBias = (1.0 - abs(NdotL_bias)) * _ShadowDepthBias * 10.0;
-                    
-                    // Additional bias for steep surfaces to prevent seams
-                    float steepnessBias = (1.0 - abs(normalWS.y)) * _ShadowDepthBias * 5.0;
-                    
-                    // Apply bias in light direction to prevent self-shadowing
-                    quantizedWorldPos += mainLight.direction * (surfaceBias + steepnessBias + _ShadowDepthBias);
+                    quantizedWorldPos += mainLight.direction * _ShadowDepthBias;
                     
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
                     
                     float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
                     
-                    // Slightly softer threshold to reduce harsh seams
                     float threshold = _ShadowThreshold;
                     shadowAttenuation = quantizedShadowSample > threshold ? 1.0 : 0.0;
                     
-                    // Optional: Add tiny bit of smoothing for very harsh edges
                     float smoothRange = 0.02;
                     shadowAttenuation = smoothstep(threshold - smoothRange, threshold + smoothRange, quantizedShadowSample);
-                    shadowAttenuation = shadowAttenuation > 0.5 ? 1.0 : 0.0; // Keep it binary but smoother
+                    shadowAttenuation = shadowAttenuation > 0.5 ? 1.0 : 0.0;
                 }
                 else
                 {
@@ -402,7 +391,6 @@ float _FadeEnd;   // normalized 0..1
                 
                 if (_UsePixelPerfectShadows > 0.5)
                 {
-                    // For pixel perfect shadows, use pure binary decision - no NdotL mixing
                     cel = shadowAttenuation;
                 }
                 else
@@ -437,33 +425,25 @@ float _FadeEnd;   // normalized 0..1
                     discard;
 
                 #ifdef _USE_FOG
-    // ----------------- Fog blending (4 walls) -----------------
-    float maxFog = 0.0;
+                    float maxFog = 0.0;
 
-    // Transform world position to each fog local space and compute a normalized Z
-    for (int i = 0; i < 4; i++)
-    {
-        // pos in fog local space
-        float3 posLS = mul(_FogWorldToLocal[i], float4(IN.positionWS, 1)).xyz;
+                    for (int i = 0; i < 4; i++)
+                    {
+                        float3 posLS = mul(_FogWorldToLocal[i], float4(IN.positionWS, 1)).xyz;
 
-        // check XY bounds: default cube extents are -0.5..+0.5 => inside box if abs(x) <= 0.5 && abs(y) <= 0.5
-        // you can tweak these checks if your fog mesh differs (or remove check to make infinite plane)
-        if (abs(posLS.x) <= 0.5 && abs(posLS.y) <= 0.5 && posLS.z >= -0.5 && posLS.z <= 0.5)
-        {
-            // normalize Z to 0..1 (local -0.5..0.5 -> 0..1)
-            float zNorm = saturate(posLS.z + 0.5);
+                        if (abs(posLS.x) <= 0.5 && abs(posLS.y) <= 0.5 && posLS.z >= -0.5 && posLS.z <= 0.5)
+                        {
+                            float zNorm = saturate(posLS.z + 0.5);
 
-            // compute fog contribution from this wall
-            float f = 0.0;
-            if (_FadeEnd > _FadeStart) // avoid div-by-zero
-                f = saturate((zNorm - _FadeStart) / (_FadeEnd - _FadeStart));
+                            float f = 0.0;
+                            if (_FadeEnd > _FadeStart) 
+                                f = saturate((zNorm - _FadeStart) / (_FadeEnd - _FadeStart));
 
-            // take max across walls
-            maxFog = max(maxFog, f);
-        }
-    }
-                finalColor.rgb = lerp(finalColor.rgb, _FogColor.rgb, maxFog);
-#endif
+                            maxFog = max(maxFog, f);
+                        }
+                    }
+                    finalColor.rgb = lerp(finalColor.rgb, _FogColor.rgb, maxFog);
+                #endif
             
                 return finalColor;
             }
