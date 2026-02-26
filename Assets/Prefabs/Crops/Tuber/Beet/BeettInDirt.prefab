@@ -57,7 +57,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6569c014d1cd6ad4c9225e634076fa22, type: 2}
   currentState: {fileID: 11400000, guid: 06d78ee4e75394c4384e33e2e319b313, type: 2}
   meshFilter: {fileID: 0}
-  meshCollider: {fileID: 0}
+  meshCollider: {fileID: 2667748476553205741}
   meshRenderer: {fileID: 0}
   hasCaughtUp: 0
   tierra: {fileID: 0}
@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: c813a387-2edb-430e-8dcb-5ac3602cb999
+  _ID: efcf2d0f-398d-49b9-8b85-0b8a4535676c
   permanentID: 0
 --- !u!64 &2667748476553205741
 MeshCollider:
@@ -92,7 +92,7 @@ MeshCollider:
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 2141057473577570076, guid: 81259176b1c790afcab7b0e9e3556479, type: 3}
 --- !u!1 &2087512176766924788
 GameObject:
   m_ObjectHideFlags: 0
