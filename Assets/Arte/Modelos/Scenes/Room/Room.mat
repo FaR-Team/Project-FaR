@@ -90,11 +90,15 @@ Material:
     - _ShadowAlignmentZ: 0
     - _ShadowAlignmentssssY: 0
     - _ShadowDepthBias: 0.00001
+    - _ShadowGridBias: 0.3
+    - _ShadowNormalBias: 0
+    - _ShadowSharpness: 0.1
     - _ShadowThreshold: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _UseFog: 0
     - _UseMultiplyTexture: 0
     - _UseOutline: 0
     - _UsePixelPerfectShadows: 1

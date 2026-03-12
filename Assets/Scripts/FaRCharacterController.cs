@@ -34,6 +34,7 @@ namespace FaRUtils.FPSController
         private bool _grounded;
         public float jumpSpeed;
         public bool doWalk;
+        [SerializeField] private float airControl = 0.25f; // Control de movimiento en el aire
 
         [Header("Parámetros de zoom")]
         public float zoomFOV = 35.0f;
@@ -142,17 +143,20 @@ namespace FaRUtils.FPSController
             Vector2 movement = Vector2.ClampMagnitude(GetPlayerMovement(), 1f);
             Vector3 move = transform.right * movement.x + transform.forward * movement.y;
 
+            // Reducir velocidad horizontal mientras está en el aire
+            float currentSpeed = _grounded ? movementSpeed : movementSpeed * airControl;
+
             // Check for obstacles before moving
             RaycastHit hit;
-            if (!Physics.Raycast(transform.position, move, out hit, movementSpeed * Time.deltaTime + 0.1f))
+            if (!Physics.Raycast(transform.position, move, out hit, currentSpeed * Time.deltaTime + 0.1f))
             {
-                _controller.Move(move * (movementSpeed * Time.deltaTime));
+                _controller.Move(move * (currentSpeed * Time.deltaTime));
             }
             else
             {
                 // If there's an obstacle, try to slide along it
                 Vector3 slideDirection = Vector3.ProjectOnPlane(move, hit.normal).normalized;
-                _controller.Move(slideDirection * (movementSpeed * Time.deltaTime));
+                _controller.Move(slideDirection * (currentSpeed * Time.deltaTime));
             }
 
             _velocity.y += gravity * Time.deltaTime;

@@ -20,9 +20,10 @@ Shader "FaRTeam/FaRMainShaderURP"
         _ShadowSharpness("Shadow Sharpness", Range(0.01, 0.5)) = 0.1
         _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
         _ShadowAlignmentX("Shadow Alignment X", Range(-1, 1)) = 0
-        _ShadowAlignmentssssY("Shadow Alignment Y", Range(-1, 1)) = 0.5001
+        _ShadowAlignmentY("Shadow Alignment Y", Range(-1, 1)) = 0.5001
         _ShadowAlignmentZ("Shadow Alignment Z", Range(-1, 1)) = 0
-        _ShadowDepthBias("Shadow Depth Bias", Range(0, 0.01)) = 0.00001
+        _ShadowGridBias("Shadow Grid Bias", Range(0, 1)) = 0.1
+        _ShadowNormalBias("Shadow Normal Bias", Range(0, 1)) = 0.1
         _GridOffsetX("Grid Offset X", Range(-2.1, 2.1)) = 0
         _GridOffsetY("Grid Offset Y", Range(-2.1, 2.1)) = 0
         _GridOffsetZ("Grid Offset Z", Range(-2.1, 2.1)) = 0
@@ -314,9 +315,10 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 _ShadowColor;
                 float _PixelSized;
                 float _ShadowAlignmentX;
-                float _ShadowAlignmentssssY;
+                float _ShadowAlignmentY;
                 float _ShadowAlignmentZ;
-                float _ShadowDepthBias;
+                float _ShadowGridBias;
+                float _ShadowNormalBias;
                 float _GridOffsetX;
                 float _GridOffsetY;
                 float _GridOffsetZ;
@@ -353,20 +355,21 @@ Shader "FaRTeam/FaRMainShaderURP"
                     
                     float3 normalWS = normalize(IN.normalWS);
                     
-                    float biasMagnitude = pixelSize * (0.8 + _ShadowDepthBias * 50.0);
-                    float3 biasedPosWS = IN.positionWS + normalWS * biasMagnitude;
+                    float3 gridBias = normalWS * (pixelSize * _ShadowNormalBias);
+                    float3 biasedPosWS = IN.positionWS + gridBias;
                     
                     float3 gridOffset = float3(_GridOffsetX, _GridOffsetY, _GridOffsetZ);
                     float3 offsetWorldPos = biasedPosWS + gridOffset;
                     
-                    float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentssssY * pixelSize, _ShadowAlignmentZ * pixelSize);
+                    float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentY * pixelSize, _ShadowAlignmentZ * pixelSize);
                     float3 alignedWorldPos = offsetWorldPos + alignmentOffset;
                     
                     float3 quantizedWorldPos = round(alignedWorldPos / pixelSize) * pixelSize;
                     
                     quantizedWorldPos -= gridOffset;
                     
-                    quantizedWorldPos += mainLight.direction * _ShadowDepthBias;
+                    // Move point towards light source slightly to avoid self-shadowing acne after quantization
+                    quantizedWorldPos -= mainLight.direction * (pixelSize * _ShadowGridBias);
                     
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
                     
