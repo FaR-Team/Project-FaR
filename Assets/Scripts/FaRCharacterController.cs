@@ -55,6 +55,10 @@ namespace FaRUtils.FPSController
         
         public Locations CurrentLocation => currentLocation;
         public ThirdPersonCamera ThirdPersonCam => thirdPersonCamera;
+        
+        public float MovementSpeed => movementSpeed;
+        public float DefaultWalkSpeed => defaultWalkSpeed;
+        public float DefaultRunSpeed => defaultMovementSpeed;
 
         private void Awake()
         {
