@@ -16,7 +16,7 @@ RenderSettings:
   serializedVersion: 9
   m_Fog: 1
   m_FogColor: {r: 0.25485826, g: 0.710343, b: 0.7829955, a: 1}
-  m_FogMode: 3
+  m_FogMode: 2
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
@@ -25,7 +25,7 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0, g: 0.38334092, b: 0.6415094, a: 1}
+  m_SubtractiveShadowColor: {r: 0, g: 0, b: 0, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: 88d19fcd7366b2147ae69afc30f55a36, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -98,8 +98,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: d1627bcc0871f664eb70f8ef0ad0a487,
     type: 2}
-  m_LightingSettings: {fileID: 4890085278179872738, guid: 26770bd639b3c1d4188ff482b882ecf6,
-    type: 2}
+  m_LightingSettings: {fileID: 0}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -883,7 +882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d4daed64-e660-4415-9546-42d1cc0f85b6
+  _ID: 0d0de11b-a011-4c6b-8a86-9488ce36fd1d
   permanentID: 0
 --- !u!135 &25711483
 SphereCollider:
@@ -1161,7 +1160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 25af9b17-ffb7-4ec2-8f16-9c9638280640
+  _ID: d90177c1-514f-48cb-8454-ba2a38f7e55e
   permanentID: 0
 --- !u!135 &36799709
 SphereCollider:
@@ -2096,7 +2095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0e295e68-82e8-4f61-a74e-802dcc8e5b9a
+  _ID: 9a4321ec-32d8-4517-a8f8-0710f509d877
   permanentID: 0
 --- !u!135 &67935719
 SphereCollider:
@@ -2613,7 +2612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 1d057cb6-991b-4abd-afa5-1faa1ba8025a
+  _ID: 1c110c2c-0c8c-4e3f-9c91-f166b16daa4b
   permanentID: 0
 --- !u!135 &84385829
 SphereCollider:
@@ -4797,7 +4796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 32787594-b852-4b71-962c-98569ecdad25
+  _ID: 33853172-c2b9-4563-a46d-a17cc1ddea07
   permanentID: 0
 --- !u!135 &121276045
 SphereCollider:
@@ -5872,7 +5871,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f689a634-810c-4df6-90b5-2604feace2a8
+  _ID: 89cb3cea-357f-478e-9f43-9325079edb4f
   permanentID: 0
 --- !u!4 &149089408
 Transform:
@@ -7134,7 +7133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 61fbdcc3-7277-41b2-8e6f-033ee7162a0f
+  _ID: 2dbe7ce8-1ecc-4d12-893d-5a1e58aef06c
   permanentID: 0
 --- !u!135 &177980022
 SphereCollider:
@@ -8432,7 +8431,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b8b34ccd-e460-494c-948a-93962f38bbc8
+  _ID: 06c64ea8-a96b-49e4-ae46-78e0e8bf9216
   permanentID: 0
 --- !u!135 &202335508
 SphereCollider:
@@ -8564,7 +8563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a3d43a42-4ca7-483d-ab86-694df9912407
+  _ID: 238306be-5609-42e7-9f82-4e0e198393df
   permanentID: 0
 --- !u!135 &208192198
 SphereCollider:
@@ -10361,7 +10360,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d2fe8b4b-ffa8-4faf-a5f3-984c3e04f583
+  _ID: 1f1aea64-ee7b-4107-8470-8320291e83e0
   permanentID: 0
 --- !u!54 &234375708
 Rigidbody:
@@ -11996,7 +11995,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 368cdc68-449b-40e8-a5c6-b0b6d4fe33b7
+  _ID: 7ab6328b-a0f7-4359-a444-b62b3359774a
   permanentID: 0
 --- !u!135 &263262883
 SphereCollider:
@@ -14896,7 +14895,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 185fe2d9-05d2-42ff-9ea1-f23f887717ee
+  _ID: 2a75c9bd-6bc7-42e9-8540-d520170666c5
   permanentID: 0
 --- !u!135 &313945930
 SphereCollider:
@@ -17539,7 +17538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9b416695-9d5a-42dc-89d6-c840c7e63c84
+  _ID: 3bd7db84-8a6c-4069-9912-3e432ad8b6c3
   permanentID: 0
 --- !u!135 &326683911
 SphereCollider:
@@ -17761,7 +17760,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 4573d5b7-db16-4a47-8a1e-6fa4d8b15d1e
+  _ID: d4a36393-ad03-495c-a3bb-eefd45d9cc6d
   permanentID: 0
 --- !u!135 &341577338
 SphereCollider:
@@ -23704,7 +23703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 74970356-c053-4385-b6be-2a008dddce99
+  _ID: 95f23b41-fab4-480b-8e1e-ef6518a65859
   permanentID: 0
 --- !u!135 &374139740
 SphereCollider:
@@ -24618,7 +24617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cf59df43-fbc8-480a-8dd2-d27f42f4d8a0
+  _ID: 35f44bd1-d14a-47da-8700-8277577973bb
   permanentID: 0
 --- !u!4 &394049641
 Transform:
@@ -32106,7 +32105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: dce9b254-5bef-413b-9936-84975f9b747d
+  _ID: 8801ed88-5a03-478e-9d6c-2320469d5903
   permanentID: 0
 --- !u!135 &452462296
 SphereCollider:
@@ -33036,7 +33035,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b94dba1e-4c1d-47b9-8c6f-5bab5e842ce9
+  _ID: 86b1a26a-10c8-49d8-9c66-01067338616f
   permanentID: 0
 --- !u!135 &465102357
 SphereCollider:
@@ -35045,7 +35044,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a4b9d30c-ad7e-4492-85c1-3c765c915fca
+  _ID: 0b546515-7329-4f2d-94f1-d942ff3f8ffa
   permanentID: 0
 --- !u!135 &526010863
 SphereCollider:
@@ -35422,7 +35421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7acbb993-31c4-487f-8c47-8e9bc0c1d433
+  _ID: c6d27a67-3ca7-4374-a868-4b526267e488
   permanentID: 0
 --- !u!4 &529966446 stripped
 Transform:
@@ -36921,7 +36920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9b326f4b-78c4-4fd9-aada-4547b2236be6
+  _ID: 70b36344-88f8-47aa-b0b2-7fb536ace0ed
   permanentID: 0
 --- !u!135 &553631594
 SphereCollider:
@@ -37247,7 +37246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 17fe464f-25c7-47d1-98a2-31b9d581e2e4
+  _ID: e51be8d7-bcc3-49d7-8475-b1ad22b3b3cf
   permanentID: 0
 --- !u!135 &564462064
 SphereCollider:
@@ -38202,7 +38201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 80f66baa-3022-484d-b57e-c774b6e6a6b1
+  _ID: 64f6993f-008c-45c7-aade-21de856a24db
   permanentID: 0
 --- !u!135 &586374014
 SphereCollider:
@@ -39666,7 +39665,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: dcd935d0-70bd-4b2b-86df-5aae95a1d6c9
+  _ID: 36aa9e23-a456-4579-9a87-6466a7c3f95b
   permanentID: 0
 --- !u!135 &612858909
 SphereCollider:
@@ -41476,7 +41475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 73f7cbc5-9860-4b3f-be37-76a07eacfa9b
+  _ID: 09a5fe9f-9887-4cae-8c0c-7e71fc417d3b
   permanentID: 0
 --- !u!135 &661223308
 SphereCollider:
@@ -41688,7 +41687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ee8aa921-28e9-4226-bcfb-eefa3a4b7557
+  _ID: 2cf64b13-f390-4b7a-a795-3607f6e242f1
   permanentID: 0
 --- !u!135 &663371784
 SphereCollider:
@@ -43830,7 +43829,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: ee090741-c8ff-4301-8361-c0f37bdbbb60
+  _ID: 9570463a-57bb-465a-a525-925356f70682
   permanentID: 0
 --- !u!114 &719153285
 MonoBehaviour:
@@ -44018,7 +44017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f90561d8-ee65-43c1-bdab-7f82d9c4a8c5
+  _ID: d60a60a6-5d8a-42d3-b34c-0fa155a4620f
   permanentID: 0
 --- !u!135 &724449542
 SphereCollider:
@@ -44868,7 +44867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5a5da098-a5eb-4584-b9aa-0b36ef3b0264
+  _ID: 999197f7-4d10-49d2-9959-f21f919c3899
   permanentID: 0
 --- !u!135 &747810240
 SphereCollider:
@@ -45048,7 +45047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: b4b1dcfb-a9fd-4d63-afaf-9a5bfe08630e
+  _ID: aa973c4d-3bf3-4715-906b-da743cc02bc5
   permanentID: 0
 --- !u!135 &754922904
 SphereCollider:
@@ -46868,7 +46867,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0921ef0a-2500-4271-981f-701c008e2af8
+  _ID: 9c9d5401-0629-4365-a59d-1915d7a81aeb
   permanentID: 0
 --- !u!135 &808408235
 SphereCollider:
@@ -53800,7 +53799,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e3dbaaf4-7669-4657-8945-c80439c016df
+  _ID: 0082f264-b615-41d1-bc4a-83deb44738fe
   permanentID: 0
 --- !u!135 &855915597
 SphereCollider:
@@ -54351,7 +54350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0ac26f9f-a28c-4d2a-a8d1-9c65bef61110
+  _ID: 3218d32f-f324-41fd-8845-2b1d658575c9
   permanentID: 0
 --- !u!135 &869583664
 SphereCollider:
@@ -55120,7 +55119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: bae11b0f-a081-49b8-bd57-d28030689510
+  _ID: a34cdcca-61d6-4444-8462-b8e59626ce45
   permanentID: 0
 --- !u!135 &892437462
 SphereCollider:
@@ -55473,7 +55472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 6e57a445-234a-46c0-893a-738697d8d95b
+  _ID: ccf5a583-2afc-4d74-940a-773786a7456a
   permanentID: 0
 --- !u!135 &902192363
 SphereCollider:
@@ -56404,7 +56403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9004f931-6c9a-405b-8c13-17222d51e3ac
+  _ID: 57a265ff-7c26-4af1-a832-ee99cd2f9148
   permanentID: 0
 --- !u!135 &917788317
 SphereCollider:
@@ -56782,7 +56781,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: f4c25575-a3a9-4931-8e86-ea0b065cdb1d
+  _ID: 1a4e297b-14f0-40e1-ba42-e10709161853
   permanentID: 0
 --- !u!4 &923324367 stripped
 Transform:
@@ -57329,7 +57328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 87c9c42b-d751-4dc4-be2d-bac766600544
+  _ID: d2e22f09-f096-449c-b3f6-dec4f2b4ccb4
   permanentID: 0
 --- !u!135 &955356165
 SphereCollider:
@@ -58061,7 +58060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e0743b5c-cf0b-4f99-bba8-651b809f2871
+  _ID: 13d32c21-c8bf-4acc-9f72-4650ff05588c
   permanentID: 0
 --- !u!135 &984207767
 SphereCollider:
@@ -63485,7 +63484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 835e739e-cbd3-4385-ad2f-abfd57a78910
+  _ID: 5de352b6-cf7a-4de1-8b99-554b3d737194
   permanentID: 0
 --- !u!135 &1009222135
 SphereCollider:
@@ -64278,7 +64277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2a144086-cb85-448e-849d-6618be4e348a
+  _ID: a5135720-164a-4890-bfaa-6afb314aa402
   permanentID: 0
 --- !u!135 &1023623806
 SphereCollider:
@@ -64392,7 +64391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8794eb54-a950-4adf-b696-b4d7bab1b8c4
+  _ID: 4dc13ed6-d8f6-474a-92df-5b7d537d467d
   permanentID: 0
 --- !u!135 &1023629616
 SphereCollider:
@@ -65003,7 +65002,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 959e4cc0-27b8-4a4a-8b53-1fc4ed190986
+  _ID: bdbdab4a-5aaf-4429-9b2e-02cba03d86db
   permanentID: 0
 --- !u!135 &1043740797
 SphereCollider:
@@ -65409,7 +65408,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 85702369-685a-4542-8ad0-915261599c3b
+  _ID: 9f9e8e19-2025-49e1-8494-854842dd13a2
   permanentID: 0
 --- !u!135 &1054615411
 SphereCollider:
@@ -72988,7 +72987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 78a365c4-9620-4242-9e48-bb65538e0aad
+  _ID: fda0b5c5-f4a5-43b6-964d-b9b53526e39a
   permanentID: 0
 --- !u!135 &1110671459
 SphereCollider:
@@ -74276,7 +74275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 63dfa101-0a7c-4e5d-b12d-2e60ae954488
+  _ID: 3f5ca58f-e610-4570-a3a5-18df070fc584
   permanentID: 0
 --- !u!135 &1125939907
 SphereCollider:
@@ -74486,7 +74485,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 24629a32-bd69-47e9-b13e-6cf911141e2a
+  _ID: dbb5b19e-38a7-489c-8158-2c3677b8f323
   permanentID: 0
 --- !u!135 &1127048183
 SphereCollider:
@@ -76519,7 +76518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: a9a489a4-e5ab-4874-91f8-037fe4acdb96
+  _ID: 959b2232-dc5c-4766-8756-c3fcdabcdc9a
   permanentID: 0
 --- !u!135 &1191783074
 SphereCollider:
@@ -76802,7 +76801,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5f2e1347-5bca-4c98-af78-4ba5e9818d46
+  _ID: 81d9c667-7293-4df9-8ce7-4e126701744b
   permanentID: 0
 --- !u!135 &1201221374
 SphereCollider:
@@ -76922,7 +76921,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d04be10e-9c4f-42b5-9bfb-be09d62a8010
+  _ID: 39d89ba3-4b16-49c2-b8e1-dccf47450e80
   permanentID: 0
 --- !u!135 &1203343359
 SphereCollider:
@@ -77410,7 +77409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7edd13cc-940e-4bd9-b06b-984d97e40b1f
+  _ID: 3d1afa71-9931-4dd5-a9b6-53cb637358f4
   permanentID: 0
 --- !u!135 &1230624279
 SphereCollider:
@@ -77953,7 +77952,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 98a25fde-c87b-470e-b25c-13ec29d6668e
+  _ID: 75efc68b-6879-406c-ac07-567f943db138
   permanentID: 0
 --- !u!135 &1243884338
 SphereCollider:
@@ -78873,7 +78872,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0ffc85b4-516b-483d-88e8-8a7fd650bbfe
+  _ID: 5649894c-c6ed-4f36-bff1-30ca50449fd3
   permanentID: 0
 --- !u!135 &1266493628
 SphereCollider:
@@ -80740,7 +80739,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 542f2ed8-ea35-4199-b806-24dfa7ce2649
+  _ID: 04ce97ed-1d89-4477-942a-933507b02e3a
   permanentID: 0
 --- !u!135 &1301335495
 SphereCollider:
@@ -81354,7 +81353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5feac986-7b0d-452e-9b14-719cd9a06c68
+  _ID: b0d8df7f-d8c8-4a0e-83d4-9396886b2f54
   permanentID: 0
 --- !u!135 &1317434546
 SphereCollider:
@@ -81622,7 +81621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7f2ba168-7828-4782-9ef0-6202cf0b378d
+  _ID: db9a635f-4829-4785-8e91-d0c1d01e704e
   permanentID: 0
 --- !u!135 &1324503460
 SphereCollider:
@@ -81987,7 +81986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: e4b055f1-4cb5-4782-94be-f19e912cddbd
+  _ID: 7accc39d-a72e-488f-be8e-bcb186bb3a43
   permanentID: 0
 --- !u!114 &1331070919
 MonoBehaviour:
@@ -82864,7 +82863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 394627a0-f874-4f2a-9c45-129afac677c5
+  _ID: b1f2faca-0939-49cd-a9fc-e42d036dd3f3
   permanentID: 0
 --- !u!135 &1349421336
 SphereCollider:
@@ -83362,7 +83361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: db90b0d9-f517-4ccc-bcff-8d5079ef4e32
+  _ID: 842b7196-ca71-446c-ac4f-1f10d9c13e8c
   permanentID: 0
 --- !u!135 &1354992537
 SphereCollider:
@@ -86344,7 +86343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3ade2dd6-7281-461d-9d25-2a13d41a0248
+  _ID: afc52a92-c465-4bb0-b3fc-14781d5f53e9
   permanentID: 0
 --- !u!135 &1429887016
 SphereCollider:
@@ -87305,7 +87304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d214b2d8-ff4c-450f-8e8b-8fba9a5d1d66
+  _ID: 26f14a17-e41f-40b2-9eac-b2548b6f659d
   permanentID: 0
 --- !u!135 &1460805792
 SphereCollider:
@@ -89519,7 +89518,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 0d0af5fb-f4f9-4e3b-84f3-0a694c45ee30
+  _ID: f8aabe02-6b12-44e6-8212-489b03f1c45a
   permanentID: 0
 --- !u!135 &1501359588
 SphereCollider:
@@ -98696,7 +98695,7 @@ MonoBehaviour:
   Preset: {fileID: 11400000, guid: 617892798ad8bd24a91dc6b9d80b8041, type: 2}
   TimeOfDay: 6
   Day: 0
-  vel: 0.016666668
+  vel: 1
   timeManager: {fileID: 149089409}
   transitionSpeed: 1
   maxIntensity: 1.5
@@ -102810,7 +102809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 95002196-1219-4079-89da-43ded4524512
+  _ID: 43168d55-be14-4d70-a620-e3769425e467
   permanentID: 0
 --- !u!135 &1673529675
 SphereCollider:
@@ -103466,7 +103465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2920513f-59a5-4724-a6d0-e527065c92e3
+  _ID: bb951c50-b504-49a8-ae19-a95407ccf118
   permanentID: 0
 --- !u!135 &1685438477
 SphereCollider:
@@ -104190,7 +104189,7 @@ MonoBehaviour:
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
   m_Cameras: []
-  m_RendererIndex: -1
+  m_RendererIndex: 0
   m_VolumeLayerMask:
     serializedVersion: 2
     m_Bits: 1
@@ -105321,7 +105320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 9ecb0b87-0c50-4a05-ba94-b4576320e68e
+  _ID: 8a6f42fa-8cee-48ee-add0-1a5667a79e7c
   permanentID: 0
 --- !u!135 &1731675126
 SphereCollider:
@@ -107114,7 +107113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1763863454
 Transform:
   m_ObjectHideFlags: 0
@@ -109804,7 +109803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7ba44536-e37e-4664-8efb-76e1d3eb0fdd
+  _ID: 7426cc83-38f3-4742-a2c4-0ffd89684082
   permanentID: 0
 --- !u!135 &1844934533
 SphereCollider:
@@ -111627,7 +111626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: be475bf4-b709-4617-947d-ab277e195921
+  _ID: dbbbce36-774b-427b-b552-93995b770c74
   permanentID: 0
 --- !u!135 &1876723627
 SphereCollider:
@@ -111857,7 +111856,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 802a0a9f-140b-41c2-9c27-72f82a7f11c4
+  _ID: d6dd8c9d-7948-4038-a36d-373a4c8674d7
   permanentID: 0
 --- !u!135 &1885206335
 SphereCollider:
@@ -112426,7 +112425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: eb33e152-349d-46f9-acbb-db415d6d4f2f
+  _ID: 08e21f7f-6326-4a35-bd76-cf26e31238b7
   permanentID: 0
 --- !u!135 &1894039283
 SphereCollider:
@@ -113131,7 +113130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 00f39cc6-9aac-435d-86b9-2848bc12fa27
+  _ID: 3ec6023b-e4d9-4000-9cad-678ac4aa8c75
   permanentID: 0
 --- !u!135 &1901159023
 SphereCollider:
@@ -114032,7 +114031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d2a2953a-981d-41af-abbd-4bead987deef
+  _ID: 6b427d60-ad11-40e4-b31b-53afd316bc49
   permanentID: 0
 --- !u!135 &1915739325
 SphereCollider:
@@ -115730,7 +115729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8a294217-515d-4b96-a055-780746250a57
+  _ID: 1efdf1dc-9bdd-48fc-862c-4124c74e9827
   permanentID: 0
 --- !u!135 &1961083484
 SphereCollider:
@@ -116070,7 +116069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 5ec182a2-31e3-4ac5-a041-3b07adc289f1
+  _ID: 6c15234e-d844-4be8-9a2e-ccb3bca58882
   permanentID: 0
 --- !u!135 &1967220054
 SphereCollider:
@@ -116975,7 +116974,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: d1993909-4dbb-4f32-9785-12b7ec939016
+  _ID: ec531ab1-b190-46b7-81c6-3f05f9e8cc98
   permanentID: 0
 --- !u!135 &2003069870
 SphereCollider:
@@ -117506,7 +117505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 61e26726-0ad8-4e3f-a7ba-947cc2433ee8
+  _ID: b43cff54-0de3-4f91-98fa-b26d1fa8bc07
   permanentID: 0
 --- !u!135 &2014453792
 SphereCollider:
@@ -118344,7 +118343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 76f90987-1365-4df2-978c-26cf8ea4eb13
+  _ID: dfb5f73b-b843-4a27-8b72-55ee6983c67f
   permanentID: 0
 --- !u!135 &2028072760
 SphereCollider:
@@ -119693,7 +119692,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 2bd92368-f5cf-4a87-8764-6d82de9f7ff4
+  _ID: c61f2c3b-8783-4f61-b858-b37370e754d5
   permanentID: 0
 --- !u!4 &2063280636 stripped
 Transform:
@@ -119997,7 +119996,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 58bbc56b-02ed-44f7-988f-91340ab7d04a
+  _ID: 13a95b08-1e65-40f4-a3c8-ddf4201445eb
   permanentID: 0
 --- !u!135 &2075764653
 SphereCollider:
@@ -121651,7 +121650,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 26f0330a-4eb8-48a3-9392-10703c0e2228
+  _ID: 66c66510-750b-4fe5-a6be-67c5cc7050f0
   permanentID: 0
 --- !u!135 &2111158027
 SphereCollider:
@@ -122005,7 +122004,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: cfcd735c-078a-44ea-9016-6925dba80dcb
+  _ID: 4678f241-ae9e-4ad8-b224-a3774e20a46c
   permanentID: 0
 --- !u!135 &2118621144
 SphereCollider:
@@ -122183,7 +122182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 3e79d925-b31a-497c-b33c-4254bad2c1b7
+  _ID: c4a259ce-d932-4a97-98b1-e087d88e7c13
   permanentID: 0
 --- !u!135 &2121028047
 SphereCollider:
@@ -122617,7 +122616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 09b09ffc-75aa-4997-b24e-03345dbd88e7
+  _ID: 553b6567-511b-4c4c-a4c5-c1caa09a990c
   permanentID: 0
 --- !u!114 &2134209634
 MonoBehaviour:
@@ -127157,7 +127156,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 7c1b99eb-b161-4b94-818f-6899ed70f216
+  _ID: bd30fdb2-9d59-4bfd-a3ab-9f78c4668864
   permanentID: 0
 --- !u!64 &2459573572716711182
 MeshCollider:
@@ -290598,7 +290597,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!95 &6828571022859022857
 Animator:
   serializedVersion: 5
@@ -291329,7 +291328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8bd613001359e54d890b1e703b37616, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ID: 8a52bad4-dd0b-433e-a3a0-a6ac90dbf053
+  _ID: 8cd74ec4-75f2-4d8e-80a1-b08f4637edc5
   permanentID: 0
 --- !u!1 &8164078558139713323
 GameObject:

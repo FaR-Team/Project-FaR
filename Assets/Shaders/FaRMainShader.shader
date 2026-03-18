@@ -27,7 +27,6 @@ Shader "FaRTeam/FaRMainShaderURP"
         _GridOffsetX("Grid Offset X", Range(-2.1, 2.1)) = 0
         _GridOffsetY("Grid Offset Y", Range(-2.1, 2.1)) = 0
         _GridOffsetZ("Grid Offset Z", Range(-2.1, 2.1)) = 0
-        [Toggle(_USE_FOG)] _UseFog ("Use Fog", Float) = 0
     }
     SubShader
     {
@@ -274,7 +273,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _SHADOWS_SOFT
-            #pragma shader_feature_local _USE_FOG
+            #pragma multi_compile_fog
 
             struct Attributes
             {
@@ -291,17 +290,13 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float3 normalWS : TEXCOORD1;
                 float3 positionWS : TEXCOORD2;
                 float4 color : COLOR;
+                float fogFactor : TEXCOORD3;
             };
 
             TEXTURE2D(_MainTex);
             TEXTURE2D(_MultiplyTex);
             SAMPLER(sampler_MainTex);
             
-            float4 _FogColor;
-            float4x4 _FogWorldToLocal[4];
-            float _FadeStart;
-            float _FadeEnd;
-
             CBUFFER_START(UnityPerMaterial)
                 float4 _Color;
                 float4 _MainTex_ST;
@@ -332,6 +327,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
                 OUT.color = IN.color;
+                OUT.fogFactor = ComputeFogFactor(OUT.positionCS.z);
                 return OUT;
             }
             
@@ -427,26 +423,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 if (finalColor.a < 0.01)
                     discard;
 
-                #ifdef _USE_FOG
-                    float maxFog = 0.0;
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        float3 posLS = mul(_FogWorldToLocal[i], float4(IN.positionWS, 1)).xyz;
-
-                        if (abs(posLS.x) <= 0.5 && abs(posLS.y) <= 0.5 && posLS.z >= -0.5 && posLS.z <= 0.5)
-                        {
-                            float zNorm = saturate(posLS.z + 0.5);
-
-                            float f = 0.0;
-                            if (_FadeEnd > _FadeStart) 
-                                f = saturate((zNorm - _FadeStart) / (_FadeEnd - _FadeStart));
-
-                            maxFog = max(maxFog, f);
-                        }
-                    }
-                    finalColor.rgb = lerp(finalColor.rgb, _FogColor.rgb, maxFog);
-                #endif
+                finalColor.rgb = MixFog(finalColor.rgb, IN.fogFactor);
             
                 return finalColor;
             }
