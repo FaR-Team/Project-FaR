@@ -80,6 +80,13 @@ public class OptionsMenu : MonoBehaviour
         ApplyLoadedOptions();
 
         fovSlider.onValueChanged.AddListener(OnFOVValueChanged);
+        sensSlider.onValueChanged.AddListener(UpdateSensitivityHandler);
+    }
+
+    private void OnDestroy()
+    {
+        fovSlider.onValueChanged.RemoveListener(OnFOVValueChanged);
+        sensSlider.onValueChanged.RemoveListener(UpdateSensitivityHandler);
     }
 
     private void InitializeResolutions()
@@ -175,6 +182,8 @@ public class OptionsMenu : MonoBehaviour
         
         InitializeResolutions(); 
         ApplyGraphicsSettings();
+        FaRCharacterController.instance.SetBaseFOV(fovSlider.value);
+        Camera.main.fieldOfView = fovSlider.value;
 
         masterVolumeSlider.value = optionsData.masterVolume;
         musicVolumeSlider.value = optionsData.musicVolume;
@@ -208,6 +217,7 @@ public class OptionsMenu : MonoBehaviour
         PlayerPrefs.SetString(OPTIONS_KEY, jsonData);
         PlayerPrefs.Save();
         ApplySoundSettings();
+        UpdateUIValues();
     }
 
     public void Clock()
@@ -226,12 +236,11 @@ public class OptionsMenu : MonoBehaviour
         FPSText.text = $"FPS: {optionsData.targetFPS}";
     }
 
-    private void Update()
+    private void UpdateSensitivityHandler(float value)
     {
-        // TODO: Sacar todo de update
         float mappedSensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, sensSlider.normalizedValue);
         FaRCharacterController.instance.lookSensitivity = mappedSensitivity;
-        UpdateUIValues(); 
+        SensVal.text = sensSlider.value.ToString();
     }
 
     public void ApplyGraphicsSettings()
@@ -308,7 +317,7 @@ public class OptionsMenu : MonoBehaviour
     private void OnFOVValueChanged(float value)
     {
         FovVal.text = value.ToString("F1");
-        Camera.main.fieldOfView = value;
+        FaRCharacterController.instance.SetBaseFOV(value);
     }
 
     public void OnMasterVolumeChanged(float value)

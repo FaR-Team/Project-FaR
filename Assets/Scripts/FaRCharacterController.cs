@@ -74,8 +74,6 @@ namespace FaRUtils.FPSController
 
         private void Start()
         {
-            
-            
             _initHeight = _controller.height;
             Cursor.lockState = CursorLockMode.Locked;
             SetBaseFOV(cam.fieldOfView);
@@ -184,9 +182,9 @@ namespace FaRUtils.FPSController
         public void SetBaseFOV(float fov)
         {
             _baseFOV = fov;
+            cam.fieldOfView = _baseFOV;
         }
-
-
+        
         public Vector2 GetPlayerMovement()
         {
             return GameInput.playerInputActions.Player.Movement.ReadValue<Vector2>();
