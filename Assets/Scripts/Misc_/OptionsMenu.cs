@@ -45,7 +45,6 @@ public class OptionsMenu : MonoBehaviour
     [Header("Sensitivity Settings")]
     public float minSensitivity = 0.01f;
     public float maxSensitivity = 0.2f;
-    public int sensitivitySteps = 20;
 
     private Resolution[] resolutions;
     private OptionsData optionsData;
@@ -222,16 +221,15 @@ public class OptionsMenu : MonoBehaviour
 
     private void UpdateUIValues()
     {
-        FovVal.text = fovSlider.value.ToString("F1");
-        int sensitivityStep = Mathf.RoundToInt(sensSlider.value * sensitivitySteps);
-        SensVal.text = sensitivityStep.ToString();
+        FovVal.text = fovSlider.value.ToString("F1"); 
+        SensVal.text = sensSlider.value.ToString();
         FPSText.text = $"FPS: {optionsData.targetFPS}";
     }
 
     private void Update()
     {
         // TODO: Sacar todo de update
-        float mappedSensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, sensSlider.value);
+        float mappedSensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, sensSlider.normalizedValue);
         FaRCharacterController.instance.lookSensitivity = mappedSensitivity;
         UpdateUIValues(); 
     }
