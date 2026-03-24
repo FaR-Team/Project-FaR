@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,20 +34,12 @@ public class CropInteraction : MonoBehaviour, IInteractable
 
     public virtual void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
-        if (Energy.RemainingEnergy >= 1)
+        if (!isTree)
         {
-            if (!isTree)
-            {
-                dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
-            }
-            InteractOut();
-            interactSuccessful = true;
+            dirt.GetComponent<DirtAreaHarvest>().CreateAreaForHarvest();
         }
-        else
-        {
-            interactSuccessful = true;
-            return;
-        }
+        InteractOut();
+        interactSuccessful = true;
     }
 
     public virtual void InteractOut()

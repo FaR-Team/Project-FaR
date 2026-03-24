@@ -79,26 +79,35 @@ public class ToolItemData : InventoryItemData
         Dirt _dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         if (_dirt != null)
         {
-            _dirt.DirtIsWet();
-            return true;
+            if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+            {
+                _dirt.DirtIsWet();
+                return true;
+            }
         }
-        else return false;
+        return false;
     }
 
     private bool UseShovel()
     {
         Dirt dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         
-        if (dirt != null && dirt.currentCrop && dirt.currentCrop.IsDead)
+        if (dirt != null)
         {
-            dirt.DestroyDirtAndCrop();
-            return true;
-        }
+            if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+            {
+                if (dirt.currentCrop && dirt.currentCrop.IsDead)
+                {
+                    dirt.DestroyDirtAndCrop();
+                    return true;
+                }
 
-        if (dirt != null && dirt.currentCrop == null)
-        {
-            dirt.DestroyDirtAndCrop();
-            return true;
+                if (dirt.currentCrop == null)
+                {
+                    dirt.DestroyDirtAndCrop();
+                    return true;
+                }
+            }
         }
         
         return false;

@@ -116,25 +116,32 @@ public class TelekinesisController : MonoBehaviour
     {
         bool hasEnergy = Energia == null || Energy.RemainingEnergy >= 1;
         
-        if (Input.GetMouseButton(0) && hasEnergy)
+        if (Input.GetMouseButton(0))
         {
-            if (grabbedObject == null)
+            if (hasEnergy)
             {
-                TryGrabObject();
-            }
-            else
-            {
-                float scroll = Input.GetAxis("Mouse ScrollWheel");
-                if (Mathf.Abs(scroll) > 0.01f)
+                if (grabbedObject == null)
                 {
-                    currentHoldDistance = Mathf.Clamp(
-                        currentHoldDistance + scroll * scrollSensitivity,
-                        minHoldDistance,
-                        maxHoldDistance
-                    );
+                    TryGrabObject();
                 }
-                
-                UpdateTargetPosition();
+                else
+                {
+                    float scroll = Input.GetAxis("Mouse ScrollWheel");
+                    if (Mathf.Abs(scroll) > 0.01f)
+                    {
+                        currentHoldDistance = Mathf.Clamp(
+                            currentHoldDistance + scroll * scrollSensitivity,
+                            minHoldDistance,
+                            maxHoldDistance
+                        );
+                    }
+                    
+                    UpdateTargetPosition();
+                }
+            }
+            else if (Input.GetMouseButtonDown(0))
+            {
+                Energy.instance.TryUseAndAnimateEnergy(1, 5f); // Used as feedback only
             }
         }
         else if (grabbedObject != null)
@@ -203,18 +210,7 @@ public class TelekinesisController : MonoBehaviour
         
         if (Energia != null)
         {
-            if (Energy._ContadorActivo == false)
-            {
-                Energy._animationComp.Play("Entrar uwuw");
-                StartCoroutine(Energy.Walter());
-                Energy._ContadorActivo = true;
-                Energy.timer = 5;
-                Energy._yaAnimo = false;
-            }
-            else
-            {
-                Energy.timer = 5;
-            }
+            Energy.instance.ShowBarOnly(5f);
         }
     }
     
