@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FaRUtils.Systems.GridSystem;
 using Utils;
 
 public static class DirtSetter
@@ -50,7 +51,9 @@ public static class DirtSetter
 
             foreach (var dirt in dirtsGO)
             {
-                await dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue());
+                var dirtComp = dirt.GetComponent<Dirt>();
+                await dirtComp.LoadData(dirtsData.data.Dequeue());
+                GridDataManager.Instance.Register(dirtComp);
             }
             //dirtsGO.ForEach(dirt => { await dirt.GetComponent<Dirt>().LoadData(dirtsData.data.Dequeue()); });
 

@@ -1,10 +1,11 @@
-﻿using System;
+using System;
 using UnityEngine;
 using System.Linq;
 using Utils;
 using FaRUtils.Systems.DateTime;
+using FaRUtils.Systems.GridSystem;
 
-public abstract class GrowingBase : MonoBehaviour
+public abstract class GrowingBase : MonoBehaviour, IGridEntity
 {
     protected int interactableLayerInt = 7;
     protected int initialLayerInt = 0;
@@ -36,13 +37,18 @@ public abstract class GrowingBase : MonoBehaviour
     public event Action OnDeath;
     public event Action OnDayPassed;
 
+    public Vector3Int Coordinate => WorldGrid.WorldToCell(transform.position);
+    public bool CanOverlap => true;
+    public string EntityName => gameObject.name;
+
+    public void OnGridRegistered(Vector3Int coord) { }
+    public void OnGridUnregistered() { }
+
     protected virtual void Awake()
     {
         TryGetComponent(out meshFilter);
         TryGetComponent(out meshCollider);
         TryGetComponent(out meshRenderer);
-        //if(meshFilter == null) Debug.LogError("Could not get Mesh Filter from " + gameObject.name);
-        //else Debug.LogError("Correctly got component Mesh Filter from " + gameObject.name);
         initialLayerInt = gameObject.layer;
         
         UpdateState();
@@ -119,7 +125,6 @@ public abstract class GrowingBase : MonoBehaviour
         }
         if (currentState.isLastPhase) SetInteractable();
         
-        // Notify subscribers about the state change
         GrowthEventManager.Instance.NotifyGrowthStateChanged(this, currentState);
     }
 
@@ -152,7 +157,6 @@ public abstract class GrowingBase : MonoBehaviour
     {
         _isDead = true;
         OnDeath?.Invoke();
-        // meshFilter.mesh = deadState.mesh;
         if(meshRenderer)
         {
             this.Log($"MeshRenderer found on {gameObject.name}");
@@ -166,11 +170,13 @@ public abstract class GrowingBase : MonoBehaviour
     {
         GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
         CatchUpBroadcaster.Instance.OnCatchUpBroadcast += CatchUpMissedGrowth;
+        GridDataManager.Instance.Register(this);
     }
 
     protected virtual void OnDisable()
     {
         GrowthEventManager.Instance.OnHourChanged -= OnHourChanged;
         CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= CatchUpMissedGrowth;
+        GridDataManager.Instance.Unregister(this);
     }
 }

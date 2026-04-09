@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Threading.Tasks;
 
 [RequireComponent(typeof(Dirt))]
@@ -13,7 +13,7 @@ public class SaveDirtData : DataSaver<Dirt, SaveDirtData>, IDataSavable
     public override async Task SaveData()
     {
         DirtData dirtSaveData = 
-            new DirtData(objectToSave._isWet, objectToSave.IsEmpty, objectToSave.currentSeedData, objectToSave.GetCropSaveData(), transform.position);
+            new DirtData(objectToSave._isWet, objectToSave.IsEmpty, objectToSave.currentSeedData, objectToSave.GetCropSaveData(), objectToSave.Coordinate);
 
         await saverAllData.WriteSave(dirtSaveData);
     }

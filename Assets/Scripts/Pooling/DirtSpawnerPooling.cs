@@ -1,6 +1,7 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using FaRUtils.Systems.GridSystem;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -60,6 +61,8 @@ public class DirtSpawnerPooling : MonoBehaviour
         if (dirt != null)
         {
             dirt.GetDown();
+            GridDataManager.Instance.Register(dirt); 
+            Debug.Log($"[DirtSpawner] Registered Dirt at {dirt.Coordinate} (Pos: {dirtGO.transform.position})");
         }
 
         if (dirtAnimator != null)

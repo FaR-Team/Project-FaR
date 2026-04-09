@@ -1,4 +1,5 @@
 using FaRUtils.Systems.Weather;
+using FaRUtils.Systems.GridSystem;
 using System;
 using System.Collections;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using UnityEngine;
 using Utils;
 
 [RequireComponent(typeof(DirtAreaHarvest))]
-public class Dirt : MonoBehaviour
+public class Dirt : MonoBehaviour, IGridEntity
 {
     public bool _isWet;
 
@@ -25,6 +26,17 @@ public class Dirt : MonoBehaviour
 
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
     [SerializeField] private Animator animator;
+    private Vector3Int _registeredCoord;
+
+    public Vector3Int Coordinate => WorldGrid.WorldToCell(transform.position);
+    public bool CanOverlap => false;
+    public string EntityName => gameObject.name;
+
+    public void OnGridRegistered(Vector3Int coord) 
+    { 
+        _registeredCoord = coord;
+    }
+    public void OnGridUnregistered() { }
 
     void Start()
     {
@@ -44,7 +56,7 @@ public class Dirt : MonoBehaviour
         currentSeedData = data.currentCropData;
         cropSaveData = data.plantData;
 
-        transform.position = data.position;
+        transform.position = WorldGrid.CellToWorld(data.coordinate);
 
         if (currentSeedData != null)
         {
@@ -139,6 +151,7 @@ public class Dirt : MonoBehaviour
 
     void OnDisable()
     {
+        GridDataManager.Instance.Unregister(this, _registeredCoord);
         Reset();
     }
 

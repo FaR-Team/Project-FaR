@@ -1,3 +1,4 @@
+using FaRUtils.Systems.GridSystem;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -9,19 +10,20 @@ public class GridGhost : MonoBehaviour
     public HotbarDisplay hotbarDisplay;
     public GameObject hoeGhost, seedGhost;
     public RayAndSphereManager rayAndSphereManager;
-    public Grid grid;
-
 
     public Material ghostMaterial;
     public Material noEnergyGhostMaterial;
 
     public Vector3 finalPosition;
-    public Vector3 FinalPosition => grid.GetNearestPointOnGrid(interactor.hit.point);
-
-    [SerializeField]
-    private LayerMask layerDirt;
-    [SerializeField]
-    private LayerMask layerCrop;
+    public Vector3 FinalPosition 
+    {
+        get 
+        {
+            Vector3 point = interactor.hit.point;
+            point.y += 0.1f;
+            return WorldGrid.SnapToGrid(point);
+        }
+    }
 
     public static int SeedRotationValue = 0;
 
@@ -75,14 +77,9 @@ public class GridGhost : MonoBehaviour
         HandleSeedGhost();
     }
 
-    public bool CheckAvailableSpace(Vector3 center, Vector3 requiredSpace)
+    public bool CheckAvailableSpace(Vector3Int coord)
     {            
-        int maxColliders = 5;
-        Collider[] hitColliders = new Collider[maxColliders];
-        int numColliders = Physics.OverlapBoxNonAlloc(center, requiredSpace * 0.5f, hitColliders, Quaternion.identity, layerCrop);
-        
-        
-        return numColliders == 0;
+        return !GridDataManager.Instance.IsCellOccupied(coord);
     }
 
     private void HandleHoeGhost()
@@ -99,13 +96,18 @@ public class GridGhost : MonoBehaviour
             return;
         }
         
-        finalPosition = grid.GetNearestPointOnGrid(interactor.hit.point);
+        Vector3 hitPoint = interactor.hit.point;
+        hitPoint.y += 0.1f;
+        finalPosition = WorldGrid.SnapToGrid(hitPoint);
+        Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
+        
         hoeGhost.SetActive(true);
         hoeGhost.transform.position = finalPosition;
         
-        bool isDirtAlreadyHere = CheckDirt(finalPosition, 0.5f) != null;
-        bool noCropPresent = CheckCrop(finalPosition, 0.5f);
-        bool canPlow = !isDirtAlreadyHere && !interactor._LookingAtDirt && noCropPresent;
+        bool isDirtAlreadyHere = GridDataManager.Instance.GetEntityAt<Dirt>(coord) != null;
+        bool isCellEmpty = !GridDataManager.Instance.IsCellOccupied(coord);
+        
+        bool canPlow = !isDirtAlreadyHere && !interactor._LookingAtDirt && isCellEmpty;
         
         if (canPlow)
         {
@@ -133,29 +135,40 @@ public class GridGhost : MonoBehaviour
             return;
         }
 
-        finalPosition = grid.GetNearestPointOnGrid(interactor.hit.point);
+        Vector3 hitPoint = interactor.hit.point;
+        hitPoint.y += 0.1f;
+        finalPosition = WorldGrid.SnapToGrid(hitPoint);
+        Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
         
         bool shouldShowGhost = false;
         bool canPlant = false;
-        var hasCrop = false;
+        bool hasCropOnDirt = false;
 
-        Vector3 requiredSpace = GetItemData().RequiredGridSpace;
-        
         if (GetItemData().IsCropSeed())
         {
             shouldShowGhost = interactor._LookingAtDirt;
-            var currentCheckedDirt = CheckDirt(finalPosition, 0.5f);
+            var currentCheckedDirt = GridDataManager.Instance.GetEntityAt<Dirt>(coord);
+            
             if (shouldShowGhost && currentCheckedDirt != null)
             {
-                hasCrop = currentCheckedDirt.currentCrop != null;
+                hasCropOnDirt = currentCheckedDirt.currentCrop != null;
             }
-            canPlant = shouldShowGhost && hotbarDisplay.CanUseItem() && !hasCrop;
+            canPlant = shouldShowGhost && hotbarDisplay.CanUseItem() && !hasCropOnDirt;
         }
         else if (GetItemData().IsTreeSeed()) 
         {
             shouldShowGhost = true;
+            bool isOccupied = GridDataManager.Instance.IsCellOccupied(coord);
             
-            canPlant = !interactor._LookingAtDirt && CheckAvailableSpace(finalPosition, requiredSpace);
+            if (interactor._LookingAtDirt)
+            {
+                var dirt = GridDataManager.Instance.GetEntityAt<Dirt>(coord);
+                canPlant = (dirt != null && dirt.IsEmpty);
+            }
+            else
+            {
+                canPlant = !isOccupied;
+            }
         }
         
         seedGhost.SetActive(shouldShowGhost);
@@ -194,45 +207,32 @@ public class GridGhost : MonoBehaviour
         SeedRotationValue = RandomPos();
     }
 
-    public Dirt CheckDirt(Vector3 center, float radius) //TODO: Sólo llamarlo cuando cambia finalposition
+    public Dirt CheckDirt(Vector3 worldPos, float radius = 0.5f)
     {
-        int maxColliders = 5;
-        Collider[] hitColliders = new Collider[maxColliders];
-        int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerDirt);
-
-        if (numColliders > 0)
-        {
-            var dirt = hitColliders[0].GetComponentInParent<Dirt>();
-            if (dirt != null)
-            {
-                return dirt;
-            }
-        }
-        return null;
+        Vector3 pos = worldPos;
+        pos.y += 0.1f;
+        Vector3Int coord = WorldGrid.WorldToCell(pos);
+        return GridDataManager.Instance.GetEntityAt<Dirt>(coord);
     }
 
-    public bool CheckCrop(Vector3 center, float radius)
+    public bool CheckCrop(Vector3 worldPos, float radius = 0.5f)
     {
-        int maxColliders = 5;
-        Collider[] hitColliders = new Collider[maxColliders];
-        int numColliders = Physics.OverlapSphereNonAlloc(center, radius, hitColliders, layerCrop);
-        if (numColliders >= 1)
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        Vector3 pos = worldPos;
+        pos.y += 0.1f;
+        Vector3Int coord = WorldGrid.WorldToCell(pos);
+        return !GridDataManager.Instance.IsCellOccupied(coord);
     }
 
     public bool PlantDirt()
     {
         if (interactor.hit.collider == null) return false;
 
-        if (CheckDirt(grid.GetNearestPointOnGrid(interactor.hit.point), 0.75f) == null)
+        Vector3 hitPoint = interactor.hit.point;
+        hitPoint.y += 0.1f;
+        Vector3Int coord = WorldGrid.WorldToCell(hitPoint);
+        if (GridDataManager.Instance.GetEntityAt<Dirt>(coord) == null)
         {
-            PlaceDirtNear(interactor.hit.point);
+            PlaceDirtNear(hitPoint);
             return true;
         }
         return false;
@@ -240,7 +240,7 @@ public class GridGhost : MonoBehaviour
 
     private void PlaceDirtNear(Vector3 nearPoint)
     {
-        finalPosition = grid.GetNearestPointOnGrid(nearPoint);
+        finalPosition = WorldGrid.SnapToGrid(nearPoint);
         DirtSpawnerPooling.SpawnObject(finalPosition, Quaternion.identity);
     }
 
@@ -248,8 +248,8 @@ public class GridGhost : MonoBehaviour
     {
         if (interactor.hit.collider != null)
         {
-            Vector3 requiredSpace = GetItemData().RequiredGridSpace;
-            if (CheckAvailableSpace(finalPosition, requiredSpace))
+            Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
+            if (!GridDataManager.Instance.IsCellOccupied(coord))
             {
                 TreeSpawnerPooling.SpawnObject(finalPosition, Rotation());
                 UpdateRandomSeed();
@@ -261,7 +261,7 @@ public class GridGhost : MonoBehaviour
 
     public void HandleRemainingEnergy(int remainingEnergy)
     {
-        if (remainingEnergy > 0) // CAMBIAR A QUE COMPARE CON LA ENERGIA QUE GASTA LA AZADA
+        if (remainingEnergy > 0) // TODO: Compare with energy cost of tool
         {
             MakeGridGhostAvaliable();
         }
@@ -282,5 +282,4 @@ public class GridGhost : MonoBehaviour
         hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
         seedGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
     }
-
 }
