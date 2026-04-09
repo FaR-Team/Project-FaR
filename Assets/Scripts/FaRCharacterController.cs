@@ -34,7 +34,8 @@ namespace FaRUtils.FPSController
         private bool _grounded;
         public float jumpSpeed;
         public bool doWalk;
-        [SerializeField] private float airControl = 0.25f; // Control de movimiento en el aire
+        [SerializeField] private float airControl = 0.4f;
+        [SerializeField] private float fallMultiplier = 2.5f;
 
         [Header("Parámetros de zoom")]
         public float zoomFOV = 35.0f;
@@ -128,40 +129,42 @@ namespace FaRUtils.FPSController
         private void DoMovement()
         {
             _grounded = _controller.isGrounded;
-            if (_grounded)
+            
+            if (_grounded && _velocity.y < 0)
             {
                 _velocity.y = -2f;
+            }
+
+            Vector2 input = Vector2.ClampMagnitude(GetPlayerMovement(), 1f);
+            Vector3 moveDirection = transform.right * input.x + transform.forward * input.y;
+
+            if (_grounded)
+            {
+                _velocity.x = moveDirection.x * movementSpeed;
+                _velocity.z = moveDirection.z * movementSpeed;
 
                 if (GameInput.playerInputActions.Player.Jump.WasPressedThisFrame())
                 {
-                    _velocity.y = jumpSpeed;
+                    _velocity.y = Mathf.Sqrt(jumpSpeed * -2f * gravity);
                 }
             }
             else
             {
-                _velocity.y += gravity * Time.deltaTime;
+                Vector3 airForce = moveDirection * (movementSpeed * airControl);
+                _velocity.x += airForce.x * Time.deltaTime;
+                _velocity.z += airForce.z * Time.deltaTime;
+
+                Vector2 horizontalVel = new Vector2(_velocity.x, _velocity.z);
+                if (horizontalVel.magnitude > movementSpeed)
+                {
+                    horizontalVel = horizontalVel.normalized * movementSpeed;
+                    _velocity.x = horizontalVel.x;
+                    _velocity.z = horizontalVel.y;
+                }
             }
 
-            Vector2 movement = Vector2.ClampMagnitude(GetPlayerMovement(), 1f);
-            Vector3 move = transform.right * movement.x + transform.forward * movement.y;
-
-            // Reducir velocidad horizontal mientras está en el aire
-            float currentSpeed = _grounded ? movementSpeed : movementSpeed * airControl;
-
-            // Check for obstacles before moving
-            RaycastHit hit;
-            if (!Physics.Raycast(transform.position, move, out hit, currentSpeed * Time.deltaTime + 0.1f))
-            {
-                _controller.Move(move * (currentSpeed * Time.deltaTime));
-            }
-            else
-            {
-                // If there's an obstacle, try to slide along it
-                Vector3 slideDirection = Vector3.ProjectOnPlane(move, hit.normal).normalized;
-                _controller.Move(slideDirection * (currentSpeed * Time.deltaTime));
-            }
-
-            _velocity.y += gravity * Time.deltaTime;
+            float currentGravity = _velocity.y < 0 ? gravity * fallMultiplier : gravity;
+            _velocity.y += currentGravity * Time.deltaTime;
             _controller.Move(_velocity * Time.deltaTime);
         }
 
