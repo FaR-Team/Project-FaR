@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using FaRUtils.Systems.GridSystem;
 
 public class TreeSpawnerPooling : MonoBehaviour
 {
@@ -43,11 +44,24 @@ public class TreeSpawnerPooling : MonoBehaviour
         }
     }
 
-    public static void SpawnObject(Vector3 position, Quaternion rotation)
+    public static void SpawnObject(Vector3 position, Quaternion rotation, Vector3Int size, Vector3Int offset)
     {
         Debug.Log("Called SpawnObject in SpawnerPooling");
         GameObject dirtGO = ObjectPooling.GetObject(_TreePrefab);
         dirtGO.transform.SetPositionAndRotation(position, rotation);
+
+        GrowingBase plant = dirtGO.GetComponent<GrowingBase>();
+        if (plant != null)
+        {
+            plant.footprintSize = size;
+            plant.footprintOffset = offset;
+            GridDataManager.Instance.Register(plant);
+        }
+    }
+
+    public static void SpawnObject(Vector3 position, Quaternion rotation)
+    {
+        SpawnObject(position, rotation, Vector3Int.one, Vector3Int.zero);
     }
 
     public static void DeSpawn(GameObject go)

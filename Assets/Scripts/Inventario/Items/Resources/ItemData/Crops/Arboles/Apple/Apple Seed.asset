@@ -25,6 +25,8 @@ MonoBehaviour:
     type: 3}
   ToolGameObject: {fileID: 0}
   RequiredGridSpace: {x: 4.2, y: 1, z: 4.2}
+  footprintSize: {x: 5, y: 1, z: 5}
+  footprintOffset: {x: -2, y: 0, z: -2}
   Usable: 1
   Sellable: 0
   IsLookingAtStore: 0

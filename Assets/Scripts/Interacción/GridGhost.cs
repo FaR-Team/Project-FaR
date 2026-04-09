@@ -77,11 +77,6 @@ public class GridGhost : MonoBehaviour
         HandleSeedGhost();
     }
 
-    public bool CheckAvailableSpace(Vector3Int coord)
-    {            
-        return !GridDataManager.Instance.IsCellOccupied(coord);
-    }
-
     private void HandleHoeGhost()
     {
         if (GetItemData() == null || !GetItemData().IsHoe())
@@ -104,10 +99,11 @@ public class GridGhost : MonoBehaviour
         hoeGhost.SetActive(true);
         hoeGhost.transform.position = finalPosition;
         
+        bool isPlantHere = GridDataManager.Instance.GetEntityAt<GrowingBase>(coord) != null;
         bool isDirtAlreadyHere = GridDataManager.Instance.GetEntityAt<Dirt>(coord) != null;
         bool isCellEmpty = !GridDataManager.Instance.IsCellOccupied(coord);
         
-        bool canPlow = !isDirtAlreadyHere && !interactor._LookingAtDirt && isCellEmpty;
+        bool canPlow = !isDirtAlreadyHere && !interactor._LookingAtDirt && isCellEmpty && !isPlantHere;
         
         if (canPlow)
         {
@@ -140,6 +136,8 @@ public class GridGhost : MonoBehaviour
         finalPosition = WorldGrid.SnapToGrid(hitPoint);
         Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
         
+        this.Log($"Ghost at {coord} for item {GetItemData().Nombre}");
+
         bool shouldShowGhost = false;
         bool canPlant = false;
         bool hasCropOnDirt = false;
@@ -153,21 +151,30 @@ public class GridGhost : MonoBehaviour
             {
                 hasCropOnDirt = currentCheckedDirt.currentCrop != null;
             }
-            canPlant = shouldShowGhost && hotbarDisplay.CanUseItem() && !hasCropOnDirt;
+
+            bool isPlantHere = GridDataManager.Instance.GetEntityAt<GrowingBase>(coord) != null;
+
+            canPlant = shouldShowGhost && hotbarDisplay.CanUseItem() && !hasCropOnDirt && !isPlantHere;
         }
         else if (GetItemData().IsTreeSeed()) 
         {
             shouldShowGhost = true;
-            bool isOccupied = GridDataManager.Instance.IsCellOccupied(coord);
+            var item = GetItemData();
+            bool isOccupied = GridDataManager.Instance.IsAreaOccupied(coord, item.footprintSize, item.footprintOffset);
             
             if (interactor._LookingAtDirt)
             {
                 var dirt = GridDataManager.Instance.GetEntityAt<Dirt>(coord);
-                canPlant = (dirt != null && dirt.IsEmpty);
+                bool isAreaClear = !GridDataManager.Instance.IsAreaOccupiedIgnoring(coord, item.footprintSize, item.footprintOffset, dirt);
+                
+                bool hasOtherPlants = GridDataManager.Instance.AnyEntityOfTypeInRange<GrowingBase>(coord, item.footprintSize, item.footprintOffset);
+                
+                canPlant = (dirt != null && dirt.IsEmpty && isAreaClear && !hasOtherPlants); 
             }
             else
             {
-                canPlant = !isOccupied;
+                bool hasOtherPlants = GridDataManager.Instance.AnyEntityOfTypeInRange<GrowingBase>(coord, item.footprintSize, item.footprintOffset);
+                canPlant = !isOccupied && !hasOtherPlants;
             }
         }
         
@@ -249,9 +256,10 @@ public class GridGhost : MonoBehaviour
         if (interactor.hit.collider != null)
         {
             Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
-            if (!GridDataManager.Instance.IsCellOccupied(coord))
+            var item = GetItemData();
+            if (!GridDataManager.Instance.IsAreaOccupied(coord, item.footprintSize, item.footprintOffset))
             {
-                TreeSpawnerPooling.SpawnObject(finalPosition, Rotation());
+                TreeSpawnerPooling.SpawnObject(finalPosition, Rotation(), item.footprintSize, item.footprintOffset);
                 UpdateRandomSeed();
                 return true;
             }

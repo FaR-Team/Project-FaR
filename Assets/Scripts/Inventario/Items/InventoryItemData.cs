@@ -17,13 +17,12 @@ public class InventoryItemData : ScriptableObject
     
     [Header("Prefabs & Visuals")]
     public GameObject ItemPrefab;
-    public GameObject DirtPrefabGhost;
     public Mesh ghostMesh;
     public GameObject ToolGameObject;
     
     [Header("Grid & Placement")]
-    [Tooltip("The size of the grid space required for this item")]
-    public Vector3 RequiredGridSpace = new Vector3(2.1f, 0.1f, 2.1f);
+    public Vector3Int footprintSize = Vector3Int.one;
+    public Vector3Int footprintOffset = Vector3Int.zero;
     #endregion
 
     #region Item Behavior
@@ -54,12 +53,6 @@ public class InventoryItemData : ScriptableObject
     #endregion
 
     #region Virtual Methods
-    public virtual bool SearchTool() 
-    {
-        this.LogError("aaaaaaaa");
-        return false;
-    }
-
     public virtual bool UseItem()
     {
         this.Log($"Usando {Nombre}");

@@ -13,6 +13,11 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
     protected int daysPlanted; //Dias que pasaron desde que se plantó.
     [SerializeField] protected int maxDaysWithoutHarvest = 3;
     protected int daysWithoutHarvest;
+
+    [Header("Grid Footprint")]
+    public Vector3Int footprintSize = Vector3Int.one;
+    public Vector3Int footprintOffset = Vector3Int.zero;
+
     [SerializeField] protected int maxDaysDry = 2;
     [SerializeField] protected int daysDry;
     protected bool _isDead;
@@ -38,6 +43,8 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
     public event Action OnDayPassed;
 
     public Vector3Int Coordinate => WorldGrid.WorldToCell(transform.position);
+    public Vector3Int FootprintSize => footprintSize;
+    public Vector3Int FootprintOffset => footprintOffset;
     public bool CanOverlap => true;
     public string EntityName => gameObject.name;
 
@@ -170,7 +177,6 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
     {
         GrowthEventManager.Instance.OnHourChanged += OnHourChanged;
         CatchUpBroadcaster.Instance.OnCatchUpBroadcast += CatchUpMissedGrowth;
-        GridDataManager.Instance.Register(this);
     }
 
     protected virtual void OnDisable()

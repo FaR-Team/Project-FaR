@@ -29,6 +29,8 @@ public class Dirt : MonoBehaviour, IGridEntity
     private Vector3Int _registeredCoord;
 
     public Vector3Int Coordinate => WorldGrid.WorldToCell(transform.position);
+    public Vector3Int FootprintSize => Vector3Int.one;
+    public Vector3Int FootprintOffset => Vector3Int.zero;
     public bool CanOverlap => false;
     public string EntityName => gameObject.name;
 
@@ -105,7 +107,11 @@ public class Dirt : MonoBehaviour, IGridEntity
         GameObject instantiated = Instantiate(itemData.DirtPrefab, transform.position, GridGhost.Rotation(), transform);
 
         currentCrop = instantiated.GetComponent<GrowingBase>();
+        currentCrop.footprintSize = itemData.footprintSize;
+        currentCrop.footprintOffset = itemData.footprintOffset;
         currentSeedData = itemData;
+
+        GridDataManager.Instance.Register(currentCrop);
 
         GridGhost.UpdateRandomSeed();
         return (instantiated != null);

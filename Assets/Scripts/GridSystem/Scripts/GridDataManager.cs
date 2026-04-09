@@ -39,7 +39,26 @@ namespace FaRUtils.Systems.GridSystem
 
         public void Register(IGridEntity entity)
         {
-            Vector3Int coord = entity.Coordinate;
+            Vector3Int pivot = entity.Coordinate;
+            Vector3Int size = entity.FootprintSize;
+            Vector3Int offset = entity.FootprintOffset;
+
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                {
+                    for (int z = 0; z < size.z; z++)
+                    {
+                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
+                        RegisterSingleCell(entity, coord);
+                    }
+                }
+            }
+            entity.OnGridRegistered(pivot);
+        }
+
+        private void RegisterSingleCell(IGridEntity entity, Vector3Int coord)
+        {
             if (!_cells.ContainsKey(coord))
             {
                 _cells[coord] = new List<IGridEntity>();
@@ -48,8 +67,7 @@ namespace FaRUtils.Systems.GridSystem
             if (!_cells[coord].Contains(entity))
             {
                 _cells[coord].Add(entity);
-                this.Log($"Entity '{entity.EntityName}' registered at {coord}");
-                entity.OnGridRegistered(coord);
+                this.Log($"Entity '{entity.EntityName}' registered at {coord} (Pivot: {entity.Coordinate}, Size: {entity.FootprintSize}, Offset: {entity.FootprintOffset})");
             }
         }
 
@@ -58,14 +76,32 @@ namespace FaRUtils.Systems.GridSystem
             Unregister(entity, entity.Coordinate);
         }
 
-        public void Unregister(IGridEntity entity, Vector3Int coord)
+        public void Unregister(IGridEntity entity, Vector3Int pivot)
+        {
+            Vector3Int size = entity.FootprintSize;
+            Vector3Int offset = entity.FootprintOffset;
+
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                {
+                    for (int z = 0; z < size.z; z++)
+                    {
+                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
+                        UnregisterSingleCell(entity, coord);
+                    }
+                }
+            }
+            entity.OnGridUnregistered();
+        }
+
+        private void UnregisterSingleCell(IGridEntity entity, Vector3Int coord)
         {
             if (_cells.TryGetValue(coord, out var list))
             {
                 if (list.Remove(entity))
                 {
-                    this.Log($"Entity '{entity.EntityName}' unregistered from {coord}");
-                    entity.OnGridUnregistered();
+                    // this.Log($"Entity '{entity.EntityName}' unregistered from {coord}");
                 }
 
                 if (list.Count == 0)
@@ -88,21 +124,62 @@ namespace FaRUtils.Systems.GridSystem
             return null;
         }
 
-        public List<IGridEntity> GetEntitiesAt(Vector3Int coord)
-        {
-            if (_cells.TryGetValue(coord, out var list))
-            {
-                return new List<IGridEntity>(list);
-            }
-            return new List<IGridEntity>();
-        }
-
         public bool IsCellOccupied(Vector3Int coord)
         {
             if (_cells.TryGetValue(coord, out var list))
             {
                 foreach (var entity in list)
                 {
+                    if (!entity.CanOverlap) return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsAreaOccupied(Vector3Int pivot, Vector3Int size, Vector3Int offset)
+        {
+            return IsAreaOccupiedIgnoring(pivot, size, offset, null);
+        }
+
+        public bool IsAreaOccupiedIgnoring(Vector3Int pivot, Vector3Int size, Vector3Int offset, IGridEntity ignoreEntity)
+        {
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                {
+                    for (int z = 0; z < size.z; z++)
+                    {
+                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
+                        if (IsCellOccupiedIgnoring(coord, ignoreEntity)) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        public bool AnyEntityOfTypeInRange<T>(Vector3Int pivot, Vector3Int size, Vector3Int offset) where T : class
+        {
+            for (int x = 0; x < size.x; x++)
+            {
+                for (int y = 0; y < size.y; y++)
+                {
+                    for (int z = 0; z < size.z; z++)
+                    {
+                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
+                        if (GetEntityAt<T>(coord) != null) return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool IsCellOccupiedIgnoring(Vector3Int coord, IGridEntity ignoreEntity)
+        {
+            if (_cells.TryGetValue(coord, out var list))
+            {
+                foreach (var entity in list)
+                {
+                    if (entity == ignoreEntity) continue;
                     if (!entity.CanOverlap) return true;
                 }
             }
