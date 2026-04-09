@@ -6,16 +6,10 @@ public class Cart : MonoBehaviour
     [Header("Cart Configuration")]
     [SerializeField] public Transform frontWheelsParent;
     [SerializeField] public Transform backHandle;
-    [SerializeField] private bool onlyGrabFromHandle = true;
     [SerializeField] private float wheelRotationSpeed = 360f;
-    [SerializeField] private float maxSpeed = 5f;
-    [SerializeField] private float acceleration = 10f;
-    [SerializeField] private float deceleration = 15f;
-    [SerializeField] private float turnSpeed = 90f;
     
     [Header("Telekinesis Attachment")]
     [SerializeField] private float attachmentDistance = 2f;
-    [SerializeField] private float attachmentHeight = 1f;
     [SerializeField] private float followStrength = 1000f;
     [SerializeField] private float followDamping = 50f;
     [SerializeField] private float rotationStrength = 500f;

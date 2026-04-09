@@ -156,7 +156,6 @@ public class DebugMenu : MonoBehaviour
                 int boxWidth = 320;
                 int lineHeight = 18;
                 int padding = 10;
-                int headerHeight = 25;
                 
                 int totalLines = 4;
                 totalLines += 4;

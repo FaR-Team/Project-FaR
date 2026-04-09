@@ -18,7 +18,6 @@ public class Energy : MonoBehaviour
 
     private float timer = 0;
     private bool _isBarVisible = false;
-    private bool _isAnimating = false;
 
     public float timeForSeconds = 2f;
 
@@ -141,7 +140,6 @@ public class Energy : MonoBehaviour
     private IEnumerator AnimateBar(string animName, bool visible)
     {
         _isNoEnergyAnimating = false;
-        _isAnimating = true;
         _isBarVisible = visible;
         if (_animationComp != null && _animationComp[animName] != null)
         {
@@ -154,14 +152,12 @@ public class Energy : MonoBehaviour
             else _Barra.gameObject.SetActive(false);
             yield return null;
         }
-        _isAnimating = false;
         _animationRoutine = null;
     }
 
     private IEnumerator NoEnergyRoutine()
     {
         _isNoEnergyAnimating = true;
-        _isAnimating = true;
 
         if (!_isBarVisible)
         {
@@ -186,7 +182,6 @@ public class Energy : MonoBehaviour
         }
 
         _isBarVisible = false;
-        _isAnimating = false;
         _isNoEnergyAnimating = false;
         _animationRoutine = null;
     }

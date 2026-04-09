@@ -18,7 +18,6 @@ public class TelekineticRayRenderer : MonoBehaviour
     
     [Header("Efectos Dinámicos")]
     [SerializeField] private float noiseAmplitude = 0.03f;
-    [SerializeField] private float noiseFrequency = 8f;
     [SerializeField] private float animationSpeed = 4f;
     [SerializeField] private float pulseSpeed = 3f;
     [SerializeField] private bool enableElectricalEffect = true;

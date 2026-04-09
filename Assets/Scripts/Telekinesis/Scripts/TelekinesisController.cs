@@ -18,33 +18,20 @@ public class TelekinesisController : MonoBehaviour
     [Header("Fuerzas")]
     [SerializeField] private float followStrength = 2000f;
     [SerializeField] private float followDamping = 50f;
-    [SerializeField] private float rotationStrength = 1000f;
     [SerializeField] private float rotationDamping = 25f;
     [SerializeField] private float maxFollowForce = 10000f;
     
     [Header("Configuración de Masa")]
     [SerializeField] private AnimationCurve massCompensationCurve = AnimationCurve.Linear(0.1f, 1f, 10f, 0.3f);
-    [SerializeField] private float lightObjectThreshold = 1f;
-    [SerializeField] private float heavyObjectThreshold = 5f;
     [SerializeField] private float maxMassForTelekinesis = 20f;
-    [SerializeField] private bool useAdaptiveForces = true;
-    [SerializeField] private float massBasedDamping = 1f;
     
     [Header("Sistema de Agarre")]
-    [SerializeField] private float maxGrabOffsetDistance = 2f;
     [SerializeField] private AnimationCurve stabilityByOffset = AnimationCurve.EaseInOut(0f, 1f, 1f, 0.2f);
     [SerializeField] private AnimationCurve stabilityByMass = AnimationCurve.EaseInOut(0.1f, 1f, 10f, 0.1f);
-    [SerializeField] private float gravityCompensation = 0.8f;
-    [SerializeField] private float instabilityTorqueMultiplier = 5f;
-    [SerializeField] private float wobbleForce = 100f;
-    [SerializeField] private float maxWobbleSpeed = 2f;
     
     [Header("Comportamiento")]
     [SerializeField] private bool maintainOrientation = true;
     [SerializeField] private float orientationStrength = 500f;
-    [SerializeField] private float smoothingFactor = 0.85f;
-    [SerializeField] private bool useMouseSmoothing = true;
-    [SerializeField] private float initialGrabDuration = 0.5f;
     [SerializeField] private AnimationCurve initialGrabCurve = AnimationCurve.EaseInOut(0f, 0.1f, 1f, 1f);
     
     [Header("Efectos Visuales")]
@@ -64,7 +51,6 @@ public class TelekinesisController : MonoBehaviour
     private Quaternion initialGrabRotation;
     private Quaternion grabRotationOffset;
     private float grabStartTime;
-    private bool isInitialGrab = false;
     
     private float grabOffsetMagnitude;
     private float objectMass;
@@ -199,7 +185,6 @@ public class TelekinesisController : MonoBehaviour
         smoothedTargetPosition = rigidbody.worldCenterOfMass + grabOffset;
         
         grabStartTime = Time.time;
-        isInitialGrab = true;
         
         isGrabbing = true;
         UpdateTargetPosition();
@@ -296,7 +281,6 @@ public class TelekinesisController : MonoBehaviour
         grabbedObject.Cleanup();
         grabbedObject = null;
         isGrabbing = false;
-        isInitialGrab = false;
         
         OnObjectReleased?.Invoke();
         
