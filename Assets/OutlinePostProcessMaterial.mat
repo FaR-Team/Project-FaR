@@ -10,7 +10,8 @@ Material:
   m_Name: OutlinePostProcessMaterial
   m_Shader: {fileID: 4800000, guid: 11d00f472cabe644b88ffa3d34686319, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _USEADAPTIVETHRESHOLD_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -87,6 +88,7 @@ Material:
     - _ColorWeight: 0.5
     - _Cull: 2
     - _Cutoff: 0.5
+    - _DepthSensitivity: 1
     - _DepthThreshold: 100
     - _DepthWeight: 0.5
     - _DetailAlbedoMapScale: 1
@@ -98,6 +100,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _MaxDistance: 100
     - _MaxOutlineDistance: 100
     - _Metallic: 0
     - _NormalThreshold: 0.4
@@ -112,6 +115,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _UseAdaptiveThreshold: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

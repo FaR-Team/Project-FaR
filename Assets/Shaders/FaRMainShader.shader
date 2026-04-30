@@ -46,6 +46,33 @@ Shader "FaRTeam/FaRMainShaderURP"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
         #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
+
+        CBUFFER_START(UnityPerMaterial)
+            float4 _Color;
+            float4 _MainTex_ST;
+            float _CelSteps;
+            float _Alpha;
+            float _UseOutline;
+            float4 _OutlineColor;
+            float _OutlineWidth;
+            float _PulseSpeed;
+            float _PulseMinWidth;
+            float _PulseMaxWidth;
+            float _UseMultiplyTexture;
+            float4 _MultiplyTex_ST;
+            float _UsePixelPerfectShadows;
+            float _ShadowThreshold;
+            float _ShadowSharpness;
+            float4 _ShadowColor;
+            float _ShadowAlignmentX;
+            float _ShadowAlignmentY;
+            float _ShadowAlignmentZ;
+            float _ShadowGridBias;
+            float _ShadowNormalBias;
+            float _GridOffsetX;
+            float _GridOffsetY;
+            float _GridOffsetZ;
+        CBUFFER_END
         ENDHLSL
         
         Pass
@@ -61,30 +88,30 @@ Shader "FaRTeam/FaRMainShaderURP"
             HLSLPROGRAM
             #pragma vertex DepthOnlyVertex
             #pragma fragment DepthOnlyFragment
+            #pragma multi_compile_instancing
             
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
-            
-            CBUFFER_START(UnityPerMaterial)
-                float4 _MainTex_ST;
-                float _Alpha;
-            CBUFFER_END
             
             struct Attributes
             {
                 float4 positionOS : POSITION;
                 float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             Varyings DepthOnlyVertex(Attributes input)
             {
                 Varyings output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_TRANSFER_INSTANCE_ID(input, output);
                 output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 return output;
@@ -92,6 +119,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             
             half4 DepthOnlyFragment(Varyings input) : SV_TARGET
             {
+                UNITY_SETUP_INSTANCE_ID(input);
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
                 half alpha = texColor.a * _Alpha;
                 
@@ -121,13 +149,6 @@ Shader "FaRTeam/FaRMainShaderURP"
 
             TEXTURE2D(_MainTex);
             SAMPLER(sampler_MainTex);
-
-            CBUFFER_START(UnityPerMaterial)
-                float4 _MainTex_ST;
-                float _Alpha;
-                float _UseMultiplyTexture;
-                float4 _MultiplyTex_ST;
-            CBUFFER_END
 
             float3 _LightDirection;
             float3 _LightPosition;
@@ -220,25 +241,13 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
-            UNITY_INSTANCING_BUFFER_START(Props)
-                UNITY_DEFINE_INSTANCED_PROP(float, _UseOutline)
-            UNITY_INSTANCING_BUFFER_END(Props)
-            
-            CBUFFER_START(UnityPerMaterial)
-                float _OutlineWidth;
-                float4 _OutlineColor;
-                float _PulseSpeed;
-                float _PulseMinWidth;
-                float _PulseMaxWidth;
-            CBUFFER_END
-            
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
                 UNITY_SETUP_INSTANCE_ID(IN);
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
                 
-                float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
+                float useOutline = _UseOutline;
                 
                 float pulseValue = (sin(_Time.y * _PulseSpeed) * 0.5 + 0.5);
                 float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
@@ -250,7 +259,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             half4 frag(Varyings IN) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
-                float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
+                float useOutline = _UseOutline;
                 
                 if (useOutline < 0.5)
                     discard;
@@ -274,6 +283,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _SHADOWS_SOFT
             #pragma multi_compile_fog
+            #pragma multi_compile_instancing
 
             struct Attributes
             {
@@ -281,6 +291,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float2 uv : TEXCOORD0;
                 float3 normalOS : NORMAL;
                 float4 color : COLOR;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
@@ -291,37 +302,18 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float3 positionWS : TEXCOORD2;
                 float4 color : COLOR;
                 float fogFactor : TEXCOORD3;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             TEXTURE2D(_MainTex);
             TEXTURE2D(_MultiplyTex);
             SAMPLER(sampler_MainTex);
-            
-            CBUFFER_START(UnityPerMaterial)
-                float4 _Color;
-                float4 _MainTex_ST;
-                float _CelSteps;
-                float _Alpha;
-                float _UseMultiplyTexture;
-                float4 _MultiplyTex_ST;
-                float _UsePixelPerfectShadows;
-                float _ShadowThreshold;
-                float _ShadowSharpness;
-                float4 _ShadowColor;
-                float _PixelSized;
-                float _ShadowAlignmentX;
-                float _ShadowAlignmentY;
-                float _ShadowAlignmentZ;
-                float _ShadowGridBias;
-                float _ShadowNormalBias;
-                float _GridOffsetX;
-                float _GridOffsetY;
-                float _GridOffsetZ;
-            CBUFFER_END
 
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
+                UNITY_SETUP_INSTANCE_ID(IN);
+                UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
                 OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
                 OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
@@ -333,6 +325,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             
             half4 frag(Varyings IN) : SV_Target
             {
+                UNITY_SETUP_INSTANCE_ID(IN);
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color * IN.color;
                 half3 albedo = texColor.rgb;
                 half alpha = texColor.a * _Alpha;
@@ -342,7 +335,6 @@ Shader "FaRTeam/FaRMainShaderURP"
                 
                 float NdotL = dot(IN.normalWS, mainLight.direction) * 0.5 + 0.5;
                 
-                float shadowSample = MainLightRealtimeShadow(shadowCoord);
                 float shadowAttenuation = 1.0;
                 
                 if (_UsePixelPerfectShadows > 0.5)
@@ -380,6 +372,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 }
                 else
                 {
+                    float shadowSample = MainLightRealtimeShadow(shadowCoord);
                     float softShadow = smoothstep(0.2, 0.8, shadowSample);
                     shadowAttenuation = lerp(0.7, 1.0, softShadow);
                 }
@@ -413,8 +406,11 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
 
-                half4 multiplyTex = SAMPLE_TEXTURE2D(_MultiplyTex, sampler_MainTex, TRANSFORM_TEX(IN.uv, _MultiplyTex));
-                albedo = lerp(albedo, albedo * multiplyTex.rgb, _UseMultiplyTexture);
+                if (_UseMultiplyTexture > 0.5)
+                {
+                    half4 multiplyTex = SAMPLE_TEXTURE2D(_MultiplyTex, sampler_MainTex, TRANSFORM_TEX(IN.uv, _MultiplyTex));
+                    albedo *= multiplyTex.rgb;
+                }
 
                 half4 finalColor;
                 finalColor.rgb = albedo * lightingTint * ambientOcclusion;

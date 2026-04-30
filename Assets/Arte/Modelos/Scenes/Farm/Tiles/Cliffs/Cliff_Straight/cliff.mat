@@ -121,7 +121,9 @@ Material:
     - _ShadowAlignmentsssY: 0.5
     - _ShadowAlignmentssssY: 0
     - _ShadowDepthBias: 0.00001
+    - _ShadowGridBias: 0.1
     - _ShadowIntensity: 0.5
+    - _ShadowNormalBias: 0.1
     - _ShadowSharpness: 0.1
     - _ShadowStrength: 0.5
     - _ShadowThreshold: 0.5
