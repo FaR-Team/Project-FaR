@@ -10,18 +10,18 @@ namespace FaRUtils.Systems.GridSystem
         public static Vector3Int WorldToCell(Vector3 worldPos, float gridScale = GRID_SCALE)
         {
             return new Vector3Int(
-                Mathf.FloorToInt(worldPos.x / gridScale),
+                Mathf.RoundToInt(worldPos.x / gridScale),
                 Mathf.FloorToInt(worldPos.y / gridScale),
-                Mathf.FloorToInt(worldPos.z / gridScale)
+                Mathf.RoundToInt(worldPos.z / gridScale)
             );
         }
 
         public static Vector3 CellToWorld(Vector3Int cell, float gridScale = GRID_SCALE)
         {
             return new Vector3(
-                (cell.x + 0.5f) * gridScale,
-                (cell.y * gridScale) + 0.1f,
-                (cell.z + 0.5f) * gridScale
+                cell.x * gridScale,
+                cell.y * gridScale + 0.1f,
+                cell.z * gridScale
             );
         }
 
@@ -33,7 +33,7 @@ namespace FaRUtils.Systems.GridSystem
         public static Vector3 PositionXZFromWorldPoint2D(Vector3 worldPos, float gridScale = GRID_SCALE)
         {
             Vector3Int cell = WorldToCell(worldPos, gridScale);
-            return new Vector3((cell.x + 0.5f) * gridScale, worldPos.y, (cell.z + 0.5f) * gridScale);
+            return new Vector3(cell.x * gridScale, worldPos.y, cell.z * gridScale);
         }
 
         public static IEnumerable<Vector3> GetGridPositionsWithinRange3D(Vector3 worldPos, float gridScale, int range)
