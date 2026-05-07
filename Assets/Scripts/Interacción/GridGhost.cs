@@ -136,8 +136,6 @@ public class GridGhost : MonoBehaviour
         finalPosition = WorldGrid.SnapToGrid(hitPoint);
         Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
         
-        this.Log($"Ghost at {coord} for item {GetItemData().Nombre}");
-
         bool shouldShowGhost = false;
         bool canPlant = false;
         bool hasCropOnDirt = false;
