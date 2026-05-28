@@ -45,7 +45,7 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
     public Vector3Int Coordinate => WorldGrid.WorldToCell(transform.position);
     public Vector3Int FootprintSize => footprintSize;
     public Vector3Int FootprintOffset => footprintOffset;
-    public bool CanOverlap => true;
+    public bool CanOverlap => false;
     public string EntityName => gameObject.name;
 
     public void OnGridRegistered(Vector3Int coord) { }
