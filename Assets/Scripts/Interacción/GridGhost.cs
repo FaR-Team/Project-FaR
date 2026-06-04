@@ -158,12 +158,12 @@ public class GridGhost : MonoBehaviour
         {
             shouldShowGhost = true;
             var item = GetItemData();
-            bool isOccupied = GridDataManager.Instance.IsAreaOccupied(coord, item.footprintSize, item.footprintOffset);
+            bool isOccupied = GridDataManager.Instance.IsAreaOccupiedIgnoringDebris(coord, item.footprintSize, item.footprintOffset);
             
             if (interactor._LookingAtDirt)
             {
                 var dirt = GridDataManager.Instance.GetEntityAt<Dirt>(coord);
-                bool isAreaClear = !GridDataManager.Instance.IsAreaOccupiedIgnoring(coord, item.footprintSize, item.footprintOffset, dirt);
+                bool isAreaClear = !GridDataManager.Instance.IsAreaOccupiedIgnoringDebrisAndEntity(coord, item.footprintSize, item.footprintOffset, dirt);
                 
                 bool hasOtherPlants = GridDataManager.Instance.AnyEntityOfTypeInRange<GrowingBase>(coord, item.footprintSize, item.footprintOffset);
                 
@@ -255,7 +255,7 @@ public class GridGhost : MonoBehaviour
         {
             Vector3Int coord = WorldGrid.WorldToCell(finalPosition);
             var item = GetItemData();
-            if (!GridDataManager.Instance.IsAreaOccupied(coord, item.footprintSize, item.footprintOffset))
+            if (!GridDataManager.Instance.IsAreaOccupiedIgnoringDebris(coord, item.footprintSize, item.footprintOffset))
             {
                 TreeSpawnerPooling.SpawnObject(finalPosition, Rotation(), item.footprintSize, item.footprintOffset);
                 UpdateRandomSeed();

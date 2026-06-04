@@ -246,16 +246,9 @@ namespace FaRUtils.Systems.GridSystem
             Vector3Int size = entity.FootprintSize;
             Vector3Int offset = entity.FootprintOffset;
 
-            for (int x = 0; x < size.x; x++)
+            foreach (Vector3Int coord in new FootprintEnumerator(pivot, size, offset))
             {
-                for (int y = 0; y < size.y; y++)
-                {
-                    for (int z = 0; z < size.z; z++)
-                    {
-                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
-                        RegisterSingleCell(entity, coord);
-                    }
-                }
+                RegisterSingleCell(entity, coord);
             }
             entity.OnGridRegistered(pivot);
         }
@@ -291,16 +284,9 @@ namespace FaRUtils.Systems.GridSystem
             Vector3Int size = entity.FootprintSize;
             Vector3Int offset = entity.FootprintOffset;
 
-            for (int x = 0; x < size.x; x++)
+            foreach (Vector3Int coord in new FootprintEnumerator(pivot, size, offset))
             {
-                for (int y = 0; y < size.y; y++)
-                {
-                    for (int z = 0; z < size.z; z++)
-                    {
-                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
-                        UnregisterSingleCell(entity, coord);
-                    }
-                }
+                UnregisterSingleCell(entity, coord);
             }
             entity.OnGridUnregistered();
         }
@@ -359,32 +345,18 @@ namespace FaRUtils.Systems.GridSystem
 
         public bool IsAreaOccupiedIgnoring(Vector3Int pivot, Vector3Int size, Vector3Int offset, IGridEntity ignoreEntity)
         {
-            for (int x = 0; x < size.x; x++)
+            foreach (Vector3Int coord in new FootprintEnumerator(pivot, size, offset))
             {
-                for (int y = 0; y < size.y; y++)
-                {
-                    for (int z = 0; z < size.z; z++)
-                    {
-                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
-                        if (IsCellOccupiedIgnoring(coord, ignoreEntity)) return true;
-                    }
-                }
+                if (IsCellOccupiedIgnoring(coord, ignoreEntity)) return true;
             }
             return false;
         }
 
         public bool AnyEntityOfTypeInRange<T>(Vector3Int pivot, Vector3Int size, Vector3Int offset) where T : class
         {
-            for (int x = 0; x < size.x; x++)
+            foreach (Vector3Int coord in new FootprintEnumerator(pivot, size, offset))
             {
-                for (int y = 0; y < size.y; y++)
-                {
-                    for (int z = 0; z < size.z; z++)
-                    {
-                        Vector3Int coord = pivot + offset + new Vector3Int(x, y, z);
-                        if (GetEntityAt<T>(coord) != null) return true;
-                    }
-                }
+                if (GetEntityAt<T>(coord) != null) return true;
             }
             return false;
         }
@@ -399,6 +371,71 @@ namespace FaRUtils.Systems.GridSystem
                 foreach (var occupant in cell.Occupants)
                 {
                     if (occupant == ignoreEntity) continue;
+                    if (!occupant.CanOverlap) return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsAreaOccupiedIgnoringDebris(Vector3Int pivot, Vector3Int size, Vector3Int offset)
+        {
+            foreach (Vector3Int coord in new FootprintEnumerator(pivot, size, offset))
+            {
+                if (coord == pivot)
+                {
+                    if (IsCellOccupied(coord)) return true;
+                }
+                else
+                {
+                    if (IsCellOccupiedIgnoringDebris(coord)) return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsCellOccupiedIgnoringDebris(Vector3Int coord)
+        {
+            GridCell cell = GetCellAt(coord);
+            if (cell == null) return true;
+
+            if (cell.Occupants != null)
+            {
+                foreach (var occupant in cell.Occupants)
+                {
+                    if (occupant is FaRUtils.Systems.Debris.Debris) continue;
+                    if (!occupant.CanOverlap) return true;
+                }
+            }
+            return false;
+        }
+
+        public bool IsAreaOccupiedIgnoringDebrisAndEntity(Vector3Int pivot, Vector3Int size, Vector3Int offset, IGridEntity ignoreEntity)
+        {
+            foreach (Vector3Int coord in new FootprintEnumerator(pivot, size, offset))
+            {
+                if (coord == pivot)
+                {
+                    if (IsCellOccupiedIgnoring(coord, ignoreEntity)) return true;
+                }
+                else
+                {
+                    if (IsCellOccupiedIgnoringDebrisAndEntity(coord, ignoreEntity)) return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsCellOccupiedIgnoringDebrisAndEntity(Vector3Int coord, IGridEntity ignoreEntity)
+        {
+            GridCell cell = GetCellAt(coord);
+            if (cell == null) return true;
+
+            if (cell.Occupants != null)
+            {
+                foreach (var occupant in cell.Occupants)
+                {
+                    if (occupant == ignoreEntity) continue;
+                    if (occupant is FaRUtils.Systems.Debris.Debris) continue;
                     if (!occupant.CanOverlap) return true;
                 }
             }
@@ -703,5 +740,52 @@ namespace FaRUtils.Systems.GridSystem
                 }
             }
         }
+    }
+
+    public struct FootprintEnumerator
+    {
+        private readonly Vector3Int pivot;
+        private readonly Vector3Int size;
+        private readonly Vector3Int offset;
+        private int x, y, z;
+        private Vector3Int current;
+
+        public FootprintEnumerator(Vector3Int pivot, Vector3Int size, Vector3Int offset)
+        {
+            this.pivot = pivot;
+            this.size = size;
+            this.offset = offset;
+            x = 0;
+            y = 0;
+            z = -1;
+            current = Vector3Int.zero;
+        }
+
+        public Vector3Int Current => current;
+
+        public bool MoveNext()
+        {
+            if (size.x <= 0 || size.y <= 0 || size.z <= 0) return false;
+
+            z++;
+            if (z >= size.z)
+            {
+                z = 0;
+                y++;
+                if (y >= size.y)
+                {
+                    y = 0;
+                    x++;
+                    if (x >= size.x)
+                    {
+                        return false;
+                    }
+                }
+            }
+            current = pivot + offset + new Vector3Int(x, y, z);
+            return true;
+        }
+
+        public FootprintEnumerator GetEnumerator() => this;
     }
 }
