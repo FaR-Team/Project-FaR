@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,6 +16,8 @@ public class TreeBushData : PlantData
     public GrowingState growingState;
     public int daysDry;
     public bool isDead;
+    public Vector3Int footprintSize;
+    public Vector3Int footprintOffset;
     
     public TreeBushData(GrowingBase growingBase)
         //int daysPlanted, int reGrowCounter, int daysWithoutHarvest, int daysWithoutFruitsCounter, 
@@ -37,6 +39,8 @@ public class TreeBushData : PlantData
         this.rotation = growingTreeAndPlant.transform.rotation;
         this.daysDry = growingTreeAndPlant.DaysDry;
         this.isDead = growingTreeAndPlant.IsDead;
+        this.footprintSize = growingBase.footprintSize;
+        this.footprintOffset = growingBase.footprintOffset;
     }
 
 }

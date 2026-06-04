@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Utils;
 using Random = UnityEngine.Random;
+using FaRUtils.Systems.GridSystem;
 
 public class GrowingTreeAndPlant : GrowingBase
 {
@@ -225,11 +226,16 @@ public class GrowingTreeAndPlant : GrowingBase
         transform.rotation = plantData.rotation;
         daysDry = plantData.daysDry;
         
+        footprintSize = plantData.footprintSize;
+        footprintOffset = plantData.footprintOffset;
+        
         UpdateState();
         
         Debug.Log("Fruits to load: " + plantData.spawnedFruits.Count);
         if(plantData.spawnedFruits.Count > 0) SpawnLoadedFruits(plantData.spawnedFruits);
         
         if(plantData.isDead) Die();
+        
+        GridDataManager.Instance.Register(this);
     }
 }
