@@ -34,8 +34,8 @@ namespace FaRUtils.Systems.GridSystem
         [Header("Test")]
         [SerializeField] private bool showDebugGizmos = true;
         [SerializeField] private Color validCellColor = new Color(0f, 1f, 1f, 0.2f);
+        [SerializeField] private Color occupiedCellColor = new Color(1f, 0f, 0f, 0.4f);
         [SerializeField] private Color cliffCellColor = Color.yellow;
-        [SerializeField] private Color restrictedCellColor = Color.red;
 
         private List<Collider> restrictedColliders = new List<Collider>();
 
@@ -570,6 +570,13 @@ namespace FaRUtils.Systems.GridSystem
         {
             if (!showDebugGizmos) return;
 
+            bool showRestricted = true;
+            if (Application.isPlaying && TimeManager.Instance != null)
+            {
+                var dt = TimeManager.DateTime;
+                showRestricted = (dt.Date == 1 && (int)dt.Seasons == 0 && dt.Year == 1);
+            }
+
             Vector3Int activeMinBounds = minBounds;
             Vector3Int activeMaxBounds = maxBounds;
             int activeWidth = _width;
@@ -618,7 +625,7 @@ namespace FaRUtils.Systems.GridSystem
                 tempRestrictedColliders = restrictedColliders;
             }
 
-            if (tempRestrictedColliders != null && tempRestrictedColliders.Count > 0)
+            if (showRestricted && tempRestrictedColliders != null && tempRestrictedColliders.Count > 0)
             {
                 Gizmos.color = new Color(1f, 0f, 0f, 0.15f);
                 foreach (var col in tempRestrictedColliders)
@@ -675,7 +682,8 @@ namespace FaRUtils.Systems.GridSystem
                             cellPos.y = groundY + 0.02f;
                         }
 
-                        Gizmos.color = validCellColor;
+                        bool isOccupied = cell.HasOccupants;
+                        Gizmos.color = isOccupied ? occupiedCellColor : validCellColor;
                         Gizmos.DrawCube(cellPos, new Vector3(tileSize * 0.9f, 0.05f, tileSize * 0.9f));
 
                         if (cell.IsNearCliff)
@@ -684,9 +692,9 @@ namespace FaRUtils.Systems.GridSystem
                             Gizmos.DrawCube(cellPos, new Vector3(tileSize * 0.7f, 0.08f, tileSize * 0.7f));
                         }
 
-                        if (cell.IsRestrictedZoneDayOne)
+                        if (showRestricted && cell.IsRestrictedZoneDayOne)
                         {
-                            Gizmos.color = restrictedCellColor;
+                            Gizmos.color = occupiedCellColor;
                             float redSize = cell.IsNearCliff ? 0.4f : 0.7f;
                             float redHeight = cell.IsNearCliff ? 0.11f : 0.08f;
                             Gizmos.DrawCube(cellPos, new Vector3(tileSize * redSize, redHeight, tileSize * redSize));
