@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
+using FaRUtils.Systems.DateTime;
 
 namespace FaRUtils.Systems.GridSystem
 {
@@ -24,7 +25,29 @@ namespace FaRUtils.Systems.GridSystem
             }
         }
 
-        private readonly Dictionary<Vector3Int, List<IGridEntity>> _cells = new Dictionary<Vector3Int, List<IGridEntity>>();
+        [SerializeField] private Transform boundariesParent;
+        [SerializeField] private float tileSize = WorldGrid.GRID_SCALE;
+
+
+        [SerializeField] private Transform restrictedZonesParent;
+
+        [Header("Test")]
+        [SerializeField] private bool showDebugGizmos = true;
+        [SerializeField] private Color validCellColor = new Color(0f, 1f, 1f, 0.2f);
+        [SerializeField] private Color cliffCellColor = Color.yellow;
+        [SerializeField] private Color restrictedCellColor = Color.red;
+
+        private List<Collider> restrictedColliders = new List<Collider>();
+
+        private readonly Dictionary<int, GridCell[]> _layers = new Dictionary<int, GridCell[]>();
+        
+
+        private Vector3Int minBounds;
+        private Vector3Int maxBounds;
+        private List<Collider> boundaryColliders = new List<Collider>();
+        private int _width;
+        private int _height;
+        private bool _isInitialized = false;
 
         private void Awake()
         {
@@ -35,6 +58,186 @@ namespace FaRUtils.Systems.GridSystem
             }
             _instance = this;
             DontDestroyOnLoad(gameObject);
+            InitializeGrid();
+        }
+
+        private void InitializeGrid()
+        {
+            if (_isInitialized) return;
+            _isInitialized = true;
+
+            boundaryColliders.Clear();
+            if (boundariesParent != null)
+            {
+                boundaryColliders.AddRange(boundariesParent.GetComponentsInChildren<Collider>(false));
+            }
+
+            restrictedColliders.Clear();
+            if (restrictedZonesParent != null)
+            {
+                restrictedColliders.AddRange(restrictedZonesParent.GetComponentsInChildren<Collider>(false));
+            }
+
+            if (boundaryColliders.Count > 0)
+            {
+                Bounds combinedBounds = new Bounds();
+                bool hasBounds = false;
+                foreach (var col in boundaryColliders)
+                {
+                    if (col == null) continue;
+                    if (!hasBounds)
+                    {
+                        combinedBounds = col.bounds;
+                        hasBounds = true;
+                    }
+                    else
+                    {
+                        combinedBounds.Encapsulate(col.bounds);
+                    }
+                }
+
+                minBounds = WorldGrid.WorldToCell(combinedBounds.min, tileSize) - Vector3Int.one;
+                maxBounds = WorldGrid.WorldToCell(combinedBounds.max, tileSize) + Vector3Int.one;
+            }
+            else
+            {
+                Debug.LogWarning("[GridDataManager] No boundary colliders found under boundariesParent! Grid boundaries are empty.");
+                minBounds = Vector3Int.zero;
+                maxBounds = Vector3Int.zero;
+            }
+
+            _width = maxBounds.x - minBounds.x + 1;
+            _height = maxBounds.z - minBounds.z + 1;
+
+            for (int y = minBounds.y; y <= maxBounds.y; y++)
+            {
+                GetOrCreateLayer(y);
+            }
+
+            CalculateEdgeCells();
+        }
+
+        private GridCell[] GetOrCreateLayer(int y)
+        {
+            if (!_layers.TryGetValue(y, out var layer))
+            {
+                layer = new GridCell[_width * _height];
+                for (int z = 0; z < _height; z++)
+                {
+                    for (int x = 0; x < _width; x++)
+                    {
+                        int xCoord = minBounds.x + x;
+                        int zCoord = minBounds.z + z;
+                        Vector3Int coord = new Vector3Int(xCoord, y, zCoord);
+                        Vector3 worldPos = WorldGrid.CellToWorld(coord, tileSize);
+
+                        bool isInside = false;
+                        if (boundaryColliders.Count > 0)
+                        {
+                            foreach (var col in boundaryColliders)
+                            {
+                                if (col == null) continue;
+                                Bounds bounds = col.bounds;
+                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
+                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
+                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
+                                {
+                                    Vector3 closest = col.ClosestPoint(worldPos);
+                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
+                                    float distY = Mathf.Abs(closest.y - worldPos.y);
+                                    if (distXZ < 0.1f && distY < 1.0f)
+                                    {
+                                        isInside = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            isInside = true;
+                        }
+
+                        if (isInside)
+                        {
+                            GridCell cell = new GridCell(coord);
+
+                            bool isRestricted = false;
+                            foreach (var col in restrictedColliders)
+                            {
+                                if (col == null) continue;
+                                Bounds bounds = col.bounds;
+                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
+                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
+                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
+                                {
+                                    Vector3 closest = col.ClosestPoint(worldPos);
+                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
+                                    float distY = Mathf.Abs(closest.y - worldPos.y);
+                                    if (distXZ < 0.1f && distY < 1.0f)
+                                    {
+                                        isRestricted = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            cell.IsRestrictedZoneDayOne = isRestricted;
+
+                            layer[z * _width + x] = cell;
+                        }
+                        else
+                        {
+                            layer[z * _width + x] = null;
+                        }
+                    }
+                }
+                _layers[y] = layer;
+            }
+            return layer;
+        }
+
+        private void CalculateEdgeCells()
+        {
+            foreach (var layerPair in _layers)
+            {
+                var cells = layerPair.Value;
+                if (cells == null) continue;
+
+                for (int z = 0; z < _height; z++)
+                {
+                    for (int x = 0; x < _width; x++)
+                    {
+                        GridCell cell = cells[z * _width + x];
+                        if (cell == null) continue;
+
+                        bool isEdge = false;
+
+                        if (x == 0 || cells[z * _width + (x - 1)] == null) isEdge = true;
+                        else if (x == _width - 1 || cells[z * _width + (x + 1)] == null) isEdge = true;
+                        else if (z == 0 || cells[(z - 1) * _width + x] == null) isEdge = true;
+                        else if (z == _height - 1 || cells[(z + 1) * _width + x] == null) isEdge = true;
+
+                        cell.IsNearCliff = isEdge;
+                    }
+                }
+            }
+        }
+
+        public GridCell GetCellAt(Vector3Int coord)
+        {
+            if (!_isInitialized) InitializeGrid();
+
+            if (coord.x >= minBounds.x && coord.x <= maxBounds.x &&
+                coord.z >= minBounds.z && coord.z <= maxBounds.z &&
+                coord.y >= minBounds.y && coord.y <= maxBounds.y)
+            {
+                var layer = GetOrCreateLayer(coord.y);
+                int xIdx = coord.x - minBounds.x;
+                int zIdx = coord.z - minBounds.z;
+                return layer[zIdx * _width + xIdx];
+            }
+
+            return null;
         }
 
         public void Register(IGridEntity entity)
@@ -59,14 +262,21 @@ namespace FaRUtils.Systems.GridSystem
 
         private void RegisterSingleCell(IGridEntity entity, Vector3Int coord)
         {
-            if (!_cells.ContainsKey(coord))
+            GridCell cell = GetCellAt(coord);
+            if (cell != null)
             {
-                _cells[coord] = new List<IGridEntity>();
-            }
+                cell.AddOccupant(entity);
 
-            if (!_cells[coord].Contains(entity))
-            {
-                _cells[coord].Add(entity);
+                if (entity is FaRUtils.Systems.Debris.Debris debris)
+                {
+                    cell.ActiveDebrisCategory = debris.Category;
+                }
+
+                if (TimeManager.Instance != null)
+                {
+                    cell.LastActiveDay = TimeManager.DateTime.TotalNumDays;
+                }
+
                 this.Log($"Entity '{entity.EntityName}' registered at {coord} (Pivot: {entity.Coordinate}, Size: {entity.FootprintSize}, Offset: {entity.FootprintOffset})");
             }
         }
@@ -97,28 +307,31 @@ namespace FaRUtils.Systems.GridSystem
 
         private void UnregisterSingleCell(IGridEntity entity, Vector3Int coord)
         {
-            if (_cells.TryGetValue(coord, out var list))
+            GridCell cell = GetCellAt(coord);
+            if (cell != null)
             {
-                if (list.Remove(entity))
+                cell.RemoveOccupant(entity);
+
+                if (entity is FaRUtils.Systems.Debris.Debris)
                 {
-                    // this.Log($"Entity '{entity.EntityName}' unregistered from {coord}");
+                    cell.ActiveDebrisCategory = DebrisCategory.None;
                 }
 
-                if (list.Count == 0)
+                if (TimeManager.Instance != null)
                 {
-                    _cells.Remove(coord);
+                    cell.LastActiveDay = TimeManager.DateTime.TotalNumDays;
                 }
             }
         }
 
-
         public T GetEntityAt<T>(Vector3Int coord) where T : class
         {
-            if (_cells.TryGetValue(coord, out var list))
+            GridCell cell = GetCellAt(coord);
+            if (cell != null && cell.Occupants != null)
             {
-                foreach (var entity in list)
+                foreach (var occupant in cell.Occupants)
                 {
-                    if (entity is T target) return target;
+                    if (occupant is T target) return target;
                 }
             }
             return null;
@@ -126,11 +339,14 @@ namespace FaRUtils.Systems.GridSystem
 
         public bool IsCellOccupied(Vector3Int coord)
         {
-            if (_cells.TryGetValue(coord, out var list))
+            GridCell cell = GetCellAt(coord);
+            if (cell == null) return true;
+
+            if (cell.Occupants != null)
             {
-                foreach (var entity in list)
+                foreach (var occupant in cell.Occupants)
                 {
-                    if (!entity.CanOverlap) return true;
+                    if (!occupant.CanOverlap) return true;
                 }
             }
             return false;
@@ -175,20 +391,309 @@ namespace FaRUtils.Systems.GridSystem
 
         private bool IsCellOccupiedIgnoring(Vector3Int coord, IGridEntity ignoreEntity)
         {
-            if (_cells.TryGetValue(coord, out var list))
+            GridCell cell = GetCellAt(coord);
+            if (cell == null) return true;
+
+            if (cell.Occupants != null)
             {
-                foreach (var entity in list)
+                foreach (var occupant in cell.Occupants)
                 {
-                    if (entity == ignoreEntity) continue;
-                    if (!entity.CanOverlap) return true;
+                    if (occupant == ignoreEntity) continue;
+                    if (!occupant.CanOverlap) return true;
                 }
             }
             return false;
         }
-        
+
+        public void RecordCellActivity(Vector3Int coord)
+        {
+            GridCell cell = GetCellAt(coord);
+            if (cell != null && TimeManager.Instance != null)
+            {
+                cell.LastActiveDay = TimeManager.DateTime.TotalNumDays;
+            }
+        }
+
+        public int GetDaysAbandoned(Vector3Int coord)
+        {
+            GridCell cell = GetCellAt(coord);
+            if (cell == null) return 0;
+
+            int currentDay = TimeManager.Instance != null ? TimeManager.DateTime.TotalNumDays : 1;
+            return cell.GetDaysAbandoned(currentDay);
+        }
+
+        public bool IsNearCliff(Vector3Int coord)
+        {
+            GridCell cell = GetCellAt(coord);
+            return cell != null && cell.IsNearCliff;
+        }
+
+        public bool IsRestrictedZoneDayOne(Vector3Int coord)
+        {
+            GridCell cell = GetCellAt(coord);
+            return cell != null && cell.IsRestrictedZoneDayOne;
+        }
+
+        public bool HasDebrisNearby(Vector3Int center, int radius, DebrisCategory category)
+        {
+            for (int x = -radius; x <= radius; x++)
+            {
+                for (int z = -radius; z <= radius; z++)
+                {
+                    Vector3Int neighborCoord = center + new Vector3Int(x, 0, z);
+                    GridCell cell = GetCellAt(neighborCoord);
+                    if (cell != null && cell.ActiveDebrisCategory == category)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         public void Clear()
         {
-            _cells.Clear();
+            _layers.Clear();
+            _isInitialized = false;
+            InitializeGrid();
+        }
+
+        private Dictionary<int, GridCell[]> BuildPreviewLayers(
+            Vector3Int min, Vector3Int max, int width, int height,
+            List<Collider> boundaryCols, List<Collider> restrictedCols)
+        {
+            var previewLayers = new Dictionary<int, GridCell[]>();
+            for (int y = min.y; y <= max.y; y++)
+            {
+                var layer = new GridCell[width * height];
+                for (int z = 0; z < height; z++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        int xCoord = min.x + x;
+                        int zCoord = min.z + z;
+                        Vector3Int coord = new Vector3Int(xCoord, y, zCoord);
+                        Vector3 worldPos = WorldGrid.CellToWorld(coord, tileSize);
+
+                        bool isInside = false;
+                        if (boundaryCols.Count > 0)
+                        {
+                            foreach (var col in boundaryCols)
+                            {
+                                if (col == null) continue;
+                                Bounds bounds = col.bounds;
+                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
+                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
+                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
+                                {
+                                    Vector3 closest = col.ClosestPoint(worldPos);
+                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
+                                    float distY = Mathf.Abs(closest.y - worldPos.y);
+                                    if (distXZ < 0.1f && distY < 1.0f)
+                                    {
+                                        isInside = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            isInside = true;
+                        }
+
+                        if (isInside)
+                        {
+                            GridCell cell = new GridCell(coord);
+
+                            bool isRestricted = false;
+                            foreach (var col in restrictedCols)
+                            {
+                                if (col == null) continue;
+                                Bounds bounds = col.bounds;
+                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
+                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
+                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
+                                {
+                                    Vector3 closest = col.ClosestPoint(worldPos);
+                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
+                                    float distY = Mathf.Abs(closest.y - worldPos.y);
+                                    if (distXZ < 0.1f && distY < 1.0f)
+                                    {
+                                        isRestricted = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            cell.IsRestrictedZoneDayOne = isRestricted;
+
+                            layer[z * width + x] = cell;
+                        }
+                        else
+                        {
+                            layer[z * width + x] = null;
+                        }
+                    }
+                }
+                previewLayers[y] = layer;
+            }
+
+            foreach (var layerPair in previewLayers)
+            {
+                var cells = layerPair.Value;
+                if (cells == null) continue;
+
+                for (int z = 0; z < height; z++)
+                {
+                    for (int x = 0; x < width; x++)
+                    {
+                        GridCell cell = cells[z * width + x];
+                        if (cell == null) continue;
+
+                        bool isEdge = false;
+
+                        if (x == 0 || cells[z * width + (x - 1)] == null) isEdge = true;
+                        else if (x == width - 1 || cells[z * width + (x + 1)] == null) isEdge = true;
+                        else if (z == 0 || cells[(z - 1) * width + x] == null) isEdge = true;
+                        else if (z == height - 1 || cells[(z + 1) * width + x] == null) isEdge = true;
+
+                        cell.IsNearCliff = isEdge;
+                    }
+                }
+            }
+
+            return previewLayers;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!showDebugGizmos) return;
+
+            Vector3Int activeMinBounds = minBounds;
+            Vector3Int activeMaxBounds = maxBounds;
+            int activeWidth = _width;
+            int activeHeight = _height;
+
+            List<Collider> tempColliders = boundaryColliders;
+            if (!Application.isPlaying && boundariesParent != null)
+            {
+                tempColliders = new List<Collider>(boundariesParent.GetComponentsInChildren<Collider>(false));
+                if (tempColliders.Count > 0)
+                {
+                    Bounds combinedBounds = new Bounds();
+                    bool hasBounds = false;
+                    foreach (var col in tempColliders)
+                    {
+                        if (col == null) continue;
+                        if (!hasBounds)
+                        {
+                            combinedBounds = col.bounds;
+                            hasBounds = true;
+                        }
+                        else
+                        {
+                            combinedBounds.Encapsulate(col.bounds);
+                        }
+                    }
+                    activeMinBounds = WorldGrid.WorldToCell(combinedBounds.min, tileSize) - Vector3Int.one;
+                    activeMaxBounds = WorldGrid.WorldToCell(combinedBounds.max, tileSize) + Vector3Int.one;
+                }
+                else
+                {
+                    activeMinBounds = Vector3Int.zero;
+                    activeMaxBounds = Vector3Int.zero;
+                }
+                activeWidth = activeMaxBounds.x - activeMinBounds.x + 1;
+                activeHeight = activeMaxBounds.z - activeMinBounds.z + 1;
+            }
+
+            List<Collider> tempRestrictedColliders = new List<Collider>();
+            if (!Application.isPlaying && restrictedZonesParent != null)
+            {
+                tempRestrictedColliders.AddRange(restrictedZonesParent.GetComponentsInChildren<Collider>(false));
+            }
+            else if (Application.isPlaying)
+            {
+                tempRestrictedColliders = restrictedColliders;
+            }
+
+            if (tempRestrictedColliders != null && tempRestrictedColliders.Count > 0)
+            {
+                Gizmos.color = new Color(1f, 0f, 0f, 0.15f);
+                foreach (var col in tempRestrictedColliders)
+                {
+                    if (col == null) continue;
+                    if (col is BoxCollider box)
+                    {
+                        Gizmos.matrix = col.transform.localToWorldMatrix;
+                        Gizmos.DrawCube(box.center, box.size);
+                        Gizmos.DrawWireCube(box.center, box.size);
+                    }
+                }
+                Gizmos.matrix = Matrix4x4.identity;
+            }
+
+            Dictionary<int, GridCell[]> layersToDraw = null;
+            if (Application.isPlaying)
+            {
+                layersToDraw = _layers;
+            }
+            else if (tempColliders != null && tempColliders.Count > 0)
+            {
+                layersToDraw = BuildPreviewLayers(activeMinBounds, activeMaxBounds, activeWidth, activeHeight, tempColliders, tempRestrictedColliders);
+            }
+
+            if (layersToDraw != null)
+            {
+                foreach (var layerPair in layersToDraw)
+                {
+                    var cells = layerPair.Value;
+                    if (cells == null) continue;
+
+                    foreach (var cell in cells)
+                    {
+                        if (cell == null) continue;
+
+                        Vector3 cellPos = WorldGrid.CellToWorld(cell.Coordinate, tileSize);
+
+                        RaycastHit[] hits = Physics.RaycastAll(cellPos + Vector3.up * 5f, Vector3.down, 10f);
+                        float groundY = cellPos.y;
+                        bool foundGround = false;
+                        foreach (var hit in hits)
+                        {
+                            if (tempColliders.Contains(hit.collider)) continue;
+                            if (tempRestrictedColliders.Contains(hit.collider)) continue;
+                            if (!foundGround || hit.point.y > groundY)
+                            {
+                                groundY = hit.point.y;
+                                foundGround = true;
+                            }
+                        }
+                        if (foundGround)
+                        {
+                            cellPos.y = groundY + 0.02f;
+                        }
+
+                        Gizmos.color = validCellColor;
+                        Gizmos.DrawCube(cellPos, new Vector3(tileSize * 0.9f, 0.05f, tileSize * 0.9f));
+
+                        if (cell.IsNearCliff)
+                        {
+                            Gizmos.color = cliffCellColor;
+                            Gizmos.DrawCube(cellPos, new Vector3(tileSize * 0.7f, 0.08f, tileSize * 0.7f));
+                        }
+
+                        if (cell.IsRestrictedZoneDayOne)
+                        {
+                            Gizmos.color = restrictedCellColor;
+                            float redSize = cell.IsNearCliff ? 0.4f : 0.7f;
+                            float redHeight = cell.IsNearCliff ? 0.11f : 0.08f;
+                            Gizmos.DrawCube(cellPos, new Vector3(tileSize * redSize, redHeight, tileSize * redSize));
+                        }
+                    }
+                }
+            }
         }
     }
 }

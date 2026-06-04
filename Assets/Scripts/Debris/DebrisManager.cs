@@ -79,6 +79,13 @@ namespace FaRUtils.Systems.Debris
                 Vector3 snappedPos = WorldGrid.SnapToGrid(randomPos);
                 Vector3Int cellCoord = WorldGrid.WorldToCell(snappedPos);
 
+                var dt = TimeManager.DateTime;
+                bool isDayOne = (dt.Date == 1 && (int)dt.Seasons == 0 && dt.Year == 1);
+                if (isDayOne && GridDataManager.Instance.IsRestrictedZoneDayOne(cellCoord))
+                {
+                    continue;
+                }
+
                 if (!GridDataManager.Instance.IsCellOccupied(cellCoord) && IsGroundValid(snappedPos))
                 {
                     SpawnSingleDebris(cellCoord);

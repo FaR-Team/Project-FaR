@@ -8,6 +8,9 @@ namespace FaRUtils.Systems.Debris
         [SerializeField] private Vector3Int footprintSize = Vector3Int.one;
         [SerializeField] private Vector3Int footprintOffset = Vector3Int.zero;
         [SerializeField] private bool canOverlap = false;
+        [SerializeField] private DebrisCategory category = DebrisCategory.None;
+
+        public DebrisCategory Category => category;
 
         private Vector3Int _registeredCoord;
 
