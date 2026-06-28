@@ -21,6 +21,14 @@ namespace FaRUtils.Systems.Debris
         [Header("Settings - (Every day)")]
         [SerializeField] private int dailyDebrisSpawnCount = 5;
 
+        [Header("Rules Settings")]
+        [SerializeField] private float basePrefabWeight = 1f;
+        [SerializeField] private int litterCheckRadius = 2;
+        [SerializeField] private float sameLitterTypeBonusWeight = 3f;
+        [SerializeField] private float mushroomNearCliffBonusWeight = 10f;
+
+        private Dictionary<GameObject, DebrisCategory> prefabCategories = new Dictionary<GameObject, DebrisCategory>();
+
         private void Awake()
         {
             if (CatchUpBroadcaster.Instance != null)
@@ -111,7 +119,9 @@ namespace FaRUtils.Systems.Debris
 
         private void SpawnSingleDebris(Vector3Int cellCoord)
         {
-            GameObject prefab = debrisPrefabs[Random.Range(0, debrisPrefabs.Length)];
+            GameObject prefab = SelectDebrisPrefabForCell(cellCoord);
+            if (prefab == null) return;
+
             Vector3 worldPos = WorldGrid.CellToWorld(cellCoord);
             
             Quaternion randomRot = Quaternion.Euler(0, Random.Range(0, 4) * 90, 0);
@@ -121,6 +131,101 @@ namespace FaRUtils.Systems.Debris
             if (debris == null) debris = instance.AddComponent<Debris>();
 
             GridDataManager.Instance.Register(debris);
+        }
+
+        private void InitializePrefabCategories()
+        {
+            prefabCategories.Clear();
+            foreach (var prefab in debrisPrefabs)
+            {
+                if (prefab == null) continue;
+                Debris debris = prefab.GetComponent<Debris>();
+                DebrisCategory cat = debris != null ? debris.Category : DebrisCategory.None;
+                prefabCategories[prefab] = cat;
+            }
+        }
+
+        private GameObject SelectDebrisPrefabForCell(Vector3Int cellCoord)
+        {
+            if (debrisPrefabs == null || debrisPrefabs.Length == 0) return null;
+
+            if (prefabCategories.Count != debrisPrefabs.Length)
+            {
+                InitializePrefabCategories();
+            }
+
+            Dictionary<DebrisCategory, int> nearbyDebrisCounts = new Dictionary<DebrisCategory, int>();
+            bool isNearCliff = GridDataManager.Instance.IsNearCliff(cellCoord);
+
+            for (int x = -litterCheckRadius; x <= litterCheckRadius; x++)
+            {
+                for (int z = -litterCheckRadius; z <= litterCheckRadius; z++)
+                {
+                    if (x == 0 && z == 0) continue;
+                    
+                    Vector3Int neighborCoord = cellCoord + new Vector3Int(x, 0, z);
+                    GridCell cell = GridDataManager.Instance.GetCellAt(neighborCoord);
+                    if (cell != null && cell.ActiveDebrisCategory != DebrisCategory.None)
+                    {
+                        if (!nearbyDebrisCounts.ContainsKey(cell.ActiveDebrisCategory))
+                        {
+                            nearbyDebrisCounts[cell.ActiveDebrisCategory] = 0;
+                        }
+                        nearbyDebrisCounts[cell.ActiveDebrisCategory]++;
+                    }
+                }
+            }
+
+            float[] weights = new float[debrisPrefabs.Length];
+            float totalWeight = 0f;
+
+            for (int i = 0; i < debrisPrefabs.Length; i++)
+            {
+                GameObject prefab = debrisPrefabs[i];
+                if (prefab == null) continue;
+
+                DebrisCategory cat = prefabCategories.TryGetValue(prefab, out var c) ? c : DebrisCategory.None;
+                
+                float weight = basePrefabWeight;
+
+                if (cat != DebrisCategory.None && nearbyDebrisCounts.TryGetValue(cat, out int count))
+                {
+                    weight += count * sameLitterTypeBonusWeight;
+                }
+
+                if (cat == DebrisCategory.Mushroom)
+                {
+                    if (isNearCliff)
+                    {
+                        weight += mushroomNearCliffBonusWeight;
+                    }
+                    else
+                    {
+                        weight = 0f;
+                    }
+                }
+
+                weights[i] = weight;
+                totalWeight += weight;
+            }
+
+            if (totalWeight <= 0f)
+            {
+                return debrisPrefabs[Random.Range(0, debrisPrefabs.Length)];
+            }
+
+            float randomValue = Random.Range(0f, totalWeight);
+            float currentSum = 0f;
+            for (int i = 0; i < debrisPrefabs.Length; i++)
+            {
+                currentSum += weights[i];
+                if (randomValue <= currentSum)
+                {
+                    return debrisPrefabs[i];
+                }
+            }
+
+            return debrisPrefabs[debrisPrefabs.Length - 1];
         }
 
         private void OnDrawGizmosSelected()

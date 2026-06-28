@@ -33,6 +33,7 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-d3eacbb7810fbd946b4259347b9d6b44-2134209627-0
         - globalObjectIdString: GlobalObjectId_V1-2-d3eacbb7810fbd946b4259347b9d6b44-8223704925471040983-265710289
         - globalObjectIdString: GlobalObjectId_V1-2-d3eacbb7810fbd946b4259347b9d6b44-719153281-0
+        - globalObjectIdString: GlobalObjectId_V1-2-d3eacbb7810fbd946b4259347b9d6b44-1784488849-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Terrain Icon
@@ -92,6 +93,10 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: Canvas Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 0
+          iconNameOrGuid: Settings Icon
           isIconRecursive: 0
           isColorRecursive: 0
   bookmarks: []
