@@ -22,7 +22,10 @@ namespace FaRUtils.Systems.Debris
         [SerializeField] private int dailyDebrisSpawnCount = 5;
 
         [Header("Rules Settings")]
-        [SerializeField] private float basePrefabWeight = 1f;
+        [SerializeField] private float woodBaseWeight = 1f;
+        [SerializeField] private float rockBaseWeight = 1f;
+        [SerializeField] private float plantBaseWeight = 1f;
+        [SerializeField] private float mushroomBaseWeight = 1f;
         [SerializeField] private int litterCheckRadius = 2;
         [SerializeField] private float sameLitterTypeBonusWeight = 3f;
         [SerializeField] private float mushroomNearCliffBonusWeight = 10f;
@@ -186,7 +189,7 @@ namespace FaRUtils.Systems.Debris
 
                 DebrisCategory cat = prefabCategories.TryGetValue(prefab, out var c) ? c : DebrisCategory.None;
                 
-                float weight = basePrefabWeight;
+                float weight = GetBaseWeight(cat);
 
                 if (cat != DebrisCategory.None && nearbyDebrisCounts.TryGetValue(cat, out int count))
                 {
@@ -226,6 +229,23 @@ namespace FaRUtils.Systems.Debris
             }
 
             return debrisPrefabs[debrisPrefabs.Length - 1];
+        }
+
+        private float GetBaseWeight(DebrisCategory category)
+        {
+            switch (category)
+            {
+                case DebrisCategory.Wood:
+                    return woodBaseWeight;
+                case DebrisCategory.Rock:
+                    return rockBaseWeight;
+                case DebrisCategory.Plant:
+                    return plantBaseWeight;
+                case DebrisCategory.Mushroom:
+                    return mushroomBaseWeight;
+                default:
+                    return 0f;
+            }
         }
 
         private void OnDrawGizmosSelected()
