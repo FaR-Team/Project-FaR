@@ -30,6 +30,8 @@ namespace FaRUtils.Systems.GridSystem
 
 
         [SerializeField] private Transform restrictedZonesParent;
+        [SerializeField] private Collider waterCollider;
+        [SerializeField] private Transform waterZonesParent;
 
         [Header("Test")]
         [SerializeField] private bool showDebugGizmos = true;
@@ -38,6 +40,15 @@ namespace FaRUtils.Systems.GridSystem
         [SerializeField] private Color cliffCellColor = Color.yellow;
 
         private List<Collider> restrictedColliders = new List<Collider>();
+        private List<Collider> waterColliders = new List<Collider>();
+
+        private static readonly Vector2Int[] Directions = new Vector2Int[]
+        {
+            new Vector2Int(-1, 0),
+            new Vector2Int(1, 0),
+            new Vector2Int(0, -1),
+            new Vector2Int(0, 1)
+        };
 
         private readonly Dictionary<int, GridCell[]> _layers = new Dictionary<int, GridCell[]>();
         
@@ -76,6 +87,25 @@ namespace FaRUtils.Systems.GridSystem
             if (restrictedZonesParent != null)
             {
                 restrictedColliders.AddRange(restrictedZonesParent.GetComponentsInChildren<Collider>(false));
+            }
+
+            if (waterCollider == null && waterZonesParent == null)
+            {
+                GameObject waterGo = GameObject.Find("Water");
+                if (waterGo != null)
+                {
+                    waterCollider = waterGo.GetComponent<Collider>();
+                    if (waterCollider == null)
+                    {
+                        waterCollider = waterGo.GetComponentInChildren<Collider>();
+                    }
+                }
+            }
+
+            waterColliders.Clear();
+            if (waterZonesParent != null)
+            {
+                waterColliders.AddRange(waterZonesParent.GetComponentsInChildren<Collider>(false));
             }
 
             if (boundaryColliders.Count > 0)
@@ -134,24 +164,7 @@ namespace FaRUtils.Systems.GridSystem
                         bool isInside = false;
                         if (boundaryColliders.Count > 0)
                         {
-                            foreach (var col in boundaryColliders)
-                            {
-                                if (col == null) continue;
-                                Bounds bounds = col.bounds;
-                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
-                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
-                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
-                                {
-                                    Vector3 closest = col.ClosestPoint(worldPos);
-                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
-                                    float distY = Mathf.Abs(closest.y - worldPos.y);
-                                    if (distXZ < 0.1f && distY < 1.0f)
-                                    {
-                                        isInside = true;
-                                        break;
-                                    }
-                                }
-                            }
+                            isInside = IsPointInColliders(worldPos, boundaryColliders);
                         }
                         else
                         {
@@ -161,28 +174,7 @@ namespace FaRUtils.Systems.GridSystem
                         if (isInside)
                         {
                             GridCell cell = new GridCell(coord);
-
-                            bool isRestricted = false;
-                            foreach (var col in restrictedColliders)
-                            {
-                                if (col == null) continue;
-                                Bounds bounds = col.bounds;
-                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
-                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
-                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
-                                {
-                                    Vector3 closest = col.ClosestPoint(worldPos);
-                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
-                                    float distY = Mathf.Abs(closest.y - worldPos.y);
-                                    if (distXZ < 0.1f && distY < 1.0f)
-                                    {
-                                        isRestricted = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            cell.IsRestrictedZoneDayOne = isRestricted;
-
+                            cell.IsRestrictedZoneDayOne = IsPointInColliders(worldPos, restrictedColliders);
                             layer[z * _width + x] = cell;
                         }
                         else
@@ -210,17 +202,76 @@ namespace FaRUtils.Systems.GridSystem
                         GridCell cell = cells[z * _width + x];
                         if (cell == null) continue;
 
-                        bool isEdge = false;
-
-                        if (x == 0 || cells[z * _width + (x - 1)] == null) isEdge = true;
-                        else if (x == _width - 1 || cells[z * _width + (x + 1)] == null) isEdge = true;
-                        else if (z == 0 || cells[(z - 1) * _width + x] == null) isEdge = true;
-                        else if (z == _height - 1 || cells[(z + 1) * _width + x] == null) isEdge = true;
-
-                        cell.IsNearCliff = isEdge;
+                        cell.IsNearCliff = IsCellNearCliff(x, z, _width, _height, minBounds, layerPair.Key, cells, waterCollider, waterColliders);
                     }
                 }
             }
+        }
+
+        private bool IsCellNearCliff(
+            int x, int z, int width, int height, Vector3Int min, int layerY, 
+            GridCell[] cells, Collider tempWaterCol, List<Collider> tempWaterCols)
+        {
+            foreach (var dir in Directions)
+            {
+                int nx = x + dir.x;
+                int nz = z + dir.y;
+
+                if (nx < 0 || nx >= width || nz < 0 || nz >= height || cells[nz * width + nx] == null)
+                {
+                    Vector3Int neighborCoord = new Vector3Int(min.x + nx, layerY, min.z + nz);
+                    if (!IsPointInWater(neighborCoord, tempWaterCol, tempWaterCols))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool IsPointInColliders(Vector3 worldPos, List<Collider> colliders)
+        {
+            if (colliders == null || colliders.Count == 0) return false;
+            foreach (var col in colliders)
+            {
+                if (col == null) continue;
+                Bounds bounds = col.bounds;
+                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
+                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
+                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
+                {
+                    Vector3 closest = col.ClosestPoint(worldPos);
+                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
+                    float distY = Mathf.Abs(closest.y - worldPos.y);
+                    if (distXZ < 0.1f && distY < 1.0f)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        private bool IsPointInWater(Vector3Int coord, Collider targetWaterCol, List<Collider> targetWaterCols)
+        {
+            Vector3 worldPos = WorldGrid.CellToWorld(coord, tileSize);
+            if (targetWaterCol != null)
+            {
+                Bounds bounds = targetWaterCol.bounds;
+                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
+                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
+                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
+                {
+                    Vector3 closest = targetWaterCol.ClosestPoint(worldPos);
+                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
+                    float distY = Mathf.Abs(closest.y - worldPos.y);
+                    if (distXZ < 0.1f && distY < 1.0f)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return IsPointInColliders(worldPos, targetWaterCols);
         }
 
         public GridCell GetCellAt(Vector3Int coord)
@@ -498,7 +549,8 @@ namespace FaRUtils.Systems.GridSystem
 
         private Dictionary<int, GridCell[]> BuildPreviewLayers(
             Vector3Int min, Vector3Int max, int width, int height,
-            List<Collider> boundaryCols, List<Collider> restrictedCols)
+            List<Collider> boundaryCols, List<Collider> restrictedCols,
+            Collider tempWaterCol, List<Collider> tempWaterCols)
         {
             var previewLayers = new Dictionary<int, GridCell[]>();
             for (int y = min.y; y <= max.y; y++)
@@ -516,24 +568,7 @@ namespace FaRUtils.Systems.GridSystem
                         bool isInside = false;
                         if (boundaryCols.Count > 0)
                         {
-                            foreach (var col in boundaryCols)
-                            {
-                                if (col == null) continue;
-                                Bounds bounds = col.bounds;
-                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
-                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
-                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
-                                {
-                                    Vector3 closest = col.ClosestPoint(worldPos);
-                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
-                                    float distY = Mathf.Abs(closest.y - worldPos.y);
-                                    if (distXZ < 0.1f && distY < 1.0f)
-                                    {
-                                        isInside = true;
-                                        break;
-                                    }
-                                }
-                            }
+                            isInside = IsPointInColliders(worldPos, boundaryCols);
                         }
                         else
                         {
@@ -543,28 +578,7 @@ namespace FaRUtils.Systems.GridSystem
                         if (isInside)
                         {
                             GridCell cell = new GridCell(coord);
-
-                            bool isRestricted = false;
-                            foreach (var col in restrictedCols)
-                            {
-                                if (col == null) continue;
-                                Bounds bounds = col.bounds;
-                                if (worldPos.x >= bounds.min.x - 0.1f && worldPos.x <= bounds.max.x + 0.1f &&
-                                    worldPos.z >= bounds.min.z - 0.1f && worldPos.z <= bounds.max.z + 0.1f &&
-                                    worldPos.y >= bounds.min.y - 1.0f && worldPos.y <= bounds.max.y + 1.0f)
-                                {
-                                    Vector3 closest = col.ClosestPoint(worldPos);
-                                    float distXZ = Vector2.Distance(new Vector2(closest.x, closest.z), new Vector2(worldPos.x, worldPos.z));
-                                    float distY = Mathf.Abs(closest.y - worldPos.y);
-                                    if (distXZ < 0.1f && distY < 1.0f)
-                                    {
-                                        isRestricted = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            cell.IsRestrictedZoneDayOne = isRestricted;
-
+                            cell.IsRestrictedZoneDayOne = IsPointInColliders(worldPos, restrictedCols);
                             layer[z * width + x] = cell;
                         }
                         else
@@ -588,14 +602,7 @@ namespace FaRUtils.Systems.GridSystem
                         GridCell cell = cells[z * width + x];
                         if (cell == null) continue;
 
-                        bool isEdge = false;
-
-                        if (x == 0 || cells[z * width + (x - 1)] == null) isEdge = true;
-                        else if (x == width - 1 || cells[z * width + (x + 1)] == null) isEdge = true;
-                        else if (z == 0 || cells[(z - 1) * width + x] == null) isEdge = true;
-                        else if (z == height - 1 || cells[(z + 1) * width + x] == null) isEdge = true;
-
-                        cell.IsNearCliff = isEdge;
+                        cell.IsNearCliff = IsCellNearCliff(x, z, width, height, min, layerPair.Key, cells, tempWaterCol, tempWaterCols);
                     }
                 }
             }
@@ -662,6 +669,32 @@ namespace FaRUtils.Systems.GridSystem
                 tempRestrictedColliders = restrictedColliders;
             }
 
+            Collider tempWaterCollider = waterCollider;
+            List<Collider> tempWaterColliders = new List<Collider>();
+            if (!Application.isPlaying)
+            {
+                if (tempWaterCollider == null && waterZonesParent == null)
+                {
+                    GameObject waterGo = GameObject.Find("Water");
+                    if (waterGo != null)
+                    {
+                        tempWaterCollider = waterGo.GetComponent<Collider>();
+                        if (tempWaterCollider == null)
+                        {
+                            tempWaterCollider = waterGo.GetComponentInChildren<Collider>();
+                        }
+                    }
+                }
+                if (waterZonesParent != null)
+                {
+                    tempWaterColliders.AddRange(waterZonesParent.GetComponentsInChildren<Collider>(false));
+                }
+            }
+            else
+            {
+                tempWaterColliders = waterColliders;
+            }
+
             if (showRestricted && tempRestrictedColliders != null && tempRestrictedColliders.Count > 0)
             {
                 Gizmos.color = new Color(1f, 0f, 0f, 0.15f);
@@ -685,7 +718,7 @@ namespace FaRUtils.Systems.GridSystem
             }
             else if (tempColliders != null && tempColliders.Count > 0)
             {
-                layersToDraw = BuildPreviewLayers(activeMinBounds, activeMaxBounds, activeWidth, activeHeight, tempColliders, tempRestrictedColliders);
+                layersToDraw = BuildPreviewLayers(activeMinBounds, activeMaxBounds, activeWidth, activeHeight, tempColliders, tempRestrictedColliders, tempWaterCollider, tempWaterColliders);
             }
 
             if (layersToDraw != null)
