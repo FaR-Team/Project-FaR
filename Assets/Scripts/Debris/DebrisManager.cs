@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using FaRUtils.Systems.GridSystem;
 using FaRUtils.Systems.DateTime;
@@ -7,6 +8,8 @@ namespace FaRUtils.Systems.Debris
 {
     public class DebrisManager : MonoBehaviour
     {
+        public static DebrisManager Instance { get; private set; }
+
         [Header("References")]
         [SerializeField] private GameObject[] debrisPrefabs;
         
@@ -31,9 +34,18 @@ namespace FaRUtils.Systems.Debris
         [SerializeField] private float mushroomNearCliffBonusWeight = 10f;
 
         private Dictionary<GameObject, DebrisCategory> prefabCategories = new Dictionary<GameObject, DebrisCategory>();
+        public static AllDebrisData debrisData;
+        private static bool firstLoad = false;
 
         private void Awake()
         {
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+
             if (CatchUpBroadcaster.Instance != null)
             {
                 CatchUpBroadcaster.Instance.OnCatchUpBroadcast += HandleCatchUp;
@@ -42,18 +54,92 @@ namespace FaRUtils.Systems.Debris
 
         private void Start()
         {
-            FaRUtils.Systems.DateTime.DateTime dt = TimeManager.DateTime;
-            if (dt.Date == 1 && (int)dt.Seasons == 0 && dt.Year == 1)
+            if (firstLoad)
             {
-                SpawnDebris(initialDebrisCount);
+                LoadDebris(true);
+            }
+            else
+            {
+                LoadDebris(false);
+                firstLoad = true;
             }
         }
 
         private void OnDestroy()
         {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+
             if (CatchUpBroadcaster.Instance != null)
             {
                 CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= HandleCatchUp;
+            }
+        }
+
+        public Task LoadDebris(bool temporary)
+        {
+            try
+            {
+                debrisData = LoadAllData.GetData<AllDebrisData>(temporary);
+
+                if (!temporary)
+                {
+                    DebrisSaver.instance.LoadScenesData(debrisData.scenesDataList);
+                }
+
+                var sceneData = debrisData.GetSceneDataFromName(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+                var debrisDataList = sceneData.datas;
+
+                ClearActiveDebris();
+
+                if (debrisDataList != null)
+                {
+                    foreach (var data in debrisDataList)
+                    {
+                        if (data.prefabIndex >= 0 && data.prefabIndex < debrisPrefabs.Length)
+                        {
+                            GameObject prefab = debrisPrefabs[data.prefabIndex];
+                            GameObject instance = Instantiate(prefab, data.position, data.rotation, transform);
+                            
+                            Debris debris = instance.GetComponent<Debris>();
+                            if (debris == null) debris = instance.AddComponent<Debris>();
+
+                            UniqueID uid = instance.GetComponent<UniqueID>();
+                            if (uid == null) uid = instance.AddComponent<UniqueID>();
+
+                            SaveDebrisData saveDebris = instance.GetComponent<SaveDebrisData>();
+                            if (saveDebris == null) saveDebris = instance.AddComponent<SaveDebrisData>();
+                            saveDebris.prefabIndex = data.prefabIndex;
+
+                            GridDataManager.Instance.Register(debris);
+                        }
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[DebrisManager] Failed to load debris (Reason: {e.Message}). Spawning initial debris if day one.");
+                FaRUtils.Systems.DateTime.DateTime dt = TimeManager.DateTime;
+                if (dt.Date == 1 && (int)dt.Seasons == 0 && dt.Year == 1)
+                {
+                    SpawnDebris(initialDebrisCount);
+                }
+            }
+            return Task.CompletedTask;
+        }
+
+        private void ClearActiveDebris()
+        {
+            var activeDebris = GetComponentsInChildren<Debris>(true);
+            foreach (var debris in activeDebris)
+            {
+                if (debris.transform.parent == transform)
+                {
+                    debris.transform.SetParent(null);
+                    Destroy(debris.gameObject);
+                }
             }
         }
 
@@ -132,6 +218,15 @@ namespace FaRUtils.Systems.Debris
             
             Debris debris = instance.GetComponent<Debris>();
             if (debris == null) debris = instance.AddComponent<Debris>();
+
+            UniqueID uid = instance.GetComponent<UniqueID>();
+            if (uid == null) uid = instance.AddComponent<UniqueID>();
+
+            SaveDebrisData saveDebris = instance.GetComponent<SaveDebrisData>();
+            if (saveDebris == null) saveDebris = instance.AddComponent<SaveDebrisData>();
+            
+            int prefabIndex = System.Array.IndexOf(debrisPrefabs, prefab);
+            saveDebris.prefabIndex = prefabIndex;
 
             GridDataManager.Instance.Register(debris);
         }

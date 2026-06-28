@@ -29,10 +29,22 @@ public class GridGhost : MonoBehaviour
 
     private void Awake()
     {
-        if (instance != this || instance == null)
+        if (instance != null && instance != this)
         {
-            instance = this;
+            instance.hoeGhost = this.hoeGhost;
+            instance.seedGhost = this.seedGhost;
+            instance.interactor = FindObjectOfType<Interactor>();
+            instance.rayAndSphereManager = FindObjectOfType<RayAndSphereManager>();
+            instance.hotbarDisplay = FindObjectOfType<HotbarDisplay>();
+
+            if (instance.hotbarDisplay != null)
+            {
+                instance.hotbarDisplay.SetGridGhost(instance);
+            }
+            return;
         }
+
+        instance = this;
 
         hotbarDisplay = FindObjectOfType<HotbarDisplay>();
         if(hotbarDisplay != null)
@@ -79,6 +91,8 @@ public class GridGhost : MonoBehaviour
 
     private void HandleHoeGhost()
     {
+        if (hoeGhost == null) return;
+
         if (GetItemData() == null || !GetItemData().IsHoe())
         {
             hoeGhost.SetActive(false);
@@ -117,6 +131,8 @@ public class GridGhost : MonoBehaviour
 
     private void HandleSeedGhost()
     {
+        if (seedGhost == null) return;
+
         if (GetItemData() == null || 
             GetItemData().IsHoe() || 
             (!GetItemData().IsCropSeed() && !GetItemData().IsTreeSeed()))
@@ -279,13 +295,13 @@ public class GridGhost : MonoBehaviour
 
     private void MakeGridGhostUnavaliable()
     {
-        hoeGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
-        seedGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
+        if (hoeGhost != null) hoeGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
+        if (seedGhost != null) seedGhost.GetComponentInChildren<MeshRenderer>().material = noEnergyGhostMaterial;
     }
 
     private void MakeGridGhostAvaliable()
     {
-        hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
-        seedGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
+        if (hoeGhost != null) hoeGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
+        if (seedGhost != null) seedGhost.GetComponentInChildren<MeshRenderer>().material = ghostMaterial;
     }
 }

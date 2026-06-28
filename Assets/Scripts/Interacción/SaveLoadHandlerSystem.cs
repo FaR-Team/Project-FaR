@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using UnityEngine.Events;
 
 public static class SaveLoadHandlerSystem
@@ -31,6 +31,10 @@ public static class SaveLoadHandlerSystem
     {
         ChestsManager.instance.Reload();
         await DirtSpawnerPooling.instance.Reload();
+        if (FaRUtils.Systems.Debris.DebrisManager.Instance != null)
+        {
+            await FaRUtils.Systems.Debris.DebrisManager.Instance.LoadDebris(false);
+        }
     }
 
     #endregion
