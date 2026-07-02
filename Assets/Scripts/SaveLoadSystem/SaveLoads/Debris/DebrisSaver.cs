@@ -7,16 +7,36 @@ using Utils;
 
 public class DebrisSaver : Saver<DebrisData, SaveDebrisData>
 {
-    public static DebrisSaver instance;
-
-    private AllDebrisData allDebrisData = new AllDebrisData();
-    private List<SaveDebrisData> debrisList = new List<SaveDebrisData>();
+    private static DebrisSaver _instance;
+    public static DebrisSaver instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = FindObjectOfType<DebrisSaver>();
+                if (_instance == null)
+                {
+                    GameObject go = GameObject.Find("SaverManager");
+                    if (go == null)
+                    {
+                        go = new GameObject("SaverManager");
+                    }
+                    _instance = go.AddComponent<DebrisSaver>();
+                }
+            }
+            return _instance;
+        }
+    }
 
     private void Awake()
     {
-        if (instance != null && instance != this) Destroy(this);
-        else instance = this;
+        if (_instance != null && _instance != this) Destroy(this);
+        else _instance = this;
     }
+
+    private AllDebrisData allDebrisData = new AllDebrisData();
+    private List<SaveDebrisData> debrisList = new List<SaveDebrisData>();
 
     protected async override void SaveAllData(bool isTemporarySave)
     {
