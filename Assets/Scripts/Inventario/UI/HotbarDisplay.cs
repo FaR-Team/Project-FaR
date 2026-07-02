@@ -100,7 +100,7 @@ public class HotbarDisplay : HotbarDisplayBase
             
             if (IsAbilityUnlocked(_currentAbilityIndex))
             {
-                UpdateAbilitySlot();
+                UpdateAbilitySlot(direction);
                 DoChangeNameDisplay();
                 return;
             }
@@ -128,10 +128,19 @@ public class HotbarDisplay : HotbarDisplayBase
     }
 
 
-    private void UpdateAbilitySlot()
+    private void UpdateAbilitySlot(int direction = 0)
     {
         AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1); 
-        AbilitySlot().UpdateUISlot();
+        
+        var abilitySlotUI = AbilitySlot() as InventorySlot_UIAbility;
+        if (abilitySlotUI != null && direction != 0)
+        {
+            abilitySlotUI.UpdateUISlotWithScroll(direction);
+        }
+        else
+        {
+            AbilitySlot().UpdateUISlot();
+        }
     }
     
     private static bool IsInAbilityHotbarNow()

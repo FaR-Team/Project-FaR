@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Threading.Tasks;
@@ -6,7 +6,7 @@ using System;
 
 public class InventorySlot_UIBasic : MonoBehaviour
 {
-    [SerializeField] private Image itemSprite;
+    [SerializeField] protected Image itemSprite;
     [SerializeField] private TextMeshProUGUI itemCount;
     [SerializeField] protected GameObject _slotHighlight;
     [SerializeField] protected InventorySlot assignedInventorySlot;
@@ -38,7 +38,7 @@ public class InventorySlot_UIBasic : MonoBehaviour
         ParentDisplay = GetComponentInParent<InventoryDisplay>();
     }
 
-    public void UpdateUISlot(InventorySlot slot)
+    public virtual void UpdateUISlot(InventorySlot slot)
     {
         if (slot.ItemData != null)
         {
@@ -68,7 +68,7 @@ public class InventorySlot_UIBasic : MonoBehaviour
         UpdateUISlot(slot);
     }
 
-    public void UpdateUISlot()
+    public virtual void UpdateUISlot()
     {
         if (assignedInventorySlot == null) return;
 
