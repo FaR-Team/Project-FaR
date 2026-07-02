@@ -158,10 +158,10 @@ public class GridGhost : MonoBehaviour
 
         if (GetItemData().IsCropSeed())
         {
-            shouldShowGhost = interactor._LookingAtDirt;
             var currentCheckedDirt = GridDataManager.Instance.GetEntityAt<Dirt>(coord);
+            shouldShowGhost = interactor._LookingAtDirt && currentCheckedDirt != null;
             
-            if (shouldShowGhost && currentCheckedDirt != null)
+            if (shouldShowGhost)
             {
                 hasCropOnDirt = currentCheckedDirt.currentCrop != null;
             }
