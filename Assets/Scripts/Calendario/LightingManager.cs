@@ -100,37 +100,11 @@ public class LightingManager : MonoBehaviour
     
     private Quaternion CalculateSunRotation(float timePercent)
     {
-        //(0-24 hours a 0-360 grados)
-        float sunAngle = timePercent * 360f;
-        
-        float xRotation;
+        float xRotation = (timePercent * 360f) - 90f;
         float yRotation = 170f;
         
-        if (TimeOfDay >= sunriseTime && TimeOfDay <= sunsetTime)
-        {
-            float dayProgress = Mathf.InverseLerp(sunriseTime, sunsetTime, TimeOfDay);
-            
-            float arcHeight = Mathf.Sin(dayProgress * Mathf.PI) * 80f;
-            xRotation = arcHeight - 10f;
-        }
-        else
-        {
-            if (TimeOfDay < sunriseTime)
-            {
-                float nightProgress = TimeOfDay / sunriseTime;
-                xRotation = Mathf.Lerp(nightSunYOffset, -10f, nightProgress);
-            }
-            else
-            {
-                float nightProgress = (TimeOfDay - sunsetTime) / (24f - sunsetTime);
-                xRotation = Mathf.Lerp(-10f, nightSunYOffset, nightProgress);
-            }
-        }
-        
-        if (xRotation < 0f)
-        {
-            xRotation = -xRotation;
-        }
+        if (xRotation > 180f) xRotation -= 360f;
+        if (xRotation < -180f) xRotation += 360f;
         
         return Quaternion.Euler(xRotation, yRotation, 0);
     }
