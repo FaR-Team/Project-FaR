@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using FaRUtils.Systems.DateTime;
 
@@ -42,6 +42,8 @@ public class LightingManager : MonoBehaviour
     
     private Quaternion targetSunRotation;
     private bool sunRotationInitialized = false;
+    private LightShadows originalShadows;
+    private float originalShadowStrength;
 
     private void OnEnable()
     {
@@ -56,6 +58,8 @@ public class LightingManager : MonoBehaviour
         // Initialize sun rotation
         if (DirectionalLight != null)
         {
+            originalShadows = DirectionalLight.shadows;
+            originalShadowStrength = DirectionalLight.shadowStrength;
             targetSunRotation = CalculateSunRotation(TimeOfDay / 24f);
             DirectionalLight.transform.localRotation = targetSunRotation;
             sunRotationInitialized = true;
@@ -114,13 +118,18 @@ public class LightingManager : MonoBehaviour
             if (TimeOfDay < sunriseTime)
             {
                 float nightProgress = TimeOfDay / sunriseTime;
-                xRotation = nightSunYOffset + (nightProgress * 10f);
+                xRotation = Mathf.Lerp(nightSunYOffset, -10f, nightProgress);
             }
             else
             {
                 float nightProgress = (TimeOfDay - sunsetTime) / (24f - sunsetTime);
-                xRotation = nightSunYOffset - (nightProgress * 10f);
+                xRotation = Mathf.Lerp(-10f, nightSunYOffset, nightProgress);
             }
+        }
+        
+        if (xRotation < 0f)
+        {
+            xRotation = -xRotation;
         }
         
         return Quaternion.Euler(xRotation, yRotation, 0);
@@ -160,10 +169,44 @@ public class LightingManager : MonoBehaviour
             }
             else
             {
-                intensity = minIntensity;
+                if (TimeOfDay < sunriseTime)
+                {
+                    float nightProgress = TimeOfDay / sunriseTime;
+                    intensity = Mathf.Lerp(0f, minIntensity, nightProgress);
+                }
+                else
+                {
+                    float nightProgress = (TimeOfDay - sunsetTime) / (24f - sunsetTime);
+                    intensity = Mathf.Lerp(minIntensity, 0f, nightProgress);
+                }
             }
 
             DirectionalLight.intensity = Mathf.Lerp(DirectionalLight.intensity, intensity, Time.deltaTime * transitionSpeed);
+            
+            float strengthMultiplier = 1f;
+            if (TimeOfDay >= 18f && TimeOfDay <= 19f)
+            {
+                strengthMultiplier = Mathf.InverseLerp(19f, 18f, TimeOfDay);
+            }
+            else if (TimeOfDay >= 5.5f && TimeOfDay <= 6.5f)
+            {
+                strengthMultiplier = Mathf.InverseLerp(5.5f, 6.5f, TimeOfDay);
+            }
+            else if (TimeOfDay > 19f || TimeOfDay < 5.5f)
+            {
+                strengthMultiplier = 0f;
+            }
+
+            if (strengthMultiplier > 0f)
+            {
+                DirectionalLight.shadows = originalShadows;
+                DirectionalLight.shadowStrength = originalShadowStrength * strengthMultiplier;
+            }
+            else
+            {
+                DirectionalLight.shadows = LightShadows.None;
+                DirectionalLight.shadowStrength = 0f;
+            }
 
             targetSunRotation = CalculateSunRotation(timePercent);
             

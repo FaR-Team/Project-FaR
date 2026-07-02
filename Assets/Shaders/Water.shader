@@ -1,4 +1,4 @@
-﻿Shader "FaRTeam/Water"
+Shader "FaRTeam/Water"
 {
 	Properties
 	{
@@ -205,7 +205,14 @@
 					float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
 					float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
 					
-					shadowAttenuation = quantizedShadowSample > _ShadowThreshold ? 1.0 : 0.0;
+					float shadowStrength = _MainLightShadowParams.x;
+					float rawShadow = 1.0;
+					if (shadowStrength > 0.01)
+					{
+						rawShadow = saturate((quantizedShadowSample - (1.0 - shadowStrength)) / shadowStrength);
+					}
+					
+					shadowAttenuation = rawShadow > _ShadowThreshold ? 1.0 : 0.0;
 				}
 				else
 				{
@@ -216,7 +223,7 @@
 				float cel;
 				if (_UsePixelPerfectShadows > 0.5)
 				{
-					cel = shadowAttenuation;
+					cel = lerp(1.0, shadowAttenuation, _MainLightShadowParams.x);
 				}
 				else
 				{

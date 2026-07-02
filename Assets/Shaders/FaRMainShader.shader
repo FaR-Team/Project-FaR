@@ -363,12 +363,15 @@ Shader "FaRTeam/FaRMainShaderURP"
                     
                     float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
                     
-                    float threshold = _ShadowThreshold;
-                    shadowAttenuation = quantizedShadowSample > threshold ? 1.0 : 0.0;
+                    float shadowStrength = _MainLightShadowParams.x;
+                    float rawShadow = 1.0;
+                    if (shadowStrength > 0.01)
+                    {
+                        rawShadow = saturate((quantizedShadowSample - (1.0 - shadowStrength)) / shadowStrength);
+                    }
                     
-                    float smoothRange = 0.02;
-                    shadowAttenuation = smoothstep(threshold - smoothRange, threshold + smoothRange, quantizedShadowSample);
-                    shadowAttenuation = shadowAttenuation > 0.5 ? 1.0 : 0.0;
+                    float threshold = _ShadowThreshold;
+                    shadowAttenuation = rawShadow > threshold ? 1.0 : 0.0;
                 }
                 else
                 {
@@ -383,7 +386,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 
                 if (_UsePixelPerfectShadows > 0.5)
                 {
-                    cel = shadowAttenuation;
+                    cel = lerp(1.0, shadowAttenuation, _MainLightShadowParams.x);
                 }
                 else
                 {
