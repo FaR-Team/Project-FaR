@@ -16,6 +16,13 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
     private Coroutine _scrollCoroutine;
     private GameObject _tempGo;
     private Vector2 _originalSpritePos = Vector2.zero;
+    private RectTransform _iconViewport;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        SetupIconViewport();
+    }
 
     void Start()
     {
@@ -28,6 +35,31 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
             isUnlocked = new bool[] {IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked};
         }
         isAbilityHotbarActive = false;
+    }
+
+    private void SetupIconViewport()
+    {
+        if (itemSprite == null) return;
+
+        Transform existingViewport = transform.Find("IconViewport");
+        if (existingViewport != null)
+        {
+            _iconViewport = existingViewport.GetComponent<RectTransform>();
+            return;
+        }
+
+        GameObject viewportGo = new GameObject("IconViewport", typeof(RectTransform), typeof(RectMask2D));
+        viewportGo.transform.SetParent(transform, false);
+        viewportGo.transform.SetSiblingIndex(itemSprite.transform.GetSiblingIndex());
+
+        _iconViewport = viewportGo.GetComponent<RectTransform>();
+        _iconViewport.anchorMin = Vector2.zero;
+        _iconViewport.anchorMax = Vector2.one;
+        _iconViewport.sizeDelta = Vector2.zero;
+        _iconViewport.anchoredPosition = Vector2.zero;
+        _iconViewport.pivot = new Vector2(0.5f, 0.5f);
+
+        itemSprite.transform.SetParent(_iconViewport, false);
     }
 
     public override void ToggleHighlight()
@@ -81,10 +113,7 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
 
         CleanUpLastScroll();
 
-        if (GetComponent<RectMask2D>() == null && GetComponent<Mask>() == null)
-        {
-            gameObject.AddComponent<RectMask2D>();
-        }
+        SetupIconViewport();
 
         _scrollCoroutine = StartCoroutine(ScrollTransition(oldSprite, newSprite, direction));
     }
