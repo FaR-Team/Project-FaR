@@ -12,7 +12,7 @@ public class HotbarDisplayBase : StaticInventoryDisplay
     public PlayerInput2 _playerControls;
 
     public TextMeshProUGUI NameDisplay;
-    public GameObject player;
+    protected GameObject player;
 
     protected NameDisplayController nameDisplayController;
 

@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System;
+using FaRUtils.FPSController;
 using Utils;
 public class HotbarDisplay : HotbarDisplayBase
 {
     [SerializeField] private Interactor interactor;
-
-    public GameObject telequinesis;
-    public GridGhost gridGhost;
+    
+    private GridGhost gridGhost;
 
     [Header("Tool GameObjects")]
     public GameObject hoe, bucket, shovel, blank2, blank3, hand;
@@ -30,11 +30,13 @@ public class HotbarDisplay : HotbarDisplayBase
     private void Awake()
     {
         _playerControls = GameInput.playerInputActions;
-
-        if (telequinesis == null) telequinesis = GameObject.FindWithTag("Telequinesis");
-        if (player == null) player = GameObject.FindWithTag("Player");
-        if (gridGhost == null) gridGhost = GridGhost.instance;
-        if (hoeAnimator == null && hoe != null) hoeAnimator = hoe.GetComponent<Animator>();
+        
+        if (player == null)
+            player = FaRCharacterController.instance.gameObject;
+        if (gridGhost == null) 
+            gridGhost = GridGhost.instance;
+        if (hoeAnimator == null && hoe != null) 
+            hoeAnimator = hoe.GetComponent<Animator>();
     }
 
     protected override void Start()
