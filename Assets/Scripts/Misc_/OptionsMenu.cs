@@ -16,7 +16,7 @@ public class OptionsData
     public bool timeFormat12Hour = true;
     public bool isFullscreen = true;
     public int windowMode = 0; // 0: Fullscreen, 1: FullscreenWindow, 2: Windowed
-    public int resolutionIndex = 0;
+    public int resolutionIndex = -1;
 
     public float masterVolume = 1.0f;
     public float musicVolume = 0.8f;
@@ -81,12 +81,30 @@ public class OptionsMenu : MonoBehaviour
 
         fovSlider.onValueChanged.AddListener(OnFOVValueChanged);
         sensSlider.onValueChanged.AddListener(UpdateSensitivityHandler);
+
+        if (resolutionDropdown != null)
+        {
+            resolutionDropdown.onValueChanged.AddListener(OnResolutionDropdownChanged);
+        }
+        if (windowModeDropdown != null)
+        {
+            windowModeDropdown.onValueChanged.AddListener(OnWindowModeDropdownChanged);
+        }
     }
 
     private void OnDestroy()
     {
         fovSlider.onValueChanged.RemoveListener(OnFOVValueChanged);
         sensSlider.onValueChanged.RemoveListener(UpdateSensitivityHandler);
+
+        if (resolutionDropdown != null)
+        {
+            resolutionDropdown.onValueChanged.RemoveListener(OnResolutionDropdownChanged);
+        }
+        if (windowModeDropdown != null)
+        {
+            windowModeDropdown.onValueChanged.RemoveListener(OnWindowModeDropdownChanged);
+        }
     }
 
     private void InitializeResolutions()
@@ -95,7 +113,7 @@ public class OptionsMenu : MonoBehaviour
         List<Resolution> filteredResolutions = new List<Resolution>();
         HashSet<string> seenResolutions = new HashSet<string>();
 
-        float targetAspect = (float)Screen.width / Screen.height;
+        float targetAspect = (float)Screen.currentResolution.width / Screen.currentResolution.height;
         float epsilon = 0.01f;
 
         for (int i = allResolutions.Length - 1; i >= 0; i--)
@@ -153,6 +171,10 @@ public class OptionsMenu : MonoBehaviour
         {
             resolutionDropdown.value = currentResolutionIndex;
         }
+        else if (resolutions.Length > 0)
+        {
+            resolutionDropdown.value = resolutions.Length - 1;
+        }
 
         resolutionDropdown.RefreshShownValue();
 
@@ -182,8 +204,14 @@ public class OptionsMenu : MonoBehaviour
         
         InitializeResolutions(); 
         ApplyGraphicsSettings();
-        FaRCharacterController.instance.SetBaseFOV(fovSlider.value);
-        Camera.main.fieldOfView = fovSlider.value;
+        if (FaRCharacterController.instance != null)
+        {
+            FaRCharacterController.instance.SetBaseFOV(fovSlider.value);
+        }
+        if (Camera.main != null)
+        {
+            Camera.main.fieldOfView = fovSlider.value;
+        }
 
         masterVolumeSlider.value = optionsData.masterVolume;
         musicVolumeSlider.value = optionsData.musicVolume;
@@ -239,27 +267,45 @@ public class OptionsMenu : MonoBehaviour
     private void UpdateSensitivityHandler(float value)
     {
         float mappedSensitivity = Mathf.Lerp(minSensitivity, maxSensitivity, sensSlider.normalizedValue);
-        FaRCharacterController.instance.lookSensitivity = mappedSensitivity;
+        if (FaRCharacterController.instance != null)
+        {
+            FaRCharacterController.instance.lookSensitivity = mappedSensitivity;
+        }
         SensVal.text = sensSlider.value.ToString();
     }
 
     public void ApplyGraphicsSettings()
     {
-        if (resolutions == null || resolutionDropdown.value < 0 || resolutionDropdown.value >= resolutions.Length)
+        if (resolutions == null || resolutions.Length == 0)
+        {
+            Debug.LogError("[GraphicsSettings] No resolutions initialized.");
+            return;
+        }
+
+        if (resolutionDropdown == null)
+        {
+            Debug.LogError("[GraphicsSettings] resolutionDropdown is null.");
+            return;
+        }
+
+        int resIndex = resolutionDropdown.value;
+        if (resIndex < 0 || resIndex >= resolutions.Length)
         {
             Debug.LogError("[GraphicsSettings] Invalid resolution index selected.");
             return;
         }
 
-        Resolution resolution = resolutions[resolutionDropdown.value];
-        FullScreenMode mode = GetFullScreenMode(windowModeDropdown.value);
+        Resolution resolution = resolutions[resIndex];
+        int modeIndex = windowModeDropdown != null ? windowModeDropdown.value : 0;
+        FullScreenMode mode = GetFullScreenMode(modeIndex);
         
         Debug.Log($"[GraphicsSettings] User Apply Pressed: {resolution.width}x{resolution.height} @ {mode}");
         
-        optionsData.resolutionIndex = resolutionDropdown.value;
-        optionsData.windowMode = windowModeDropdown.value;
+        optionsData.resolutionIndex = resIndex;
+        optionsData.windowMode = modeIndex;
+        optionsData.isFullscreen = (mode != FullScreenMode.Windowed);
         
-        Screen.SetResolution(resolution.width, resolution.height, mode);
+        Screen.SetResolution(resolution.width, resolution.height, mode, resolution.refreshRate);
         SaveOptions();
     }
 
@@ -267,12 +313,24 @@ public class OptionsMenu : MonoBehaviour
     {
         optionsData.resolutionIndex = resolutionIndex;
         Debug.Log($"[GraphicsSettings] Selected Resolution Index: {resolutionIndex}");
+        ApplyGraphicsSettings();
     }
 
     public void SetWindowMode(int index)
     {
         optionsData.windowMode = index;
         Debug.Log($"[GraphicsSettings] Selected Window Mode Index: {index}");
+        ApplyGraphicsSettings();
+    }
+
+    private void OnResolutionDropdownChanged(int index)
+    {
+        ApplyGraphicsSettings();
+    }
+
+    private void OnWindowModeDropdownChanged(int index)
+    {
+        ApplyGraphicsSettings();
     }
 
     private FullScreenMode GetFullScreenMode(int index)
@@ -289,8 +347,15 @@ public class OptionsMenu : MonoBehaviour
     public void SetFullscreen(bool isFullscreen)
     {
         optionsData.windowMode = isFullscreen ? 0 : 2;
-        Screen.fullScreenMode = GetFullScreenMode(optionsData.windowMode);
-        SaveOptions();
+        if (windowModeDropdown != null)
+        {
+            windowModeDropdown.value = optionsData.windowMode;
+        }
+        else
+        {
+            Screen.fullScreenMode = GetFullScreenMode(optionsData.windowMode);
+            SaveOptions();
+        }
     }
 
     public void FPS()
@@ -317,7 +382,14 @@ public class OptionsMenu : MonoBehaviour
     private void OnFOVValueChanged(float value)
     {
         FovVal.text = value.ToString("F1");
-        FaRCharacterController.instance.SetBaseFOV(value);
+        if (FaRCharacterController.instance != null)
+        {
+            FaRCharacterController.instance.SetBaseFOV(value);
+        }
+        if (Camera.main != null)
+        {
+            Camera.main.fieldOfView = value;
+        }
     }
 
     public void OnMasterVolumeChanged(float value)
@@ -435,8 +507,14 @@ public class OptionsMenu : MonoBehaviour
         FPSLimit.target = optionsData.targetFPS;
         FPSText.text = "FPS: " + optionsData.targetFPS;
         doce = optionsData.timeFormat12Hour;
-        windowModeDropdown.value = optionsData.windowMode;
-        resolutionDropdown.value = optionsData.resolutionIndex;
+        if (windowModeDropdown != null)
+        {
+            windowModeDropdown.value = optionsData.windowMode;
+        }
+        if (resolutionDropdown != null)
+        {
+            resolutionDropdown.value = optionsData.resolutionIndex;
+        }
 
         masterVolumeSlider.value = optionsData.masterVolume;
         musicVolumeSlider.value = optionsData.musicVolume;
