@@ -18,6 +18,7 @@ public class Dirt : MonoBehaviour, IGridEntity
     public int abilityLevelPlaceholder = 1;
 
     public bool IsEmpty { get; private set; }
+    public bool IsBeingDestroyed { get; private set; }
     public GameObject violeta { get; private set; }
 
     public GrowingBase currentCrop;
@@ -163,17 +164,15 @@ public class Dirt : MonoBehaviour, IGridEntity
 
     public void DestroyDirtAndCrop()
     {
-        if (currentCrop == null)
-        {
-            animator.SetBool("Plow", true);
-            StartCoroutine(DestroyDirtAndCropCoroutine());
-        }
-        else
+        if (IsBeingDestroyed) return;
+        IsBeingDestroyed = true;
+
+        if (currentCrop != null)
         {
             Destroy(currentCrop.gameObject);
-            animator.SetBool("Plow", true);
-            StartCoroutine(DestroyDirtAndCropCoroutine());
         }
+        animator.SetBool("Plow", true);
+        StartCoroutine(DestroyDirtAndCropCoroutine());
     }
 
     private IEnumerator DestroyDirtAndCropCoroutine()
@@ -190,6 +189,7 @@ public class Dirt : MonoBehaviour, IGridEntity
         cropSaveData = null;
         IsEmpty = true;
         _isWet = false;
+        IsBeingDestroyed = false;
         colliders.transform.position = this.transform.position;
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
         WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);

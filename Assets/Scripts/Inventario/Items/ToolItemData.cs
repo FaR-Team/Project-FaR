@@ -96,17 +96,8 @@ public class ToolItemData : InventoryItemData
         {
             if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
             {
-                if (dirt.currentCrop && dirt.currentCrop.IsDead)
-                {
-                    dirt.DestroyDirtAndCrop();
-                    return true;
-                }
-
-                if (dirt.currentCrop == null)
-                {
-                    dirt.DestroyDirtAndCrop();
-                    return true;
-                }
+                dirt.DestroyDirtAndCrop();
+                return true;
             }
         }
         

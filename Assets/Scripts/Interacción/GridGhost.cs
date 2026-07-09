@@ -233,7 +233,12 @@ public class GridGhost : MonoBehaviour
         Vector3 pos = worldPos;
         pos.y += 0.1f;
         Vector3Int coord = WorldGrid.WorldToCell(pos);
-        return GridDataManager.Instance.GetEntityAt<Dirt>(coord);
+        Dirt dirt = GridDataManager.Instance.GetEntityAt<Dirt>(coord);
+        if (dirt != null && dirt.IsBeingDestroyed)
+        {
+            return null;
+        }
+        return dirt;
     }
 
     public bool CheckCrop(Vector3 worldPos, float radius = 0.5f)
