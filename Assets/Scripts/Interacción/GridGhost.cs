@@ -1,4 +1,5 @@
 using FaRUtils.Systems.GridSystem;
+using FaRUtils.Systems.Debris;
 using UnityEngine;
 using Utils;
 using Random = UnityEngine.Random;
@@ -239,6 +240,14 @@ public class GridGhost : MonoBehaviour
             return null;
         }
         return dirt;
+    }
+
+    public Debris CheckDebris(Vector3 worldPos, float radius = 0.5f)
+    {
+        Vector3 pos = worldPos;
+        pos.y += 0.1f;
+        Vector3Int coord = WorldGrid.WorldToCell(pos);
+        return GridDataManager.Instance.GetEntityAt<Debris>(coord);
     }
 
     public bool CheckCrop(Vector3 worldPos, float radius = 0.5f)

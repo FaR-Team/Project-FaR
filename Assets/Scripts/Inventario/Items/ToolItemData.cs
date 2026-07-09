@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
+using FaRUtils.Systems.GridSystem;
+using FaRUtils.Systems.Debris;
 
 [CreateAssetMenu(menuName = "Jueguito Granjil/Inventario/ToolItem")]
 public class ToolItemData : InventoryItemData
@@ -98,6 +100,18 @@ public class ToolItemData : InventoryItemData
             {
                 dirt.DestroyDirtAndCrop();
                 return true;
+            }
+        }
+        else
+        {
+            Debris debris = GridGhost.instance.CheckDebris(GridGhost.instance.FinalPosition, 0.1f);
+            if (debris != null && debris.Category != DebrisCategory.Wood)
+            {
+                if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+                {
+                    Destroy(debris.gameObject);
+                    return true;
+                }
             }
         }
         
