@@ -10,11 +10,20 @@ public class PlayerStats : MonoBehaviour
     [SerializeField]
     public Dictionary<SkillType, int> skillLevels = new Dictionary<SkillType, int>();
 
+    [Header("Debug")]
+    [SerializeField] private bool debugStartWithClothes = false;
+
     private void Awake()
     {
         if (Instance == null || Instance != this)
         {
             Instance = this;
+        }
+
+        if (debugStartWithClothes)
+        {
+            hasPants = true;
+            hasShirt = true;
         }
     }
 
@@ -61,8 +70,8 @@ public class PlayerStats : MonoBehaviour
     public void LoadStats(GameStateData gameData)
     {
         skillPoints = gameData.PlayerStatsData.skillPoints;
-        hasPants = gameData.PlayerStatsData.hasPants;
-        hasShirt = gameData.PlayerStatsData.hasShirt;
+        hasPants = debugStartWithClothes || gameData.PlayerStatsData.hasPants;
+        hasShirt = debugStartWithClothes || gameData.PlayerStatsData.hasShirt;
         Debug.Log("Loading Stats");
         if (gameData.PlayerStatsData.skillAndLevels != null)
         {
