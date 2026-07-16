@@ -273,6 +273,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             Name "ForwardLit"
             Tags {"LightMode" = "UniversalForward"}
             
+            Cull Off
             ZWrite On
             ZTest LEqual
             
@@ -323,25 +324,26 @@ Shader "FaRTeam/FaRMainShaderURP"
                 return OUT;
             }
             
-            half4 frag(Varyings IN) : SV_Target
+            half4 frag(Varyings IN, bool isFrontFace : SV_IsFrontFace) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color * IN.color;
                 half3 albedo = texColor.rgb;
                 half alpha = texColor.a * _Alpha;
             
+                float3 normalWS = normalize(IN.normalWS);
+                normalWS = isFrontFace ? normalWS : -normalWS;
+
                 float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
                 Light mainLight = GetMainLight(shadowCoord);
                 
-                float NdotL = dot(IN.normalWS, mainLight.direction) * 0.5 + 0.5;
+                float NdotL = dot(normalWS, mainLight.direction) * 0.5 + 0.5;
                 
                 float shadowAttenuation = 1.0;
                 
                 if (_UsePixelPerfectShadows > 0.5)
                 {
                     float pixelSize = 0.1;
-                    
-                    float3 normalWS = normalize(IN.normalWS);
                     
                     float3 gridBias = normalWS * (pixelSize * _ShadowNormalBias);
                     float3 biasedPosWS = IN.positionWS + gridBias;
