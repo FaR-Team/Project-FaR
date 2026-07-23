@@ -38,7 +38,8 @@ public class ClockManager : MonoBehaviour
     {
         place = SceneManager.GetActiveScene().buildIndex;
         SceneManager.sceneLoaded += ChangeSceneText;
-        UpdateGoldText(PlayerInventoryHolder.instance.PrimaryInventorySystem.Gold);
+        SubscribeGoldEvent();
+        RefreshGoldDisplay();
     }
 
     private void ChangeSceneText(Scene arg0, LoadSceneMode arg1)
@@ -50,18 +51,53 @@ public class ClockManager : MonoBehaviour
     private void OnEnable()
     {
         TimeManager.OnDateTimeChanged += UpdateDateTime;
-        PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged += UpdateGoldText;
+        SubscribeGoldEvent();
+        RefreshGoldDisplay();
     }
 
     private void OnDisable()
     {
         TimeManager.OnDateTimeChanged -= UpdateDateTime;
-        PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged -= UpdateGoldText;
+        UnsubscribeGoldEvent();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= ChangeSceneText;
+        UnsubscribeGoldEvent();
+    }
+
+    private void SubscribeGoldEvent()
+    {
+        if (PlayerInventoryHolder.instance != null && PlayerInventoryHolder.instance.PrimaryInventorySystem != null)
+        {
+            PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged -= UpdateGoldText;
+            PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged += UpdateGoldText;
+        }
+    }
+
+    private void UnsubscribeGoldEvent()
+    {
+        if (PlayerInventoryHolder.instance != null && PlayerInventoryHolder.instance.PrimaryInventorySystem != null)
+        {
+            PlayerInventoryHolder.instance.PrimaryInventorySystem.OnGoldAmountChanged -= UpdateGoldText;
+        }
+    }
+
+    public void RefreshGoldDisplay()
+    {
+        if (PlayerInventoryHolder.instance != null && PlayerInventoryHolder.instance.PrimaryInventorySystem != null)
+        {
+            UpdateGoldText(PlayerInventoryHolder.instance.PrimaryInventorySystem.Gold);
+        }
     }
 
     private void UpdateGoldText(int gold)
     {
-        Gold.text = $"{gold}G";
+        if (Gold != null)
+        {
+            Gold.text = $"{gold}";
+        }
     }
 
     public static string TimeText()
