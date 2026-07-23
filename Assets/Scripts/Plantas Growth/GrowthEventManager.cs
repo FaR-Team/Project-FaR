@@ -14,6 +14,10 @@ public class GrowthEventManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            if (transform.parent != null)
+            {
+                transform.SetParent(null, false);
+            }
             DontDestroyOnLoad(gameObject);
         }
         else

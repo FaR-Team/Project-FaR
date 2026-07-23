@@ -195,8 +195,17 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
 
     protected virtual void OnDisable()
     {
-        GrowthEventManager.Instance.OnHourChanged -= OnHourChanged;
-        CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= CatchUpMissedGrowth;
-        GridDataManager.Instance.Unregister(this);
+        if (GrowthEventManager.Instance != null)
+        {
+            GrowthEventManager.Instance.OnHourChanged -= OnHourChanged;
+        }
+        if (CatchUpBroadcaster.Instance != null)
+        {
+            CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= CatchUpMissedGrowth;
+        }
+        if (GridDataManager.Instance != null)
+        {
+            GridDataManager.Instance.Unregister(this);
+        }
     }
 }

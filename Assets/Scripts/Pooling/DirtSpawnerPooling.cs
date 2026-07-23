@@ -62,7 +62,7 @@ public class DirtSpawnerPooling : MonoBehaviour
         {
             dirt.GetDown();
             GridDataManager.Instance.Register(dirt); 
-            Debug.Log($"[DirtSpawner] Registered Dirt at {dirt.Coordinate} (Pos: {dirtGO.transform.position})");
+            //Debug.Log($"[DirtSpawner] Registered Dirt at {dirt.Coordinate} (Pos: {dirtGO.transform.position})");
         }
 
         if (dirtAnimator != null)

@@ -44,7 +44,7 @@ public class CatchUpBroadcaster : MonoBehaviour
         var lastDayCount = lastSaveTime.Hour < 3 ? lastSaveTime.TotalNumDays - 1 : lastSaveTime.TotalNumDays;
         var daysPassed = currentDayCount - lastDayCount;
         
-        this.Log($"Days passed: {daysPassed}", $"Current time: {currentTime.Date}", $"Last save time: {lastSaveTime.Date}");
+        //this.Log($"Days passed: {daysPassed}", $"Current time: {currentTime.Date}", $"Last save time: {lastSaveTime.Date}");
         
         OnCatchUpBroadcast?.Invoke(daysPassed);
         

@@ -75,7 +75,11 @@ public static class SaverManager
     {
         try
         {
-            Directory.Delete(PathFinder.GetTempFolder(), true);
+            string tempFolder = PathFinder.GetTempFolder();
+            if (Directory.Exists(tempFolder))
+            {
+                Directory.Delete(tempFolder, true);
+            }
         }
         catch (Exception e)
         {

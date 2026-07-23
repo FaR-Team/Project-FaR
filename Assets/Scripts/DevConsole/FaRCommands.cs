@@ -68,7 +68,7 @@ public class FaRCommands : MonoBehaviour
                     var ordered = matches.OrderByDescending(n => n.StartsWith(q, System.StringComparison.OrdinalIgnoreCase)).Take(50).ToArray();
                     return ordered;
                 });
-            Debug.Log($"FaRCommands: Registered 'give' argument suggestions from ItemsIndex ({itemsIndex.items.Length} items).");
+            //Debug.Log($"FaRCommands: Registered 'give' argument suggestions from ItemsIndex ({itemsIndex.items.Length} items).");
         }
         else
         {

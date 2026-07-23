@@ -8,20 +8,37 @@ namespace FaRUtils.Systems.GridSystem
     public class GridDataManager : MonoBehaviour
     {
         private static GridDataManager _instance;
+        private static bool _isQuitting = false;
+
         public static GridDataManager Instance
         {
             get
             {
+                if (_isQuitting) return null;
+
                 if (_instance == null)
                 {
                     _instance = FindObjectOfType<GridDataManager>();
-                    if (_instance == null)
+                    if (_instance == null && !_isQuitting)
                     {
                         GameObject go = new GameObject("GridDataManager");
                         _instance = go.AddComponent<GridDataManager>();
                     }
                 }
                 return _instance;
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            _isQuitting = true;
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                _instance = null;
             }
         }
 
@@ -74,7 +91,7 @@ namespace FaRUtils.Systems.GridSystem
 
         private void InitializeGrid()
         {
-            if (_isInitialized) return;
+            if (_isInitialized || _isQuitting) return;
             _isInitialized = true;
 
             boundaryColliders.Clear();

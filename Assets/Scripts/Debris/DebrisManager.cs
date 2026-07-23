@@ -192,7 +192,7 @@ namespace FaRUtils.Systems.Debris
 
             if (spawnedCount > 0)
             {
-                Debug.Log($"DebrisManager: Spawned {spawnedCount} debris items.");
+                //Debug.Log($"DebrisManager: Spawned {spawnedCount} debris items.");
             }
         }
 

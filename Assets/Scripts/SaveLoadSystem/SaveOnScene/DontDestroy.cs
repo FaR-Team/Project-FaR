@@ -31,7 +31,10 @@ public class DontDestroy : MonoBehaviour
                 }
             }
         }
-        transform.parent = null;
+        if (transform.parent != null)
+        {
+            transform.SetParent(null, false);
+        }
         DontDestroyOnLoad(gameObject);
     }
 }

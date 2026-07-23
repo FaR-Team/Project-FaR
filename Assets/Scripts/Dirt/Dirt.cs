@@ -161,7 +161,10 @@ public class Dirt : MonoBehaviour, IGridEntity
 
     void OnDisable()
     {
-        GridDataManager.Instance.Unregister(this, _registeredCoord);
+        if (GridDataManager.Instance != null)
+        {
+            GridDataManager.Instance.Unregister(this, _registeredCoord);
+        }
         Reset();
     }
 
