@@ -106,6 +106,15 @@ public class ToolItemData : InventoryItemData
                 return false;
             }
 
+            List<GameObject> targets = new List<GameObject>();
+            targets.Add(dirt.gameObject);
+            if (dirt.currentCrop != null)
+            {
+                targets.Add(dirt.currentCrop.gameObject);
+            }
+            Vector3 explosionPos = dirt.transform.position + Vector3.up * 0.35f;
+            VoxelExplosionFX.Spawn(targets, explosionPos, 28);
+
             dirt.DestroyDirtAndCrop();
             Energy.instance?.TryUseAndAnimateEnergy(energyCost, 2f);
             return true;
@@ -120,6 +129,9 @@ public class ToolItemData : InventoryItemData
                     Energy.instance?.ShowNoEnergyFeedback();
                     return false;
                 }
+
+                Vector3 explosionPos = debris.transform.position + Vector3.up * 0.35f;
+                VoxelExplosionFX.Spawn(debris.gameObject, explosionPos, 28);
 
                 Destroy(debris.gameObject);
                 Energy.instance?.TryUseAndAnimateEnergy(energyCost, 2f);
