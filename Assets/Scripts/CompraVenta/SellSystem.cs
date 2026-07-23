@@ -78,30 +78,44 @@ public class SellSystem : MonoBehaviour
     
     public void AddToSellCart(GameObject CropBoxPrefab, InventoryItemData data)
     {
+        if (data == null) return;
         var price = GetModifiedPrice(data, 1);
 
         if (TryGetShoppingCartItem(data, out ShoppingCartItem item))
         {
             item.amount++;
-            //_shoppingCart[data]++;
 
-            if (data.ID == Box1int) Box1T.text = $"{item.amount}";
-            if (data.ID == Box2int) Box2T.text = $"{item.amount}";
-            if (data.ID == Box3int) Box3T.text = $"{item.amount}";
-            if (data.ID == Box4int) Box4T.text = $"{item.amount}";
-            if (data.ID == Box5int) Box5T.text = $"{item.amount}";
+            if (data.ID == Box1int && Box1T != null) Box1T.text = $"{item.amount}";
+            if (data.ID == Box2int && Box2T != null) Box2T.text = $"{item.amount}";
+            if (data.ID == Box3int && Box3T != null) Box3T.text = $"{item.amount}";
+            if (data.ID == Box4int && Box4T != null) Box4T.text = $"{item.amount}";
+            if (data.ID == Box5int && Box5T != null) Box5T.text = $"{item.amount}";
+
             var newString = $"{data.Nombre} x{item.amount}";
-            _shoppingCartUI[data].SetItemText(newString);
+            if (_shoppingCartUI.TryGetValue(data, out var uiItem) && uiItem != null)
+            {
+                uiItem.SetItemText(newString);
+            }
+            else if (_shoppingCartItemPrefab != null && _shoppingCartContentPanel != null)
+            {
+                var shoppingCartTextObj = Instantiate(_shoppingCartItemPrefab, _shoppingCartContentPanel.transform);
+                _shoppingCartUI[data] = shoppingCartTextObj;
+                shoppingCartTextObj.SetItemText(newString);
+            }
         }
         else
         {
             ShoppingCartItem cartItem = new ShoppingCartItem(data, 1);
             _shoppingCart.Add(cartItem);
             AddBox(CropBoxPrefab, data);
-            var shoppingCartTextObj = Instantiate(_shoppingCartItemPrefab, _shoppingCartContentPanel.transform);
+
             var newString = $"{data.Nombre} x{cartItem.amount}";
-            _shoppingCartUI.Add(data, shoppingCartTextObj);
-            _shoppingCartUI[data].SetItemText(newString);
+            if (_shoppingCartItemPrefab != null && _shoppingCartContentPanel != null)
+            {
+                var shoppingCartTextObj = Instantiate(_shoppingCartItemPrefab, _shoppingCartContentPanel.transform);
+                _shoppingCartUI[data] = shoppingCartTextObj;
+                shoppingCartTextObj.SetItemText(newString);
+            }
         }
 
         _basketTotal += price;
@@ -121,7 +135,11 @@ public class SellSystem : MonoBehaviour
 
     public void AddBox(GameObject CropBoxPrefab, InventoryItemData data)
     {
-        TryGetShoppingCartItem(data, out ShoppingCartItem cartItem);
+        int amount = 1;
+        if (TryGetShoppingCartItem(data, out ShoppingCartItem cartItem) && cartItem != null)
+        {
+            amount = cartItem.amount;
+        }
 
         if (BoxCount >= 5)
         {
@@ -130,9 +148,12 @@ public class SellSystem : MonoBehaviour
         }
 
         var (position, boxNumber) = GetNextBoxPosition();
-        var box = InstantiateBox(CropBoxPrefab, position, cartItem.amount);
-        StoreBoxReference(box, boxNumber, data.ID);
-        BoxCount++;
+        var box = InstantiateBox(CropBoxPrefab, position, amount);
+        if (box != null && data != null)
+        {
+            StoreBoxReference(box, boxNumber, data.ID);
+            BoxCount++;
+        }
     }
 
     private (Vector3 position, int boxNumber) GetNextBoxPosition()
@@ -156,39 +177,50 @@ public class SellSystem : MonoBehaviour
 
     private GameObject InstantiateBox(GameObject prefab, Vector3 position, int amount)
     {
+        if (prefab == null)
+        {
+            Debug.LogWarning("CropBoxPrefab is null when instantiating box.");
+            return null;
+        }
+
         var box = Instantiate(prefab, position, transform.rotation);
-        var textComponent = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
-        textComponent.text = $"{amount}";
+        var textComponent = box.GetComponentInChildren<TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.text = $"{amount}";
+        }
         return box;
     }
 
     private void StoreBoxReference(GameObject box, int boxNumber, int dataId)
     {
+        if (box == null) return;
+        var textComp = box.GetComponentInChildren<TextMeshProUGUI>();
         switch (boxNumber)
         {
             case 1:
                 Box1 = box;
-                Box1T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box1T = textComp;
                 Box1int = dataId;
                 break;
             case 2:
                 Box2 = box;
-                Box2T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box2T = textComp;
                 Box2int = dataId;
                 break;
             case 3:
                 Box3 = box;
-                Box3T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box3T = textComp;
                 Box3int = dataId;
                 break;
             case 4:
                 Box4 = box;
-                Box4T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box4T = textComp;
                 Box4int = dataId;
                 break;
             case 5:
                 Box5 = box;
-                Box5T = box.transform.Find("default").gameObject.GetComponentInChildren<TextMeshProUGUI>();
+                Box5T = textComp;
                 Box5int = dataId;
                 break;
         }
@@ -197,14 +229,17 @@ public class SellSystem : MonoBehaviour
     private void HandleBigBox()
     {
         BoxCount = 6;
-        Destroy(Box1);
-        Destroy(Box2);
-        Destroy(Box3);
-        Destroy(Box4);
-        Destroy(Box5);
-        Destroy(Box6);
-        BigBox.gameObject.SetActive(true);
-        BigBox.transform.position = transform.position + (transform.up * 1);
+        if (Box1 != null) Destroy(Box1);
+        if (Box2 != null) Destroy(Box2);
+        if (Box3 != null) Destroy(Box3);
+        if (Box4 != null) Destroy(Box4);
+        if (Box5 != null) Destroy(Box5);
+        if (Box6 != null) Destroy(Box6);
+        if (BigBox != null)
+        {
+            BigBox.gameObject.SetActive(true);
+            BigBox.transform.position = transform.position + (transform.up * 1);
+        }
     }
 
     public static int GetModifiedPrice(InventoryItemData data, int amount)
@@ -216,20 +251,23 @@ public class SellSystem : MonoBehaviour
 
     private void ClearSlots()
     {
-        _shoppingCart = new ();
-        _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
+        _shoppingCart.Clear();
+        _shoppingCartUI.Clear();
         _basketTotal = 0;
         BoxCount = 0;
-        if(Box1 != null) Destroy(Box1);
-        if(Box2 != null) Destroy(Box2);
-        if(Box3 != null) Destroy(Box3);
-        if(Box4 != null) Destroy(Box4);
-        if(Box5 != null) Destroy(Box5);
-        BigBox.gameObject.SetActive(false);
+        if (Box1 != null) Destroy(Box1);
+        if (Box2 != null) Destroy(Box2);
+        if (Box3 != null) Destroy(Box3);
+        if (Box4 != null) Destroy(Box4);
+        if (Box5 != null) Destroy(Box5);
+        if (BigBox != null) BigBox.gameObject.SetActive(false);
 
-        foreach (var item in _shoppingCartContentPanel.transform.Cast<Transform>())
+        if (_shoppingCartContentPanel != null)
         {
-            Destroy(item.gameObject);
+            foreach (var item in _shoppingCartContentPanel.transform.Cast<Transform>())
+            {
+                Destroy(item.gameObject);
+            }
         }
     }
 

@@ -12,8 +12,13 @@ public class CropItemData : InventoryItemData
     {
         _sellSystem = FindObjectOfType<SellSystem>();
 
+        if (_sellSystem != null)
+        {
+            _sellSystem.SellItem(CropBoxPrefab, this);
+            return true;
+        }
 
-        _sellSystem.SellItem(CropBoxPrefab, this);
-        return true;
+        Debug.LogWarning("SellSystem not found in scene.");
+        return false;
     }
 }
