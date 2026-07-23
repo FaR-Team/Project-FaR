@@ -72,7 +72,7 @@ public class PlayerStats : MonoBehaviour
         skillPoints = gameData.PlayerStatsData.skillPoints;
         hasPants = debugStartWithClothes || gameData.PlayerStatsData.hasPants;
         hasShirt = debugStartWithClothes || gameData.PlayerStatsData.hasShirt;
-        Debug.Log("Loading Stats");
+        //Debug.Log("Loading Stats");
         if (gameData.PlayerStatsData.skillAndLevels != null)
         {
             for (int i = 0; i < gameData.PlayerStatsData.skillAndLevels.Length; i++)

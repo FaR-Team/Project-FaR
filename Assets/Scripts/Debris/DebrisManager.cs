@@ -145,10 +145,10 @@ namespace FaRUtils.Systems.Debris
 
         private void HandleCatchUp(int daysPassed)
         {
-            Debug.Log($"DebrisManager: HandleCatchUp called with {daysPassed} daysPassed.");
+            //Debug.Log($"DebrisManager: HandleCatchUp called with {daysPassed} daysPassed.");
             if (daysPassed > 0)
             {
-                Debug.Log($"DebrisManager: Catching up {daysPassed} days of debris.");
+                //Debug.Log($"DebrisManager: Catching up {daysPassed} days of debris.");
                 SpawnDebris(dailyDebrisSpawnCount * daysPassed);
             }
         }

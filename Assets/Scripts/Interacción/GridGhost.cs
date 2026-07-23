@@ -9,7 +9,7 @@ public class GridGhost : MonoBehaviour
     public static GridGhost instance { get; private set; }
     [SerializeField] private Interactor interactor;
     public HotbarDisplay hotbarDisplay;
-    public GameObject hoeGhost, seedGhost;
+    public GameObject hoeGhost, seedGhost, shovelGhost;
     public RayAndSphereManager rayAndSphereManager;
 
     public Material ghostMaterial;
@@ -34,6 +34,7 @@ public class GridGhost : MonoBehaviour
         {
             instance.hoeGhost = this.hoeGhost;
             instance.seedGhost = this.seedGhost;
+            instance.shovelGhost = this.shovelGhost;
             instance.interactor = FindObjectOfType<Interactor>();
             instance.rayAndSphereManager = FindObjectOfType<RayAndSphereManager>();
             instance.hotbarDisplay = FindObjectOfType<HotbarDisplay>();
@@ -87,6 +88,7 @@ public class GridGhost : MonoBehaviour
         if (PauseMenu.GameIsPaused) return;
 
         HandleHoeGhost();
+        HandleShovelGhost();
         HandleSeedGhost();
     }
 
@@ -94,7 +96,8 @@ public class GridGhost : MonoBehaviour
     {
         if (hoeGhost == null) return;
 
-        if (GetItemData() == null || !GetItemData().IsHoe())
+        var itemData = GetItemData();
+        if (itemData == null || !itemData.IsHoe())
         {
             hoeGhost.SetActive(false);
             return;
@@ -130,12 +133,39 @@ public class GridGhost : MonoBehaviour
         }
     }
 
+    private void HandleShovelGhost()
+    {
+        GameObject ghostToUse = shovelGhost != null ? shovelGhost : hoeGhost;
+        if (ghostToUse == null) return;
+
+        var itemData = GetItemData();
+        if (itemData == null || !itemData.IsShovel())
+        {
+            if (shovelGhost != null) shovelGhost.SetActive(false);
+            return;
+        }
+        
+        if (interactor.hit.collider == null)
+        {
+            ghostToUse.SetActive(false);
+            return;
+        }
+        
+        Vector3 hitPoint = interactor.hit.point;
+        hitPoint.y += 0.1f;
+        finalPosition = WorldGrid.SnapToGrid(hitPoint);
+        
+        ghostToUse.SetActive(true);
+        ghostToUse.transform.position = finalPosition;
+    }
+
     private void HandleSeedGhost()
     {
         if (seedGhost == null) return;
 
         if (GetItemData() == null || 
             GetItemData().IsHoe() || 
+            GetItemData().IsShovel() ||
             (!GetItemData().IsCropSeed() && !GetItemData().IsTreeSeed()))
         {
             seedGhost.SetActive(false);

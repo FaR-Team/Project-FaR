@@ -38,7 +38,11 @@ public class RayAndSphereManager : MonoBehaviour
 
     public static Ray RayCameraScreenPoint()
     {
-        return Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Camera.main != null)
+        {
+            return Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
+        }
+        return default;
     }
    
 }

@@ -90,7 +90,8 @@ public class Interactor : InteractorBase
 
         _LookingAtDirt = Physics.Raycast(_interactionPoint.position, _interactionPoint2.position - _interactionPoint.position, 10f, _dirtMask);
 
-        RayAndSphereManager.DoRaycast(RayAndSphereManager.RayCameraScreenPoint(), out hit, _maxRayDistance, layerMask);
+        Ray ray = _camera != null ? CenterRay() : RayAndSphereManager.RayCameraScreenPoint();
+        RayAndSphereManager.DoRaycast(ray, out hit, _maxRayDistance, layerMask);
 
         _numDirtFound = Physics.OverlapCapsuleNonAlloc(_interactionPoint.position, _interactionPoint2.position, _interactionPointRadius, _colliders, _sellMask);
 

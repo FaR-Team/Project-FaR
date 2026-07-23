@@ -38,7 +38,7 @@ public class ThirdPersonInteractor : InteractorBase
     {
         if (!_canInteract) return;
                 
-        Ray ray = _cam.ScreenPointToRay(Input.mousePosition);
+        Ray ray = _cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));
         Physics.Raycast(ray, out RaycastHit hit, 8f, interactableLayer);
 
         if (hit.collider == null || !hit.collider.gameObject.TryGetComponent(out IInteractable interactable)) return;
