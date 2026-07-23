@@ -34,6 +34,9 @@ namespace FaRUtils.FPSController
         private bool _grounded;
         public float jumpSpeed;
         public bool doWalk;
+        [SerializeField] private float acceleration = 30f;
+        [SerializeField] private float airAcceleration = 8f;
+        [SerializeField] private float jumpHeight = 1.2f;
         [SerializeField] private float airControl = 0.4f;
         [SerializeField] private float fallMultiplier = 2.5f;
 
@@ -141,13 +144,14 @@ namespace FaRUtils.FPSController
         private void DoMovement()
         {
             _grounded = _controller.isGrounded;
-            
-            if (_grounded && _velocity.y < 0)
+
+            if (_grounded && _velocity.y < 0f)
             {
                 _velocity.y = -2f;
             }
 
             Vector2 input = Vector2.ClampMagnitude(GetPlayerMovement(), 1f);
+
             if (_movementLockTimer > 0f)
             {
                 _movementLockTimer -= Time.deltaTime;
@@ -156,33 +160,50 @@ namespace FaRUtils.FPSController
 
             Vector3 moveDirection = transform.right * input.x + transform.forward * input.y;
 
+            Vector3 targetVelocity = moveDirection * movementSpeed;
+
             if (_grounded)
             {
-                _velocity.x = moveDirection.x * movementSpeed;
-                _velocity.z = moveDirection.z * movementSpeed;
+                _velocity.x = Mathf.MoveTowards(
+                    _velocity.x,
+                    targetVelocity.x,
+                    acceleration * Time.deltaTime
+                );
+
+                _velocity.z = Mathf.MoveTowards(
+                    _velocity.z,
+                    targetVelocity.z,
+                    acceleration * Time.deltaTime
+                );
 
                 if (GameInput.playerInputActions.Player.Jump.WasPressedThisFrame())
                 {
-                    _velocity.y = Mathf.Sqrt(jumpSpeed * -2f * gravity);
+                    _velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 }
             }
             else
             {
-                Vector3 airForce = moveDirection * (movementSpeed * airControl);
-                _velocity.x += airForce.x * Time.deltaTime;
-                _velocity.z += airForce.z * Time.deltaTime;
+                Vector3 airTargetVelocity = targetVelocity * airControl;
 
-                Vector2 horizontalVel = new Vector2(_velocity.x, _velocity.z);
-                if (horizontalVel.magnitude > movementSpeed)
-                {
-                    horizontalVel = horizontalVel.normalized * movementSpeed;
-                    _velocity.x = horizontalVel.x;
-                    _velocity.z = horizontalVel.y;
-                }
+                _velocity.x = Mathf.MoveTowards(
+                    _velocity.x,
+                    airTargetVelocity.x,
+                    airAcceleration * Time.deltaTime
+                );
+
+                _velocity.z = Mathf.MoveTowards(
+                    _velocity.z,
+                    airTargetVelocity.z,
+                    airAcceleration * Time.deltaTime
+                );
             }
+            
+            float currentGravity = _velocity.y < 0f
+                ? gravity * fallMultiplier
+                : gravity;
 
-            float currentGravity = _velocity.y < 0 ? gravity * fallMultiplier : gravity;
             _velocity.y += currentGravity * Time.deltaTime;
+
             _controller.Move(_velocity * Time.deltaTime);
         }
 
