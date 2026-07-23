@@ -114,6 +114,8 @@ namespace FaRUtils.FPSController
 
         public void DoLooking()
         {
+            if (_movementLockTimer > 0f) return;
+
             Vector2 looking = GetPlayerLook();
             float lookX = looking.x * lookSensitivity;
             float lookY = looking.y * lookSensitivity;
@@ -126,6 +128,16 @@ namespace FaRUtils.FPSController
             transform.Rotate(Vector3.up * lookX);
         }
 
+        private float _movementLockTimer = 0f;
+
+        public void LockMovementFor(float duration)
+        {
+            if (duration > _movementLockTimer)
+            {
+                _movementLockTimer = duration;
+            }
+        }
+
         private void DoMovement()
         {
             _grounded = _controller.isGrounded;
@@ -136,6 +148,12 @@ namespace FaRUtils.FPSController
             }
 
             Vector2 input = Vector2.ClampMagnitude(GetPlayerMovement(), 1f);
+            if (_movementLockTimer > 0f)
+            {
+                _movementLockTimer -= Time.deltaTime;
+                input = Vector2.zero;
+            }
+
             Vector3 moveDirection = transform.right * input.x + transform.forward * input.y;
 
             if (_grounded)

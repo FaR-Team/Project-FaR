@@ -243,15 +243,26 @@ public class HotbarDisplay : HotbarDisplayBase
         return true;
     }
 
+    private bool _hasUsedToolThisPress = false;
+
     private void UseItemRelease()
     {        
         _isHolding = false;
+        _hasUsedToolThisPress = false;
         CancelInvoke();
     }
 
     private void UseItemPressed()
     {
         _isHolding = true;
+        _hasUsedToolThisPress = false;
+
+        var itemData = GetItemData();
+        if (itemData != null && itemData.Category == ItemCategory.Tool)
+        {
+            FaRCharacterController.instance?.LockMovementFor(1f);
+        }
+
         InvokeRepeating("Holdear", 0, 0.1f);
     }
 
@@ -290,7 +301,11 @@ public class HotbarDisplay : HotbarDisplayBase
                 break;
                 
             case ItemCategory.Tool:
-                HandleToolItem(itemData);
+                if (!_hasUsedToolThisPress)
+                {
+                    _hasUsedToolThisPress = true;
+                    HandleToolItem(itemData);
+                }
                 break;
                 
             case ItemCategory.Seed:
@@ -299,7 +314,7 @@ public class HotbarDisplay : HotbarDisplayBase
                 
             default:
                 HandleGenericItem(itemData);
-           break;
+                break;
         }
     }
 
@@ -322,6 +337,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void HandleToolItem(InventoryItemData itemData)
     {
+        FaRCharacterController.instance?.LockMovementFor(1f);
         bool toolUsedSuccessfully = itemData.UseItem();
 
         if (toolUsedSuccessfully && itemData.IsHoe() && hoeAnimator != null)
@@ -427,6 +443,7 @@ public class HotbarDisplay : HotbarDisplayBase
         
         if (GetItemData().IsTool())
         {
+            FaRCharacterController.instance?.LockMovementFor(1f);
             bool toolUsedSuccessfully = GetItemData().UseItem();
             
             if (toolUsedSuccessfully && hoeAnimator != null && GetItemData().IsHoe())
@@ -527,6 +544,7 @@ public class HotbarDisplay : HotbarDisplayBase
         if (newIndex > _maxIndexSize) newIndex = _maxIndexSize;
 
         _currentIndex = newIndex;
+        _hasUsedToolThisPress = false;
         SlotCurrentIndex().ToggleHighlight();
         DoChangeNameDisplay();
     }
