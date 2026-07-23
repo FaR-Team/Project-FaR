@@ -60,20 +60,20 @@ public class ToolItemData : InventoryItemData
         if (GridGhost.instance.CheckDirt(GridGhost.instance.finalPosition, 0.1f) == null && 
             GridGhost.instance.CheckCrop(GridGhost.instance.finalPosition, 0.1f) == true)
         {
-            if(Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+            if (Energy.RemainingEnergy < energyCost)
             {
-                bool dirtPlanted = GridGhost.instance.PlantDirt();
-                return dirtPlanted;
-            }
-            else 
-            {
+                Energy.instance?.ShowNoEnergyFeedback();
                 return false;
             }
+
+            bool dirtPlanted = GridGhost.instance.PlantDirt();
+            if (dirtPlanted)
+            {
+                Energy.instance?.TryUseAndAnimateEnergy(energyCost, 2f);
+                return true;
+            }
         }
-        else 
-        {
-            return false;
-        }
+        return false;
     }
 
     private bool UseBucket()
@@ -81,11 +81,15 @@ public class ToolItemData : InventoryItemData
         Dirt _dirt = GridGhost.instance.CheckDirt(GridGhost.instance.FinalPosition, 0.1f);
         if (_dirt != null)
         {
-            if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+            if (Energy.RemainingEnergy < energyCost)
             {
-                _dirt.DirtIsWet();
-                return true;
+                Energy.instance?.ShowNoEnergyFeedback();
+                return false;
             }
+
+            _dirt.DirtIsWet();
+            Energy.instance?.TryUseAndAnimateEnergy(energyCost, 2f);
+            return true;
         }
         return false;
     }
@@ -96,22 +100,30 @@ public class ToolItemData : InventoryItemData
         
         if (dirt != null)
         {
-            if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+            if (Energy.RemainingEnergy < energyCost)
             {
-                dirt.DestroyDirtAndCrop();
-                return true;
+                Energy.instance?.ShowNoEnergyFeedback();
+                return false;
             }
+
+            dirt.DestroyDirtAndCrop();
+            Energy.instance?.TryUseAndAnimateEnergy(energyCost, 2f);
+            return true;
         }
         else
         {
             Debris debris = GridGhost.instance.CheckDebris(GridGhost.instance.FinalPosition, 0.1f);
             if (debris != null && debris.Category != DebrisCategory.Wood)
             {
-                if (Energy.instance.TryUseAndAnimateEnergy(energyCost, 2f))
+                if (Energy.RemainingEnergy < energyCost)
                 {
-                    Destroy(debris.gameObject);
-                    return true;
+                    Energy.instance?.ShowNoEnergyFeedback();
+                    return false;
                 }
+
+                Destroy(debris.gameObject);
+                Energy.instance?.TryUseAndAnimateEnergy(energyCost, 2f);
+                return true;
             }
         }
         

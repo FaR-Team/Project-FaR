@@ -130,7 +130,7 @@ public class Energy : MonoBehaviour
 
     private bool _isNoEnergyAnimating = false;
 
-    private void ShowNoEnergyFeedback()
+    public void ShowNoEnergyFeedback()
     {
         if (_isNoEnergyAnimating) return;
         if (_animationRoutine != null) StopCoroutine(_animationRoutine);

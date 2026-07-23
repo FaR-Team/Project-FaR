@@ -257,12 +257,6 @@ public class HotbarDisplay : HotbarDisplayBase
         _isHolding = true;
         _hasUsedToolThisPress = false;
 
-        var itemData = GetItemData();
-        if (itemData != null && itemData.Category == ItemCategory.Tool)
-        {
-            FaRCharacterController.instance?.LockMovementFor(1f);
-        }
-
         InvokeRepeating("Holdear", 0, 0.1f);
     }
 
@@ -337,13 +331,17 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void HandleToolItem(InventoryItemData itemData)
     {
-        FaRCharacterController.instance?.LockMovementFor(1f);
         bool toolUsedSuccessfully = itemData.UseItem();
 
-        if (toolUsedSuccessfully && itemData.IsHoe() && hoeAnimator != null)
+        if (toolUsedSuccessfully)
         {
-            hoeAnimator.SetBool("Plow", true);
-            StartCoroutine(ResetPlowAnimation());
+            FaRCharacterController.instance?.LockMovementFor(1f);
+
+            if (itemData.IsHoe() && hoeAnimator != null)
+            {
+                hoeAnimator.SetBool("Plow", true);
+                StartCoroutine(ResetPlowAnimation());
+            }
         }
     }
 
@@ -443,13 +441,17 @@ public class HotbarDisplay : HotbarDisplayBase
         
         if (GetItemData().IsTool())
         {
-            FaRCharacterController.instance?.LockMovementFor(1f);
             bool toolUsedSuccessfully = GetItemData().UseItem();
             
-            if (toolUsedSuccessfully && hoeAnimator != null && GetItemData().IsHoe())
+            if (toolUsedSuccessfully)
             {
-                hoeAnimator.SetBool("Plow", true);
-                StartCoroutine(ResetPlowAnimation());
+                FaRCharacterController.instance?.LockMovementFor(1f);
+
+                if (hoeAnimator != null && GetItemData().IsHoe())
+                {
+                    hoeAnimator.SetBool("Plow", true);
+                    StartCoroutine(ResetPlowAnimation());
+                }
             }
         }
     }
