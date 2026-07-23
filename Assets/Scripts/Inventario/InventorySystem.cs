@@ -75,8 +75,7 @@ public class InventorySystem
 
     public bool ContieneTool(InventoryItemData itemToAdd)
     {
-        var hotbarSlots = hotbarAbilitySlots.Where(i => i.ItemData == itemToAdd).ToList();
-        return !(hotbarSlots == null);
+        return hotbarAbilitySlots != null && hotbarAbilitySlots.Any(i => i != null && i.ItemData == itemToAdd);
     }
     
     public bool AddToInventory(InventoryItemData itemAAñadir, int cantidadParaAñadir)

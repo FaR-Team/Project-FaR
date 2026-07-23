@@ -36,10 +36,14 @@ public class ShopSystem
         if (ContieneItem(data, out ShopSlot shopSlot))
         {
             shopSlot.AddToStack(amount);
+            return;
         }
 
         var freeSlot = GetFreeSlot();
-        freeSlot.AssignItem(data, amount);
+        if (freeSlot != null)
+        {
+            freeSlot.AssignItem(data, amount);
+        }
     }
 
     private ShopSlot GetFreeSlot()

@@ -30,7 +30,6 @@ public class ThirdPersonCamera : MonoBehaviour
             pitch = Mathf.LerpAngle(pitch, targetEuler.x, Time.deltaTime * lookAtSpeed);
             
             transform.localEulerAngles = new Vector3(pitch, yaw, 0);
-            transform.localEulerAngles = new Vector3(pitch, 0, 0);
         }
     }
     

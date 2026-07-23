@@ -44,11 +44,14 @@ public class Dirt : MonoBehaviour, IGridEntity
     void Start()
     {
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(DryDirt);
-        WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
-
-        if (WeatherManager.Instance.CurrentWeather == Weather.Rain)
+        if (WeatherManager.Instance != null && WeatherManager.Instance.IsRaining != null)
         {
-            DirtIsWet();
+            WeatherManager.Instance.IsRaining.AddListener(DirtIsWet);
+
+            if (WeatherManager.Instance.CurrentWeather == Weather.Rain)
+            {
+                DirtIsWet();
+            }
         }
     }
 
@@ -181,6 +184,15 @@ public class Dirt : MonoBehaviour, IGridEntity
         DirtSpawnerPooling.DeSpawn(gameObject);
     }
 
+    void OnDestroy()
+    {
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
+        if (WeatherManager.Instance != null && WeatherManager.Instance.IsRaining != null)
+        {
+            WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
+        }
+    }
+
     public void Reset()
     {
         if(currentCrop) Destroy(currentCrop.gameObject);
@@ -192,6 +204,9 @@ public class Dirt : MonoBehaviour, IGridEntity
         IsBeingDestroyed = false;
         colliders.transform.position = this.transform.position;
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);
-        WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
+        if (WeatherManager.Instance != null && WeatherManager.Instance.IsRaining != null)
+        {
+            WeatherManager.Instance.IsRaining.RemoveListener(DirtIsWet);
+        }
     }
 }

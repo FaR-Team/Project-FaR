@@ -22,13 +22,24 @@ public class SellSystem : MonoBehaviour
     [SerializeField] private GameObject _shoppingCartContentPanel;
     [SerializeField] private GameObject _shoppingCartObj;
 
-    //private Dictionary<InventoryItemData, int> _shoppingCart = new Dictionary<InventoryItemData, int>();
-    private static List<ShoppingCartItem> _shoppingCart = new(); 
+    public static SellSystem Instance { get; private set; }
+
+    private List<ShoppingCartItem> _shoppingCart = new(); 
     private Dictionary<InventoryItemData, ShoppingCartItemUI> _shoppingCartUI = new Dictionary<InventoryItemData, ShoppingCartItemUI>();
     
     private static bool firstLoadDone = false;
     private static bool sellRequested = false;
-    public static List<ShoppingCartItem> ShoppingCart => _shoppingCart;
+    public List<ShoppingCartItem> ShoppingCart => _shoppingCart;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
     private void OnEnable()
     {
         SleepHandler.Instance.OnPlayerSleep += Sell;
@@ -284,22 +295,23 @@ public class SellSystem : MonoBehaviour
 
     public void Load(List<ShoppingCartItem> shoppingCart)
     {
+        ClearSlots();
+
         if (shoppingCart == null || shoppingCart.Count == 0)
         {
-            Debug.LogWarning("Loaded shopping cart list is null or empty");
             return;
         }
         
         // Restore boxes state
         for (int i = 0; i < shoppingCart.Count; i++)
         {
-            if(!(shoppingCart[i].data is CropItemData cropItemData)) continue;
+            if (shoppingCart[i] == null || shoppingCart[i].data == null) continue;
+            if (!(shoppingCart[i].data is CropItemData cropItemData)) continue;
             
             for (int j = 0; j < shoppingCart[i].amount; j++)
             {
                 AddToSellCart(cropItemData.CropBoxPrefab, shoppingCart[i].data);
             }
-            
         }
 
         if (sellRequested)

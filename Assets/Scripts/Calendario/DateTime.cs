@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -34,7 +34,7 @@ namespace FaRUtils.Systems.DateTime
         public int TotalNumWeeks => totalNumWeeks;
         public int CurrentWeek => totalNumWeeks % 16 == 0 ? 16 : totalNumWeeks % 16;
 
-        public static UnityEvent<int> OnHourChanged;
+        public static UnityEvent<int> OnHourChanged = new UnityEvent<int>();
         public static UnityEvent<Season> OnSeasonChanged = new UnityEvent<Season>();
 
         public DateTime(int date, int season, int year, int hour, int minutes)
@@ -52,8 +52,6 @@ namespace FaRUtils.Systems.DateTime
             totalNumDays = date + (28 * (int)this.season) + (112 * (year - 1));
 
             totalNumWeeks = 1 + totalNumDays / 7;
-
-            OnHourChanged = new UnityEvent<int>();
         }
 
 

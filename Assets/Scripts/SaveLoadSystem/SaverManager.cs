@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -23,16 +23,12 @@ public static class SaverManager
         string jsonFile = JsonUtility.ToJson(info);
         string pathFile = PathFinder.GetFinalPath(info.GetType().FullName, isTemporary);
         string directoryPath = Path.GetDirectoryName(pathFile);
-
-        GUIUtility.systemCopyBuffer = directoryPath;
-
         if (!Directory.Exists(directoryPath))
         {
             Directory.CreateDirectory(directoryPath);
         }
 
         File.WriteAllText(pathFile, jsonFile);
-        //Debug.Log("Saved temporary in " + pathFile);
         if (!isTemporary)
         {
             pathFile = PathFinder.GetFinalPath(info.GetType().FullName, false);

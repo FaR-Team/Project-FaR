@@ -58,7 +58,11 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
         TryGetComponent(out meshRenderer);
         initialLayerInt = gameObject.layer;
         
-        UpdateState();
+        CheckGrowState();
+        if (currentState != null)
+        {
+            UpdateState();
+        }
     }
     
     protected virtual void Start()
@@ -144,20 +148,30 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
 
     }
 
-    public virtual void LoadData(PlantData data) // TODO: Que use como parametro un padre en común de CropSave y PlantSave, y en los hijos usar Save as CropSave o as PlantSave
+    public virtual void LoadData(PlantData data)
     {
-        if (data is not CropSaveData cropSaveData)
+        if (data is CropSaveData cropSaveData)
         {
-            this.LogError("Wasn't able to cast SaveData to a CropSaveData");
-            return;
+            daysPlanted = cropSaveData.DiasPlantado;
+            daysDry = cropSaveData.DaysDry;
+            daysWithoutHarvest = cropSaveData.DaysWithoutHarvest;
+            currentState = cropSaveData.GrowingState;
+            UpdateState();
+            if (cropSaveData.isDead) Die();
         }
-        
-        daysPlanted = cropSaveData.DiasPlantado;
-        daysDry = cropSaveData.DaysDry;
-        daysWithoutHarvest = cropSaveData.DaysWithoutHarvest;
-        currentState = cropSaveData.GrowingState;
-        UpdateState();
-        if(cropSaveData.isDead) Die();
+        else if (data is TreeBushData treeData)
+        {
+            daysPlanted = treeData.daysPlanted;
+            daysDry = treeData.daysDry;
+            daysWithoutHarvest = treeData.daysWithoutHarvest;
+            currentState = treeData.growingState;
+            UpdateState();
+            if (treeData.isDead) Die();
+        }
+        else
+        {
+            this.LogError("Wasn't able to cast SaveData to a valid PlantData");
+        }
     }
 
     public virtual void Die()

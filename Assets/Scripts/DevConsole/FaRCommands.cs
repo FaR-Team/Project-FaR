@@ -41,7 +41,7 @@ public class FaRCommands : MonoBehaviour
 
     void OnDisable()
     {
-        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.AddListener(OnHourChanged);
+        FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(OnHourChanged);
     }
 
     void Start()

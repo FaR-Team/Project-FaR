@@ -38,7 +38,6 @@ public class LightingManager : MonoBehaviour
     [SerializeField] private float sunRotationSpeed = 2f;
     [SerializeField] private bool smoothSunMovement = true;
     [SerializeField] private float sunSmoothingFactor = 3f;
-    [SerializeField] private float nightSunYOffset = -30f;
     
     private Quaternion targetSunRotation;
     private bool sunRotationInitialized = false;

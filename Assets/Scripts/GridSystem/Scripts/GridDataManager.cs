@@ -321,7 +321,7 @@ namespace FaRUtils.Systems.GridSystem
                     cell.LastActiveDay = TimeManager.DateTime.TotalNumDays;
                 }
 
-                this.Log($"Entity '{entity.EntityName}' registered at {coord} (Pivot: {entity.Coordinate}, Size: {entity.FootprintSize}, Offset: {entity.FootprintOffset})");
+                //this.Log($"Entity '{entity.EntityName}' registered at {coord} (Pivot: {entity.Coordinate}, Size: {entity.FootprintSize}, Offset: {entity.FootprintOffset})");
             }
         }
 

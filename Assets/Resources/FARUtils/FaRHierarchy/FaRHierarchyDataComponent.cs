@@ -136,6 +136,11 @@ namespace FaRHierarchy
             }
         }
 
-    }
+}
+}
+#else
+namespace FaRHierarchy
+{
+    public abstract class FaRHierarchyDataComponent : UnityEngine.MonoBehaviour {}
 }
 #endif

@@ -172,11 +172,7 @@ public class ShopKeeperDisplay : MonoBehaviour
         foreach (var kvp in _shoppingCart)
         {
             _shopSystem.PurchaseItem(kvp.Key, kvp.Value);
-
-            for (int i = 0; i < kvp.Value; i++)
-            {
-                _playerInventoryHolder.PrimaryInventorySystem.AddToInventory(kvp.Key, 1);
-            }
+            _playerInventoryHolder.PrimaryInventorySystem.AddToInventory(kvp.Key, kvp.Value);
         }
 
         _playerInventoryHolder.PrimaryInventorySystem.SpendGold(_basketTotal);
@@ -275,36 +271,36 @@ public class ShopKeeperDisplay : MonoBehaviour
     public void RemoveItemFromCart(ShopSlotUI shopSlotUI)
     {
         var data = shopSlotUI.AssignedItemSlot.ItemData;
-        var price = GetModifiedPrice(data, _BuyMulti, shopSlotUI.MarkUp);
 
         if (_shoppingCart.ContainsKey(data))
         {
-            if (_basketTotal - price < 0) return;
+            int itemsToRemove = Mathf.Min(_BuyMulti, _shoppingCart[data]);
+            var priceToRemove = GetModifiedPrice(data, itemsToRemove, shopSlotUI.MarkUp);
 
-            if (_shoppingCart[data] >= _BuyMulti)
+            if (_basketTotal - priceToRemove < 0) return;
+
+            _shoppingCart[data] -= itemsToRemove;
+            var unitPrice = GetModifiedPrice(data, 1, shopSlotUI.MarkUp);
+            var newString = $"{data.Nombre} ({unitPrice}) x{_shoppingCart[data]}";
+            _shoppingCartUI[data].SetItemText(newString);
+
+            if (_shoppingCart[data] <= 0)
             {
-                _shoppingCart[data] -= _BuyMulti;
-                var newString = $"{data.Nombre} ({price}G) x{_shoppingCart[data]}";
-                _shoppingCartUI[data].SetItemText(newString);
+                _shoppingCart.Remove(data);
+                var tempObj = _shoppingCartUI[data].gameObject;
+                _shoppingCartUI.Remove(data);
+                Destroy(tempObj);
+            }
 
-                if (_shoppingCart[data] <= 0)
-                {
-                    _shoppingCart.Remove(data);
-                    var tempObj = _shoppingCartUI[data].gameObject;
-                    _shoppingCartUI.Remove(data);
-                    Destroy(tempObj);
-                }
+            _basketTotal -= priceToRemove;
+            _basketTotalText.text = $"{_basketTotal}";
 
-                _basketTotal -= price;
-                _basketTotalText.text = $"{_basketTotal}G";
-
-                if (_basketTotal <= 0 && _basketTotalText.IsActive())
-                {
-                    _basketTotalText.enabled = false;
-                    _buyButton.gameObject.SetActive(false);
-                    ClearItemPreview();
-                    return;
-                }
+            if (_basketTotal <= 0 && _basketTotalText.IsActive())
+            {
+                _basketTotalText.enabled = false;
+                _buyButton.gameObject.SetActive(false);
+                ClearItemPreview();
+                return;
             }
         }
 
