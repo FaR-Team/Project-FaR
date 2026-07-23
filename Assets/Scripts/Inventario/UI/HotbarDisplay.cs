@@ -104,6 +104,7 @@ public class HotbarDisplay : HotbarDisplayBase
             {
                 UpdateAbilitySlot(direction);
                 DoChangeNameDisplay();
+                ChangeObjectInHandModel();
                 return;
             }
         }
@@ -205,23 +206,19 @@ public class HotbarDisplay : HotbarDisplayBase
 
     public void HotbarLeft(InputAction.CallbackContext obj)
     {
-        if (GetPlayerControls().HotbarLeft.WasPressedThisFrame() &&
-                    IsNotGrabingNorPausedNorConsole())
+        if (IsNotGrabingNorPausedNorConsole())
         {
             ChangeIndex(-1);
             DoChangeNameDisplay();
-            ChangeObjectInHandModel();
         }
     }
 
     public void HotbarRight(InputAction.CallbackContext obj)
     {
-        if (GetPlayerControls().HotbarRight.WasPressedThisFrame() &&
-                    IsNotGrabingNorPausedNorConsole())
+        if (IsNotGrabingNorPausedNorConsole())
         {
             ChangeIndex(1);
             DoChangeNameDisplay();
-            ChangeObjectInHandModel();
         }
     }
     
@@ -469,29 +466,37 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void SetAllToolsInactive()
     {
-        hoe.SetActive(false);
-        bucket.SetActive(false);
-        shovel.SetActive(false);
-        hand.SetActive(false);
+        if (hoe != null) hoe.SetActive(false);
+        if (bucket != null) bucket.SetActive(false);
+        if (shovel != null) shovel.SetActive(false);
+        if (blank2 != null) blank2.SetActive(false);
+        if (blank3 != null) blank3.SetActive(false);
+        if (hand != null) hand.SetActive(false);
     }
 
     private void SetToolModel(InventoryItemData toolData)
     {
-        if (toolData.IsHoe())
+        if (toolData == null)
+        {
+            if (hand != null) hand.SetActive(true);
+            return;
+        }
+
+        if (toolData.IsHoe() && hoe != null)
         {
             hoe.SetActive(true);
         }
-        else if (toolData.IsBucket())
+        else if (toolData.IsBucket() && bucket != null)
         {
             bucket.SetActive(true);
         }
-        else if (toolData.IsShovel())
+        else if (toolData.IsShovel() && shovel != null)
         {
             shovel.SetActive(true);
         }
         else
         {
-            hand.SetActive(true);
+            if (hand != null) hand.SetActive(true);
         }
     }
 
