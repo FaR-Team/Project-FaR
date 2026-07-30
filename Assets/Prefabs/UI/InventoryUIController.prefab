@@ -189,8 +189,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4111245320869824953}
   - {fileID: 4111245321062172352}
+  - {fileID: 4111245320869824953}
   - {fileID: 4111245321060541995}
   m_Father: {fileID: 4111245321227815273}
   m_RootOrder: 11
@@ -271,7 +271,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 4111245320722511172}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -303,7 +303,14 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
-  TESTING: 1
+  middleSlotSprite: {fileID: 0}
+  mediumSlotSprite: {fileID: 0}
+  smallSlotSprite: {fileID: 0}
+  middleSlotSize: {x: 64, y: 64}
+  mediumSlotSize: {x: 48, y: 48}
+  smallSlotSize: {x: 36, y: 36}
+  mediumVerticalOffset: 45
+  smallVerticalOffset: 80
 --- !u!114 &4111245320722511174
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -491,7 +498,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4111245320722511192}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -779,7 +786,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4111245320722511192}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

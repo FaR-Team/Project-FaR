@@ -31,10 +31,13 @@ public class DontDestroy : MonoBehaviour
                 }
             }
         }
-        if (transform.parent != null)
+        if (gameObject.scene.name != "DontDestroyOnLoad")
         {
-            transform.SetParent(null, false);
+            if (transform.parent != null)
+            {
+                transform.SetParent(null, false);
+            }
+            DontDestroyOnLoad(gameObject);
         }
-        DontDestroyOnLoad(gameObject);
     }
 }

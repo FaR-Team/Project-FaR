@@ -8,7 +8,18 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
     [SerializeField] protected int _itemID = -1;
     [SerializeField] protected int stackSize; //La cantidad de items que hay en el slot
 
-    public InventoryItemData ItemData => itemData;
+    public InventoryItemData ItemData
+    {
+        get
+        {
+            if (itemData == null && _itemID != -1)
+            {
+                var db = Resources.Load<Database>("Database");
+                if (db != null) itemData = db.GetItem(_itemID);
+            }
+            return itemData;
+        }
+    }
     public int StackSize => stackSize;
     public int CantidadMáxima = 100;
 
@@ -35,7 +46,7 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
         else //Sobreescribir slot con el que estamos pasándole
         {
             itemData = invSlot.itemData;
-            _itemID = itemData.ID;
+            _itemID = itemData != null ? itemData.ID : -1;
             stackSize = 0;
             AddToStack(invSlot.StackSize);
         }
@@ -47,7 +58,7 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
         else 
         {
             itemData = data;
-            _itemID = data.ID;
+            _itemID = data != null ? data.ID : -1;
             stackSize = 0;
             AddToStack(amount);
         }
@@ -65,15 +76,10 @@ public abstract class ItemSlot : ISerializationCallbackReceiver
 
     public void OnBeforeSerialize()
     {
- 
+
     }
-    
 
     public void OnAfterDeserialize()
     {
-        if (_itemID == -1) return;
-
-        var db = Resources.Load<Database>("Database");
-        itemData = db.GetItem(_itemID);
     }
 }

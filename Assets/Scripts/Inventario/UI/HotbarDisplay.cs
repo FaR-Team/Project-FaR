@@ -50,6 +50,7 @@ public class HotbarDisplay : HotbarDisplayBase
         _maxIndexSize = slots.Length - 1;
 
         SlotCurrentIndex().ToggleHighlight();
+        UpdateAbilitySlot(0);
         ChangeObjectInHandModel();
     }
 
@@ -121,8 +122,7 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private bool IsAbilityUnlocked(int index)
     {
-        return index < InventorySlot_UIAbility.isUnlocked.Length && 
-               InventorySlot_UIAbility.isUnlocked[index];
+        return InventorySlot_UIAbility.IsAbilityUnlocked(index);
     }
 
     public void SetGridGhost(GridGhost ghost)
@@ -133,12 +133,15 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void UpdateAbilitySlot(int direction = 0)
     {
-        AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1); 
+        if (abilityTools != null && abilityTools.Length > 0 && _currentAbilityIndex >= 0 && _currentAbilityIndex < abilityTools.Length)
+        {
+            AbilitySlot().AssignedInventorySlot.UpdateInventorySlot(abilityTools[_currentAbilityIndex], 1); 
+        }
         
         var abilitySlotUI = AbilitySlot() as InventorySlot_UIAbility;
-        if (abilitySlotUI != null && direction != 0)
+        if (abilitySlotUI != null)
         {
-            abilitySlotUI.UpdateUISlotWithScroll(direction);
+            abilitySlotUI.UpdateAbilityCarousel(abilityTools, _currentAbilityIndex, direction);
         }
         else
         {

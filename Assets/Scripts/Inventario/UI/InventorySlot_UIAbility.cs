@@ -6,66 +6,252 @@ using Sirenix.OdinInspector;
 
 public class InventorySlot_UIAbility : InventorySlot_UIBasic
 {
-    public bool TESTING;
-    public static bool IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked;
+    public static bool IsHoeUnlocked = true;
+    public static bool IsBucketUnlocked = true;
+    public static bool IsShovelUnlocked = true;
+    public static bool IsBlank2Unlocked = false;
+    public static bool IsBlank3Unlocked = false;
 
-    [ShowInInspector] public static bool[] isUnlocked = {IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked};
+    [ShowInInspector]
+    public static bool[] isUnlocked => new bool[] { IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked };
+
+    public static bool IsAbilityUnlocked(int index)
+    {
+        bool[] unlocked = isUnlocked;
+        return unlocked != null && index >= 0 && index < unlocked.Length && unlocked[index];
+    }
 
     public static bool isAbilityHotbarActive;
 
+    [Header("Slot Background Assets")]
+    [SerializeField] private Sprite middleSlotSprite;
+    [SerializeField] private Sprite mediumSlotSprite;
+    [SerializeField] private Sprite smallSlotSprite;
+
+    [Header("Carousel Sub-Slot Configuration")]
+    [SerializeField] private Vector2 middleSlotSize = new Vector2(64f, 64f);
+    [SerializeField] private Vector2 mediumSlotSize = new Vector2(48f, 48f);
+    [SerializeField] private Vector2 smallSlotSize = new Vector2(36f, 36f);
+    [SerializeField] private float mediumVerticalOffset = 45f;
+    [SerializeField] private float smallVerticalOffset = 80f;
+
+    private RectTransform _subSlotsContainer;
+    private AbilitySubSlotUI[] _subSlots; // 0: Top (-2), 1: Upper (-1), 2: Middle (0), 3: Lower (+1), 4: Bottom (+2)
     private Coroutine _scrollCoroutine;
-    private GameObject _tempGo;
-    private Vector2 _originalSpritePos = Vector2.zero;
-    private RectTransform _iconViewport;
+
+    [System.Serializable]
+    private class AbilitySubSlotUI
+    {
+        public RectTransform rectTransform;
+        public Image bgImage;
+        public Image iconImage;
+        public int offset;
+    }
+
+    private struct SubSlotConfig
+    {
+        public Vector2 position;
+        public Vector2 size;
+        public Sprite bgSprite;
+    }
+
+    private struct SlotAnimState
+    {
+        public Vector2 startPos;
+        public Vector2 targetPos;
+        public Vector2 startSize;
+        public Vector2 targetSize;
+        public Sprite startBg;
+        public Sprite targetBg;
+        public Sprite startIcon;
+        public Sprite targetIcon;
+        public bool isExpanding;
+    }
+
+    private SubSlotConfig GetSubSlotConfig(int offset)
+    {
+        int abs = Mathf.Abs(offset);
+        Vector2 size = abs == 0 ? middleSlotSize : (abs == 1 ? mediumSlotSize : smallSlotSize);
+        Sprite sprite = abs == 0 ? middleSlotSprite : (abs == 1 ? (mediumSlotSprite != null ? mediumSlotSprite : middleSlotSprite) : (smallSlotSprite != null ? smallSlotSprite : mediumSlotSprite));
+
+        float y = offset switch
+        {
+            -2 => smallVerticalOffset,
+            -1 => mediumVerticalOffset,
+            0 => 0f,
+            1 => -mediumVerticalOffset,
+            2 => -smallVerticalOffset,
+            < -2 => smallVerticalOffset + mediumVerticalOffset,
+            _ => -(smallVerticalOffset + mediumVerticalOffset)
+        };
+
+        return new SubSlotConfig { position = new Vector2(0f, y), size = size, bgSprite = sprite };
+    }
 
     protected override void Awake()
     {
         base.Awake();
-        SetupIconViewport();
+        EnsureSpritesLoaded();
+        SetupSubSlotsContainer();
     }
 
-    void Start()
+    private void Start()
     {
-        if (TESTING)
-        {
-            IsHoeUnlocked = true;
-            IsBucketUnlocked = true;
-            IsShovelUnlocked = true;
-
-            isUnlocked = new bool[] {IsHoeUnlocked, IsBucketUnlocked, IsShovelUnlocked, IsBlank2Unlocked, IsBlank3Unlocked};
-        }
         isAbilityHotbarActive = false;
     }
 
-    private void SetupIconViewport()
+    private void Update()
     {
-        if (itemSprite == null) return;
+        UpdateSurroundingSlotsVisibility();
+    }
 
-        Transform existingViewport = transform.Find("IconViewport");
-        if (existingViewport != null)
+    private void UpdateSurroundingSlotsVisibility()
+    {
+        if (_subSlots == null) return;
+
+        bool showSurrounding = HotbarDisplayBase.CurrentIndexIsSpecialSlotAndYouAreHoldingCtrl();
+
+        for (int i = 0; i < _subSlots.Length; i++)
         {
-            _iconViewport = existingViewport.GetComponent<RectTransform>();
-            return;
+            if (_subSlots[i]?.rectTransform != null)
+            {
+                _subSlots[i].rectTransform.gameObject.SetActive(_subSlots[i].offset == 0 || showSurrounding);
+            }
+        }
+    }
+
+    public void ApplySubSlotConfigurations()
+    {
+        if (_subSlots == null || _subSlots.Length < 5) return;
+
+        for (int i = 0; i < _subSlots.Length; i++)
+        {
+            AbilitySubSlotUI slotUI = _subSlots[i];
+            if (slotUI?.rectTransform == null) continue;
+
+            SubSlotConfig config = GetSubSlotConfig(slotUI.offset);
+            slotUI.rectTransform.sizeDelta = config.size;
+
+            if (_scrollCoroutine == null)
+            {
+                slotUI.rectTransform.anchoredPosition = config.position;
+            }
+
+            if (slotUI.bgImage != null)
+            {
+                slotUI.bgImage.sprite = config.bgSprite;
+                slotUI.bgImage.color = config.bgSprite != null ? Color.white : new Color(1f, 1f, 1f, 0.5f);
+            }
+        }
+    }
+
+    private void EnsureSpritesLoaded()
+    {
+#if UNITY_EDITOR
+        if (middleSlotSprite == null)
+            middleSlotSprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Arte/GUI/HotbarSlot-1.png");
+        if (mediumSlotSprite == null)
+            mediumSlotSprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Arte/GUI/HotbarSlot-2.png");
+        if (smallSlotSprite == null)
+            smallSlotSprite = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Arte/GUI/HotbarSlot-3.png");
+#endif
+    }
+
+    private void SetupSubSlotsContainer()
+    {
+        if (itemSprite != null)
+        {
+            itemSprite.color = Color.clear;
         }
 
-        GameObject viewportGo = new GameObject("IconViewport", typeof(RectTransform), typeof(RectMask2D));
-        viewportGo.transform.SetParent(transform, false);
-        viewportGo.transform.SetSiblingIndex(itemSprite.transform.GetSiblingIndex());
+        Transform existingContainer = transform.Find("SubSlotsContainer");
+        if (existingContainer != null)
+        {
+            _subSlotsContainer = existingContainer.GetComponent<RectTransform>();
+        }
+        else
+        {
+            GameObject containerGo = new GameObject("SubSlotsContainer", typeof(RectTransform));
+            containerGo.transform.SetParent(transform, false);
+            _subSlotsContainer = containerGo.GetComponent<RectTransform>();
+            _subSlotsContainer.anchorMin = new Vector2(0.5f, 0.5f);
+            _subSlotsContainer.anchorMax = new Vector2(0.5f, 0.5f);
+            _subSlotsContainer.sizeDelta = Vector2.zero;
+            _subSlotsContainer.anchoredPosition = Vector2.zero;
+        }
 
-        _iconViewport = viewportGo.GetComponent<RectTransform>();
-        _iconViewport.anchorMin = Vector2.zero;
-        _iconViewport.anchorMax = Vector2.one;
-        _iconViewport.sizeDelta = Vector2.zero;
-        _iconViewport.anchoredPosition = Vector2.zero;
-        _iconViewport.pivot = new Vector2(0.5f, 0.5f);
+        int[] offsets = { -2, -1, 0, 1, 2 };
+        _subSlots = new AbilitySubSlotUI[5];
 
-        itemSprite.transform.SetParent(_iconViewport, false);
+        for (int i = 0; i < 5; i++)
+        {
+            int offset = offsets[i];
+            Transform existingSlot = _subSlotsContainer.Find($"SubSlot_{offset}");
+            GameObject slotGo;
+            RectTransform slotRect;
+            Image bgImg;
+            Image iconImg;
+
+            if (existingSlot != null)
+            {
+                slotGo = existingSlot.gameObject;
+                slotRect = slotGo.GetComponent<RectTransform>();
+                bgImg = slotGo.GetComponent<Image>();
+                iconImg = slotGo.transform.Find("Icon")?.GetComponent<Image>();
+            }
+            else
+            {
+                slotGo = new GameObject($"SubSlot_{offset}", typeof(RectTransform), typeof(Image));
+                slotGo.transform.SetParent(_subSlotsContainer, false);
+                slotRect = slotGo.GetComponent<RectTransform>();
+                bgImg = slotGo.GetComponent<Image>();
+
+                GameObject iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
+                iconGo.transform.SetParent(slotGo.transform, false);
+                iconImg = iconGo.GetComponent<Image>();
+
+                RectTransform iconRect = iconGo.GetComponent<RectTransform>();
+                iconRect.anchorMin = Vector2.zero;
+                iconRect.anchorMax = Vector2.one;
+                iconRect.sizeDelta = new Vector2(-10f, -10f);
+                iconRect.anchoredPosition = Vector2.zero;
+            }
+
+            SubSlotConfig config = GetSubSlotConfig(offset);
+
+            slotRect.anchorMin = new Vector2(0.5f, 0.5f);
+            slotRect.anchorMax = new Vector2(0.5f, 0.5f);
+            slotRect.sizeDelta = config.size;
+            slotRect.anchoredPosition = config.position;
+            slotRect.pivot = new Vector2(0.5f, 0.5f);
+
+            bgImg.sprite = config.bgSprite;
+            bgImg.preserveAspect = true;
+            bgImg.color = config.bgSprite != null ? Color.white : new Color(1f, 1f, 1f, 0.5f);
+
+            if (iconImg != null)
+            {
+                iconImg.preserveAspect = true;
+                iconImg.color = Color.clear;
+            }
+
+            _subSlots[i] = new AbilitySubSlotUI
+            {
+                rectTransform = slotRect,
+                bgImage = bgImg,
+                iconImage = iconImg,
+                offset = offset
+            };
+        }
     }
 
     public override void ToggleHighlight()
     {
         isAbilityHotbarActive = true;
-        _slotHighlight.SetActive(!_slotHighlight.activeInHierarchy);
+        if (_slotHighlight != null)
+        {
+            _slotHighlight.SetActive(!_slotHighlight.activeInHierarchy);
+        }
     }
 
     public override void Init(InventorySlot slot)
@@ -78,6 +264,10 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
     {
         CleanUpLastScroll();
         base.UpdateUISlot(slot);
+        if (itemSprite != null)
+        {
+            itemSprite.color = Color.clear;
+        }
     }
 
     private void OnDisable()
@@ -85,37 +275,179 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
         CleanUpLastScroll();
     }
 
-    public void UpdateUISlotWithScroll(int direction)
+    public void UpdateAbilityCarousel(ToolItemData[] abilityTools, int currentAbilityIndex, int direction = 0)
     {
-        if (assignedInventorySlot == null || assignedInventorySlot.ItemData == null)
+        if (_subSlots == null || _subSlots.Length < 5)
         {
-            CleanUpLastScroll();
-            UpdateUISlot();
-            return;
-        }
-
-        if (itemSprite == null)
-        {
-            CleanUpLastScroll();
-            UpdateUISlot();
-            return;
-        }
-
-        Sprite oldSprite = itemSprite.sprite;
-        Sprite newSprite = assignedInventorySlot.ItemData.Icono;
-
-        if (oldSprite == null || newSprite == null || oldSprite == newSprite)
-        {
-            CleanUpLastScroll();
-            UpdateUISlot();
-            return;
+            SetupSubSlotsContainer();
         }
 
         CleanUpLastScroll();
 
-        SetupIconViewport();
+        if (direction != 0)
+        {
+            _scrollCoroutine = StartCoroutine(CarouselScrollTransition(abilityTools, currentAbilityIndex, direction));
+        }
+        else
+        {
+            SetCarouselIcons(abilityTools, currentAbilityIndex);
+            ResetSubSlotPositions();
+        }
+    }
 
-        _scrollCoroutine = StartCoroutine(ScrollTransition(oldSprite, newSprite, direction));
+    private List<int> GetUnlockedToolIndices(ToolItemData[] abilityTools)
+    {
+        List<int> unlockedIndices = new List<int>();
+        if (abilityTools == null) return unlockedIndices;
+
+        for (int i = 0; i < abilityTools.Length; i++)
+        {
+            if (IsAbilityUnlocked(i))
+            {
+                unlockedIndices.Add(i);
+            }
+        }
+        return unlockedIndices;
+    }
+
+    private void SetCarouselIcons(ToolItemData[] abilityTools, int currentAbilityIndex)
+    {
+        if (abilityTools == null || abilityTools.Length == 0) return;
+
+        List<int> unlockedIndices = GetUnlockedToolIndices(abilityTools);
+
+        if (unlockedIndices.Count == 0)
+        {
+            for (int i = 0; i < _subSlots.Length; i++)
+            {
+                SetImageSprite(_subSlots[i].iconImage, null);
+            }
+            return;
+        }
+
+        int posInUnlocked = unlockedIndices.IndexOf(currentAbilityIndex);
+        if (posInUnlocked < 0) posInUnlocked = 0;
+
+        int count = unlockedIndices.Count;
+
+        for (int i = 0; i < _subSlots.Length; i++)
+        {
+            int offset = _subSlots[i].offset;
+            bool isSmallestSlot = Mathf.Abs(offset) >= 2;
+            int cyclicPos = ((posInUnlocked + offset) % count + count) % count;
+            ToolItemData tool = abilityTools[unlockedIndices[cyclicPos]];
+
+            Sprite iconSprite = (tool != null && !isSmallestSlot) ? tool.Icono : null;
+            SetImageSprite(_subSlots[i].iconImage, iconSprite);
+        }
+    }
+
+    private void ResetSubSlotPositions()
+    {
+        if (_subSlots == null) return;
+        for (int i = 0; i < _subSlots.Length; i++)
+        {
+            if (_subSlots[i]?.rectTransform != null)
+            {
+                SubSlotConfig config = GetSubSlotConfig(_subSlots[i].offset);
+                _subSlots[i].rectTransform.anchoredPosition = config.position;
+                _subSlots[i].rectTransform.sizeDelta = config.size;
+                if (_subSlots[i].bgImage != null)
+                {
+                    _subSlots[i].bgImage.sprite = config.bgSprite;
+                }
+            }
+        }
+    }
+
+    private IEnumerator CarouselScrollTransition(ToolItemData[] abilityTools, int currentAbilityIndex, int direction)
+    {
+        if (_subSlots == null || _subSlots.Length < 5) yield break;
+
+        List<int> unlockedIndices = GetUnlockedToolIndices(abilityTools);
+        if (unlockedIndices.Count == 0) yield break;
+
+        int targetPosInUnlocked = unlockedIndices.IndexOf(currentAbilityIndex);
+        if (targetPosInUnlocked < 0) targetPosInUnlocked = 0;
+        int count = unlockedIndices.Count;
+
+        int prevPosInUnlocked = ((targetPosInUnlocked - direction) % count + count) % count;
+
+        SlotAnimState[] animStates = new SlotAnimState[5];
+
+        for (int i = 0; i < 5; i++)
+        {
+            int targetOffset = _subSlots[i].offset;
+            int startOffset = targetOffset + direction;
+
+            SubSlotConfig startCfg = GetSubSlotConfig(startOffset);
+            SubSlotConfig targetCfg = GetSubSlotConfig(targetOffset);
+
+            int targetCyclicPos = ((targetPosInUnlocked + targetOffset) % count + count) % count;
+            ToolItemData targetTool = abilityTools[unlockedIndices[targetCyclicPos]];
+
+            int startCyclicPos = ((prevPosInUnlocked + startOffset) % count + count) % count;
+            ToolItemData startTool = abilityTools[unlockedIndices[startCyclicPos]];
+
+            animStates[i] = new SlotAnimState
+            {
+                startPos = startCfg.position,
+                targetPos = targetCfg.position,
+                startSize = startCfg.size,
+                targetSize = targetCfg.size,
+                startBg = startCfg.bgSprite,
+                targetBg = targetCfg.bgSprite,
+                startIcon = (startTool != null && Mathf.Abs(startOffset) < 2) ? startTool.Icono : null,
+                targetIcon = (targetTool != null && Mathf.Abs(targetOffset) < 2) ? targetTool.Icono : null,
+                isExpanding = targetCfg.size.sqrMagnitude > startCfg.size.sqrMagnitude
+            };
+        }
+
+        const float duration = 0.2f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float rawT = Mathf.Clamp01(elapsed / duration);
+            float t = Mathf.SmoothStep(0f, 1f, rawT);
+
+            for (int i = 0; i < 5; i++)
+            {
+                var slot = _subSlots[i];
+                if (slot?.rectTransform == null) continue;
+
+                var state = animStates[i];
+
+                slot.rectTransform.anchoredPosition = Vector2.Lerp(state.startPos, state.targetPos, t);
+                slot.rectTransform.sizeDelta = Vector2.Lerp(state.startSize, state.targetSize, t);
+
+                float swapThreshold = state.isExpanding ? 0.25f : 0.70f;
+                Sprite currentBg = (rawT >= swapThreshold) ? state.targetBg : state.startBg;
+
+                if (slot.bgImage != null)
+                {
+                    slot.bgImage.sprite = currentBg;
+                    slot.bgImage.color = currentBg != null ? Color.white : new Color(1f, 1f, 1f, 0.5f);
+                }
+
+                Sprite currentIcon = (rawT >= 0.5f) ? state.targetIcon : state.startIcon;
+                SetImageSprite(slot.iconImage, currentIcon);
+            }
+
+            yield return null;
+        }
+
+        SetCarouselIcons(abilityTools, currentAbilityIndex);
+        ResetSubSlotPositions();
+        _scrollCoroutine = null;
+    }
+
+    private static void SetImageSprite(Image img, Sprite sprite)
+    {
+        if (img == null) return;
+        img.sprite = sprite;
+        img.color = sprite != null ? Color.white : Color.clear;
     }
 
     private void CleanUpLastScroll()
@@ -125,86 +457,6 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
             StopCoroutine(_scrollCoroutine);
             _scrollCoroutine = null;
         }
-        if (_tempGo != null)
-        {
-            Destroy(_tempGo);
-            _tempGo = null;
-        }
-        if (itemSprite != null)
-        {
-            RectTransform rect = itemSprite.GetComponent<RectTransform>();
-            if (rect != null)
-            {
-                rect.anchoredPosition = _originalSpritePos;
-            }
-            itemSprite.color = Color.white;
-        }
-    }
-
-    private IEnumerator ScrollTransition(Sprite oldSprite, Sprite newSprite, int direction)
-    {
-        RectTransform itemRect = itemSprite.GetComponent<RectTransform>();
-        if (itemRect == null)
-        {
-            itemSprite.sprite = newSprite;
-            yield break;
-        }
-
-        _originalSpritePos = Vector2.zero;
-
-        float height = 64f;
-        RectTransform slotRect = transform as RectTransform;
-        if (slotRect != null)
-        {
-            height = slotRect.rect.height;
-        }
-
-        _tempGo = new GameObject("TempScrollImage", typeof(Image));
-        _tempGo.transform.SetParent(itemSprite.transform.parent, false);
-        Image tempImage = _tempGo.GetComponent<Image>();
-        
-        RectTransform tempRect = _tempGo.GetComponent<RectTransform>();
-        tempRect.anchorMin = itemRect.anchorMin;
-        tempRect.anchorMax = itemRect.anchorMax;
-        tempRect.anchoredPosition = _originalSpritePos;
-        tempRect.sizeDelta = itemRect.sizeDelta;
-        tempRect.pivot = itemRect.pivot;
-        tempRect.localScale = itemRect.localScale;
-        
-        tempImage.sprite = oldSprite;
-        tempImage.preserveAspect = itemSprite.preserveAspect;
-        tempImage.color = Color.white;
-
-        itemSprite.sprite = newSprite;
-        itemSprite.color = Color.white;
-
-        float startY = direction * height;
-        float endY = -direction * height;
-
-        itemRect.anchoredPosition = new Vector2(_originalSpritePos.x, startY);
-
-        float elapsed = 0f;
-        float duration = 0.2f;
-
-        while (elapsed < duration)
-        {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            t = Mathf.SmoothStep(0f, 1f, t);
-
-            if (tempRect != null)
-            {
-                tempRect.anchoredPosition = new Vector2(_originalSpritePos.x, Mathf.Lerp(_originalSpritePos.y, endY, t));
-            }
-
-            if (itemRect != null)
-            {
-                itemRect.anchoredPosition = new Vector2(_originalSpritePos.x, Mathf.Lerp(startY, _originalSpritePos.y, t));
-            }
-
-            yield return null;
-        }
-
-        CleanUpLastScroll();
+        ResetSubSlotPositions();
     }
 }
