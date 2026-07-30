@@ -42,19 +42,65 @@ public class SellSystem : MonoBehaviour
     }
     private void OnEnable()
     {
-        SleepHandler.Instance.OnPlayerSleep += Sell;
-        CatchUpBroadcaster.Instance.OnCatchUpBroadcast += wasSellRequested;
-        _playerInventoryHolder = GameObject.FindWithTag("Player").GetComponent<PlayerInventoryHolder>();
+        RegisterEvents();
+        UpdatePlayerInventoryHolder();
     }
 
     private void OnDisable()
     {
-        SleepHandler.Instance.OnPlayerSleep -= Sell;
-        CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= wasSellRequested;
+        UnregisterEvents();
+    }
+
+    private void RegisterEvents()
+    {
+        if (SleepHandler.Instance != null)
+        {
+            SleepHandler.Instance.OnPlayerSleep -= Sell;
+            SleepHandler.Instance.OnPlayerSleep += Sell;
+        }
+        if (CatchUpBroadcaster.Instance != null)
+        {
+            CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= wasSellRequested;
+            CatchUpBroadcaster.Instance.OnCatchUpBroadcast += wasSellRequested;
+        }
+    }
+
+    private void UnregisterEvents()
+    {
+        if (SleepHandler.Instance != null)
+        {
+            SleepHandler.Instance.OnPlayerSleep -= Sell;
+        }
+        if (CatchUpBroadcaster.Instance != null)
+        {
+            CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= wasSellRequested;
+        }
+    }
+
+    private void UpdatePlayerInventoryHolder()
+    {
+        if (_playerInventoryHolder == null)
+        {
+            if (PlayerInventoryHolder.instance != null)
+            {
+                _playerInventoryHolder = PlayerInventoryHolder.instance;
+            }
+            else
+            {
+                var playerObj = GameObject.FindWithTag("Player");
+                if (playerObj != null)
+                {
+                    _playerInventoryHolder = playerObj.GetComponent<PlayerInventoryHolder>();
+                }
+            }
+        }
     }
 
     private void Start()
     {
+        RegisterEvents();
+        UpdatePlayerInventoryHolder();
+
         _shoppingCart.Clear();
         SellSystemData data;
         if (firstLoadDone)
@@ -81,10 +127,61 @@ public class SellSystem : MonoBehaviour
 
     public void Sell()
     {
-        _playerInventoryHolder.PrimaryInventorySystem.GainGold(_basketTotal);
-        this.LogSuccess($"Sold for {_basketTotal} gold");
+        UpdatePlayerInventoryHolder();
+
+        if (_playerInventoryHolder != null && _playerInventoryHolder.PrimaryInventorySystem != null)
+        {
+            _playerInventoryHolder.PrimaryInventorySystem.GainGold(_basketTotal);
+            this.LogSuccess($"Sold for {_basketTotal} gold");
+        }
+        else
+        {
+            Debug.LogError("PlayerInventoryHolder or PrimaryInventorySystem is null in SellSystem.Sell()");
+        }
+
         ClearSlots();
         sellRequested = false;
+    }
+
+    public static void ProcessPendingSale()
+    {
+        if (Instance != null)
+        {
+            if (Instance._shoppingCart.Count > 0 || Instance._basketTotal > 0)
+            {
+                Instance.Sell();
+            }
+            return;
+        }
+
+        GameStateData gameState = LoadAllData.GetData<GameStateData>(true);
+        if (gameState != null && gameState.SellSystemData != null && gameState.SellSystemData.shoppingCart != null && gameState.SellSystemData.shoppingCart.Count > 0)
+        {
+            int totalGold = 0;
+            foreach (var item in gameState.SellSystemData.shoppingCart)
+            {
+                if (item != null && item.data != null)
+                {
+                    totalGold += GetModifiedPrice(item.data, item.amount);
+                }
+            }
+
+            var playerInv = PlayerInventoryHolder.instance != null 
+                ? PlayerInventoryHolder.instance 
+                : GameObject.FindWithTag("Player")?.GetComponent<PlayerInventoryHolder>();
+
+            if (playerInv != null && playerInv.PrimaryInventorySystem != null)
+            {
+                playerInv.PrimaryInventorySystem.GainGold(totalGold);
+                Debug.Log($"[SellSystem] Processed offline sleep sale: Granted {totalGold} gold to player.");
+            }
+            else
+            {
+                Debug.LogWarning("[SellSystem] Could not find PlayerInventoryHolder to grant gold for offline sale.");
+            }
+
+            gameState.SellSystemData.shoppingCart.Clear();
+        }
     }
     
     public void AddToSellCart(GameObject CropBoxPrefab, InventoryItemData data)
@@ -306,11 +403,11 @@ public class SellSystem : MonoBehaviour
         for (int i = 0; i < shoppingCart.Count; i++)
         {
             if (shoppingCart[i] == null || shoppingCart[i].data == null) continue;
-            if (!(shoppingCart[i].data is CropItemData cropItemData)) continue;
+            GameObject boxPrefab = (shoppingCart[i].data as CropItemData)?.CropBoxPrefab;
             
             for (int j = 0; j < shoppingCart[i].amount; j++)
             {
-                AddToSellCart(cropItemData.CropBoxPrefab, shoppingCart[i].data);
+                AddToSellCart(boxPrefab, shoppingCart[i].data);
             }
         }
 

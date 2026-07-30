@@ -17,7 +17,19 @@ public class GameStateDataSaver : DataSaver<TimeManager, GameStateDataSaver>, ID
 
     public override async Task SaveData()
     {
-        var sellCart = SellSystem.Instance != null ? SellSystem.Instance.ShoppingCart : new List<ShoppingCartItem>();
+        List<ShoppingCartItem> sellCart;
+        if (SellSystem.Instance != null)
+        {
+            sellCart = SellSystem.Instance.ShoppingCart;
+        }
+        else
+        {
+            var existingState = LoadAllData.GetData<GameStateData>(true);
+            sellCart = existingState?.SellSystemData?.shoppingCart != null 
+                ? new List<ShoppingCartItem>(existingState.SellSystemData.shoppingCart) 
+                : new List<ShoppingCartItem>();
+        }
+
         GameStateData gameStateData = new(TimeManager.DateTime, TimeManager.Instance.SceneStates, 
             new SellSystemData(sellCart), 
             new PlayerStatsData(PlayerStats.Instance));

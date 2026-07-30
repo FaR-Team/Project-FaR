@@ -276,12 +276,25 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void SellAll()
     {
-        while (GetAssignedInventorySlot().StackSize > 0)
+        var slot = GetAssignedInventorySlot();
+        var itemData = GetItemData();
+        if (slot == null || itemData == null) return;
+
+        GameObject prefab = (itemData as CropItemData)?.CropBoxPrefab;
+
+        while (slot.StackSize > 0)
         {
-            GetItemData().UseItem();
-            GetAssignedInventorySlot().SacarDeStack(1);
+            if (SellSystem.Instance != null)
+            {
+                SellSystem.Instance.SellItem(prefab, itemData);
+            }
+            else
+            {
+                itemData.UseItem();
+            }
+            slot.SacarDeStack(1);
         }
-        GetAssignedInventorySlot().ClearSlot();
+        slot.ClearSlot();
         SlotCurrentIndex().UpdateUISlot();
     }
 
@@ -407,7 +420,15 @@ public class HotbarDisplay : HotbarDisplayBase
 
     private void SellSingleItem(InventoryItemData itemData)
     {
-        itemData.UseItem();
+        if (SellSystem.Instance != null && itemData != null)
+        {
+            GameObject prefab = (itemData as CropItemData)?.CropBoxPrefab;
+            SellSystem.Instance.SellItem(prefab, itemData);
+        }
+        else
+        {
+            itemData?.UseItem();
+        }
         ConsumeItem();
         UpdateCurrentSlot();
     }

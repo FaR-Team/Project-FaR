@@ -10,7 +10,7 @@ public class CropItemData : InventoryItemData
     
     public override bool UseItem()
     {
-        _sellSystem = FindObjectOfType<SellSystem>();
+        _sellSystem = SellSystem.Instance != null ? SellSystem.Instance : FindObjectOfType<SellSystem>();
 
         if (_sellSystem != null)
         {

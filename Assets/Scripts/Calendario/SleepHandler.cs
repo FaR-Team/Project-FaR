@@ -72,6 +72,7 @@ public class SleepHandler : MonoBehaviour
     public IEnumerator FinishDay()
     {
         OnPlayerSleep?.Invoke();
+        SellSystem.ProcessPendingSale();
         if (_yourLetterArrived == false)
         {
             TimeManager.TimeBetweenTicks = SleepingTickRate;
