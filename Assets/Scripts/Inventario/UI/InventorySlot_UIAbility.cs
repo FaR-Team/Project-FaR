@@ -35,6 +35,10 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
     [SerializeField] private float mediumVerticalOffset = 45f;
     [SerializeField] private float smallVerticalOffset = 80f;
 
+    [Header("Icon Scaling & Padding")]
+    [SerializeField] private Vector2 iconPaddingMiddle = new Vector2(-24f, -24f);
+    [SerializeField] private Vector2 iconPaddingMedium = new Vector2(-20f, -20f);
+
     private RectTransform _subSlotsContainer;
     private AbilitySubSlotUI[] _subSlots; // 0: Top (-2), 1: Upper (-1), 2: Middle (0), 3: Lower (+1), 4: Bottom (+2)
     private Coroutine _scrollCoroutine;
@@ -61,6 +65,8 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
         public Vector2 targetPos;
         public Vector2 startSize;
         public Vector2 targetSize;
+        public Vector2 startIconPadding;
+        public Vector2 targetIconPadding;
         public Sprite startBg;
         public Sprite targetBg;
         public Sprite startIcon;
@@ -142,6 +148,15 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
                 slotUI.bgImage.sprite = config.bgSprite;
                 slotUI.bgImage.color = config.bgSprite != null ? Color.white : new Color(1f, 1f, 1f, 0.5f);
             }
+
+            if (slotUI.iconImage != null)
+            {
+                RectTransform iconRect = slotUI.iconImage.rectTransform;
+                iconRect.anchorMin = Vector2.zero;
+                iconRect.anchorMax = Vector2.one;
+                iconRect.sizeDelta = (slotUI.offset == 0) ? iconPaddingMiddle : iconPaddingMedium;
+                iconRect.anchoredPosition = Vector2.zero;
+            }
         }
     }
 
@@ -209,12 +224,6 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
                 GameObject iconGo = new GameObject("Icon", typeof(RectTransform), typeof(Image));
                 iconGo.transform.SetParent(slotGo.transform, false);
                 iconImg = iconGo.GetComponent<Image>();
-
-                RectTransform iconRect = iconGo.GetComponent<RectTransform>();
-                iconRect.anchorMin = Vector2.zero;
-                iconRect.anchorMax = Vector2.one;
-                iconRect.sizeDelta = new Vector2(-10f, -10f);
-                iconRect.anchoredPosition = Vector2.zero;
             }
 
             SubSlotConfig config = GetSubSlotConfig(offset);
@@ -231,6 +240,11 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
 
             if (iconImg != null)
             {
+                RectTransform iconRect = iconImg.rectTransform;
+                iconRect.anchorMin = Vector2.zero;
+                iconRect.anchorMax = Vector2.one;
+                iconRect.sizeDelta = (offset == 0) ? iconPaddingMiddle : iconPaddingMedium;
+                iconRect.anchoredPosition = Vector2.zero;
                 iconImg.preserveAspect = true;
                 iconImg.color = Color.clear;
             }
@@ -395,6 +409,8 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
                 targetPos = targetCfg.position,
                 startSize = startCfg.size,
                 targetSize = targetCfg.size,
+                startIconPadding = (startOffset == 0) ? iconPaddingMiddle : iconPaddingMedium,
+                targetIconPadding = (targetOffset == 0) ? iconPaddingMiddle : iconPaddingMedium,
                 startBg = startCfg.bgSprite,
                 targetBg = targetCfg.bgSprite,
                 startIcon = (startTool != null && Mathf.Abs(startOffset) < 2) ? startTool.Icono : null,
@@ -429,6 +445,11 @@ public class InventorySlot_UIAbility : InventorySlot_UIBasic
                 {
                     slot.bgImage.sprite = currentBg;
                     slot.bgImage.color = currentBg != null ? Color.white : new Color(1f, 1f, 1f, 0.5f);
+                }
+
+                if (slot.iconImage != null)
+                {
+                    slot.iconImage.rectTransform.sizeDelta = Vector2.Lerp(state.startIconPadding, state.targetIconPadding, t);
                 }
 
                 Sprite currentIcon = (rawT >= 0.5f) ? state.targetIcon : state.startIcon;

@@ -15,13 +15,13 @@ MonoBehaviour:
   ID: 0
   Nombre: Hoe
   "Descripci\xF3n": 
-  Icono: {fileID: 21300000, guid: ae265fbd7279cfc42ae86a8a72305d5a, type: 3}
+  Icono: {fileID: 21300000, guid: d646a42d95a3e3e429c9a52359f6ae00, type: 3}
   Valor: 0
   ItemPrefab: {fileID: 0}
-  DirtPrefabGhost: {fileID: 0}
   ghostMesh: {fileID: 0}
   ToolGameObject: {fileID: 0}
-  RequiredGridSpace: {x: 2.1, y: 0.1, z: 2.1}
+  footprintSize: {x: 1, y: 1, z: 1}
+  footprintOffset: {x: 0, y: 0, z: 0}
   Usable: 1
   Sellable: 0
   IsLookingAtStore: 0

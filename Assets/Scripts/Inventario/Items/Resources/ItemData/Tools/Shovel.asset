@@ -15,13 +15,13 @@ MonoBehaviour:
   ID: 11
   Nombre: Shovel
   "Descripci\xF3n": 
-  Icono: {fileID: 2099161770, guid: 40d71e339002aa847b09ed717225a444, type: 3}
+  Icono: {fileID: 21300000, guid: d9f29866984d5bb929af69ce6a97862a, type: 3}
   Valor: 0
   ItemPrefab: {fileID: 0}
-  DirtPrefabGhost: {fileID: 0}
   ghostMesh: {fileID: 0}
   ToolGameObject: {fileID: 0}
-  RequiredGridSpace: {x: 2.1, y: 0.1, z: 2.1}
+  footprintSize: {x: 1, y: 1, z: 1}
+  footprintOffset: {x: 0, y: 0, z: 0}
   Usable: 1
   Sellable: 0
   IsLookingAtStore: 0

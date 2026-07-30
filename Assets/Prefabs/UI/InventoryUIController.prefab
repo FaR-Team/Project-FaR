@@ -303,14 +303,16 @@ MonoBehaviour:
     _itemID: -1
     stackSize: -1
     "CantidadM\xE1xima": 100
-  middleSlotSprite: {fileID: 0}
-  mediumSlotSprite: {fileID: 0}
-  smallSlotSprite: {fileID: 0}
-  middleSlotSize: {x: 64, y: 64}
-  mediumSlotSize: {x: 48, y: 48}
-  smallSlotSize: {x: 36, y: 36}
-  mediumVerticalOffset: 45
-  smallVerticalOffset: 80
+  middleSlotSprite: {fileID: 21300000, guid: b4818b5ae85f1e78e93012b5b68d85eb, type: 3}
+  mediumSlotSprite: {fileID: 21300000, guid: ba5f74bd8c622835590eee0036bfd087, type: 3}
+  smallSlotSprite: {fileID: 21300000, guid: 463b30c9a4275fed98bc869a4ebe9aeb, type: 3}
+  middleSlotSize: {x: 93, y: 93}
+  mediumSlotSize: {x: 65, y: 65}
+  smallSlotSize: {x: 42, y: 42}
+  mediumVerticalOffset: 85
+  smallVerticalOffset: 150
+  iconPaddingMiddle: {x: -24, y: -24}
+  iconPaddingMedium: {x: -20, y: -20}
 --- !u!114 &4111245320722511174
 MonoBehaviour:
   m_ObjectHideFlags: 0
