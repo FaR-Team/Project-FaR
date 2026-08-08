@@ -93,219 +93,6 @@ Shader "FaRTeam/FaRMainShaderURP"
         TEXTURE2D(_RampTex);
         SAMPLER(sampler_RampTex);
         ENDHLSL
-        
-        Pass
-        {
-            Name "DepthOnly"
-            Tags { "LightMode" = "DepthOnly" }
-            
-            ZWrite On
-            ZTest LEqual
-            ColorMask 0
-            Cull Off
-            
-            HLSLPROGRAM
-            #pragma vertex DepthOnlyVertex
-            #pragma fragment DepthOnlyFragment
-            #pragma multi_compile_instancing
-            
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float2 uv         : TEXCOORD0;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
-            
-            struct Varyings
-            {
-                float4 positionCS : SV_POSITION;
-                float2 uv         : TEXCOORD0;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
-            
-            Varyings DepthOnlyVertex(Attributes input)
-            {
-                Varyings output;
-                UNITY_SETUP_INSTANCE_ID(input);
-                UNITY_TRANSFER_INSTANCE_ID(input, output);
-                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
-                output.uv = TRANSFORM_TEX(input.uv, _MainTex);
-                return output;
-            }
-            
-            half4 DepthOnlyFragment(Varyings input) : SV_TARGET
-            {
-                UNITY_SETUP_INSTANCE_ID(input);
-                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
-                clip(alpha - 0.01h);
-                return 0;
-            }
-            ENDHLSL
-        }
-        
-        Pass
-        {
-            Name "ShadowCaster"
-            Tags { "LightMode" = "ShadowCaster" }
-
-            ZWrite On
-            ZTest LEqual
-            ColorMask 0
-            Cull Off
-
-            HLSLPROGRAM
-            #pragma vertex ShadowPassVertex
-            #pragma fragment ShadowPassFragment
-            #pragma multi_compile_instancing
-            #pragma multi_compile _ _CASTING_PUNCTUAL_LIGHT_SHADOW
-
-            float3 _LightDirection;
-            float3 _LightPosition;
-
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
-                float2 texcoord   : TEXCOORD0;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
-
-            struct Varyings
-            {
-                float2 uv         : TEXCOORD0;
-                float4 positionCS : SV_POSITION;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
-
-            float4 GetShadowPositionHClip(Attributes input)
-            {
-                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
-                float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
-
-            #if _CASTING_PUNCTUAL_LIGHT_SHADOW
-                float3 lightDirectionWS = normalize(_LightPosition - positionWS);
-            #else
-                float3 lightDirectionWS = _LightDirection;
-            #endif
-
-                float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
-
-            #if UNITY_REVERSED_Z
-                positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-            #else
-                positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
-            #endif
-
-                return positionCS;
-            }
-
-            Varyings ShadowPassVertex(Attributes input)
-            {
-                Varyings output;
-                UNITY_SETUP_INSTANCE_ID(input);
-                UNITY_TRANSFER_INSTANCE_ID(input, output);
-
-                output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
-                output.positionCS = GetShadowPositionHClip(input);
-                return output;
-            }
-
-            half4 ShadowPassFragment(Varyings input) : SV_TARGET
-            {
-                UNITY_SETUP_INSTANCE_ID(input);
-                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
-                clip(alpha - 0.01h);
-                return 0;
-            }
-            ENDHLSL
-        }
-
-        Pass
-        {
-            Name "Outline"
-            Tags { }
-            Cull Front
-            
-            HLSLPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_instancing
-            #pragma shader_feature_local _USE_OUTLINE
-            #pragma shader_feature_local _USE_SCREEN_SPACE_OUTLINE
-            
-            struct Attributes
-            {
-                float4 positionOS : POSITION;
-                float3 normalOS   : NORMAL;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
-            
-            struct Varyings
-            {
-                float4 positionCS : SV_POSITION;
-                UNITY_VERTEX_INPUT_INSTANCE_ID
-            };
-            
-            Varyings vert(Attributes IN)
-            {
-                Varyings OUT;
-                UNITY_SETUP_INSTANCE_ID(IN);
-                UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
-                
-                bool useOutline = _UseOutline > 0.5;
-            #if defined(_USE_OUTLINE)
-                useOutline = true;
-            #endif
-
-                if (useOutline)
-                {
-                    float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
-                    float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
-                    
-                    bool isScreenSpace = _UseScreenSpaceOutline > 0.5;
-                #if defined(_USE_SCREEN_SPACE_OUTLINE)
-                    isScreenSpace = true;
-                #endif
-
-                    if (isScreenSpace)
-                    {
-                        OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
-                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                        float3 normalCS = TransformWorldToHClipDir(normalWS);
-                        float2 offset = normalize(normalCS.xy) * (pulseWidth * 0.0005) * OUT.positionCS.w;
-                        OUT.positionCS.xy += offset;
-                    }
-                    else
-                    {
-                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                        float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz) + normalWS * (pulseWidth * 0.001);
-                        OUT.positionCS = TransformWorldToHClip(positionWS);
-                    }
-                }
-                else
-                {
-                    OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
-                }
-                
-                return OUT;
-            }            
-            
-            half4 frag(Varyings IN) : SV_Target
-            {
-                UNITY_SETUP_INSTANCE_ID(IN);
-                
-                bool useOutline = _UseOutline > 0.5;
-            #if defined(_USE_OUTLINE)
-                useOutline = true;
-            #endif
-
-                if (!useOutline)
-                    discard;
-                    
-                return _OutlineColor;
-            }
-            ENDHLSL
-        }
 
         Pass
         {
@@ -374,7 +161,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 half3 albedo = texColor.rgb;
                 half alpha = texColor.a * _Alpha;
 
-                clip(alpha - 0.01h);
+                clip(alpha - 0.01f);
             
                 float3 normalWS = normalize(IN.normalWS);
                 normalWS = isFrontFace ? normalWS : -normalWS;
@@ -510,6 +297,222 @@ Shader "FaRTeam/FaRMainShaderURP"
                 return finalColor;
             }
             ENDHLSL        
+        }
+        
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
+
+            ZWrite On
+            ZTest LEqual
+            ColorMask 0
+            Cull Off
+
+            HLSLPROGRAM
+            #pragma vertex ShadowPassVertex
+            #pragma fragment ShadowPassFragment
+            #pragma multi_compile_instancing
+            #pragma multi_compile _ _CASTING_PUNCTUAL_LIGHT_SHADOW
+
+            float3 _LightDirection;
+            float3 _LightPosition;
+
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS   : NORMAL;
+                float2 texcoord   : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            struct Varyings
+            {
+                float2 uv         : TEXCOORD0;
+                float4 positionCS : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+
+            float4 GetShadowPositionHClip(Attributes input)
+            {
+                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
+                float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
+
+            #if _CASTING_PUNCTUAL_LIGHT_SHADOW
+                float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+            #else
+                float3 lightDirectionWS = _LightDirection;
+            #endif
+
+                float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
+
+            #if UNITY_REVERSED_Z
+                positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+            #else
+                positionCS.z = max(positionCS.z, UNITY_NEAR_CLIP_VALUE);
+            #endif
+
+                return positionCS;
+            }
+
+            Varyings ShadowPassVertex(Attributes input)
+            {
+                Varyings output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_TRANSFER_INSTANCE_ID(input, output);
+
+                output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
+                output.positionCS = GetShadowPositionHClip(input);
+                return output;
+            }
+
+            half4 ShadowPassFragment(Varyings input) : SV_TARGET
+            {
+                UNITY_SETUP_INSTANCE_ID(input);
+                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
+                clip(alpha - 0.01f);
+                return 0;
+            }
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Name "DepthOnly"
+            Tags { "LightMode" = "DepthOnly" }
+            
+            ZWrite On
+            ZTest LEqual
+            ColorMask 0
+            Cull Off
+            
+            HLSLPROGRAM
+            #pragma vertex DepthOnlyVertex
+            #pragma fragment DepthOnlyFragment
+            #pragma multi_compile_instancing
+            
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float2 uv         : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                float2 uv         : TEXCOORD0;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            Varyings DepthOnlyVertex(Attributes input)
+            {
+                Varyings output;
+                UNITY_SETUP_INSTANCE_ID(input);
+                UNITY_TRANSFER_INSTANCE_ID(input, output);
+                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
+                output.positionCS = TransformWorldToHClip(positionWS);
+                output.uv = TRANSFORM_TEX(input.uv, _MainTex);
+                return output;
+            }
+            
+            half4 DepthOnlyFragment(Varyings input) : SV_TARGET
+            {
+                UNITY_SETUP_INSTANCE_ID(input);
+                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
+                clip(alpha - 0.01f);
+                return 0;
+            }
+            ENDHLSL
+        }
+
+        Pass
+        {
+            Name "Outline"
+            Tags { }
+            Cull Front
+            ZWrite On
+            ZTest LEqual
+            
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_instancing
+            #pragma shader_feature_local _USE_OUTLINE
+            #pragma shader_feature_local _USE_SCREEN_SPACE_OUTLINE
+            
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float3 normalOS   : NORMAL;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            struct Varyings
+            {
+                float4 positionCS : SV_POSITION;
+                UNITY_VERTEX_INPUT_INSTANCE_ID
+            };
+            
+            Varyings vert(Attributes IN)
+            {
+                Varyings OUT;
+                UNITY_SETUP_INSTANCE_ID(IN);
+                UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
+                
+                bool useOutline = _UseOutline > 0.5;
+            #if defined(_USE_OUTLINE)
+                useOutline = true;
+            #endif
+
+                if (useOutline)
+                {
+                    float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
+                    float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
+                    
+                    bool isScreenSpace = _UseScreenSpaceOutline > 0.5;
+                #if defined(_USE_SCREEN_SPACE_OUTLINE)
+                    isScreenSpace = true;
+                #endif
+
+                    if (isScreenSpace)
+                    {
+                        OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                        float3 normalCS = TransformWorldToHClipDir(normalWS);
+                        float2 offset = normalize(normalCS.xy) * (pulseWidth * 0.0005) * OUT.positionCS.w;
+                        OUT.positionCS.xy += offset;
+                    }
+                    else
+                    {
+                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                        float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz) + normalWS * (pulseWidth * 0.001);
+                        OUT.positionCS = TransformWorldToHClip(positionWS);
+                    }
+                }
+                else
+                {
+                    OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                }
+                
+                return OUT;
+            }            
+            
+            half4 frag(Varyings IN) : SV_Target
+            {
+                UNITY_SETUP_INSTANCE_ID(IN);
+                
+                bool useOutline = _UseOutline > 0.5;
+            #if defined(_USE_OUTLINE)
+                useOutline = true;
+            #endif
+
+                if (!useOutline)
+                    discard;
+                    
+                return _OutlineColor;
+            }
+            ENDHLSL
         }
     }
 }
