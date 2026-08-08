@@ -48,8 +48,22 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
     public bool CanOverlap => false;
     public string EntityName => gameObject.name;
 
-    public void OnGridRegistered(Vector3Int coord) { }
-    public void OnGridUnregistered() { }
+    protected Vector3Int _registeredCoord;
+    protected bool _isRegisteredOnGrid;
+
+    public Vector3Int RegisteredCoord => _registeredCoord;
+    public bool IsRegisteredOnGrid => _isRegisteredOnGrid;
+
+    public virtual void OnGridRegistered(Vector3Int coord)
+    {
+        _registeredCoord = coord;
+        _isRegisteredOnGrid = true;
+    }
+
+    public virtual void OnGridUnregistered()
+    {
+        _isRegisteredOnGrid = false;
+    }
 
     protected virtual void Awake()
     {
@@ -203,9 +217,9 @@ public abstract class GrowingBase : MonoBehaviour, IGridEntity
         {
             CatchUpBroadcaster.Instance.OnCatchUpBroadcast -= CatchUpMissedGrowth;
         }
-        if (GridDataManager.Instance != null)
+        if (_isRegisteredOnGrid && GridDataManager.Instance != null)
         {
-            GridDataManager.Instance.Unregister(this);
+            GridDataManager.Instance.Unregister(this, _registeredCoord);
         }
     }
 }

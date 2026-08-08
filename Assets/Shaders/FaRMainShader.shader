@@ -2,31 +2,39 @@ Shader "FaRTeam/FaRMainShaderURP"
 {
     Properties
     {
-        _Color ("Color", Color) = (1,1,1,1)
-        _MainTex ("Texture", 2D) = "white" {}
+        [Header(Main Surface)]
+        [MainColor] _Color ("Color", Color) = (1,1,1,1)
+        [MainTexture] _MainTex ("Texture", 2D) = "white" {}
+        _Alpha ("Alpha", Range(0, 1)) = 1
+
+        [Header(Cel Shading)]
         _CelSteps ("Cel Shading Steps", Range(1, 20)) = 5
-        _Alpha ("Alpha", Range(0,1)) = 1
-        [Toggle] _UseOutline("Use Outline", Float) = 0
-        _OutlineColor("Outline Color", Color) = (0.6,0,0.6,1)
-        _OutlineWidth("Outline Width", Range(0, 100)) = 20
+
+        [Header(Multiply Texture)]
+        [Toggle] _UseMultiplyTexture ("Use Multiply Texture", Float) = 0
+        _MultiplyTex ("Multiply Texture", 2D) = "white" {}
+
+        [Header(Outline)]
+        [Toggle] _UseOutline ("Use Outline", Float) = 0
+        _OutlineColor ("Outline Color", Color) = (0.6, 0, 0.6, 1)
+        _OutlineWidth ("Outline Width", Range(0, 100)) = 20
         _PulseSpeed ("Pulse Speed", Range(0, 10)) = 2.5
         _PulseMinWidth ("Pulse Min Width", Range(0, 100)) = 5
         _PulseMaxWidth ("Pulse Max Width", Range(0, 100)) = 20
-        [Toggle] _UseMultiplyTexture("Use Multiply Texture", Float) = 0
-        _MultiplyTex ("Multiply Texture", 2D) = "white" {}
+
         [Header(Pixel Perfect Shadows)]
-        [Toggle] _UsePixelPerfectShadows("Use Pixel Perfect Shadows", Float) = 1
-        _ShadowThreshold("Shadow Threshold", Range(0, 1)) = 0.5
-        _ShadowSharpness("Shadow Sharpness", Range(0.01, 0.5)) = 0.1
-        _ShadowColor("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
-        _ShadowAlignmentX("Shadow Alignment X", Range(-1, 1)) = 0
-        _ShadowAlignmentY("Shadow Alignment Y", Range(-1, 1)) = 0.5001
-        _ShadowAlignmentZ("Shadow Alignment Z", Range(-1, 1)) = 0
-        _ShadowGridBias("Shadow Grid Bias", Range(0, 1)) = 0.1
-        _ShadowNormalBias("Shadow Normal Bias", Range(0, 1)) = 0.1
-        _GridOffsetX("Grid Offset X", Range(-2.1, 2.1)) = 0
-        _GridOffsetY("Grid Offset Y", Range(-2.1, 2.1)) = 0
-        _GridOffsetZ("Grid Offset Z", Range(-2.1, 2.1)) = 0
+        [Toggle] _UsePixelPerfectShadows ("Use Pixel Perfect Shadows", Float) = 1
+        _ShadowThreshold ("Shadow Threshold", Range(0, 1)) = 0.5
+        _ShadowSharpness ("Shadow Sharpness", Range(0.001, 0.5)) = 0.01
+        _ShadowColor ("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
+        _ShadowAlignmentX ("Shadow Alignment X", Range(-1, 1)) = 0
+        _ShadowAlignmentY ("Shadow Alignment Y", Range(-1, 1)) = 0.5001
+        _ShadowAlignmentZ ("Shadow Alignment Z", Range(-1, 1)) = 0
+        _ShadowGridBias ("Shadow Grid Bias", Range(0, 1)) = 0.1
+        _ShadowNormalBias ("Shadow Normal Bias", Range(0, 1)) = 0.1
+        _GridOffsetX ("Grid Offset X", Range(-2.1, 2.1)) = 0
+        _GridOffsetY ("Grid Offset Y", Range(-2.1, 2.1)) = 0
+        _GridOffsetZ ("Grid Offset Z", Range(-2.1, 2.1)) = 0
     }
     SubShader
     {
@@ -73,12 +81,16 @@ Shader "FaRTeam/FaRMainShaderURP"
             float _GridOffsetY;
             float _GridOffsetZ;
         CBUFFER_END
+
+        TEXTURE2D(_MainTex);
+        SAMPLER(sampler_MainTex);
+        TEXTURE2D(_MultiplyTex);
         ENDHLSL
         
         Pass
         {
             Name "DepthOnly"
-            Tags {"LightMode" = "DepthOnly"}
+            Tags { "LightMode" = "DepthOnly" }
             
             ZWrite On
             ZTest LEqual
@@ -90,20 +102,17 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma fragment DepthOnlyFragment
             #pragma multi_compile_instancing
             
-            TEXTURE2D(_MainTex);
-            SAMPLER(sampler_MainTex);
-            
             struct Attributes
             {
                 float4 positionOS : POSITION;
-                float2 uv : TEXCOORD0;
+                float2 uv         : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
             struct Varyings
             {
                 float4 positionCS : SV_POSITION;
-                float2 uv : TEXCOORD0;
+                float2 uv         : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
@@ -120,12 +129,8 @@ Shader "FaRTeam/FaRMainShaderURP"
             half4 DepthOnlyFragment(Varyings input) : SV_TARGET
             {
                 UNITY_SETUP_INSTANCE_ID(input);
-                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
-                half alpha = texColor.a * _Alpha;
-                
-                if (alpha < 0.01)
-                    discard;
-                    
+                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
+                clip(alpha - 0.01h);
                 return 0;
             }
             ENDHLSL
@@ -134,7 +139,7 @@ Shader "FaRTeam/FaRMainShaderURP"
         Pass
         {
             Name "ShadowCaster"
-            Tags {"LightMode" = "ShadowCaster"}
+            Tags { "LightMode" = "ShadowCaster" }
 
             ZWrite On
             ZTest LEqual
@@ -147,24 +152,21 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma multi_compile_instancing
             #pragma multi_compile _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
-            TEXTURE2D(_MainTex);
-            SAMPLER(sampler_MainTex);
-
             float3 _LightDirection;
             float3 _LightPosition;
 
             struct Attributes
             {
-                float4 positionOS   : POSITION;
-                float3 normalOS     : NORMAL;
-                float2 texcoord     : TEXCOORD0;
+                float4 positionOS : POSITION;
+                float3 normalOS   : NORMAL;
+                float2 texcoord   : TEXCOORD0;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
             {
-                float2 uv           : TEXCOORD0;
-                float4 positionCS   : SV_POSITION;
+                float2 uv         : TEXCOORD0;
+                float4 positionCS : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
@@ -198,20 +200,14 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 output.uv = TRANSFORM_TEX(input.texcoord, _MainTex);
                 output.positionCS = GetShadowPositionHClip(input);
-                
                 return output;
             }
 
             half4 ShadowPassFragment(Varyings input) : SV_TARGET
             {
                 UNITY_SETUP_INSTANCE_ID(input);
-                
-                half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv);
-                half alpha = texColor.a * _Alpha;
-                
-                if (alpha < 0.01)
-                    discard;
-                
+                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
+                clip(alpha - 0.01h);
                 return 0;
             }
             ENDHLSL
@@ -231,7 +227,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             struct Attributes
             {
                 float4 positionOS : POSITION;
-                float3 normalOS : NORMAL;
+                float3 normalOS   : NORMAL;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
             
@@ -248,30 +244,36 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
                 
                 float useOutline = _UseOutline;
+                float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+
+                if (useOutline > 0.5)
+                {
+                    float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
+                    float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
+                    float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                    positionWS += normalWS * (pulseWidth * 0.001);
+                }
                 
-                float pulseValue = (sin(_Time.y * _PulseSpeed) * 0.5 + 0.5);
-                float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
-                
-                float3 pos = IN.positionOS.xyz + IN.normalOS * (pulseWidth * 0.001 * useOutline);
-                OUT.positionCS = TransformObjectToHClip(pos);
+                OUT.positionCS = TransformWorldToHClip(positionWS);
                 return OUT;
             }            
+            
             half4 frag(Varyings IN) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
-                float useOutline = _UseOutline;
                 
-                if (useOutline < 0.5)
+                if (_UseOutline < 0.5)
                     discard;
                     
                 return _OutlineColor;
             }
             ENDHLSL
         }
+
         Pass
         {
             Name "ForwardLit"
-            Tags {"LightMode" = "UniversalForward"}
+            Tags { "LightMode" = "UniversalForward" }
             
             Cull Off
             ZWrite On
@@ -289,32 +291,29 @@ Shader "FaRTeam/FaRMainShaderURP"
             struct Attributes
             {
                 float4 positionOS : POSITION;
-                float2 uv : TEXCOORD0;
-                float3 normalOS : NORMAL;
-                float4 color : COLOR;
+                float2 uv         : TEXCOORD0;
+                float3 normalOS   : NORMAL;
+                float4 color      : COLOR;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
 
             struct Varyings
             {
-                float2 uv : TEXCOORD0;
+                float2 uv         : TEXCOORD0;
                 float4 positionCS : SV_POSITION;
-                float3 normalWS : TEXCOORD1;
+                float3 normalWS   : TEXCOORD1;
                 float3 positionWS : TEXCOORD2;
-                float4 color : COLOR;
-                float fogFactor : TEXCOORD3;
+                float4 color      : COLOR;
+                float fogFactor   : TEXCOORD3;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
-
-            TEXTURE2D(_MainTex);
-            TEXTURE2D(_MultiplyTex);
-            SAMPLER(sampler_MainTex);
 
             Varyings vert(Attributes IN)
             {
                 Varyings OUT;
                 UNITY_SETUP_INSTANCE_ID(IN);
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
+
                 OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
                 OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
@@ -327,9 +326,12 @@ Shader "FaRTeam/FaRMainShaderURP"
             half4 frag(Varyings IN, bool isFrontFace : SV_IsFrontFace) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
+
                 half4 texColor = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, IN.uv) * _Color * IN.color;
                 half3 albedo = texColor.rgb;
                 half alpha = texColor.a * _Alpha;
+
+                clip(alpha - 0.01h);
             
                 float3 normalWS = normalize(IN.normalWS);
                 normalWS = isFrontFace ? normalWS : -normalWS;
@@ -337,7 +339,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
                 Light mainLight = GetMainLight(shadowCoord);
                 
-                float NdotL = dot(normalWS, mainLight.direction) * 0.5 + 0.5;
+                float NdotL = saturate(dot(normalWS, mainLight.direction) * 0.5 + 0.5);
                 
                 float shadowAttenuation = 1.0;
                 
@@ -355,14 +357,10 @@ Shader "FaRTeam/FaRMainShaderURP"
                     float3 alignedWorldPos = offsetWorldPos + alignmentOffset;
                     
                     float3 quantizedWorldPos = round(alignedWorldPos / pixelSize) * pixelSize;
-                    
                     quantizedWorldPos -= gridOffset;
-                    
-                    // Move point towards light source slightly to avoid self-shadowing acne after quantization
                     quantizedWorldPos -= mainLight.direction * (pixelSize * _ShadowGridBias);
                     
                     float4 quantizedShadowCoord = TransformWorldToShadowCoord(quantizedWorldPos);
-                    
                     float quantizedShadowSample = MainLightRealtimeShadow(quantizedShadowCoord);
                     
                     float shadowStrength = _MainLightShadowParams.x;
@@ -373,7 +371,8 @@ Shader "FaRTeam/FaRMainShaderURP"
                     }
                     
                     float threshold = _ShadowThreshold;
-                    shadowAttenuation = rawShadow > threshold ? 1.0 : 0.0;
+                    float sharpness = max(_ShadowSharpness, 0.001);
+                    shadowAttenuation = smoothstep(threshold - sharpness, threshold + sharpness, rawShadow);
                 }
                 else
                 {
@@ -382,19 +381,17 @@ Shader "FaRTeam/FaRMainShaderURP"
                     shadowAttenuation = lerp(0.7, 1.0, softShadow);
                 }
 
-                float ambientOcclusion = 1.0;
-
                 float cel;
-                
                 if (_UsePixelPerfectShadows > 0.5)
                 {
                     cel = lerp(1.0, shadowAttenuation, _MainLightShadowParams.x);
                 }
                 else
                 {
+                    float steps = max(_CelSteps, 1.0);
                     float celValue = NdotL * shadowAttenuation;
-                    cel = smoothstep(0, 1, frac(celValue * _CelSteps)) + floor(celValue * _CelSteps);
-                    cel /= _CelSteps;
+                    cel = smoothstep(0.0, 1.0, frac(celValue * steps)) + floor(celValue * steps);
+                    cel /= steps;
                 }
 
                 half3 litTint = mainLight.color.rgb;
@@ -418,11 +415,8 @@ Shader "FaRTeam/FaRMainShaderURP"
                 }
 
                 half4 finalColor;
-                finalColor.rgb = albedo * lightingTint * ambientOcclusion;
+                finalColor.rgb = albedo * lightingTint;
                 finalColor.a = alpha;
-            
-                if (finalColor.a < 0.01)
-                    discard;
 
                 finalColor.rgb = MixFog(finalColor.rgb, IN.fogFactor);
             

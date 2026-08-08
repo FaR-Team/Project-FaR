@@ -28,6 +28,7 @@ public class Dirt : MonoBehaviour, IGridEntity
     public static Color wetDirtColor = new(0.5f, 0.3f, 0.3f);
     [SerializeField] private Animator animator;
     private Vector3Int _registeredCoord;
+    private bool _isRegisteredOnGrid;
 
     public Vector3Int Coordinate => WorldGrid.WorldToCell(transform.position);
     public Vector3Int FootprintSize => Vector3Int.one;
@@ -38,8 +39,12 @@ public class Dirt : MonoBehaviour, IGridEntity
     public void OnGridRegistered(Vector3Int coord) 
     { 
         _registeredCoord = coord;
+        _isRegisteredOnGrid = true;
     }
-    public void OnGridUnregistered() { }
+    public void OnGridUnregistered()
+    {
+        _isRegisteredOnGrid = false;
+    }
 
     void Start()
     {
@@ -161,7 +166,7 @@ public class Dirt : MonoBehaviour, IGridEntity
 
     void OnDisable()
     {
-        if (GridDataManager.Instance != null)
+        if (_isRegisteredOnGrid && GridDataManager.Instance != null)
         {
             GridDataManager.Instance.Unregister(this, _registeredCoord);
         }

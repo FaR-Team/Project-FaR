@@ -23,6 +23,7 @@ public class GrowingFruit : GrowingCrop //CrecimientoFruta TODO: Intentar unific
     
     protected override void OnDisable()
     {
+        base.OnDisable();
         if (_parentPlant == null) return;
 
         _parentPlant.OnDayPassed -= DayPassed;
