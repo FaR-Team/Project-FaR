@@ -9,13 +9,16 @@ Shader "FaRTeam/FaRMainShaderURP"
 
         [Header(Cel Shading)]
         _CelSteps ("Cel Shading Steps", Range(1, 20)) = 5
+        [Toggle(_USE_RAMP_TEXTURE)] _UseRampTexture ("Use Ramp Texture", Float) = 0
+        [NoScaleOffset] _RampTex ("Ramp Texture", 2D) = "gray" {}
 
         [Header(Multiply Texture)]
-        [Toggle] _UseMultiplyTexture ("Use Multiply Texture", Float) = 0
+        [Toggle(_USE_MULTIPLY_TEXTURE)] _UseMultiplyTexture ("Use Multiply Texture", Float) = 0
         _MultiplyTex ("Multiply Texture", 2D) = "white" {}
 
         [Header(Outline)]
-        [Toggle] _UseOutline ("Use Outline", Float) = 0
+        [Toggle(_USE_OUTLINE)] _UseOutline ("Use Outline", Float) = 0
+        [Toggle(_USE_SCREEN_SPACE_OUTLINE)] _UseScreenSpaceOutline ("Screen Space Outline Width", Float) = 0
         _OutlineColor ("Outline Color", Color) = (0.6, 0, 0.6, 1)
         _OutlineWidth ("Outline Width", Range(0, 100)) = 20
         _PulseSpeed ("Pulse Speed", Range(0, 10)) = 2.5
@@ -23,7 +26,7 @@ Shader "FaRTeam/FaRMainShaderURP"
         _PulseMaxWidth ("Pulse Max Width", Range(0, 100)) = 20
 
         [Header(Pixel Perfect Shadows)]
-        [Toggle] _UsePixelPerfectShadows ("Use Pixel Perfect Shadows", Float) = 1
+        [Toggle(_USE_PIXEL_PERFECT_SHADOWS)] _UsePixelPerfectShadows ("Use Pixel Perfect Shadows", Float) = 1
         _ShadowThreshold ("Shadow Threshold", Range(0, 1)) = 0.5
         _ShadowSharpness ("Shadow Sharpness", Range(0.001, 0.5)) = 0.01
         _ShadowColor ("Shadow Color", Color) = (0.5, 0.5, 0.7, 1)
@@ -60,14 +63,16 @@ Shader "FaRTeam/FaRMainShaderURP"
             float4 _MainTex_ST;
             float _CelSteps;
             float _Alpha;
+            float _UseRampTexture;
+            float _UseMultiplyTexture;
+            float4 _MultiplyTex_ST;
             float _UseOutline;
+            float _UseScreenSpaceOutline;
             float4 _OutlineColor;
             float _OutlineWidth;
             float _PulseSpeed;
             float _PulseMinWidth;
             float _PulseMaxWidth;
-            float _UseMultiplyTexture;
-            float4 _MultiplyTex_ST;
             float _UsePixelPerfectShadows;
             float _ShadowThreshold;
             float _ShadowSharpness;
@@ -85,6 +90,8 @@ Shader "FaRTeam/FaRMainShaderURP"
         TEXTURE2D(_MainTex);
         SAMPLER(sampler_MainTex);
         TEXTURE2D(_MultiplyTex);
+        TEXTURE2D(_RampTex);
+        SAMPLER(sampler_RampTex);
         ENDHLSL
         
         Pass
@@ -223,6 +230,8 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
+            #pragma shader_feature_local _USE_OUTLINE
+            #pragma shader_feature_local _USE_SCREEN_SPACE_OUTLINE
             
             struct Attributes
             {
@@ -243,18 +252,41 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_SETUP_INSTANCE_ID(IN);
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
                 
-                float useOutline = _UseOutline;
-                float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+                bool useOutline = _UseOutline > 0.5;
+            #if defined(_USE_OUTLINE)
+                useOutline = true;
+            #endif
 
-                if (useOutline > 0.5)
+                if (useOutline)
                 {
                     float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
                     float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
-                    float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                    positionWS += normalWS * (pulseWidth * 0.001);
+                    
+                    bool isScreenSpace = _UseScreenSpaceOutline > 0.5;
+                #if defined(_USE_SCREEN_SPACE_OUTLINE)
+                    isScreenSpace = true;
+                #endif
+
+                    if (isScreenSpace)
+                    {
+                        OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                        float3 normalCS = TransformWorldToHClipDir(normalWS);
+                        float2 offset = normalize(normalCS.xy) * (pulseWidth * 0.0005) * OUT.positionCS.w;
+                        OUT.positionCS.xy += offset;
+                    }
+                    else
+                    {
+                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                        float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz) + normalWS * (pulseWidth * 0.001);
+                        OUT.positionCS = TransformWorldToHClip(positionWS);
+                    }
+                }
+                else
+                {
+                    OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
                 }
                 
-                OUT.positionCS = TransformWorldToHClip(positionWS);
                 return OUT;
             }            
             
@@ -262,7 +294,12 @@ Shader "FaRTeam/FaRMainShaderURP"
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
                 
-                if (_UseOutline < 0.5)
+                bool useOutline = _UseOutline > 0.5;
+            #if defined(_USE_OUTLINE)
+                useOutline = true;
+            #endif
+
+                if (!useOutline)
                     discard;
                     
                 return _OutlineColor;
@@ -285,8 +322,14 @@ Shader "FaRTeam/FaRMainShaderURP"
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
             #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
             #pragma multi_compile _ _SHADOWS_SOFT
+            #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+            #pragma multi_compile _ _ADDITIONAL_LIGHT_SHADOWS
             #pragma multi_compile_fog
             #pragma multi_compile_instancing
+
+            #pragma shader_feature_local _USE_RAMP_TEXTURE
+            #pragma shader_feature_local _USE_MULTIPLY_TEXTURE
+            #pragma shader_feature_local _USE_PIXEL_PERFECT_SHADOWS
 
             struct Attributes
             {
@@ -343,7 +386,12 @@ Shader "FaRTeam/FaRMainShaderURP"
                 
                 float shadowAttenuation = 1.0;
                 
-                if (_UsePixelPerfectShadows > 0.5)
+                bool usePixelPerfect = _UsePixelPerfectShadows > 0.5;
+            #if defined(_USE_PIXEL_PERFECT_SHADOWS)
+                usePixelPerfect = true;
+            #endif
+
+                if (usePixelPerfect)
                 {
                     float pixelSize = 0.1;
                     
@@ -381,14 +429,25 @@ Shader "FaRTeam/FaRMainShaderURP"
                     shadowAttenuation = lerp(0.7, 1.0, softShadow);
                 }
 
+                bool useRamp = _UseRampTexture > 0.5;
+            #if defined(_USE_RAMP_TEXTURE)
+                useRamp = true;
+            #endif
+
+                float steps = max(_CelSteps, 1.0);
                 float cel;
-                if (_UsePixelPerfectShadows > 0.5)
+                
+                if (usePixelPerfect)
                 {
                     cel = lerp(1.0, shadowAttenuation, _MainLightShadowParams.x);
                 }
+                else if (useRamp)
+                {
+                    float rampUV = saturate(NdotL * shadowAttenuation);
+                    cel = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, float2(rampUV, 0.5)).r;
+                }
                 else
                 {
-                    float steps = max(_CelSteps, 1.0);
                     float celValue = NdotL * shadowAttenuation;
                     cel = smoothstep(0.0, 1.0, frac(celValue * steps)) + floor(celValue * steps);
                     cel /= steps;
@@ -397,7 +456,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 half3 litTint = mainLight.color.rgb;
                 half3 shadowTint;
                 
-                if (_UsePixelPerfectShadows > 0.5)
+                if (usePixelPerfect)
                 {
                     shadowTint = _ShadowColor.rgb * mainLight.color.rgb;
                 }
@@ -408,14 +467,42 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
 
-                if (_UseMultiplyTexture > 0.5)
+                half3 additionalLighting = 0;
+            #if defined(_ADDITIONAL_LIGHTS)
+                uint pixelLightCount = GetAdditionalLightsCount();
+                for (uint lightIndex = 0u; lightIndex < pixelLightCount; ++lightIndex)
+                {
+                    Light addLight = GetAdditionalLight(lightIndex, IN.positionWS);
+                    float addNdotL = saturate(dot(normalWS, addLight.direction) * 0.5 + 0.5);
+                    float addAtten = addLight.distanceAttenuation * addLight.shadowAttenuation;
+                    
+                    float addCel;
+                    if (useRamp)
+                    {
+                        addCel = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, float2(addNdotL * addAtten, 0.5)).r;
+                    }
+                    else
+                    {
+                        float addVal = addNdotL * addAtten;
+                        addCel = smoothstep(0.0, 1.0, frac(addVal * steps)) + floor(addVal * steps);
+                        addCel /= steps;
+                    }
+                    additionalLighting += addLight.color.rgb * addCel;
+                }
+            #endif
+
+                bool useMultiply = _UseMultiplyTexture > 0.5;
+            #if defined(_USE_MULTIPLY_TEXTURE)
+                useMultiply = true;
+            #endif
+                if (useMultiply)
                 {
                     half4 multiplyTex = SAMPLE_TEXTURE2D(_MultiplyTex, sampler_MainTex, TRANSFORM_TEX(IN.uv, _MultiplyTex));
                     albedo *= multiplyTex.rgb;
                 }
 
                 half4 finalColor;
-                finalColor.rgb = albedo * lightingTint;
+                finalColor.rgb = albedo * (lightingTint + additionalLighting);
                 finalColor.a = alpha;
 
                 finalColor.rgb = MixFog(finalColor.rgb, IN.fogFactor);

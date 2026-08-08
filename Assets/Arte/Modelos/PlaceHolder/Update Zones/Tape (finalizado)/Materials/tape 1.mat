@@ -22,7 +22,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: tape 1
   m_Shader: {fileID: 4800000, guid: 399c0f31dd38d8c4994f54d39305e980, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _USE_PIXEL_PERFECT_SHADOWS
   m_InvalidKeywords:
   - _USEPIXELPERFECTSHADOWS_ON
   m_LightmapFlags: 4
@@ -75,6 +76,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RampTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -139,6 +144,8 @@ Material:
     - _UseMultiplyTexture: 0
     - _UseOutline: 0
     - _UsePixelPerfectShadows: 1
+    - _UseRampTexture: 0
+    - _UseScreenSpaceOutline: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
