@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using EasyTextEffects.Editor.MyBoxCopy.Extensions;
 using FaRUtils.Systems.DateTime;
 using UnityEngine;
@@ -45,7 +45,7 @@ public class GrowingTuber : GrowingBase
             daysDry++;
         }
 
-        if(currentState.isLastPhase)
+        if (currentState != null && currentState.isLastPhase)
             daysWithoutHarvest++;
             
         CheckGrowState();
