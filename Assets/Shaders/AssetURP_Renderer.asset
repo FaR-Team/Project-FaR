@@ -52,7 +52,7 @@ MonoBehaviour:
     zFailOperation: 0
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
-  m_DepthPrimingMode: 0
+  m_DepthPrimingMode: 1
   m_CopyDepthMode: 0
   m_AccurateGbufferNormals: 0
   m_ClusteredRendering: 0
@@ -73,5 +73,5 @@ MonoBehaviour:
   m_Active: 1
   settings:
     renderPassEvent: 500
-    outlineMaterial: {fileID: 2100000, guid: 2f8755069fb45344f894ec6a4480678b, type: 2}
+    outlineMaterial: {fileID: 2100000, guid: 3124bcf3d8d1f99a0b7220eaeb481bab, type: 2}
     downsampling: 1

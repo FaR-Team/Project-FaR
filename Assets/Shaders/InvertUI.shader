@@ -96,7 +96,7 @@ Shader "UI/InvertUI"
                 half4 color = (tex2D(_MainTex, IN.texcoord) + _TextureSampleAdd) * IN.color;
 
                 #ifdef UNITY_UI_CLIP_RECT
-                color.a *= UnityGet2DClippedMask(IN.worldPosition.xy, _ClipRect);
+                color.a *= UnityGet2DClipped2D(IN.worldPosition.xy, _ClipRect);
                 #endif
 
                 #ifdef UNITY_UI_ALPHACLIP

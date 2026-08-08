@@ -7,11 +7,10 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: OutlinePostProcessMaterial
+  m_Name: Outline
   m_Shader: {fileID: 4800000, guid: 11d00f472cabe644b88ffa3d34686319, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _USEADAPTIVETHRESHOLD_ON
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -84,38 +83,33 @@ Material:
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorThreshold: 0.1
-    - _ColorWeight: 0.5
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthSensitivity: 1
-    - _DepthThreshold: 100
-    - _DepthWeight: 0.5
+    - _DepthSensitivity: 2
+    - _DepthThreshold: 0.02
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistanceCutoff: 6
+    - _DistanceFadeStart: 60
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FadeDistance: 7.5
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _MaxDistance: 100
-    - _MaxOutlineDistance: 100
+    - _MaxDistance: 300
     - _Metallic: 0
-    - _NormalThreshold: 0.4
+    - _MinThickness: 0.3
+    - _NormalThreshold: 0.25
     - _OcclusionStrength: 1
-    - _OutlineThickness: 3
+    - _OutlineThickness: 2
     - _Parallax: 0.005
-    - _PixelPerfect: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ReferenceDistance: 10
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _UseAdaptiveThreshold: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -125,7 +119,7 @@ Material:
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &873688454705248078
+--- !u!114 &8196287355482539086
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
