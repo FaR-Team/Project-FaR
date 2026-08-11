@@ -89,22 +89,22 @@ Material:
     - _DepthThreshold: 0.01
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DistanceFadeStart: 300
+    - _DistanceFadeStart: 12
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _MaxDistance: 1000
+    - _MaxDistance: 45
     - _Metallic: 0
-    - _MinThickness: 0.4
+    - _MinThickness: 0.1
     - _NormalThreshold: 0.2
     - _OcclusionStrength: 1
-    - _OutlineThickness: 1.2
+    - _OutlineThickness: 1
     - _Parallax: 0.005
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _ReferenceDistance: 15
+    - _ReferenceDistance: 12
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

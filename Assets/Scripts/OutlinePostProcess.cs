@@ -50,6 +50,7 @@ public class OutlinePostProcess : ScriptableRendererFeature
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
             if (settings.outlineMaterial == null) return;
+            if (renderingData.cameraData.cameraType == CameraType.Preview) return;
 
             CommandBuffer cmd = CommandBufferPool.Get("Outline Effect");
 

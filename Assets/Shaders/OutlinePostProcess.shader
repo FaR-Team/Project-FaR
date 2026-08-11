@@ -4,11 +4,9 @@ Shader "FaRTeam/OutlinePostProcess" // Si alguien toca este código, 40 balazos
     {
         _MainTex ("Texture", 2D) = "white" {}
         _OutlineColor ("Outline Color", Color) = (0, 0, 0, 1)
-        _OutlineThickness ("Near Thickness", Range(0.5, 3.0)) = 1.2
-        _ReferenceDistance ("Reference Distance", Range(1.0, 50.0)) = 15.0
-        _MinThickness ("Min Thickness", Range(0.1, 1.0)) = 0.4
-        _DistanceFadeStart ("Distance Fade Start", Range(10.0, 500.0)) = 300.0
-        _MaxDistance ("Max Distance", Range(50.0, 2000.0)) = 1000.0
+        _OutlineThickness ("Outline Thickness (Pixels)", Range(0.5, 3.0)) = 1.0
+        _DistanceFadeStart ("Distance Fade Start", Range(5.0, 100.0)) = 12.0
+        _MaxDistance ("Max Distance", Range(10.0, 300.0)) = 45.0
         _DepthThreshold ("Silhouette Depth Threshold", Range(0.005, 0.2)) = 0.01
     }
     SubShader
@@ -44,8 +42,6 @@ Shader "FaRTeam/OutlinePostProcess" // Si alguien toca este código, 40 balazos
             CBUFFER_START(UnityPerMaterial)
                 float4 _OutlineColor;
                 float _OutlineThickness;
-                float _ReferenceDistance;
-                float _MinThickness;
                 float _DistanceFadeStart;
                 float _MaxDistance;
                 float _DepthThreshold;
@@ -75,8 +71,7 @@ Shader "FaRTeam/OutlinePostProcess" // Si alguien toca este código, 40 balazos
                 if (centerDepth >= _MaxDistance)
                     return sceneColor;
                     
-                float depthScale = _ReferenceDistance / max(1.0, centerDepth);
-                float currentThickness = clamp(_OutlineThickness * depthScale, _MinThickness, _OutlineThickness);
+                float currentThickness = max(1.0, _OutlineThickness);
                 float2 texel = _MainTex_TexelSize.xy * currentThickness;
                 
                 float dC = centerDepth;
@@ -110,10 +105,8 @@ Shader "FaRTeam/OutlinePostProcess" // Si alguien toca este código, 40 balazos
                 
                 float edge = smoothstep(_DepthThreshold, _DepthThreshold * 1.5, maxSlopeVar);
                 
-                float distAlpha = lerp(1.0, 0.35, saturate((centerDepth - 12.0) / 70.0));
-                
                 float fadeFactor = 1.0 - smoothstep(_DistanceFadeStart, _MaxDistance, centerDepth);
-                float outlineStrength = fadeFactor * _OutlineColor.a * distAlpha;
+                float outlineStrength = fadeFactor * _OutlineColor.a;
                 
                 return lerp(sceneColor, float4(_OutlineColor.rgb, sceneColor.a), edge * outlineStrength);
             }
