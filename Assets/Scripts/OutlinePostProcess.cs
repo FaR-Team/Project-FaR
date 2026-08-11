@@ -49,6 +49,8 @@ public class OutlinePostProcess : ScriptableRendererFeature
 
         public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
         {
+            if (settings.outlineMaterial == null) return;
+
             CommandBuffer cmd = CommandBufferPool.Get("Outline Effect");
 
             RenderTextureDescriptor descriptor = renderingData.cameraData.cameraTargetDescriptor;
@@ -57,8 +59,8 @@ public class OutlinePostProcess : ScriptableRendererFeature
             descriptor.depthBufferBits = 0;
 
             cmd.GetTemporaryRT(tempTexture.id, descriptor);
-            cmd.Blit(source, tempTexture.Identifier());
-            cmd.Blit(tempTexture.Identifier(), source, settings.outlineMaterial);
+            Blit(cmd, source, tempTexture.Identifier());
+            Blit(cmd, tempTexture.Identifier(), source, settings.outlineMaterial, 0);
             cmd.ReleaseTemporaryRT(tempTexture.id);
 
             context.ExecuteCommandBuffer(cmd);
