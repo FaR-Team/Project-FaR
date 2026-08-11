@@ -28,6 +28,18 @@ public class ToolItemData : InventoryItemData
         }
     }
 
+    public override GameObject GetInHandModel(HotbarDisplay hotbar)
+    {
+        if (hotbar == null) return null;
+        return typeOfItem switch
+        {
+            TypeOfItem.Hoe => hotbar.hoe,
+            TypeOfItem.Bucket => hotbar.bucket,
+            TypeOfItem.Shovel => hotbar.shovel,
+            _ => hotbar.hand
+        };
+    }
+
     public override ItemUseResult UseItem(ItemUseContext ctx)
     {
         bool toolUsedSuccessfully = UseItem();

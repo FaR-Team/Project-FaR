@@ -168,7 +168,6 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().HotbarRight.performed += HotbarRight;
         GetPlayerControls().HotbarLeft.performed += HotbarLeft;
         GetPlayerControls().PrimaryUse.performed += UseItemPrimary;
-        GetPlayerControls().Interaction.performed += UseItem;
         GetPlayerControls().UseItemHoldStart.performed += UseItemPressedCallback;
         GetPlayerControls().UseItemHoldRelease.performed += UseItemReleaseCallback;
         GetPlayerControls().MassSell.performed += SellAllPressedCallback;
@@ -185,7 +184,6 @@ public class HotbarDisplay : HotbarDisplayBase
         GetPlayerControls().Hotbar.performed -= Hotbar;
         GetPlayerControls().HotbarRight.performed -= HotbarRight;
         GetPlayerControls().HotbarLeft.performed -= HotbarLeft;
-        GetPlayerControls().UseItem.performed -= UseItem;
         GetPlayerControls().UseItemHoldStart.performed -= UseItemPressedCallback;
         GetPlayerControls().UseItemHoldRelease.performed -= UseItemReleaseCallback;
         GetPlayerControls().MassSell.performed -= SellAllPressedCallback;
@@ -311,6 +309,11 @@ public class HotbarDisplay : HotbarDisplayBase
             _hasUsedToolThisPress = true;
         }
 
+        ProcessItemUse(itemData);
+    }
+
+    private void ProcessItemUse(InventoryItemData itemData)
+    {
         var context = new ItemUseContext
         {
             Interactor = interactor,
@@ -362,6 +365,7 @@ public class HotbarDisplay : HotbarDisplayBase
             UpdateCurrentSlot();
         }
     }
+
 
     private bool CanProcessItemUse()
     {
@@ -423,44 +427,7 @@ public class HotbarDisplay : HotbarDisplayBase
             return;
         }
 
-        var context = new ItemUseContext
-        {
-            Interactor = interactor,
-            DirtToTest = dirtToTest,
-            GridGhost = gridGhost,
-            HoeAnimator = hoeAnimator,
-            IsHolding = _isHolding,
-            IsHoldingCtrl = _isHoldingCtrl,
-            IsLookingAtStore = interactor != null && interactor.IsLookingAtStore
-        };
-
-        ItemUseResult result = itemData.UseItem(context);
-
-        if (result.Success)
-        {
-            if (result.LockMovementDuration > 0f)
-            {
-                FaRCharacterController.instance?.LockMovementFor(result.LockMovementDuration);
-            }
-
-            if (result.TriggerPlowAnim && hoeAnimator != null)
-            {
-                hoeAnimator.SetBool("Plow", true);
-                StartCoroutine(ResetPlowAnimation());
-            }
-
-            if (result.PlaySound)
-            {
-                PlayItemSound(itemData);
-            }
-
-            if (result.ShouldConsume)
-            {
-                ConsumeItem();
-            }
-
-            UpdateCurrentSlot();
-        }
+        ProcessItemUse(itemData);
     }
 
     private IEnumerator ResetPlowAnimation()
@@ -474,17 +441,13 @@ public class HotbarDisplay : HotbarDisplayBase
         SetAllToolsInactive();
 
         var itemData = GetItemData();
-        if (itemData == null)
-        {
-            hand.SetActive(true);
-            return;
-        }
+        GameObject activeModel = itemData != null ? itemData.GetInHandModel(this) : hand;
 
-        if (itemData.Category == ItemCategory.Tool)
+        if (activeModel != null)
         {
-            SetToolModel(itemData);
+            activeModel.SetActive(true);
         }
-        else
+        else if (hand != null)
         {
             hand.SetActive(true);
         }
@@ -498,37 +461,6 @@ public class HotbarDisplay : HotbarDisplayBase
         if (blank2 != null) blank2.SetActive(false);
         if (blank3 != null) blank3.SetActive(false);
         if (hand != null) hand.SetActive(false);
-    }
-
-    private void SetToolModel(InventoryItemData toolData)
-    {
-        if (toolData == null)
-        {
-            if (hand != null) hand.SetActive(true);
-            return;
-        }
-
-        if (toolData.IsHoe() && hoe != null)
-        {
-            hoe.SetActive(true);
-        }
-        else if (toolData.IsBucket() && bucket != null)
-        {
-            bucket.SetActive(true);
-        }
-        else if (toolData.IsShovel() && shovel != null)
-        {
-            shovel.SetActive(true);
-        }
-        else
-        {
-            if (hand != null) hand.SetActive(true);
-        }
-    }
-
-    private void UseItem(InputAction.CallbackContext obj)
-    {
-        // We deleted all of the code cuz it was being done in Holdear
     }
 
     private void HandleIndex(int newIndex)

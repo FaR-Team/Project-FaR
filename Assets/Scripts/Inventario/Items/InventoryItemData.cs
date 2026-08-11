@@ -55,6 +55,8 @@ public class InventoryItemData : ScriptableObject
     #region Virtual Methods
     public virtual bool SingleUsePerPress => Category == ItemCategory.Tool;
 
+    public virtual GameObject GetInHandModel(HotbarDisplay hotbar) => hotbar != null ? hotbar.hand : null;
+
     public virtual bool UseItem()
     {
         this.Log($"Usando {Nombre}");
