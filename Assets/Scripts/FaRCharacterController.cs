@@ -23,7 +23,6 @@ namespace FaRUtils.FPSController
         [SerializeField] public float lookSensitivity = 0.05f;
 
         [SerializeField] Interactor interactor;
-        [SerializeField] ThirdPersonInteractor thirdPersonInteractor;
         [SerializeField] ThirdPersonCamera thirdPersonCamera;
         [SerializeField] private GameObject thirdPersonModel;
         private float _xRotation = 0f;
@@ -59,6 +58,7 @@ namespace FaRUtils.FPSController
         
         public Locations CurrentLocation => currentLocation;
         public ThirdPersonCamera ThirdPersonCam => thirdPersonCamera;
+        public Camera FPSCamera => cam;
         
         public float MovementSpeed => movementSpeed;
         public float DefaultWalkSpeed => defaultWalkSpeed;
@@ -253,7 +253,12 @@ namespace FaRUtils.FPSController
         public void EnableThirdPerson(bool enable, Transform camTarget = null)
         {
             _thirdPersonMode = enable;
-            thirdPersonInteractor.gameObject.SetActive(enable);
+            if(enable)
+                thirdPersonCamera.ActivateCamera(camTarget);
+            else 
+                thirdPersonCamera.DeactivateCamera();
+            
+            
             thirdPersonCamera.SetCameraTarget(camTarget);
             thirdPersonModel.SetActive(enable);
             
@@ -284,7 +289,7 @@ namespace FaRUtils.FPSController
             {
                 case MinigameTools.Spear:
                     spear.GetComponentInChildren<Spear>()?.EnablePivot(false);
-                    thirdPersonInteractor.SetCanInteract(false);
+                    thirdPersonCamera.EnableCameraInteractor(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
