@@ -28,6 +28,21 @@ public class ToolItemData : InventoryItemData
         }
     }
 
+    public override ItemUseResult UseItem(ItemUseContext ctx)
+    {
+        bool toolUsedSuccessfully = UseItem();
+        if (toolUsedSuccessfully)
+        {
+            return new ItemUseResult
+            {
+                Success = true,
+                LockMovementDuration = 1f,
+                TriggerPlowAnim = IsHoe() && ctx.HoeAnimator != null
+            };
+        }
+        return default;
+    }
+
     public override bool UseItem()
     {
         if (!PauseMenu.GameIsPaused)

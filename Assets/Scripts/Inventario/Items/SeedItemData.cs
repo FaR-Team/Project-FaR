@@ -37,4 +37,26 @@ public class SeedItemData : InventoryItemData
 
         return GridGhost.instance.PlantTreeNear(DirtPrefab);
     }
+
+    public override ItemUseResult UseItem(ItemUseContext ctx)
+    {
+        if (IsCropSeed() && ctx.Interactor != null && ctx.Interactor._LookingAtDirt)
+        {
+            if (ctx.DirtToTest != null && UseItem(ctx.DirtToTest))
+            {
+                return new ItemUseResult { Success = true, ShouldConsume = true };
+            }
+        }
+        else if (IsTreeSeed() && ctx.Interactor != null && !ctx.Interactor._LookingAtDirt)
+        {
+            if (ctx.GridGhost != null && ctx.GridGhost.CheckCrop(ctx.GridGhost.finalPosition, 1))
+            {
+                if (UseItem())
+                {
+                    return new ItemUseResult { Success = true, ShouldConsume = true };
+                }
+            }
+        }
+        return default;
+    }
 }

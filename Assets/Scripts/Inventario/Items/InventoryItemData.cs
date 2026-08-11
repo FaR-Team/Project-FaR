@@ -53,6 +53,8 @@ public class InventoryItemData : ScriptableObject
     #endregion
 
     #region Virtual Methods
+    public virtual bool SingleUsePerPress => Category == ItemCategory.Tool;
+
     public virtual bool UseItem()
     {
         this.Log($"Usando {Nombre}");
@@ -63,6 +65,22 @@ public class InventoryItemData : ScriptableObject
     {
         this.Log($"Usando {Nombre} en tierra");
         return true;
+    }
+
+    public virtual ItemUseResult UseItem(ItemUseContext ctx)
+    {
+        if (ctx.IsHolding && ctx.Interactor != null && ctx.Interactor.IsLookingAtStore && Sellable && !IsCropSeed() && Usable)
+        {
+            if (!ctx.IsHoldingCtrl)
+            {
+                return new ItemUseResult { Success = true, ShouldSellSingle = true };
+            }
+            else
+            {
+                return new ItemUseResult { Success = true, ShouldSellAll = true };
+            }
+        }
+        return default;
     }
     #endregion
 

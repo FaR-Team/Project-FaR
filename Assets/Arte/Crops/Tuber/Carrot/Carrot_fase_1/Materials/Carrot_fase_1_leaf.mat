@@ -9,7 +9,8 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Carrot_fase_1_leaf
   m_Shader: {fileID: 4800000, guid: 399c0f31dd38d8c4994f54d39305e980, type: 3}
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _USE_PIXEL_PERFECT_SHADOWS
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -161,6 +162,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _RampTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _RimRamp:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -254,6 +259,9 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GoochRampIntensity: 0.5
+    - _GridOffsetX: 0
+    - _GridOffsetY: 0
+    - _GridOffsetZ: 0
     - _HatchingMapScale: 1
     - _Initialized: 1
     - _InputTab: 1
@@ -309,6 +317,13 @@ Material:
     - _RimThresholdOffset: 0.25
     - _Roughness: 0.5
     - _Saturation: 1
+    - _ShadowAlignmentX: 0
+    - _ShadowAlignmentY: 0.5001
+    - _ShadowAlignmentZ: 0
+    - _ShadowGridBias: 0.1
+    - _ShadowNormalBias: 0.1
+    - _ShadowSharpness: 0.01
+    - _ShadowThreshold: 0.5
     - _ShakeBending: 0
     - _ShakeDisplacement: 0.155
     - _ShakeTime: 0.018
@@ -337,6 +352,9 @@ Material:
     - _UVSec: 0
     - _UseMultiplyTexture: 0
     - _UseOutline: 0
+    - _UsePixelPerfectShadows: 1
+    - _UseRampTexture: 0
+    - _UseScreenSpaceOutline: 0
     - _VertexAnimation: 1
     - _VertexAnimationIntensity: 0.005
     - _VertexAnimationStutter: 0
@@ -365,6 +383,7 @@ Material:
     - _RimBrightColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimDarkColor: {r: 0, g: 0, b: 0, a: 1}
+    - _ShadowColor: {r: 0.5, g: 0.5, b: 0.7, a: 1}
     - _SpecularColor: {r: 0.203125, g: 0.203125, b: 0.203125, a: 1}
     - _Tiling: {r: 1, g: 1, b: 0, a: 0}
     - _VertexAnimationFrequency: {r: 2.5, g: 2.5, b: 2.5, a: 1}

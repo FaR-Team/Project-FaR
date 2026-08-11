@@ -303,28 +303,63 @@ public class HotbarDisplay : HotbarDisplayBase
         if (!CanProcessItemUse()) return;
 
         var itemData = GetItemData();
-        
-        switch (itemData.Category)
+        if (itemData == null) return;
+
+        if (itemData.SingleUsePerPress)
         {
-            case ItemCategory.Special:
-                HandleSpecialItem(itemData);
-                break;
-                
-            case ItemCategory.Tool:
-                if (!_hasUsedToolThisPress)
-                {
-                    _hasUsedToolThisPress = true;
-                    HandleToolItem(itemData);
-                }
-                break;
-                
-            case ItemCategory.Seed:
-                HandleSeedItem(itemData);
-                break;
-                
-            default:
-                HandleGenericItem(itemData);
-                break;
+            if (_hasUsedToolThisPress) return;
+            _hasUsedToolThisPress = true;
+        }
+
+        var context = new ItemUseContext
+        {
+            Interactor = interactor,
+            DirtToTest = dirtToTest,
+            GridGhost = gridGhost,
+            HoeAnimator = hoeAnimator,
+            IsHolding = _isHolding,
+            IsHoldingCtrl = _isHoldingCtrl,
+            IsLookingAtStore = interactor != null && interactor.IsLookingAtStore
+        };
+
+        ItemUseResult result = itemData.UseItem(context);
+
+        if (result.Success)
+        {
+            if (result.LockMovementDuration > 0f)
+            {
+                FaRCharacterController.instance?.LockMovementFor(result.LockMovementDuration);
+            }
+
+            if (result.TriggerPlowAnim && hoeAnimator != null)
+            {
+                hoeAnimator.SetBool("Plow", true);
+                StartCoroutine(ResetPlowAnimation());
+            }
+
+            if (result.PlaySound)
+            {
+                PlayItemSound(itemData);
+            }
+
+            if (result.ShouldSellSingle)
+            {
+                SellSingleItem(itemData);
+                return;
+            }
+
+            if (result.ShouldSellAll)
+            {
+                SellAll();
+                return;
+            }
+
+            if (result.ShouldConsume)
+            {
+                ConsumeItem();
+            }
+
+            UpdateCurrentSlot();
         }
     }
 
@@ -333,82 +368,6 @@ public class HotbarDisplay : HotbarDisplayBase
         return GetItemData() != null && 
                !interactor.HasInteractable && 
                !GetItemData().leftClickUse;
-    }
-
-    private void HandleSpecialItem(InventoryItemData itemData)
-    {
-        if (itemData.UseItem())
-        {
-            PlayItemSound(itemData);
-            ConsumeItem();
-        }
-        UpdateCurrentSlot();
-    }
-
-    private void HandleToolItem(InventoryItemData itemData)
-    {
-        bool toolUsedSuccessfully = itemData.UseItem();
-
-        if (toolUsedSuccessfully)
-        {
-            FaRCharacterController.instance?.LockMovementFor(1f);
-
-            if (itemData.IsHoe() && hoeAnimator != null)
-            {
-                hoeAnimator.SetBool("Plow", true);
-                StartCoroutine(ResetPlowAnimation());
-            }
-        }
-    }
-
-    private void HandleSeedItem(InventoryItemData itemData)
-    {
-        if (itemData.IsCropSeed() && interactor._LookingAtDirt)
-        {
-            HandleCropSeed(itemData);
-        }
-        else if (itemData.IsTreeSeed() && !interactor._LookingAtDirt)
-        {
-            HandleTreeSeed(itemData);
-        }
-    }
-
-    private void HandleCropSeed(InventoryItemData itemData)
-    {
-        if (!CanUseItem()) return;
-
-        if (itemData.UseItem(dirtToTest))
-        {
-            ConsumeItem();
-        }
-        UpdateCurrentSlot();
-    }
-
-    private void HandleTreeSeed(InventoryItemData itemData)
-    {
-        if (gridGhost.CheckCrop(gridGhost.finalPosition, 1))
-        {
-            if (itemData.UseItem())
-            {
-                ConsumeItem();
-            }
-            UpdateCurrentSlot();
-        }
-    }
-
-    private void HandleGenericItem(InventoryItemData itemData)
-    {
-        if (_isHolding && interactor.IsLookingAtStore && CanSellItem(itemData))
-        {
-            if (!_isHoldingCtrl)
-            {
-                SellSingleItem(itemData);
-            }
-            else
-            {
-                SellAll();
-            }
-        }
     }
 
     private bool CanSellItem(InventoryItemData itemData)
@@ -458,25 +417,49 @@ public class HotbarDisplay : HotbarDisplayBase
     
     private void UseItemPrimary(InputAction.CallbackContext obj)
     {        
-        if (GetItemData() == null || !GetItemData().leftClickUse) 
+        var itemData = GetItemData();
+        if (itemData == null || !itemData.leftClickUse) 
         {
             return;
         }
-        
-        if (GetItemData().IsTool())
-        {
-            bool toolUsedSuccessfully = GetItemData().UseItem();
-            
-            if (toolUsedSuccessfully)
-            {
-                FaRCharacterController.instance?.LockMovementFor(1f);
 
-                if (hoeAnimator != null && GetItemData().IsHoe())
-                {
-                    hoeAnimator.SetBool("Plow", true);
-                    StartCoroutine(ResetPlowAnimation());
-                }
+        var context = new ItemUseContext
+        {
+            Interactor = interactor,
+            DirtToTest = dirtToTest,
+            GridGhost = gridGhost,
+            HoeAnimator = hoeAnimator,
+            IsHolding = _isHolding,
+            IsHoldingCtrl = _isHoldingCtrl,
+            IsLookingAtStore = interactor != null && interactor.IsLookingAtStore
+        };
+
+        ItemUseResult result = itemData.UseItem(context);
+
+        if (result.Success)
+        {
+            if (result.LockMovementDuration > 0f)
+            {
+                FaRCharacterController.instance?.LockMovementFor(result.LockMovementDuration);
             }
+
+            if (result.TriggerPlowAnim && hoeAnimator != null)
+            {
+                hoeAnimator.SetBool("Plow", true);
+                StartCoroutine(ResetPlowAnimation());
+            }
+
+            if (result.PlaySound)
+            {
+                PlayItemSound(itemData);
+            }
+
+            if (result.ShouldConsume)
+            {
+                ConsumeItem();
+            }
+
+            UpdateCurrentSlot();
         }
     }
 
