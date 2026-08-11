@@ -10,6 +10,8 @@ public class Cofre : Container, IInteractable
     [SerializeField] private Animator _animator;
     private static readonly int IsOpen = Animator.StringToHash("IsOpen");
     private UniqueID _uniqueID;
+    public AudioClip ChestOpenClip, ChestCloseClip;
+    private bool _isOpen;
     
     public InteractionPromptUI InteractionPrompt => _prompt;
     public Transform InteractionTarget => transform;
@@ -24,9 +26,14 @@ public class Cofre : Container, IInteractable
 
     public void Interact(InteractorBase interactor, out bool interactSuccessful)
     {
-        if (_animator != null)
-        { 
-            _animator.SetBool(IsOpen, true);
+        if (!_isOpen)
+        {
+            _isOpen = true;
+            if (_animator != null)
+            { 
+                _animator.SetBool(IsOpen, true);
+                MusicManager.Instance.PlaySFX(ChestOpenClip);
+            }
         }
         OnDynamicInventoryDisplayRequested?.Invoke(inventorySystem, 0);
         interactSuccessful = true;
@@ -39,10 +46,16 @@ public class Cofre : Container, IInteractable
 
     public void EndInteraction()
     {
-        if (_animator != null)
-        { 
-            _animator.SetBool(IsOpen, false);
+        if (_isOpen)
+        {
+            _isOpen = false;
+            if (_animator != null)
+            { 
+                _animator.SetBool(IsOpen, false);
+                MusicManager.Instance.PlaySFX(ChestCloseClip);
+            }
         }
+
         if (_prompt != null)
         {
             _prompt.Close();
