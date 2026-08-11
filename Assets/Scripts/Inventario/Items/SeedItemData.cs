@@ -42,7 +42,7 @@ public class SeedItemData : InventoryItemData
     {
         if (IsCropSeed() && ctx.Interactor != null && ctx.Interactor._LookingAtDirt)
         {
-            if (ctx.DirtToTest != null && UseItem(ctx.DirtToTest))
+            if (ctx.DirtToTest != null && ctx.DirtToTest.IsEmpty && UseItem(ctx.DirtToTest))
             {
                 return new ItemUseResult { Success = true, ShouldConsume = true };
             }

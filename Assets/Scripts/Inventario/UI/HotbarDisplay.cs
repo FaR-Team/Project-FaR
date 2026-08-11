@@ -223,25 +223,21 @@ public class HotbarDisplay : HotbarDisplayBase
         }
     }
     
-    public bool CanUseItem()
+    public Dirt GetDirtToTest()
     {
-        if (gridGhost.finalPosition != previousFinalPosition)
+        if (gridGhost == null) return null;
+        if (gridGhost.finalPosition != previousFinalPosition || dirtToTest == null)
         {
             previousFinalPosition = gridGhost.finalPosition;
             dirtToTest = gridGhost.CheckDirt(gridGhost.finalPosition, 0.2f);
         }
+        return dirtToTest;
+    }
 
-        if (dirtToTest == null)
-        {
-            return false;
-        }
-
-        if (!dirtToTest.IsEmpty)
-        {
-            return false;
-        }
-
-        return true;
+    public bool CanUseItem()
+    {
+        Dirt dirt = GetDirtToTest();
+        return dirt != null && dirt.IsEmpty;
     }
 
     private bool _hasUsedToolThisPress = false;
@@ -317,7 +313,7 @@ public class HotbarDisplay : HotbarDisplayBase
         var context = new ItemUseContext
         {
             Interactor = interactor,
-            DirtToTest = dirtToTest,
+            DirtToTest = GetDirtToTest(),
             GridGhost = gridGhost,
             HoeAnimator = hoeAnimator,
             IsHolding = _isHolding,
