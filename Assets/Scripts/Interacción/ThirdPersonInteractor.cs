@@ -29,6 +29,7 @@ public class ThirdPersonInteractor : InteractorBase
 
     private void OnDisable()
     {
+        _canInteract = false;
         GameInput.playerInputActions.Player.PrimaryUse.performed -= TryInteract;
         UIController.instance.EnableCrosshairMovement(false);
         Cursor.lockState = _previousLockMode;

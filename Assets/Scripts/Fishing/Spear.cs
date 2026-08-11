@@ -38,8 +38,12 @@ public class Spear : MonoBehaviour
     }
 
     public void EnableCollider() => col.enabled = true;
-    
-    public void DisableCollider() => col.enabled = false;
+
+    public void DisableCollider()
+    {
+        //Debug.Break();
+        col.enabled = false;
+    }
 
     public void EnablePivot(bool enable)
     {
