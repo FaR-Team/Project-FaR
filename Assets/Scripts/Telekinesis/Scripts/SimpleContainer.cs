@@ -54,7 +54,6 @@ public class SimpleContainer : MonoBehaviour
         _containerPhysics.OnContentSpilled += OnContentSpilled;
         _containerPhysics.OnContainerEmpty += OnContainerEmpty;
         
-        //SetupParticleSystem();
         UpdateVisualContent();
     }
 
@@ -89,8 +88,13 @@ public class SimpleContainer : MonoBehaviour
     {
         CreateSpillEffect(spillPosition, amount, direction);
 
-        if (Physics.Raycast(spillPosition, Vector3.down, out RaycastHit hit, _pourRaycastDistance))
+        Vector3 streamDirection = (direction != Vector3.zero) ? direction.normalized : Vector3.down;
+
+        RaycastHit[] hits = Physics.SphereCastAll(spillPosition, 0.35f, streamDirection, _pourRaycastDistance, ~0, QueryTriggerInteraction.Ignore);
+        foreach (var hit in hits)
         {
+            if (hit.collider.transform.IsChildOf(transform)) continue;
+
             Dirt dirt = hit.collider.GetComponentInParent<Dirt>();
             if (dirt != null)
             {
@@ -98,6 +102,7 @@ public class SimpleContainer : MonoBehaviour
                 {
                     dirt.FertilizeDirt();
                 }
+                break;
             }
         }
     }
@@ -173,7 +178,6 @@ public class SimpleContainer : MonoBehaviour
         velocityOverLifetime.z = new ParticleSystem.MinMaxCurve(minZ, maxZ);
         
         _spillTimer = _spillEffectDuration;
-        //_spillParticleSystem.Emit(particleCount);
         
         if (!_spillParticleSystem.isPlaying)
         {

@@ -23,10 +23,10 @@ public class ContainerPhysics : MonoBehaviour
     private float _maxTiltAngle = 45f;
     
     [SerializeField, Tooltip("Velocidad máxima antes de que el contenido se agite")]
-    private float _maxVelocity = 5f;
+    private float _maxVelocity = 9f;
     
     [SerializeField, Tooltip("Velocidad angular máxima antes de derramar")]
-    private float _maxAngularVelocity = 3f;
+    private float _maxAngularVelocity = 6f;
     
     [Header("Pérdida de Contenido")]
     [SerializeField, Tooltip("Velocidad de pérdida por inclinación excesiva")]
@@ -65,17 +65,20 @@ public class ContainerPhysics : MonoBehaviour
     private bool _enableAutoTilt = true;
     [SerializeField] private LayerMask _autoTiltLayer = 0;
 
-    [SerializeField] private float _autoTiltRange = 5f;
+    [SerializeField] private float _autoTiltRange = 2.5f;
 
-    private float _autoTiltAngle = 60f;
+    private float _autoTiltAngle = 75f;
 
     private float _autoTiltSpeed = 4f;
+
+    private Vector3 _predestinatedPourRotation = new Vector3(75f, 0f, 0f);
 
     [SerializeField] private float _autoTiltHoldTime = 0.1f;
 
     private Quaternion _initialRotation;
     private Quaternion _targetRotation;
     private float _autoTiltTimer = 0f;
+    private Dirt _lockedDirtTarget;
 
     private void Awake()
     {
@@ -99,10 +102,8 @@ public class ContainerPhysics : MonoBehaviour
 
     private void ApplyGravityMultiplierIfNeeded()
     {
-        // Si el multiplicador está cerca de 1 o el Rigidbody no usa gravedad, no hacemos nada
         if (Mathf.Approximately(_gravityMultiplier, 1f) || _rigidbody == null || !_rigidbody.useGravity) return;
 
-        // Aplicamos una fuerza adicional proporcional a la diferencia entre el multiplicador y la gravedad normal
         Vector3 extraGravity = Physics.gravity * (_gravityMultiplier - 1f) * _rigidbody.mass;
         _rigidbody.AddForce(extraGravity, ForceMode.Force);
     }
@@ -127,46 +128,66 @@ public class ContainerPhysics : MonoBehaviour
 
     private void CheckForHoverAndAutoTilt()
     {
-        if (!_enableAutoTilt || IsEmpty || _rigidbody == null) return;
+        if (!_enableAutoTilt || IsEmpty) return;
 
         Vector3 center = _emissionSource != null ? _emissionSource.bounds.center : transform.position;
-        Collider[] hits = Physics.OverlapSphere(center, _autoTiltRange, _autoTiltLayer, QueryTriggerInteraction.Ignore);
 
-        if (hits != null && hits.Length > 0)
+        if (_lockedDirtTarget != null)
         {
-            Collider hit = hits[0];
-            Vector3 hitPoint = hit.bounds.center;
-
-            Vector3 dir = (hitPoint - transform.position);
-            if (dir.sqrMagnitude <= 0.0001f) return;
-
-            Vector3 axis = Vector3.Cross(Vector3.up, dir.normalized);
-            if (axis.sqrMagnitude <= 0.0001f)
+            if (!_lockedDirtTarget.gameObject.activeInHierarchy || Vector3.Distance(center, _lockedDirtTarget.transform.position) > _autoTiltRange + 0.6f)
             {
-                axis = transform.right;
+                _lockedDirtTarget = null;
             }
-            axis.Normalize();
+        }
 
-            float angle = Mathf.Clamp(_autoTiltAngle, 0f, 89f);
-            _targetRotation = Quaternion.AngleAxis(angle, axis) * transform.rotation;
+        if (_lockedDirtTarget == null)
+        {
+            float closestDist = float.MaxValue;
+            RaycastHit[] hits = Physics.SphereCastAll(center, 0.5f, Vector3.down, _autoTiltRange, ~0, QueryTriggerInteraction.Ignore);
+            foreach (var hit in hits)
+            {
+                if (hit.collider.transform.IsChildOf(transform)) continue;
 
+                Dirt dirt = hit.collider.GetComponentInParent<Dirt>();
+                if (dirt != null)
+                {
+                    float dist = Vector3.Distance(center, dirt.transform.position);
+                    if (dist < closestDist)
+                    {
+                        closestDist = dist;
+                        _lockedDirtTarget = dirt;
+                    }
+                }
+            }
+        }
+
+        if (_lockedDirtTarget != null)
+        {
+            Quaternion predestinatedRotation = _initialRotation * Quaternion.Euler(_predestinatedPourRotation);
+
+            _targetRotation = Quaternion.Slerp(_targetRotation, predestinatedRotation, Time.fixedDeltaTime * _autoTiltSpeed);
             _autoTiltTimer = _autoTiltHoldTime;
-        } else {
+        }
+        else
+        {
             if (_autoTiltTimer > 0f)
             {
                 _autoTiltTimer -= Time.fixedDeltaTime;
             }
             else
             {
-                _targetRotation = _initialRotation;
+                _targetRotation = Quaternion.Slerp(_targetRotation, _initialRotation, Time.fixedDeltaTime * _autoTiltSpeed);
             }
         }
 
-        if (_rigidbody != null)
+        float step = Mathf.Clamp01(Time.fixedDeltaTime * _autoTiltSpeed * 1.5f);
+        if (_rigidbody != null && !_rigidbody.isKinematic)
         {
-            _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, _targetRotation, Mathf.Clamp01(_autoTiltSpeed * Time.fixedDeltaTime)));
-        } else {
-            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, Mathf.Clamp01(_autoTiltSpeed * Time.fixedDeltaTime));
+            _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, _targetRotation, step));
+        }
+        else
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, _targetRotation, step);
         }
     }
     
@@ -261,7 +282,6 @@ public class ContainerPhysics : MonoBehaviour
         Vector3 c = box.center;
         Transform t = box.transform;
 
-        // --- Definir los 4 vértices de la cara superior en espacio local ---
         Vector3[] topCorners = new Vector3[4];
         topCorners[0] = c + new Vector3(-half.x, half.y, -half.z);
         topCorners[1] = c + new Vector3( half.x, half.y, -half.z);
@@ -271,7 +291,6 @@ public class ContainerPhysics : MonoBehaviour
         Vector3 lowest = Vector3.positiveInfinity;
         float lowestY = float.PositiveInfinity;
 
-        // --- Recorrer los 4 bordes y muestrear ---
         for (int i = 0; i < 4; i++)
         {
             Vector3 a = topCorners[i];

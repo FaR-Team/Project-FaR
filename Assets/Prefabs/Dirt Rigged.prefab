@@ -345,10 +345,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _isWet: 0
+  _isFertilized: 0
   testing: 0
   colliders: {fileID: 298685377412610436}
   abilityLevelPlaceholder: 1
   currentCrop: {fileID: 0}
+  _fertilizedTexture: {fileID: 2800000, guid: 01b10cc2da49f7442ba6525072e1f86a, type: 3}
   animator: {fileID: 0}
 --- !u!114 &2994759415163273886
 MonoBehaviour:
