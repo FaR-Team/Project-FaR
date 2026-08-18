@@ -126,9 +126,36 @@ public class ContainerPhysics : MonoBehaviour
         _isUnstable = tiltExceeded || velocityExceeded || angularVelocityExceeded;
     }
 
+    public bool IsGrabbed { get; set; }
+
+    public bool IsBeingHeld()
+    {
+        if (IsGrabbed) return true;
+        if (TelekinesisController.Instance != null && TelekinesisController.Instance.GetGrabbedRigidbody() == _rigidbody) return true;
+        return false;
+    }
+
+    private bool _wasHeldLastFrame = false;
+
     private void CheckForHoverAndAutoTilt()
     {
         if (!_enableAutoTilt || IsEmpty) return;
+
+        bool currentlyHeld = IsBeingHeld();
+
+        if (!currentlyHeld)
+        {
+            _lockedDirtTarget = null;
+            _wasHeldLastFrame = false;
+            return;
+        }
+
+        if (!_wasHeldLastFrame)
+        {
+            _initialRotation = transform.rotation;
+            _targetRotation = transform.rotation;
+            _wasHeldLastFrame = true;
+        }
 
         Vector3 center = _emissionSource != null ? _emissionSource.bounds.center : transform.position;
 
