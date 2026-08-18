@@ -34,15 +34,9 @@ public class GrowingTuber : GrowingBase
     {
         base.DayPassed();
         
-        if (tierra._isWet)
+        if (tierra != null)
         {
-            tierra.DryDirt(5);
-            daysDry = 0;
-            daysPlanted++;
-        }
-        else
-        {
-            daysDry++;
+            tierra.ProcessDayGrowth(ref daysPlanted, ref daysDry);
         }
 
         if (currentState != null && currentState.isLastPhase)

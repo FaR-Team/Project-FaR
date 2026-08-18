@@ -45,14 +45,7 @@ public class GrowingTreeAndPlant : GrowingBase
         
         if (Tierra != null) // If dirt is null, it means this plant does not need water
         {
-            if (Tierra._isWet)
-            {
-                Tierra.DryDirt(5);
-                daysDry = 0;
-                daysPlanted++;
-            }
-            else daysDry++;
-
+            Tierra.ProcessDayGrowth(ref daysPlanted, ref daysDry);
         }
         else daysPlanted++;
         

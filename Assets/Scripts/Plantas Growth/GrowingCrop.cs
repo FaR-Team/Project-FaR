@@ -1,4 +1,4 @@
-﻿using FaRUtils.Systems.DateTime;
+using FaRUtils.Systems.DateTime;
 using UnityEngine;
 using Utils;
 
@@ -25,15 +25,9 @@ public class GrowingCrop : GrowingBase
     {
         base.DayPassed();
         
-        if (tierra._isWet)
+        if (tierra != null)
         {
-            tierra.DryDirt(5);
-            daysDry = 0;
-            daysPlanted++;
-        }
-        else
-        {
-            daysDry++;
+            tierra.ProcessDayGrowth(ref daysPlanted, ref daysDry);
         }
 
         if(currentState.isLastPhase)
@@ -53,15 +47,9 @@ public class GrowingCrop : GrowingBase
     {
         if (hour != 4) return;
         
-        if (tierra._isWet)
+        if (tierra != null)
         {
-            tierra.DryDirt(5);
-            daysDry = 0;
-            daysPlanted++;
-        }
-        else
-        {
-            daysDry++;
+            tierra.ProcessDayGrowth(ref daysPlanted, ref daysDry);
         }
 
         if(currentState.isLastPhase)

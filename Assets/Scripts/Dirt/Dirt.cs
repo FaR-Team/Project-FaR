@@ -10,6 +10,7 @@ using Utils;
 public class Dirt : MonoBehaviour, IGridEntity
 {
     public bool _isWet;
+    public bool _isFertilized;
 
     public bool testing;
 
@@ -63,6 +64,7 @@ public class Dirt : MonoBehaviour, IGridEntity
     public async Task LoadData(DirtData data)
     {
         _isWet = data._isWet;
+        _isFertilized = data._isFertilized;
         IsEmpty = data.IsEmpty;
         currentSeedData = data.currentCropData;
         cropSaveData = data.plantData;
@@ -130,6 +132,40 @@ public class Dirt : MonoBehaviour, IGridEntity
     {
         _isWet = true;
         gameObject.GetComponentInChildren<SkinnedMeshRenderer>().material.color = wetDirtColor;
+    }
+
+    public void FertilizeDirt()
+    {
+        _isFertilized = true;
+    }
+
+    public void ProcessDayGrowth(ref int daysPlanted, ref int daysDry)
+    {
+        if (_isWet)
+        {
+            DryDirt(5);
+            daysDry = 0;
+            
+            if (_isFertilized)
+            {
+                daysPlanted += 2;
+                _isFertilized = false;
+            }
+            else
+            {
+                daysPlanted += 1;
+            }
+        }
+        else
+        {
+            daysDry++;
+            
+            if (_isFertilized)
+            {
+                daysPlanted += 1;
+                _isFertilized = false;
+            }
+        }
     }
 
     public void GetDown() // And move it all around
@@ -209,6 +245,7 @@ public class Dirt : MonoBehaviour, IGridEntity
         cropSaveData = null;
         IsEmpty = true;
         _isWet = false;
+        _isFertilized = false;
         IsBeingDestroyed = false;
         colliders.transform.position = this.transform.position;
         FaRUtils.Systems.DateTime.DateTime.OnHourChanged.RemoveListener(DryDirt);

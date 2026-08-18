@@ -1,9 +1,15 @@
 using System;
 using UnityEngine;
 
+public enum ContainerContentType { Fertilizer }
+
 [RequireComponent(typeof(ContainerPhysics))]
 public class SimpleContainer : MonoBehaviour
 {
+    [Header("Tipo de Contenido")]
+    [SerializeField] private ContainerContentType _contentType = ContainerContentType.Fertilizer;
+    [SerializeField] private float _pourRaycastDistance = 4f;
+
     [Header("Configuración del Contenedor")]
     [SerializeField, Tooltip("Color del contenido")]
     private Color _contentColor = Color.yellow;
@@ -82,6 +88,18 @@ public class SimpleContainer : MonoBehaviour
     private void OnContentSpilled(Vector3 spillPosition, float amount, Vector3 direction)
     {
         CreateSpillEffect(spillPosition, amount, direction);
+
+        if (Physics.Raycast(spillPosition, Vector3.down, out RaycastHit hit, _pourRaycastDistance))
+        {
+            Dirt dirt = hit.collider.GetComponentInParent<Dirt>();
+            if (dirt != null)
+            {
+                if (_contentType == ContainerContentType.Fertilizer)
+                {
+                    dirt.FertilizeDirt();
+                }
+            }
+        }
     }
 
     private void OnContainerEmpty()

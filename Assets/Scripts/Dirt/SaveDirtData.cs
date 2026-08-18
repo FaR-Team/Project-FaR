@@ -13,7 +13,7 @@ public class SaveDirtData : DataSaver<Dirt, SaveDirtData>, IDataSavable
     public override async Task SaveData()
     {
         DirtData dirtSaveData = 
-            new DirtData(objectToSave._isWet, objectToSave.IsEmpty, objectToSave.currentSeedData, objectToSave.GetCropSaveData(), objectToSave.Coordinate);
+            new DirtData(objectToSave._isWet, objectToSave._isFertilized, objectToSave.IsEmpty, objectToSave.currentSeedData, objectToSave.GetCropSaveData(), objectToSave.Coordinate);
 
         await saverAllData.WriteSave(dirtSaveData);
     }
