@@ -429,9 +429,9 @@ Shader "FaRTeam/FaRMainShaderURP"
         Pass
         {
             Name "Outline"
-            Tags { }
+            Tags { "LightMode" = "SRPDefaultUnlit" }
             Cull Front
-            ZWrite On
+            ZWrite Off
             ZTest LEqual
             
             HLSLPROGRAM
@@ -480,7 +480,9 @@ Shader "FaRTeam/FaRMainShaderURP"
                         OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
                         float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
                         float3 normalCS = TransformWorldToHClipDir(normalWS);
-                        float2 offset = normalize(normalCS.xy) * (pulseWidth * 0.0005) * OUT.positionCS.w;
+                        float lenSq = dot(normalCS.xy, normalCS.xy);
+                        float2 normXY = lenSq > 1e-6 ? normalCS.xy * rsqrt(lenSq) : float2(0, 0);
+                        float2 offset = normXY * (pulseWidth * 0.0005) * OUT.positionCS.w;
                         OUT.positionCS.xy += offset;
                     }
                     else
