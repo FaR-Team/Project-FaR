@@ -48,6 +48,7 @@ public class ContainerPhysics : MonoBehaviour
     public float CurrentAmount => _currentContent * _maxCapacity;
     public bool IsEmpty => _currentContent <= 0.01f;
     public bool IsFull => _currentContent >= 0.99f;
+    public bool IsAutoTilting => _enableAutoTilt && (_lockedDirtTarget != null || _autoTiltTimer > 0f || Quaternion.Angle(transform.rotation, _initialRotation) > 2f);
 
     private Rigidbody _rigidbody;
     private float _lastSpillTime;
@@ -150,6 +151,15 @@ public class ContainerPhysics : MonoBehaviour
             return;
         }
 
+        if (TelekinesisController.isRotatingObject)
+        {
+            _lockedDirtTarget = null;
+            _initialRotation = transform.rotation;
+            _targetRotation = transform.rotation;
+            _wasHeldLastFrame = true;
+            return;
+        }
+
         if (!_wasHeldLastFrame)
         {
             _initialRotation = transform.rotation;
@@ -190,9 +200,7 @@ public class ContainerPhysics : MonoBehaviour
 
         if (_lockedDirtTarget != null)
         {
-            Quaternion predestinatedRotation = _initialRotation * Quaternion.Euler(_predestinatedPourRotation);
-
-            _targetRotation = Quaternion.Slerp(_targetRotation, predestinatedRotation, Time.fixedDeltaTime * _autoTiltSpeed);
+            _targetRotation = _initialRotation * Quaternion.Euler(_predestinatedPourRotation);
             _autoTiltTimer = _autoTiltHoldTime;
         }
         else
@@ -203,11 +211,11 @@ public class ContainerPhysics : MonoBehaviour
             }
             else
             {
-                _targetRotation = Quaternion.Slerp(_targetRotation, _initialRotation, Time.fixedDeltaTime * _autoTiltSpeed);
+                _targetRotation = _initialRotation;
             }
         }
 
-        float step = Mathf.Clamp01(Time.fixedDeltaTime * _autoTiltSpeed * 1.5f);
+        float step = Mathf.Clamp01(Time.fixedDeltaTime * _autoTiltSpeed * 2.5f);
         if (_rigidbody != null && !_rigidbody.isKinematic)
         {
             _rigidbody.MoveRotation(Quaternion.Slerp(_rigidbody.rotation, _targetRotation, step));

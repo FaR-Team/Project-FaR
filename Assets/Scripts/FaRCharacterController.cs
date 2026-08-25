@@ -118,6 +118,7 @@ namespace FaRUtils.FPSController
         public void DoLooking()
         {
             if (_movementLockTimer > 0f) return;
+            if (TelekinesisController.isRotatingObject) return;
 
             Vector2 looking = GetPlayerLook();
             float lookX = looking.x * lookSensitivity;

@@ -3,6 +3,7 @@ using UnityEngine;
 public class TelekineticObject : MonoBehaviour
 {
     [Header("Propiedades Físicas")]
+    [SerializeField] private bool isRotable = true;
     [SerializeField] private bool useCustomCenterOfMass = false;
     [SerializeField] private Vector3 customCenterOfMass = Vector3.zero;
     [SerializeField] private float stabilityFactor = 1f;
@@ -22,6 +23,12 @@ public class TelekineticObject : MonoBehaviour
     public Vector3 GrabNormal { get; private set; }
     public float Mass => _rigidbody.mass;
     public Rigidbody Rigidbody => _rigidbody;
+    public bool IsRotable => isRotable;
+    
+    public void SetRotable(bool rotable)
+    {
+        isRotable = rotable;
+    }
     
     private void Awake()
     {

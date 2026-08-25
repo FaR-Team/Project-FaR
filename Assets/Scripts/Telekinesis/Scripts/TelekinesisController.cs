@@ -28,6 +28,10 @@ public class TelekinesisController : MonoBehaviour
     [SerializeField] private bool maintainOrientation = true;
     [SerializeField] private float orientationStrength = 500f;
     
+    [SerializeField] private bool enableRightClickRotation = true;
+    [SerializeField] private float rotationSensitivity = 5f;
+    [SerializeField] private float rotationTorqueMultiplier = 2f;
+    
     [Header("Efectos Visuales")]
     [SerializeField] private bool showDebugLines = true;
     [SerializeField] private Material outlineMaterial;
@@ -40,8 +44,10 @@ public class TelekinesisController : MonoBehaviour
     private Vector3 grabOffset;
     private float currentHoldDistance;
     private bool isGrabbing = false;
+    private bool isRotating = false;
     
     private Quaternion initialGrabRotation;
+    private Quaternion targetGrabRotation;
     private float grabOffsetMagnitude;
     private float objectMass;
     private float stabilityFactor;
@@ -50,6 +56,9 @@ public class TelekinesisController : MonoBehaviour
     public Vector3 StartPoint { get; private set; }
     public Vector3 MidPoint { get; private set; }
     public Vector3 EndPoint { get; private set; }
+    
+    public bool IsRotating => isGrabbing && isRotating;
+    public static bool isRotatingObject => Instance?.IsRotating ?? false;
     
     [Header("Eventos")]
     public UnityEvent<GameObject> OnObjectGrabbed;
@@ -112,6 +121,54 @@ public class TelekinesisController : MonoBehaviour
                         );
                     }
                     
+                    bool canRotate = enableRightClickRotation && grabbedObject != null && grabbedObject.IsRotable;
+
+                    if (canRotate && Input.GetMouseButton(1))
+                    {
+                        if (Input.GetMouseButtonDown(1) && grabbedObject.Rigidbody != null)
+                        {
+                            targetGrabRotation = grabbedObject.Rigidbody.rotation;
+                        }
+
+                        isRotating = true;
+
+                        Vector2 lookDelta;
+                        if (FaRUtils.FPSController.FaRCharacterController.instance != null)
+                        {
+                            lookDelta = FaRUtils.FPSController.FaRCharacterController.instance.GetPlayerLook();
+                        }
+                        else
+                        {
+                            lookDelta = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+                        }
+
+                        float mouseX = lookDelta.x * rotationSensitivity * 0.2f;
+                        float mouseY = lookDelta.y * rotationSensitivity * 0.2f;
+
+                        Vector3 camUp = playerCamera != null ? playerCamera.transform.up : Vector3.up;
+                        Vector3 camRight = playerCamera != null ? playerCamera.transform.right : Vector3.right;
+
+                        Quaternion yaw = Quaternion.AngleAxis(-mouseX, camUp);
+                        Quaternion pitch = Quaternion.AngleAxis(mouseY, camRight);
+
+                        targetGrabRotation = yaw * pitch * targetGrabRotation;
+
+                        if (Input.GetKey(KeyCode.Q))
+                        {
+                            Vector3 camForward = playerCamera != null ? playerCamera.transform.forward : Vector3.forward;
+                            targetGrabRotation = Quaternion.AngleAxis(rotationSensitivity * 30f * Time.deltaTime, camForward) * targetGrabRotation;
+                        }
+                        else if (Input.GetKey(KeyCode.E))
+                        {
+                            Vector3 camForward = playerCamera != null ? playerCamera.transform.forward : Vector3.forward;
+                            targetGrabRotation = Quaternion.AngleAxis(-rotationSensitivity * 30f * Time.deltaTime, camForward) * targetGrabRotation;
+                        }
+                    }
+                    else
+                    {
+                        isRotating = false;
+                    }
+                    
                     UpdateTargetPosition();
                 }
             }
@@ -153,22 +210,26 @@ public class TelekinesisController : MonoBehaviour
             grabbedObject = rigidbody.gameObject.AddComponent<TelekineticObject>();
         }
         
+        if (rigidbody.GetComponent<Cart>() != null || rigidbody.GetComponentInParent<Cart>() != null)
+        {
+            grabbedObject.SetRotable(false);
+        }
+        
         grabbedObject.Initialize(hit);
         
-        currentHoldDistance = Vector3.Distance(playerCamera.transform.position, hit.point);
+        currentHoldDistance = Vector3.Distance(playerCamera.transform.position, rigidbody.worldCenterOfMass);
         currentHoldDistance = Mathf.Clamp(currentHoldDistance, minHoldDistance, maxHoldDistance);
         
-        Vector3 centerOfMass = rigidbody.worldCenterOfMass;
-        Vector3 grabPoint = hit.point;
-        
-        grabOffset = grabPoint - centerOfMass;
+        grabOffset = Vector3.zero;
         
         objectMass = rigidbody.mass;
-        grabOffsetMagnitude = grabOffset.magnitude;
+        grabOffsetMagnitude = 0f;
         stabilityFactor = 1f;
         currentInstability = 0f;
         
         initialGrabRotation = rigidbody.rotation;
+        targetGrabRotation = rigidbody.rotation;
+        isRotating = false;
         
         isGrabbing = true;
         UpdateTargetPosition();
@@ -199,8 +260,7 @@ public class TelekinesisController : MonoBehaviour
         if (rb == null) return;
         
         Vector3 currentPosition = rb.worldCenterOfMass;
-        Vector3 currentGrabPoint = currentPosition + rb.rotation * grabOffset;
-        Vector3 grabPointError = targetPosition - currentGrabPoint;
+        Vector3 grabPointError = targetPosition - currentPosition;
         
         float massScaleFactor = Mathf.Clamp(rb.mass / 2f, 0.5f, 2f);
         
@@ -218,33 +278,27 @@ public class TelekinesisController : MonoBehaviour
         {
             float maxForce = maxFollowForce * 0.3f * massScaleFactor;
             totalForce = Vector3.ClampMagnitude(totalForce, maxForce);
-            rb.AddForceAtPosition(totalForce, currentGrabPoint, ForceMode.Force);
+            rb.AddForce(totalForce, ForceMode.Force);
         }
         
         if (maintainOrientation)
         {
-            Quaternion desiredRotation = initialGrabRotation;
-            Quaternion rotationError = desiredRotation * Quaternion.Inverse(rb.rotation);
-            
-            rotationError.ToAngleAxis(out float angle, out Vector3 axis);
-            if (float.IsNaN(angle) || float.IsInfinity(angle) || !IsValidVector3(axis))
+            ContainerPhysics container = grabbedObject.GetComponent<ContainerPhysics>();
+            bool isAutoTilting = container != null && container.IsAutoTilting;
+
+            if (isRotating)
             {
-                return;
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetGrabRotation, Time.fixedDeltaTime * 25f));
+                rb.angularVelocity = Vector3.zero;
             }
-            
-            if (angle > 180f) angle -= 360f;
-            
-            float torqueMultiplier = rb.mass <= 1f ? 0.05f : 0.1f;
-            Vector3 torque = axis * angle * Mathf.Deg2Rad * orientationStrength * torqueMultiplier;
-            Vector3 angularDamping = -rb.angularVelocity * rotationDamping * (rb.mass <= 1f ? 2f : 1f);
-            
-            if (IsValidVector3(torque) && IsValidVector3(angularDamping))
+            else if (isAutoTilting)
             {
-                Vector3 totalTorque = torque + angularDamping;
-                if (IsValidVector3(totalTorque))
-                {
-                    rb.AddTorque(totalTorque, ForceMode.Force);
-                }
+                // No hacer nada, tiene que hacerlo containerphysics
+            }
+            else
+            {
+                rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetGrabRotation, Time.fixedDeltaTime * 15f));
+                rb.angularVelocity = Vector3.zero;
             }
         }
     }
@@ -264,6 +318,7 @@ public class TelekinesisController : MonoBehaviour
         grabbedObject.Cleanup();
         grabbedObject = null;
         isGrabbing = false;
+        isRotating = false;
         
         OnObjectReleased?.Invoke();
         

@@ -174,6 +174,7 @@ public class Cart : MonoBehaviour
         {
             telekineticObject = gameObject.AddComponent<TelekineticObject>();
         }
+        telekineticObject.SetRotable(false);
     }
     
     private void CalculateSpeed()
