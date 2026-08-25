@@ -240,7 +240,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 else if (useRamp)
                 {
                     float rampUV = saturate(NdotL * shadowAttenuation);
-                    cel = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, float2(rampUV, 0.5)).r;
+                    cel = SAMPLE_TEXTURE2D_LOD(_RampTex, sampler_RampTex, float2(rampUV, 0.5), 0).r;
                 }
                 else
                 {
@@ -266,6 +266,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 half3 additionalLighting = 0;
             #if defined(_ADDITIONAL_LIGHTS)
                 uint pixelLightCount = GetAdditionalLightsCount();
+                [loop]
                 for (uint lightIndex = 0u; lightIndex < pixelLightCount; ++lightIndex)
                 {
                     Light addLight = GetAdditionalLight(lightIndex, IN.positionWS);
@@ -275,7 +276,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                     float addCel;
                     if (useRamp)
                     {
-                        addCel = SAMPLE_TEXTURE2D(_RampTex, sampler_RampTex, float2(addNdotL * addAtten, 0.5)).r;
+                        addCel = SAMPLE_TEXTURE2D_LOD(_RampTex, sampler_RampTex, float2(addNdotL * addAtten, 0.5), 0).r;
                     }
                     else
                     {
@@ -293,7 +294,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             #endif
                 if (useMultiply)
                 {
-                    half4 multiplyTex = SAMPLE_TEXTURE2D(_MultiplyTex, sampler_MainTex, TRANSFORM_TEX(IN.uv, _MultiplyTex));
+                    half4 multiplyTex = SAMPLE_TEXTURE2D_LOD(_MultiplyTex, sampler_MainTex, TRANSFORM_TEX(IN.uv, _MultiplyTex), 0);
                     albedo *= multiplyTex.rgb;
                 }
 
