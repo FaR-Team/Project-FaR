@@ -145,10 +145,16 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
 
                 OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
-                OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
+                OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
                 OUT.uv = TRANSFORM_TEX(IN.uv, _MainTex);
                 OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                OUT.color = IN.color;
+                
+                half4 vColor = IN.color;
+                if (dot(vColor, vColor) < 0.0001)
+                {
+                    vColor = half4(1, 1, 1, 1);
+                }
+                OUT.color = vColor;
                 OUT.fogFactor = ComputeFogFactor(OUT.positionCS.z);
                 return OUT;
             }
@@ -163,7 +169,8 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 clip(alpha - 0.01f);
             
-                float3 normalWS = normalize(IN.normalWS);
+                float normalLenSq = dot(IN.normalWS, IN.normalWS);
+                float3 normalWS = normalLenSq > 1e-6 ? IN.normalWS * rsqrt(normalLenSq) : float3(0, 1, 0);
                 float3 viewDirWS = GetWorldSpaceNormalizeViewDir(IN.positionWS);
                 normalWS = dot(normalWS, viewDirWS) < 0.0 ? -normalWS : normalWS;
 
@@ -179,6 +186,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 usePixelPerfect = true;
             #endif
 
+                [branch]
                 if (usePixelPerfect)
                 {
                     float pixelSize = 0.1;
@@ -192,7 +200,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                     float3 alignmentOffset = float3(_ShadowAlignmentX * pixelSize, _ShadowAlignmentY * pixelSize, _ShadowAlignmentZ * pixelSize);
                     float3 alignedWorldPos = offsetWorldPos + alignmentOffset;
                     
-                    float3 quantizedWorldPos = round(alignedWorldPos / pixelSize) * pixelSize;
+                    float3 quantizedWorldPos = floor((alignedWorldPos / pixelSize) + 0.5) * pixelSize;
                     quantizedWorldPos -= gridOffset;
                     quantizedWorldPos -= mainLight.direction * (pixelSize * _ShadowGridBias);
                     
@@ -241,16 +249,16 @@ Shader "FaRTeam/FaRMainShaderURP"
                     cel /= steps;
                 }
 
-                half3 litTint = mainLight.color.rgb;
+                half3 litTint = max(mainLight.color.rgb, half3(0.05, 0.05, 0.05));
                 half3 shadowTint;
                 
                 if (usePixelPerfect)
                 {
-                    shadowTint = _ShadowColor.rgb * mainLight.color.rgb;
+                    shadowTint = _ShadowColor.rgb * litTint;
                 }
                 else
                 {
-                    shadowTint = mainLight.color.rgb * half3(0.8, 0.85, 1.0);
+                    shadowTint = litTint * half3(0.8, 0.85, 1.0);
                 }
 
                 half3 lightingTint = lerp(shadowTint, litTint, cel);
@@ -413,8 +421,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 Varyings output;
                 UNITY_SETUP_INSTANCE_ID(input);
                 UNITY_TRANSFER_INSTANCE_ID(input, output);
-                float3 positionWS = TransformObjectToWorld(input.positionOS.xyz);
-                output.positionCS = TransformWorldToHClip(positionWS);
+                output.positionCS = TransformObjectToHClip(input.positionOS.xyz);
                 output.uv = TRANSFORM_TEX(input.uv, _MainTex);
                 return output;
             }
