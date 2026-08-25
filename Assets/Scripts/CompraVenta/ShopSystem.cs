@@ -70,5 +70,24 @@ public class ShopSystem
         if (!ContieneItem(data, out ShopSlot slot)) return;
         
         slot.SacarDeStack(amount);
+
+        bool shouldRemove = slot.StackSize <= 0;
+        if (data is WorldSpawnerItemData spawnerData && spawnerData.removeFromShopPool)
+        {
+            shouldRemove = true;
+        }
+
+        if (shouldRemove)
+        {
+            _shopInventory.Remove(slot);
+        }
+    }
+
+    public void RemoveFromShop(InventoryItemData data)
+    {
+        if (ContieneItem(data, out ShopSlot slot))
+        {
+            _shopInventory.Remove(slot);
+        }
     }
 }

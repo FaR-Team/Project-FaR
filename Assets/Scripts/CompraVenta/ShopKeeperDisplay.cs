@@ -167,12 +167,27 @@ public class ShopKeeperDisplay : MonoBehaviour
             return;
         }
 
-        if (!_playerInventoryHolder.PrimaryInventorySystem.CheckInventoryRemaining(_shoppingCart)) return;
+        var inventoryItems = _shoppingCart.Where(kvp => !(kvp.Key is WorldSpawnerItemData spawner && !spawner.addToPlayerInventory))
+                                          .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+
+        if (inventoryItems.Count > 0 && !_playerInventoryHolder.PrimaryInventorySystem.CheckInventoryRemaining(inventoryItems)) return;
 
         foreach (var kvp in _shoppingCart)
         {
             _shopSystem.PurchaseItem(kvp.Key, kvp.Value);
-            _playerInventoryHolder.PrimaryInventorySystem.AddToInventory(kvp.Key, kvp.Value);
+
+            if (kvp.Key is WorldSpawnerItemData spawnerItem)
+            {
+                spawnerItem.OnPurchased(kvp.Value);
+                if (spawnerItem.addToPlayerInventory)
+                {
+                    _playerInventoryHolder.PrimaryInventorySystem.AddToInventory(kvp.Key, kvp.Value);
+                }
+            }
+            else
+            {
+                _playerInventoryHolder.PrimaryInventorySystem.AddToInventory(kvp.Key, kvp.Value);
+            }
         }
 
         _playerInventoryHolder.PrimaryInventorySystem.SpendGold(_basketTotal);

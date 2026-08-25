@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a10b72a0abe814e7805dfc3c5885a34, type: 3}
+  m_Name: Fertilizer
+  m_EditorClassIdentifier: 
+  ID: -1
+  Nombre: Fertilizer
+  "Descripci\xF3n": 
+  Icono: {fileID: 21300000, guid: 01b10cc2da49f7442ba6525072e1f86a, type: 3}
+  Valor: 1000
+  ItemPrefab: {fileID: 0}
+  ghostMesh: {fileID: 0}
+  ToolGameObject: {fileID: 0}
+  footprintSize: {x: 1, y: 1, z: 1}
+  footprintOffset: {x: 0, y: 0, z: 0}
+  Usable: 0
+  Sellable: 0
+  IsLookingAtStore: 0
+  leftClickUse: 0
+  useItemSound: {fileID: 0}
+  typeOfItem: 6
+  prefabToSpawn: {fileID: 1616425802257110540, guid: 92a96da079b90ffe2980d7a609f2f155,
+    type: 3}
+  spawnPosition: {x: -13, y: 6, z: -54}
+  spawnRotationEuler: {x: 0, y: 0, z: 0}
+  spawnPointTag: 
+  removeFromShopPool: 1
+  addToPlayerInventory: 0
