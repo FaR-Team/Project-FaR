@@ -65,7 +65,6 @@ public class TelekineticRayRenderer : MonoBehaviour
         
         lineRenderer.textureMode = textureMode;
         lineRenderer.alignment = LineAlignment.View;
-        lineRenderer.useWorldSpace = true;
         lineRenderer.generateLightingData = false;
         lineRenderer.allowOcclusionWhenDynamic = false;
         
@@ -81,7 +80,10 @@ public class TelekineticRayRenderer : MonoBehaviour
     {
         animationTime += Time.deltaTime * animationSpeed;
         
-        bool shouldShowRay = telekinesisController.HasGrabbedObject;
+        if (telekinesisController == null)
+            telekinesisController = GetComponent<TelekinesisController>();
+            
+        bool shouldShowRay = telekinesisController != null && telekinesisController.HasGrabbedObject;
         
         if (shouldShowRay != isActive)
         {
@@ -299,7 +301,7 @@ public class TelekineticRayRenderer : MonoBehaviour
             );
             rayParticlesArray[i].position = basePos + floatOffset;
             rayParticlesArray[i].rotation = floatPhase * 30f;
-            rayParticlesArray[i].startSize = Mathf.Max(rayParticleSize, 0.5f);
+            rayParticlesArray[i].startSize = rayParticleSize;
             rayParticlesArray[i].remainingLifetime = 1f;
             rayParticlesArray[i].startLifetime = 1f;
             visibleParticles++;

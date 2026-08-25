@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -20,19 +19,14 @@ public class TelekinesisController : MonoBehaviour
     [SerializeField] private float followDamping = 50f;
     [SerializeField] private float rotationDamping = 25f;
     [SerializeField] private float maxFollowForce = 10000f;
+    [SerializeField, Range(0f, 1f)] private float gravityCompensationRatio = 0.9f;
     
     [Header("Configuración de Masa")]
-    [SerializeField] private AnimationCurve massCompensationCurve = AnimationCurve.Linear(0.1f, 1f, 10f, 0.3f);
     [SerializeField] private float maxMassForTelekinesis = 20f;
-    
-    [Header("Sistema de Agarre")]
-    [SerializeField] private AnimationCurve stabilityByOffset = AnimationCurve.EaseInOut(0f, 1f, 1f, 0.2f);
-    [SerializeField] private AnimationCurve stabilityByMass = AnimationCurve.EaseInOut(0.1f, 1f, 10f, 0.1f);
     
     [Header("Comportamiento")]
     [SerializeField] private bool maintainOrientation = true;
     [SerializeField] private float orientationStrength = 500f;
-    [SerializeField] private AnimationCurve initialGrabCurve = AnimationCurve.EaseInOut(0f, 0.1f, 1f, 1f);
     
     [Header("Efectos Visuales")]
     [SerializeField] private bool showDebugLines = true;
@@ -47,15 +41,10 @@ public class TelekinesisController : MonoBehaviour
     private float currentHoldDistance;
     private bool isGrabbing = false;
     
-    private Vector3 smoothedTargetPosition;
     private Quaternion initialGrabRotation;
-    private Quaternion grabRotationOffset;
-    private float grabStartTime;
-    
     private float grabOffsetMagnitude;
     private float objectMass;
     private float stabilityFactor;
-    private Vector3 wobbleAccumulator;
     private float currentInstability;
     
     public Vector3 StartPoint { get; private set; }
@@ -66,6 +55,7 @@ public class TelekinesisController : MonoBehaviour
     public UnityEvent<GameObject> OnObjectGrabbed;
     public UnityEvent OnObjectReleased;
     
+    [Tooltip("Referencia opcional a Energy GameObject (se usa Energy.instance automáticamente si está en escena)")]
     public GameObject Energia;
     public static bool isGrabbingObject => Instance?.isGrabbing ?? false;
     public static TelekinesisController Instance { get; private set; }
@@ -100,7 +90,7 @@ public class TelekinesisController : MonoBehaviour
     
     private void HandleInput()
     {
-        bool hasEnergy = Energia == null || Energy.RemainingEnergy >= 1;
+        bool hasEnergy = Energy.instance == null || Energy.RemainingEnergy >= 1;
         
         if (Input.GetMouseButton(0))
         {
@@ -125,9 +115,9 @@ public class TelekinesisController : MonoBehaviour
                     UpdateTargetPosition();
                 }
             }
-            else if (Input.GetMouseButtonDown(0))
+            else if (Input.GetMouseButtonDown(0) && Energy.instance != null)
             {
-                Energy.instance.TryUseAndAnimateEnergy(1, 5f); // Used as feedback only
+                Energy.instance.TryUseAndAnimateEnergy(1, 5f);
             }
         }
         else if (grabbedObject != null)
@@ -177,14 +167,8 @@ public class TelekinesisController : MonoBehaviour
         grabOffsetMagnitude = grabOffset.magnitude;
         stabilityFactor = 1f;
         currentInstability = 0f;
-        wobbleAccumulator = Vector3.zero;
         
         initialGrabRotation = rigidbody.rotation;
-        grabRotationOffset = Quaternion.identity;
-        
-        smoothedTargetPosition = rigidbody.worldCenterOfMass + grabOffset;
-        
-        grabStartTime = Time.time;
         
         isGrabbing = true;
         UpdateTargetPosition();
@@ -193,7 +177,7 @@ public class TelekinesisController : MonoBehaviour
         
         OnObjectGrabbed?.Invoke(rigidbody.gameObject);
         
-        if (Energia != null)
+        if (Energy.instance != null)
         {
             Energy.instance.ShowBarOnly(5f);
         }
@@ -226,7 +210,7 @@ public class TelekinesisController : MonoBehaviour
         Vector3 followForce = grabPointError * followStrength * followForceMultiplier;
         Vector3 dampingForce = -rb.velocity * followDamping * dampingMultiplier;
         
-        Vector3 gravityCompensation = -Physics.gravity * rb.mass * 0.9f;
+        Vector3 gravityCompensation = -Physics.gravity * rb.mass * gravityCompensationRatio;
         
         Vector3 totalForce = followForce + dampingForce + gravityCompensation;
         
@@ -277,24 +261,16 @@ public class TelekinesisController : MonoBehaviour
         
         grabbedObject.SetOutlineActive(false);
         
-        var releasedObject = grabbedObject.gameObject;
         grabbedObject.Cleanup();
         grabbedObject = null;
         isGrabbing = false;
         
         OnObjectReleased?.Invoke();
         
-        if (Energia != null)
+        if (Energy.instance != null)
         {
             Energy.UseEnergy(1);
         }
-        
-        StartCoroutine(ResetGrabbingFlag());
-    }
-    
-    private IEnumerator ResetGrabbingFlag()
-    {
-        yield return new WaitForSeconds(0.1f);
     }
     
     private void UpdateVisualPoints()
@@ -311,9 +287,6 @@ public class TelekinesisController : MonoBehaviour
         if (isGrabbing && grabbedObject != null)
         {
             MidPoint = targetPosition;
-            
-            EndPoint = grabbedObject.GrabPoint;
-            
             Vector3 currentGrabPoint = grabbedObject.Rigidbody.worldCenterOfMass + grabbedObject.Rigidbody.rotation * grabOffset;
             EndPoint = currentGrabPoint;
         }

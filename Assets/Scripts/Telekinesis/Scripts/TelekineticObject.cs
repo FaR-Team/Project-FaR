@@ -14,6 +14,7 @@ public class TelekineticObject : MonoBehaviour
     private float _originalDrag;
     private float _originalAngularDrag;
     private bool _wasKinematic;
+    private RigidbodyInterpolation _originalInterpolation;
     private MaterialPropertyBlock _propertyBlock;
     private Renderer[] _renderers;
     
@@ -36,6 +37,7 @@ public class TelekineticObject : MonoBehaviour
         _originalDrag = _rigidbody.drag;
         _originalAngularDrag = _rigidbody.angularDrag;
         _wasKinematic = _rigidbody.isKinematic;
+        _originalInterpolation = _rigidbody.interpolation;
         
         if (useCustomCenterOfMass)
         {
@@ -74,7 +76,7 @@ public class TelekineticObject : MonoBehaviour
         _rigidbody.drag = _originalDrag;
         _rigidbody.angularDrag = _originalAngularDrag;
         _rigidbody.isKinematic = _wasKinematic;
-        _rigidbody.interpolation = RigidbodyInterpolation.None;
+        _rigidbody.interpolation = _originalInterpolation;
         
         var collisionAvoid = GetComponent<AvoidCollisionWPlayer>();
         if (collisionAvoid != null)
