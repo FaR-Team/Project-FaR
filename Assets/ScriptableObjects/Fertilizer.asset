@@ -28,9 +28,8 @@ MonoBehaviour:
   leftClickUse: 0
   useItemSound: {fileID: 0}
   typeOfItem: 6
-  prefabToSpawn: {fileID: 1616425802257110540, guid: 92a96da079b90ffe2980d7a609f2f155,
-    type: 3}
-  spawnPosition: {x: -13, y: 6, z: -54}
+  prefabToSpawn: {fileID: 0}
+  spawnPosition: {x: 13, y: 6, z: -55}
   spawnRotationEuler: {x: 0, y: 0, z: 0}
   spawnPointTag: 
   removeFromShopPool: 1

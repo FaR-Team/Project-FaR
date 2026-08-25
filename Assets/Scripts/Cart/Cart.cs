@@ -83,9 +83,19 @@ public class Cart : MonoBehaviour
     
     private void CheckTelekinesisAttachment()
     {
-        bool isBeingGrabbed = TelekinesisController.Instance != null && 
-                             TelekinesisController.Instance.GetGrabbedRigidbody() == cartRigidbody;
-        
+        bool isBeingGrabbed = false;
+
+        TelekinesisController tc = TelekinesisController.Instance;
+        if (tc == null || !tc)
+        {
+            tc = FindObjectOfType<TelekinesisController>();
+        }
+
+        if (tc != null && tc)
+        {
+            isBeingGrabbed = tc.GetGrabbedRigidbody() == cartRigidbody;
+        }
+
         if (isBeingGrabbed && !isAttachedToPlayer)
         {
             AttachToPlayer();
@@ -117,18 +127,29 @@ public class Cart : MonoBehaviour
         
         cartRigidbody.constraints = RigidbodyConstraints.None;
     }
+
+    private Transform GetActiveCameraTransform()
+    {
+        if (Camera.main != null && Camera.main)
+            return Camera.main.transform;
+
+        if (FaRUtils.FPSController.FaRCharacterController.instance != null && FaRUtils.FPSController.FaRCharacterController.instance)
+            return FaRUtils.FPSController.FaRCharacterController.instance.transform;
+
+        var cam = FindObjectOfType<Camera>();
+        if (cam != null && cam)
+            return cam.transform;
+
+        var player = FindObjectOfType<FaRUtils.FPSController.FaRCharacterController>();
+        if (player != null && player)
+            return player.transform;
+
+        return null;
+    }
     
     private void ApplyPlayerAttachmentForces()
     {
-        Transform camTransform = Camera.main != null ? Camera.main.transform : null;
-        if (camTransform == null)
-        {
-            if (FaRUtils.FPSController.FaRCharacterController.instance != null)
-                camTransform = FaRUtils.FPSController.FaRCharacterController.instance.transform;
-            else if (playerTransform != null)
-                camTransform = playerTransform;
-        }
-
+        Transform camTransform = GetActiveCameraTransform();
         if (camTransform == null) return;
         
         Vector3 camForward = camTransform.forward;

@@ -72,9 +72,7 @@ public class TelekinesisController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        
-        if (playerCamera == null)
-            playerCamera = Camera.main;
+        UpdateCameraReference();
             
         rayRenderer = GetComponent<TelekineticRayRenderer>();
         if (rayRenderer == null && enableTelekineticRay)
@@ -83,8 +81,28 @@ public class TelekinesisController : MonoBehaviour
         }
     }
     
+    private void OnEnable()
+    {
+        Instance = this;
+        UpdateCameraReference();
+    }
+
+    private void UpdateCameraReference()
+    {
+        if (playerCamera == null || !playerCamera)
+        {
+            playerCamera = Camera.main;
+            if (playerCamera == null || !playerCamera)
+            {
+                var cam = FindObjectOfType<Camera>();
+                if (cam != null) playerCamera = cam;
+            }
+        }
+    }
+    
     private void Update()
     {
+        UpdateCameraReference();
         HandleInput();
         UpdateVisualPoints();
     }
@@ -259,7 +277,10 @@ public class TelekinesisController : MonoBehaviour
         Rigidbody rb = grabbedObject.Rigidbody;
         if (rb == null) return;
         
-        if (grabbedObject.GetComponent<Cart>() != null || grabbedObject.GetComponentInParent<Cart>() != null)
+        Cart cart = grabbedObject.GetComponent<Cart>();
+        if (cart == null) cart = grabbedObject.GetComponentInParent<Cart>();
+        
+        if (cart != null && cart.enabled && cart.IsAttachedToPlayer)
         {
             return;
         }
