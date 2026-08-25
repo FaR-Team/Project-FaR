@@ -14,6 +14,7 @@ public class Cart : MonoBehaviour
     [SerializeField] private float followDamping = 50f;
     [SerializeField] private float rotationStrength = 500f;
     [SerializeField] private float rotationDamping = 25f;
+    [SerializeField] private float modelYRotationOffset = -90f;
     
     private Rigidbody cartRigidbody;
     private Transform playerTransform;
@@ -74,7 +75,7 @@ public class Cart : MonoBehaviour
     
     private void FixedUpdate()
     {
-        if (isAttachedToPlayer && playerTransform != null)
+        if (isAttachedToPlayer)
         {
             ApplyPlayerAttachmentForces();
         }
@@ -100,10 +101,10 @@ public class Cart : MonoBehaviour
         isAttachedToPlayer = true;
         Debug.Log("Cart grabbed - now responds to player movement!");
         
-        cartRigidbody.drag = 0.5f;
-        cartRigidbody.angularDrag = 2f;
+        cartRigidbody.drag = 1f;
+        cartRigidbody.angularDrag = 3f;
         
-        cartRigidbody.constraints = RigidbodyConstraints.FreezePositionY;
+        cartRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
     }
     
     private void DetachFromPlayer()
@@ -119,44 +120,44 @@ public class Cart : MonoBehaviour
     
     private void ApplyPlayerAttachmentForces()
     {
-        if (playerTransform == null || backHandle == null) return;
+        Transform camTransform = Camera.main != null ? Camera.main.transform : null;
+        if (camTransform == null)
+        {
+            if (FaRUtils.FPSController.FaRCharacterController.instance != null)
+                camTransform = FaRUtils.FPSController.FaRCharacterController.instance.transform;
+            else if (playerTransform != null)
+                camTransform = playerTransform;
+        }
+
+        if (camTransform == null) return;
         
-        Vector3 playerForward = playerTransform.forward;
-        Vector3 desiredCartPosition = playerTransform.position + playerForward * attachmentDistance;
+        Vector3 camForward = camTransform.forward;
+        camForward.y = 0;
+        if (camForward.sqrMagnitude > 0.001f)
+            camForward.Normalize();
+        else
+            camForward = Vector3.forward;
+
+        Vector3 desiredCartPosition = camTransform.position + camForward * attachmentDistance;
         desiredCartPosition.y = transform.position.y;
         
         Vector3 positionError = desiredCartPosition - transform.position;
+        positionError = Vector3.ClampMagnitude(positionError, 3f);
+
         Vector3 followForce = positionError * followStrength;
         Vector3 dampingForce = -cartRigidbody.velocity * followDamping;
         
         Vector3 totalForce = followForce + dampingForce;
         totalForce.y = 0;
+        totalForce = Vector3.ClampMagnitude(totalForce, 2500f);
+        
         cartRigidbody.AddForce(totalForce, ForceMode.Force);
         
-        playerForward.y = 0;
+        Quaternion desiredRotation = Quaternion.LookRotation(camForward, Vector3.up) * Quaternion.Euler(0, modelYRotationOffset, 0);
+        Quaternion targetUprightRotation = Quaternion.Euler(0f, desiredRotation.eulerAngles.y, 0f);
         
-        if (playerForward.magnitude > 0.1f)
-        {
-            Vector3 cartForward = playerForward;
-            Quaternion desiredRotation = Quaternion.LookRotation(cartForward, Vector3.up) * Quaternion.Euler(0, -90, 0);
-            
-            float currentYAngle = transform.eulerAngles.y;
-            float desiredYAngle = desiredRotation.eulerAngles.y;
-            
-            float angleDifference = Mathf.DeltaAngle(currentYAngle, desiredYAngle);
-            
-            Vector3 torque = Vector3.up * angleDifference * Mathf.Deg2Rad * rotationStrength;
-            Vector3 angularDamping = new Vector3(0, -cartRigidbody.angularVelocity.y * rotationDamping, 0);
-            
-            cartRigidbody.AddTorque(torque + angularDamping, ForceMode.Force);
-        }
-        
-        Vector3 currentUp = transform.up;
-        Vector3 desiredUp = Vector3.up;
-        Vector3 stabilizingTorque = Vector3.Cross(currentUp, desiredUp) * rotationStrength * 2f;
-        stabilizingTorque.y = 0;
-        
-        cartRigidbody.AddTorque(stabilizingTorque, ForceMode.Force);
+        cartRigidbody.MoveRotation(Quaternion.Slerp(cartRigidbody.rotation, targetUprightRotation, Time.fixedDeltaTime * 15f));
+        cartRigidbody.angularVelocity = Vector3.zero;
     }
     
     private bool IsValidVector3(Vector3 vector)

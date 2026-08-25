@@ -259,6 +259,11 @@ public class TelekinesisController : MonoBehaviour
         Rigidbody rb = grabbedObject.Rigidbody;
         if (rb == null) return;
         
+        if (grabbedObject.GetComponent<Cart>() != null || grabbedObject.GetComponentInParent<Cart>() != null)
+        {
+            return;
+        }
+        
         Vector3 currentPosition = rb.worldCenterOfMass;
         Vector3 grabPointError = targetPosition - currentPosition;
         
