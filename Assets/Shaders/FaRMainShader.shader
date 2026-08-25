@@ -153,7 +153,7 @@ Shader "FaRTeam/FaRMainShaderURP"
                 return OUT;
             }
             
-            half4 frag(Varyings IN, bool isFrontFace : SV_IsFrontFace) : SV_Target
+            half4 frag(Varyings IN) : SV_Target
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
 
@@ -164,7 +164,8 @@ Shader "FaRTeam/FaRMainShaderURP"
                 clip(alpha - 0.01f);
             
                 float3 normalWS = normalize(IN.normalWS);
-                normalWS = isFrontFace ? normalWS : -normalWS;
+                float3 viewDirWS = GetWorldSpaceNormalizeViewDir(IN.positionWS);
+                normalWS = dot(normalWS, viewDirWS) < 0.0 ? -normalWS : normalWS;
 
                 float4 shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
                 Light mainLight = GetMainLight(shadowCoord);
@@ -339,7 +340,9 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float3 normalWS = TransformObjectToWorldNormal(input.normalOS);
 
             #if _CASTING_PUNCTUAL_LIGHT_SHADOW
-                float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+                float3 lightVec = _LightPosition - positionWS;
+                float lenSq = dot(lightVec, lightVec);
+                float3 lightDirectionWS = lenSq > 1e-6 ? lightVec * rsqrt(lenSq) : float3(0, 1, 0);
             #else
                 float3 lightDirectionWS = _LightDirection;
             #endif
@@ -369,7 +372,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             half4 ShadowPassFragment(Varyings input) : SV_TARGET
             {
                 UNITY_SETUP_INSTANCE_ID(input);
-                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
+                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha * _Color.a;
                 clip(alpha - 0.01f);
                 return 0;
             }
@@ -419,7 +422,7 @@ Shader "FaRTeam/FaRMainShaderURP"
             half4 DepthOnlyFragment(Varyings input) : SV_TARGET
             {
                 UNITY_SETUP_INSTANCE_ID(input);
-                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha;
+                half alpha = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, input.uv).a * _Alpha * _Color.a;
                 clip(alpha - 0.01f);
                 return 0;
             }
@@ -465,36 +468,35 @@ Shader "FaRTeam/FaRMainShaderURP"
                 useOutline = true;
             #endif
 
-                if (useOutline)
+                if (!useOutline)
                 {
-                    float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
-                    float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
-                    
-                    bool isScreenSpace = _UseScreenSpaceOutline > 0.5;
-                #if defined(_USE_SCREEN_SPACE_OUTLINE)
-                    isScreenSpace = true;
-                #endif
+                    OUT.positionCS = 0;
+                    return OUT;
+                }
 
-                    if (isScreenSpace)
-                    {
-                        OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
-                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                        float3 normalCS = TransformWorldToHClipDir(normalWS);
-                        float lenSq = dot(normalCS.xy, normalCS.xy);
-                        float2 normXY = lenSq > 1e-6 ? normalCS.xy * rsqrt(lenSq) : float2(0, 0);
-                        float2 offset = normXY * (pulseWidth * 0.0005) * OUT.positionCS.w;
-                        OUT.positionCS.xy += offset;
-                    }
-                    else
-                    {
-                        float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
-                        float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz) + normalWS * (pulseWidth * 0.001);
-                        OUT.positionCS = TransformWorldToHClip(positionWS);
-                    }
+                float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
+                float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
+                
+                bool isScreenSpace = _UseScreenSpaceOutline > 0.5;
+            #if defined(_USE_SCREEN_SPACE_OUTLINE)
+                isScreenSpace = true;
+            #endif
+
+                if (isScreenSpace)
+                {
+                    OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                    float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                    float3 normalCS = TransformWorldToHClipDir(normalWS);
+                    float lenSq = dot(normalCS.xy, normalCS.xy);
+                    float2 normXY = lenSq > 1e-6 ? normalCS.xy * rsqrt(lenSq) : float2(0, 0);
+                    float2 offset = normXY * (pulseWidth * 0.0005) * OUT.positionCS.w;
+                    OUT.positionCS.xy += offset;
                 }
                 else
                 {
-                    OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);
+                    float3 normalWS = TransformObjectToWorldNormal(IN.normalOS);
+                    float3 positionWS = TransformObjectToWorld(IN.positionOS.xyz) + normalWS * (pulseWidth * 0.001);
+                    OUT.positionCS = TransformWorldToHClip(positionWS);
                 }
                 
                 return OUT;
