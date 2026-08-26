@@ -63,6 +63,8 @@ namespace FaRUtils.FPSController
         public float MovementSpeed => movementSpeed;
         public float DefaultWalkSpeed => defaultWalkSpeed;
         public float DefaultRunSpeed => defaultMovementSpeed;
+        
+        public event Action<bool> OnThirdPersonEnabled;
 
         private void Awake()
         {
@@ -254,6 +256,7 @@ namespace FaRUtils.FPSController
         public void EnableThirdPerson(bool enable, Transform camTarget = null)
         {
             _thirdPersonMode = enable;
+            OnThirdPersonEnabled?.Invoke(enable);
             if(enable)
                 thirdPersonCamera.ActivateCamera(camTarget);
             else 

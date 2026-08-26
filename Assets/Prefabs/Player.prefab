@@ -6940,7 +6940,6 @@ MonoBehaviour:
   defaultMovementSpeed: 11
   lookSensitivity: 0.05
   interactor: {fileID: 5560513539486671347}
-  thirdPersonInteractor: {fileID: 5560513538628628666}
   thirdPersonCamera: {fileID: 5560513538066350450}
   thirdPersonModel: {fileID: 5560513539055564683}
   gravity: -9.81
@@ -8270,41 +8269,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.3, y: 0.2, z: 0.2}
   m_Center: {x: 1.5, y: 0, z: 0}
---- !u!95 &5560513538966056007
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4750031294671311147}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 096d423bd5e25514f8b2232cb1340f1a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5560513538966056006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4750031294671311147}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06020c21b07b0fa48b4d4c5054b5d2c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactor: {fileID: 5560513538628628666}
-  disableInteractorWhileAnimating: 1
 --- !u!114 &5560513538966056005
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8320,6 +8284,54 @@ MonoBehaviour:
   catchPosition: {fileID: 5560513539402883581}
   col: {fileID: 5560513538966056004}
   pivot: {fileID: 5560513537883099582}
+  interactor: {fileID: 5560513538628628666}
+  disableInteractorWhileAnimating: 1
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.36357462
+      outSlope: 0.36357462
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.53452563
+    - serializedVersion: 3
+      time: 0.51714516
+      value: 1
+      inSlope: 0.043156385
+      outSlope: Infinity
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.5271557
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.7948817
+      value: 1
+      inSlope: -0.3981502
+      outSlope: -0.3981502
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.837492
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -4.8752356
+      outSlope: -4.8752356
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  catchAnimationDuration: 0.3
+  activateColliderTreshold: 0.2
+  deactivateColliderTreshold: 0.79
+  progressCheckMissTreshold: 0.9
 --- !u!4 &5377386908893514641 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e059d3e842501a848b13c934ea779bc7,

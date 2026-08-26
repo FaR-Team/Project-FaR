@@ -29,7 +29,7 @@ public class AnimationOnInteract : MonoBehaviour
         if (disableInteractorWhileAnimating) interactor.SetInteractorAnimating(false);
     }
 
-    private void InteractTryHandler()
+    private void InteractTryHandler(Vector3 position)
     {
         _animator.SetTrigger("Interact");
     }

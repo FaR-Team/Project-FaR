@@ -6,19 +6,22 @@ using UnityEngine;
 public abstract class InteractorBase : MonoBehaviour
 {
     public event Action<Vector3> OnRaycastHit;
-    public event Action OnInteractTry;
+    public event Action<Vector3> OnInteractTry;
 
     protected bool isInteractorAnimating;
     protected bool _canInteract;
 
-    protected virtual void RaycastHitEvent(Vector3 vector3)
+    protected Vector3 _currentHitPosition;
+
+    protected virtual void RaycastHitEvent(Vector3 position)
     {
-        OnRaycastHit?.Invoke(vector3);
+        _currentHitPosition = position;
+        OnRaycastHit?.Invoke(position);
     }
 
     protected virtual void InteractTryEvent()
     {
-        OnInteractTry?.Invoke();
+        OnInteractTry?.Invoke(_currentHitPosition);
     }
 
     public void SetInteractorAnimating(bool animating)

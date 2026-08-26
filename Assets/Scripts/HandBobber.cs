@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FaRUtils.FPSController
@@ -23,13 +24,31 @@ namespace FaRUtils.FPSController
         private float _timer = 0f;
         private Vector3 _initialPosition;
 
-        private void Start()
+        private void Awake()
         {
             _initialPosition = transform.localPosition;
             if (controller == null)
             {
                 controller = GetComponentInParent<FaRCharacterController>();
             }
+
+            controller.OnThirdPersonEnabled += HandleThirdPersonEnabled;
+        }
+
+        private void OnEnable()
+        {
+            // Reset position when reenabling
+            transform.localPosition = _initialPosition;
+        }
+
+        private void OnDestroy()
+        {
+            controller.OnThirdPersonEnabled -= HandleThirdPersonEnabled;
+        }
+
+        private void HandleThirdPersonEnabled(bool enable)
+        {
+            gameObject.SetActive(enable);
         }
 
         private void Update()
