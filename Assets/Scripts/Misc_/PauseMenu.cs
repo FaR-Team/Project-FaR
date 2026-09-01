@@ -16,6 +16,7 @@ public class PauseMenu : MonoBehaviour
     public GameObject optionsMenuUI;
     public GameObject bindingMenuUI;
     public GameObject soundOptionsMenuUI;
+    public GameObject videoOptionsMenuUI;
 
     public GameObject player;
 
@@ -82,6 +83,10 @@ public class PauseMenu : MonoBehaviour
                 {
                     SoundOptionsMenuBack();
                 }
+                else if (videoOptionsMenuUI != null && videoOptionsMenuUI.activeSelf)
+                {
+                    VideoOptionsMenuBack();
+                }
                 else if (Options != null && Options.activeSelf)
                 {
                     OptionsMenuBack();
@@ -123,6 +128,7 @@ public class PauseMenu : MonoBehaviour
         if (optionsMenuUI != null) optionsMenuUI.SetActive(false);
         if (Options != null) Options.SetActive(false);
         if (soundOptionsMenuUI != null) soundOptionsMenuUI.SetActive(false);
+        if (videoOptionsMenuUI != null) videoOptionsMenuUI.SetActive(false);
         if (bindingMenuUI != null) bindingMenuUI.SetActive(false);
         
         if (this.GetComponent<OptionsMenu>() != null)
@@ -200,6 +206,19 @@ public class PauseMenu : MonoBehaviour
     public void SoundOptionsMenuBack()
     {
         soundOptionsMenuUI.SetActive(false);
+        Options.SetActive(true);
+    }
+
+    public void VideoOptionsMenu()
+    {
+        pauseMenuUI.SetActive(false);
+        Options.SetActive(false);
+        if (videoOptionsMenuUI != null) videoOptionsMenuUI.SetActive(true);
+    }
+
+    public void VideoOptionsMenuBack()
+    {
+        if (videoOptionsMenuUI != null) videoOptionsMenuUI.SetActive(false);
         Options.SetActive(true);
     }
 

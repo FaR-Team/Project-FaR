@@ -30,19 +30,21 @@ public class OptionsMenu : MonoBehaviour
     public static OptionsMenu Instance;
     public GameObject RelojUI;
     public FaRUtils.Systems.DateTime.DateTime dateTime;
-    public FPSLimit FPSLimit;
-    public TextMeshProUGUI FovVal;
-    public TextMeshProUGUI SensVal;
-    public TextMeshProUGUI FPSText;
-    public TMP_Dropdown resolutionDropdown;
-    public TMP_Dropdown windowModeDropdown;
     public bool doce;
     public bool isOptionsMenuOpen;
 
+    [Header("Video Options")]
+    public GameObject videoOptionsMenuUI;
+    public FPSLimit FPSLimit;
+    public TextMeshProUGUI FPSText;
+    public TMP_Dropdown resolutionDropdown;
+    public TMP_Dropdown windowModeDropdown;
     public Slider fovSlider;
-    public Slider sensSlider;
+    public TextMeshProUGUI FovVal;
 
     [Header("Sensitivity Settings")]
+    public Slider sensSlider;
+    public TextMeshProUGUI SensVal;
     public float minSensitivity = 0.01f;
     public float maxSensitivity = 0.2f;
 
@@ -373,9 +375,39 @@ public class OptionsMenu : MonoBehaviour
         SaveOptions();
     }
 
+    public void OpenVideoOptionsMenu()
+    {
+        if (videoOptionsMenuUI != null)
+        {
+            videoOptionsMenuUI.SetActive(true);
+        }
+        if (PauseMenu.Instance != null && PauseMenu.Instance.Options != null)
+        {
+            PauseMenu.Instance.Options.SetActive(false);
+        }
+    }
+
+    public void CloseVideoOptionsMenu()
+    {
+        if (videoOptionsMenuUI != null)
+        {
+            videoOptionsMenuUI.SetActive(false);
+        }
+        if (PauseMenu.Instance != null && PauseMenu.Instance.Options != null)
+        {
+            PauseMenu.Instance.Options.SetActive(true);
+        }
+    }
+
+    public void VideoOptionsMenu() => OpenVideoOptionsMenu();
+    public void VideoOptionsMenuBack() => CloseVideoOptionsMenu();
+
     public void CancelFovButton()
     {
-        fovSlider.value = 75f;
+        if (fovSlider != null)
+        {
+            fovSlider.value = 75f;
+        }
         SaveOptions();
     }
 
