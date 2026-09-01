@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -14,10 +15,12 @@ public class OutlinePostProcess : ScriptableRendererFeature
 
     public Settings settings = new Settings();
     private OutlinePass outlinePass;
+    private TelekinesisObjectOutlinePass telekinesisOutlinePass;
 
     public override void Create()
     {
         outlinePass = new OutlinePass(settings);
+        telekinesisOutlinePass = new TelekinesisObjectOutlinePass();
     }
 
     public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -26,6 +29,7 @@ public class OutlinePostProcess : ScriptableRendererFeature
         {
             renderer.EnqueuePass(outlinePass);
         }
+        renderer.EnqueuePass(telekinesisOutlinePass);
     }
 
     class OutlinePass : ScriptableRenderPass
@@ -66,6 +70,32 @@ public class OutlinePostProcess : ScriptableRendererFeature
 
             context.ExecuteCommandBuffer(cmd);
             CommandBufferPool.Release(cmd);
+        }
+    }
+
+    class TelekinesisObjectOutlinePass : ScriptableRenderPass
+    {
+        private FilteringSettings m_FilteringSettings;
+        private readonly List<ShaderTagId> m_ShaderTagIdList = new List<ShaderTagId>
+        {
+            new ShaderTagId("Outline"),
+            new ShaderTagId("SRPDefaultUnlit")
+        };
+
+        public TelekinesisObjectOutlinePass()
+        {
+            renderPassEvent = RenderPassEvent.BeforeRenderingTransparents;
+            m_FilteringSettings = new FilteringSettings(RenderQueueRange.all);
+        }
+
+        public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+        {
+            if (renderingData.cameraData.cameraType == CameraType.Preview) return;
+
+            var sortingCriteria = renderingData.cameraData.defaultOpaqueSortFlags;
+            var drawingSettings = CreateDrawingSettings(m_ShaderTagIdList, ref renderingData, sortingCriteria);
+
+            context.DrawRenderers(renderingData.cullResults, ref drawingSettings, ref m_FilteringSettings);
         }
     }
 }

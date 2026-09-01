@@ -17,7 +17,7 @@ Shader "FaRTeam/FaRMainShaderURP"
         _MultiplyTex ("Multiply Texture", 2D) = "white" {}
 
         [Header(Outline)]
-        [Toggle(_USE_OUTLINE)] _UseOutline ("Use Outline", Float) = 0
+        _UseOutline ("Use Outline", Float) = 0
         [Toggle(_USE_SCREEN_SPACE_OUTLINE)] _UseScreenSpaceOutline ("Screen Space Outline Width", Float) = 0
         _OutlineColor ("Outline Color", Color) = (0.6, 0, 0.6, 1)
         _OutlineWidth ("Outline Width", Range(0, 100)) = 20
@@ -66,7 +66,6 @@ Shader "FaRTeam/FaRMainShaderURP"
             float _UseRampTexture;
             float _UseMultiplyTexture;
             float4 _MultiplyTex_ST;
-            float _UseOutline;
             float _UseScreenSpaceOutline;
             float4 _OutlineColor;
             float _OutlineWidth;
@@ -440,16 +439,15 @@ Shader "FaRTeam/FaRMainShaderURP"
         Pass
         {
             Name "Outline"
-            Tags { "LightMode" = "SRPDefaultUnlit" }
+            Tags { "LightMode" = "Outline" }
             Cull Front
-            ZWrite Off
+            ZWrite On
             ZTest LEqual
             
             HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
             #pragma multi_compile_instancing
-            #pragma shader_feature_local _USE_OUTLINE
             #pragma shader_feature_local _USE_SCREEN_SPACE_OUTLINE
             
             struct Attributes
@@ -464,6 +462,10 @@ Shader "FaRTeam/FaRMainShaderURP"
                 float4 positionCS : SV_POSITION;
                 UNITY_VERTEX_INPUT_INSTANCE_ID
             };
+
+            UNITY_INSTANCING_BUFFER_START(Props)
+                UNITY_DEFINE_INSTANCED_PROP(float, _UseOutline)
+            UNITY_INSTANCING_BUFFER_END(Props)
             
             Varyings vert(Attributes IN)
             {
@@ -471,14 +473,11 @@ Shader "FaRTeam/FaRMainShaderURP"
                 UNITY_SETUP_INSTANCE_ID(IN);
                 UNITY_TRANSFER_INSTANCE_ID(IN, OUT);
                 
-                bool useOutline = _UseOutline > 0.5;
-            #if defined(_USE_OUTLINE)
-                useOutline = true;
-            #endif
+                float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
 
-                if (!useOutline)
+                if (useOutline < 0.5)
                 {
-                    OUT.positionCS = 0;
+                    OUT.positionCS = float4(0, 0, 0, 0);
                     return OUT;
                 }
 
@@ -514,12 +513,9 @@ Shader "FaRTeam/FaRMainShaderURP"
             {
                 UNITY_SETUP_INSTANCE_ID(IN);
                 
-                bool useOutline = _UseOutline > 0.5;
-            #if defined(_USE_OUTLINE)
-                useOutline = true;
-            #endif
+                float useOutline = UNITY_ACCESS_INSTANCED_PROP(Props, _UseOutline);
 
-                if (!useOutline)
+                if (useOutline < 0.5)
                     discard;
                     
                 return _OutlineColor;

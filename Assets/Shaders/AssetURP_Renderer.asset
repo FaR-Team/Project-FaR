@@ -70,7 +70,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72cbb10730470bf449e04ebdb05c8ef6, type: 3}
   m_Name: OutlinePostProcess
   m_EditorClassIdentifier: 
-  m_Active: 0
+  m_Active: 1
   settings:
     renderPassEvent: 500
     outlineMaterial: {fileID: 2100000, guid: 3124bcf3d8d1f99a0b7220eaeb481bab, type: 2}
