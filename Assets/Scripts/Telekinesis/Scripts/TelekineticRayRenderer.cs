@@ -83,7 +83,7 @@ public class TelekineticRayRenderer : MonoBehaviour
         if (telekinesisController == null)
             telekinesisController = GetComponent<TelekinesisController>();
             
-        bool shouldShowRay = telekinesisController != null && telekinesisController.HasGrabbedObject;
+        bool shouldShowRay = telekinesisController != null && (telekinesisController.HasGrabbedObject || telekinesisController.IsPerformingNoEnergyFeedback);
         
         if (shouldShowRay != isActive)
         {

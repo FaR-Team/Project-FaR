@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -115,8 +116,13 @@ public class TelekinesisController : MonoBehaviour
         }
     }
     
+    private bool isPerformingNoEnergyFeedback = false;
+    public bool IsPerformingNoEnergyFeedback => isPerformingNoEnergyFeedback;
+
     private void HandleInput()
     {
+        if (isPerformingNoEnergyFeedback) return;
+
         bool hasEnergy = Energy.instance == null || Energy.RemainingEnergy >= 1;
         
         if (Input.GetMouseButton(0))
@@ -190,15 +196,292 @@ public class TelekinesisController : MonoBehaviour
                     UpdateTargetPosition();
                 }
             }
-            else if (Input.GetMouseButtonDown(0) && Energy.instance != null)
+            else if (Input.GetMouseButtonDown(0))
             {
-                Energy.instance.TryUseAndAnimateEnergy(1, 5f);
+                TryPerformNoEnergyFeedback();
             }
         }
         else if (grabbedObject != null)
         {
             ReleaseObject();
         }
+    }
+
+    private void TryPerformNoEnergyFeedback()
+    {
+        if (isPerformingNoEnergyFeedback) return;
+
+        Ray ray = playerCamera.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0));
+
+        if (Physics.Raycast(ray, out RaycastHit hit, maxGrabDistance, grabLayerMask))
+        {
+            Rigidbody rb = hit.rigidbody;
+            if (rb != null && !rb.isKinematic)
+            {
+                if (rb.mass <= maxMassForTelekinesis)
+                {
+                    StartCoroutine(NoEnergyFeedbackRoutine(rb, hit));
+                    return;
+                }
+            }
+        }
+
+        if (Energy.instance != null)
+        {
+            Energy.instance.TryUseAndAnimateEnergy(1, 5f);
+        }
+    }
+
+    private System.Collections.IEnumerator NoEnergyFeedbackRoutine(Rigidbody targetRb, RaycastHit hit)
+    {
+        isPerformingNoEnergyFeedback = true;
+
+        float totalDuration = 1.35f;
+        if (FaRUtils.FPSController.FaRCharacterController.instance != null)
+        {
+            FaRUtils.FPSController.FaRCharacterController.instance.LockMovementFor(totalDuration);
+        }
+
+        if (Energy.instance != null)
+        {
+            Energy.instance.ShowNoEnergyFeedback();
+        }
+
+        TelekineticObject teleObj = targetRb.GetComponent<TelekineticObject>();
+        if (teleObj == null)
+        {
+            teleObj = targetRb.gameObject.AddComponent<TelekineticObject>();
+        }
+
+        teleObj.SetOutlineActive(true, outlineMaterial);
+        teleObj.SetOutlineExpand(0f);
+        teleObj.SetOutlineExplode(0f);
+
+        Vector3 initialPos = targetRb.transform.position;
+        Quaternion initialRot = targetRb.transform.rotation;
+        bool wasKinematic = targetRb.isKinematic;
+        targetRb.isKinematic = true;
+
+        Vector3 targetLiftPos = initialPos + Vector3.up * 0.32f;
+
+        float liftTime = 0.35f;
+        float elapsed = 0f;
+        while (elapsed < liftTime && targetRb != null)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.SmoothStep(0f, 1f, elapsed / liftTime);
+            targetRb.transform.position = Vector3.Lerp(initialPos, targetLiftPos, t);
+
+            StartPoint = laserStartPoint != null ? laserStartPoint.position : playerCamera.transform.position;
+            EndPoint = targetRb.worldCenterOfMass;
+            MidPoint = (StartPoint + EndPoint) * 0.5f + Vector3.up * 0.3f;
+
+            yield return null;
+        }
+
+        float shakeTime = 0.55f;
+        elapsed = 0f;
+        while (elapsed < shakeTime && targetRb != null)
+        {
+            elapsed += Time.deltaTime;
+            float progress = elapsed / shakeTime;
+            
+            Vector3 jitter = UnityEngine.Random.insideUnitSphere * Mathf.Lerp(0.02f, 0.08f, progress);
+            Quaternion rotJitter = Quaternion.Euler(
+                UnityEngine.Random.Range(-8f, 8f) * progress,
+                UnityEngine.Random.Range(-8f, 8f) * progress,
+                UnityEngine.Random.Range(-8f, 8f) * progress
+            );
+
+            targetRb.transform.position = targetLiftPos + jitter;
+            targetRb.transform.rotation = initialRot * rotJitter;
+
+            Vector3 rayNoise = UnityEngine.Random.insideUnitSphere * (0.05f * progress);
+            StartPoint = laserStartPoint != null ? laserStartPoint.position : playerCamera.transform.position;
+            EndPoint = targetRb.worldCenterOfMass + rayNoise;
+            MidPoint = (StartPoint + EndPoint) * 0.5f + Vector3.up * (0.3f + Mathf.Sin(elapsed * 25f) * 0.08f);
+
+            teleObj.SetOutlineExpand(Mathf.Lerp(0f, 1.5f, progress));
+
+            yield return null;
+        }
+
+        StartPoint = Vector3.zero;
+        MidPoint = Vector3.zero;
+        EndPoint = Vector3.zero;
+
+        Bounds objBounds = new Bounds(targetRb.worldCenterOfMass, Vector3.one * 0.8f);
+        Collider col = targetRb.GetComponent<Collider>();
+        if (col != null)
+        {
+            objBounds = col.bounds;
+        }
+        else
+        {
+            Renderer r = targetRb.GetComponentInChildren<Renderer>();
+            if (r != null) objBounds = r.bounds;
+        }
+
+        teleObj.SetOutlineExpand(0f);
+        teleObj.SetOutlineActive(false);
+
+        StartCoroutine(AnimateOutlineExplosionLines(targetRb.worldCenterOfMass, objBounds));
+
+        if (targetRb != null)
+        {
+            targetRb.transform.rotation = initialRot;
+            targetRb.isKinematic = wasKinematic;
+            targetRb.velocity = Vector3.down * 1.5f;
+        }
+
+        yield return new WaitForSeconds(0.45f);
+
+        isPerformingNoEnergyFeedback = false;
+        StartPoint = Vector3.zero;
+        MidPoint = Vector3.zero;
+        EndPoint = Vector3.zero;
+    }
+
+    private class ExplosionLineSegment
+    {
+        public LineRenderer line;
+        public Vector3 p1;
+        public Vector3 p2;
+        public Vector3 v1;
+        public Vector3 v2;
+        public Vector3 rotAxis;
+        public float rotSpeed;
+        public float baseWidth;
+    }
+
+    private System.Collections.IEnumerator AnimateOutlineExplosionLines(Vector3 center, Bounds bounds)
+    {
+        GameObject container = new GameObject("Telekinesis_Outline_Explosion");
+        container.transform.position = center;
+
+        Material lineMat = null;
+        if (rayRenderer != null)
+        {
+            LineRenderer parentLine = rayRenderer.GetComponent<LineRenderer>();
+            if (parentLine != null) lineMat = parentLine.sharedMaterial;
+        }
+        if (lineMat == null)
+        {
+            lineMat = new Material(Shader.Find("Sprites/Default"));
+        }
+
+        Vector3 extents = bounds.extents;
+        if (extents.sqrMagnitude < 0.05f) extents = Vector3.one * 0.4f;
+
+        List<Vector3[]> edgePairs = new List<Vector3[]>
+        {
+            new [] { center + new Vector3(-extents.x, -extents.y, -extents.z), center + new Vector3(extents.x, -extents.y, -extents.z) },
+            new [] { center + new Vector3(extents.x, -extents.y, -extents.z), center + new Vector3(extents.x, -extents.y, extents.z) },
+            new [] { center + new Vector3(extents.x, -extents.y, extents.z), center + new Vector3(-extents.x, -extents.y, extents.z) },
+            new [] { center + new Vector3(-extents.x, -extents.y, extents.z), center + new Vector3(-extents.x, -extents.y, -extents.z) },
+
+            new [] { center + new Vector3(-extents.x, extents.y, -extents.z), center + new Vector3(extents.x, extents.y, -extents.z) },
+            new [] { center + new Vector3(extents.x, extents.y, -extents.z), center + new Vector3(extents.x, extents.y, extents.z) },
+            new [] { center + new Vector3(extents.x, extents.y, extents.z), center + new Vector3(-extents.x, extents.y, extents.z) },
+            new [] { center + new Vector3(-extents.x, extents.y, extents.z), center + new Vector3(-extents.x, extents.y, -extents.z) },
+
+            new [] { center + new Vector3(-extents.x, -extents.y, -extents.z), center + new Vector3(-extents.x, extents.y, -extents.z) },
+            new [] { center + new Vector3(extents.x, -extents.y, -extents.z), center + new Vector3(extents.x, extents.y, -extents.z) },
+            new [] { center + new Vector3(extents.x, -extents.y, extents.z), center + new Vector3(extents.x, extents.y, extents.z) },
+            new [] { center + new Vector3(-extents.x, -extents.y, extents.z), center + new Vector3(-extents.x, extents.y, extents.z) }
+        };
+
+        List<ExplosionLineSegment> segments = new List<ExplosionLineSegment>();
+        Color startPink = new Color(1f, 0.2f, 1f, 1f);
+        Color endPink = new Color(0.85f, 0.05f, 0.95f, 0.9f);
+
+        for (int i = 0; i < edgePairs.Count; i++)
+        {
+            GameObject lineObj = new GameObject("LineSegment_" + i);
+            lineObj.transform.SetParent(container.transform);
+            LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+
+            lr.material = lineMat;
+            lr.positionCount = 2;
+            lr.useWorldSpace = true;
+            lr.startWidth = 0.055f;
+            lr.endWidth = 0.055f;
+            lr.startColor = startPink;
+            lr.endColor = endPink;
+            lr.alignment = LineAlignment.View;
+            lr.generateLightingData = false;
+
+            Vector3 a = edgePairs[i][0];
+            Vector3 b = edgePairs[i][1];
+            Vector3 segCenter = (a + b) * 0.5f;
+            Vector3 outwardDir = (segCenter - center).normalized;
+            if (outwardDir.sqrMagnitude < 0.01f) outwardDir = UnityEngine.Random.onUnitSphere;
+
+            Vector3 tangent = Vector3.Cross(outwardDir, Vector3.up).normalized;
+            if (tangent.sqrMagnitude < 0.01f) tangent = Vector3.Cross(outwardDir, Vector3.forward).normalized;
+
+            float speed = UnityEngine.Random.Range(3.2f, 5.0f);
+            float swingStrength = UnityEngine.Random.Range(3.5f, 6.0f) * (UnityEngine.Random.value > 0.5f ? 1f : -1f);
+            Vector3 vel = outwardDir * speed + tangent * swingStrength + Vector3.up * UnityEngine.Random.Range(1.2f, 2.8f);
+
+            Vector3 rotAxis = UnityEngine.Random.onUnitSphere;
+            float rotSpeed = UnityEngine.Random.Range(500f, 1000f);
+
+            ExplosionLineSegment seg = new ExplosionLineSegment
+            {
+                line = lr,
+                p1 = a,
+                p2 = b,
+                v1 = vel + Vector3.Cross(rotAxis, (a - segCenter)) * 2.5f,
+                v2 = vel + Vector3.Cross(rotAxis, (b - segCenter)) * 2.5f,
+                rotAxis = rotAxis,
+                rotSpeed = rotSpeed,
+                baseWidth = UnityEngine.Random.Range(0.045f, 0.065f)
+            };
+
+            lr.SetPosition(0, seg.p1);
+            lr.SetPosition(1, seg.p2);
+            segments.Add(seg);
+        }
+
+        float duration = 0.55f;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            float alpha = Mathf.Clamp01(1f - t * t);
+            float widthFactor = Mathf.Lerp(1f, 0.1f, t);
+
+            for (int i = 0; i < segments.Count; i++)
+            {
+                ExplosionLineSegment seg = segments[i];
+                if (seg.line == null) continue;
+
+                seg.p1 += seg.v1 * Time.deltaTime;
+                seg.p2 += seg.v2 * Time.deltaTime;
+
+                seg.v1 += Vector3.down * (2.5f * Time.deltaTime);
+                seg.v2 += Vector3.down * (2.5f * Time.deltaTime);
+                seg.v1 *= Mathf.Pow(0.82f, Time.deltaTime * 10f);
+                seg.v2 *= Mathf.Pow(0.82f, Time.deltaTime * 10f);
+
+                seg.line.SetPosition(0, seg.p1);
+                seg.line.SetPosition(1, seg.p2);
+
+                Color c1 = new Color(startPink.r, startPink.g, startPink.b, alpha);
+                Color c2 = new Color(endPink.r, endPink.g, endPink.b, alpha);
+                seg.line.startColor = c1;
+                seg.line.endColor = c2;
+                seg.line.startWidth = seg.baseWidth * widthFactor;
+                seg.line.endWidth = seg.baseWidth * widthFactor * 0.6f;
+            }
+
+            yield return null;
+        }
+
+        Destroy(container);
     }
     
     private void TryGrabObject()
@@ -365,7 +648,11 @@ public class TelekinesisController : MonoBehaviour
             StartPoint = playerCamera.transform.position;
         }
         
-        if (isGrabbing && grabbedObject != null)
+        if (isPerformingNoEnergyFeedback)
+        {
+            // Points are updated in NoEnergyFeedbackRoutine
+        }
+        else if (isGrabbing && grabbedObject != null)
         {
             MidPoint = targetPosition;
             Vector3 currentGrabPoint = grabbedObject.Rigidbody.worldCenterOfMass + grabbedObject.Rigidbody.rotation * grabOffset;
@@ -396,7 +683,7 @@ public class TelekinesisController : MonoBehaviour
             
             if (rayRenderer != null)
             {
-                rayRenderer.SetRayActive(isGrabbing);
+                rayRenderer.SetRayActive(isGrabbing || isPerformingNoEnergyFeedback);
             }
         }
     }

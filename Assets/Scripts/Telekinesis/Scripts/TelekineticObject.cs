@@ -97,13 +97,74 @@ public class TelekineticObject : MonoBehaviour
 
     public virtual void SetOutlineActive(bool active, Material outlineMaterial = null)
     {
+        if (_renderers == null || _renderers.Length == 0)
+        {
+            _renderers = GetComponentsInChildren<Renderer>();
+        }
+        if (_propertyBlock == null)
+        {
+            _propertyBlock = new MaterialPropertyBlock();
+        }
+        
         if (_renderers == null) return;
         
         foreach (var renderer in _renderers)
         {
             if (renderer == null) continue;
             
+            renderer.GetPropertyBlock(_propertyBlock);
             _propertyBlock.SetFloat("_UseOutline", active ? 1f : 0f);
+            if (!active)
+            {
+                _propertyBlock.SetFloat("_OutlineExpand", 0f);
+                _propertyBlock.SetFloat("_OutlineExplode", 0f);
+            }
+            renderer.SetPropertyBlock(_propertyBlock);
+        }
+    }
+
+    public virtual void SetOutlineExplode(float explode)
+    {
+        if (_renderers == null || _renderers.Length == 0)
+        {
+            _renderers = GetComponentsInChildren<Renderer>();
+        }
+        if (_propertyBlock == null)
+        {
+            _propertyBlock = new MaterialPropertyBlock();
+        }
+
+        if (_renderers == null) return;
+
+        foreach (var renderer in _renderers)
+        {
+            if (renderer == null) continue;
+
+            renderer.GetPropertyBlock(_propertyBlock);
+            _propertyBlock.SetFloat("_OutlineExplode", explode);
+            renderer.SetPropertyBlock(_propertyBlock);
+        }
+    }
+
+    public virtual void SetOutlineExpand(float expand)
+    {
+        if (_renderers == null || _renderers.Length == 0)
+        {
+            _renderers = GetComponentsInChildren<Renderer>();
+        }
+        if (_propertyBlock == null)
+        {
+            _propertyBlock = new MaterialPropertyBlock();
+        }
+
+        if (_renderers == null) return;
+
+        foreach (var renderer in _renderers)
+        {
+            if (renderer == null) continue;
+
+            renderer.GetPropertyBlock(_propertyBlock);
+            _propertyBlock.SetFloat("_OutlineExpand", expand);
             renderer.SetPropertyBlock(_propertyBlock);
         }
     }

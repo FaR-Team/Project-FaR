@@ -465,6 +465,7 @@ Shader "FaRTeam/FaRMainShaderURP"
 
             UNITY_INSTANCING_BUFFER_START(Props)
                 UNITY_DEFINE_INSTANCED_PROP(float, _UseOutline)
+                UNITY_DEFINE_INSTANCED_PROP(float, _OutlineExpand)
             UNITY_INSTANCING_BUFFER_END(Props)
             
             Varyings vert(Attributes IN)
@@ -483,6 +484,8 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 float pulseValue = sin(_Time.y * _PulseSpeed) * 0.5 + 0.5;
                 float pulseWidth = lerp(_PulseMinWidth, _PulseMaxWidth, pulseValue);
+                float expand = 1.0 + max(0.0, UNITY_ACCESS_INSTANCED_PROP(Props, _OutlineExpand));
+                pulseWidth *= expand;
                 
                 bool isScreenSpace = _UseScreenSpaceOutline > 0.5;
             #if defined(_USE_SCREEN_SPACE_OUTLINE)
@@ -517,7 +520,7 @@ Shader "FaRTeam/FaRMainShaderURP"
 
                 if (useOutline < 0.5)
                     discard;
-                    
+
                 return _OutlineColor;
             }
             ENDHLSL
